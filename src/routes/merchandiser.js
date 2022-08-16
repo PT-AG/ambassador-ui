@@ -297,11 +297,11 @@ module.exports = [
         }
     },
     {
-        route: '/merchandiser/ro-sample-validation',
-        name: 'ro-sample-validation',
+        route: '/merchandiser/ro-validation-qc',
+        name: 'ro-validation-qc',
         moduleId: './modules/merchandiser/ro-validation/index',
         nav: true,
-        title: 'Validasi RO Sample',
+        title: 'Validasi RO - QC',
         auth: true,
         settings: {
             group: "merchandiser",
