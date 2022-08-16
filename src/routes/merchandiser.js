@@ -153,7 +153,7 @@ module.exports = [
         name: 'cost-calculation-approval-md',
         moduleId: './modules/merchandiser/cost-calculation-approval/index',
         nav: true,
-        title: 'Cost Calculation Approval - Kabag Md',
+        title: 'Cost Calculation Approval - Kabag/Kasie MD',
         auth: true,
         settings: {
             group: "merchandiser",
@@ -197,7 +197,7 @@ module.exports = [
         name: 'cost-calculation-approval-kadivmd',
         moduleId: './modules/merchandiser/cost-calculation-approval/index',
         nav: true,
-        title: 'Cost Calculation Approval - Kadiv Md',
+        title: 'Cost Calculation Approval - Direktur Penjualan',
         auth: true,
         settings: {
             group: "merchandiser",
