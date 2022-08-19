@@ -153,7 +153,7 @@ module.exports = [
         name: 'cost-calculation-approval-md',
         moduleId: './modules/merchandiser/cost-calculation-approval/index',
         nav: true,
-        title: 'Cost Calculation Approval - Kabag Md',
+        title: 'Cost Calculation Approval - Kabag/Kasie MD',
         auth: true,
         settings: {
             group: "merchandiser",
@@ -197,7 +197,7 @@ module.exports = [
         name: 'cost-calculation-approval-kadivmd',
         moduleId: './modules/merchandiser/cost-calculation-approval/index',
         nav: true,
-        title: 'Cost Calculation Approval - Kadiv Md',
+        title: 'Cost Calculation Approval - Direktur Penjualan',
         auth: true,
         settings: {
             group: "merchandiser",
@@ -297,11 +297,11 @@ module.exports = [
         }
     },
     {
-        route: '/merchandiser/ro-sample-validation',
-        name: 'ro-sample-validation',
+        route: '/merchandiser/ro-validation-qc',
+        name: 'ro-validation-qc',
         moduleId: './modules/merchandiser/ro-validation/index',
         nav: true,
-        title: 'Validasi RO Sample',
+        title: 'Validasi RO - QC',
         auth: true,
         settings: {
             group: "merchandiser",

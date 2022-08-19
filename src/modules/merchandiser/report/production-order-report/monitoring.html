@@ -64,6 +64,7 @@
                         <th><label>Satuan</label></th>
                         <th><label>Confirm Price</label></th>
                         <th><label>Amount</label></th>
+                        <th><label>Term Pembayaran</label></th>
                         <th><label>Tgl Confirm</label></th>
                         <th><label>Tgl Shipment</label></th>
                         <th><label>Validasi Kadiv Md</label></th>
@@ -72,7 +73,7 @@
                 <tbody>
                     <!--No data to display-->
                     <tr if.bind="!tableData || tableData.length < 1">
-                        <td colspan="14">
+                        <td colspan="15">
                             <div class="alert alert-info"> Tidak ada data untuk ditampilkan. </div>
                         </td>
                     </tr>
@@ -120,6 +121,9 @@
                                         <au-numeric value.bind="data.Buyers[buyerIndex].Details[detailIndex].Amount" read-only="true"></au-numeric>
                                     </td>
                                     <td rowspan.bind="data.UnpostReasons.length || 1" align="right">
+                                        <au-textbox value.bind="data.Buyers[buyerIndex].Details[detailIndex].TermPayment" read-only="true"></au-textbox>
+                                    </td>
+                                    <td rowspan.bind="data.UnpostReasons.length || 1" align="right">
                                         <au-datepicker value.bind="data.Buyers[buyerIndex].Details[detailIndex].ConfirmDate" read-only="true"></au-datepicker>
                                     </td>
                                     <td rowspan.bind="data.UnpostReasons.length || 1" align="right">
@@ -141,7 +145,7 @@
                                 <td align="right">
                                     <au-numeric value.bind="data.Buyers[buyerIndex].Amounts" read-only="true"></au-numeric>
                                 </td>
-                                <td colspan="3"></td>
+                                <td colspan="4"></td>
                             </tr>
                         </template>
                     </template>
