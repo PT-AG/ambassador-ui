@@ -31,7 +31,7 @@ export async function configure(aurelia) {
             }
 
 
-            var core = "https://com-ambassador-service-core-dev.azurewebsites.net/v1/";
+            var core = "http://localhost:63644/v1/";
             var auth = "https://com-ambassador-service-auth-dev.azurewebsites.net/v1/";
             var production = "https://dl-production-webapi.azurewebsites.net/v1/";
             var productionAzure = "https://com-ambassador-service-finishing-printing.azurewebsites.net/v1/";
