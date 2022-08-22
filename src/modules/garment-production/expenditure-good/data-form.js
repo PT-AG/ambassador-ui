@@ -26,7 +26,7 @@ export class DataForm {
         this.salesService=salesService;
         this.purchasingService=purchasingService;
     }
-    expenditureTypes=["EXPORT","LAIN-LAIN","SISA"];
+    expenditureTypes=["EXPORT","LOKAL","LAIN-LAIN","SISA"];
 
     formOptions = {
         cancelText: "Kembali",
