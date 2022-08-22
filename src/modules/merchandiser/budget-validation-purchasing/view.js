@@ -38,6 +38,7 @@ export class View {
 
     costCalculationGarment_MaterialsInfo = {
         columns: [
+            { header: "No.", value: "MaterialIndex"},
             { header: "Kategori", value: "Category" },
             { header: "Kode Barang", value: "Product.code" },
             { header: "Komposisi", value: "Product.composition" },
@@ -89,7 +90,7 @@ export class View {
     }
 
     get isDollar() {
-        return this.data.Rate.Id !== 0;
+        return this.data.Rate.Value !== 1;
     }
 
     async activate(params, routeConfig, navigationInstruction) {

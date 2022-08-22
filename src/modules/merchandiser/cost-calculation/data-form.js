@@ -29,9 +29,9 @@ export class DataForm {
   @bindable isCopy = false;
  
   leadTimeList = ["", "25 hari", "40 hari"];
-
-  
   defaultRate = { Id: 0, Value: 0, CalculatedValue: 0 };
+  rateList = ["", "IDR", "USD"];
+
   length0 = {
     label: {
       align: "left"
@@ -55,7 +55,6 @@ export class DataForm {
       length: 8
     }
   }
-
 
   costCalculationGarment_MaterialsInfo = {
     columns: [
@@ -101,10 +100,11 @@ export class DataForm {
     }.bind(this),
     options: {}
   }
-  radio = {
-    Dollar: "Dollar",
-    Rupiah: "Rupiah"
-  }
+
+  // radio = {
+  //   Dollar: "Dollar",
+  //   Rupiah: "Rupiah"
+  // }
 
   preSalesContractFilter = {
     IsPosted: true,
@@ -117,7 +117,8 @@ export class DataForm {
     this.efficiencyService = serviceEffeciency;
     this.rateService = rateService;
     this.element = element; 
-    this.selectedRate = "USD"
+    // this.selectedRate = "USD"
+    // this.selectedRate = "";
     this.serviceCore = serviceCore;
   }
 
@@ -198,9 +199,10 @@ export class DataForm {
     this.data.Wage = all[0];
     this.data.Wage.Value=this.data.Wage.Value.toLocaleString('en-EN', { minimumFractionDigits: 2 }) ;
     this.data.THR = all[1];
-    this.data.Rate = all[2];
+    //this.data.Rate = all[2];
+    this.RateDollar = all[2];
+    this.selectedRate = this.data.Rate ? this.data.Rate : "";
 
-    // this.selectedRate = this.data.Rate ? this.data.Rate.Name : "";
     if (this.data.CostCalculationGarment_Materials) {
       this.data.CostCalculationGarment_Materials.forEach(item => {
         item.QuantityOrder = this.data.Quantity;
@@ -357,14 +359,20 @@ export class DataForm {
   }
 
   @bindable selectedRate;
-  // selectedRateChanged(newValue, oldValue) {
-  //   if (newValue && newValue.toUpperCase() === "RUPIAH") {
-  //     this.data.Rate = { Id: 0, Value: 1, CalculatedValue: 1 };
-  //   }
-  //   else {
-  //     this.data.Rate = this.RateDollar;
-  //   }
-  // }
+  selectedRateChanged(newValue, oldValue) { //condition rule option changed
+ 		this.rateService.search({ filter: "{Name:\""+newValue+"\"}"}) // get USD rate value from master.rate
+        .then(results => {
+          let result = results.data[0] ? results.data[0] : this.defaultRate;
+          result.Value = numeral(numeral(result.Value).format(rateNumberFormat)).value();
+          this.data.Rate = result;
+
+          if (this.data.CostCalculationGarment_Materials){
+          	this.data.CostCalculationGarment_Materials.forEach(item =>{
+          		item.Rate = this.data.Rate;
+          	})
+          }
+        });  
+  }
 
   @computedFrom("data.Id")
   get isEdit() {
@@ -447,8 +455,6 @@ export class DataForm {
       this.context.itemsCollection.bind()
     }
   }
-
- 
 
   @bindable selectedUnit;
   async selectedUnitChanged(newVal) {
@@ -557,8 +563,6 @@ export class DataForm {
     
     return freightCost;
   }
-
-
 
   get NETFOBP() {
     let allMaterialCost = 0;

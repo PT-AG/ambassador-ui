@@ -205,6 +205,24 @@
                     options.bind="length4">
                 </au-numeric>
                 <div class="row">
+                    <div class="col-md-8">
+                        <au-dropdown
+                            label="Rate"
+                            value.bind="selectedRate"
+                            error.bind="error.Rate"
+                            items.bind="rateList"
+                            options.bind="length6">
+                        </au-dropdown>
+                    </div>
+                    <div class="col-md-4">
+                        <au-numeric
+                            value.bind="data.Rate.Value"
+                            options.bind="length6"
+                            read-only="true">
+                        </au-numeric>
+                    </div>
+                </div>
+                <!-- <div class="row">
                     <div class="col-md-6">
                         <au-textbox
                             label="Rate"
@@ -222,7 +240,7 @@
                             read-only="true">
                         </au-numeric>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
         <span class="help-block" style="color:#dd4b39;" if.bind="hasError">

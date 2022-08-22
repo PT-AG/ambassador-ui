@@ -38,6 +38,7 @@ export class Edit {
                     select: JSON.stringify({ "Id": "1", "Items.Id": "1", "Items.Quantity": "1" }),
                     filter: JSON.stringify(prMasterFilter)
                 });
+
                 let prMasters = [];
                 for (const d of prMasterResult.data) {
                     for (const i of d.Items) {

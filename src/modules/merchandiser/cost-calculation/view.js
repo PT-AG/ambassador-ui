@@ -65,7 +65,7 @@ export class View {
   }
 
   get isDollar() {
-    return this.data.Rate.Id !== 0;
+    return this.data.Rate.Value !== 1;
   }
 
   async activate(params, routeConfig, navigationInstruction) {
@@ -100,7 +100,7 @@ export class View {
     this.data.AfterFreightCost = this.data.AfterRisk + this.data.FreightCost;
     this.data.ConfirmPriceWithRate =
       this.data.ConfirmPrice * this.data.Rate.Value;
-      this.data.ConfirmPriceWithRate=this.data.ConfirmPriceWithRate.toLocaleString('en-EN', { minimumFractionDigits: 4});
+      this.data.ConfirmPriceWithRate=this.data.ConfirmPriceWithRate.toLocaleString('en-EN', { minimumFractionDigits: 2});
     let CM_Price = 0;
     if (this.data.CostCalculationGarment_Materials) {
       this.data.CostCalculationGarment_Materials.forEach(item => {
@@ -109,7 +109,7 @@ export class View {
     }
     
     this.CM_Price = ((CM_Price  * 1.05) / this.data.Rate.Value) + _confirmPrice;
-    this.CM_Price = US + this.CM_Price.toLocaleString('en-EN', { minimumFractionDigits: 4});
+    this.CM_Price = this.isDollar ? US + this.CM_Price.toLocaleString('en-EN', { minimumFractionDigits: 2}) : RP + this.CM_Price.toLocaleString('en-EN', { minimumFractionDigits: 2})
 
     let FOB_Price = this.data.ConfirmPrice;
     let CNF_Price=_confirmPrice;
@@ -127,8 +127,8 @@ export class View {
       FOB_Price=0;
     }
     this.data.ConfirmPrice = this.isDollar
-      ? US + this.data.ConfirmPrice.toLocaleString('en-EN', { minimumFractionDigits: 4})//numeral(this.data.ConfirmPrice).format()
-      : RP + this.data.ConfirmPrice.toLocaleString('en-EN', { minimumFractionDigits: 4});
+      ? US + this.data.ConfirmPrice.toLocaleString('en-EN', { minimumFractionDigits: 2})//numeral(this.data.ConfirmPrice).format()
+      : RP + this.data.ConfirmPrice.toLocaleString('en-EN', { minimumFractionDigits: 2});
     this.data.FOB_Price = this.isDollar
       ? US + numeral(FOB_Price).format()
       : RP + numeral(FOB_Price).format();
@@ -161,7 +161,7 @@ export class View {
     this.data.SMV_Total = numeral(this.data.SMV_Total).format();
 
     this.data.LeadTime = `${this.data.LeadTime} hari`
-    this.data.ConfirmPrice=(this.data.ConfirmPrice.toLocaleString('en-EN', { minimumFractionDigits: 4}));
+    this.data.ConfirmPrice=(this.data.ConfirmPrice.toLocaleString('en-EN', { minimumFractionDigits: 2}));
     
     // Unpost tampil jika IsPosted = true dan ada approval yang false
     this.hasUnpost = this.data.IsPosted && !(this.data.ApprovalIE.IsApproved && this.data.ApprovalMD.IsApproved && this.data.ApprovalPPIC.IsApproved && this.data.ApprovalPurchasing.IsApproved);

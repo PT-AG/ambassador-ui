@@ -90,7 +90,7 @@ export class View {
     }
 
     get isDollar() {
-        return this.data.Rate.Id !== 0;
+        return this.data.Rate.Value !== 1;
     }
 
     async activate(params, routeConfig, navigationInstruction) {
