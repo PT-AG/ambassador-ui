@@ -49,3 +49,16 @@ export class Service extends RestService {
         return super.put(endpoint, data);
     }
 }
+
+const serviceUriSection = 'master/garment-sections';
+export class CoreService extends RestService {
+
+    constructor(http, aggregator, config, endpoint) {
+        super(http, aggregator, config, "core");
+    }
+
+    getSectionById(id) {
+        var endpoint = `${serviceUriSection}/${id}`;
+        return super.get(endpoint);
+    }
+}

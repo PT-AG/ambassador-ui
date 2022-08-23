@@ -1,12 +1,12 @@
 import { inject, bindable, containerless, computedFrom, BindingEngine } from 'aurelia-framework'
-import { Service } from './service';
+import { Service,CoreService } from './service';
 
 import SectionLoader from "../../../loader/garment-sections-loader";
 import GarmentBuyerLoader from "../../../loader/garment-buyers-loader";
 import GarmentBuyerBrandLoader from "../../../loader/garment-buyer-brands-loader";
 
 @containerless()
-@inject(BindingEngine, Service, Element)
+@inject(BindingEngine, Service,CoreService, Element)
 export class DataForm {
     @bindable isCreate = false;
     @bindable isView = false;
@@ -24,13 +24,14 @@ export class DataForm {
 
     filterBuyerBrand = {};
 
-    constructor(bindingEngine, service, element) {
+    constructor(bindingEngine, service,coreService, element) {
         this.bindingEngine = bindingEngine;
         this.element = element;
         this.service = service;
+        this.coreService=coreService;
     }
 
-    bind(context) {
+    async bind(context) {
         this.context = context;
         this.data = context.data;
         this.error = context.error;
@@ -41,14 +42,17 @@ export class DataForm {
             this.buyerAgent.Id = this.data.BuyerAgentId;
             this.buyerAgent.Code = this.data.BuyerAgentCode;
             this.buyerAgent.Name = this.data.BuyerAgentName;
-            this.section = {};
-            this.section.Id = this.data.SectionId;
-            this.section.Code = this.data.SectionCode;
+            // this.section = {};
+            // this.section.Id = this.data.SectionId;
+            // this.section.Code = this.data.SectionCode;
             this.buyerBrand = {};
             this.buyerBrand.Id = this.data.BuyerBrandId;
             this.buyerBrand.Code = this.data.BuyerBrandCode;
             this.buyerBrand.Name = this.data.BuyerBrandName;
 
+            if(this.data.SectionId){
+                this.section= await this.coreService.getSectionById(this.data.SectionId);
+            }
         }
         else {
             this.data.SCNo = null;
