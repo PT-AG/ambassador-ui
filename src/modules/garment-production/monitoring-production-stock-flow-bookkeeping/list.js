@@ -122,6 +122,8 @@ export class List {
                     _data._SamplePrice = _data.SamplePrice.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); 
                     _data._ExportQty = _data.ExportQty.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); 
                     _data._ExportPrice = _data.ExportPrice.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); 
+                    _data._LocalQty = _data.LocalQty.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); 
+                    _data._LocalPrice = _data.LocalPrice.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); 
                     _data._OtherQty = _data.OtherQty.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); 
                     _data._OtherPrice = _data.OtherPrice.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); 
                     _data._ExpenditureGoodAdj = _data.ExpenditureGoodAdj.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); 
@@ -131,7 +133,7 @@ export class List {
                     _data._FinishingInExpenditure = _data.FinishingInExpenditure.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); 
                     //_data._FinishingInExpenditurepPrice = _data.FinishingInExpenditurepPrice.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); 
                     //minta diganti priceusage+material usage
-                    _data._FinishingInExpenditurepPrice = ((_data.FinishingInExpenditure * _data.BasicPrice )+(_data.FinishingInExpenditure * _data.Fare) ).toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); 
+                    _data._FinishingInExpenditurepPrice = ((_data.FinishingInExpenditure * _data.BasicPrice )+(_data.FinishingInExpenditure * _data.Fare)).toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); 
                    
                     _data._FareNew = _data.FareNew.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                     _data._LoadingNew = _data.LoadingNew.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); 
@@ -143,7 +145,6 @@ export class List {
                     _data._ExpenditureGoodInTransfer = _data.ExpenditureGoodInTransfer.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });  
                     _data._ExpenditureGoodInTransferPrice = _data.ExpenditureGoodInTransferPrice.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });  
                    
-                    
                     this.data.push(_data);
                     console.log(this.data);
                  }
@@ -169,7 +170,6 @@ export class List {
     
     }
 
-    
     get BeginingBalanceCuttingQtyTotal()
     {
         var beginingBalanceCuttingQtyTotal=0;
@@ -242,7 +242,6 @@ export class List {
         }
         return qtyCuttingOutTotal.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });  
     }
-
     get QtyCuttingTransferTotal()
     {
         var sum=0;
@@ -267,7 +266,6 @@ export class List {
         }
         return sum.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });  
     }
-
     get QtyCuttingsubkonTotal()
     {
         var sum=0;
@@ -1069,7 +1067,9 @@ export class List {
         {
         for(var item of this.data)
         {
-            sum += item.FinishingInExpenditurepPrice;
+            //sum += item.FinishingInExpenditurepPrice;
+            sum += ((item.FinishingInExpenditure * item.BasicPrice)+(item.FinishingInExpenditure * item.Fare))
+            //sum += item._FinishingInExpenditurepPrice;
         }
         }
         return sum.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });  
@@ -1142,6 +1142,30 @@ export class List {
         for(var item of this.data)
         {
             sum += item.ExportPrice;
+        }
+        }
+        return sum.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });  
+    } 
+    get LocalQtyTotal()
+    {
+        var sum=0;
+        if(this.data)
+        {
+        for(var item of this.data)
+        {
+            sum += item.LocalQty;
+        }
+        }
+        return sum.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });  
+    } 
+    get LocalPriceTotal()
+    {
+        var sum=0;
+        if(this.data)
+        {
+        for(var item of this.data)
+        {
+            sum += item.LocalPrice;
         }
         }
         return sum.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });  
