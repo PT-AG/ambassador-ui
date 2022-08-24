@@ -66,7 +66,7 @@
                 <td colspan="12">LOADING</td>
                 <td colspan="18">SEWING</td>
                 <td colspan="22">FINISHING</td>
-                <td colspan="20">BARANG JADI</td>
+                <td colspan="22">BARANG JADI</td>
                 <td colspan="8">Nilai Baru Komersil (SaldoAkhir)</td>
             </tr>
             <tr>
@@ -108,13 +108,13 @@
                 <td colspan="2">Retur ke Sewing</td>
                 <td colspan="2">Saldo Akhir WIP Finishing</td>
                  
-                
                 <td colspan="2">Saldo Awal Barang jadi</td>                       
                 <td colspan="2">Barang Jadi In/ (WIP BJ)</td>
                 <td colspan="2">Barang Jadi In Transfer</td>
                 <td colspan="2">Penerimaan Lain-lain (Retur)</td>
                 <td colspan="2">Standar Konversi Biaya</td>
                 <td colspan="2">Pengiriman Export</td>
+                <td colspan="2">Pengiriman Lokal</td>
                 <td colspan="2">Pengiriman Gudang Sisa</td>
                 <td colspan="2">Pengiriman Lain-lain/Sample</td>
                 <td colspan="2">Adjust Barang Jadi</td>
@@ -220,6 +220,8 @@
                 <td rowspan="2">Harga</td>
                 <td rowspan="2">Qty</td>
                 <td rowspan="2">Harga</td>
+                <td rowspan="2">Qty</td>
+                <td rowspan="2">Harga</td>
                 </tr>
 
         </thead>
@@ -315,6 +317,8 @@
                 <td class="text-right">${item._MaterialUsage}</td>
                 <td class="text-right">${item._ExportQty}</td>
                 <td class="text-right">${item._ExportPrice}</td>
+                <td class="text-right">${item._LocalQty}</td>
+                <td class="text-right">${item._LocalPrice}</td>
                 <td class="text-right">${item._OtherQty}</td>
                 <td class="text-right">${item._OtherPrice}</td>
                 <td class="text-right">${item._SampleQty}</td>
@@ -333,7 +337,6 @@
             </tr>
             <tr class="active">
                 <td class="text-center" colspan="9"><strong>T O T A L </strong></td>
-                    
                 <td class="text-right"><strong>${BeginingBalanceCuttingQtyTotal}</strong></td>
                 <td class="text-right"><strong>${BeginingBalanceCuttingPriceTotal}</strong></td>
                 <td class="text-right"><strong>${QtyCuttingInTotal}</strong></td>
@@ -374,7 +377,6 @@
                 <td class="text-right"><strong>${PriceWipSewingOutTotal}</strong></td>
                 <td class="text-right"><strong>${WipFinishingOutTotal}</strong></td>
                 <td class="text-right"><strong>${PriceWipFinishingOutTotal}</strong></td>
-              
                 <td class="text-right"><strong>${QtySewingReturTotal}</strong></td>
                 <td class="text-right"><strong>${PriceSewingReturTotal}</strong></td>
                 <td class="text-right"><strong>${QtySewingAdjTotal}</strong></td>
@@ -415,6 +417,8 @@
                 <td class="text-right"><strong>${MaterialUsageTotal}</strong></td>
                 <td class="text-right"><strong>${ExportQtyTotal}</strong></td>
                 <td class="text-right"><strong>${ExportPriceTotal}</strong></td>
+                <td class="text-right"><strong>${LocalQtyTotal}</strong></td>
+                <td class="text-right"><strong>${LocalPriceTotal}</strong></td>
                 <td class="text-right"><strong>${OtherQtyTotal}</strong></td>
                 <td class="text-right"><strong>${OtherPriceTotal}</strong></td>
                 <td class="text-right"><strong>${SampleQtyTotal}</strong></td>
