@@ -10,7 +10,7 @@ const RP = "Rp. ";
 
 @inject(Router, Service, Dialog)
 export class View {
-  title = "Detail Cost Calculation Export Garment";
+  title = "Detail Cost Calculation Garment";
   readOnly = true;
   length4 = {
     label: {
