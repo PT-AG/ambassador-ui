@@ -71,7 +71,7 @@ export class DataForm {
             //this.incomeTax={Id:this.data.incomeTaxId,name:this.data.incomeTaxName,rate:this.data.incomeTaxRate};
         }
         if(this.data.supplier){
-            this.options.supplierCode = this.data.supplier.Code;      
+            this.options.supplierCode = this.data.supplier.Code;   
         }
 
         this.options.useVat=this.data.useVat;
@@ -337,6 +337,7 @@ export class DataForm {
                 this.data.supplier = selectedSupplier;
                 this.data.supplierId = selectedSupplier.Id;
                 this.options.supplierId = selectedSupplier.Id;
+                this.options.supplierIsImport = selectedSupplier.import;
                 this.options.useVat=false;
                 this.options.useIncomeTax=false;
             }
