@@ -20,7 +20,9 @@ export class DataForm {
     @bindable item;
     @bindable beacukai;
     @bindable selectedCustomType;
+    @bindable selectedCustomCategory;
     typeCustoms = ["","BC 262", "BC 23","BC 40", "BC 27"]
+    categoryCustoms = ["Fasilitas","Non Fasilitas"]
     importValueBC23=[
         "EXW",
         "FCA",
@@ -116,6 +118,7 @@ export class DataForm {
             this.data.beacukaiDate = undefined;
             this.data.beacukaiNo = undefined;
             this.data.customType=undefined;
+            this.data.customCategory = undefined;
             this.selectedCustomType = undefined;
             this.data.arrivalDate =undefined;
        }
@@ -124,6 +127,7 @@ export class DataForm {
         this.context = context;
         this.data = this.context.data;
         this.selectedCustomType = this.context.data.customType;
+        this.selectedCustomCategory = this.context.data.customCategory ? "Fasilitas" : "Non Fasilitas";
         this.error = this.context.error;
         this.hasView = this.context.hasView ? this.context.hasView : false;
         this.deliveryOrderColumns = this.hasView ? [
@@ -275,13 +279,21 @@ export class DataForm {
         }
     }
     selectedCustomTypeChanged(o,n){
-        // console.log(n);
-        // console.log(o);
+        
         this.data.customType = o;
         if(o =="BC 23")
             this.data.IsBC23 =true;
         else
             this.data.IsBC23 = false;
             this.data.importValue = null;
+    }
+
+    selectedCustomCategoryChanged(o,n){
+        
+        this.data.customCategory = o;
+        if (o == "Fasilitas")
+            this.data.customCategory = true;
+        else 
+            this.data.customCategory = false;
     }
 }
