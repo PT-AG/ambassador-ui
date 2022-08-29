@@ -23,9 +23,9 @@ export class List {
         { field: "CostCalculationGarment.UnitName", title: "Unit" },
         { field: "Total", title: "Kuantitas Order" },
         { field: "UOMUnit", title: "Satuan" },
-        { field: "CostCalculationGarment.IsValidatedROSample", title: "Approval QC"
-            , formatter: (value) => value === true ? "SUDAH" : "BELUM"},
         { field: "CostCalculationGarment.IsValidatedROMD", title: "Approval Kasie Md"
+            , formatter: (value) => value === true ? "SUDAH" : "BELUM"},
+        { field: "CostCalculationGarment.IsValidatedROSample", title: "Approval QC"
             , formatter: (value) => value === true ? "SUDAH" : "BELUM"},
     ];
 

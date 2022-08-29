@@ -40,6 +40,15 @@
             items.bind="typeCustoms"
             options.bind="controlOptions">
         </au-dropdown>
+
+        <au-dropdown
+            label="Category Bea Cukai"
+            value.bind="selectedCustomCategory"
+            error.bind="error.customCategory"
+            read-only.bind="readOnly"
+            items.bind="categoryCustoms"
+            options.bind="controlOptions">
+        </au-dropdown>
 <!--    
         <au-textbox 
             label="Asal Bea Cukai" 

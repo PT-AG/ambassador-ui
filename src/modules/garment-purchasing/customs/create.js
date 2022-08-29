@@ -48,7 +48,13 @@ export class Create {
             this.data.validationDate = moment(this.data.validationDate).format("YYYY-MM-DD");
         var dataCustoms = Object.assign({}, this.data);
         var items = [];
-      
+        if(this.data.customCategory == "Fasilitas"){
+            this.data.customCategory == true;
+        }else{
+            this.data.customCategory == false;
+        }
+        
+
         var isSelectedData = false;
         if(dataCustoms.deliveryOrders && dataCustoms.deliveryOrders.length > 0){
             this.item = "";

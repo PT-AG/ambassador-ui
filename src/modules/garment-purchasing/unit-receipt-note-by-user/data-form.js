@@ -121,6 +121,7 @@ export class DataForm {
         var filter = {};
         if (this.data.Supplier) {
             filter.SupplierId = this.data.Supplier.Id;
+            filter.SupplierIsImport = this.data.Supplier.import;
         }
         // if (this.data.Unit) {
         //     filter.UnitId = this.data.Unit.Id;
