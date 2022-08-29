@@ -83,3 +83,22 @@ export class Service extends RestService {
         return super.getPdf(endpoint);
     }
 }
+
+const buyerServiceUri = 'master/garment-buyers';
+const BuyerBrandUri = "master/garment-buyer-brands";
+export class CoreService extends RestService {
+
+    constructor(http, aggregator, config, endpoint) {
+        super(http, aggregator, config, "core");
+    }
+
+    getBuyerById(id) {
+        var endpoint = `${buyerServiceUri}/${id}`;
+        return super.get(endpoint);
+    }
+
+    getBuyerBrandById(id) {
+        var endpoint = `${BuyerBrandUri}/${id}`;
+        return super.get(endpoint);
+    }
+}

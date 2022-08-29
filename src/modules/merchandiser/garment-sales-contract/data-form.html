@@ -182,7 +182,17 @@
           read-only.bind="readOnly"
           items.bind="countries"
           options.bind="controlOptions"
+          if.bind="type!='Lokal'"
         ></au-dropdown>
+
+        <au-textbox
+          label="Destination"
+          value.bind="data.Country"
+          error.bind="error.Country"
+          read-only.bind="readOnly"
+          options.bind="controlOptions"
+          if.bind="type=='Lokal'"
+        ></au-textbox>
 
       </div>
 
