@@ -1,11 +1,12 @@
 import { RestService } from '../../../utils/rest-service';
 
 const serviceUri = 'finishing-ins';
-const subconFinishingInServiceUri = 'subcon-finishing-ins';
+const tradingFinishingInServiceUri = 'trading-finishing-ins';
 const costCalculationServiceUri = 'cost-calculation-garments';
 const DOServiceUri = 'garment-delivery-orders';
 const URNServiceUri = 'garment-unit-receipt-notes';
-const subconCuttingUri = 'subcon-cuttings';
+const comodityPriceserviceUri = 'comodity-prices';
+const UnitServiceUri = "master/units";
 
 class Service extends RestService {
     constructor(http, aggregator, config, endpoint) {
@@ -18,7 +19,7 @@ class Service extends RestService {
     }
 
     create(data) {
-        var endpoint = `${subconFinishingInServiceUri}`;
+        var endpoint = `${tradingFinishingInServiceUri}`;
         return super.post(endpoint, data);
     }
 
@@ -28,12 +29,12 @@ class Service extends RestService {
     }
 
     delete(data) {
-        var endpoint = `${subconFinishingInServiceUri}/${data.Id}`;
+        var endpoint = `${tradingFinishingInServiceUri}/${data.Id}`;
         return super.delete(endpoint, data);
     }
 
-    searchSubconCutting(info) {
-        var endpoint = `${subconCuttingUri}`;
+    getComodityPrice(info) {
+        var endpoint = `${comodityPriceserviceUri}`;
         return super.list(endpoint, info);
     }
 }
@@ -65,4 +66,16 @@ class SalesService extends RestService {
     }
 }
 
-export { Service, PurchasingService, SalesService }
+class CoreService extends RestService {
+    constructor(http, aggregator, config, endpoint) {
+        super(http, aggregator, config, "core");
+    }
+
+    getTradingUnit(info) {
+        var endpoint = `${UnitServiceUri}`;
+        return super.list(endpoint, info);
+    }
+
+}
+
+export { Service, PurchasingService, SalesService, CoreService }

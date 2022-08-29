@@ -1,11 +1,11 @@
 import { bindable, inject, computedFrom } from "aurelia-framework";
-import { Service, PurchasingService, SalesService } from "./service";
+import { Service, PurchasingService, SalesService, CoreService } from "./service";
 
 const UnitLoader = require('../../../loader/garment-units-loader');
 var SupplierLoader = require('../../../loader/garment-supplier-loader');
 var URNLoader = require('../../../loader/garment-unit-receipt-note-loader');
 
-@inject(Service, PurchasingService, SalesService)
+@inject(Service, PurchasingService, SalesService, CoreService)
 export class DataForm {
     @bindable readOnly = false;
     @bindable isEdit = false;
@@ -19,10 +19,11 @@ export class DataForm {
     dataDODetails = [];
     itemsRONo = [];
 
-    constructor(service, purchasingService, salesService) {
+    constructor(service, purchasingService, salesService, coreService) {
         this.service = service;
         this.purchasingService = purchasingService;
         this.salesService = salesService;
+        this.coreService = coreService;
     }
 
     formOptions = {
@@ -50,32 +51,31 @@ export class DataForm {
         { header: "Satuan", value: "SmallUomUnit" },
     ];
 
-    subconDetails = {
+    tradingDetails = {
         columns: [
             "Kode Barang",
-            "Keterangan",
-            "Size",
             "Komoditas",
             "Keterangan",
-            "Jumlah Cutting Out",
+            "Size",
+            "Warna",
             "Jumlah Datang",
             "Satuan"
         ],
         viewColumns: [
             { header: "Kode Barang", value: "product" },
             { header: "Keterangan", value: "DesignColor" },
+            { header: "Warna", value: "Color" },
             { header: "Size", value: "size" },
             { header: "Jumlah", value: "Quantity" },
             { header: "Sisa", value: "RemainingQuantity" },
-            { header: "Satuan", value: "uom" },
-            { header: "Warna", value: "Color" }
+            { header: "Satuan", value: "uom" }
         ],
         onAdd: function () {
-            this.data.Items.push({ IsSave: true, Comodity: this.data.Comodity, Uom: this.uom });
+            this.data.Items.push({ IsSave: true, Product: {Code : "", Name :""}, Comodity: this.data.Comodity, Uom: this.uom });
         }.bind(this),
         options: {
             checkedAll: true,
-            subconCuttingList: {}
+            tradingList: {}
         }
     };
 
@@ -84,6 +84,11 @@ export class DataForm {
         this.data = this.context.data;
         this.error = this.context.error;
         this.data.FinishingInType = "PEMBELIAN";
+
+        if (!this.data.Unit) {
+            var unit = await this.coreService.getTradingUnit({ size: 1, keyword: 'TD2', filter: JSON.stringify({ Code: 'TD2' }) });
+            this.data.Unit = unit.data[0];
+        }
     }
 
     unitView = (unit) => {
@@ -136,10 +141,6 @@ export class DataForm {
         return UnitLoader;
     }
 
-    get sewingOutLoader() {
-        return SewingOutLoader;
-    }
-
     @computedFrom("data.Supplier")
     get filter() {
         if (this.data.Supplier) {
@@ -172,7 +173,11 @@ export class DataForm {
                     this.itemsRONo = [""];
                     for (var item of result.items) {
                         for (var detail of item.fulfillments) {
-                            if (this.itemsRONo.indexOf(detail.rONo) < 0 && detail.product.Code === "PRC001") {
+                            // if (this.itemsRONo.indexOf(detail.rONo) < 0 && detail.product.Code === "PRC001") {
+                            //     this.itemsRONo.push(detail.rONo);
+                            // }
+
+                            if (this.itemsRONo.indexOf(detail.rONo) < 0) {
                                 this.itemsRONo.push(detail.rONo);
                             }
                         }
@@ -188,7 +193,7 @@ export class DataForm {
     selectedRONoChanged(newValue, oldValue) {
         this.dataDODetails.splice(0);
         this.data.Items.splice(0);
-        this.subconDetails.options.subconCuttingList = {};
+        this.tradingDetails.options.tradingList = {};
 
         if (newValue && newValue != oldValue) {
             this.data.RONo = newValue;
@@ -196,7 +201,10 @@ export class DataForm {
             let DODetailIds = [];
             for (var item of this.garmentDOData.items) {
                 for (var detail of item.fulfillments) {
-                    if (detail.rONo === newValue && detail.product.Code === "PRC001") {
+                    // if (detail.rONo === newValue && detail.product.Code === "PRC001") {
+                    //     DODetailIds.push(detail.Id);
+                    // }
+                    if (detail.rONo === newValue) {
                         DODetailIds.push(detail.Id);
                     }
                 }
@@ -232,69 +240,60 @@ export class DataForm {
                         .then(urnResult => {
                             if (urnResult.data) {
                                 let quantityByDODetailId = {};
+                                let priceByDODetailId = {};
+                                let remarkByDODetailId = {};
                                 for (const data of urnResult.data) {
                                     for (const item of data.Items) {
+                                        priceByDODetailId[item.DODetailId] = (priceByDODetailId[item.DODetailId] || 0) + (item.PricePerDealUnit * data.DOCurrencyRate);
                                         quantityByDODetailId[item.DODetailId] = (quantityByDODetailId[item.DODetailId] || 0) + (item.ReceiptCorrection * item.CorrectionConversion);
+                                        remarkByDODetailId[item.DODetailId] = (remarkByDODetailId[item.DODetailId] || "") + item.ProductRemark;
                                     }
                                 }
                                 for (var item of this.garmentDOData.items) {
                                     for (var detail of item.fulfillments) {
-                                        if (detail.rONo === newValue && detail.product.Code === "PRC001") {
+                                        // if (detail.rONo === newValue && detail.product.Code === "PRC001") {
+                                        //     this.dataDODetails.push({
+                                        //         ProductCode: detail.product.Code,
+                                        //         ProductName: detail.product.Name,
+                                        //         RONo: detail.rONo,
+                                        //         PlanPO: detail.poSerialNumber,
+                                        //         Quantity: quantityByDODetailId[detail.Id] || 0,
+                                        //         SmallUomUnit: detail.smallUom.Unit
+                                        //     });
+
+                                        console.log(detail);
+
+                                        if (detail.rONo === newValue) {
                                             this.dataDODetails.push({
                                                 ProductCode: detail.product.Code,
                                                 ProductName: detail.product.Name,
                                                 RONo: detail.rONo,
                                                 PlanPO: detail.poSerialNumber,
                                                 Quantity: quantityByDODetailId[detail.Id] || 0,
-                                                SmallUomUnit: detail.smallUom.Unit
+                                                SmallUomUnit: detail.smallUom.Unit,
                                             });
+
+                                            var _product = {
+                                                Id : detail.product.Id,
+                                                Code : detail.product.Code,
+                                                Name : detail.product.Name
+                                            }
+
+                                            this.tradingDetails.options.tradingList[detail.product.Code] = {
+                                                // ProductCode: detail.product.Code,
+                                                // ProductName: detail.product.Name,
+                                                Product : _product,
+                                                DesignColor : remarkByDODetailId[detail.Id] || "",
+                                                Quantity: quantityByDODetailId[detail.Id] || 0,
+                                                BasicPrice: priceByDODetailId[detail.Id] || 0,
+                                                DODetailId: detail.Id,
+                                            };
+
+                                            this.tradingDetails.options.checkedAll = true;                 
                                         }
                                     }
                                 }
                             }
-
-                            this.service.searchSubconCutting(subconCuttingInfo)
-                                .then(subconCuttingResult => {
-                                    if (subconCuttingResult.data) {
-
-                                        let basicPriceByProduct = {};
-                                        for (const data of subconCuttingResult.data) {
-                                            basicPriceByProduct[data.Product.Code] = basicPriceByProduct[data.Product.Code] || {
-                                                basicPrice: 0,
-                                                amount: 0
-                                            };
-                                            basicPriceByProduct[data.Product.Code].basicPrice += data.BasicPrice;
-                                            basicPriceByProduct[data.Product.Code].amount++;
-                                        }
-
-                                        for (const data of subconCuttingResult.data) {
-                                            const item = {
-                                                IsFromSubconCutting: true,
-                                                IsSave: true,
-                                                SubconCuttingId: data.Id,
-                                                Product: data.Product,
-                                                DesignColor: data.DesignColor,
-                                                Size: data.Size,
-                                                // Comodity: data.Comodity,
-                                                Comodity: this.data.Comodity,
-                                                Color: data.Remark,
-                                                CuttingOutQuantity: data.Quantity - data.FinishingInQuantity,
-                                                Quantity: data.Quantity - data.FinishingInQuantity,
-                                                RemainingQuantity: data.Quantity - data.FinishingInQuantity,
-                                                BasicPrice: data.BasicPrice,
-                                                Uom: this.uom
-                                            };
-                                            this.data.Items.push(item);
-                                            this.subconDetails.options.subconCuttingList[data.Product.Code] = {
-                                                Product: data.Product,
-                                                DesignColor: data.DesignColor,
-                                                BasicPrice: basicPriceByProduct[data.Product.Code].basicPrice / basicPriceByProduct[data.Product.Code].amount,
-                                            };
-                                        }
-
-                                        this.subconDetails.options.checkedAll = true;
-                                    }
-                                });
                         });
                 });
         } else {

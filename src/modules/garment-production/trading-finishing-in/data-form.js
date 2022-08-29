@@ -177,6 +177,7 @@ export class DataForm {
                             // if (this.itemsRONo.indexOf(detail.rONo) < 0 && detail.product.Code === "PRC001") {
                             //     this.itemsRONo.push(detail.rONo);
                             // }
+                            
                             if (this.itemsRONo.indexOf(detail.rONo) < 0) {
                                 this.itemsRONo.push(detail.rONo);
                             }

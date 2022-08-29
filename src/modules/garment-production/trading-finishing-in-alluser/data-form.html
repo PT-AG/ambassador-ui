@@ -7,7 +7,7 @@
         <au-textbox
             if.bind="data.FinishingInNo"
             value.bind="data.FinishingInNo"
-            label="No Finishing In Subcon"
+            label="No Finishing In Trading"
             read-only="true"
             options.bind="controlOptions">
         </au-textbox>
@@ -15,7 +15,7 @@
         <au-autocomplete
             value.bind="data.Unit"
             error.bind="error.Unit"
-            label="Unit Finishing In Subcon"
+            label="Unit Finishing In Trading"
             loader.bind="unitLoader"
             text.bind="unitView"
             placeholder="Unit"
@@ -24,7 +24,7 @@
         </au-autocomplete>
 
         <au-datepicker 
-            label="Tanggal Finishing In Subcon"
+            label="Tanggal Finishing In Trading"
             value.bind="data.FinishingInDate"
             error.bind="error.FinishingInDate"
             read-only.bind="readOnly"
@@ -33,7 +33,7 @@
 
         <au-textbox
             value.bind="data.FinishingInType"
-            label="Asal Finishing In Subcon"
+            label="Asal Finishing In Trading"
             read-only="true"
             options.bind="controlOptions">
         </au-textbox>
@@ -96,7 +96,7 @@
             read-only="true"
             title="Detail SJ"
             if.bind="selectedRONo && !readOnly"
-            footer-template="modules/garment-production/subcon-finishing-in/template/do-detail-footer">
+            footer-template="modules/garment-production/trading-finishing-in/template/do-detail-footer">
         </au-collection>
 
         <!-- <p if.bind="selectedRONo">Sisa Jumlah SJ: <b>${totalQuantity}</b></p> -->
@@ -116,22 +116,22 @@
         <au-collection
             items.bind="data.Items"
             errors.bind="error.Items"
-            columns.bind="subconDetails.columns"
+            columns.bind="tradingDetails.columns"
             read-only.bind="readOnly"
             title="Detail Finishing In Subcon"
             if.bind="selectedRONo && !readOnly"
-            options.bind="subconDetails.options"
-            header-template="modules/garment-production/subcon-finishing-in/template/subcon-detail-header"
-            item-template="modules/garment-production/subcon-finishing-in/template/subcon-detail"
-            footer-template="modules/garment-production/subcon-finishing-in/template/subcon-detail-footer">
+            options.bind="tradingDetails.options"
+            header-template="modules/garment-production/trading-finishing-in/template/subcon-detail-header"
+            item-template="modules/garment-production/trading-finishing-in/template/subcon-detail"
+            footer-template="modules/garment-production/trading-finishing-in/template/subcon-detail-footer">
                 <button if.bind="!readOnly" slot="body" click.delegate="subconDetails.onAdd()" class="btn btn-primary pull-right">Tambah Detail</button>
         </au-collection>
 
         <au-collection
             items.bind="data.ViewItems"
-            columns.bind="subconDetails.viewColumns"
+            columns.bind="tradingDetails.viewColumns"
             read-only="true"
-            title="Detail Finishing In Subcon"
+            title="Detail Finishing In Trading"
             if.bind="readOnly">
         </au-collection>
 
