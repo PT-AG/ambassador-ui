@@ -21,6 +21,7 @@ export class Edit {
         this.item = "";
         moment.locale(locale);
         var id = params.id;
+        this.hasEdit = true;
        
         this.data = await this.service.getById(id);
         var supplierId=this.data.supplier._id ? this.data.supplier._id : this.data.supplier.Id;
