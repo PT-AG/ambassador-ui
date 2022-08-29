@@ -9,10 +9,10 @@
             <button class="btn btn-success" click.delegate="context.save($event)" if.one-way="context.hasSave">Simpan</button>
             <button class="btn btn-danger" click.delegate="context.delete($event)" if.one-way="context.hasDelete">Hapus</button>
         </div>
-        <au-checkbox label="Apakah BCDL?" value.bind="data.isBCDL" change.delegate="isBCDLChanged($event)" 
+        <!-- <au-checkbox label="Apakah BCDL?" value.bind="data.isBCDL" change.delegate="isBCDLChanged($event)" 
         read-only.bind="readOnly ||isEdit" options.bind="controlOptions">
-    </au-checkbox>
-    <au-autocomplete 
+    </au-checkbox> -->
+    <!-- <au-autocomplete 
             value.bind="beacukai" 
             error.bind="error.beacukaiNo" 
             label="Data BC" 
@@ -23,12 +23,12 @@
             text.bind="customsView"
             view-model.ref="beacukaiAU"
             options.bind="controlOptions">
-        </au-autocomplete>  
+        </au-autocomplete>   -->
         <au-textbox 
             label="Nomor Bea Cukai" 
             value.bind="data.beacukaiNo"
             error.bind="error.beacukaiNo"
-            read-only.bind="readOnlyBCDL "
+            read-only.bind="readOnly"
             options.bind="controlOptions">
         </au-textbox>
         
@@ -36,7 +36,7 @@
             label="Tipe Bea Cukai"
             value.bind="selectedCustomType"
             error.bind="error.customType"
-            read-only.bind="readOnlyBCDL "
+            read-only.bind="readOnly"
             items.bind="typeCustoms"
             options.bind="controlOptions">
         </au-dropdown>
@@ -46,6 +46,7 @@
             value.bind="selectedCustomCategory"
             error.bind="error.customCategory"
             read-only.bind="readOnly"
+            if.bind = "isCustomCategory"
             items.bind="categoryCustoms"
             options.bind="controlOptions">
         </au-dropdown>
@@ -61,7 +62,7 @@
             label="Tanggal Bea Cukai" 
             value.bind="data.beacukaiDate"
             error.bind="error.beacukaiDate" 
-            read-only.bind="readOnlyBCDL "
+            read-only.bind="readOnly"
             options.bind="controlOptions">
         </au-datepicker >
 
@@ -69,7 +70,7 @@
             label="Tanggal Kedatangan Barang" 
             value.bind="data.arrivalDate"
             error.bind="error.arrivalDate" 
-            read-only.bind="readOnlyBCDL "
+            read-only.bind="readOnly"
             options.bind="controlOptions">
         </au-datepicker >
 <!-- 

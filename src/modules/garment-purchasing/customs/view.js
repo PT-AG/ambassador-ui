@@ -15,6 +15,7 @@ export class View {
   }
 
   async activate(params) {
+    this.isCustomCategory = true;
     this.hasView = true;
     var locale = 'id-ID';
     this.readOnlyBCDL = true;
