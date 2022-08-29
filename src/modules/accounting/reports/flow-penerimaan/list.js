@@ -66,10 +66,10 @@ export class List {
                 this.unit = "C2C";
                 this.unitname = "CENTRAL 2C/EX. K4";
             }else if(newvalue === "CENTRAL 1A/EX. K3"){
-                this.unit = "C1A";
+                this.unit = "AG1";
                 this.unitname = "CENTRAL 1A/EX. K3";
             }else if(newvalue === "CENTRAL 1B"){
-                this.unit = "C1B";
+                this.unit = "AG2";
                 this.unitname = "CENTRAL 1B";
             }else{
                 this.unit = "";

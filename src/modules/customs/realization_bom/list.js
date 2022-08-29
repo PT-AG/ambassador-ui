@@ -88,10 +88,10 @@ export class List{
                 this.unit = "C2C"; 
                 this.unitname = "KONFEKSI 2C";
             }else if(newvalue === "KONFEKSI 1A"){
-                this.unit = "C1A";
+                this.unit = "AG1";
                 this.unitname = "KONFEKSI 1A";
             }else if(newvalue === "KONFEKSI 1B"){
-                this.unit = "C1B";
+                this.unit = "AG2";
                 this.unitname = "KONFEKSI 1B";
             }else{
                 this.unit = "";
