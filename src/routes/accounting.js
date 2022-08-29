@@ -60,7 +60,7 @@ module.exports = [
     auth: true,
     settings: {
       group: "accounting",
-      permission: { "P1": 1, "P2": 1, "P3": 1, "P4": 1, "P5": 1, "P6": 1, "P7": 1, "PI": 1, "PG": 1, "PK": 1, "C9": 1 },
+      permission: { "P1": 1, "P2": 1, "P2": 1, "P4": 1, "P5": 1, "P6": 1, "P7": 1, "PI": 1, "PG": 1, "PK": 1, "C9": 1 },
       iconClass: 'fa fa-clone'
     }
   },
@@ -178,7 +178,7 @@ module.exports = [
     settings: {
       group: "accounting",
       subGroup: "report",
-      permission: { "C9": 1, "PG": 1, "B9": 1, "B1": 1, "C1B": 1, "C1A": 1, "C2C": 1, "C2B": 1, "C2A": 1 },
+      permission: { "C9": 1, "PG": 1, "B9": 1, "B1": 1, "AG2": 1, "AG1": 1, "C2C": 1, "C2B": 1, "C2A": 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -192,7 +192,7 @@ module.exports = [
     settings: {
       group: "accounting",
       subGroup: "report",
-      permission: { "B1": 1, "C9": 1, "C1B": 1, "C1A": 1, "C2C": 1, "C2B": 1, "C2A": 1 },
+      permission: { "B1": 1, "C9": 1, "AG2": 1, "AG1": 1, "C2C": 1, "C2B": 1, "C2A": 1 },
       iconClass: 'fa fa-clone'
     }
   },

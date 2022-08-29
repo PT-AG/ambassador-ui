@@ -41,15 +41,15 @@ export class item {
         { header: "Jasa" },
         { header: "PPH" },
         { header: "Terbayar" },
-        { header: "C1A" },
-        { header: "C1B" },
+        { header: "AG1" },
+        { header: "AG2" },
         { header: "C2A" },
         { header: "C2B" },
         { header: "C2C" },
         { header: "Amount per Unit" },
     ];
 
-    units = ["C1A", "C1B", "C2A", "C2B", "C2C"];
+    units = ["AG1", "AG2", "C2A", "C2B", "C2C"];
 
     get paymentDispositionsLoader() {
         return PaymentDispositionsLoader;

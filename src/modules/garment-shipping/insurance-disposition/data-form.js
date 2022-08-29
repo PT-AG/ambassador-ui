@@ -126,14 +126,14 @@ export class DataForm {
                         this.data.unitCharge.push({ unitCode: "C2C" });
                 }
                 if (item.amount1APercentage > 0 || item.amount1A > 0) {
-                    var dup = this.data.unitCharge.find(a => a.unitCode == "C1A");
+                    var dup = this.data.unitCharge.find(a => a.unitCode == "AG1");
                     if (!dup)
-                        this.data.unitCharge.push({ unitCode: "C1A" });
+                        this.data.unitCharge.push({ unitCode: "AG1" });
                 }
                 if (item.amount1BPercentage > 0 || item.amount1B > 0) {
-                    var dup = this.data.unitCharge.find(a => a.unitCode == "C1B");
+                    var dup = this.data.unitCharge.find(a => a.unitCode == "AG2");
                     if (!dup)
-                        this.data.unitCharge.push({ unitCode: "C1B" });
+                        this.data.unitCharge.push({ unitCode: "AG2" });
                 }
                 if (this.data.policyType == "Piutang") {
                     item.rate = this.data.rate;
@@ -207,14 +207,14 @@ export class DataForm {
                     this.data.unitCharge.push({ unitCode: "C2C" });
             }
             if (item.amount1APercentage > 0 || item.amount1A > 0) {
-                var dup = this.data.unitCharge.find(a => a.unitCode == "C1A");
+                var dup = this.data.unitCharge.find(a => a.unitCode == "AG1");
                 if (!dup)
-                    this.data.unitCharge.push({ unitCode: "C1A" });
+                    this.data.unitCharge.push({ unitCode: "AG1" });
             }
             if (item.amount1BPercentage > 0 || item.amount1B > 0) {
-                var dup = this.data.unitCharge.find(a => a.unitCode == "C1B");
+                var dup = this.data.unitCharge.find(a => a.unitCode == "AG2");
                 if (!dup)
-                    this.data.unitCharge.push({ unitCode: "C1B" });
+                    this.data.unitCharge.push({ unitCode: "AG2" });
             }
 
         }
