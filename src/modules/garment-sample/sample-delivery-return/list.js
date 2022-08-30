@@ -54,7 +54,7 @@ export class List {
 
         return this.service.search(arg)
             .then(result => {
-                this.totalQuantity = result.info.totalQty;
+                this.totalQuantity = result.info.totalQty.toLocaleString('en-EN', { maximumFractionDigits: 2 });;
                 return {
                     total: result.info.count,
                     data: result.data
