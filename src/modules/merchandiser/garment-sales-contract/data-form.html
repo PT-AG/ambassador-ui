@@ -291,9 +291,10 @@
           value.bind="data.DownPayment"
           error.bind="error.DownPayment"
           read-only.bind="readOnly"
+          if.bind="type=='Lokal'"
           options.bind="controlOptions">
         </au-textbox>
-        <div class="row">
+        <div class="row" if.bind="type=='Lokal'">
 
           <div class="col-sm-2" style="padding-left: 10%;">
             
@@ -320,7 +321,7 @@
           </div>
 
       </div>
-        <div class="row">
+        <div class="row" if.bind="type=='Lokal'">
 
           <div class="col-sm-2" style="padding-left: 10%;">
             
@@ -348,7 +349,7 @@
             
         </div>
     
-        <div class="row">
+        <div class="row" if.bind="type=='Lokal'">
     
           <div class="col-sm-2" style="padding-left: 10%;">
             

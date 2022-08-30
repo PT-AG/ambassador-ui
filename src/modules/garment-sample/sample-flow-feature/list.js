@@ -109,6 +109,7 @@ export class List {
                     }
                     this.data.push(dataItem);
                 }
+                this.totalQuantity=this.totalQuantity.toLocaleString('en-EN', { maximumFractionDigits: 2 });
 
                 this.service.searchCutting({ filter: JSON.stringify({ RONo: this.RONo}) })
                 .then(result => {
@@ -159,6 +160,7 @@ export class List {
                             }
                         }
                     }
+                    this.totalCutQuantity=this.totalCutQuantity.toLocaleString('en-EN', { maximumFractionDigits: 2 });
                     
                  
 
@@ -248,7 +250,8 @@ export class List {
                                     this.totalSewingQuantity+=item.Quantity;
                                 }
                             }
-
+                            this.totalSewingQuantity=this.totalSewingQuantity.toLocaleString('en-EN', { maximumFractionDigits: 2 });
+                            
                             this.service.searchFinishing({ filter: JSON.stringify({ RONo: this.RONo, FinishingTo:"GUDANG JADI"}) })
                             .then(result => {
                                 this.finishingData=[];
@@ -336,6 +339,7 @@ export class List {
                                         this.totalFinishingQuantity+=item.Quantity;
                                     }
                                 }
+                                this.totalFinishingQuantity=this.totalFinishingQuantity.toLocaleString('en-EN', { maximumFractionDigits: 2 });
 
                                 this.service.searchExpenditure({ filter: JSON.stringify({ RONo: this.RONo}) })
                                 .then(result => {
@@ -382,6 +386,7 @@ export class List {
                                             this.totalExpenditureQuantity+=item.Quantity;
                                         }
                                     }
+                                    this.totalExpenditureQuantity=this.totalExpenditureQuantity.toLocaleString('en-EN', { maximumFractionDigits: 2 });
                                     this.getcomodity(this.RONo);
                                     this.fillTable();
                                 });
