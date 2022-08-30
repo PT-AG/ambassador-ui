@@ -80,7 +80,6 @@ export async function configure(aurelia) {
             // const garmentShipping = "https://garment-etl-service.azurewebsites.net/api/";
             // var ItInven = "https://it-inventory-etl-service.azurewebsites.net/api/";
 
-
             config.registerEndpoint('auth', auth);
             config.registerEndpoint('core', core);
             config.registerEndpoint('production', production, defaultConfig);
