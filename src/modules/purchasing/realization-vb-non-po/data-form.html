@@ -144,7 +144,7 @@
               repeat.for="cardContent of cardContents">
             <div class="row">
               <div class="col-md-12">
-                <au-checkbox if.bind="cardContent.Unit.VBDocumentLayoutOrder != 10 || isVB"
+                <au-checkbox if.bind="cardContent.Unit.VBDocumentLayoutOrder != 3 || isVB"
                              change.delegate="resetAmount($event,cardContent)"
                              label.bind="cardContent.Unit.Name"
                              value.bind="cardContent.IsSelected"
@@ -152,21 +152,21 @@
                              read-only.bind="readOnly || isVB"
                              options.bind="controlOptionsLabel">
                 </au-checkbox>
-                <au-checkbox if.bind="cardContent.Unit.VBDocumentLayoutOrder == 10 && !readOnly && !isVB"
+                <au-checkbox if.bind="cardContent.Unit.VBDocumentLayoutOrder == 3 && !readOnly && !isVB"
                              value.bind="cardContent.IsSelected"
                              change.delegate="otherUnitSelected($event,cardContent)"
                              error.bind="error.cardContent"
                              read-only.bind="readOnly || isVB"
                              options.bind="controlOptionsLabel">
                 </au-checkbox>
-                <au-checkbox if.bind="cardContent.Unit.VBDocumentLayoutOrder == 10 && readOnly && !isVB"
+                <au-checkbox if.bind="cardContent.Unit.VBDocumentLayoutOrder == 3 && readOnly && !isVB"
                              label.bind="cardContent.Unit.Name"
                              value.bind="cardContent.IsSelected"
                              error.bind="error.cardContent"
                              read-only.bind="readOnly || isVB"
                              options.bind="controlOptionsLabel">
                 </au-checkbox>
-                <au-autocomplete if.bind="cardContent.IsSelected && cardContent.Unit.VBDocumentLayoutOrder == 10 && !readOnly && !isVB"
+                <au-autocomplete if.bind="cardContent.IsSelected && cardContent.Unit.VBDocumentLayoutOrder == 3 && !readOnly && !isVB"
                                  value.bind="cardContentUnit"
                                  read-only.bind="readOnly || isVB"
                                  loader.bind="unitVBNonPOLoader"
