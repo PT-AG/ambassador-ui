@@ -46,6 +46,7 @@ export class DeliveryOrderItem {
     }
     this.filter={};
     if (this.options.supplierId && this.options.currencyCode && !this.options.useIncomeTax) {
+      
       this.filter= {  
         "IsInvoice": false,  
         "supplierId": this.options.supplierId,
@@ -54,7 +55,8 @@ export class DeliveryOrderItem {
         "useVat":this.options.useVat, 
         "useIncomeTax":false,
         "isPayVAT": this.options.isPayVat,
-        "isPayIncomeTax": this.options.isPayTax
+        "isPayIncomeTax": this.options.isPayTax,
+        "supplierIsImport" : this.options.supplierIsImport
       };
     }
     else if(this.options.supplierId && this.options.currencyCode && this.options.useIncomeTax ){
@@ -73,7 +75,8 @@ export class DeliveryOrderItem {
         "useIncomeTax":this.options.useIncomeTax  ,
         "incomeTaxName":this.options.incomeTaxName,
         "isPayVAT": this.options.isPayVat,
-        "isPayIncomeTax": this.options.isPayTax
+        "isPayIncomeTax": this.options.isPayTax,
+        "supplierIsImport" : this.options.supplierIsImport
       }
     }
   

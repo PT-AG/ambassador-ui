@@ -1,0 +1,42 @@
+<template>
+    <tr>
+        <td>
+            <au-checkbox value.bind="data.IsSave" disabled.bind="readOnly" change.delegate="changeCheckBox()">
+            </au-checkbox>
+        </td>
+        <td class="col-sm-2">
+            <au-dropdown if.bind="!readOnly" value.bind="selectedProduct"
+                error.bind="error.Product" items.bind="productList">
+            </au-dropdown>
+        </td>
+        <td class="col-sm-2">
+            <au-textbox value.bind="data.Comodity.Name" read-only="true">
+            </au-textbox>
+        </td>
+        <td class="col-sm-2">
+            <au-textbox value.bind="data.DesignColor" read-only.bind="read-Only">
+            </au-textbox>
+        </td>
+        <td class="col-sm-1">
+            <au-autocomplete value.bind="data.Size" error.bind="error.Size" loader.bind="sizeLoader"
+                read-only.bind="readOnly" placeholder="Size" text="Size">
+            </au-autocomplete>
+        </td>
+        <td class="col-sm-2">
+            <au-textbox value.bind="data.Color" placeholder="Warna"
+                read-only.bind="readOnly">
+            </au-textbox>
+        </td>
+        <td class="col-sm-1">
+            <au-numeric value.bind="dataQuantity" error.bind="error.Quantity" format="0" read-only.bind="readOnly">
+            </au-numeric>
+        </td>
+        <td class="col-sm-1">
+            <au-textbox value="PCS" read-only="true">
+            </au-textbox>
+        </td>
+        <td class="col-sm-1">
+            <button class="btn btn-danger pull-left" click.delegate="onremove(data, $event)" if.bind="!readOnly">-</button>            
+        </td>
+    </tr>
+</template>
