@@ -867,7 +867,7 @@ module.exports = [
     auth: true,
     settings: {
       group: "master",
-      permission: { "*": 1 },
+      permission: { "K2P": 1, "C9":1 },
       iconClass: "fa fa-dashboard",
     },
   },
@@ -906,7 +906,7 @@ module.exports = [
     auth: true,
     settings: {
       group: "master",
-      permission: { "*": 1 },
+      permission: { "K2P": 1, "C9":1 },
       iconClass: "fa fa-dashboard",
     },
   },
