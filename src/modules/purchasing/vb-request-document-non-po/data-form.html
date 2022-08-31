@@ -83,28 +83,28 @@
             <!-- <card-content data.bind="cardContent">
 
             </card-content> -->
-            <au-checkbox if.bind="cardContent.Unit.VBDocumentLayoutOrder != 10"
+            <au-checkbox if.bind="cardContent.Unit.VBDocumentLayoutOrder != 3"
                          label.bind="cardContent.Unit.Name"
                          value.bind="cardContent.IsSelected"
                          error.bind="error.cardContent"
                          read-only.bind="readOnly"
                          options.bind="controlOptionsLabel">
             </au-checkbox>
-            <au-checkbox if.bind="cardContent.Unit.VBDocumentLayoutOrder == 10 && !readOnly"
+            <au-checkbox if.bind="cardContent.Unit.VBDocumentLayoutOrder == 3 && !readOnly"
                          value.bind="cardContent.IsSelected"
                          change.delegate="otherUnitSelected($event,cardContent)"
                          error.bind="error.cardContent"
                          read-only.bind="readOnly"
                          options.bind="controlOptionsLabel">
             </au-checkbox>
-            <au-checkbox if.bind="cardContent.Unit.VBDocumentLayoutOrder == 10 && readOnly"
+            <au-checkbox if.bind="cardContent.Unit.VBDocumentLayoutOrder == 3 && readOnly"
                          label.bind="cardContent.Unit.Name"
                          value.bind="cardContent.IsSelected"
                          error.bind="error.cardContent"
                          read-only.bind="readOnly"
                          options.bind="controlOptionsLabel">
             </au-checkbox>
-            <au-autocomplete if.bind="cardContent.IsSelected && cardContent.Unit.VBDocumentLayoutOrder == 10 && !readOnly "
+            <au-autocomplete if.bind="cardContent.IsSelected && cardContent.Unit.VBDocumentLayoutOrder == 3 && !readOnly "
                              value.bind="cardContentUnit"
                              read-only.bind="readOnly"
                              loader.bind="unitVBNonPOLoader"
