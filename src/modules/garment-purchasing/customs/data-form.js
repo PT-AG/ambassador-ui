@@ -14,13 +14,16 @@ export class DataForm {
     @bindable readOnlyNoBCDL=false;
     @bindable options = { readOnly: false };
     @bindable hasView = false;
+    @bindable hasEdit ;
     @bindable data = {};
     @bindable title;
     @bindable amount;
     @bindable item;
     @bindable beacukai;
     @bindable selectedCustomType;
-    typeCustoms = ["","BC 262", "BC 23","BC 40", "BC 27"]
+    @bindable selectedCustomCategory;
+    typeCustoms = ["","20", "25","261", "262"]
+    categoryCustoms = ["Non Fasilitas","Fasilitas"]
     importValueBC23=[
         "EXW",
         "FCA",
@@ -57,75 +60,103 @@ export class DataForm {
         this.amount = this.amount || 0;
         return this.amount;
     }
-    async beacukaiChanged(newValue, oldValue) {
-        var selectedBeacukai = newValue;
+    // async beacukaiChanged(newValue, oldValue) {
+    //     var selectedBeacukai = newValue;
        
-        if (selectedBeacukai) {
-            if (selectedBeacukai.BCId) {
-                this.data.beacukaiNo = selectedBeacukai.BCNo;
-                this.data.beacukaiDate = selectedBeacukai.TglBCNo;
-                this.data.customType = selectedBeacukai.JenisBC;
-                this.selectedCustomType = selectedBeacukai.JenisBC;
-                this.data.billNo=selectedBeacukai.BCId;
-                this.data.arrivalDate = selectedBeacukai.Hari;
-                this.data.netto = selectedBeacukai.Netto;
-                this.data.bruto = selectedBeacukai.Bruto;
-                this.context.beacukaiAU.editorValue="";
-            }else {
-                this.data.beacukaiDate = null;
-                this.data.beacukaiNo = null;
-                this.data.customType=null;
-                this.selectedCustomType = null;
-                this.data.billNo="";
-                this.data.arrivalDate = null;
-                this.data.netto = 0;
-                this.data.bruto = 0;
-            }
-        //     if (oldValue) {
-        //         this.data.beacukaiDate = null;
-        //         this.data.beacukaiNo = null;
-        //         this.data.customType=null;
-        //         this.data.billNo="";
-        //     }
-        // } else {
-        //     this.data.beacukaiDate = null;
-        //     this.data.beacukaiNo = null;
-        //     this.data.customType=null;
-        //     this.data.billNo="";
-        }
-    }
-    isBCDLChanged(e) {
-        var selectedisBCDL = e.srcElement.checked || false;
+    //     if (selectedBeacukai) {
+    //         if (selectedBeacukai.BCId) {
+    //             this.data.beacukaiNo = selectedBeacukai.BCNo;
+    //             this.data.beacukaiDate = selectedBeacukai.TglBCNo;
+    //             this.data.customType = selectedBeacukai.JenisBC;
+    //             this.selectedCustomType = selectedBeacukai.JenisBC;
+    //             this.data.billNo=selectedBeacukai.BCId;
+    //             this.data.arrivalDate = selectedBeacukai.Hari;
+    //             this.data.netto = selectedBeacukai.Netto;
+    //             this.data.bruto = selectedBeacukai.Bruto;
+    //             this.context.beacukaiAU.editorValue="";
+    //         }else {
+    //             this.data.beacukaiDate = null;
+    //             this.data.beacukaiNo = null;
+    //             this.data.customType=null;
+    //             this.selectedCustomType = null;
+    //             this.data.billNo="";
+    //             this.data.arrivalDate = null;
+    //             this.data.netto = 0;
+    //             this.data.bruto = 0;
+    //         }
+    //     //     if (oldValue) {
+    //     //         this.data.beacukaiDate = null;
+    //     //         this.data.beacukaiNo = null;
+    //     //         this.data.customType=null;
+    //     //         this.data.billNo="";
+    //     //     }
+    //     // } else {
+    //     //     this.data.beacukaiDate = null;
+    //     //     this.data.beacukaiNo = null;
+    //     //     this.data.customType=null;
+    //     //     this.data.billNo="";
+    //     }
+    // }
+    
+    // isBCDLChanged(e) {
+    //     var selectedisBCDL = e.srcElement.checked || false;
       
-       if(selectedisBCDL == true)
-       {
+    //    if(selectedisBCDL == true)
+    //    {
          
-            this.beacukai={};
-            this.readOnlyBCDL=false;
-            this.readOnlyNoBCDL=true;
-            this.data.beacukaiDate = undefined;
-            this.data.beacukaiNo = undefined;
-            this.data.customType=undefined;
-            this.selectedCustomType = undefined;
-            this.data.arrivalDate =undefined;
-       }else
-       {
-            this.beacukai={};
-            this.readOnlyBCDL=true;
-            this.readOnlyNoBCDL=false;
-            this.data.beacukaiDate = undefined;
-            this.data.beacukaiNo = undefined;
-            this.data.customType=undefined;
-            this.selectedCustomType = undefined;
-            this.data.arrivalDate =undefined;
-       }
-    }
+    //         this.beacukai={};
+    //         this.readOnlyBCDL=false;
+    //         this.readOnlyNoBCDL=true;
+    //         this.data.beacukaiDate = undefined;
+    //         this.data.beacukaiNo = undefined;
+    //         this.data.customType=undefined;
+    //         this.selectedCustomType = undefined;
+    //         this.data.arrivalDate =undefined;
+    //    }else
+    //    {
+    //         this.beacukai={};
+    //         this.readOnlyBCDL=true;
+    //         this.readOnlyNoBCDL=false;
+    //         this.data.beacukaiDate = undefined;
+    //         this.data.beacukaiNo = undefined;
+    //         this.data.customType=undefined;
+    //         this.data.customCategory = undefined;
+    //         this.selectedCustomType = undefined;
+    //         this.data.arrivalDate =undefined;
+    //    }
+    // }
     bind(context) {
         this.context = context;
         this.data = this.context.data;
         this.selectedCustomType = this.context.data.customType;
+        this.selectedCustomCategory = this.context.data.customCategory ? "Fasilitas" : "Non Fasilitas";
         this.error = this.context.error;
         this.hasView = this.context.hasView ? this.context.hasView : false;
+        this.hasEdit = this.context.hasEdit? this.context.hasEdit : false;
+        console.log(this.hasEdit);
+        if( this.hasView == false && !this.hasEdit){
+        this.beacukai={};
+        this.readOnlyBCDL=false;
+        this.readOnlyNoBCDL=true;
+        // this.data.beacukaiDate = undefined;
+        // this.data.beacukaiNo = undefined;
+        // this.data.customType=undefined;
+        // this.data.customCategory=undefined;
+        // this.selectedCustomType = undefined;
+        // this.data.arrivalDate =undefined;
+
+        this.data.beacukaiDate = null;
+        this.data.beacukaiNo = null;
+        this.data.customType=null;
+        this.selectedCustomType = null;
+        this.data.customCategory=null;
+        this.selectedCustomCategory = null;
+        this.data.billNo="";
+        this.data.arrivalDate = null;
+        this.data.netto = 0;
+        this.data.bruto = 0;
+        }
+
         this.deliveryOrderColumns = this.hasView ? [
             
             { header: "No Surat Jalan", value: "no" },
@@ -159,17 +190,17 @@ export class DataForm {
 
                 this.options.hasView=false;
             }
-            if(this.data.billNo.includes("BP"))
-            { this.data.isBCDL=false;
-                this.readOnlyBCDL=true;
+            // if(this.data.billNo.includes("BP"))
+            // { this.data.isBCDL=false;
+            //     this.readOnlyBCDL=true;
                 
-            }
-            else
-            {
-                this.showCustoms=false;
-                this.readOnlyBCDL=false;
-                this.data.isBCDL=true; 
-            }
+            // }
+            // else
+            // {
+            //     this.showCustoms=false;
+            //     this.readOnlyBCDL=false;
+            //     this.data.isBCDL=true; 
+            // }
         }else
         {
             this.options.hasView=true;
@@ -275,13 +306,24 @@ export class DataForm {
         }
     }
     selectedCustomTypeChanged(o,n){
-        // console.log(n);
-        // console.log(o);
+        
         this.data.customType = o;
         if(o =="BC 23")
             this.data.IsBC23 =true;
         else
             this.data.IsBC23 = false;
             this.data.importValue = null;
+    }
+
+    selectedCustomCategoryChanged(o,n){
+        
+        this.data.customCategory = o;
+        if (o == "Fasilitas")
+            this.data.customCategory = true;
+        else 
+            this.data.customCategory = false;
+    }
+    get isCustomCategory() {
+        return this.data.customType && (this.data.customType == "20" || this.data.customType == "25");
     }
 }

@@ -421,7 +421,7 @@ module.exports = [
         settings: {
             group: "g-sample",
             subGroup: "fitur",
-			permission: { "C9": 1, "SMP1": 1 },
+			permission: { "C9": 1, "SMP1": 1, "PGA": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
