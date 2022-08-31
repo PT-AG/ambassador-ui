@@ -15,6 +15,7 @@ export class View {
   }
 
   async activate(params) {
+    this.isCustomCategory = true;
     this.hasView = true;
     var locale = 'id-ID';
     this.readOnlyBCDL = true;
@@ -77,7 +78,14 @@ export class View {
       }
 
     }
+  
+    if(this.data.customCategory == true){
+      this.selectedCustomCategory == "Fasilitas";
+    }else{
+      this.selectedCustomCategory == "Non Fasilitas";
+    }
 
+    
     this.data.beacukaiDate = moment(this.data.beacukaiDate).format("YYYY-MM-DD");
     this.data.validationDate = moment(this.data.validationDate).format("YYYY-MM-DD");
     this.data.arrivalDate = moment(this.data.arrivalDate).format("YYYY-MM-DD");

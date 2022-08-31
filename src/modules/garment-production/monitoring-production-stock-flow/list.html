@@ -61,7 +61,7 @@
                 <td colspan="6">LOADING</td>
                 <td colspan="9">SEWING</td>
                 <td colspan="11">FINISHING</td>
-                <td colspan="9">BARANG JADI</td>
+                <td colspan="10">BARANG JADI</td>
             </tr>
             <tr>
                 <td rowspan="2">Saldo Awal WIP Cutting</td>
@@ -102,12 +102,12 @@
                 <td rowspan="2">Retur ke Sewing</td>
                 <td rowspan="2">Saldo Akhir WIP Finishing</td>
                  
-                
                 <td rowspan="2">Saldo Awal Barang jadi</td>                       
                 <td rowspan="2">Barang Jadi In/ (WIP BJ)</td>
                 <td rowspan="2">Barang Jadi In Transfer</td>
                 <td rowspan="2">Penerimaan Lain-lain (Retur)</td>
                 <td rowspan="2">Pengiriman Export</td>
+                <td rowspan="2">Pengiriman Lokal</td>
                 <td rowspan="2">Pengiriman Gudang Sisa</td>
                 <td rowspan="2">Pengiriman Lain-lain/Sample</td>
                 <td rowspan="2">Adjust Barang Jadi</td>
@@ -162,6 +162,7 @@
                 <td class="text-right">${item._ExpenditureGoodInTransfer}</td>
                 <td class="text-right">${item._ExpenditureGoodRetur}</td>
                 <td class="text-right">${item._ExportQty}</td>
+                <td class="text-right">${item._LocalQty}</td>
                 <td class="text-right">${item._OtherQty}</td>
                 <td class="text-right">${item._SampleQty}</td>
                 <td class="text-right">${item._ExpenditureGoodAdj}</td>
@@ -211,6 +212,7 @@
                 <td class="text-right"><strong>${ExpenditureGoodInTransferTotal}</strong></td>
                 <td class="text-right"><strong>${ExpenditureGoodReturTotal}</strong></td>
                 <td class="text-right"><strong>${ExportQtyTotal}</strong></td>
+                <td class="text-right"><strong>${LocalQtyTotal}</strong></td>
                 <td class="text-right"><strong>${OtherQtyTotal}</strong></td>
                 <td class="text-right"><strong>${SampleQtyTotal}</strong></td>
                 <td class="text-right"><strong>${ExpenditureGoodAdjTotal}</strong></td>

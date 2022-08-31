@@ -46,6 +46,7 @@
                     <th class="text-center">Jumlah Order</th>
                     <th class="text-center">Satuan</th>                            
                     <th class="text-center">Confirm Price</th>
+                    <th class="text-center">Term Pembayaran</th>
                     <th class="text-center">Rate USD</th>
                     <th class="text-center">Fabric Cost</th>
                     <th class="text-center">FOB Price</th>     
@@ -75,7 +76,8 @@
                         <td>${item.DeliveryDate}</td>
                         <td class="text-right">${item.Quantity}</td>
                         <td>${item.UOMUnit}</td>
-                        <td class="text-right">${item.ConfirmPrice}</strong></td>     
+                        <td class="text-right">${item.ConfirmPrice}</strong></td>  
+                        <td class="text-right">${item.TermPayment}</strong></td>     
                         <td class="text-right">${item.CurrencyRate}</strong></td>                             
                         <td class="text-right">${item.CMPrice}</strong></td>   
                         <td class="text-right">${item.FOBPrice}</strong></td>                             
@@ -91,7 +93,7 @@
                         <td class="text-center"><strong>.</strong></td>                     
                         <td class="text-center"><strong>.</strong></td>    
                         <td class="text-center" colspan="9"><strong>S E K S I : ${Seksi.SECTION}</strong></td>
-                        <td class="text-center" colspan="5"><strong>SUB TOTAL</strong></td>
+                        <td class="text-center" colspan="6"><strong>SUB TOTAL</strong></td>
                         <td class="text-center"><strong>.</strong></td>    
                         <td class="text-center"><strong>.</strong></td>    
                         <td class="text-right"><strong>${Seksi.subTotal}</strong></td>     

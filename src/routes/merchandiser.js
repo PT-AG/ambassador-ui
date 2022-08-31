@@ -123,7 +123,7 @@ module.exports = [
         name: 'cost-calculation-by-user',
         moduleId: './modules/merchandiser/cost-calculation/index',
         nav: true,
-        title: 'Cost Calculation Export Garment',
+        title: 'Cost Calculation Garment',
         auth: true,
         settings: {
             group: "merchandiser",
@@ -138,7 +138,7 @@ module.exports = [
         name: 'cost-calculation',
         moduleId: './modules/merchandiser/cost-calculation/index',
         nav: true,
-        title: 'Cost Calculation Export Garment (Semua User)',
+        title: 'Cost Calculation Garment (Semua User)',
         auth: true,
         settings: {
             group: "merchandiser",
@@ -153,7 +153,7 @@ module.exports = [
         name: 'cost-calculation-approval-md',
         moduleId: './modules/merchandiser/cost-calculation-approval/index',
         nav: true,
-        title: 'Cost Calculation Approval - Kabag Md',
+        title: 'Cost Calculation Approval - Kabag/Kasie MD',
         auth: true,
         settings: {
             group: "merchandiser",
@@ -197,7 +197,7 @@ module.exports = [
         name: 'cost-calculation-approval-kadivmd',
         moduleId: './modules/merchandiser/cost-calculation-approval/index',
         nav: true,
-        title: 'Cost Calculation Approval - Kadiv Md',
+        title: 'Cost Calculation Approval - Direktur Penjualan',
         auth: true,
         settings: {
             group: "merchandiser",
@@ -256,7 +256,7 @@ module.exports = [
         name: 'ro-garment-by-user',
         moduleId: './modules/merchandiser/ro-garment/index',
         nav: true,
-        title: 'RO Export Garment',
+        title: 'RO Garment',
         auth: true,
         settings: {
             group: "merchandiser",
@@ -271,7 +271,7 @@ module.exports = [
         name: 'ro-garment',
         moduleId: './modules/merchandiser/ro-garment/index',
         nav: true,
-        title: 'RO Export Garment (Semua User)',
+        title: 'RO Garment (Semua User)',
         auth: true,
         settings: {
             group: "merchandiser",
@@ -297,11 +297,11 @@ module.exports = [
         }
     },
     {
-        route: '/merchandiser/ro-sample-validation',
-        name: 'ro-sample-validation',
+        route: '/merchandiser/ro-validation-qc',
+        name: 'ro-validation-qc',
         moduleId: './modules/merchandiser/ro-validation/index',
         nav: true,
-        title: 'Validasi RO Sample',
+        title: 'Validasi RO - QC',
         auth: true,
         settings: {
             group: "merchandiser",
@@ -459,7 +459,7 @@ module.exports = [
         settings: {
             group: "merchandiser",
             subGroup: "monitoring",
-            permission: { "PGA": 1, "C7": 1, "C9": 1, "C2A": 1, "C2B": 1, "C2C": 1, "C1A": 1, "C1B": 1 },
+            permission: { "PGA": 1, "C7": 1, "C9": 1, "C2A": 1, "C2B": 1, "C2C": 1, "AG1": 1, "AG2": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -529,7 +529,7 @@ module.exports = [
         settings: {
             group: "merchandiser",
             subGroup: "monitoring",
-            permission: { "B7": 1, "C9": 1 },
+            permission: { "PGA": 1,"B7": 1, "C9": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -543,7 +543,7 @@ module.exports = [
         settings: {
             group: "merchandiser",
             subGroup: "produksi",
-            permission: { "P": 1, "B7": 1, "C9": 1 },
+            permission: { "PGA": 1,"P": 1, "B7": 1, "C9": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -571,7 +571,7 @@ module.exports = [
         settings: {
             group: "merchandiser",
             subGroup: "produksi",
-            permission: {  "P": 1, "C9": 1 },
+            permission: {  "PGA": 1,"P": 1, "C9": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },    
@@ -585,7 +585,7 @@ module.exports = [
         settings: {
             group: "merchandiser",
             subGroup: "monitoring",
-            permission: { "PGA": 1, "P": 1, "C9": 1 },
+            permission: { "PGA": 1,"PGA": 1, "P": 1, "C9": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -678,7 +678,7 @@ module.exports = [
         name: 'budget-export-garment-report',
         moduleId: './modules/merchandiser/report/budget-export-garment-report/index',
         nav: true,
-        title: 'Monitoring Budget Export Garment',
+        title: 'Monitoring Budget Garment',
         auth: true,
         settings: {
             group: "merchandiser",

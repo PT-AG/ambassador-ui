@@ -94,7 +94,7 @@ get EGLoader() {
         return (keyword) => {
             var info = {
               keyword: keyword,
-              filter: JSON.stringify({UnitId: this.data.Unit.Id, ExpenditureType:"EXPORT"})
+              filter: JSON.stringify({ UnitId: this.data.Unit.Id, 'ExpenditureType.Contains("LOKAL") || ExpenditureType.Contains("EXPORT")' : "true" })
             };
             return this.service.getExpenditureGoodByNo(info)
                 .then((result) => {
@@ -213,7 +213,7 @@ get GDOLoader() {
             else{
                 this.data.Price=0;
             }
-            Promise.resolve(this.service.getExpenditureGood({ filter: JSON.stringify({ ExpenditureGoodNo: this.data.ExpenditureNo, UnitId: this.data.Unit.Id, ExpenditureType:"EXPORT"}) }))
+            Promise.resolve(this.service.getExpenditureGood({ filter: JSON.stringify({ ExpenditureGoodNo: this.data.ExpenditureNo, UnitId: this.data.Unit.Id, 'ExpenditureType.Contains("LOKAL") || ExpenditureType.Contains("EXPORT")' : "true"}) }))
                     .then(result => {
                         for(var exGood of result.data){
                             for(var exGoodItem of exGood.Items){

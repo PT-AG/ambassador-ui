@@ -165,7 +165,7 @@ export class DataForm {
             {header: "Keterangan Barang", value: "DesignColor"},
             {header: "Jumlah", value: "Quantity"},
             {header: "Satuan", value: "Uom.Unit"},
-            {header: "Harga", value: "BasicPrice"},
+            // {header: "Harga", value: "BasicPrice"},
             {header: "Mata Uang", value: "currency"},
             {header: "Tipe Fabric", value: "FabricType"},
         ]
@@ -178,7 +178,7 @@ export class DataForm {
             {header: "Jumlah", value: "Quantity"},
             {header: "Sisa", value: "RemainingQuantity"},
             {header: "Satuan", value: "Uom.Unit"},
-            {header: "Harga", value: "BasicPrice"},
+            // {header: "Harga", value: "BasicPrice"},
             {header: "Mata Uang", value: "currency"},
             {header: "Tipe Fabric", value: "FabricType"},
         ]
