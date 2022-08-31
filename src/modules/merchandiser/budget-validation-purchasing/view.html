@@ -141,13 +141,13 @@
           </table>
         </div>
         <div>
-          <au-collection items.bind="data.priceInfo" columns.bind="priceInfo.columns" item-template="modules/merchandiser/cost-calculation/template/view/price-info">
+          <au-collection show.bind="false" items.bind="data.priceInfo" columns.bind="priceInfo.columns" item-template="modules/merchandiser/cost-calculation/template/view/price-info">
           </au-collection>
         </div>
       </div>
       <div class="col-md-4">
         <div>
-          <table class="table table-bordered small-column-table">
+          <table class="table table-bordered small-column-table" show.bind="false">
             <tbody>
               <tr>
                 <td class="label-td">Total</td>
@@ -198,7 +198,7 @@
           <p if.bind="isDollar">Note: 1 US$ = Rp. ${data.Rate.Value | numberFormat:'0,0.00'}</p>
           <table class="table table-bordered">
             <tbody>
-              <tr>
+              <tr show.bind="false">
                 <td>
                   <au-textbox label="Biaya Kargo" options.bind="length6" value.bind="data.Freight" read-only.bind="readOnly"></au-textbox>
                   <au-textbox label="Asuransi" options.bind="length6" value.bind="data.Insurance" read-only.bind="readOnly"></au-textbox>
@@ -236,7 +236,7 @@
         </div>
         <!-- Deskripsi End -->
         <!-- FOB PRICE Start -->
-        <div if.bind="hasFOBRemark">
+        <div if.bind="hasFOBRemark" show.bind="false">
           <table class="table table-bordered">
             <thead>
               <tr>
