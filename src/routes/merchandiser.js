@@ -78,7 +78,7 @@ module.exports = [
         name: 'approve-purchase-request-master',
         moduleId: './modules/merchandiser/approve-pr-master/index',
         nav: true,
-        title: 'Approval PR Master - Kabag Md',
+        title: 'Approval PR Master - Kasie MD',
         auth: true,
         settings: {
             group: "merchandiser",
@@ -93,7 +93,7 @@ module.exports = [
         name: 'approve-purchase-request-master',
         moduleId: './modules/merchandiser/approve-pr-master/index',
         nav: true,
-        title: 'Approval PR Master - Purchasing',
+        title: 'Approval PR Master - Kabag/Kasie Penjualan',
         auth: true,
         settings: {
             group: "merchandiser",
@@ -108,7 +108,7 @@ module.exports = [
         name: 'approve-purchase-request-master',
         moduleId: './modules/merchandiser/approve-pr-master/index',
         nav: true,
-        title: 'Approval PR Master - Kadiv Md',
+        title: 'Approval PR Master - Kabag/Kasie Purchasing',
         auth: true,
         settings: {
             group: "merchandiser",
@@ -720,7 +720,7 @@ module.exports = [
         name: 'open-po-master-approval-kabag-md',
         moduleId: './modules/merchandiser/open-po-master-approval/index',
         nav: true,
-        title: 'Approval Open PO Master - Kabag Md',
+        title: 'Approval Open PO Master - Kasie MD',
         auth: true,
         settings: {
             group: "merchandiser",
@@ -735,7 +735,7 @@ module.exports = [
         name: 'open-po-master-approval-purchasing',
         moduleId: './modules/merchandiser/open-po-master-approval/index',
         nav: true,
-        title: 'Approval Open PO Master - Purchasing',
+        title: 'Approval Open PO Master - Kabag/Kasie Penjualan',
         auth: true,
         settings: {
             group: "merchandiser",
@@ -750,7 +750,7 @@ module.exports = [
         name: 'open-po-master-approval-kadiv-md',
         moduleId: './modules/merchandiser/open-po-master-approval/index',
         nav: true,
-        title: 'Approval Open PO Master - Kadiv Md',
+        title: 'Approval Open PO Master - Kabag/Kasie Purchasing',
         auth: true,
         settings: {
             group: "merchandiser",
