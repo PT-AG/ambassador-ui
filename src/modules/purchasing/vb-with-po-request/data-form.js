@@ -84,8 +84,10 @@ export class DataForm {
             this.data.SuppliantUnit = newValue;
             this.options.Unit = this.data.SuppliantUnit;
 
-            this.isGarment = (this.data.SuppliantUnit.Division.Name == "GARMENT") ? true : false;
-            this.options.TypePurchasing = (this.data.SuppliantUnit.Division.Name == "GARMENT") ? "GARMENT" : "";
+            console.log(this.data.SuppliantUnit);
+
+            this.isGarment = (this.data.SuppliantUnit.Code == "PG") ? true : false;
+            this.options.TypePurchasing = (this.data.SuppliantUnit.Code == "PG") ? "GARMENT" : "";
         } else
             delete this.data.SuppliantUnit;
     }

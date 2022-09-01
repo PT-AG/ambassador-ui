@@ -29,10 +29,10 @@ export class Create {
             }
 
             this.data.Items.push(item);
-            if (unit.VBDocumentLayoutOrder === 9)
+            if (unit.VBDocumentLayoutOrder === 2)
                 this.data.Items.push({
                     Unit: {
-                        VBDocumentLayoutOrder: 10
+                        VBDocumentLayoutOrder: 3
                     }
                 });
 
