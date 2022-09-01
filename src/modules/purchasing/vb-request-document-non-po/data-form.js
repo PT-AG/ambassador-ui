@@ -98,7 +98,7 @@ export class DataForm {
   otherUnitSelected(event, data) {
     this.cardContentUnit = null;
     data.Unit = {};
-    data.Unit.VBDocumentLayoutOrder = 10;
+    data.Unit.VBDocumentLayoutOrder = 3;
     // if (data.IsSelected) {
     //   data.Unit.VBDocumentLayoutOrder = 10;
     // } else {
@@ -121,15 +121,15 @@ export class DataForm {
 
   @bindable cardContentUnit;
   cardContentUnitChanged(n, o) {
-    var otherUnit = this.data.Items.find(s => s.Unit.VBDocumentLayoutOrder == 10);
+    var otherUnit = this.data.Items.find(s => s.Unit.VBDocumentLayoutOrder == 3);
 
     if (this.cardContentUnit && otherUnit && otherUnit.IsSelected) {
       otherUnit.Unit = this.cardContentUnit;
-      otherUnit.Unit.VBDocumentLayoutOrder = 10;
+      otherUnit.Unit.VBDocumentLayoutOrder = 3;
     } else {
       if (otherUnit) {
         otherUnit.Unit = {};
-        otherUnit.Unit.VBDocumentLayoutOrder = 10;
+        otherUnit.Unit.VBDocumentLayoutOrder = 3;
       }
 
     }

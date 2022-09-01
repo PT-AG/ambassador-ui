@@ -31,7 +31,7 @@ export class Service extends RestService {
         }
         if (query !== '')
         endpoint = `${serviceUri}/monitoring?${query}`;
-
+console.log(info);
     return super.get(endpoint);
 
       

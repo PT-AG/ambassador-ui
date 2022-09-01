@@ -11,7 +11,7 @@ var UnitReceiptLoader = require('../../../../loader/garment-unit-receipt-note-lo
 export class List {
 
      reprosesOption = ['','Bahan Baku', 'Bahan Embalase','Bahan Pendukung','Subkon'];
-     unitOption = ['','CENTRAL 2A', 'CENTRAL 2B','CENTRAL 2C/EX. K4','CENTRAL 1A/EX. K3','CENTRAL 1B'];
+     unitOption = ['','AMBASSADOR GARMINDO 1','AMBASSADOR GARMINDO 2'];
   constructor(router, service) {
         this.service = service;
         this.router = router;

@@ -158,10 +158,10 @@ export class DataForm {
                         };
 
                         this.data.UnitCosts.push(item);
-                        if (unit.VBDocumentLayoutOrder === 9)
+                        if (unit.VBDocumentLayoutOrder === 2)
                             this.data.UnitCosts.push({
                                 Unit: {
-                                    VBDocumentLayoutOrder: 10,
+                                    VBDocumentLayoutOrder: 3,
                                 },
                             });
                     });
@@ -221,7 +221,7 @@ export class DataForm {
 
             if (this.data.UnitCosts) {
                 var otherUnit = this.data.UnitCosts.find(
-                    (s) => s.Unit.VBDocumentLayoutOrder == 10
+                    (s) => s.Unit.VBDocumentLayoutOrder == 3
                 );
                 if (otherUnit) {
                     this.cardContentUnit = otherUnit.Unit;
@@ -270,7 +270,7 @@ export class DataForm {
         this.cardContentUnit = null;
         data.Amount = 0;
         data.Unit = {};
-        data.Unit.VBDocumentLayoutOrder = 10;
+        data.Unit.VBDocumentLayoutOrder = 3;
     }
 
     resetAmount(event, data) {
@@ -280,17 +280,17 @@ export class DataForm {
     @bindable cardContentUnit;
     cardContentUnitChanged(n, o) {
         var otherUnit = this.data.UnitCosts.find(
-            (s) => s.Unit.VBDocumentLayoutOrder == 10
+            (s) => s.Unit.VBDocumentLayoutOrder == 3
         );
 
         if (this.cardContentUnit && otherUnit && otherUnit.IsSelected) {
             otherUnit.Unit = this.cardContentUnit;
-            otherUnit.Unit.VBDocumentLayoutOrder = 10;
+            otherUnit.Unit.VBDocumentLayoutOrder = 3;
         } else {
             if (otherUnit) {
                 otherUnit.Amount = 0;
                 otherUnit.Unit = {};
-                otherUnit.Unit.VBDocumentLayoutOrder = 10;
+                otherUnit.Unit.VBDocumentLayoutOrder = 3;
             }
         }
     }
