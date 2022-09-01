@@ -1,4 +1,4 @@
-import { inject, Lazy } from "aurelia-framework";
+import { inject, bindable, Lazy, BindingEngine } from "aurelia-framework";
 import { Router } from "aurelia-router";
 import { Service } from "./service";
 import { Dialog } from "../../../au-components/dialog/dialog";
@@ -9,8 +9,9 @@ const RP = "Rp. ";
 import { AuthService } from "aurelia-authentication";
 import moment from 'moment';
 
-@inject(Router, Service, Dialog, AuthService)
+@inject(BindingEngine,Router, Service, Dialog, AuthService)
 export class View {
+    @bindable type;
     readOnly = true;
     length4 = {
         label: {
@@ -82,7 +83,8 @@ export class View {
         error: {}
     }
 
-    constructor(router, service, dialog, authService) {
+    constructor(bindingEngine,router, service, dialog, authService) {
+        this.bindingEngine=bindingEngine;
         this.router = router;
         this.service = service;
         this.dialog = dialog;
@@ -111,7 +113,7 @@ export class View {
                 break;
             default: break;
         }
-
+        console.log(this.type)
         if (this.authService.authenticated) {
             this.me = this.authService.getTokenPayload();
         }
