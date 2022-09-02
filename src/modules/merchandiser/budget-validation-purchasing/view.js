@@ -75,6 +75,7 @@ export class View {
             { header: "Qty", value: "BudgetQuantityString" },
             { header: "Satuan", value: "UOMPriceUnit" },
             { header: "Harga Satuan", value: "Price" },
+            { header: "Amount", value: "Amount" },
             { header: "Shipment", value: "DeliveryDate" },
             { header: "Status", value: "Status" },
         ],
@@ -123,7 +124,9 @@ export class View {
             material.BudgetQuantityString = material.BudgetQuantity.toFixed(2);
             material.IsPRMaster = material.PRMasterId > 0;
             material.Status = material.IsPRMaster ? "MASTER" : "JOB ORDER";
+            material.Amount= material.isFabricCM ? 0: (material.BudgetQuantity*material.Price).toFixed(2);
         });
+        console.log(this.approval)
         // DATA APPROVAL
 
         this.data.FabricAllowance = numeral(this.data.FabricAllowance).format();

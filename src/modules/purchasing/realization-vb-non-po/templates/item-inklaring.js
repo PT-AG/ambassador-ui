@@ -38,7 +38,7 @@ export class Item {
     this.calculateTotalAmount();
   }
 
-  IncomeTaxByOptions = ["", "Supplier", "AG"];
+  IncomeTaxByOptions = ["", "Supplier", "Ambassador Garmindo"];
 
   get incomeTaxLoader() {
     return IncomeTaxLoader;
