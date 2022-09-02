@@ -66,7 +66,7 @@ export class DataForm {
                 { header: "Satuan Kecil" },
                 { header: "Buyer" },
                 { header: "Artikel" },
-                { header: "Keterangan" },
+                //{ header: "Keterangan" },
                 { header: "Design/Color" },
             ],
             onRemove: function () {
@@ -423,7 +423,7 @@ export class DataForm {
                     _item.Article = fulfillment.article;
 
                     _item.Buyer = { Name: fulfillment.buyer.name };
-
+                    _item.DesignColor= fulfillment.productRemark;
                     if (_item.ReceiptQuantity > 0)
                         _items.push(_item);
                 }
@@ -570,6 +570,7 @@ export class DataForm {
                 item.PricePerDealUnit = stock.BasicPrice;
                 item.ExpenditureItemId = expendItem.Id;
                 item.RONo = epoItemData.RONo;
+                item.DesignColor=epoItemData.Remark;
                 item.Product.Remark = expendItem.PONo + "; " + epoItemData.RONo + "; " + epoItemData.Article;
 
                 this.data.Items.push(item);

@@ -30,7 +30,7 @@ export class DataForm {
         { header: "Jumlah" },
         { header: "Satuan" },
         { header: "Harga Budget" },
-        { header: "Keterangan" }
+        { header: "Design/Color/Keterangan" }
     ]
 
     get buyer() {
