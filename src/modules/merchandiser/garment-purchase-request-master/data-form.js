@@ -81,7 +81,7 @@ export class DataForm {
         { header: "Konstruksi" },
         { header: "Yarn" },
         { header: "Width" },
-        { header: "Keterangan" },
+        { header: "Design/Color/Keterangan" },
         { header: "Jumlah" },
         { header: "Satuan" },
         { header: "Price" },

@@ -155,25 +155,25 @@
         <au-collection items.bind="data.Items" columns.bind="deliveryOrderItem.columns"
             remove.bind="deliveryOrderItem.onRemove" errors.bind="error.Items" read-only.bind="readOnly || isEdit"
             show.bind="!isProcess"
-            item-template="modules/garment-purchasing/unit-receipt-note-by-user/template/delivery-order-item"
+            item-template="modules/garment-sample/unit-receipt-note-by-user/template/delivery-order-item"
             if.bind="deliveryOrder && data.URNType!='GUDANG SISA' && data.URNType!='SISA SUBCON'">
         </au-collection>
 
         <au-collection items.bind="data.DRItems" columns.bind="deliveryReturnItem.columns"
             remove.bind="deliveryReturnItem.onRemove" errors.bind="error.Items" read-only.bind="readOnly || isEdit"
-            item-template="modules/garment-purchasing/unit-receipt-note-by-user/template/delivery-return-item"
+            item-template="modules/garment-sample/unit-receipt-note-by-user/template/delivery-return-item"
             if.bind="deliveryReturn" show.bind="isProcess">
         </au-collection>
 
         <au-collection items.bind="data.Items" columns.bind="expenditureItem.columns" errors.bind="error.Items"
             read-only.bind="readOnly || isEdit"
-            item-template="modules/garment-purchasing/unit-receipt-note-by-user/template/expenditure-item"
+            item-template="modules/garment-sample/unit-receipt-note-by-user/template/expenditure-item"
             if.bind="expenditure && data.URNType=='GUDANG SISA'">
         </au-collection>
 
         <au-collection items.bind="data.Items" columns.bind="expenditureItem.columns" errors.bind="error.Items"
             read-only.bind="readOnly || isEdit"
-            item-template="modules/garment-purchasing/unit-receipt-note-by-user/template/uen-item"
+            item-template="modules/garment-sample/unit-receipt-note-by-user/template/uen-item"
             if.bind="uen && data.URNType=='SISA SUBCON'">
         </au-collection>
     </au-input-form>
