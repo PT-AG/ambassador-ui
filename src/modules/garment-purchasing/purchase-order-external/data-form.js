@@ -493,7 +493,7 @@ export class DataForm {
             "Konversi",
             "Harga Satuan",
             "Include Ppn?",
-            "Keterangan"],
+            "Design/Color/Keterangan"],
         onRemove: function () {
             this.bind();
             if (this.items) {

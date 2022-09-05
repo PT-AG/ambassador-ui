@@ -138,7 +138,7 @@ export class DataForm {
     this.selectedUnit = this.data.Unit?this.data.Unit:"";
     this.data.OTL1 = this.data.OTL1 ? this.data.OTL1 : Object.assign({}, this.defaultRate);
     this.data.OTL2 = this.data.OTL2 ? this.data.OTL2 : Object.assign({}, this.defaultRate);
-    this.data.ConfirmPrice =this.data.ConfirmPrice ? this.data.ConfirmPrice .toLocaleString('en-EN', { minimumFractionDigits: 4}):0 ;
+    this.data.ConfirmPrice =this.data.ConfirmPrice ? this.data.ConfirmPrice:0 ;
     let promises = [];
 
     let wage;
@@ -180,7 +180,6 @@ export class DataForm {
     let rate;
     if (this.data.Rate) {
       rate = new Promise((resolve, reject) => {
-        console.log(resolve)
         resolve(this.data.Rate);
       });
     }
@@ -221,7 +220,16 @@ export class DataForm {
 
     this.costCalculationGarment_MaterialsInfo.options.CCId = this.data.Id;
     this.costCalculationGarment_MaterialsInfo.options.SCId = this.data.PreSCId;
-    console.log(context);
+    
+    if(this.data.Rate){
+      if(this.data.Rate.Value>1){
+        this.selectedRate="USD";
+      }
+      else if(this.data.Rate.Value==1){
+        this.selectedRate="IDR";
+      }
+    }
+    
   }
 
   get preSalesContractLoader() {
