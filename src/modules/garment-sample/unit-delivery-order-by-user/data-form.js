@@ -184,7 +184,6 @@ export class DataForm {
             };
             return this.service.searchMoreDOItems(info)
                 .then((result) => {
-                    console.log(result)
                     let itemIds = this.data.Items.map(i => i.URNItemId);
                     return result.data.filter(data => data && itemIds.indexOf(data.URNItemId) < 0);
                 });

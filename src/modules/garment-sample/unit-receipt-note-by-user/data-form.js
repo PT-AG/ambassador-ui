@@ -555,7 +555,6 @@ export class DataForm {
                 var stock = await this.inventoryService.getStockById(expendItem.StockId);
                 var epoItem = await this.service.searchEPO({ filter: JSON.stringify({ PO_SerialNumber: expendItem.PONo }), Keyword: expendItem.PONo });
                 var epoItemData = epoItem.data[0];
-                console.log(epoItemData)
 
                 item.Conversion = 1;
                 item.POSerialNumber = expendItem.PONo;
