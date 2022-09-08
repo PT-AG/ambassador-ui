@@ -139,7 +139,7 @@ export class DataForm {
                                         item.ROSource = doItem.RONo;
                                         item.DesignColor = doItem.DesignColor;
                                     }
-                                    
+                                    item.CustomsCategory=doItem.CustomsCategory;
                                 }                
                             }
                         });

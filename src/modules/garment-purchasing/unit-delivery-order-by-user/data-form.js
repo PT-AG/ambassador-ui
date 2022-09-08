@@ -382,7 +382,7 @@ export class DataForm {
                                 Items.Quantity = Items.DefaultDOQuantity;
                                 Items.IsSave = Items.Quantity > 0;
                                 Items.IsDisabled = !(Items.Quantity > 0);
-                
+                                Items.CustomsCategory=item.CustomsCategory;
                                 this.dataItems.push(Items);
                             }
                         }
@@ -439,6 +439,7 @@ export class DataForm {
                                 Items.Quantity = Items.DefaultDOQuantity;
                                 Items.IsSave = Items.Quantity > 0;
                                 Items.IsDisabled = !(Items.Quantity > 0);
+                                Items.CustomsCategory=item.CustomsCategory;
                 
                                 this.dataItems.push(Items);
                             }
@@ -491,6 +492,7 @@ export class DataForm {
                                 Items.Quantity = Items.DefaultDOQuantity;
                                 Items.IsSave = Items.Quantity > 0;
                                 Items.IsDisabled = !(Items.Quantity > 0);
+                                Items.CustomsCategory=item.CustomsCategory;
                 
                                 this.dataItems.push(Items);
                             }
@@ -658,6 +660,7 @@ export class DataForm {
                         this.newProduct.POItemId = selectedROHeader.POItemId;
                         this.newProduct.EPOItemId = selectedROHeader.EPOItemId;
                         this.newProduct.PRItemId = selectedROHeader.PRItemId;
+                        this.newProduct.CustomsCategory=selectedROHeader.CustomsCategory;
                         this.newProduct.RONo = selectedROHeader.RONo;
                         this.newProduct.Article = selectedROHeader.Article;
                         this.newProduct.POSerialNumber = selectedROHeader.POSerialNumber;
