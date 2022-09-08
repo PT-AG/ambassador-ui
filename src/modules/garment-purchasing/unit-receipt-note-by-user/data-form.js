@@ -419,7 +419,7 @@ export class DataForm {
                     _item.DesignColor = fulfillment.productRemark;
 
                     _item.Buyer =  { Name : fulfillment.buyer.name };
-
+                    _item.CustomsCategory= fulfillment.customsCategory;
                     if (_item.ReceiptQuantity > 0)
                         _items.push(_item);
                 }

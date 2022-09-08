@@ -8,6 +8,7 @@ const serviceUri = 'garment-beacukai';
 const deliveryOrderForCustoms = 'garment-delivery-orders/forCustoms';
 const serviceUriUnitReceiptNotes = 'garment-delivery-orders/isReceived';
 const serviceUriPOMasterDistributions = 'garment-po-master-distributions';
+const urnServiceUri = 'garment-unit-receipt-notes';
 
 export class Service extends RestService {
 
@@ -72,6 +73,11 @@ export class Service extends RestService {
 
     searchPOMasterDistributions(info) {
         var endpoint = `${serviceUriPOMasterDistributions}`;
+        return super.list(endpoint, info);
+    }
+
+    searchURN(info) {
+        var endpoint = `${urnServiceUri}`;
         return super.list(endpoint, info);
     }
 }
