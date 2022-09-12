@@ -194,6 +194,16 @@
                     options.bind="controlOptions">
                 </au-autocomplete>
 
+                
+                <au-textbox
+                    label="Authorized"
+                    value.bind="data.userAuthorizedName"
+                    error.bind="error.UserAuthorizedName"
+                    read-only.bind="readOnly" 
+                    options.bind="controlOptions">
+                </au-textbox>
+                   
+
                 <au-multiline label="Keterangan" value.bind="data.sampleRemarkMd" error.bind="error.sampleRemarkMd"
                 read-only.bind="readOnly"  
                 options.bind="controlOptions">
