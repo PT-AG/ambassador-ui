@@ -47,19 +47,19 @@ export class List {
         { field: "LocalSalesNoteNo", title: "No Nota Penjualan"},
         { field: "BCNo", title: "No BC Keluar"},
         { field: "BCType", title: "Tipe BC"},
-        { 
-            field: "BCDate", title: "Tgl BC",
-            formatter: (value, data) => {
-                if(value) {
-                    if(moment(value).format("YYYY-MM-DD") == "0001-01-01"){
-                        return "-";
-                    }else{
-                        return moment(value).format("DD MMM YYYY");
-                    }
-                }
-                return "-";
-            }
-        },
+        // { 
+        //     field: "BCDate", title: "Tgl BC",
+        //     formatter: (value, data) => {
+        //         if(value) {
+        //             if(moment(value).format("YYYY-MM-DD") == "0001-01-01"){
+        //                 return "-";
+        //             }else{
+        //                 return moment(value).format("DD MMM YYYY");
+        //             }
+        //         }
+        //         return "-";
+        //     }
+        // },
     ]
 
     bind() {
