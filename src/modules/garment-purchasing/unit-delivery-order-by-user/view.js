@@ -32,6 +32,9 @@ export class View {
             if (this.data.StorageRequest) {
                 this.storageRequest = this.data.StorageRequest;
             }
+            if (this.data.Supplier) {
+                this.supplier = this.data.Supplier;
+            }
 
             if (this.data.RONo) {
                 if(this.data.UnitDOType=="TRANSFER"){
