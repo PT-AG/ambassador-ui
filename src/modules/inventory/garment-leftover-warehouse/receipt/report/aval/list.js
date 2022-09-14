@@ -39,7 +39,7 @@ export class List {
             }, width: '5%'
         },
         { field: "AvalType", title: "Jenis Aval", sortable: false},
-        { field: "Weight", title: "Berat", sortable: false},
+        //{ field: "Weight", title: "Berat", sortable: false},
         { field: "Uom", title: "Satuan", sortable: false},
         { field: "UnitCode", title: "Asal Barang", sortable: false },
         { field: "RONo", title: "Nomor RO", sortable: false },
@@ -116,7 +116,7 @@ export class List {
                 }, width: '5%'
             },
             { field: "AvalType", title: "Jenis Aval", sortable: false},
-            { field: "Weight", title: "Berat", sortable: false},
+            //{ field: "Weight", title: "Berat", sortable: false},
             { field: "Uom", title: "Satuan", sortable: false},
             { field: "UnitCode", title: "Asal Barang", sortable: false },
             { field: "RONo", title: "Nomor RO", sortable: false },

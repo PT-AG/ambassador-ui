@@ -35,7 +35,7 @@ export class List {
         { field: "UnitFrom.Name", title: "Asal"},
         { field: "ExpenditureDestination", title: "Tujuan"},
         { field: "DescriptionOfPurpose", title: "Keterangan Tujuan"},
-        { field: "QtyKG", title: "Jumlah Keluar (KG)"},
+        //{ field: "QtyKG", title: "Jumlah Keluar (KG)"},
         { field: "Composition", title: "Komposisi"},
         { field: "Const", title: "Konstruksi"},
         { field: "PONo", title: "Nomor PO"},
