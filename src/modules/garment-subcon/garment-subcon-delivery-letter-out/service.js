@@ -118,6 +118,7 @@ const garmentEPOServiceUri = 'garment-external-purchase-orders/by-ro';
 const unitDeliveryOrderUri = 'garment-unit-delivery-orders';
 const garmentUENServiceUri = 'garment-unit-expenditure-notes';
 const serviceUriPR = 'garment-purchase-requests';
+const garmentEPOsubcon = 'garment-external-purchase-orders/subcon-delivery-loader';
 
 class PurchasingService extends RestService {
     constructor(http, aggregator, config, api) {
@@ -139,7 +140,12 @@ class PurchasingService extends RestService {
     getGarmentPR(info) {
         var endpoint = `${serviceUriPR}`;
         return super.list(endpoint, info);
-    } 
+    }
+
+    getGarmentEPODetail(info){
+        var endpoint = `${garmentEPOsubcon}`;
+        return super.list(endpoint, info);
+    }
     
 }
 const uomServiceUri = 'master/uoms';

@@ -50,7 +50,7 @@
             options.bind="controlOptions">
         </au-dropdown> -->
 
-        <au-autocomplete
+        <!-- <au-autocomplete
             value.bind="selectedContract"
             error.bind="error.ContractNo"
             label="No Subcon Contract"
@@ -61,6 +61,18 @@
             read-only.bind="readOnly|| isEdit"
             options.bind="controlOptions"
             view-model.ref="selectedContractViewModel">
+        </au-autocomplete> -->
+
+        <au-autocomplete
+            value.bind="selectedEPO"
+            error.bind="error.EPO"
+            label="No PO External"
+            loader.bind="epoLoader"
+            text.bind="epoView"
+            placeholder="Nomor EPO"
+            read-only.bind="readOnly || isEdit"
+            options.bind="controlOptions"
+            view-model.ref="selectedEPOViewModel">
         </au-autocomplete>
 
         <au-datepicker 
@@ -77,7 +89,7 @@
             label="No Bon Pengeluaran Unit"
             loader.bind="uenLoader"
             text.bind="uenView"
-            if.bind="selectedContract && data.SubconCategory=='SUBCON CUTTING SEWING'"
+            if.bind="selectedEPO && data.SubconCategory=='SUBCON CUTTING SEWING'"
             query.bind="UENFilter"
             placeholder="No Bon Pengeluaran Unit"
             read-only.bind="readOnly|| isEdit"
@@ -85,7 +97,6 @@
             view-model.ref="selectedUENViewModel">
         </au-autocomplete>
 
-        
         <au-autocomplete
             value.bind="selectedPO"
             error.bind="error.PONo"
@@ -95,7 +106,7 @@
             placeholder="Nomor PO"
             read-only.bind="readOnly"
             options.bind="controlOptions"
-            if.bind="data.SubconCategory=='SUBCON CUTTING SEWING'"
+            if.bind="data.SubconCategory=='SUBCON CUTTING SEWING' && selectedEPO"
             view-model.ref="selectedCuttingInViewModel">
         </au-autocomplete>
 
