@@ -1,7 +1,7 @@
 import { bindable, inject, computedFrom } from "aurelia-framework";
+import { _ } from "numeral";
 import { Service,PurchasingService,CoreService } from "./service";
 
-const ContractLoader = require('../../../loader/garment-subcon-contract-loader');
 const EPOLoader = require('../../../loader/garment-epo-subcon-loader');
 const UENLoader = require('../../../loader/garment-unit-expenditure-note-loader');
 const UomLoader = require("../../../loader/uom-loader");
@@ -16,13 +16,14 @@ export class DataForm {
     @bindable data = {};
     // @bindable error = {};
     @bindable selectedUEN;
-    @bindable selectedEPO;
     @bindable itemOptions = {};
     @bindable selectedPO;
+    @bindable selectedEPO;
     @bindable selectedDLType;
     @bindable selectedContractType;
     @bindable selectedServiceType;
     @bindable selectedSubconCategory;
+    @bindable selectedUomUnit;
 
     constructor(service,purchasingService,coreService) {
         this.service = service;
@@ -37,14 +38,6 @@ export class DataForm {
         editText: "Ubah"
     };
 
-        UomPackingfilter={
-        'Unit=="ROLL" || Unit=="COLI" || UNIT=="IKAT" || UNIT=="CARTON"': "true",
-    };
-
-    get UomPackingLoader() {
-        return UomLoader;
-    }
-
     dlTypes=["PROSES","RE PROSES"];
     contractTypes = ["SUBCON GARMENT", "SUBCON BAHAN BAKU", "SUBCON JASA"];
     SubconCategoryTypeOptions=["SUBCON CUTTING SEWING","SUBCON SEWING"];
@@ -57,6 +50,14 @@ export class DataForm {
             length: 5
         }
     };
+
+    UomPackingfilter={
+        'Unit=="ROLL" || Unit=="COLI" || UNIT=="IKAT" || UNIT=="CARTON"': "true",
+    };
+
+    get UomPackingLoader() {
+        return UomLoader;
+    }
 
     itemsInfo = {
         columns: [
@@ -145,7 +146,7 @@ export class DataForm {
             isSubconSewing:this.data.SubconCategory=="SUBCON JASA GARMENT WASH"?true : false,
             subconCategory:this.data.SubconCategory
         }
-
+        console.log(this.data)
         if (this.data.Id) {
             if(this.data.SubconCategory=="SUBCON CUTTING SEWING"){
                 var uen= await this.purchasingService.getUENById(this.data.UENId);
@@ -155,15 +156,30 @@ export class DataForm {
                     UnitDOId: uen.UnitDOId,
                     Items:uen.Items
                 };
+
                 this.selectedPO={
                     PO_SerialNumber: this.data.PONo,
                     Id:this.data.EPOItemId
                 }
+
+                var info = {
+                    keyword : this.data.EPONo
+                }
+
+                var epo = await this.purchasingService.getGarmentEPODetail(info);
+                for(var _item of epo.data[0].Items){
+                    this.data.ContractQty += _item.DealQuantity;
+                }
+
             }
             else if (this.isSubconSewing) {
                 this.data.SubconId=newValue.Id;
                 var subcon = await this.service.readServiceSubconSewingById(this.data.SubconId);
                 this.data.Details = subcon.Items;
+            }
+
+            this.selectedUomUnit={
+                Unit: this.data.UomUnit
             }
         }
     }
@@ -174,7 +190,7 @@ export class DataForm {
         this.data.UENId = 0;
         this.data.UENNo = "";
         this.selectedEPO=null;
-        this.data.EPONo="";
+        this.data.EPONO="";
         this.data.EPOId=0;
 
         this.itemOptions.DLType = this.data.DLType;
@@ -182,7 +198,7 @@ export class DataForm {
         this.data.UsedQty=0;
         this.data.QtyUsed=0;
         this.data.Items.splice(0);
-        this.context.selectedContractViewModel.editorValue="";
+        this.context.selectedEPOViewModel.editorValue="";
     }
 
     selectedContractTypeChanged(newValue){
@@ -234,8 +250,8 @@ export class DataForm {
     //     this.itemOptions.serviceType=this.data.ServiceType;
     // }
 
-    epoView = (epo) => {
-        return `${epo.EPONo}`;
+    epoView = (contract) => {
+        return `${contract.EPONo}`;
     }
 
     uenView = (uen) => {
@@ -334,6 +350,15 @@ export class DataForm {
         
     }
 
+    selectedUomUnitChanged(newValue){
+        if(newValue){
+            this.data.UomUnit=newValue.Unit;
+        }
+        else{
+            this.data.UomUnit=null;
+        }
+    }
+
     async selectedEPOChanged(newValue){
         this.selectedUEN=null;
         this.data.UENId = 0;
@@ -344,7 +369,11 @@ export class DataForm {
         if(newValue){
             this.data.EPONo=newValue.EPONo;
             this.data.EPOId=newValue.Id;
-            //this.data.ContractQty=newValue.Quantity;
+            if(newValue.Items.length > 0){
+                for(var item of newValue.Items){
+                    this.data.ContractQty += item.DealQuantity
+                }
+            }
         }
         else{
             this.data.EPONo="";
@@ -369,7 +398,6 @@ export class DataForm {
 
             }
             this.data.TotalQty=qty ? qty:0;
-            this.data.ContractQty=qty ? qty:0;
         }
         return qty;
     }

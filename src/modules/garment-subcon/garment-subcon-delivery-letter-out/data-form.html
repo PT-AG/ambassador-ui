@@ -110,26 +110,6 @@
             view-model.ref="selectedCuttingInViewModel">
         </au-autocomplete>
 
-        <au-numeric
-            value.bind="data.QtyPacking"
-            error.bind="ërror.QtyPacking"
-            label="Jumlah Kemasan"
-            placeholder="Kuantitas Pengiriman"
-            read-only.bind="readOnly || isEdit"
-            options.bind="controlOptions">
-        </au-numeric>
-        <au-textbox
-            value.bind="data.UomUnit"
-            error.bind="ërror.UomUnit"
-            loader.bind="UomPackingLoader"
-            query.bind="UomPackingfilter"
-            label="Satuan Kemasan"
-            text="Unit"
-            placeholder="Satuan Kemasan"
-            read-only.bind="readOnly || isEdit"
-            options.bind="controlOptions">
-        </au-textbox>
-
         <au-multiline
             value.bind="data.Remark"
             error.bind="error.Remark"

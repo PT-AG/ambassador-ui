@@ -18,7 +18,11 @@ export class View {
                 RONo: this.data.RONo
             };
 
-            this.selectedUnit=this.data.Unit;
+            this.selectedUnit = this.data.Unit;
+
+            this.selectedUomUnit={
+                Unit: this.data.UomUnit
+            }
 
             if(this.data.IsUsed){
                 this.deleteCallback=null;
