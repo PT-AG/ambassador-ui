@@ -195,6 +195,17 @@
                     read-only.bind="true" 
                     options.bind="controlOptions">
                 </au-textbox>
+                <au-autocomplete 
+                    value.bind="supplier"
+                    label="Penerima Subcon" 
+                    loader.bind="supplierLoader" 
+                    text.bind="supplierView"
+                    read-only.bind="readOnly || isEdit"
+                    error.bind="error.Supplier"
+                    placeholder="cari supplier"
+                    options.bind="controlOptions"
+                    if.bind="isSubcon">
+                </au-autocomplete>
             </div>
             <div class="col-md-6" show.bind="!readOnly ">
                 <h4>Tambah Data Barang</h4>
