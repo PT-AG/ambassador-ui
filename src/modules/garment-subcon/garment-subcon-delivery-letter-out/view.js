@@ -19,10 +19,11 @@ export class View {
                 this.deleteCallback=null;
                 this.editCallback=null;
             }
-            this.selectedContract={
-                ContractNo: this.data.ContractNo,
-                Id:this.data.SubconContractId,
+            this.selectedEPO={
+                EPONo: this.data.EPONo,
+                Id:this.data.EPOId,
             };
+
             this.selectedContractType=this.data.ContractType;
             this.selectedSubconCategory=this.data.SubconCategory;
             

@@ -29,6 +29,9 @@ export class Create {
     }
 
     saveCallback(event) {
+
+        this.data.SubconContractId = 0;
+
         if(this.data.SubconCategory=="SUBCON CUTTING SEWING"){
             this.data.UsedQty=this.data.ContractQty-this.data.QtyUsed;
         }

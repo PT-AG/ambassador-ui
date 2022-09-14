@@ -15,9 +15,9 @@ export class View {
 
         if (this.data) {
             this.selectedDLType=this.data.DLType;
-            this.selectedContract={
-                ContractNo: this.data.ContractNo,
-                Id:this.data.SubconContractId,
+            this.selectedEPO={
+                EPONo: this.data.EPONo,
+                Id:this.data.EPOId,
             };
            
             this.selectedContractType=this.data.ContractType;
@@ -29,7 +29,7 @@ export class View {
     async getContractQty() {
         var subconContract = await this.service.readSubconContractById(this.data.SubconContractId);
         if(this.data.SubconCategory=='SUBCON SEWING' || this.data.ContractType=='SUBCON JASA' || this.data.ContractType=='SUBCON BAHAN BAKU'){
-            this.service.searchComplete({filter: JSON.stringify({ ContractNo:this.data.ContractNo})})
+            this.service.searchComplete({filter: JSON.stringify({ EPONo:this.data.EPONo})})
             .then((contract)=>{
                 console.log(contract)
                 var usedQty= 0;
