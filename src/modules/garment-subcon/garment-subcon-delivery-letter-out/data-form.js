@@ -406,7 +406,7 @@ export class DataForm {
         return (keyword) => {
             var infoEPO = {
                 keyword: keyword,
-                filter: JSON.stringify({ ProductName:"PROCESS",  EPOId: this.data.EPOId })
+                filter: JSON.stringify({ ProductName:"PROCESS",  GarmentEPOId: this.data.EPOId })
             };
             return this.purchasingService.getGarmentEPO(infoEPO)
             .then((epo)=>{
