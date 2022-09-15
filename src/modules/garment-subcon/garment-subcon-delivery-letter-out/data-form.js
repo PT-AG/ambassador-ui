@@ -277,7 +277,7 @@ export class DataForm {
             this.data.UENNo = newValue.UENNo;
             this.purchasingService.getUnitDeliveryOrderById(newValue.UnitDOId)
             .then((deliveryOrder) => {
-                this.service.searchComplete({filter: JSON.stringify({ EPONo:this.data.EPONo})})
+                this.service.searchComplete({filter: JSON.stringify({ EPONo:this.data.EPONo })})
                 .then((contract)=>{
                     var usedQty= 0;
                     if(contract.data.length>0){
@@ -406,7 +406,7 @@ export class DataForm {
         return (keyword) => {
             var infoEPO = {
                 keyword: keyword,
-                filter: JSON.stringify({ ProductName:"PROCESS"})
+                filter: JSON.stringify({ ProductName:"PROCESS",  EPOId: this.data.EPOId })
             };
             return this.purchasingService.getGarmentEPO(infoEPO)
             .then((epo)=>{
