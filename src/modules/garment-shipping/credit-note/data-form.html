@@ -33,6 +33,9 @@
                     options.bind="controlOptions">
                 </au-datepicker>
 
+                <au-textbox label="Authorized Signature" value.bind="data.userAuthorizedName" error.bind="error.userAuthorizedName" read-only.bind="readOnly" placeholder="Masukkan Nama" options.bind="controlOptions">
+                </au-textbox>
+
                 <au-textbox error.bind="error.itemsCount" read-only.bind="true" show.bind="error.itemsCount"
                     options.bind="controlOptions">
                 </au-textbox>

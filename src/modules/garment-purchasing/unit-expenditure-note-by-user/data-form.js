@@ -196,7 +196,6 @@ export class DataForm {
             this.data.UnitDONo = "";
         }
         else if(selectedUnitDeliveryOrder){
-            console.log(selectedUnitDeliveryOrder)
             if(newValue.UnitDOType== "MARKETING"){
                 this.data.ExpenditureTo="PENJUALAN";
             }
@@ -237,6 +236,7 @@ export class DataForm {
             this.dataUnitDO=await this.service.getUnitDOId(this.data.UnitDOId);
             this.data.RoJob=this.dataUnitDO.RONo;
             this.data.Items = [];
+            console.log(selectedUnitDeliveryOrder)
             for(var item of selectedUnitDeliveryOrder.Items){
                 var Items = {};
                 if(item.Quantity >0){
@@ -252,6 +252,7 @@ export class DataForm {
                     Items.ProductCode = item.ProductCode;
                     Items.ProductName = item.ProductName;
                     Items.ProductRemark = item.ProductRemark;
+                    Items.CustomsCategory= item.CustomsCategory;
                     Items.RONOItem = item.RONo;
                     Items.UomId =  item.UomId;
                     Items.UomUnit = item.UomUnit;
@@ -268,6 +269,7 @@ export class DataForm {
                     this.data.Items.push(Items);
                 }
             }
+            console.log(this.data.Items)
             this.isItem = true;
         }
         else{

@@ -7,7 +7,6 @@ export class Detail {
         this.error = context.error;
         this.isCreate = context.context.options.isCreate;
         this.isEdit = context.context.options.isEdit;
-        
         this.itemOptions=context.context.options;
         this.isShowing = true;
     }

@@ -51,9 +51,9 @@ export class List {
         { field: "Quantity", title: "Qty", sortable: false, width: '5%' },
         { field: "Price", title: "Harga", sortable: false, width: '5%' },
         { field: "Uom.Unit", title: "Satuan", sortable: false, width: '5%' },
-        { field: "CustomsNo", title: "Asal BC Masuk", sortable: false, width: '5%' },
-        { field: "CustomsType", title: "Tipe Beacukai", sortable: false, width: '5%' },
-        { field: "CustomsDate", title: "Tanggal Beacukai",sortable: false, width: '5%' },
+        // { field: "CustomsNo", title: "Asal BC Masuk", sortable: false, width: '5%' },
+        // { field: "CustomsType", title: "Tipe Beacukai", sortable: false, width: '5%' },
+        // { field: "CustomsDate", title: "Tanggal Beacukai",sortable: false, width: '5%' },
     ];
 
     search() {

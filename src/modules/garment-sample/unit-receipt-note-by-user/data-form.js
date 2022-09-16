@@ -66,7 +66,7 @@ export class DataForm {
                 { header: "Satuan Kecil" },
                 { header: "Buyer" },
                 { header: "Artikel" },
-                { header: "Keterangan" },
+                //{ header: "Keterangan" },
                 { header: "Design/Color" },
             ],
             onRemove: function () {
@@ -423,7 +423,7 @@ export class DataForm {
                     _item.Article = fulfillment.article;
 
                     _item.Buyer = { Name: fulfillment.buyer.name };
-
+                    _item.DesignColor= fulfillment.productRemark;
                     if (_item.ReceiptQuantity > 0)
                         _items.push(_item);
                 }
@@ -555,7 +555,6 @@ export class DataForm {
                 var stock = await this.inventoryService.getStockById(expendItem.StockId);
                 var epoItem = await this.service.searchEPO({ filter: JSON.stringify({ PO_SerialNumber: expendItem.PONo }), Keyword: expendItem.PONo });
                 var epoItemData = epoItem.data[0];
-                console.log(epoItemData)
 
                 item.Conversion = 1;
                 item.POSerialNumber = expendItem.PONo;
@@ -570,6 +569,7 @@ export class DataForm {
                 item.PricePerDealUnit = stock.BasicPrice;
                 item.ExpenditureItemId = expendItem.Id;
                 item.RONo = epoItemData.RONo;
+                item.DesignColor=epoItemData.Remark;
                 item.Product.Remark = expendItem.PONo + "; " + epoItemData.RONo + "; " + epoItemData.Article;
 
                 this.data.Items.push(item);

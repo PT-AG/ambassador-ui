@@ -66,7 +66,16 @@
                     options.bind="controlOptions">
                 </au-dropdown>
 
-                <au-autocomplete
+                <au-dropdown
+                    label="Seksi"
+                    value.bind="selectedSection"
+                    error.bind="error.Type"
+                    read-only.bind="readOnly || isEdit"
+                    items.bind="sectionTypes"
+                    options.bind="controlOptions">
+                </au-dropdown> 
+
+                <!-- <au-autocomplete
                     value.bind="selectedSection"
                     error.bind="error.Section"
                     label="Seksi"
@@ -75,7 +84,7 @@
                     placeholder="cari seksi"
                     read-only.bind="readOnly || isEdit"
                     options.bind="controlOptions">
-                </au-autocomplete>
+                </au-autocomplete> -->
 
 
                 <au-datepicker 
@@ -193,6 +202,16 @@
                     read-only.bind="readOnly"
                     options.bind="controlOptions">
                 </au-autocomplete>
+
+                
+                <au-textbox
+                    label="Authorized"
+                    value.bind="data.userAuthorizedName"
+                    error.bind="error.UserAuthorizedName"
+                    read-only.bind="readOnly" 
+                    options.bind="controlOptions">
+                </au-textbox>
+                   
 
                 <au-multiline label="Keterangan" value.bind="data.sampleRemarkMd" error.bind="error.sampleRemarkMd"
                 read-only.bind="readOnly"  

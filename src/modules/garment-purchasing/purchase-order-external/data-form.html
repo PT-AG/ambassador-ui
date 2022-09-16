@@ -136,8 +136,8 @@
                     change.delegate="categoryChanged($event)" options.bind="controlOptions">
                 </au-dropdown>
 
-                <au-multiline label="Keterangan" value.bind="data.Remark" placeholder="tambah keterangan"
-                    read-only.bind="readOnly" options.bind="controlOptions">
+                <au-multiline label="Keterangan" value.bind="data.Remark" error.bind="error.Remark"
+                    placeholder="tambah keterangan" read-only.bind="readOnly" options.bind="controlOptions">
                 </au-multiline>
             </div>
             <div class="col-md-6" show.bind="isFabric">

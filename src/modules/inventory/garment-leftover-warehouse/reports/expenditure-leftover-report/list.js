@@ -35,7 +35,7 @@ export class List {
         { field: "UnitFrom.Name", title: "Asal"},
         { field: "ExpenditureDestination", title: "Tujuan"},
         { field: "DescriptionOfPurpose", title: "Keterangan Tujuan"},
-        { field: "QtyKG", title: "Jumlah Keluar (KG)"},
+        //{ field: "QtyKG", title: "Jumlah Keluar (KG)"},
         { field: "Composition", title: "Komposisi"},
         { field: "Const", title: "Konstruksi"},
         { field: "PONo", title: "Nomor PO"},
@@ -45,21 +45,21 @@ export class List {
         { field: "Uom.Unit", title: "Satuan"},
         { field: "Price", title: "Harga"},
         { field: "LocalSalesNoteNo", title: "No Nota Penjualan"},
-        { field: "BCNo", title: "No BC Keluar"},
-        { field: "BCType", title: "Tipe BC"},
-        { 
-            field: "BCDate", title: "Tgl BC",
-            formatter: (value, data) => {
-                if(value) {
-                    if(moment(value).format("YYYY-MM-DD") == "0001-01-01"){
-                        return "-";
-                    }else{
-                        return moment(value).format("DD MMM YYYY");
-                    }
-                }
-                return "-";
-            }
-        },
+        // { field: "BCNo", title: "No BC Keluar"},
+        // { field: "BCType", title: "Tipe BC"},
+        // { 
+        //     field: "BCDate", title: "Tgl BC",
+        //     formatter: (value, data) => {
+        //         if(value) {
+        //             if(moment(value).format("YYYY-MM-DD") == "0001-01-01"){
+        //                 return "-";
+        //             }else{
+        //                 return moment(value).format("DD MMM YYYY");
+        //             }
+        //         }
+        //         return "-";
+        //     }
+        // },
     ]
 
     bind() {

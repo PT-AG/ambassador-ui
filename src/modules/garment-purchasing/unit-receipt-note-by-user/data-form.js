@@ -62,7 +62,7 @@ export class DataForm {
                 { header: "Satuan Kecil" },
                 { header: "Buyer" },
                 { header: "Artikel" },
-                { header: "Keterangan" },
+                // { header: "Keterangan" },
                 { header: "Design/Color" },
             ],
             onRemove: function () {
@@ -416,9 +416,10 @@ export class DataForm {
                     _item.SmallUom = fulfillment.smallUom;
 
                     _item.Article = fulfillment.article;
+                    _item.DesignColor = fulfillment.productRemark;
 
                     _item.Buyer =  { Name : fulfillment.buyer.name };
-
+                    _item.CustomsCategory= fulfillment.customsCategory;
                     if (_item.ReceiptQuantity > 0)
                         _items.push(_item);
                 }
