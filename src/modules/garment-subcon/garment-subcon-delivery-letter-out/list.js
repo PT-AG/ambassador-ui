@@ -29,9 +29,9 @@ export class List {
     columns = [
         { field: "DLNo", title: "No SJ Subcon Keluar" },
         { field: "DLType", title: "Jenis SJ Subcon" },
-        { field: "ContractType", title: "Jenis Subcon Contract" },
+        { field: "ContractType", title: "Jenis Subcon" },
         { field: "SubconCategory", title: "Kategori Subcon" },
-        { field: "ContractNo", title: "No Subcon Contract" },
+        { field: "EPONo", title: "No PO External" },
         { field: "DLDate", title: "Tgl SJ", formatter: value => moment(value).format("DD MMM YYYY") },
         { field: "UENNo", title: "No Bon Pengeluaran Unit" },
     ]

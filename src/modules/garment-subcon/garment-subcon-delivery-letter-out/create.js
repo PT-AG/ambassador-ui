@@ -29,6 +29,7 @@ export class Create {
     }
 
     saveCallback(event) {
+
         if(this.data.SubconCategory=="SUBCON CUTTING SEWING"){
             this.data.UsedQty=this.data.ContractQty-this.data.QtyUsed;
         }
@@ -50,6 +51,8 @@ export class Create {
                 }
             }
         }
+        console.log(this.data);
+        
         this.service.create(this.data)
             .then(result => {
                 alert("Data berhasil dibuat");
