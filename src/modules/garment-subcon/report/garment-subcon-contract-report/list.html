@@ -43,7 +43,8 @@
                 <tbody>
                     <tr repeat.for="item of data">
                         <td>${$index + 1}</td>
-                        <td>${item.ContractNo}</td>
+                        <!-- <td>${item.ContractNo}</td> -->
+                        <td>${item.DLNo} - ${item.DLDate | dateFormat:'DD MMMM YYYY'}</td>
                         <td>${item.ContractType}</td>
                         <td>${item.SupplierName}</td>
                         <td>${item.BuyerName}</td>

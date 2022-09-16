@@ -14,7 +14,10 @@ export class List {
         this.today = new Date();
     }
 
-    info = { page: 1,size:25};
+    info = { 
+        page: 1,
+        size:25
+    };
 
     controlOptions = {
         label: {
@@ -35,7 +38,7 @@ export class List {
 
     supplierView = (supplier) => {
         var code= supplier.code || supplier.Code;
-        var name=supplier.name || supplier.Name;
+        var name = supplier.name || supplier.Name;
         return `${code} - ${name}`;
     }
 
@@ -82,36 +85,30 @@ export class List {
                     // console.log(this.data)
                 });
             }
-            
         }
-    
-                
-            // this.info.total=result.info.total
+        // this.info.total=result.info.total
         
     
 
     reset() {
-        this.dateFrom= "",
-        this.dateTo="",
-        this.SupplierCode="",
-        this.ContractTypeItem=""
-        
+        this.dateFrom = "",
+        this.dateTo = "",
+        this.SupplierCode = "",
+        this.ContractTypeItem = ""
     }
 
     ExportToExcel() {
-        {
         var info = {            
             supplierNo : this.SupplierCode ? this.SupplierCode.Id : 0,
             contractType : this.tipe ? this.tipe : "",
             dateFrom : this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
             dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : ""
-            };
+        };
         
         this.service.generateExcel(info)
         .catch(e => {
             alert(e.replace(e, "Error: ",""))
         });
-    }
     }
 
     dateFromChanged(e) {
