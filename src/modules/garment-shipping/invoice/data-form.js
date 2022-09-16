@@ -219,7 +219,7 @@ export class DataForm {
             var consignees = [];
             console.log(packingItem);
             for (var item of packingItem.items) {
-                //console.log(item)
+                console.log(this.data);
                 var _item = {};
                 _item.BuyerCode = this.data.buyerAgent.code;
                 _item.Section = this.data.section.code;
@@ -262,6 +262,8 @@ export class DataForm {
                 _item.currencyCode = item.valas;
                 _item.packingListItemId = item.id;
                 _item.comodityDesc = item.orderNo;
+                _item.desc2 = item.article;
+                _item.desc3 = packingItem.colorJoin;
                 consignee += item.buyerBrand.name;
                 if (consignees.length > 0) {
                     var dup = consignees.find(a => a == item.buyerBrand.name);
@@ -404,10 +406,10 @@ export class DataForm {
             { header: "SCNo", value: "scNo" },
             { header: "Buyer Brand", value: "buyerBrand.name" },
             { header: "Komoditi", value: "comodity.name" },
-            { header: "Desc1", value: "comodityDesc" },
-            { header: "Desc2", value: "desc2" },
-            { header: "Desc3", value: "desc3" },
-            { header: "Desc4", value: "desc4" },
+            { header: "PO Buyer", value: "comodityDesc" },
+            { header: "Article", value: "desc2" },
+            { header: "Color", value: "desc3" },
+            { header: "Keterangan", value: "desc4" },
             { header: "Qty", value: "quantity" },
             { header: "Satuan", value: "uom.unit" },
             { header: "Price RO", value: "priceRO" },

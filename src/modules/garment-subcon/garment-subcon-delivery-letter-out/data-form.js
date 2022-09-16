@@ -147,6 +147,7 @@ export class DataForm {
             subconCategory:this.data.SubconCategory
         }
         console.log(this.data)
+
         if (this.data.Id) {
             if(this.data.SubconCategory=="SUBCON CUTTING SEWING"){
                 var uen= await this.purchasingService.getUENById(this.data.UENId);
@@ -161,22 +162,20 @@ export class DataForm {
                     PO_SerialNumber: this.data.PONo,
                     Id:this.data.EPOItemId
                 }
-
-                var info = {
-                    keyword : this.data.EPONo
-                }
-
-                var epo = await this.purchasingService.getGarmentEPODetail(info);
-                for(var _item of epo.data[0].Items){
-                    this.data.ContractQty += _item.DealQuantity;
-                }
-
             }
             else if (this.isSubconSewing) {
                 this.data.SubconId=newValue.Id;
                 var subcon = await this.service.readServiceSubconSewingById(this.data.SubconId);
                 this.data.Details = subcon.Items;
             }
+
+            var infoEPO = {
+                keyword: keyword,
+                filter: JSON.stringify({ ProductName:"PROCESS",  GarmentEPOId: this.data.EPOId })
+            };
+    
+            var epo = await this.purchasingService.getGarmentEPO(infoEPO)
+            this.data.ContractQty = epo.data.DealQuantity;
 
             this.selectedUomUnit={
                 Unit: this.data.UomUnit
@@ -190,8 +189,11 @@ export class DataForm {
         this.data.UENId = 0;
         this.data.UENNo = "";
         this.selectedEPO=null;
-        this.data.EPONO="";
+        this.data.EPONo="";
         this.data.EPOId=0;
+        this.selectedPO=null;
+        this.data.PONo="";
+        this.data.EPOItemId=0;
 
         this.itemOptions.DLType = this.data.DLType;
         this.data.ContractQty=0;
@@ -199,6 +201,7 @@ export class DataForm {
         this.data.QtyUsed=0;
         this.data.Items.splice(0);
         this.context.selectedEPOViewModel.editorValue="";
+        
     }
 
     selectedContractTypeChanged(newValue){
@@ -210,11 +213,15 @@ export class DataForm {
             this.selectedEPO=null;
             this.data.EPONo="";
             this.data.EPOId=0;
+            this.selectedPO=null;
+            this.data.PONo="";
+            this.data.EPOItemId=0;
             this.data.ContractQty=0;
             this.data.UsedQty=0;
             this.data.QtyUsed=0;
             this.data.Items.splice(0);
             this.context.selectedEPOViewModel.editorValue="";
+            
             this.data.ServiceType="";
             this.selectedServiceType=null;
             this.data.SubconCategory="";
@@ -285,6 +292,7 @@ export class DataForm {
                             if(subcon.Id!=this.data.Id){
                                 for(var subconItem of subcon.Items){
                                     usedQty+=subconItem.Quantity;
+                                    console.log(subconItem);
                                 }
                             }
                             else{
@@ -333,13 +341,10 @@ export class DataForm {
                             item.FabricType= uenItem.FabricType;
                             item.ContractQuantity=uenItem.Quantity;
                             this.data.Items.push(item);
-                        }
-                            
+                        }   
                     }
                 });
-                
             });
-            
         }
         else {
             this.context.selectedUENViewModel.editorValue = "";
@@ -347,7 +352,6 @@ export class DataForm {
             this.data.UENNo = "";
             this.data.Items.splice(0);
         }
-        
     }
 
     selectedUomUnitChanged(newValue){
@@ -360,29 +364,37 @@ export class DataForm {
     }
 
     async selectedEPOChanged(newValue){
-        this.selectedUEN=null;
+        this.selectedUEN = null;
         this.data.UENId = 0;
         this.data.UENNo = "";
+        this.data.PONo = "";
+        this.data.EPOItemId = null;
+        this.selectedPO = null;
+
         this.data.ContractQty=0;
         if(this.data.SubconCategory!='SUBCON SEWING')
             this.data.Items.splice(0);
         if(newValue){
             this.data.EPONo=newValue.EPONo;
             this.data.EPOId=newValue.Id;
-            if(newValue.Items.length > 0){
-                for(var item of newValue.Items){
-                    this.data.ContractQty += item.DealQuantity
-                }
-            }
+            // if(newValue.Items.length > 0){
+            //     for(var item of newValue.Items){
+            //         this.data.ContractQty += item.DealQuantity
+            //     }
+            // }
         }
         else{
             this.data.EPONo="";
             this.data.EPOId = null;
-            this.selectedUEN=null;
+            this.selectedUEN = null;
             this.data.UENId = null;
             this.data.UENNo = "";
-            this.data.ContractQty=0;
+            this.data.PONo = "";
+            this.data.EPOItemId = null;
+            this.selectedPO = null;
+            this.data.ContractQty = 0;
             this.context.selectedEPOViewModel.editorValue="";
+            
             if(this.data.SubconCategory!='SUBCON SEWING')
                 this.data.Items.splice(0);
         }
@@ -395,9 +407,8 @@ export class DataForm {
                 for(var item of this.data.Items){
                     qty += item.Quantity;
                 }
-
             }
-            this.data.TotalQty=qty ? qty:0;
+            this.data.TotalQty = qty ? qty : 0;
         }
         return qty;
     }
@@ -406,13 +417,12 @@ export class DataForm {
         return (keyword) => {
             var infoEPO = {
                 keyword: keyword,
-                filter: JSON.stringify({ ProductName:"PROCESS",  EPOId: this.data.EPOId })
+                filter: JSON.stringify({ ProductName:"PROCESS", GarmentEPOId: this.data.EPOId })
             };
             return this.purchasingService.getGarmentEPO(infoEPO)
             .then((epo)=>{
                 return epo.data;
             });
-                    
         }
     }
     
@@ -424,6 +434,7 @@ export class DataForm {
         if(newValue){
             this.data.PONo=newValue.PO_SerialNumber;
             this.data.EPOItemId=newValue.Id;
+            this.data.ContractQty = newValue.DealQuantity;
         }
     }
 

@@ -71,6 +71,9 @@ export class DataForm {
                 shippingStaffId: this.data.shippingStaff.id
             }
         this.selectedEMKL=this.data.emkl;
+        if (this.data.unit == null) {
+            this.data.unit = "AG2";
+        }
     }
 
     async selectedShippingInvoiceChanged(newValue, oldValue) {
