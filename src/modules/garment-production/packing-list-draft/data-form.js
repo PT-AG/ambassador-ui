@@ -121,7 +121,7 @@ export class DataForm {
             header: this.data
         }
 
-        this.data.invoiceType = this.data.invoiceType || "DL";
+        this.data.invoiceType = this.data.invoiceType || "AG";
         this.data.packingListType = this.data.packingListType || "EXPORT";
         this.data.sayUnit = this.data.sayUnit || "CARTONS";
 

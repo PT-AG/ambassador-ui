@@ -134,10 +134,11 @@ export class DataForm {
     ]
 
     PackingTypeOptions = ["EXPORT", "RE EXPORT"];
-    InvoiceTypeOptions = ["DL", "DS", "SM"];
+    InvoiceTypeOptions = ["AG", "DS", "SM"];
     InvoiceTypeOptionsR = ["DLR", "SMR"];
     PaymentTermOptions = ["LC", "TT/OA", "NON COMMERCIAL"];
     roTypes = ["RO JOB", "RO MASTER"]
+    sectionTypes = ["MD01 – VERA FATIMAH", "MD02 – WAHYU PAMUNGKAS"]
 
     countries = ["", "AFGHANISTAN", "ALBANIA", "ALGERIA", "ANDORRA", "ANGOLA", "ANGUILLA", "ANTIGUA AND BARBUDA", "ARGENTINA", "ARMENIA", "ARUBA", "AUSTRALIA", "AUSTRIA", "AZERBAIJAN", "BAHAMAS", "BAHRAIN", "BANGLADESH", "BARBADOS", "BELARUS", "BELGIUM", "BELIZE", "BENIN", "BERMUDA", "BHUTAN", "BOLIVIA", "BOSNIA AND HERZEGOVINA", "BOTSWANA", "BRAZIL", "BRITISH VIRGIN ISLANDS", "BRUNEI", "BULGARIA", "BURKINA FASO", "BURUNDI", "CAMBODIA", "CAMEROON", "CANADA", "CAPE VERDE", "CAYMAN ISLANDS", "CHAD", "CHILE", "CHINA", "COLOMBIA", "CONGO", "COOK ISLANDS", "COSTA RICA", "COTE D IVOIRE", "CROATIA", "CRUISE SHIP", "CUBA", "CYPRUS", "CZECH REPUBLIC", "DENMARK", "DJIBOUTI", "DOMINICA", "DOMINICAN REPUBLIC", "ECUADOR", "EGYPT", "EL SALVADOR", "EQUATORIAL GUINEA", "ESTONIA", "ETHIOPIA", "FALKLAND ISLANDS", "FAROE ISLANDS", "FIJI", "FINLAND", "FRANCE", "FRENCH POLYNESIA", "FRENCH WEST INDIES", "GABON", "GAMBIA", "GEORGIA", "GERMANY", "GHANA", "GIBRALTAR", "GREECE", "GREENLAND", "GRENADA", "GUAM", "GUATEMALA", "GUERNSEY", "GUINEA", "GUINEA BISSAU", "GUYANA", "HAITI", "HONDURAS", "HONG KONG", "HUNGARY", "ICELAND", "INDIA", "INDONESIA", "IRAN", "IRAQ", "IRELAND", "ISLE OF MAN", "ISRAEL", "ITALY", "JAMAICA", "JAPAN", "JERSEY", "JORDAN", "KAZAKHSTAN", "KENYA", "KUWAIT", "KYRGYZ REPUBLIC", "LAOS", "LATVIA", "LEBANON", "LESOTHO", "LIBERIA", "LIBYA", "LIECHTENSTEIN", "LITHUANIA", "LUXEMBOURG", "MACAU", "MACEDONIA", "MADAGASCAR", "MALAWI", "MALAYSIA", "MALDIVES", "MALI", "MALTA", "MAURITANIA", "MAURITIUS", "MEXICO", "MOLDOVA", "MONACO", "MONGOLIA", "MONTENEGRO", "MONTSERRAT", "MOROCCO", "MOZAMBIQUE", "NAMIBIA", "NEPAL", "NETHERLANDS", "NETHERLANDS ANTILLES", "NEW CALEDONIA", "NEW ZEALAND", "NICARAGUA", "NIGER", "NIGERIA", "NORTH KOREA", "NORWAY", "OMAN", "PAKISTAN", "PALESTINE", "PANAMA", "PAPUA NEW GUINEA", "PARAGUAY", "PERU", "PHILIPPINES", "POLAND", "PORTUGAL", "PUERTO RICO", "QATAR", "REUNION", "ROMANIA", "RUSSIA", "RWANDA", "SAINT PIERRE AND MIQUELON", "SAMOA", "SAN MARINO", "SATELLITE", "SAUDI ARABIA", "SENEGAL", "SERBIA", "SEYCHELLES", "SIERRA LEONE", "SINGAPORE", "SLOVAKIA", "SLOVENIA", "SOUTH AFRICA", "SOUTH KOREA", "SPAIN", "SRI LANKA", "ST KITTS AND NEVIS", "ST LUCIA", "ST VINCENT", "ST. LUCIA", "SUDAN", "SURINAME", "SWAZILAND", "SWEDEN", "SWITZERLAND", "SYRIA", "TAIWAN", "TAJIKISTAN", "TANZANIA", "THAILAND", "TIMOR L'ESTE", "TOGO", "TONGA", "TRINIDAD AND TOBAGO", "TUNISIA", "TURKEY", "TURKMENISTAN", "TURKS AND CAICOS", "UGANDA", "UKRAINE", "UNITED ARAB EMIRATES", "UNITED KINGDOM", "UNITED STATES OF AMERICA", "URUGUAY", "UZBEKISTAN", "VENEZUELA", "VIETNAM", "VIRGIN ISLANDS (US)", "YEMEN", "ZAMBIA", "ZIMBABWE"];
 
@@ -166,14 +167,14 @@ export class DataForm {
         return word.toUpperCase();
     }
 
-    get sectionLoader() {
-        return SectionLoader;
-    }
-    sectionView = (section) => {
-        var sectionCode = section.Code || section.code;
-        var sectionName = section.Name || section.name;
-        return `${sectionCode} - ${sectionName}`
-    }
+    // get sectionLoader() {
+    //     return SectionLoader;
+    // }
+    // sectionView = (section) => {
+    //     var sectionCode = section.Code || section.code;
+    //     var sectionName = section.Name || section.name;
+    //     return `${sectionCode} - ${sectionName}`
+    // }
 
     get buyerLoader() {
         return BuyerLoader;
@@ -312,14 +313,14 @@ export class DataForm {
         this.data.issuedBy = null;
     }
 
-    selectedSectionChanged(newValue) {
-        if (newValue != this.data.section && this.data.items)
-            this.data.items.splice(0);
-        this.data.section = null;
-        if (newValue) {
-            this.data.section = newValue;
-        }
-    }
+    // selectedSectionChanged(newValue) {
+    //     if (newValue != this.data.section && this.data.items)
+    //         this.data.items.splice(0);
+    //     this.data.section = null;
+    //     if (newValue) {
+    //         this.data.section = newValue;
+    //     }
+    // }
 
     selectedBuyerChanged(newValue) {
         if (newValue != this.data.buyerAgent && this.data.items){
@@ -371,6 +372,21 @@ export class DataForm {
             this.data.lcNo = null;
         }
     }
+
+    selectedSectionChanged(newValue) {
+        if (newValue == "MD01 – VERA FATIMAH") {
+            this.data.section = {Id: 1,Name:"VERA FATIMAH", Code:"MD01"} ;
+            // this.data.section.Code = "MD01";
+            // this.data.section.Id = 1;
+        } else {
+            this.data.section = {Id: 2,Name:"WAHYU PAMUNGKAS", Code:"MD02"} ;
+            // this.data.section.Name = "WAHYU PAMUNGKAS" ;
+            // this.data.section.Code = "MD02";
+            // this.data.section.Id = 2;
+        }
+    }
+
+
 
     get totalCBM() {
         var total = 0;
