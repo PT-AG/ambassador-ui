@@ -80,6 +80,7 @@ export class DataForm {
           var detail = {};
           if (details.length == 0) {
             detail.Quantity = d.Quantity;
+            detail.Id=d.Id;
             detail.DesignColor = d.DesignColor;
             detail.Uom = d.Uom;
             detail.Unit = d.Unit;
@@ -91,6 +92,7 @@ export class DataForm {
             var exist = details.find(a => a.DesignColor == d.DesignColor && a.Unit.Id == d.Unit.Id && a.Color == d.Color);
             if (!exist) {
               detail.Quantity = d.Quantity;
+              detail.Id=d.Id;
               detail.DesignColor = d.DesignColor;
               detail.Uom = d.Uom;
               detail.Unit = d.Unit;
