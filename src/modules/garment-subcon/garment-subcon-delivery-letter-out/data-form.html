@@ -106,7 +106,7 @@
             placeholder="Nomor PO"
             read-only.bind="readOnly"
             options.bind="controlOptions"
-            if.bind="data.SubconCategory=='SUBCON CUTTING SEWING' && selectedEPO"
+            if.bind="selectedEPO"
             view-model.ref="selectedCuttingInViewModel">
         </au-autocomplete>
 
