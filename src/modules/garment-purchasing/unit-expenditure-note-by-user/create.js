@@ -36,6 +36,7 @@ export class Create {
         if(this.data.ExpenditureType=="EXTERNAL"){
             this.data.UnitRequest = null;
         }
+        console.log(this.data)
         this.service.create(this.data)
             .then(result => {
                 alert("Data berhasil dibuat");

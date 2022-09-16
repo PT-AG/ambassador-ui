@@ -90,6 +90,14 @@
             <au-datepicker label="Tgl PEB" value.bind="data.pebDate" error.bind="error.pEBDate"
                 read-only.bind="readOnly " options.bind="length4">
             </au-datepicker>
+
+            <au-textbox
+                label="Authorized By"
+                value.bind="data.userAuthorizedName"
+                error.bind="error.UserAuthorizedName"
+                read-only.bind="readOnly" 
+                options.bind="length4">
+            </au-textbox>
         </div>
         <div class="col-sm-3">
 

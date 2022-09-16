@@ -5,6 +5,7 @@ var StorageLoader = require('../../../loader/storage-loader');
 var UnitSenderLoader = require('../../../loader/garment-sample-unit-loader');
 var UnitRequestLoader = require('../../../loader/garment-units-loader');
 var UnitReceiptNoteLoader = require('../../../loader/garment-unit-receipt-note-for-unit-delivery-order-loader');
+var SupplierLoader = require('../../../loader/garment-supplier-loader');
 import moment from 'moment';
 
 @containerless()
@@ -19,6 +20,7 @@ export class DataForm {
     @bindable unitDOType;
     @bindable unitRequest;
     @bindable unitSender;
+    @bindable supplier;
     @bindable storage;
     @bindable storageRequest;
     @bindable RONo;
@@ -241,6 +243,12 @@ export class DataForm {
         // this.context.RONoViewModel.editorValue = "";
         this.data.Article = null;
     }
+    supplierChanged(newValue){
+        var selectedSupplier = newValue;
+        this.data.Supplier = selectedSupplier;
+        this.data.Supplier._id = selectedSupplier.Id;
+
+    }
 
     storageRequestChanged(newValue) {
         var selectedStorage = newValue;
@@ -382,7 +390,7 @@ export class DataForm {
                                 Items.Quantity = Items.DefaultDOQuantity;
                                 Items.IsSave = Items.Quantity > 0;
                                 Items.IsDisabled = !(Items.Quantity > 0);
-                
+                                Items.CustomsCategory=item.CustomsCategory;
                                 this.dataItems.push(Items);
                             }
                         }
@@ -439,6 +447,7 @@ export class DataForm {
                                 Items.Quantity = Items.DefaultDOQuantity;
                                 Items.IsSave = Items.Quantity > 0;
                                 Items.IsDisabled = !(Items.Quantity > 0);
+                                Items.CustomsCategory=item.CustomsCategory;
                 
                                 this.dataItems.push(Items);
                             }
@@ -491,6 +500,7 @@ export class DataForm {
                                 Items.Quantity = Items.DefaultDOQuantity;
                                 Items.IsSave = Items.Quantity > 0;
                                 Items.IsDisabled = !(Items.Quantity > 0);
+                                Items.CustomsCategory=item.CustomsCategory;
                 
                                 this.dataItems.push(Items);
                             }
@@ -658,6 +668,7 @@ export class DataForm {
                         this.newProduct.POItemId = selectedROHeader.POItemId;
                         this.newProduct.EPOItemId = selectedROHeader.EPOItemId;
                         this.newProduct.PRItemId = selectedROHeader.PRItemId;
+                        this.newProduct.CustomsCategory=selectedROHeader.CustomsCategory;
                         this.newProduct.RONo = selectedROHeader.RONo;
                         this.newProduct.Article = selectedROHeader.Article;
                         this.newProduct.POSerialNumber = selectedROHeader.POSerialNumber;
@@ -687,6 +698,14 @@ export class DataForm {
     get unitSenderLoader() {
         return UnitSenderLoader;
     }
+    get supplierLoader() {
+        return SupplierLoader;
+    }
+
+    supplierView = (supplier) => {
+        return `${supplier.code} - ${supplier.name}`;
+    }
+    
 
     roNoView = (rono) => {
         return `${rono.RONo} - ${rono.ProductCode} - ${rono.ProductName} - ${rono.POSerialNumber} - ${rono.RemainingQuantity}`;
@@ -728,6 +747,9 @@ export class DataForm {
         ],
     };
 
+    // get isSupplierReceipt() {
+    //     return this.data.unitDOType && (this.data.unitDOType == "SUBCON");
+    // }
     // get roLoader() {
     //     return (keyword) => {
     //         var filter= JSON.stringify({RONo:this.RONoJob});

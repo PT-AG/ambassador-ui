@@ -11,7 +11,8 @@ export class List {
     // @bindable categoryselect
     @bindable unitselect
     KategoriItem = ['','BAHAN BAKU','BAHAN PENDUKUNG', 'BAHAN EMBALACE'];
-    unitOption = ['','CENTRAL 2A', 'CENTRAL 2B','CENTRAL 2C/EX. K4','CENTRAL 1A/EX. K3','CENTRAL 1B'];
+    //unitOption = ['','CENTRAL 2A', 'CENTRAL 2B','CENTRAL 2C/EX. K4','CENTRAL 1A/EX. K3','CENTRAL 1B'];
+    unitOption = ['','AMBASSADOR GARMINDO 1','AMBASSADOR GARMINDO 2'];
 
     KtgrItemChanged(newvalue){
         if (newvalue) {
@@ -41,24 +42,24 @@ export class List {
     unitselectChanged(newvalue){
         
         if (newvalue) {
-            if (newvalue === "CENTRAL 2A") {
-                this.unit = "C2A";
-                this.unitname = "CENTRAL 2A";
-            }
-            else if (newvalue === "CENTRAL 2B") { 
-                this.unit = "C2B";
-                this.unitname = "CENTRAL 2B";
-            }
-            else if (newvalue === "CENTRAL 2C/EX. K4") {
-                this.unit = "C2C";
-                this.unitname = "CENTRAL 2C/EX. K4";
-            }else if(newvalue === "CENTRAL 1A/EX. K3"){
+            if (newvalue === "AMBASSADOR GARMINDO 1") {
                 this.unit = "AG1";
-                this.unitname = "CENTRAL 1A/EX. K3";
-            }else if(newvalue === "CENTRAL 1B"){
+                this.unitname = "AMBASSADOR GARMINDO 1";
+            }
+            else if (newvalue === "AMBASSADOR GARMINDO 2") { 
                 this.unit = "AG2";
-                this.unitname = "CENTRAL 1B";
-            }else{
+                this.unitname = "AMBASSADOR GARMINDO 2";
+            }
+            // else if (newvalue === "CENTRAL 2C/EX. K4") {
+            //     this.unit = "C2C";
+            //     this.unitname = "CENTRAL 2C/EX. K4";
+            // }else if(newvalue === "CENTRAL 1A/EX. K3"){
+            //     this.unit = "AG1";
+            //     this.unitname = "CENTRAL 1A/EX. K3";
+            // }else if(newvalue === "CENTRAL 1B"){
+            //     this.unit = "AG2";
+            //     this.unitname = "CENTRAL 1B";
+            else{
                 this.unit = "";
                 this.unitname = "";
             }

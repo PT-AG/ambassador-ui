@@ -7,9 +7,9 @@
     <form class="form-horizontal">
         <au-autocomplete value.bind="SupplierCode" error.bind="error.SupplierCode" label="Supplier / Penerima Subkon" loader.bind="supplierLoader" text.bind="supplierView" placeholder="Cari Supplier" read-only.bind="readOnly" options.bind="controlOptions"> </au-autocomplete>
         
-        <au-dropdown label="Jenis Kontrak" value.bind="ContractTypeItem" items.bind="ContractTypeItems" options.bind="controlOptions" > </au-dropdown>
-        <au-datepicker label="Tanggal Awal Kontrak" value.bind="dateFrom" options.bind="controlOptions"></au-datepicker>
-        <au-datepicker label="Tanggal Akhir Kontrak" value.bind="dateTo" options.bind="controlOptions"></au-datepicker>
+        <au-dropdown label="Jenis Subcon" value.bind="ContractTypeItem" items.bind="ContractTypeItems" options.bind="controlOptions" > </au-dropdown>
+        <au-datepicker label="Tanggal Awal SJ" value.bind="dateFrom" options.bind="controlOptions"></au-datepicker>
+        <au-datepicker label="Tanggal Akhir SJ" value.bind="dateTo" options.bind="controlOptions"></au-datepicker>
 
         <div class="form-group">
             <label for="contact" class="col-sm-5 control-label"></label>
@@ -28,16 +28,16 @@
                 <thead align="center">
                     <tr>
                         <td align="center" rowspan="2">No</td>
-                        <td align="center" rowspan="2">No/Tanggal Kontrak</td>
-                        <td align="center" rowspan="2">Jenis Kontrak</td>
+                        <td align="center" rowspan="2">No/Tanggal Surat Jalan</td>
+                        <td align="center" rowspan="2">Jenis Subcon</td>
                         <td align="center" rowspan="2">Penerima Subkon</td>
                         <td align="center" rowspan="2">Buyer</td>
-                        <td align="center" rowspan="2">Tanggal Persetujuan</td>
+                        <!-- <td align="center" rowspan="2">Tanggal Persetujuan</td> -->
                         <td align="center" rowspan="2">Quantity</td>
                         <td align="center" rowspan="2">Satuan</td>
-                        <td align="center" rowspan="2">Jenis Pekerjaan</td>
+                        <!-- <td align="center" rowspan="2">Jenis Pekerjaan</td>
                         <td align="center" rowspan="2">Jenis Barang Jadi</td>
-                        <td align="center" rowspan="2">Tanggal Jatuh Tempo</td>
+                        <td align="center" rowspan="2">Tanggal Jatuh Tempo</td> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -47,12 +47,12 @@
                         <td>${item.ContractType}</td>
                         <td>${item.SupplierName}</td>
                         <td>${item.BuyerName}</td>
-                        <td>${item.AgreementDate | dateFormat:'DD MMMM YYYY'}</td>
+                        <!-- <td>${item.AgreementDate | dateFormat:'DD MMMM YYYY'}</td> -->
                         <td>${item.Quantity}</td>
                         <td>${item.UomUnit}</td>
-                        <td>${item.JobType}</td>
+                        <!-- <td>${item.JobType}</td>
                         <td>${item.FinishedGoodType}</td>
-                        <td>${item.DueDate | dateFormat:'DD MMMM YYYY'}</td>
+                        <td>${item.DueDate | dateFormat:'DD MMMM YYYY'}</td> -->
                     </tr>
                 </tbody>
             </table>

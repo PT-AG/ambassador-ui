@@ -27,7 +27,7 @@ export class List {
     @bindable KtgrItem;
     
     KategoriItems= ['','BAHAN BAKU','BAHAN EMBALANCE','BAHAN PENDUKUNG']
-    UnitItems = ['','KONFEKSI 2A','KONFEKSI 2B','KONFEKSI 2C','KONFEKSI 1A','KONFEKSI 1B']
+    UnitItems = ['','AMBASSADOR GARMINDO 1','AMBASSADOR GARMINDO 2']
 
     search(){
             this.info.page = 1;
@@ -137,31 +137,32 @@ export class List {
         
         if (newvalue) {
             console.log(newvalue)
-            if (newvalue === "KONFEKSI 2A") {
-                this.unit = "C2A";
-                this.unitname = "KONFEKSI 2A";
-            }
-            else if (newvalue === "KONFEKSI 2B") { 
-                this.unit = "C2B";
-                this.unitname = "KONFEKSI 2B";
-            }
-            else if (newvalue === "KONFEKSI 2C") {
-                this.unit = "C2C"; 
-                this.unitname = "KONFEKSI 2C";
-            }else if(newvalue === "KONFEKSI 1A"){
+            if (newvalue === "AMBASSADOR GARMINDO 1") {
                 this.unit = "AG1";
-                this.unitname = "KONFEKSI 1A";
-            }else if(newvalue === "KONFEKSI 1B"){
+                this.unitname = "AMBASSADOR GARMINDO 1";
+            }
+            else if (newvalue === "AMBASSADOR GARMINDO 2") { 
                 this.unit = "AG2";
-                this.unitname = "KONFEKSI 1B";
-            }else{
+                this.unitname = "AMBASSADOR GARMINDO 2";
+            }
+            // else if (newvalue === "KONFEKSI 2C") {
+            //     this.unit = "C2C"; 
+            //     this.unitname = "KONFEKSI 2C";
+            // }else if(newvalue === "KONFEKSI 1A"){
+            //     this.unit = "AG1";
+            //     this.unitname = "KONFEKSI 1A";
+            // }else if(newvalue === "KONFEKSI 1B"){
+            //     this.unit = "AG2";
+            //     this.unitname = "KONFEKSI 1B";
+            else{
                 this.unit = "";
                 this.unitname = "";
             }
-        }else{
-            this.unit = "";
-            this.unitname = "";
         }
+        // }else{
+        //     this.unit = "";
+        //     this.unitname = "";
+        // }
     }
 
     KtgrItemChanged(newvalue){

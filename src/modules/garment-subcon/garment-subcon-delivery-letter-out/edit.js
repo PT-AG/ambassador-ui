@@ -1,12 +1,13 @@
 import { inject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
-import { Service } from './service';
+import { Service,PurchasingService } from './service';
 
-@inject(Router, Service)
+@inject(Router, Service, PurchasingService)
 export class View {
-    constructor(router, service) {
+    constructor(router, service, purchasingService) {
         this.router = router;
         this.service = service;
+        this.purchasingService = purchasingService;
     }
     isEdit=true;
     async activate(params) {
@@ -15,9 +16,9 @@ export class View {
 
         if (this.data) {
             this.selectedDLType=this.data.DLType;
-            this.selectedContract={
-                ContractNo: this.data.ContractNo,
-                Id:this.data.SubconContractId,
+            this.selectedEPO={
+                EPONo: this.data.EPONo,
+                Id:this.data.EPOId,
             };
            
             this.selectedContractType=this.data.ContractType;
@@ -27,9 +28,19 @@ export class View {
     }
 
     async getContractQty() {
-        var subconContract = await this.service.readSubconContractById(this.data.SubconContractId);
+        //var subconContract = await this.service.readSubconContractById(this.data.SubconContractId);
+
+        var infoEPO = {
+            keyword: keyword,
+            filter: JSON.stringify({ ProductName:"PROCESS",  GarmentEPOId: this.data.EPOId })
+        };
+        
+        var epo = await this.purchasingService.getGarmentEPO(infoEPO)
+        console.log(epo);
+        this.data.ContractQty = epo.data.DealQuantity;
+        
         if(this.data.SubconCategory=='SUBCON SEWING' || this.data.ContractType=='SUBCON JASA' || this.data.ContractType=='SUBCON BAHAN BAKU'){
-            this.service.searchComplete({filter: JSON.stringify({ ContractNo:this.data.ContractNo})})
+            this.service.searchComplete({filter: JSON.stringify({ EPONo:this.data.EPONo})})
             .then((contract)=>{
                 console.log(contract)
                 var usedQty= 0;
@@ -48,7 +59,6 @@ export class View {
                 this.data.QtyUsed=usedQty;
             });
         }
-        this.data.ContractQty = subconContract.Quantity;
     }
 
     bind() {
@@ -82,6 +92,7 @@ export class View {
                 }
             }
         }
+        console.log(this.data);
         this.service.update(this.data)
             .then(result => {
                 this.cancelCallback();

@@ -277,26 +277,31 @@ export class DataForm {
                 var dataDelivery = [];
               
                 for(var a of result.data){
-                    var data = a;
-                    data["selected"] = false;
-                    data["doNo"]=a.doNo;
-                    data["doId"]=a.Id;
-                    data["doDate"]=a.doDate;
-                    data["arrivalDate"]=a.arrivalDate;
-                    
-                    data["isView"] = !this.hasView ? true : false
-                    var quantity = 0;
-                    var totPrice = 0;
-                    for(var b of a.items){
-                        for(var c of b.fulfillments){
-                            quantity += c.doQuantity;
-                            var priceTemp = c.doQuantity * c.pricePerDealUnit;
-                            totPrice += priceTemp;
+                    var received=await this.service.searchURN({filter : JSON.stringify({"DONo" : `${a.doNo}`})});
+                    console.log(received)
+                    if(received.data.length==0){
+                        var data = a;
+                        data["selected"] = false;
+                        data["doNo"]=a.doNo;
+                        data["doId"]=a.Id;
+                        data["doDate"]=a.doDate;
+                        data["arrivalDate"]=a.arrivalDate;
+                        
+                        data["isView"] = !this.hasView ? true : false
+                        var quantity = 0;
+                        var totPrice = 0;
+                        for(var b of a.items){
+                            for(var c of b.fulfillments){
+                                quantity += c.doQuantity;
+                                var priceTemp = c.doQuantity * c.pricePerDealUnit;
+                                totPrice += priceTemp;
+                            }
                         }
+                        data["quantity"] = quantity;
+                        data["price"] = totPrice.toFixed(3);
+                        dataDelivery.push(data);
                     }
-                    data["quantity"] = quantity;
-                    data["price"] = totPrice.toFixed(3);
-                    dataDelivery.push(data);
+                    
                 }
                 this.data.deliveryOrders = dataDelivery;
             }
