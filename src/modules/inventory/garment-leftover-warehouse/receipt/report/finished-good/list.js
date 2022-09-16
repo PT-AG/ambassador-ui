@@ -50,9 +50,9 @@ export class List {
         { field: "UomUnit", title: "Satuan", sortable: false, width: '3%'},
         { field: "Price", title: "Harga", sortable: false, width: '3%'},
         { field: "PoSerialNumbers", title: "No PO", sortable: false, width: '3%'},
-        { field: "CustomsNo", title: "Asal BC Masuk", sortable: false, width: '5%' },
-        { field: "CustomsType", title: "Tipe Beacukai", sortable: false, width: '5%' },
-        { field: "CustomsDate", title: "Tanggal Beacukai",sortable: false, width: '5%' },
+        // { field: "CustomsNo", title: "Asal BC Masuk", sortable: false, width: '5%' },
+        // { field: "CustomsType", title: "Tipe Beacukai", sortable: false, width: '5%' },
+        // { field: "CustomsDate", title: "Tanggal Beacukai",sortable: false, width: '5%' },
 
     ];
 
