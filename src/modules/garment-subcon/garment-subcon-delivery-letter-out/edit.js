@@ -30,15 +30,14 @@ export class View {
     async getContractQty() {
         //var subconContract = await this.service.readSubconContractById(this.data.SubconContractId);
 
-        var info = {
-            keyword : this.data.EPONo
-        }
-
-        var epo = await this.purchasingService.getGarmentEPODetail(info);
+        var infoEPO = {
+            keyword: keyword,
+            filter: JSON.stringify({ ProductName:"PROCESS",  GarmentEPOId: this.data.EPOId })
+        };
+        
+        var epo = await this.purchasingService.getGarmentEPO(infoEPO)
         console.log(epo);
-        for(var _item of epo.data[0].Items){
-            this.data.ContractQty += _item.DealQuantity;
-        }
+        this.data.ContractQty = epo.data.DealQuantity;
         
         if(this.data.SubconCategory=='SUBCON SEWING' || this.data.ContractType=='SUBCON JASA' || this.data.ContractType=='SUBCON BAHAN BAKU'){
             this.service.searchComplete({filter: JSON.stringify({ EPONo:this.data.EPONo})})
