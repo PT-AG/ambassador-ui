@@ -25,7 +25,13 @@ export class Edit {
     }
 
     if (this.data.section) {
-      this.selectedSection = await this.coreService.getSectionById(this.data.section.id);
+      //this.selectedSection = await this.coreService.getSectionById(this.data.section.id);
+      if(this.data.section.code == "MD01"){
+        this.selectedSection = "MD01 – VERA FATIMAH"
+      }
+      else{
+        this.selectedSection = "MD02 – WAHYU PAMUNGKAS"
+      }
     }
     if (this.data.invoiceType) {
       this.selectedInvoiceType = this.data.invoiceType;
