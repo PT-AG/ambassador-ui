@@ -45,8 +45,8 @@ export class List {
         { field: "Uom.Unit", title: "Satuan"},
         { field: "Price", title: "Harga"},
         { field: "LocalSalesNoteNo", title: "No Nota Penjualan"},
-        { field: "BCNo", title: "No BC Keluar"},
-        { field: "BCType", title: "Tipe BC"},
+        // { field: "BCNo", title: "No BC Keluar"},
+        // { field: "BCType", title: "Tipe BC"},
         // { 
         //     field: "BCDate", title: "Tgl BC",
         //     formatter: (value, data) => {
