@@ -13,16 +13,18 @@ export class View {
     async activate(params) {
         let id = params.id;
         this.data = await this.service.read(id);
+        
         if (this.data) {
             this.selectedDLType=this.data.DLType;
             if(this.data.IsUsed){
                 this.deleteCallback=null;
                 this.editCallback=null;
             }
-            this.selectedContract={
-                ContractNo: this.data.ContractNo,
-                Id:this.data.SubconContractId,
+            this.selectedEPO={
+                EPONo: this.data.EPONo,
+                Id:this.data.EPOId,
             };
+
             this.selectedContractType=this.data.ContractType;
             this.selectedSubconCategory=this.data.SubconCategory;
             
