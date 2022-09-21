@@ -23,6 +23,7 @@ export class List {
         { field: "invoiceNo", title: "No Invoice" },
         { field: "SectionCode", title: "Seksi" },
         { field: "BuyerAgentName", title: "Buyer Agent" },
+        { field: "packingListType", title: "Jenis Packing List" },
         {
             field: "date", title: "Tgl Invoice", formatter: function (value, data, index) {
                 return moment(value).format("DD MMM YYYY");

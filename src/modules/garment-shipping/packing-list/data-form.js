@@ -133,7 +133,7 @@ export class DataForm {
         { header: "CBM" },
     ]
 
-    PackingTypeOptions = ["EXPORT", "RE EXPORT"];
+    PackingTypeOptions = ["EXPORT", "RE EXPORT", "LOKAL"];
     InvoiceTypeOptions = ["AG", "DS", "SM"];
     InvoiceTypeOptionsR = ["DLR", "SMR"];
     PaymentTermOptions = ["LC", "TT/OA", "NON COMMERCIAL"];
