@@ -51,13 +51,14 @@
                         if.bind="readOnly || isEdit">
                     </au-textbox>
 
-                    <au-textbox
+                    <au-dropdown
                         label="Jenis Packing List"
                         value.bind="data.packingListType"
                         error.bind="error.PackingListType"
-                        read-only="true"
+                        read-only.bind="readOnly || isEdit"
+                        items.bind="typeOptions"
                         options.bind="controlOptions">
-                    </au-textbox> 
+                    </au-dropdown> 
 
                     <au-textbox
                         label="Jenis Invoice"
