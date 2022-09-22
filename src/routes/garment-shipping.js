@@ -201,7 +201,7 @@ module.exports = [
         name: "garment-shipping/invoice",
         moduleId: "modules/garment-shipping/invoice/index",
         nav: true,
-        title: "Invoice Export Garment",
+        title: "Invoice Garment",
         auth: true,
         settings: {
             group: "g-shipping",
@@ -215,7 +215,7 @@ module.exports = [
         name: "garment-shipping/invoice-all-user",
         moduleId: "modules/garment-shipping/invoice-all-user/index",
         nav: true,
-        title: "Invoice Export Garment - (All User)",
+        title: "Invoice Garment - (All User)",
         auth: true,
         settings: {
             group: "g-shipping",
@@ -243,7 +243,7 @@ module.exports = [
         name: "garment-shipping/monitoring/invoice",
         moduleId: "modules/garment-shipping/monitoring/garment-invoice/index",
         nav: true,
-        title: "Monitoring Invoice Export Garment",
+        title: "Monitoring Invoice Garment",
         auth: true,
         settings: {
             group: "g-shipping",
