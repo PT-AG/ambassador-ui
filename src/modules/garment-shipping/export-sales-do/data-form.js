@@ -54,10 +54,11 @@ export class DataForm {
         return UnitLoader;
     }
 
-    get unitQuery(){
-        var result = { "Description" : "GARMENT" }
-        return result;   
-      }
+    unitOptions = ["AG1 - AMBASSADOR GARMINDO 1", "AG2 - AMBASSADOR GARMINDO 2"];
+    // get unitQuery(){
+    //     var result = { "Description" : "GARMENT" }
+    //     return result;   
+    //   }
 
     ShipmentModeOptions=["By Air", "By Sea"];
     
