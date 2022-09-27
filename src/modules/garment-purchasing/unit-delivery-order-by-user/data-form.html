@@ -98,7 +98,8 @@
                 </au-autocomplete>
 
                 <div class="row form-group">
-                    <label for="name" class="col-sm-4 text-left au-layout control-label" if.bind="!isTransfer && !isSTransfer">No RO</label>
+                    <label for="name" class="col-sm-4 text-left au-layout control-label" if.bind="!isTransfer && !isSTransfer && !isProses">No RO</label>
+                    <label for="name" class="col-sm-4 text-left au-layout control-label" if.bind="isProses">No RO JOB</label>
                     <label for="name" class="col-sm-4 text-left au-layout control-label" if.bind="isSTransfer">No RO Asal</label>
                     <!-- <label for="name" class="col-sm-4 text-left au-layout control-label" if.bind="isTransfer">No RO Asal</label> -->
                     <!-- <label for="name" class="au-target col-sm-4 text-left au-layout control-label">No RO</label> -->
