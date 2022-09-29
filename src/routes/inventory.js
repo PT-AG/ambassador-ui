@@ -619,7 +619,7 @@ module.exports = [
         auth: true,
         settings: {
             group: "Inventory",
-            permission: { C9: 1, "PG": 1 },
+            permission: { "C9": 1, "PG": 1 },
             subGroup: "gudang sisa garment",
             iconClass: "fa fa-dashboard",
         },
