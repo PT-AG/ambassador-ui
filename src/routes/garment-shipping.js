@@ -9,7 +9,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "master",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -23,7 +23,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "master",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -37,7 +37,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "master",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1},
             iconClass: "fa fa-dashboard"
         }
     },
@@ -51,7 +51,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "master",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -65,7 +65,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "master",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -79,7 +79,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "master",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -93,7 +93,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "master",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -107,7 +107,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "master",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -121,7 +121,7 @@ module.exports = [
         settings: {
           group: "g-shipping",
           subGroup: "master",
-          permission: { "C9": 1, "SG": 1 },
+          permission: { "C9": 1, "SP": 2, "PDU":1 },
           iconClass: "fa fa-dashboard",
         },
     },
@@ -135,7 +135,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "master",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -149,7 +149,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "master",
-            permission: { "C9": 1, "SG": 1, "B12": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1 },
         iconClass: "fa fa-dashboard",
     },
   },
@@ -163,7 +163,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "transaksi",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1 },
             iconClass: 'fa fa-calculator',
             byUser: false
         }
@@ -178,7 +178,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "transaksi",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -192,7 +192,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "monitoring",
-            permission: { "C9": 1, "FP": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2 },
             iconClass: "fa fa-dashboard"
         }
     },  
@@ -206,7 +206,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "transaksi",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -220,7 +220,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "transaksi",
-            permission: { "C9": 1, "SG": 1, "B1": 1, "PGA": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -234,7 +234,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "monitoring",
-            permission: { "C9": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -248,7 +248,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "monitoring",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -264,7 +264,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "transaksi",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -278,7 +278,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "monitoring",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -292,7 +292,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "transaksi",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -306,7 +306,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "monitoring",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2 },
             iconClass: "fa fa-dashboard"
         }
     }, 
@@ -320,7 +320,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "transaksi",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1  },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -334,7 +334,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "transaksi",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1  },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -348,7 +348,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "monitoring",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -362,7 +362,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "transaksi",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -376,7 +376,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "transaksi",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -390,7 +390,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "monitoring",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -417,7 +417,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "monitoring",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -431,7 +431,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "monitoring",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -459,7 +459,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "laporan",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -473,7 +473,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "laporan",
-            permission: { "C9": 1, "SG": 1, "PGA": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -487,7 +487,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "laporan",
-            permission: { "C9": 1, "SG": 1, "PGA": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -501,7 +501,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "laporan",
-            permission: { "C9": 1, "SG": 1, "PGA": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -515,7 +515,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "laporan",
-            permission: { "C9": 1, "SG": 1, "PGA": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -529,7 +529,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "laporan",
-            permission: { "C9": 1, "SG": 1, "PGA": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2 },
             iconClass: "fa fa-dashboard"
         }
     },      
@@ -543,7 +543,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "transaksi",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -557,7 +557,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "monitoring",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -571,7 +571,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "transaksi",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -585,7 +585,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "monitoring",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2 },
             iconClass: "fa fa-dashboard"
         }
     },   
@@ -599,7 +599,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "penjualan lokal",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -613,7 +613,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "penjualan lokal",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1  },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -627,7 +627,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "penjualan lokal",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1  },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -641,7 +641,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "penjualan lokal",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1  },
             iconClass: "fa fa-dashboard"
         }
     },  
@@ -655,7 +655,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "penjualan lokal",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1  },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -669,7 +669,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "penjualan lokal",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1  },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -683,7 +683,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "penjualan lokal",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1  },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -697,7 +697,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "monitoring",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -711,7 +711,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "monitoring",
-            permission: { "C9": 1, "SG": 1, "B1": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2 },
             iconClass: "fa fa-dashboard"
         }
     }, 
@@ -725,7 +725,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "monitoring",
-            permission: { "C9": 1, "SG": 1, "B1": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2 },
             iconClass: "fa fa-dashboard"
         }
     }, 
@@ -739,7 +739,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "laporan",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2 },
             iconClass: "fa fa-dashboard"
         }
     }, 
@@ -767,7 +767,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "laporan",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2},
             iconClass: "fa fa-dashboard"
         }
     },    
@@ -781,7 +781,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "laporan",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -809,7 +809,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "laporan",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2},
             iconClass: "fa fa-dashboard"
         }
     },
@@ -823,7 +823,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "laporan",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2},
             iconClass: "fa fa-dashboard"
         }
     },
@@ -837,7 +837,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "laporan",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -851,7 +851,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "laporan",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -866,7 +866,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "laporan",
-            permission: { "A3":1, "B1:":1, "B12":1,  "C9": 1, "C11": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -880,7 +880,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "transaksi",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -894,7 +894,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "monitoring",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -908,7 +908,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "monitoring",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -922,7 +922,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "approval",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -936,7 +936,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "approval",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -950,7 +950,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "approval",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -964,7 +964,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "approval",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -978,7 +978,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "transaksi",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -992,7 +992,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "monitoring",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -1006,7 +1006,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "transaksi",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -1020,7 +1020,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "monitoring",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1, "B1": 2 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -1034,7 +1034,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "transaksi",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -1048,7 +1048,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "approval",
-            permission: { "C9": 1, "SG": 1 },
+            permission: { "C9": 1, "SP": 2, "PDU":1 },
             iconClass: "fa fa-dashboard"
         }
     },
