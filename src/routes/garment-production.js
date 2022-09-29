@@ -9,7 +9,7 @@ module.exports = [
         settings: {
             group: "g-production",
             subGroup: "master",
-            permission: { "C9": 1, "AG1": 1, "AG2": 1, "C2A": 1, "C2B": 1, "C2C": 1, "P": 1 },
+            permission: { "C9": 1, "B1" : 1},
             iconClass: 'fa fa-dashboard'
         }
     }, {
@@ -22,7 +22,7 @@ module.exports = [
         settings: {
             group: "g-production",
             subGroup: "master",
-            permission: { "C9": 1 },
+            permission: { "C9": 1, "AG1": 1, "AG2": 1  },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -36,7 +36,7 @@ module.exports = [
         settings: {
             group: "g-production",
             subGroup: "master",
-            permission: { "C9": 1, "AG1": 1, "AG2": 1, "C2A": 1, "C2B": 1, "C2C": 1, "P": 1 },
+            permission: { "C9": 1, "AG1": 1, "AG2": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -50,7 +50,7 @@ module.exports = [
         settings: {
             group: "g-production",
             subGroup: "master",
-            permission: { "C9": 1 },
+            permission: { "C9": 1, "AG1": 1, "AG2": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
