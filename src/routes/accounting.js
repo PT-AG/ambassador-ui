@@ -138,7 +138,7 @@ module.exports = [
     auth: true,
     settings: {
       group: "finance",
-      permission: { "B1": 1, "C9": 1 },
+      //permission: { "B1": 1, "C9": 1 },
       iconClass: 'fa fa-clone'
     }
   },
@@ -151,7 +151,7 @@ module.exports = [
     auth: true,
     settings: {
       group: "finance",
-      permission: { "B1": 1, "C9": 1 },
+      //permission: { "B1": 1, "C9": 1 },
       iconClass: 'fa fa-clone'
     }
   },
