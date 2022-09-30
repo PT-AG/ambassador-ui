@@ -9,7 +9,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "gudang sample",
-			permission: { "C9": 1, "SMP1": 1 },
+			permission: { "C9": 1, "SMP1": 1,"PDU":1 },
 			iconClass: 'fa fa-dashboard'
 		}
 	},
@@ -23,7 +23,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "md",
-			permission: { "C9": 1, "PGA":1 },
+			permission: { "C9": 1, "PGA":1,"PDU":1 },
 			iconClass: 'fa fa-dashboard'
 		}
 	},
@@ -38,7 +38,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "gudang sample",
-			permission: { "C9": 1, "SMP1": 1 },
+			permission: { "C9": 1, "SMP1": 1,"PDU":1 },
 			iconClass: 'fa fa-dashboard'
 		}
 	},
@@ -52,7 +52,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "gudang sample",
-			permission: { "C9": 1, "SMP1": 1 },
+			permission: { "C9": 1, "SMP1": 1,"PDU":1 },
 			iconClass: 'fa fa-dashboard'
 		}
 	},
@@ -66,7 +66,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "transaksi",
-			permission: { "C9": 1, "SMP1": 1 },
+			permission: { "C9": 1, "SMP1": 1,"PDU":1 },
 			iconClass: 'fa fa-dashboard'
 		}
 	},
@@ -80,7 +80,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "transaksi",
-			permission: { "C9": 1, "SMP1": 1 },
+			permission: { "C9": 1, "SMP1": 1,"PDU":1 },
 			iconClass: 'fa fa-dashboard'
 		}
 	},
@@ -94,7 +94,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "transaksi",
-			permission: { "C9": 1, "SMP1": 1 },
+			permission: { "C9": 1, "SMP1": 1,"PDU":1 },
 			iconClass: 'fa fa-dashboard'
 		}
 	},
@@ -108,7 +108,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "transaksi",
-			permission: { "C9": 1, "SMP1": 1 },
+			permission: { "C9": 1, "SMP1": 1,"PDU":1 },
 			iconClass: 'fa fa-dashboard'
 		}
 	},
@@ -122,7 +122,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "transaksi",
-			permission: { "C9": 1, "SMP1": 1 },
+			permission: { "C9": 1, "SMP1": 1,"PDU":1 },
 			iconClass: 'fa fa-dashboard'
 		}
 	},
@@ -136,7 +136,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "transaksi",
-			permission: { "C9": 1, "SMP1": 1 },
+			permission: { "C9": 1, "SMP1": 1,"PDU":1 },
 			iconClass: 'fa fa-dashboard'
 		}
 	},
@@ -150,7 +150,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "transaksi",
-			permission: { "C9": 1, "SMP1": 1 },
+			permission: { "C9": 1, "SMP1": 1,"PDU":1 },
 			iconClass: 'fa fa-dashboard'
 		}
 	},
@@ -164,7 +164,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "transaksi",
-			permission: { "C9": 1, "SMP1": 1 },
+			permission: { "C9": 1, "SMP1": 1 ,"PDU":1},
 			iconClass: 'fa fa-dashboard'
 		}
 	},
@@ -178,7 +178,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "transaksi",
-			permission: { "C9": 1, "SMP1": 1 },
+			permission: { "C9": 1, "SMP1": 1,"PDU":1 },
 			iconClass: 'fa fa-dashboard'
 		}
 	},
@@ -193,7 +193,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "transaksi",
-			permission: { "C9": 1, "SMP1": 1 },
+			permission: { "C9": 1, "SMP1": 1,"PDU":1 },
 			iconClass: 'fa fa-dashboard'
 		}
 	},
@@ -208,7 +208,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "transaksi",
-			permission: { "C9": 1, "SMP1": 1 },
+			permission: { "C9": 1, "SMP1": 1,"PDU":1 },
 			iconClass: 'fa fa-dashboard'
 		}
 	},
@@ -222,7 +222,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "transaksi",
-			permission: { "C9": 1, "SMP1": 1 },
+			permission: { "C9": 1, "SMP1": 1,"PDU":1 },
 			iconClass: 'fa fa-dashboard'
 		}
 	},
@@ -237,7 +237,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "transaksi",
-			permission: { "C9": 1, "SMP1": 1 },
+			permission: { "C9": 1, "SMP1": 1,"PDU":1 },
 			iconClass: 'fa fa-dashboard'
 		}
 	},
@@ -252,7 +252,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "laporan",
-			permission: { "C9": 1, "SMP1": 1, "B12":1 },
+			permission: { "C9": 1, "SMP1": 1,"PDU":1 },
 			iconClass: 'fa fa-dashboard'
 		}
 	},
@@ -266,7 +266,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "laporan",
-			permission: { "C9": 1, "SMP1": 1, "B12":1 },
+			permission: { "C9": 1, "SMP1": 1, "PDU":1 },
 			iconClass: 'fa fa-dashboard'
 		}
 	},
@@ -280,7 +280,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "laporan",
-			permission: { "C9": 1, "SMP1": 1, "B12":1 },
+			permission: { "C9": 1, "SMP1": 1, "PDU":1 },
 			iconClass: 'fa fa-dashboard'
 		}
 	},
@@ -294,7 +294,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "laporan",
-			permission: { "C9": 1, "SMP1": 1, "B12":1 },
+			permission: { "C9": 1, "SMP1": 1, "PDU":1 },
 			iconClass: 'fa fa-dashboard'
 		}
 	},
@@ -309,7 +309,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "laporan",
-			permission: { "C9": 1, "SMP1": 1, "B12":1 },
+			permission: { "C9": 1, "SMP1": 1, "PDU":1 },
 			iconClass: 'fa fa-dashboard'
 		}
 	},
@@ -323,7 +323,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "laporan",
-			permission: { "C9": 1, "SMP1": 1, "B12":1 },
+			permission: { "C9": 1, "SMP1": 1, "PDU":1 },
 			iconClass: 'fa fa-dashboard'
 		}
 	},
@@ -337,7 +337,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "laporan",
-			permission: { "C9": 1, "SMP1": 1, "B12":1 },
+			permission: { "C9": 1, "SMP1": 1, "PDU":1 },
 			iconClass: 'fa fa-dashboard'
 		}
 	},
@@ -351,7 +351,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "laporan",
-			permission: { "C9": 1, "SMP1": 1, "B12":1 },
+			permission: { "C9": 1, "SMP1": 1, "PDU":1 },
 			iconClass: 'fa fa-dashboard'
 		}
 	},
@@ -365,7 +365,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "laporan",
-			permission: { "C9": 1, "SMP1": 1, "B12":1 },
+			permission: { "C9": 1, "SMP1": 1, "PDU":1 },
 			iconClass: 'fa fa-dashboard'
 		}
 	},
@@ -379,7 +379,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "laporan",
-			permission: { "C9": 1, "SMP1": 1, "B12":1 },
+			permission: { "C9": 1, "SMP1": 1, "PDU":1 },
 			iconClass: 'fa fa-dashboard'
 		}
 	},
@@ -393,7 +393,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "laporan",
-			permission: { "C9": 1, "SMP1": 1, "B12":1 },
+			permission: { "C9": 1, "SMP1": 1, "PDU":1 },
 			iconClass: 'fa fa-dashboard'
 		}
 	},
@@ -407,7 +407,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "fitur",
-			permission: { "C9": 1, "SMP1": 1 },
+			permission: { "C9": 1, "SMP1": 1, "PDU":1  },
 			iconClass: 'fa fa-dashboard'
 		}
 	},
@@ -421,7 +421,7 @@ module.exports = [
         settings: {
             group: "g-sample",
             subGroup: "fitur",
-			permission: { "C9": 1, "SMP1": 1, "PGA": 1 },
+			permission: { "C9": 1, "SMP1": 1, "PDU":1  },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -449,7 +449,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "md",
-			permission: { "C9": 1, "PGA": 1 },
+			permission: { "C9": 1, "PGA": 1, "PDU":1  },
 			iconClass: 'fa fa-dashboard'
 		}
 	},
@@ -465,7 +465,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "laporan",
-			permission: { "C9": 1, "SMP1": 1, "B12":1 },
+			permission: { "C9": 1, "SMP1": 1, "PDU":1 },
 			iconClass: 'fa fa-dashboard'
 		}
 	},
@@ -479,7 +479,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "laporan",
-			permission: { "C9": 1, "SMP1": 1, "B12":1 },
+			permission: { "C9": 1, "SMP1": 1, "PDU":1 },
 			iconClass: 'fa fa-dashboard'
 		}
 	},
@@ -493,7 +493,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "laporan",
-			permission: { "C9": 1, "SMP1": 1, "B12":1, "PGA":1 },
+			permission: { "C9": 1, "SMP1": 1, "PDU":1, "PGA":1 },
 			iconClass: 'fa fa-dashboard'
 		}
 	},
@@ -507,7 +507,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "laporan",
-			permission: { "C9": 1, "SMP1": 1, "B12":1, "PGA":1 },
+			permission: { "C9": 1, "SMP1": 1, "PDU":1, "PGA":1 },
 			iconClass: 'fa fa-dashboard'
 		}
 	},

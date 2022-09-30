@@ -133,9 +133,9 @@ export class DataForm {
         { header: "CBM" },
     ]
 
-    PackingTypeOptions = ["EXPORT", "RE EXPORT"];
+    PackingTypeOptions = ["EXPORT", "RE EXPORT", "LOKAL"];
     InvoiceTypeOptions = ["AG", "DS", "SM"];
-    InvoiceTypeOptionsR = ["DLR", "SMR"];
+    InvoiceTypeOptionsR = ["AGR", "SMR"];
     PaymentTermOptions = ["LC", "TT/OA", "NON COMMERCIAL"];
     roTypes = ["RO JOB", "RO MASTER"]
     sectionTypes = ["MD01 – VERA FATIMAH", "MD02 – WAHYU PAMUNGKAS"]

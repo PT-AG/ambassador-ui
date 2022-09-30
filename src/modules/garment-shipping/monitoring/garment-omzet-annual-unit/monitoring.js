@@ -66,12 +66,12 @@ export class Monitoring {
                          var subTotalInv2 = {};
                          var subTotalInv3 = {};
                          var subTotalInv4 = {};
-                         var subTotalInv5 = {};
-                         var subTotalInv6 = {};
-                         var subTotalInv7 = {};
-                         var subTotalInv8 = {};
-                         var subTotalInv9 = {};
-                         var subTotalInv10 = {};                         
+                        //  var subTotalInv5 = {};
+                        //  var subTotalInv6 = {};
+                        //  var subTotalInv7 = {};
+                        //  var subTotalInv8 = {};
+                        //  var subTotalInv9 = {};
+                        //  var subTotalInv10 = {};                         
                          
                          for (var data of result) {
                              var Invoice = data.month;
@@ -84,11 +84,11 @@ export class Monitoring {
                                   amount2 : data.amount2.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
                                   amount2IDR : data.amount2IDR.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
                                   amount3 : data.amount3.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
-                                  amount3IDR : data.amount3IDR.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
-                                  amount4 : data.amount4.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
-                                  amount4IDR : data.amount4IDR.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
-                                  amount5 : data.amount5.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
-                                  amount5IDR : data.amount5IDR.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),       
+                                //   amount3IDR : data.amount3IDR.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+                                //   amount4 : data.amount4.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+                                //   amount4IDR : data.amount4IDR.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+                                //   amount5 : data.amount5.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+                                //   amount5IDR : data.amount5IDR.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),       
      
                               });
                                      
@@ -112,35 +112,35 @@ export class Monitoring {
                                  } 
                                      subTotalInv4[Invoice] += data.amount2IDR;
 
-                                if (!subTotalInv5[Invoice]) {
-                                        subTotalInv5[Invoice] = 0;
-                                } 
-                                    subTotalInv5[Invoice] += data.amount3;
+                                // if (!subTotalInv5[Invoice]) {
+                                //         subTotalInv5[Invoice] = 0;
+                                // } 
+                                //     subTotalInv5[Invoice] += data.amount3;
                                         
-                                if (!subTotalInv6[Invoice]) {
-                                    subTotalInv6[Invoice] = 0;
-                                } 
-                                    subTotalInv6[Invoice] += data.amount3IDR;  
+                                // if (!subTotalInv6[Invoice]) {
+                                //     subTotalInv6[Invoice] = 0;
+                                // } 
+                                //     subTotalInv6[Invoice] += data.amount3IDR;  
                                     
-                                if (!subTotalInv7[Invoice]) {
-                                        subTotalInv7[Invoice] = 0;
-                                } 
-                                    subTotalInv7[Invoice] += data.amount4;
+                                // if (!subTotalInv7[Invoice]) {
+                                //         subTotalInv7[Invoice] = 0;
+                                // } 
+                                //     subTotalInv7[Invoice] += data.amount4;
                                         
-                                if (!subTotalInv8[Invoice]) {
-                                    subTotalInv8[Invoice] = 0;
-                                } 
-                                    subTotalInv8[Invoice] += data.amount4IDR;  
+                                // if (!subTotalInv8[Invoice]) {
+                                //     subTotalInv8[Invoice] = 0;
+                                // } 
+                                //     subTotalInv8[Invoice] += data.amount4IDR;  
                                     
-                                if (!subTotalInv9[Invoice]) {
-                                        subTotalInv9[Invoice] = 0;
-                                } 
-                                    subTotalInv9[Invoice] += data.amount5;
+                                // if (!subTotalInv9[Invoice]) {
+                                //         subTotalInv9[Invoice] = 0;
+                                // } 
+                                //     subTotalInv9[Invoice] += data.amount5;
                                         
-                                if (!subTotalInv10[Invoice]) {
-                                    subTotalInv10[Invoice] = 0;
-                                } 
-                                    subTotalInv10[Invoice] += data.amount5IDR;                                      
+                                // if (!subTotalInv10[Invoice]) {
+                                //     subTotalInv10[Invoice] = 0;
+                                // } 
+                                //     subTotalInv10[Invoice] += data.amount5IDR;                                      
                              }
            
                      var invoices = [];
@@ -148,23 +148,23 @@ export class Monitoring {
                      this.AmountTtlIDR1 = 0;
                      this.AmountTtlUSD2 = 0;
                      this.AmountTtlIDR2 = 0;
-                     this.AmountTtlUSD3 = 0;
-                     this.AmountTtlIDR3 = 0;
-                     this.AmountTtlUSD4 = 0;
-                     this.AmountTtlIDR4 = 0;
-                     this.AmountTtlUSD5 = 0;
-                     this.AmountTtlIDR5 = 0;
+                    //  this.AmountTtlUSD3 = 0;
+                    //  this.AmountTtlIDR3 = 0;
+                    //  this.AmountTtlUSD4 = 0;
+                    //  this.AmountTtlIDR4 = 0;
+                    //  this.AmountTtlUSD5 = 0;
+                    //  this.AmountTtlIDR5 = 0;
 
                      this.AvgTtlUSD1 = 0;
                      this.AvgTtlIDR1 = 0;
                      this.AvgTtlUSD2 = 0;
                      this.AvgTtlIDR2 = 0;
-                     this.AvgTtlUSD3 = 0;
-                     this.AvgTtlIDR3 = 0;
-                     this.AvgTtlUSD4 = 0;
-                     this.AvgTtlIDR4 = 0;
-                     this.AvgTtlUSD5 = 0;
-                     this.AvgTtlIDR5 = 0;
+                    //  this.AvgTtlUSD3 = 0;
+                    //  this.AvgTtlIDR3 = 0;
+                    //  this.AvgTtlUSD4 = 0;
+                    //  this.AvgTtlIDR4 = 0;
+                    //  this.AvgTtlUSD5 = 0;
+                    //  this.AvgTtlIDR5 = 0;
 
                      for (var data in dataByInvoice) {
                          invoices.push({
@@ -180,23 +180,23 @@ export class Monitoring {
                          this.AmountTtlIDR1 += subTotalInv2[data]; 
                          this.AmountTtlUSD2 += subTotalInv3[data];   
                          this.AmountTtlIDR2 += subTotalInv4[data]; 
-                         this.AmountTtlUSD3 += subTotalInv5[data];   
-                         this.AmountTtlIDR3 += subTotalInv6[data]; 
-                         this.AmountTtlUSD4 += subTotalInv7[data];   
-                         this.AmountTtlIDR4 += subTotalInv8[data]; 
-                         this.AmountTtlUSD5 += subTotalInv9[data];   
-                         this.AmountTtlIDR5 += subTotalInv10[data]; 
+                        //  this.AmountTtlUSD3 += subTotalInv5[data];   
+                        //  this.AmountTtlIDR3 += subTotalInv6[data]; 
+                        //  this.AmountTtlUSD4 += subTotalInv7[data];   
+                        //  this.AmountTtlIDR4 += subTotalInv8[data]; 
+                        //  this.AmountTtlUSD5 += subTotalInv9[data];   
+                        //  this.AmountTtlIDR5 += subTotalInv10[data]; 
 
                          this.AvgTtlUSD1 += (subTotalInv1[data]/12);
                          this.AvgTtlIDR1 += (subTotalInv2[data]/12);
                          this.AvgTtlUSD2 += (subTotalInv3[data]/12);
                          this.AvgTtlIDR2 += (subTotalInv4[data]/12);
-                         this.AvgTtlUSD3 += (subTotalInv5[data]/12);
-                         this.AvgTtlIDR3 += (subTotalInv6[data]/12);
-                         this.AvgTtlUSD4 += (subTotalInv7[data]/12);
-                         this.AvgTtlIDR4 += (subTotalInv8[data]/12);
-                         this.AvgTtlUSD5 += (subTotalInv9[data]/12);
-                         this.AvgTtlIDR5 += (subTotalInv10[data]/12);                         
+                        //  this.AvgTtlUSD3 += (subTotalInv5[data]/12);
+                        //  this.AvgTtlIDR3 += (subTotalInv6[data]/12);
+                        //  this.AvgTtlUSD4 += (subTotalInv7[data]/12);
+                        //  this.AvgTtlIDR4 += (subTotalInv8[data]/12);
+                        //  this.AvgTtlUSD5 += (subTotalInv9[data]/12);
+                        //  this.AvgTtlIDR5 += (subTotalInv10[data]/12);                         
                      }
                      
                       
@@ -204,23 +204,23 @@ export class Monitoring {
                      this.AmountTtlIDR1 = this.AmountTtlIDR1.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                      this.AmountTtlUSD2 = this.AmountTtlUSD2.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                      this.AmountTtlIDR2 = this.AmountTtlIDR2.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                     this.AmountTtlUSD3 = this.AmountTtlUSD3.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                     this.AmountTtlIDR3 = this.AmountTtlIDR3.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                     this.AmountTtlUSD4 = this.AmountTtlUSD4.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                     this.AmountTtlIDR4 = this.AmountTtlIDR4.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                     this.AmountTtlUSD5 = this.AmountTtlUSD5.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                     this.AmountTtlIDR5 = this.AmountTtlIDR5.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    //  this.AmountTtlUSD3 = this.AmountTtlUSD3.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    //  this.AmountTtlIDR3 = this.AmountTtlIDR3.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    //  this.AmountTtlUSD4 = this.AmountTtlUSD4.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    //  this.AmountTtlIDR4 = this.AmountTtlIDR4.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    //  this.AmountTtlUSD5 = this.AmountTtlUSD5.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    //  this.AmountTtlIDR5 = this.AmountTtlIDR5.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
                      this.AvgTtlUSD1 = this.AvgTtlUSD1.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                      this.AvgTtlIDR1 = this.AvgTtlIDR1.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                      this.AvgTtlUSD2 = this.AvgTtlUSD2.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                      this.AvgTtlIDR2 = this.AvgTtlIDR2.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                     this.AvgTtlUSD3 = this.AvgTtlUSD3.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                     this.AvgTtlIDR3 = this.AvgTtlIDR3.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                     this.AvgTtlUSD4 = this.AvgTtlUSD4.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                     this.AvgTtlIDR4 = this.AvgTtlIDR4.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                     this.AvgTtlUSD5 = this.AvgTtlUSD5.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                     this.AvgTtlIDR5 = this.AvgTtlIDR5.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });      
+                    //  this.AvgTtlUSD3 = this.AvgTtlUSD3.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    //  this.AvgTtlIDR3 = this.AvgTtlIDR3.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    //  this.AvgTtlUSD4 = this.AvgTtlUSD4.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    //  this.AvgTtlIDR4 = this.AvgTtlIDR4.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    //  this.AvgTtlUSD5 = this.AvgTtlUSD5.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    //  this.AvgTtlIDR5 = this.AvgTtlIDR5.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });      
 
                      this.invoices = invoices;
                      });
