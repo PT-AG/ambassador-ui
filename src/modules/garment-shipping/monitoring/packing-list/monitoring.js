@@ -23,7 +23,7 @@ export class Monitoring {
         return `${data.Code || data.code} - ${data.Name || data.name}`
     }
 
-    invoiceTypeOptions = ["", "DL", "SM"];
+    invoiceTypeOptions = ["", "AG", "SM"];
 
     tableOptions = {
         pagination: false,

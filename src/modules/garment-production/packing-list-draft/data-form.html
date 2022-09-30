@@ -51,13 +51,14 @@
                         if.bind="readOnly || isEdit">
                     </au-textbox>
 
-                    <au-textbox
+                    <au-dropdown
                         label="Jenis Packing List"
                         value.bind="data.packingListType"
                         error.bind="error.PackingListType"
-                        read-only="true"
+                        read-only.bind="readOnly || isEdit"
+                        items.bind="typeOptions"
                         options.bind="controlOptions">
-                    </au-textbox> 
+                    </au-dropdown> 
 
                     <au-textbox
                         label="Jenis Invoice"
@@ -172,8 +173,8 @@
                 <div class="col-sm-3">
                     <au-numeric
                         label="TOTAL CARTONS"
-                        value.bind="totalCartons"
-                        error.bind="error.totalCartons"
+                        value.bind="data.totalCartons"
+                        error.bind="error.TotalCartons"
                         read-only.bind="readOnly" 
                         format="0"
                         options.bind="controlOptions">
@@ -184,8 +185,8 @@
                 <div class="col-sm-12">
                     <au-textbox
                         label="TOTAL QUANTITY"
-                        value.bind="totalQuantities"
-                        error.bind="error.totalQuantities"
+                        value.bind="data.totalQuantity"
+                        error.bind="error.TotalQuantity"
                         read-only.bind="readOnly" 
                         options.bind="controlOptions">
                     </au-textbox>
