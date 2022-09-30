@@ -27,7 +27,8 @@ export class DataForm {
   get filterCostCalculationGarment() {
     return {
       "IsPosted": true,
-      "SCGarmentId": null
+      "SCGarmentId": null,
+      "IsApprovedKadivMD":true
     }
   }
 
