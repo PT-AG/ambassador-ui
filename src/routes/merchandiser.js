@@ -113,7 +113,7 @@ module.exports = [
         settings: {
             group: "merchandiser",
             subGroup: "approval",
-            permission: { "PGA": 3, "C9": 1, "PDU": 1 },
+            permission: { "PG": 3, "C9": 1, "PDU": 1 },
             iconClass: 'fa fa-calculator',
             type: "MD2"
         }
@@ -158,7 +158,7 @@ module.exports = [
         settings: {
             group: "merchandiser",
             subGroup: "approval",
-            permission: { "PGA": 2, "C9": 1, "PDU": 1 },
+            permission: { "PGA": 3, "C9": 1, "PDU": 1 },
             iconClass: 'fa fa-calculator',
             type: "md"
         }
@@ -217,7 +217,7 @@ module.exports = [
         settings: {
             group: "merchandiser",
             subGroup: "approval",
-            permission: { "PGA": 3, "PDU": 1, "C9": 1 },
+            permission: { "PG": 3, "PDU": 1, "C9": 1 },
             iconClass: 'fa fa-calculator'
         }
     },
@@ -431,7 +431,7 @@ module.exports = [
         settings: {
             group: "merchandiser",
             subGroup: "monitoring",
-            permission: {  "PGA": 2, "PDU": 1, "C9": 1 },
+            permission: { "PGA": 2, "PDU": 1, "C9": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -445,7 +445,7 @@ module.exports = [
         settings: {
             group: "merchandiser",
             subGroup: "monitoring",
-            permission: {  "PGA": 2, "PDU": 1, "C9": 1 },
+            permission: { "PGA": 2, "PDU": 1, "C9": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -473,7 +473,7 @@ module.exports = [
         settings: {
             group: "merchandiser",
             subGroup: "monitoring",
-            permission: {  "PGA": 2, "PDU": 1, "C9": 1 },
+            permission: { "PGA": 2, "PDU": 1, "C9": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -755,7 +755,7 @@ module.exports = [
         settings: {
             group: "merchandiser",
             subGroup: "approval",
-            permission: { "PGA": 3, "PDU": 1, "C9": 1 },
+            permission: { "PG": 3, "PDU": 1, "C9": 1 },
             iconClass: 'fa fa-dashboard',
             type: "kadiv_md"
         }
