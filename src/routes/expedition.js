@@ -891,7 +891,7 @@ module.exports = [
     settings: {
         group: "finance",
         subGroup: "ekspedisi disposisi",
-        permission: { "PDU": 1, "C9":1, B9: 2, B4: 2, B1:2 },
+        permission: { "PDU": 1, "C9":1, B9: 2, B4: 2, B1:2, P1: 2, P2: 2 },
         iconClass: 'fa fa-dashboard'
     }
   }
