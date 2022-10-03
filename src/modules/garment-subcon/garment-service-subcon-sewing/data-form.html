@@ -29,32 +29,42 @@
     </au-datepicker>
         
     <au-autocomplete
-        value.bind="data.Buyer"
-        error.bind="error.Buyer"
-        label="Buyer"
-        loader.bind="buyerLoader"
-        text.bind = "buyerView"
-        placeholder="Cari Buyer"
-        read-only.bind="readOnly || isEdit"
-        options.bind="controlOptions">
+      value.bind="data.Buyer"
+      error.bind="error.Buyer"
+      label="Buyer"
+      loader.bind="buyerLoader"
+      text.bind = "buyerView"
+      placeholder="Cari Buyer"
+      read-only.bind="readOnly || isEdit"
+      options.bind="controlOptions">
     </au-autocomplete>
 
     <au-numeric
-            value.bind="data.QtyPacking"
-            error.bind="error.QtyPacking"
-            label="Jumlah Kemasan"
-            read-only.bind="readOnly"
-            options.bind="controlOptions">
-        </au-numeric>
+      value.bind="data.QtyPacking"
+      error.bind="error.QtyPacking"
+      label="Jumlah Kemasan"
+      read-only.bind="readOnly"
+      options.bind="controlOptions">
+    </au-numeric>
 
-        <au-dropdown 
+    <!-- <au-dropdown 
             label="Satuan Kemasan" 
             value.bind="data.UomUnit" 
             error.bind="error.UomUnit" 
             read-only.bind="readOnly "
             items.bind="UomOptions"
             options.bind="controlOptions">
-        </au-dropdown>
+    </au-dropdown> -->
+
+    <au-autocomplete
+      value.bind="selectedUomUnit"
+      error.bind="error.Uom"
+      label="Satuan Kemasan"
+      loader.bind="UomPackingLoader"
+      text="Unit"
+      read-only.bind="readOnly"
+      options.bind="controlOptions">
+    </au-autocomplete>
 
     <div class="form-group has-error">
       <p if.bind="error.ItemsCount" class="help-block text-center">${error.ItemsCount}</p>
