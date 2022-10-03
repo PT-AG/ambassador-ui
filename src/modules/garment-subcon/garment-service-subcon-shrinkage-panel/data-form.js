@@ -2,6 +2,7 @@ import { bindable, inject, computedFrom } from "aurelia-framework";
 import { Service } from "./service";
 
 const UnitLoader = require('../../../loader/garment-units-loader');
+const UomLoader = require("../../../loader/uom-loader");
 
 @inject(Service)
 export class DataForm {
@@ -12,6 +13,7 @@ export class DataForm {
 	@bindable title;
 	@bindable data = {};
 	@bindable itemOptions = {};
+	@bindable selectedUomUnit;
 
 	constructor(service) {
 		this.service = service;
@@ -24,7 +26,7 @@ export class DataForm {
 		editText: "Ubah"
 	};
 
-	UomOptions = ['COLI', 'IKAT', 'CARTON', 'ROLL'];
+	// UomOptions = ['COLI', 'IKAT', 'CARTON', 'ROLL'];
 	controlOptions = {
 		label: {
 			length: 3
@@ -43,9 +45,16 @@ export class DataForm {
 		]
 	}
 
+	get UomPackingLoader() {
+		return UomLoader;
+	}
+
 	bind(context) {
 		this.context = context;
 		this.data = this.context.data;
+
+		this.selectedUomUnit = { Unit : this.data.UomUnit }
+		
 		this.error = this.context.error;
 		this.itemOptions = {
 			isCreate: this.context.isCreate,
@@ -65,6 +74,16 @@ export class DataForm {
 		return (event) => {
 			this.error = null;
 		};
+	}
+
+	selectedUomUnitChanged(newValue){
+		if (newValue) {
+		  this.data.UomUnit = newValue.Unit;
+		} else {
+		  this.data.UomUnit = "";
+		}
+	
+		console.log(this.data.UomUnit);
 	}
 
 	/*get totalQuantity() {

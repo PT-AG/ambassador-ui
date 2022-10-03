@@ -76,6 +76,9 @@ export class Create {
           }
       }
     }
+
+    console.log(this.data);
+
     this.service.create(this.data)
       .then(result => {
         alert("Data berhasil dibuat");
