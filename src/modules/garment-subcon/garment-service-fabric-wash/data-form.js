@@ -3,7 +3,7 @@ import { Service, PurchasingService } from "./service";
 
 const UnitLoader = require('../../../loader/garment-units-loader');
 var BuyerLoader = require('../../../loader/garment-buyers-loader');
-// var uomLoader = require('../../../loader/uom-loader');
+var uomLoader = require('../../../loader/uom-loader');
 
 @inject(Service, PurchasingService)
 export class DataForm {
@@ -15,6 +15,7 @@ export class DataForm {
     @bindable data = {};
     @bindable error = {};
     @bindable itemOptions = {};
+    @bindable selectedUomUnit;
 
     constructor(service, purchasingService) {
         this.service = service;
@@ -28,7 +29,7 @@ export class DataForm {
         editText: "Ubah"
     };
 
-    UomOptions = ['COLI', 'IKAT', 'CARTON', 'ROLL'];
+    //UomOptions = ['COLI', 'IKAT', 'CARTON', 'ROLL'];
     controlOptions = {
         label: {
             length: 2
@@ -47,6 +48,11 @@ export class DataForm {
         ]
     }
 
+    get UomPackingLoader() {
+		return uomLoader;
+	}
+
+
     bind(context) {
         this.context = context;
         this.data = this.context.data;
@@ -59,6 +65,9 @@ export class DataForm {
 
         }
         if (this.data && this.data.Items) {
+
+            this.selectedUomUnit = { Unit : this.data.UomUnit }
+
             // this.data.Items.forEach(
             //     item => {
             //         item.Unit = this.data.Unit;
@@ -123,6 +132,16 @@ export class DataForm {
             this.error = null;
         };
     }
+
+    selectedUomUnitChanged(newValue){
+		if (newValue) {
+		  this.data.UomUnit = newValue.Unit;
+		} else {
+		  this.data.UomUnit = "";
+		}
+	
+		console.log(this.data.UomUnit);
+	}
 
     get totalQuantity() {
         var qty = 0;
