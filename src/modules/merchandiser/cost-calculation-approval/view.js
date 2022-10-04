@@ -102,6 +102,9 @@ export class View {
         const type = parentInstruction.config.settings.type;
 
         switch (type) {
+            case "PPIC":
+                this.type = "PPIC";
+                break;
             case "md":
                 this.type = "MD";
                 break;
@@ -123,7 +126,7 @@ export class View {
 
         var id = params.id;
 
-        if (this.type !== "KadivMD") {
+        if (this.type !== "KadivMD" && this.type !== "PPIC" && this.type !== "IE") {
             this.data = await this.service.getById(id);
         } else {
             this.data = await this.service.getByIdWithProductNames(id);
@@ -233,12 +236,14 @@ export class View {
         if (this.activeTab === 1 && this.type === "KadivMD") {
             this.editCallback = null;
         }
+        else if(this.activeTab === 0 && (this.type === "PPIC" || this.type === "IE")){
+            this.editCallback = null;
+        }
 
         this.hasFOBRemark = this.data.CostCalculationGarment_Materials.some(m => m.isFabricCM);
     
         if (this.hasFOBRemark) {
             const a = (1.05 * CM_Price / this.data.Rate.Value) - (_insurance + _freight);
-            console.log(CM_Price, this.data.Rate.Value, _insurance, _freight);
             this.fobRemark = `US$ ${(_confirmPrice + a).toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
         } else {
             this.fobRemark = "-";
@@ -294,7 +299,10 @@ export class View {
     changeRole(tab) {
         this.activeTab = tab;
         this.editCallback = this.approve;
-        if (tab === 1 && this.type === "KadivMD") {
+        if (tab === 1 && this.type === "KadivMD" ) {
+            this.editCallback = null;
+        }
+        else if(this.activeTab === 0 && (this.type === "PPIC" || this.type === "IE")){
             this.editCallback = null;
         }
     }
