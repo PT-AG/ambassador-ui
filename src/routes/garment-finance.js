@@ -240,7 +240,7 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "report",
-      //permission: { "C9": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1 },
+      permission: { "C9": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -254,7 +254,7 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "report",
-      //permission: { "B13": 1, "C9": 1 },
+      permission: { "B13": 1, "C9": 1, "B1" : 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -268,7 +268,7 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "report",
-      //permission: { "B13": 1, "C9": 1 },
+      permission: { "B13": 1, "C9": 1, "B1" : 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -282,7 +282,7 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "report",
-      //permission: { "B13": 1, "C9": 1 },
+      permission: { "B13": 1, "C9": 1, "B1" : 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -296,7 +296,7 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "report",
-      //permission: { "B13": 1, "C9": 1 },
+      permission: { "B13": 1, "C9": 1, "B1" : 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
