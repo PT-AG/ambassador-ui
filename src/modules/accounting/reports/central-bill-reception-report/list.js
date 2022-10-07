@@ -1,4 +1,4 @@
-import { inject } from 'aurelia-framework';
+import { inject, bindable } from 'aurelia-framework';
 import { Service } from "./service";
 import { Router } from 'aurelia-router';
 var moment = require('moment');
@@ -6,18 +6,30 @@ var moment = require('moment');
 @inject(Router, Service)
 export class List {
 
-    info = { page: 1,size:25};
+    
 
     constructor(router, service) {
         this.service = service;
         this.router = router;
-        this.BC = ['BCDL', 'SELAIN BCDL'];
+        // this.BC = ['BCDL', 'SELAIN BCDL'];
     }
+
+    info = { page: 1,size:25};
+
+ 
+
+
     attached() {
     }
 
     activate() {
     }
+
+    @bindable isImportItem;
+    @bindable KtgrItem;
+    
+    KategoriItems= ['','BAHAN BAKU','BAHAN EMBALANCE','BAHAN PENDUKUNG']
+    ImportItemS = ['','LOKAL','IMPORT']
 
     search(){
             this.info.page = 1;
@@ -31,7 +43,8 @@ export class List {
             size: this.info.size,
             dateFrom : this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
             dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : "",
-            jnsbc : this.JenisBC ? this.JenisBC : ""
+            ctg : this.category ? this.category : "",
+            isImport : this.Import,
         };
 
   
@@ -55,6 +68,9 @@ export class List {
                     item.URNConversion=item.URNConversion.toLocaleString('en-EN',{minimumFractionDigits: 2, maximumFractionDigits: 2});
                     item.URNSmallQuantity=item.URNSmallQuantity.toLocaleString('en-EN',{minimumFractionDigits: 2, maximumFractionDigits: 2});
 
+                    item.PPN=item.PPN.toLocaleString('en-EN',{minimumFractionDigits: 2, maximumFractionDigits: 2});
+                    item.DPPValas=item.DPPValas.toLocaleString('en-EN',{minimumFractionDigits: 2, maximumFractionDigits: 2});
+                    item.Rate=item.Rate.toLocaleString('en-EN',{minimumFractionDigits: 2, maximumFractionDigits: 2});
                     datas.push(item);
                 }
                 this.data = datas;
@@ -74,10 +90,11 @@ export class List {
             size: this.info.size,
             dateFrom : this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
             dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : "",
-            jnsbc : this.JenisBC ? this.JenisBC : ""
+            ctg : this.category ? this.category : "",
+            isImport : this.Import,
         };
         
-        this.service.generateExcel(args.dateFrom, args.dateTo, args.jnsbc);
+        this.service.generateExcel(args.dateFrom, args.dateTo, args.ctg, args.isImport);
     }
 
     dateFromChanged(e) {
@@ -87,6 +104,37 @@ export class List {
 
         if (_startDate > _endDate || !this.dateTo) {
             this.dateTo = e.srcElement.value;
+        }
+    }
+
+    KtgrItemChanged(newvalue){
+        if (newvalue) {
+            if (newvalue === "BAHAN BAKU") {
+                this.category = "BB";
+            }
+            else if (newvalue === "BAHAN PENDUKUNG") { 
+                this.category = "BP"; 
+            }
+            else if (newvalue === "BAHAN EMBALANCE") {
+                this.category = "BE"; 
+            }else{
+                this.category = "";
+            }
+        }else{
+            this.category = "";
+        }
+    }
+
+    isImportItemChanged(newvalue){
+        if (newvalue) {
+            if (newvalue === "LOKAL") {
+                this.Import = false;
+            }
+            else if (newvalue === "IMPORT") { 
+                this.Import = true; 
+            }
+        }else{
+            this.Import = null;
         }
     }
 
