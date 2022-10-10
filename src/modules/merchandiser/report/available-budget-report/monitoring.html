@@ -64,6 +64,7 @@
                         <th><label>Lead Time</label></th>
                         <th><label>Kode Buyer</label></th>
                         <th><label>Nama Buyer</label></th>
+                        <th><label>Tipe Buyer</label></th>
                         <th><label>Artikel</label></th>
                         <th><label>Quantity</label></th>
                         <th><label>Satuan</label></th>
@@ -72,7 +73,7 @@
                 <tbody>
                     <!--No data to display-->
                     <tr if.bind="!tableData || tableData.length < 1">
-                        <td colspan="12">
+                        <td colspan="13">
                             <div class="alert alert-info"> Tidak ada data untuk ditampilkan. </div>
                         </td>
                     </tr>
@@ -106,6 +107,9 @@
                             </td>
                             <td align="center">
                                 <au-textbox value.bind="tableData[i].Buyer" read-only="true"></au-textbox>
+                            </td>
+                            <td align="center">
+                                <au-textbox value.bind="tableData[i].Type" read-only="true"></au-textbox>
                             </td>
                             <td align="center">
                                 <au-textbox value.bind="tableData[i].Article" read-only="true"></au-textbox>

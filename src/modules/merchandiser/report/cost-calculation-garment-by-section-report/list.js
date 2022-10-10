@@ -47,65 +47,67 @@ export class List {
         }
         this.service.search(JSON.stringify(info))
             .then(result => {
-                  this.data = result;
-                  console.log(result);
-                  var dataByBrand = {};
-                  var subTotalBrand = {};
-                  var subTotalBrand1 = {};                 
+                    this.data = result;
+                    console.log(result);
+                    var dataByBrand = {};
+                    var subTotalBrand = {};
+                    var subTotalBrand1 = {};                 
     
-                  for (var data of result) {
+                    for (var data of result) {
                        var Brand = data.BrandName;
                         if (!dataByBrand[Brand]) dataByBrand[Brand] = [];                 
                             dataByBrand[Brand].push({                                                        
-                            RO_Number : data.RO_Number,
-                            ConfirmDate : moment(data.ConfirmDate).format("DD MMM YYYY")=="01 Jan 1970"? "-" : moment(data.ConfirmDate).format("DD MMM YYYY"),
-                            DeliveryDate : moment(data.DeliveryDate).format("DD MMM YYYY")=="01 Jan 1970"? "-" : moment(data.DeliveryDate).format("DD MMM YYYY"),                          
-                            UnitName : data.UnitName,
-                            Description : data.Description,
-                            Section : data.Section,
-                            SectionName : data.SectionName,                            
-                            Article : data.Article,
-                            BuyerCode : data.BuyerCode,
-                            BuyerName : data.BuyerName,
-                            BrandCode : data.BrandCode,
-                            BrandName : data.BrandName,
-                            Comodity : data.Comodity,
-                            Quantity : data.Quantity.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
-                            ConfirmPrice : data.ConfirmPrice.toLocaleString('en-EN', { minimumFractionDigits: 4, maximumFractionDigits: 4 }),
-                            UOMUnit : data.UOMUnit,
-                            Amount : data.Amount.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
-                        });
+                                RO_Number : data.RO_Number,
+                                ConfirmDate : moment(data.ConfirmDate).format("DD MMM YYYY")=="01 Jan 1970"? "-" : moment(data.ConfirmDate).format("DD MMM YYYY"),
+                                DeliveryDate : moment(data.DeliveryDate).format("DD MMM YYYY")=="01 Jan 1970"? "-" : moment(data.DeliveryDate).format("DD MMM YYYY"),                          
+                                UnitName : data.UnitName,
+                                Description : data.Description,
+                                Section : data.Section,
+                                SectionName : data.SectionName,                            
+                                Article : data.Article,
+                                BuyerCode : data.BuyerCode,
+                                BuyerName : data.BuyerName,
+                                BrandCode : data.BrandCode,
+                                BrandName : data.BrandName,
+                                Type : data.Type,
+                                Comodity : data.Comodity,
+                                Quantity : data.Quantity.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+                                ConfirmPrice : data.ConfirmPrice.toLocaleString('en-EN', { minimumFractionDigits: 4, maximumFractionDigits: 4 }),
+                                UOMUnit : data.UOMUnit,
+                                Amount : data.Amount.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+                            });
                     
                         if (!subTotalBrand[Brand]) {
                            subTotalBrand[Brand] = 0;
-                          } 
-                            subTotalBrand[Brand] += data.Amount;
+                        } 
+                        subTotalBrand[Brand] += data.Amount;
                             
-                         if (!subTotalBrand1[Brand]) {
+                        if (!subTotalBrand1[Brand]) {
                            subTotalBrand1[Brand] = 0;
-                          } 
-                            subTotalBrand1[Brand] += data.Quantity;
-                          }
+                        } 
+                        subTotalBrand1[Brand] += data.Quantity;
+                    }
      
-               var brands = [];
-               this.AmountTotal = 0;
-               this.QtyTotal = 0;               
+                    var brands = [];
+                    this.AmountTotal = 0;
+                    this.QtyTotal = 0;               
                    
-               for (var data in dataByBrand) {
-                   brands.push({
-                   data: dataByBrand[data],
-                   brand: dataByBrand[data][0].BrandName,
-                   subTotal: (subTotalBrand[data]).toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
-                   subTotal1: (subTotalBrand1[data]).toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),                   
-              });
-                   this.AmountTotal += subTotalBrand[data];   
-                   this.QtyTotal += subTotalBrand1[data];   
-                                   
-               }
-               this.AmountTotal = this.AmountTotal.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-               this.QtyTotal = this.QtyTotal.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-               this.brands = brands;
-             });        
+                    for (var data in dataByBrand) {
+                        brands.push({
+                            data: dataByBrand[data],
+                            brand: dataByBrand[data][0].BrandName,
+                            subTotal: (subTotalBrand[data]).toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+                            subTotal1: (subTotalBrand1[data]).toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),                   
+                        });
+
+                        this.AmountTotal += subTotalBrand[data];   
+                        this.QtyTotal += subTotalBrand1[data];   
+                    }
+
+                    this.AmountTotal = this.AmountTotal.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    this.QtyTotal = this.QtyTotal.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    this.brands = brands;
+            });        
     }
 
     ExportToExcel() {
