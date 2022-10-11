@@ -113,6 +113,7 @@ export class List {
                             BuyerName : data.BuyerName,
                             BrandCode : data.BrandCode,
                             BrandName : data.BrandName,
+                            Type : data.Type,
                             Quantity : data.Quantity.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
                             ConfirmPrice : data.ConfirmPrice.toLocaleString('en-EN', { minimumFractionDigits: 4, maximumFractionDigits: 4 }),
                             UOMUnit : data.UOMUnit,
