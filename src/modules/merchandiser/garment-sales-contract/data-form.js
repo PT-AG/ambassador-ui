@@ -55,22 +55,22 @@ export class DataForm {
       this.selectedBuyer=buyerBrand;
     }
 
-    this.hasItems=false;
-    if(this.data.Items)
-      if(this.data.Items.length>0){
-        this.data.Amount=0;
-        for(var item of this.data.Items){
-          item.Uom=this.data.Uom.Unit;
-          item.PricePerUnit=this.data.Uom.Unit;
-          this.data.Amount+=item.Price*item.Quantity;
-        }
-        this.hasItems=true;
-      }
-      if(this.data.Amount)
-        this.data.Amount=this.data.Amount.toLocaleString('en-EN', { minimumFractionDigits: 2})
-      if(this.data.Price){
-        this.data.Price=this.data.Price.toLocaleString('en-EN', { minimumFractionDigits: 2})
-      }
+    // this.hasItems=false;
+    // if(this.data.Items)
+    //   if(this.data.Items.length>0){
+    //     this.data.Amount=0;
+    //     for(var item of this.data.Items){
+    //       item.Uom=this.data.Uom.Unit;
+    //       item.PricePerUnit=this.data.Uom.Unit;
+    //       this.data.Amount+=item.Price*item.Quantity;
+    //     }
+    //     this.hasItems=true;
+    //   }
+    //   if(this.data.Amount)
+    //     this.data.Amount=this.data.Amount.toLocaleString('en-EN', { minimumFractionDigits: 2})
+    //   if(this.data.Price){
+    //     this.data.Price=this.data.Price.toLocaleString('en-EN', { minimumFractionDigits: 2})
+    //   }
     if(!this.data.DocPresented || this.data.DocPresented==""){
       this.data.DocPresented="INVOICE OF COMMERCIAL VALUE \nPACKING LIST \nEXPORT LICENSE \nCERTIFICATE OF ORIGIN / G.S.P FORM A \nINSPECTION CERTIFICATE ";
     }
@@ -154,6 +154,7 @@ export class DataForm {
     }
     if(newValue){
       this.data.BuyerBrandName= newValue.Name;
+      this.data.BuyerBrandCode= newValue.Code;
       this.data.BuyerBrandId=newValue.Id;
       var buyerBrand= await this.coreService.getBuyerBrandById(this.data.BuyerBrandId);
       var buyer= await this.coreService.getBuyerById(buyerBrand.Buyers.Id);
@@ -170,10 +171,11 @@ export class DataForm {
   
   get amount(){
     this.data.Amount=0;
-    for(var item of this.data.SalesContractROs)
-      if(this.data.SalesContractROs){
-        this.data.Amount+=parseFloat(item.Amount);
-      }
+    if(this.data.SalesContractROs)
+      for(var item of this.data.SalesContractROs)
+        if(this.data.SalesContractROs){
+          this.data.Amount+=parseFloat(item.Amount);
+        }
     return this.data.Amount;
   }
 
