@@ -19,7 +19,7 @@
     </td>
     <td>
     <au-textbox 
-       value.one-way="data.Uom" 
+       value.one-way="data.Uom.Unit || ''" 
        read-only.bind="true" 
        options.bind="controlOption">
     </au-textbox>
@@ -34,7 +34,7 @@
     </td>
     <td>
       <textbox 
-        value.bind="data.Uom" 
+        value.bind="data.Uom.Unit || ''" 
         error.bind="error.Uom" 
         read-only="true" 
         options.bind="controlOption">
