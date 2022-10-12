@@ -60,7 +60,7 @@ module.exports = [
         auth: true,
         settings: {
             group: "g-master-plan",
-            permission: { "C9": 1, "PGA": 2, "PDU": 1 },
+            permission: { "C9": 1, "PGA": 2, "B1": 2, "PDU": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -73,7 +73,7 @@ module.exports = [
         auth: true,
         settings: {
             group: "g-master-plan",
-            permission: { "PGA": 1, "C9": 1 },
+            permission: { "PGA": 1, "C9": 1, "B1": 2 },
             iconClass: 'fa fa-dashboard'
         }
     },
