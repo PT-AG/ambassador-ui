@@ -9,7 +9,7 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "ekspedisi ni",
-      permission: { "PDU":1, "C9": 1, "PG": 2 },
+      permission: { "PDU": 1, "C9": 1, "PG": 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -51,7 +51,7 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "ekspedisi ni",
-      permission: { "PDU":1, "C9": 1, "B9": 2, "B4": 2, "B1": 2,PG:2 },
+      permission: { "PDU":1, "C9": 1, "B9": 1, "B4": 1, "B1": 1, PG: 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -80,7 +80,7 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "ekspedisi ni",
-      permission: { "PDU":1, "C9": 1, "B9": 2, "B4": 2, "B1": 2,PG:2 },
+      permission: { "PDU":1, "C9": 1, "B9": 1, "B4": 1, "B1": 1, PG: 1 },
       iconClass: 'fa fa-dashboard'
     },
   },
@@ -108,7 +108,7 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "ekspedisi ni",
-      permission: { "PDU":1, "C9": 1, "B9": 2, "B4": 2, "B1": 2,PG:2 },
+      permission: { "PDU":1, "C9": 1, "B9": 1, "B4": 1, "B1": 1, PG: 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -123,7 +123,7 @@ module.exports = [
       group: "g-finance",
       subGroup: "ekspedisi disposisi",
       permission: {
-        PG: 2,
+        PG: 1,
         PDU: 1,
         C9: 1,
       },
@@ -212,7 +212,7 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "ekspedisi disposisi",
-      permission: { "PDU":1, "C9": 1, "B9": 2, "B4": 2, "B1": 2,PG:2 },
+      permission: { "PDU": 1, "C9": 1, "B9": 1, "B4": 1, "B1": 1,PG: 1 },
       iconClass: "fa fa-dashboard",
     }
   },
@@ -226,7 +226,7 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "ekspedisi disposisi",
-      permission: { "PDU":1, "C9": 1, "B9": 2, "B4": 2, "B1": 2,PG:2 },
+      permission: { "PDU":1, "C9": 1, "B9": 1, "B4": 1, "B1": 1, PG: 1 },
       iconClass: "fa fa-dashboard",
     }
   },
@@ -603,7 +603,7 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "ekspedisi disposisi",
-      permission: { "PDU":1, "C9": 1, "B9": 2, "B4": 2, "B1": 2,PG:2 },
+      permission: { "PDU": 1, "C9": 1, "B9": 1, "B4": 1, "B1": 1, PG: 1 },
       iconClass: "fa fa-dashboard",
     }
   },
