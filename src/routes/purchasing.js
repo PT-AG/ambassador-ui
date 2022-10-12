@@ -37,7 +37,7 @@ module.exports = [
         settings: {
             group: "purchasing",
             subGroup: "monitoring",
-            permission: { "P1": 2, "P2": 2, "B1": 2, "PDU": 1,"C9":1 },
+            permission: { "P1": 1, "P2": 1, "B1": 1, "PDU": 1,"C9":1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -330,7 +330,7 @@ module.exports = [
         settings: {
             group: "purchasing",
             subGroup: "monitoring",
-            permission: { "P1": 2, "P2": 2, "B1": 2, "PDU": 1,"C9":1},
+            permission: { "P1": 1, "P2": 1, "B1": 1, "PDU": 1,"C9":1},
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -483,7 +483,7 @@ module.exports = [
         settings: {
             group: "purchasing",
             subGroup: "monitoring",
-            permission: { "P1": 2, "P2": 2, "B1": 2, "PDU": 1,"C9":1 },
+            permission: { "P1": 1, "P2": 1, "B1": 1, "PDU": 1,"C9":1 },
             iconClass: 'fa fa-dashboard'
         }
     },
