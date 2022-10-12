@@ -29,6 +29,7 @@ export class DataForm {
         deleteText: "Hapus",
         editText: "Ubah"
     };
+
     subconTypes=["BORDIR","PRINT","PLISKET","OTHERS"];
     controlOptions = {
         label: {
@@ -48,9 +49,9 @@ export class DataForm {
         ]
     }
 
-    UomPackingfilter={
-        'Unit=="ROLL" || Unit=="COLI" || UNIT=="IKAT" || UNIT=="CARTON"': "true",
-    };
+    // UomPackingfilter={
+    //     'Unit=="ROLL" || Unit=="COLI" || UNIT=="IKAT" || UNIT=="CARTON"': "true",
+    // };
 
     get UomPackingLoader() {
         return UomLoader;
@@ -59,6 +60,7 @@ export class DataForm {
     get buyerLoader() {
         return BuyerLoader;
     }
+    
     buyerView = (buyer) => {
         var buyerName = buyer.Name || buyer.name;
         var buyerCode = buyer.Code || buyer.code;
@@ -186,6 +188,7 @@ export class DataForm {
     get buyerLoader() {
         return BuyerLoader;
     }
+
     buyerView = (buyer) => {
         var buyerName = buyer.Name || buyer.name;
         var buyerCode = buyer.Code || buyer.code;

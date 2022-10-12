@@ -49,7 +49,7 @@ module.exports = [
     auth: true,
     settings: {
       group: "master",
-      permission: { C9: 1 , P1: 2, P2: 2, PDU: 1 },
+      permission: { C9: 1, P1: 2, P2: 2, PDU: 1 },
       iconClass: "fa fa-dashboard",
     },
   },
@@ -62,7 +62,7 @@ module.exports = [
     auth: true,
     settings: {
       group: "master",
-      permission: {  C9: 1 , P1: 2, P2: 2, PDU: 1 },
+      permission: {  C9: 1, P1: 2, P2: 2, PDU: 1 },
       iconClass: "fa fa-dashboard",
     },
   },
