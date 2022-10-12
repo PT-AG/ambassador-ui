@@ -9,7 +9,7 @@ module.exports = [
     settings: {
       group: "finance",
       subGroup: "ekspedisi spb",
-      permission: {"P1": 2, "P2": 2, "PDU": 1,"C9":1},
+      permission: {"P1": 1, "P2": 1, "PDU": 1, "C9":1},
       iconClass: "fa fa-clone",
     },
   },
@@ -38,7 +38,7 @@ module.exports = [
     settings: {
       group: "finance",
       subGroup: "ekspedisi spb",
-      permission: {"P1": 2, "P2": 2, "PDU": 1,"C9":1},
+      permission: {"P1": 1, "P2": 1, "PDU": 1,"C9":1},
       iconClass: "fa fa-clone",
     },
   },
@@ -67,7 +67,7 @@ module.exports = [
     settings: {
       group: "finance",
       subGroup: "ekspedisi spb",
-      permission: {"P1": 2, "P2": 2, "PDU": 1, "C9":1, B9: 2, B4: 2, B1:2},
+      permission: {"P1": 1, "P2": 1, "PDU": 1, "C9": 1, B9: 1, B4: 1, B1: 1},
       iconClass: "fa fa-dashboard",
     },
   },
@@ -82,7 +82,7 @@ module.exports = [
     settings: {
       group: "finance",
       subGroup: "ekspedisi spb",
-      permission: {"P1": 2, "P2": 2, "PDU": 1, "C9":1, B9: 2, B4: 2, B2:2},
+      permission: {"P1": 1, "P2": 1, "PDU": 1, "C9": 1, B9: 1, B4: 1, B2: 1},
       iconClass: "fa fa-dashboard",
     },
   },
@@ -96,7 +96,7 @@ module.exports = [
     settings: {
       group: "finance",
       subGroup: "ekspedisi disposisi",
-      permission: {"P1": 2, "P2": 2, "PDU": 1, "C9":1},
+      permission: {"P1": 1, "P2": 1, "PDU": 1, "C9": 1},
       iconClass: "fa fa-dashboard",
     },
   },
@@ -139,7 +139,7 @@ module.exports = [
     settings: {
       group: "finance",
       subGroup: "ekspedisi disposisi",
-      permission: {"P1": 2, "P2": 2, "PDU": 1, "C9":1, B9: 2, B4: 2, B2:2},
+      permission: {"P1": 1, "P2": 1, "PDU": 1, "C9": 1, B9: 1, B4: 1, B2: 1},
       iconClass: "fa fa-clone",
     },
   },
@@ -168,7 +168,7 @@ module.exports = [
     settings: {
       group: "finance",
       subGroup: "ekspedisi disposisi",
-      permission: {"P1": 2, "P2": 2, "PDU": 1, "C9":1, B9: 2, B4: 2, B2:2},
+      permission: {"P1": 1, "P2": 1, "PDU": 1, "C9": 1, B9: 1, B4: 1, B2: 1},
       iconClass: "fa fa-dashboard",
     },
   },
@@ -183,7 +183,7 @@ module.exports = [
     settings: {
       group: "finance",
       subGroup: "ekspedisi disposisi",
-      permission: {"P1": 2, "P2": 2, "PDU": 1, "C9":1, B9: 2, B4: 2, B2:2},
+      permission: {"P1": 1, "P2": 1, "PDU": 1, "C9": 1, B9: 1, B4: 1, B2: 1},
       iconClass: "fa fa-dashboard",
     },
   },
@@ -212,7 +212,7 @@ module.exports = [
     settings: {
       group: "finance",
       subGroup: "ekspedisi spb",
-      permission: { "P1": 2, "P2": 2, "PDU": 1, "C9":1, B9: 2, B4: 2, B2:2 },
+      permission: { "P1": 1, "P2": 1, "PDU": 1, "C9": 1, B9: 1, B4: 1, B2: 1 },
       iconClass: "fa fa-clone",
     },
   },
@@ -331,7 +331,7 @@ module.exports = [
     settings: {
       group: "finance",
       subGroup: "ekspedisi spb",
-      permission: { "P1": 2, "P2": 2, "PDU": 1, "C9":1, B9: 2, B4: 2, B2:2 },
+      permission: { "P1": 1, "P2": 1, "PDU": 1, "C9": 1, B9: 1, B4: 1, B2: 1 },
       iconClass: "fa fa-calendar-check-o",
     },
   },
@@ -891,7 +891,7 @@ module.exports = [
     settings: {
         group: "finance",
         subGroup: "ekspedisi disposisi",
-        permission: { "PDU": 1, "C9":1, B9: 2, B4: 2, B1:2, P1: 2, P2: 2 },
+        permission: { "PDU": 1, "C9": 1, B9: 1, B4: 1, B1: 1, P1: 1, P2: 1 },
         iconClass: 'fa fa-dashboard'
     }
   }
