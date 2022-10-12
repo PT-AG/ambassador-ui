@@ -13,13 +13,28 @@
             <div class="col-sm-6">
                 <au-datepicker label="Tanggal Awal BP" value.bind="dateFrom"></au-datepicker>
                 <au-datepicker label="Tanggal Akhir BP" value.bind="dateTo"></au-datepicker>
+<!-- 
+                <au-dropdown 
+                label="Jenis BC" 
+                value.bind="JenisBC"
+                items.bind="BC">
+            </au-dropdown> -->
+            
 
                 <au-dropdown 
-                    label="Jenis BC" 
-                    value.bind="JenisBC"
-                    items.bind="BC"
+                    label="Jenis Barang" 
+                    value.bind="KtgrItem"
+                    items.bind="KategoriItems"
+                    options.bind="controlOptions" >
+                 </au-dropdown>
+
+                 <au-dropdown 
+                    label="Asal Barang" 
+                    value.bind="isImportItem"
+                    items.bind="ImportItemS"
                     options.bind="controlOptions" >
                 </au-dropdown>
+                
                 <div class="col-sm-6">
                     <button click.delegate="search()" class='btn btn-success'>Cari Data</button>
                     <button click.delegate="reset()" class='btn btn-success'>Reset</button>
@@ -34,13 +49,13 @@
                 <thead align="center">
                     <tr>
                         <td align="center" rowspan="3">NO</td>
-                        <td colspan="31">P U S A T</td>
+                        <td colspan="38">P U S A T</td>
                          <td colspan="2">NOTA PEMBELIAN</td>
                          <td colspan="12">K O N F E K S I</td>
   
                      </tr>
                     <tr>
-                        <td rowspan="2">NO BON PUSAT</td>
+                        <!-- <td rowspan="2">NO BON PUSAT</td> -->
                         <td rowspan="2">TANGGAL BP</td>
                         <td rowspan="2">NO BON KECIL</td>
                         <td rowspan="2">TIPE BEA CUKAI</td>
@@ -65,7 +80,7 @@
                         <td rowspan="2">NAMA BARANG</td>
                         <td rowspan="2">KETERANGAN BARANG</td>
                         
-                        <td colspan="4">SEBELUM KONVERSI</td>
+                        <td colspan="8">SEBELUM KONVERSI</td>
                         <td colspan="3">SETELAH KONVERSI</td>
 
                         <td rowspan="2">NO NOTA INTERN</td>
@@ -83,14 +98,21 @@
                         <td>QUANTITY</td>
                         <td>SATUAN</td>
                         <td>HARGA</td>
-                        <td>JUMLAH HARGA</td>
+                        <td>PPN</td>
+                        <td>DPP</td>
+                        <td>DPP VALAS</td>
+                        <td>RATE</td>
+                        <td>MATA UANG</td>
+
                         <td>NILAI KONVERSI</td>
                         <td>QUANTITY</td>
                         <td>SATUAN</td>
+
                         <td>QUANTITY</td>
                         <td>SATUAN</td>
                         <td>HARGA</td>
                         <td>JUMLAH HARGA</td>
+
                         <td>NILAI KONVERSI</td>
                         <td>QUANTITY</td>
                         <td>SATUAN</td>
@@ -99,7 +121,7 @@
                 <tbody>
                     <tr repeat.for="item of data">
                         <td>${$index + 1}</td>
-                        <td>${item.BillNo}</td>
+                        <!-- <td>${item.BillNo}</td> -->
                         <td>${item.BillDate | dateFormat:'DD MMM YYYY'}</td>
                         <td>${item.PaymentBill}</td>
                         <td>${item.CustomsType}</td>
@@ -126,7 +148,12 @@
                         <td align="right">${item.DOQuantity}</td>
                         <td>${item.UOMUnit}</td>
                         <td align="right">${item.PricePerDealUnit}</td>
+                        <td align="right">${item.PPN}</td>
                         <td align="right">${item.PriceTotal}</td>
+                        <td align="right">${item.DPPValas}</td>
+                        <td align="right">${item.Rate}</td>
+                        <td>${item.CurencyCode}</td>
+
                         <td align="right">${item.Conversion}</td>
                         <td align="right">${item.SmallQuantity}</td>
                         <td>${item.SmallUOMUnit}</td>
