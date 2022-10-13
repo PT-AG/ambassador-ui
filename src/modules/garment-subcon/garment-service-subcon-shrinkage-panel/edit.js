@@ -16,6 +16,10 @@ export class Edit {
 		this.data = await this.service.read(id);
 
 		this.selectedUnit = this.data.Unit;
+		// this.selectedUomUnit = 
+		// {
+		//   Unit: this.data.UomUnit
+		// };
 	}
 
 	bind() {

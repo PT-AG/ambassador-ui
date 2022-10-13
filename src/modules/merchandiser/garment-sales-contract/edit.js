@@ -29,9 +29,14 @@ isEdit=true;
     }
 
     save() {
-        if(this.data.Items.length===0){
-            this.data.Price=this.data.Price?this.data.Price:0;
+        if(this.data.SalesContractROs){
+            for(var item of this.data.SalesContractROs){
+                if(item.Items.length===0){
+                    item.Price=item.Price?item.Price:0;
+                }
+            }
         }
+        
         this.service.update(this.data).then(result => {
             this.view();
         }).catch(e => {

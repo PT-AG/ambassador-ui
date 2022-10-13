@@ -9,7 +9,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "master",
-            permission: { "C9": 1, "SP": 2, "PDU":1 },
+            permission: { "C9": 1, "SP": 2, "B1": 2, "PDU":1 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -23,7 +23,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "master",
-            permission: { "C9": 1, "SP": 2, "PDU":1 },
+            permission: { "C9": 1, "SP": 2, "B1": 2, "PDU":1 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -37,7 +37,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "master",
-            permission: { "C9": 1, "SP": 2, "PDU":1},
+            permission: { "C9": 1, "SP": 2, "B1": 2, "PDU":1},
             iconClass: "fa fa-dashboard"
         }
     },
@@ -51,7 +51,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "master",
-            permission: { "C9": 1, "SP": 2, "PDU":1 },
+            permission: { "C9": 1, "SP": 2, "B1": 2, "PDU":1 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -65,7 +65,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "master",
-            permission: { "C9": 1, "SP": 2, "PDU":1 },
+            permission: { "C9": 1, "SP": 2, "B1": 2, "PDU":1 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -93,7 +93,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "master",
-            permission: { "C9": 1, "SP": 2, "PDU":1 },
+            permission: { "C9": 1, "SP": 2, "B1": 2, "PDU":1 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -135,7 +135,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "master",
-            permission: { "C9": 1, "SP": 2, "PDU":1 },
+            permission: { "C9": 1, "SP": 2, "B1": 2, "PDU":1 },
             iconClass: "fa fa-dashboard"
         }
     },
@@ -149,7 +149,7 @@ module.exports = [
         settings: {
             group: "g-shipping",
             subGroup: "master",
-            permission: { "C9": 1, "SP": 2, "PDU":1 },
+            permission: { "C9": 1, "SP": 2, "B1": 2, "PDU":1 },
         iconClass: "fa fa-dashboard",
     },
   },
@@ -315,7 +315,7 @@ module.exports = [
         name: "garment-shipping/export-sales-do",
         moduleId: "modules/garment-shipping/export-sales-do/index",
         nav: true,
-        title: "DO Penjualan Export",
+        title: "DO Penjualan",
         auth: true,
         settings: {
             group: "g-shipping",

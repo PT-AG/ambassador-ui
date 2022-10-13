@@ -68,7 +68,7 @@
   <require from="../../../lib/number-format-value-converter.js"></require>
   <require from="../../../lib/date-format-value-converter.js"></require>
 
-  <template if.bind="type === 'KadivMD'">
+  <template if.bind="type === 'KadivMD' || type === 'PPIC' || type === 'IE' ">
     <div class="row">
       <div class="col-sm-6 tab ${activeTab === 0 ? 'active' : ''}" click.delegate="changeRole(0)">
         Cost Calculation

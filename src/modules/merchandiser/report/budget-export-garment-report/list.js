@@ -73,6 +73,7 @@ export class List {
                             Section : data.Section,
                             BuyerCode : data.BuyerCode,
                             BuyerName : data.BuyerName,
+                            Type: data.Type,
                             Article : data.Article,
                             DeliveryDate : moment(data.DeliveryDate).format("DD MMM YYYY")=="01 Jan 1970"? "-" : moment(data.DeliveryDate).format("DD MMM YYYY"),                          
                             PONumber : data.PONumber,

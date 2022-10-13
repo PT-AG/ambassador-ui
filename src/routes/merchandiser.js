@@ -149,6 +149,21 @@ module.exports = [
         }
     },
     {
+        route: '/merchandiser/cost-calculation-approval/marketing',
+        name: 'cost-calculation-approval-marketing',
+        moduleId: './modules/merchandiser/cost-calculation-approval/index',
+        nav: true,
+        title: 'Cost Calculation Approval - Marketing',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "approval",
+            permission: { "MK": 2, "PDU": 1, "C9": 1 },
+            iconClass: 'fa fa-calculator',
+            type: "PPIC"
+        }
+    },
+    {
         route: '/merchandiser/cost-calculation-approval/md',
         name: 'cost-calculation-approval-md',
         moduleId: './modules/merchandiser/cost-calculation-approval/index',
@@ -164,11 +179,11 @@ module.exports = [
         }
     },
     {
-        route: '/merchandiser/cost-calculation-approval/ie',
-        name: 'cost-calculation-approval-ie',
+        route: '/merchandiser/budget-validation-ie',
+        name: 'budget-validation-ie',
         moduleId: './modules/merchandiser/cost-calculation-approval/index',
         nav: true,
-        title: 'Cost Calculation Approval - IE',
+        title: 'Validasi Budget - IE',
         auth: true,
         settings: {
             group: "merchandiser",

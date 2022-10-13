@@ -65,8 +65,15 @@ export class List {
         }
 
         switch (type) {
+            case "PPIC":
+                this.filter = {
+                    IsApprovedPPIC: false,
+                    IsPosted: true
+                };
+                break;
             case "md":
                 this.filter = {
+                    IsApprovedPPIC: true,
                     IsApprovedMD: false,
                     IsPosted: true,
                     ApprovalCC: username

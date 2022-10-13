@@ -36,7 +36,7 @@ export class DataForm {
       }
     }
 
-    divisionOptions = ['T','G'];
+    divisionOptions = ['AMBASSADOR GARMINDO 1','AMBASSADOR GARMINDO 2'];
 
     @computedFrom("data.Id")
     get isEdit() {
