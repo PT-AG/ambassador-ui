@@ -68,8 +68,7 @@ export class List {
             case "PPIC":
                 this.filter = {
                     IsApprovedPPIC: false,
-                    IsPosted: true,
-                    ApprovalCC: username
+                    IsPosted: true
                 };
                 break;
             case "md":
