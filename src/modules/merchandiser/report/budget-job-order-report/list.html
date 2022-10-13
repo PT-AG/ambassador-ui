@@ -28,6 +28,7 @@
                         <th><label>Nama Agent Buyer</label></th>
                         <th><label>Kode Brand</label></th>
                         <th><label>Nama Brand Buyer</label></th>
+                        <th><label>Tipe Buyer</label></th>
                         <th><label>Article</label></th>                        
                         <th><label>Komodity</label></th>
                         <th><label>Qty Order</label></th>
@@ -46,7 +47,7 @@
                 <tbody>
                     <!--No data to display-->
                     <tr if.bind="!tableData || tableData.length < 1">
-                        <td colspan="19">
+                        <td colspan="20">
                             <div class="alert alert-info"> Tidak ada data untuk ditampilkan. </div>
                         </td>
                     </tr>
@@ -87,6 +88,12 @@
                             <td width="30%">
                                 <au-textbox
                                     value.bind="tableData[index].BrandName"
+                                    read-only="true">
+                                </au-textbox>
+                            </td>
+                            <td width="30%">
+                                <au-textbox
+                                    value.bind="tableData[index].Type"
                                     read-only="true">
                                 </au-textbox>
                             </td>

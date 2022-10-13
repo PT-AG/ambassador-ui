@@ -58,6 +58,7 @@
                     <th class="text-center">Nama Buyer Agent</th>
                     <th class="text-center">Brand Buyer</th>
                     <th class="text-center">Nama Brand Buyer</th>
+                    <th class="text-center">Tipe Buyer</th>
                     <th class="text-center">Komisi</th>
                     <th class="text-center">Jumlah</th>
                     <th class="text-center">Satuan</th>        
@@ -77,6 +78,7 @@
                         <td>${data.BuyerName}</td>
                         <td>${data.BrandCode}</td>
                         <td>${data.BrandName}</td>
+                        <td>${data.Type}</td>
                         <td class="text-right">${data.Commission}</td>
                         <td class="text-right">${data.Quantity}</td>
                         <td>${data.UOMUnit}</td>
@@ -85,7 +87,7 @@
                     </tr>
                     <tr class="active">
                        <td class="text-center">.</td>
-                        <td class="text-right" colspan="7"><strong>${brand.brand}</strong></td>
+                        <td class="text-right" colspan="8"><strong>${brand.brand}</strong></td>
                         <td class="text-center" colspan="2"><strong>SUB TOTAL</strong></td>
                         <td class="text-right"><strong>${brand.subTotal1}</strong></td>                     
                         <td class="text-right"><strong>.</strong></td>                     
@@ -94,7 +96,7 @@
                     </tr>
                 </template>
                     <tr class="active">
-                        <td class="text-center" colspan="10"><strong>T O T A L . . . . . . :</strong></td>
+                        <td class="text-center" colspan="11"><strong>T O T A L . . . . . . :</strong></td>
                         <td class="text-right"><strong>${QtyTotal}</strong></td>                     
                         <td class="text-right"><strong>.</strong></td>                                                                     
                         <td class="text-right"><strong>.</strong></td>                                             

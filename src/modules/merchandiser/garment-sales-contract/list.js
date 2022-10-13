@@ -14,14 +14,14 @@ export class List {
                 return moment(value).format("DD MMM YYYY");
             }
         },
-        { field: "RONumber", title: "No RO" },
+        //{ field: "RONumber", title: "No RO" },
         { field: "BuyerBrandName", title: "Buyer",formatter: function (value, data, index) {
                 return data.BuyerBrandCode + " - " + data.BuyerBrandName;
             } },
-        { field: "ComodityName", title: "Komoditi" ,formatter: function (value, data, index) {
-                return data.ComodityCode + " - " + data.ComodityName;
-            }},
-        { field: "Article", title: "Artikel" }
+        // { field: "ComodityName", title: "Komoditi" ,formatter: function (value, data, index) {
+        //         return data.ComodityCode + " - " + data.ComodityName;
+        //     }},
+        // { field: "Article", title: "Artikel" }
     ];
 
     loader = (info) => {

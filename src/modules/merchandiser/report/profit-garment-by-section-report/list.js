@@ -68,6 +68,7 @@ export class List {
                             BuyerName : data.BuyerName,
                             BrandCode : data.BrandCode,
                             BrandName : data.BrandName,
+                            Type : data.Type,
                             Article : data.Article,
                             Comodity : data.Comodity,
                             ComodityDescription : data.ComodityDescription,
