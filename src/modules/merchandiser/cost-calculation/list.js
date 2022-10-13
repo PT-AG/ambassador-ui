@@ -22,6 +22,7 @@ export class List {
         { field: "UnitName", title: "Unit" },
         { field: "Quantity", title: "Kuantitas" },
         { field: "ConfirmPrice", title: "Harga Konfirmasi" },
+        { field: "IsApprovedPPIC", title: "Approval Marketing" },
         { field: "IsApprovedMD", title: "Approval Kabag/Kasie Md" },
         { field: "IsApprovedIE", title: "Approval IE" },
         { field: "IsApprovedPurchasing", title: "Approval Purchasing" },
@@ -29,7 +30,7 @@ export class List {
     ];
 
     rowFormatter(data, index) {
-        if (data.ApprovalMD.IsApproved && data.ApprovalPurchasing.IsApproved && data.ApprovalIE.IsApproved && data.ApprovalKadivMD.IsApproved)
+        if (data.ApprovalPPIC.IsApproved && data.ApprovalMD.IsApproved && data.ApprovalPurchasing.IsApproved && data.ApprovalIE.IsApproved && data.ApprovalKadivMD.IsApproved)
             return { classes: "success" }
         else
             return { classes: "danger" }
@@ -54,6 +55,7 @@ export class List {
                 result.data.map(data => {
                     data.byUser = this.byUser;
                     data.isPosting = data.IsPosted;
+                    data.IsApprovedPPIC = data.ApprovalPPIC.IsApproved ? "SUDAH" : "BELUM";
                     data.IsApprovedMD = data.ApprovalMD.IsApproved ? "SUDAH" : "BELUM";
                     data.IsApprovedIE = data.ApprovalIE.IsApproved ? "SUDAH" : "BELUM";
                     data.IsApprovedPurchasing = data.ApprovalPurchasing.IsApproved ? "SUDAH" : "BELUM";
