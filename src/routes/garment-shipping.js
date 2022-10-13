@@ -315,7 +315,7 @@ module.exports = [
         name: "garment-shipping/export-sales-do",
         moduleId: "modules/garment-shipping/export-sales-do/index",
         nav: true,
-        title: "DO Penjualan Export",
+        title: "DO Penjualan",
         auth: true,
         settings: {
             group: "g-shipping",

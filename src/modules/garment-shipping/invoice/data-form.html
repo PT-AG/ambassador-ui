@@ -19,6 +19,10 @@
                 read-only.bind="readOnly || isEdit || isUpdated" loader.bind="invoiceLoader" text.bind="invoiceView"
                 placeholder="Cari Invoice" options.bind="length4" view-model.ref="invoiceViewModel" query.bind="filter">
             </au-autocomplete>
+            <au-textbox label="Jenis Invoice" value.bind="data.packingListType" error.bind="error.PackingListType" read-only.bind="true" if.bind="packinglists"
+                options.bind="length4">
+            </au-textbox>
+
             <au-datepicker label="TGL" value.bind="data.invoiceDate" error.bind="error.InvoiceDate"
                 read-only.bind="true" options.bind="length4">
             </au-datepicker>
@@ -44,7 +48,7 @@
                 error.bind="error.ConsigneeAddress" read-only.bind="readOnly" options.bind="length4">
             </au-multiline>
             <au-textbox label="LC No" value.bind="data.lcNo" error.bind="error.LcNo" read-only.bind="true"
-                if.bind="data.lcNo" options.bind="length4">
+                if.bind="data.lcNo && isPackinglistType" options.bind="length4">
             </au-textbox>
             <au-textbox label="Issued By" value.bind="data.issuedBy" error.bind="error.IssuedBy" read-only.bind="true"
                 if.bind="data.issuedBy" options.bind="length4">
@@ -74,8 +78,14 @@
             </au-autocomplete>
             <au-autocomplete label="Jenis Fabric" value.bind="fabricType" error.bind="error.FabricType"
                 read-only.bind="readOnly " loader.bind="fabricTypeLoader" text.bind="fabricTypeView"
-                placeholder="Cari Jenis Fabric" options.bind="length4" view-model.ref="fabricTypeViewModel">
+                placeholder="Cari Jenis Fabric" options.bind="length4" view-model.ref="fabricTypeViewModel" if.bind = "isPackinglistType">
             </au-autocomplete>
+
+            <au-textbox label="Jenis Fabric" value.bind="fabricType"
+                error.bind="error.FabricType" read-only.bind="readOnly" options.bind="length4" if.bind = "!isPackinglistType">
+            </au-textbox>
+
+
             <au-autocomplete label="Bank Detail" value.bind="bankAccount" error.bind="error.BankAccount"
                 read-only.bind="readOnly" loader.bind="accountBankLoader" text.bind="accountBankView"
                 placeholder="Cari Bank" query.bind="bankFilter" options.bind="length4">
