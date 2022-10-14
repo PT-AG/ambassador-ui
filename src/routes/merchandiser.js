@@ -241,7 +241,7 @@ module.exports = [
         name: 'garment-sales-contract-by-user',
         moduleId: './modules/merchandiser/garment-sales-contract/index',
         nav: true,
-        title: 'Sales Contract Per RO',
+        title: 'Sales Contract',
         auth: true,
         settings: {
             group: "merchandiser",
@@ -256,7 +256,7 @@ module.exports = [
         name: 'garment-sales-contract',
         moduleId: './modules/merchandiser/garment-sales-contract/index',
         nav: true,
-        title: 'Sales Contract Per RO (Semua User)',
+        title: 'Sales Contract (Semua User)',
         auth: true,
         settings: {
             group: "merchandiser",
@@ -399,7 +399,7 @@ module.exports = [
         name: 'garment-sales-contract-copy',
         moduleId: './modules/merchandiser/garment-sales-contract/copy/index',
         nav: true,
-        title: 'Copy Sales Contract Per RO',
+        title: 'Copy Sales Contract',
         auth: true,
         settings: {
             group: "merchandiser",
