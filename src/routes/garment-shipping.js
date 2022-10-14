@@ -158,7 +158,7 @@ module.exports = [
         name: 'garment-sales-contract',
         moduleId: './modules/merchandiser/garment-sales-contract/index',
         nav: true,
-        title: 'Sales Contract Per RO (Semua User)',
+        title: 'Sales Contract (Semua User)',
         auth: true,
         settings: {
             group: "g-shipping",
