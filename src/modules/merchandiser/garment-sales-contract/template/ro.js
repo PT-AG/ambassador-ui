@@ -116,7 +116,7 @@ export class ROItem {
     }
 
     get detailHeader() {
-        return [{ header: "Keterangan" }, { header: "Quantity" }, { header: "Satuan" }, { header: "Harga" },{ header: "Satuan Harga" }];
+        return [{ header: "Keterangan" }, { header: "Quantity" }, { header: "Harga" }];
     }
 
     async itemsChanged(e){
