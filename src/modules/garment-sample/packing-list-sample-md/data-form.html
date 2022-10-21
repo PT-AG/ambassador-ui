@@ -58,7 +58,6 @@
                             read-only.bind="readOnly || isEdit" options.bind="controlOptions">
                         </au-autocomplete>
 
-
                         <au-datepicker label="TGL" value.bind="data.date" error.bind="error.Date"
                             read-only.bind="readOnly" options.bind="controlOptions">
                         </au-datepicker>
@@ -83,22 +82,22 @@
                             options.bind="controlOptions">
                         </au-multiline>
                     </div>
+
                     <div class="col-sm-6">
                         <au-autocomplete value.bind="selectedBuyer" error.bind="error.BuyerAgent" label="Buyer Agent"
                             loader.bind="buyerLoader" text.bind="buyerView" placeholder="cari buyer"
                             read-only.bind="readOnly || isInvoice" options.bind="controlOptions">
                         </au-autocomplete>
 
-                        <au-dropdown label="Destination" value.bind="data.destination" error.bind="error.Destination"
-                            read-only.bind="readOnly" items.bind="countries" options.bind="controlOptions">
-                        </au-dropdown>
+                        <au-textbox label="Destination" value.bind="data.destination" error.bind="error.Destination"
+                            read-only.bind="readOnly" options.bind="controlOptions">
+                        </au-textbox>
 
                         <au-datepicker label="TGL Trucking" value.bind="data.truckingDate"
                             error.bind="error.TruckingDate" read-only.bind="readOnly" options.bind="controlOptions" change.delegate="truckingDateChanged($event)">
                         </au-datepicker>
 
-
-                        <au-datepicker label="TGL Perkiraan Export" value.bind="data.exportEstimationDate"
+                        <au-datepicker label="TGL Perkiraan Kirim" value.bind="data.exportEstimationDate"
                             error.bind="error.ExportEstimationDate" read-only.bind="readOnly"
                             options.bind="controlOptions">
                         </au-datepicker>
@@ -111,14 +110,23 @@
                             options.bind="controlOptions">
                         </au-checkbox>
 
-                        <au-textbox label="Shipping Staff" value.bind="data.shippingStaffName" read-only.bind="true">
-                        </au-textbox>
+                        <!-- <au-textbox label="Shipping Staff" value.bind="data.shippingStaffName" read-only.bind="true">
+                        </au-textbox> -->
+
+                        <au-autocomplete label="Shipping Staff" value.bind="selectedShippingStaff" read-only.bind="readOnly"
+                            loader.bind="shippingStaffLoader" text.bind="shippingStaffView" options.bind="controlOptions" 
+                            error.bind="error.ShippingStaff">
+                        </au-autocomplete>
+
                         <au-multiline label="Keterangan" value.bind="data.sampleRemarkMd" error.bind="error.sampleRemarkMd"
                             read-only.bind="readOnly"  
                             options.bind="controlOptions">
                         </au-multiline>
-                         
 
+                        <au-multiline label="Authorized" value.bind="data.userAuthorizedName"
+                            read-only.bind="readOnly"  
+                            options.bind="controlOptions">
+                        </au-multiline>
                     </div>
                 </div>
                 <div class="row">
