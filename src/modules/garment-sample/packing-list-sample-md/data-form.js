@@ -3,6 +3,7 @@ import { Service, CoreService } from "./service";
 
 var SectionLoader = require('../../../loader/garment-sections-loader');
 var BuyerLoader = require('../../../loader/garment-buyers-loader');
+var ShippingStaffLoader = require('../../../loader/garment-shipping-staff-loader');
 var LCLoader = require('../../../loader/garment-shipping-letter-of-credit');
 
 @inject(Service, CoreService)
@@ -13,6 +14,7 @@ export class DataForm {
     @bindable selectedBuyer;
     @bindable selectedLC;
     @bindable selectedInvoiceType;
+    @bindable selectedShippingStaff;
 
     constructor(service, coreService) {
         this.service = service;
@@ -87,8 +89,8 @@ export class DataForm {
         { header: "CBM" },
     ]
 
-    PackingTypeOptions = ["EXPORT"];
-    InvoiceTypeOptions = ["DS", "SM"];
+    PackingTypeOptions = ["EXPORT", "LOKAL"];
+    InvoiceTypeOptions = ["DS-Commercial", "SM-Non-Commercial"];
     PaymentTermOptions = ["LC", "TT/OA", "NON COMMERCIAL"];
 
     countries = ["", "AFGHANISTAN", "ALBANIA", "ALGERIA", "ANDORRA", "ANGOLA", "ANGUILLA", "ANTIGUA AND BARBUDA", "ARGENTINA", "ARMENIA", "ARUBA", "AUSTRALIA", "AUSTRIA", "AZERBAIJAN", "BAHAMAS", "BAHRAIN", "BANGLADESH", "BARBADOS", "BELARUS", "BELGIUM", "BELIZE", "BENIN", "BERMUDA", "BHUTAN", "BOLIVIA", "BOSNIA AND HERZEGOVINA", "BOTSWANA", "BRAZIL", "BRITISH VIRGIN ISLANDS", "BRUNEI", "BULGARIA", "BURKINA FASO", "BURUNDI", "CAMBODIA", "CAMEROON", "CANADA", "CAPE VERDE", "CAYMAN ISLANDS", "CHAD", "CHILE", "CHINA", "COLOMBIA", "CONGO", "COOK ISLANDS", "COSTA RICA", "COTE D IVOIRE", "CROATIA", "CRUISE SHIP", "CUBA", "CYPRUS", "CZECH REPUBLIC", "DENMARK", "DJIBOUTI", "DOMINICA", "DOMINICAN REPUBLIC", "ECUADOR", "EGYPT", "EL SALVADOR", "EQUATORIAL GUINEA", "ESTONIA", "ETHIOPIA", "FALKLAND ISLANDS", "FAROE ISLANDS", "FIJI", "FINLAND", "FRANCE", "FRENCH POLYNESIA", "FRENCH WEST INDIES", "GABON", "GAMBIA", "GEORGIA", "GERMANY", "GHANA", "GIBRALTAR", "GREECE", "GREENLAND", "GRENADA", "GUAM", "GUATEMALA", "GUERNSEY", "GUINEA", "GUINEA BISSAU", "GUYANA", "HAITI", "HONDURAS", "HONG KONG", "HUNGARY", "ICELAND", "INDIA", "INDONESIA", "IRAN", "IRAQ", "IRELAND", "ISLE OF MAN", "ISRAEL", "ITALY", "JAMAICA", "JAPAN", "JERSEY", "JORDAN", "KAZAKHSTAN", "KENYA", "KUWAIT", "KYRGYZ REPUBLIC", "LAOS", "LATVIA", "LEBANON", "LESOTHO", "LIBERIA", "LIBYA", "LIECHTENSTEIN", "LITHUANIA", "LUXEMBOURG", "MACAU", "MACEDONIA", "MADAGASCAR", "MALAWI", "MALAYSIA", "MALDIVES", "MALI", "MALTA", "MAURITANIA", "MAURITIUS", "MEXICO", "MOLDOVA", "MONACO", "MONGOLIA", "MONTENEGRO", "MONTSERRAT", "MOROCCO", "MOZAMBIQUE", "NAMIBIA", "NEPAL", "NETHERLANDS", "NETHERLANDS ANTILLES", "NEW CALEDONIA", "NEW ZEALAND", "NICARAGUA", "NIGER", "NIGERIA", "NORTH KOREA", "NORWAY", "OMAN", "PAKISTAN", "PALESTINE", "PANAMA", "PAPUA NEW GUINEA", "PARAGUAY", "PERU", "PHILIPPINES", "POLAND", "PORTUGAL", "PUERTO RICO", "QATAR", "REUNION", "ROMANIA", "RUSSIA", "RWANDA", "SAINT PIERRE AND MIQUELON", "SAMOA", "SAN MARINO", "SATELLITE", "SAUDI ARABIA", "SENEGAL", "SERBIA", "SEYCHELLES", "SIERRA LEONE", "SINGAPORE", "SLOVAKIA", "SLOVENIA", "SOUTH AFRICA", "SOUTH KOREA", "SPAIN", "SRI LANKA", "ST KITTS AND NEVIS", "ST LUCIA", "ST VINCENT", "ST. LUCIA", "SUDAN", "SURINAME", "SWAZILAND", "SWEDEN", "SWITZERLAND", "SYRIA", "TAIWAN", "TAJIKISTAN", "TANZANIA", "THAILAND", "TIMOR L'ESTE", "TOGO", "TONGA", "TRINIDAD AND TOBAGO", "TUNISIA", "TURKEY", "TURKMENISTAN", "TURKS AND CAICOS", "UGANDA", "UKRAINE", "UNITED ARAB EMIRATES", "UNITED KINGDOM", "UNITED STATES OF AMERICA", "URUGUAY", "UZBEKISTAN", "VENEZUELA", "VIETNAM", "VIRGIN ISLANDS (US)", "YEMEN", "ZAMBIA", "ZIMBABWE"];
@@ -122,6 +124,15 @@ export class DataForm {
         return SectionLoader;
     }
 
+    // get shippingStaffLoader(){
+    //     return ShippingStaffLoader;
+    // }
+
+    // shippingStaffView = (shippingStaff) => {
+    //     var shippingStaffName = shippingStaff.Name || shippingStaff.name
+    //     return `${shippingStaffName}`
+    // }
+
     sectionView = (section) => {
         var sectionCode = section.Code || section.code;
         var sectionName = section.Name || section.name;
@@ -131,6 +142,7 @@ export class DataForm {
     get buyerLoader() {
         return BuyerLoader;
     }
+
     buyerView = (buyer) => {
         var buyerName = buyer.Name || buyer.name;
         var buyerCode = buyer.Code || buyer.code;
@@ -164,7 +176,8 @@ export class DataForm {
                 documentCreditNo: this.data.lcNo
             };
             if (this.data.shippingStaff) {
-                this.data.shippingStaffName = this.data.shippingStaff.name;
+                this.selectedShippingStaff = this.data.shippingStaff;                
+                //this.data.shippingStaffName = this.data.shippingStaff.name;
             }
         }
         this.data.items = this.Items;
@@ -269,25 +282,25 @@ export class DataForm {
         }
         if (newValue) {
             this.data.invoiceType = newValue;
-            if (newValue == "DS") {
+            if (newValue == "DS-Commercial") {
                 this.data.omzet = true;
                 this.data.accounting = true;
-                var shippingStaff = await this.coreService.getStaffIdByName({ size: 1, filter: JSON.stringify({ Name: "DEDE" }) });
-                this.data.shippingStaffName = shippingStaff.data[0].Name;
-                this.data.shippingStaff = {
-                    id: shippingStaff.data[0].Id,
-                    name: shippingStaff.data[0].Name
-                };
+                // var shippingStaff = await this.coreService.getStaffIdByName({ size: 1, filter: JSON.stringify({ Name: "DEDE" }) });
+                // this.data.shippingStaffName = shippingStaff.data[0].Name;
+                // this.data.shippingStaff = {
+                //     id: shippingStaff.data[0].Id,
+                //     name: shippingStaff.data[0].Name
+                // };
 
             } else {
                 this.data.omzet = false;
                 this.data.accounting = false;
-                var shippingStaff = await this.coreService.getStaffIdByName({ size: 1, filter: JSON.stringify({ Name: "SYARIF" }) });
-                this.data.shippingStaffName = shippingStaff.data[0].Name;
-                this.data.shippingStaff = {
-                    id: shippingStaff.data[0].Id,
-                    name: shippingStaff.data[0].Name
-                };
+                // var shippingStaff = await this.coreService.getStaffIdByName({ size: 1, filter: JSON.stringify({ Name: "SYARIF" }) });
+                // this.data.shippingStaffName = shippingStaff.data[0].Name;
+                // this.data.shippingStaff = {
+                //     id: shippingStaff.data[0].Id,
+                //     name: shippingStaff.data[0].Name
+                // };
 
             }
         }
@@ -298,6 +311,14 @@ export class DataForm {
             this.data.lcNo = newValue.documentCreditNo;
         } else {
             this.data.lcNo = null;
+        }
+    }
+
+    selectedShippingStaffChanged(newValue) {
+        if (newValue) {
+            this.data.shippingStaff = newValue;
+        } else {
+            this.data.shippingStaff = null;
         }
     }
 
@@ -347,6 +368,7 @@ export class DataForm {
                 no++;
             }
         }
+        
         for (var u of units) {
             let countableQuantities = 0;
             for (var q of quantities) {
