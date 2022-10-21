@@ -113,9 +113,12 @@ export class List {
     contextClickCallback(event) {
         var arg = event.detail;
         var data = arg.data;
+
+        console.log(data);
+
         switch (arg.name) {
             case "Rincian":
-                this.router.navigateToRoute('view', { id: data.Id });
+                this.router.navigateToRoute('view', { id: data.Identity });
                 break;
         }
     }
