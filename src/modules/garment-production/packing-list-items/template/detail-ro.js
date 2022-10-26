@@ -135,7 +135,8 @@ export class Item {
       if(this.data.roType=='RO JOB'){
         this.salesService.getCostCalculationById(newValue.Id)
         .then(result => {
-          this.salesService.getSalesContractById(result.SCGarmentId)
+          // this.salesService.getSalesContractById(result.SCGarmentId)
+          this.salesService.getSalesContractByRO(result.RO_Number)
             .then(sc => {
               this.salesService.getPreSalesContractById(result.PreSCId)
                 .then(psc => {
@@ -157,15 +158,23 @@ export class Item {
                   this.data.scNo = sc.SalesContractNo;
                   //this.data.amount=sc.Amount;
                   let avgPrice = 0;
+                  // if (sc.Price == 0) {
+                  //   avgPrice = sc.Items.reduce((acc, cur) => acc += cur.Price, 0) / sc.Items.length;
+                  // } else {
+                  //   avgPrice = sc.Price;
+                  // }
                   if (sc.Price == 0) {
-                    avgPrice = sc.Items.reduce((acc, cur) => acc += cur.Price, 0) / sc.Items.length;
+                    avgPrice = sc.SalesContractROs[0].Items.reduce((acc, cur) => acc += cur.Price, 0) / sc.SalesContractROs[0].Items.length;
                   } else {
-                    avgPrice = sc.Price;
+                    avgPrice = sc.SalesContractROs[0].Price;
                   }
                   this.data.price = avgPrice;
                   this.data.priceRO = avgPrice;
                   this.data.comodity = result.Comodity;
-                  this.data.amount = sc.Amount;
+                  //this.data.amount = sc.Amount;
+                  this.data.amount = sc.SalesContractROs[0].Amount;
+
+                  console.log(sc);
 
                   this.context.context.options.header.section = this.data.section;
                 });
