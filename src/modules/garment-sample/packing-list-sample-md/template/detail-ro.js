@@ -50,9 +50,12 @@ export class Item {
         { header: "Jml Carton" },
         { header: "Qty" },
         { header: "Total Qty" },
-        { header: "GW" },
-        { header: "NW" },
-        { header: "NNW" },
+        { header: "" },
+        { header: "" },
+        { header: "" },
+        // { header: "GW" },
+        // { header: "NW" },
+        // { header: "NNW" },
         { header: "" },
     ];
 
