@@ -27,31 +27,31 @@
         </td>
         <td>
             <au-numeric value.bind="data.quantityPCS" error.bind="error.QuantityPCS" format="0"
-                read-only.bind="readOnly" if.bind="type=='DL'">
+                read-only.bind="readOnly" if.bind="type=='AG'">
             </au-numeric>
             <au-numeric value.bind="data.quantityPCS" error.bind="error.QuantityPCS" format="0.00"
-                read-only.bind="readOnly" if.bind="type!='DL'">
+                read-only.bind="readOnly" if.bind="type!='AG'">
             </au-numeric>
         </td>
         <td>
             <au-numeric value.bind="totalQuantity" error.bind="error.TotalQuantity" format="0" read-only.bind="true"
-                if.bind="type=='DL'">
+                if.bind="type=='AG'">
             </au-numeric>
 
             <au-numeric value.bind="totalQuantity" error.bind="error.TotalQuantity" format="0.00" read-only.bind="true"
-                if.bind="type!='DL'">
+                if.bind="type!='AG'">
             </au-numeric>
         </td>
         <td>
-            <au-numeric value.bind="grossWeight" error.bind="error.GrossWeight" read-only.bind="true">
+            <au-numeric value.bind="grossWeight" error.bind="error.GrossWeight" read-only.bind="true" show.bind="false">
             </au-numeric>
         </td>
         <td>
-            <au-numeric value.bind="netWeight" error.bind="error.NetWeight" read-only.bind="true">
+            <au-numeric value.bind="netWeight" error.bind="error.NetWeight" read-only.bind="true" show.bind="false">
             </au-numeric>
         </td>
         <td>
-            <au-numeric value.bind="netNetWeight" error.bind="error.NetNetWeight" read-only.bind="true">
+            <au-numeric value.bind="netNetWeight" error.bind="error.NetNetWeight" read-only.bind="true" show.bind="false">
             </au-numeric>
         </td>
         <td if.bind="!readOnly" class="bg-light">
@@ -96,23 +96,23 @@
                 <tbody>
                     <tr>
                         <td>
-                            <au-numeric value.bind="length" read-only.bind="readOnly||type!='DL'">
+                            <au-numeric value.bind="length" read-only.bind="readOnly||type!='AG'">
                             </au-numeric>
                         </td>
                         <td>
-                            <au-numeric value.bind="width" read-only.bind="readOnly||type!='DL'">
+                            <au-numeric value.bind="width" read-only.bind="readOnly||type!='AG'">
                             </au-numeric>
                         </td>
                         <td>
-                            <au-numeric value.bind="height" read-only.bind="readOnly||type!='DL'">
+                            <au-numeric value.bind="height" read-only.bind="readOnly||type!='AG'">
                             </au-numeric>
                         </td>
                         <td>
                             <au-numeric value.bind="data.cartonQuantity" format="0" read-only="true"
-                                if.bind="type=='DL'">
+                                if.bind="type=='AG'">
                             </au-numeric>
                             <au-numeric value.bind="data.cartonQuantity" format="0.00" read-only="true"
-                                if.bind="type!='DL'">
+                                if.bind="type!='AG'">
                             </au-numeric>
                         </td>
                         <td>

@@ -13,11 +13,11 @@
             <au-textbox value.bind="data.scNo" read-only.bind="true">
             </au-textbox>
         </td>
-        <td class="bg-primary" if.bind="header.invoiceType!='SM'">
+        <td class="bg-primary" if.bind="header.invoiceType!='SM-Non-Commercial'">
             <au-textbox value.bind="data.buyerBrand.Name || data.buyerBrand.name ||''" read-only.bind="true">
             </au-textbox>
         </td>
-        <td class="bg-primary" if.bind="header.invoiceType!='SM'">
+        <td class="bg-primary" if.bind="header.invoiceType!='SM-Non-Commercial'">
             <au-textbox value.bind="data.comodity.Name || data.comodity.name || ''" read-only.bind="true">
             </au-textbox>
         </td>
@@ -97,17 +97,18 @@
         </td>
     </tr>
     <tr show.bind="isShowing" style="background-color:#C2B5B2;">
-        <td colspan="2">
+        <td colspan="13">
             <au-numeric label="TOTAL QTY" value.bind="totalQty" error.bind="error.totalQty" read-only.bind="true">
             </au-numeric>
-        </td>
-
-        <td colspan="2">
             <au-numeric label="TOTAL CARTON" value.bind="totalCtn" read-only.bind="true">
             </au-numeric>
         </td>
 
-        <td colspan="2">
+        <!-- <td colspan="6">
+           
+        </td> -->
+
+        <!-- <td colspan="2">
             <au-numeric label="TOTAL GW" value.one-way="subGrossWeight" read-only="true">
             </au-numeric>
         </td>
@@ -118,7 +119,7 @@
         <td colspan="4">
             <au-numeric label="TOTAL NNW" value.one-way="subNetNetWeight" read-only="true">
             </au-numeric>
-        </td>
+        </td> -->
     </tr>
     <tr show.bind="isShowing" style='border:none;'>
         <td colspan="13">
