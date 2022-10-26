@@ -109,6 +109,7 @@ export class DataForm {
     get buyerLoader() {
         return BuyerLoader;
     }
+
     buyerView = (buyer) => {
         var buyerName = buyer.Name || buyer.name;
         var buyerCode = buyer.Code || buyer.code;
@@ -118,6 +119,7 @@ export class DataForm {
     get shippingStaffLoader() {
         return ShippingStaffLoader;
     }
+
     shippingStaffView = (data) => {
         return `${data.Name || data.name}`
     }
@@ -150,6 +152,8 @@ export class DataForm {
         return (event) => {
             this.data.items.push({
                 BuyerCode: this.data.buyerAgent.Code || this.data.buyerAgent.code,
+                avG_GW : 0,
+                avG_NW : 0,
                 details: []
             });
         };
@@ -157,6 +161,9 @@ export class DataForm {
 
     get removeItems() {
         return (event) => {
+
+            console.log(this.data.items);
+
             this.data.grossWeight = this.data.items.reduce((acc, cur) => acc += cur.avG_GW, 0);
             this.data.nettWeight = this.data.items.reduce((acc, cur) => acc += cur.avG_NW, 0);
             this.error = null;
@@ -309,6 +316,4 @@ export class DataForm {
 
         this.data.measurements.forEach((m, i) => m.MeasurementIndex = i);
     }
-
-
 }

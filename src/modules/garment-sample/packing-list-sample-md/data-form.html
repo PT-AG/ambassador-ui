@@ -140,7 +140,7 @@
                     <div class="col-md-12">
                         <div class="tbl">
                             <au-collection items.bind="data.items" errors.bind="error.Items"
-                                columns.bind="data.invoiceType=='SM' ? itemsColumnsSM : itemsColumns"
+                                columns.bind="data.invoiceType=='SM-Non-Commercial' ? itemsColumnsSM : itemsColumns"
                                 read-only.bind="readOnly" add.bind="addItems" remove.bind="removeItems"
                                 options.bind="Options" show.bind="(data.buyerAgent || isEdit) && data.section"
                                 item-template="modules/garment-sample/packing-list-sample-md/template/detail-ro">
@@ -156,24 +156,24 @@
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-sm-3">
+                        <au-textbox label="TOTAL QUANTITY" value.bind="totalQuantities"
+                            error.bind="error.totalQuantities" read-only="true" options.bind="controlOptions">
+                        </au-textbox>
+                    </div>
+                    <div class="col-sm-3">
                         <numeric label="GROSS WEIGHT" value.bind="data.grossWeight" error.bind="error.GrossWeight"
-                            read-only="true" options.bind="controlOptions">
+                            read-only="true" options.bind="controlOptions" show.bind="false">
                         </numeric>
                     </div>
                     <div class="col-sm-3">
                         <numeric label="NETT WEIGHT" value.bind="data.nettWeight" error.bind="error.NettWeight"
-                            read-only="true" options.bind="controlOptions">
+                            read-only="true" options.bind="controlOptions" show.bind="false">
                         </numeric>
                     </div>
                     <div class="col-sm-3">
                         <numeric label="NET NET WEIGHT" value.bind="data.netNetWeight" error.bind="error.NetNetWeight"
-                            read-only="true" options.bind="controlOptions">
+                            read-only="true" options.bind="controlOptions" show.bind="false">
                         </numeric>
-                    </div>
-                    <div class="col-sm-3">
-                        <au-textbox label="TOTAL QUANTITY" value.bind="totalQuantities"
-                            error.bind="error.totalQuantities" read-only="true" options.bind="controlOptions">
-                        </au-textbox>
                     </div>
                 </div>
                 <div class="row">
@@ -217,7 +217,7 @@
                     <div class="col-md-12">
                         <div class="tbl">
                             <au-collection items.bind="data.measurements" errors.bind="error.Measurements"
-                                columns.bind="measureColumns" read-only.bind="readOnly || data.invoiceType=='DL'"
+                                columns.bind="measureColumns" read-only.bind="readOnly || data.invoiceType=='AG'"
                                 add.bind="addMeasurements" remove.bind="removeMeasurements" options.bind="Options"
                                 item-template="modules/garment-sample/packing-list-sample-md/template/detail-measurement">
                             </au-collection>
@@ -288,6 +288,5 @@
                 </div>
             </div>
         </div>
-
     </au-input-form>
 </template>
