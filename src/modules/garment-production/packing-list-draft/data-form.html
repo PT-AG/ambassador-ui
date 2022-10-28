@@ -76,6 +76,7 @@
                         options.bind="controlOptions">
                     </au-datepicker>
                 </div>
+                
                 <div class="col-sm-6">
                     <au-autocomplete
                         value.bind="data.buyerAgent"
@@ -88,14 +89,22 @@
                         options.bind="controlOptions">
                     </au-autocomplete>
 
-                    <au-dropdown
+                    <!-- <au-dropdown
                         label="Destination"
                         value.bind="data.destination"
                         error.bind="error.Destination"
                         read-only.bind="readOnly"
                         items.bind="countries"
                         options.bind="controlOptions">
-                    </au-dropdown>
+                    </au-dropdown> -->
+
+                    <au-textbox
+                        label="Destination"
+                        value.bind="data.destination"
+                        error.bind="error.Destination"
+                        read-only.bind="readOnly"
+                        options.bind="controlOptions">
+                    </au-textbox>
 
                     <au-autocomplete
                         value.bind="data.shippingStaff"
