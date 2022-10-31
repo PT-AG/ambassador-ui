@@ -38,6 +38,8 @@ class Service extends RestService {
     }
 }
 
+const UENServiceUri = 'garment-unit-expenditure-notes/loader-by-ro';
+
 class PurchasingService extends RestService {
     constructor(http, aggregator, config, api) {
         super(http, aggregator, config, "purchasing-azure");
@@ -50,6 +52,11 @@ class PurchasingService extends RestService {
 
     getGarmentURN(info) {
         var endpoint = `${URNServiceUri}`;
+        return super.list(endpoint, info);
+    }
+
+    getProductByRO(info) {
+        var endpoint = `${UENServiceUri}`;
         return super.list(endpoint, info);
     }
 }
