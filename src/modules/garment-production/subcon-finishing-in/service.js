@@ -36,9 +36,15 @@ class Service extends RestService {
         var endpoint = `${subconCuttingUri}`;
         return super.list(endpoint, info);
     }
+
+    getPdfById(id, buyer) {
+        var endpoint = `${subconFinishingInServiceUri}/${id}/${buyer}`;
+        return super.getPdf(endpoint);
+    }
 }
 
 const UENServiceUri = 'garment-unit-expenditure-notes/loader-by-ro';
+const PRServiceUri = 'garment-purchase-requests';
 
 class PurchasingService extends RestService {
     constructor(http, aggregator, config, api) {
@@ -57,6 +63,11 @@ class PurchasingService extends RestService {
 
     getProductByRO(info) {
         var endpoint = `${UENServiceUri}`;
+        return super.list(endpoint, info);
+    }
+
+    getGarmentPR(info) {
+        var endpoint = `${PRServiceUri}`;
         return super.list(endpoint, info);
     }
 }
