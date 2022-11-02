@@ -109,6 +109,7 @@ class Service extends RestService {
         var endpoint = `${serviceUri}/item`;
         return super.list(endpoint, info);
     }
+
     searchSewingIn(info) {
         var endpoint = `${serviceUriSewIn}`;
         return super.list(endpoint, info);
@@ -155,7 +156,7 @@ class CoreService extends RestService {
         super(http, aggregator, config, "core");
     }
 
-    getUom(info) {
+    async getUom(info) {
         var endpoint = `${uomServiceUri}`;
         return super.list(endpoint, info);
     }
