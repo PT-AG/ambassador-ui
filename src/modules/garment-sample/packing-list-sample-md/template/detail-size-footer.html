@@ -5,10 +5,10 @@
             </au-textbox>
         </td>
         <td align='right' colspan="1">
-            <au-numeric value.bind="totalQuantity" error.bind="error" format="0" if.bind="type=='DL'"
+            <au-numeric value.bind="totalQuantity" error.bind="error" format="0" if.bind="type=='AG'"
                 read-only.bind="true">
             </au-numeric>
-            <au-numeric value.bind="totalQuantity" error.bind="error" format="0.00" if.bind="type!='DL'"
+            <au-numeric value.bind="totalQuantity" error.bind="error" format="0.00" if.bind="type!='AG'"
                 read-only.bind="true">
             </au-numeric>
         </td>
