@@ -52,6 +52,7 @@ export class Item {
                 Article: this.data.Article
             }
         }
+        
         this.isShowing = true;
         if (this.data.Details) {
             if (this.data.Details.length > 0) {
