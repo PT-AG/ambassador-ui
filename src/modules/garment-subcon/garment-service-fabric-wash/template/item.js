@@ -112,7 +112,7 @@ export class Item {
                     this.data.Details.splice(0);
                 }
 
-			    if(this.UENList.includes(this.data.UnitExpenditureNo)) {
+			    if(newValue.UENNo != this.data.UnitExpenditureNo && this.UENList.includes(this.data.UnitExpenditureNo)) {
 				    this.UENList.splice(this.UENList.indexOf(this.data.UnitExpenditureNo), 1);
 			    }
 
