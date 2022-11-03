@@ -104,6 +104,7 @@ export class DataForm {
                     item.Unit = this.data.Unit;
                 }
             );
+
             for(var item of this.data.Items){
                 for(var d of item.Details) {
                     var Sizes=[];
@@ -158,9 +159,7 @@ export class DataForm {
     get removeItems() {
         return (event) => {
 
-
             var _ro = event.detail.RONo;
-
             if(this.itemOptions.ROList.includes(_ro)){
                 this.itemOptions.ROList.splice(this.itemOptions.ROList.indexOf(_ro), 1);
             }
