@@ -94,17 +94,18 @@ export class DataForm {
             isView: this.context.isView,
             checkedAll: this.context.isCreate == true ? false : true,
             isEdit: this.isEdit,
-
+            ROList: []
         }
 
         if (this.data && this.data.Items) {
             this.data.Items.forEach(
                 item => {
+                    this.itemOptions.ROList.push(item.RONo);
                     item.Unit = this.data.Unit;
                 }
             );
             for(var item of this.data.Items){
-                for(var d of item.Details){
+                for(var d of item.Details) {
                     var Sizes=[];
                     for(var s of d.Sizes){
                         var detail={};
@@ -115,16 +116,16 @@ export class DataForm {
                             detail.Uom=s.Uom;
                             Sizes.push(detail);
                         }
-                        else{
+                        else {
                             var exist= Sizes.find(a=>a.Size.Id==s.Size.Id);
-                            if(!exist){
+                            if(!exist) {
                                 detail.Quantity=s.Quantity;
                                 detail.Size=s.Size;
                                 detail.Color=s.Color;
                                 detail.Uom=s.Uom;
                                 Sizes.push(detail);
                             }
-                            else{
+                            else {
                                 var idx= Sizes.indexOf(exist);
                                 exist.Quantity+=s.Quantity;
                                 Sizes[idx]=exist;
@@ -156,6 +157,14 @@ export class DataForm {
 
     get removeItems() {
         return (event) => {
+
+
+            var _ro = event.detail.RONo;
+
+            if(this.itemOptions.ROList.includes(_ro)){
+                this.itemOptions.ROList.splice(this.itemOptions.ROList.indexOf(_ro), 1);
+            }
+
             this.error = null;
         };
     }
