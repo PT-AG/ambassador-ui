@@ -2,28 +2,35 @@ import {inject, computedFrom} from 'aurelia-framework';
 import {bindable} from 'aurelia-framework'
 import {Service} from '../service';
 
-import CCLoader from "../../../../loader/cost-calculation-garment-loader";
+//import CCLoader from "../../../../loader/cost-calculation-garment-loader";
+
 @inject(Service)
 export class ROItem {
+
+    ROList = [];
+
     constructor(service) {
         this.service = service;
     }
+
     activate(item) {
         this.data = item.data;
         this.error = item.error;
         this.options = item.options;
+        this.ROList = item.context.options.ROList;
+        this.buyer = this.data.buyer;
 
         if(this.data.CostCalculationId){
-            this.selectedRO ={
+            this.selectedRO = {
                 RO_Number: this.data.RONumber
             }
-            this.data.comodity=this.data.ComodityCode + " - " +this.data.ComodityName;
+            this.data.comodity = this.data.ComodityCode + " - " + this.data.ComodityName;
         }
     }
 
     controlOption = {
         control: {
-        length: 12
+            length: 12
         }
     }
 
@@ -32,11 +39,32 @@ export class ROItem {
             "IsPosted": true,
             "SCGarmentId": null,
             "IsApprovedKadivMD":true,
-            "BuyerBrandId":this.data.buyer
+            "BuyerBrandId":this.buyer
         }
     }
+
+    // get roLoader() {
+    //     return CCLoader;
+    // }
+
     get roLoader() {
-        return CCLoader;
+
+        return async (keyword) => {
+			var info = {
+				keyword: keyword,
+				filter: JSON.stringify({ 
+                    "IsPosted": true,
+                    "SCGarmentId": null,
+                    "IsApprovedKadivMD":true,
+                    "BuyerBrandId":this.buyer 
+                }),
+                size : 10
+			};
+
+			return this.service.getROLoader(info).then((result) => {
+                return result.data.filter(x => !this.ROList.includes(x.RO_Number));
+            });
+        }
     }
     
     roView(cc) {
@@ -47,7 +75,10 @@ export class ROItem {
     async selectedROChanged(newValue, oldValue) {
         //this.data.Buyer = newValue;
         if(oldValue && newValue)
-            if(newValue.RO_Number!=oldValue.RO_Number){
+            if(newValue.RO_Number != oldValue.RO_Number) {
+                
+                this.ROList.splice(this.ROList.indexOf(oldValue.RO_Number), 1);
+
                 this.selectedRO=null;
                 this.data.RONumber="";
                 this.data.Quantity=0;
@@ -66,9 +97,13 @@ export class ROItem {
                 this.data.Amount=0;
             }
         if (newValue) {
-            this.selectedRO=newValue;
-            this.data.RONumber=newValue.RO_Number;
-            if(newValue.Id){
+
+            this.selectedRO = newValue;
+            this.data.RONumber = newValue.RO_Number;
+
+            this.ROList.push(newValue.RO_Number);
+
+            if(newValue.Id) {
                 
                 this.data.BuyerBrandCode=newValue.BuyerBrand.Code;
                 this.data.Quantity=newValue.Quantity;
@@ -90,6 +125,9 @@ export class ROItem {
             }
         } 
         else {
+
+            this.ROList.splice(this.ROList.indexOf(oldValue.RO_Number), 1);
+
             this.selectedRO=null;
             this.data.RONumber="";
             this.data.Quantity=0;

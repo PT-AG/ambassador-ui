@@ -150,7 +150,7 @@ export class DataForm {
     }
 
     selectedUomUnitChanged(newValue){
-		if (newValue) {
+	    if (newValue) {
 		  this.data.UomUnit = newValue.Unit;
 		} else {
 		  this.data.UomUnit = "";
