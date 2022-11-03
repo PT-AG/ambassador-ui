@@ -112,15 +112,16 @@ export class Item {
                     this.data.Details.splice(0);
                 }
 
-                this.data.UnitExpenditureNo = newValue.UENNo;
+			    if(this.UENList.includes(this.data.UnitExpenditureNo)) {
+				    this.UENList.splice(this.UENList.indexOf(this.data.UnitExpenditureNo), 1);
+			    }
 
                 this.UENList.push(newValue.UENNo);
-
+                this.data.UnitExpenditureNo = newValue.UENNo;
                 this.data.UnitSender = {
                     Id: newValue.UnitSenderId,
                     Code: newValue.UnitSenderCode,
                     Name: newValue.UnitSenderName
-
                 };
                 
                 // this.data.UnitRequest={
@@ -166,13 +167,12 @@ export class Item {
                             this.data.Details.push(detail);
                         }
                     });
-            }
-            else {
+            } else {
 
                 if(this.UENList.includes(this.data.UENNo)) {
                     this.UENList.splice(this.UENList.indexOf(this.data.UENNo), 1);
                 }
-            
+
 				this.data.UENNo = null;
             }
         }
