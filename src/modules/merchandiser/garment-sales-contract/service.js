@@ -44,6 +44,10 @@ export class Service extends RestService {
         return super.delete(endpoint, data);
     }
 
+    getROLoader(info){
+        var endpoint = `cost-calculation-garments`;
+        return super.list(endpoint, info);
+    }
 
     getComodityById(id) {
         var config = Container.instance.get(Config);
