@@ -310,29 +310,31 @@
       items.bind="data.SalesContractROs"
       errors.bind="error.SalesContractROs"
       read-only.bind="readOnly"
-      options.bind="itemsInfo.options"
       columns.bind="detailHeader"
       item-template="modules/merchandiser/garment-sales-contract/template/ro"
       add.bind="addItems"
-      options.bind="itemsOptions"
+      options.bind="itemOptions"
       remove.bind="removeItems"
       view-model.ref="SCCollection"
       change.delegate="itemsChanged($event)"
-      if.bind="selectedBuyer && type!='Ekspor'">
+      if.bind="selectedBuyer && type !='Ekspor'">
     </au-collection>
+
+    <!-- options.bind="itemsInfo.options" -->
 
     <au-collection
       items.bind="data.SalesContractROs"
       errors.bind="error.SalesContractROs"
       read-only.bind="readOnly"
-      options.bind="itemsInfo.options"
       columns.bind="detailHeader"
       item-template="modules/merchandiser/garment-sales-contract/template/ro"
-      options.bind="itemsOptions"
+      options.bind="itemOptions"
       view-model.ref="SCCollection"
       change.delegate="itemsChanged($event)"
-      if.bind="selectedBuyer && type=='Ekspor'">
+      if.bind="selectedBuyer && type =='Ekspor'">
     </au-collection>
+
+    <!-- options.bind="itemsInfo.options" -->
 
     <au-textbox error.bind="error.TotalQuantity" read-only.bind="true"></au-textbox>
 

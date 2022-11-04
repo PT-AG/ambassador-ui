@@ -60,7 +60,16 @@ export class DataForm {
 			isCreate: this.context.isCreate,
 			isEdit: this.context.isEdit,
 			isView: this.context.isView,
-			checkedAll: this.context.isCreate == true ? false : true
+			checkedAll: this.context.isCreate == true ? false : true,
+			UENList: []
+		}
+
+		if(this.data && this.data.Items) {
+			this.data.Items.forEach(
+				item => {
+					this.itemOptions.UENList.push(item.UnitExpenditureNo);
+				}
+			  );
 		}
 	}
 
@@ -72,6 +81,13 @@ export class DataForm {
 
 	get removeItems() {
 		return (event) => {
+
+			var _uenno = event.detail.UnitExpenditureNo;
+        
+            if(this.itemOptions.UENList.includes(_uenno)){
+                this.itemOptions.UENList.splice(this.itemOptions.UENList.indexOf(event.detail.UnitExpenditureNo), 1);
+            }
+
 			this.error = null;
 		};
 	}

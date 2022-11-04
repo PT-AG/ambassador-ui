@@ -72,19 +72,18 @@ export class DataForm {
       isCreate: this.context.isCreate,
       isEdit: this.context.isEdit,
       isView: this.context.isView,
-      checkedAll: this.context.isCreate == true ? false : true
+      checkedAll: this.context.isCreate == true ? false : true,
+      ROListFiltered: []
     }
 
     if (this.data && this.data.Items) {
 
       this.selectedUomUnit = { Unit : this.data.UomUnit }
-
-      console.log(this.selectedUomUnit);
-      // this.data.Items.forEach(
-      //   item => {
-      //       item.Unit = this.data.Unit;
-      //   }
-      // );
+      this.data.Items.forEach(
+        item => {
+            this.itemOptions.ROListFiltered.push(item.RONo);
+        }
+      );
 
       for (var item of this.data.Items) {
         var details = [];
@@ -151,7 +150,6 @@ export class DataForm {
   get addItems() {
     return (event) => {
       this.data.Items.push({
-        //  Unit:this.data.Unit
         Buyer: this.data.Buyer
       });
     };
@@ -159,6 +157,12 @@ export class DataForm {
 
   get removeItems() {
     return (event) => {
+
+      var _ro = event.detail.RONo;
+      if(this.itemOptions.ROListFiltered.includes(_ro)){
+        this.itemOptions.ROListFiltered.splice(this.itemOptions.ROListFiltered.indexOf(_ro), 1);
+      }
+
       this.error = null;
     };
   }
