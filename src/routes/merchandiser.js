@@ -89,7 +89,7 @@ module.exports = [
         }
     },
     {
-        route: '/merchandiser/approve-pr-master/purchasing',
+        route: '/merchandiser/approve-pr-master/kadiv-md',
         name: 'approve-purchase-request-master',
         moduleId: './modules/merchandiser/approve-pr-master/index',
         nav: true,
@@ -98,13 +98,13 @@ module.exports = [
         settings: {
             group: "merchandiser",
             subGroup: "approval",
-            permission: { "PGA": 3, "C9": 1, "PDU": 1 },
+            permission: { "KM": 3, "C9": 1, "PDU": 1 },
             iconClass: 'fa fa-calculator',
-            type: "Purchasing"
+            type: "MD2"
         }
     },
     {
-        route: '/merchandiser/approve-pr-master/kadiv-md',
+        route: '/merchandiser/approve-pr-master/purchasing',
         name: 'approve-purchase-request-master',
         moduleId: './modules/merchandiser/approve-pr-master/index',
         nav: true,
@@ -115,7 +115,7 @@ module.exports = [
             subGroup: "approval",
             permission: { "PG": 3, "C9": 1, "PDU": 1 },
             iconClass: 'fa fa-calculator',
-            type: "MD2"
+            type: "Purchasing"
         }
     },
     {

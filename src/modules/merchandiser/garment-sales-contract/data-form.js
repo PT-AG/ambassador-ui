@@ -1,5 +1,5 @@
 import { inject, bindable, BindingEngine, observable, computedFrom } from 'aurelia-framework'
-import { Service,CoreService } from './service';
+import { Service, CoreService } from './service';
 
 import AccountBankLoader from "../../../loader/account-banks-loader";
 import BuyerBrandLoader from "../../../loader/garment-buyer-brands-loader";
@@ -7,12 +7,12 @@ import BuyerBrandLoader from "../../../loader/garment-buyer-brands-loader";
 @inject(BindingEngine, Service,CoreService, Element)
 export class DataForm {
   @bindable isCreate = false;
-
+  @bindable itemOptions = {};
   @bindable readOnly = false;
   @bindable data = {};
   @bindable error = {};
-  @bindable hasItems=false;
-  @bindable type="Ekspor";
+  @bindable hasItems = false;
+  @bindable type = "Ekspor";
   lampHeader = [{ header: "Standar Lampu" }];
 
   DeliveryOptions = ["BY LAND", "BY SEA", "BY AIR", "BY SEA-AIR"];
@@ -24,35 +24,52 @@ export class DataForm {
     "DivisionName.toUpper()":"AMBASSADOR GARMINDO 2"
   };
 
-  
-
   constructor(bindingEngine, service,coreService, element) {
     this.bindingEngine = bindingEngine;
     this.element = element;
     this.service = service;
-    this.coreService=coreService;
+    this.coreService = coreService;
   }
 
   async bind(context) {
     this.context = context;
     this.data = context.data;
     this.error = context.error;
-    this.data.CreatedUtc=this.data.CreatedUtc?this.data.CreatedUtc:new Date();
-    if(this.data.SalesContractNo){
-      this.selectedRO={
-        RO_Number:this.data.RONumber
+    this.data.CreatedUtc = this.data.CreatedUtc ? this.data.CreatedUtc : new Date();
+    // this.itemsInfo.options = {
+    //   ROList: []
+    // }
+
+    this.itemOptions = {
+      ROList: []
+    }    
+
+    if(this.data.SalesContractNo) {
+      this.selectedRO = {
+        RO_Number : this.data.RONumber
       }
-      this.data.comodity=this.data.ComodityCode + " - " +this.data.ComodityName;
-      if(this.data.AccountBankId||this.data.AccountBank.Id){
-        var accId=this.data.AccountBankId?this.data.AccountBankId:this.data.AccountBank.Id;
-        this.selectedAccountBank=await this.service.getAccountBankById(accId);
+
+      this.data.comodity = this.data.ComodityCode + " - " + this.data.ComodityName;
+
+      if(this.data.AccountBankId || this.data.AccountBank.Id){
+        var accId = this.data.AccountBankId ? this.data.AccountBankId: this.data.AccountBank.Id;
+        this.selectedAccountBank = await this.service.getAccountBankById(accId);
       }
-      this.data.buyer=this.data.BuyerBrandCode + " - " +this.data.BuyerBrandName;
-      var buyerBrand= await this.coreService.getBuyerBrandById(this.data.BuyerBrandId);
-      var buyer= await this.coreService.getBuyerById(buyerBrand.Buyers.Id);
-      this.type= buyer.Type;
-      this.data.SCType=this.type;
-      this.selectedBuyer=buyerBrand;
+
+      this.data.buyer = this.data.BuyerBrandCode + " - " +this.data.BuyerBrandName;
+      var buyerBrand = await this.coreService.getBuyerBrandById(this.data.BuyerBrandId);
+      var buyer = await this.coreService.getBuyerById(buyerBrand.Buyers.Id);
+      this.type = buyer.Type;
+      this.data.SCType = this.type;
+      this.selectedBuyer = buyerBrand;
+
+      if(this.data.SalesContractROs) {
+        this.data.SalesContractROs.forEach(
+          item => {
+            this.itemOptions.ROList.push(item.RONumber);
+          }
+        );
+      }
     }
 
     // this.hasItems=false;
@@ -71,6 +88,7 @@ export class DataForm {
     //   if(this.data.Price){
     //     this.data.Price=this.data.Price.toLocaleString('en-EN', { minimumFractionDigits: 2})
     //   }
+
     if(!this.data.DocPresented || this.data.DocPresented==""){
       this.data.DocPresented="INVOICE OF COMMERCIAL VALUE \nPACKING LIST \nEXPORT LICENSE \nCERTIFICATE OF ORIGIN / G.S.P FORM A \nINSPECTION CERTIFICATE ";
     }
@@ -122,8 +140,6 @@ export class DataForm {
     }
   }
 
-  
-
   get buyerLoader() {
     return BuyerBrandLoader;
   }
@@ -131,20 +147,29 @@ export class DataForm {
   buyerView(buyer) {
     return `${buyer.Code} - ${buyer.Name}` ;
   }
+  
   get removeItems() {
     return async (event) => //console.log(event.detail);
     {
+        console.log(event);
+
+        var _ro = event.detail.RONumber;
+
+        if(this.itemOptions.ROList.includes(_ro)){
+          this.itemOptions.ROList.splice(this.itemOptions.ROList.indexOf(_ro), 1);
+        }
+
         if(this.data.Items){
-          this.data.Amount=0;
+          this.data.Amount = 0;
           for(var item of this.data.Items){
             if(item.Amount){
-              this.data.Amount+=parseFloat(item.Amount);
+              this.data.Amount += parseFloat(item.Amount);
             }
           }
         }
+
         this.data.Amount=parseFloat(this.data.Amount).toLocaleString('en-EN', { minimumFractionDigits: 2});
       }
-      
     }
   
   @bindable selectedBuyer;

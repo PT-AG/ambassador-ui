@@ -7,6 +7,8 @@ var UnitLoader = require('../../../../loader/garment-units-loader');
 export class Item {
   @bindable selectedRO;
 
+  ROListFiltered = [];
+
   constructor(service, purchasingService) {
     this.service = service;
     this.purchasingService = purchasingService;
@@ -29,7 +31,10 @@ export class Item {
     this.data.IsDifferentSize = false;
     this.readOnly = context.options.readOnly;
     this.isCreate = context.context.options.isCreate;
-    this.isEdit = context.context.options.isEdit;
+    this.isEdit = context.context.options.isEdit;    
+    this.ROListFiltered = this.options.ROListFiltered;
+
+    console.log(this.ROListFiltered);
 
     this.itemOptions = {
       error: this.error,
@@ -37,12 +42,14 @@ export class Item {
       isEdit: this.isEdit,
       readOnly: this.readOnly
     };
+
     this.isShowing = true;
     if (this.data.Details) {
       if (this.data.Details.length > 0) {
         this.isShowing = true;
       }
     }
+
     if (this.data.RONo) {
       this.selectedRO = {
         RONo: this.data.RONo
@@ -73,6 +80,7 @@ export class Item {
         }
         //this.context.error.Items = [];
         this.data.RONo = newValue.RONo;
+        this.ROListFiltered.push(newValue.RONo);
         this.data.Article = newValue.Article;
         this.data.Comodity = newValue.Comodity;
 
@@ -155,6 +163,13 @@ export class Item {
       }
       else {
         this.context.selectedROViewModel.editorValue = "";
+
+
+        if(this.ROListFiltered.includes(this.data.RONo)) {
+          this.ROListFiltered.splice(this.ROListFiltered.indexOf(this.data.RONo), 1);
+        }
+
+
         this.data.RONo = null;
         this.data.Article = null;
         this.data.Comodity = null;
@@ -193,7 +208,8 @@ export class Item {
               }
             }
           }
-          return roList;
+          console.log(roList);
+          return roList.filter(x => !this.ROListFiltered.includes(x.RONo));
         });
     }
   }

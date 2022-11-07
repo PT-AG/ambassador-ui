@@ -121,6 +121,7 @@ export class DataForm {
             const section = await this.coreService.getGarmentSection(newValue.SectionId);
             this.data.SectionName = section.Name;
             this.data.ApprovalPR = section.ApprovalCC; 
+            
         } else {
             this.data.SCId = 0;
             this.data.SCNo = null;
