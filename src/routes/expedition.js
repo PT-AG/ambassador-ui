@@ -765,7 +765,7 @@ module.exports = [
     settings: {
       group: "finance",
       subGroup: "vb",
-      permission: { "B4": 2, },
+      permission: { "B4": 2, C9: 1 },
       iconClass: "fa fa-dashboard",
     },
   },
