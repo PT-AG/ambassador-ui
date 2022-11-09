@@ -7,6 +7,7 @@ export class DataForm {
 
     @bindable readOnly = false;
     @bindable isEdit = false;
+    @bindable isView = false;
     @bindable title;
     @bindable selectedTypeOfGoods;
 
@@ -64,12 +65,36 @@ export class DataForm {
         this.context = context;
         this.data = context.data;
         this.error = context.error;
-        if(this.data.BalanceStockDate == null) {
-            this.data.BalanceStockDate = new Date("2018 Dec 31");
-        }
+        var arg = {
+            size: 1,
+            order: {}
+          }
+      
+           
+           
+
+         
+        // if(this.data.BalanceStockDate == null) {
+        //     this.data.BalanceStockDate = new Date("2018 Dec 31");
+        // }
         if(this.data.Id) {
             this.selectedTypeOfGoods = this.data.TypeOfGoods;
-        }
+            this.data.BalanceStockDate =moment(this.data.BalanceStockDate).format("YYYY-MM-DD");
+        }else
+        { this.service.searchDate(arg)
+            .then(result => {
+             for(var a of result.data)
+             {
+                  this.data.BalanceStockDate =moment(a.BalanceStockDate).format("YYYY-MM-DD");
+                  this._date= moment(a.BalanceStockDate).format("YYYY-MM-DD");
+                  this.balanceStockDate =moment(a.BalanceStockDate).format("YYYY-MM-DD");
+             }
+              return {
+                total: result.info.total,
+                data: result.data
+                
+              }
+            });}
     }
 
     get addItems() {

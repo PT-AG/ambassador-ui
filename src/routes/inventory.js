@@ -472,6 +472,20 @@ module.exports = [
     //     }
     // },
     {
+        route: "inventory/balance-stock-date-master",
+        name: "inventory/balance-stock-date-master",
+        moduleId: "modules/inventory/balance-stock-date-master/index",
+        nav: true,
+        title: "Master Tanggal Stock Opname",
+        auth: true,
+        settings: {
+            group: "Inventory",
+            permission: { "C9": 1, "PG": 1, "PDU":1 },
+            subGroup: "gudang sisa garment",
+            iconClass: "fa fa-dashboard"
+        }
+    },
+    {
         route: "inventory/garment/leftover-warehouse/receipt/fabric",
         name: "inventory/garment/leftover-warehouse/receipt/fabric",
         moduleId: "modules/inventory/garment-leftover-warehouse/receipt/fabric/index",
