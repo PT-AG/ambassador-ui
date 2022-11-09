@@ -70,6 +70,25 @@
                     read-only="true"
                     options.bind="length4">
                 </au-textbox>
+                <au-autocomplete
+                    value.bind="selectedBookingOrder"
+                    error.bind="error.BookingOrder"                    
+                    label="No Booking Order"
+                    loader.bind="bookingOrderLoader" 
+                    query.bind="filter"
+                    text.bind="bookingOrderView"                                                         
+                    placeholder="No Booking Order"
+                    read-only.bind="readOnly || isEdit"
+                    options.bind="length4">
+                </au-autocomplete>
+                <au-numeric
+                    label="Remaining Confirm Quantity"
+                    format="0"
+                    value.bind="data.BOQuantity"
+                    error.bind="error.BOQuantity"
+                    read-only="true"
+                    options.bind="length4">
+                </au-numeric>
                 <au-numeric
                     label="Quantity"
                     format="0"
@@ -98,6 +117,13 @@
                     label="Delivery Date"
                     value.bind="data.DeliveryDate"
                     error.bind="error.DeliveryDate"
+                    options.bind="length4">
+                </au-datepicker>
+                 <au-datepicker
+                    label="Confirm Date"
+                    value.bind="data.ConfirmDate"
+                    error.bind="error.ConfirmDate"
+                    read-only="true"
                     options.bind="length4">
                 </au-datepicker>
                 <au-datepicker
