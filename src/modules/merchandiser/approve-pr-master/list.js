@@ -107,6 +107,8 @@ export class List {
                     IsValidated: false,                    
                     IsValidatedMD1: false,
                     ApprovalPR: this.section.ApprovalCC
+
+                    
                 }, this.defaultFilter);
                 break;
 
@@ -170,7 +172,10 @@ export class List {
 
         switch (this.type) {
             case "MD1":
-                this.section = { ApprovalCC: username };
+                this.section = 
+                { 
+                    ApprovalCC: username == "PUSPITA PRIMAHARANI" ? "VERA FATIMAH" : (username == "CHRIS PRASTAWA" ? "WAHYU PAMUNGKAS" : username)
+                };
                 break;
 
             case "MD2":
