@@ -131,7 +131,7 @@ export class List {
                         var bc = _data.BCType.toString();
                         var doc = _data.BCNo.toString();
                         var date = _data.BCDate.toString();
-                        var bon = _data.BonNo.toString();
+                        // var bon = _data.BonNo.toString();
                         // var po = _data.PO.toString();
                         // var buk = _data.BUK.toString();
                         var QtyBuk = _data.QtyBUK.toString();
@@ -161,11 +161,11 @@ export class List {
                         else {
                             rowDoc[bc + doc + date]++
                         }
-                        if(!rowDoc[bon]){
-                            rowDoc[bon] = 1
-                        }else{
-                            rowDoc[bon]++
-                        }
+                        // if(!rowDoc[bon]){
+                        //     rowDoc[bon] = 1
+                        // }else{
+                        //     rowDoc[bon]++
+                        // }
                         // if(!rowDoc[ro + po]){
                         //     rowDoc[ro + po] = 1
                         // }else{
@@ -176,15 +176,15 @@ export class List {
                         // }else{
                         //     rowDoc[po]++
                         // }
-                        if(!rowDoc[ic + bon]){
-                            rowDoc[ic + bon] = 1
+                        if(!rowDoc[ic + bc]){
+                            rowDoc[ic + bc] = 1
                         }else{
-                            rowDoc[ic + bon]++
+                            rowDoc[ic + bc]++
                         }
-                        if(!rowDoc[iname + bon]){
-                            rowDoc[iname + bon] = 1
+                        if(!rowDoc[iname + bc]){
+                            rowDoc[iname + bc] = 1
                         }else{
-                            rowDoc[iname + bon]++
+                            rowDoc[iname + bc]++
                         }
                         if(!rowDoc[receipt + "bum" + ic]){
                             rowDoc[receipt + "bum" + ic] = 1
@@ -236,10 +236,10 @@ export class List {
                         // }else{
                         //     rowDoc[invo + ro]++
                         // }
-                        if(!rowDoc[peb + ic + bon]){
-                            rowDoc[peb + ic + bon] = 1
+                        if(!rowDoc[peb + ic + bc]){
+                            rowDoc[peb + ic + bc] = 1
                         }else{
-                            rowDoc[peb + ic + bon]++
+                            rowDoc[peb + ic + bc]++
                         }
                         // if(!rowDoc[pebDate + ro + invo]){
                         //     rowDoc[pebDate + ro + invo] = 1
@@ -314,10 +314,10 @@ export class List {
                    
                     }
                     for(var b of result.data){
-                        let bonno = result.data.find(o=>o.BonNo == b.BonNo);
-                        if(bonno) {
-                            bonno.bonspan = rowDoc[b.BonNo.toString()]
-                        }
+                        // let bonno = result.data.find(o=>o.BonNo == b.BonNo);
+                        // if(bonno) {
+                        //     bonno.bonspan = rowDoc[b.BonNo.toString()]
+                        // }
                         // let rojob = result.data.find(o=>o.ROJob + o.PO == b.ROJob + b.PO);
                         // if(rojob){
                         //     rojob.rojobspan = rowDoc[b.ROJob.toString() + b.PO.toString()];
@@ -326,13 +326,13 @@ export class List {
                         // if(po){
                         //     po.pospan = rowDoc[b.PO.toString()];
                         // }
-                        let itemcode = result.data.find(o=>o.ItemCode + o.BonNo == b.ItemCode + b.BonNo);
+                        let itemcode = result.data.find(o=>o.ItemCode + o.BCNo == b.ItemCode + b.BCNo);
                         if(itemcode){
-                            itemcode.itemcodespan = rowDoc[b.ItemCode.toString() + b.BonNo.toString()]
+                            itemcode.itemcodespan = rowDoc[b.ItemCode.toString() + b.BCNo.toString()]
                         }
-                        let itemname = result.data.find(o=>o.ItemName + o.BonNo == b.ItemName + b.BonNo);
+                        let itemname = result.data.find(o=>o.ItemName + o.BCNo == b.ItemName + b.BCNo);
                         if(itemname){
-                            itemname.itemnamespan =  rowDoc[b.ItemName.toString() + b.BonNo.toString()]
+                            itemname.itemnamespan =  rowDoc[b.ItemName.toString() + b.BCNo.toString()]
                         }
                         let qtyreceipt = result.data.find(o=>o.ReceiptQty + "bum" + o.ItemCode == b.ReceiptQty + "bum" + b.ItemCode);
                         if(qtyreceipt){
@@ -385,9 +385,9 @@ export class List {
                         //     invoice.invoicespan = rowDoc[b.Invoice.toString() + b.ROJob.toString()]
                         // }
 
-                        let pebno = result.data.find(o => o.PEB + o.ItemCode + o.BonNo == b.PEB + b.ItemCode + b.BonNo)
+                        let pebno = result.data.find(o => o.PEB + o.ItemCode + o.BCNo == b.PEB + b.ItemCode + b.BCNo)
                         if(pebno){
-                            pebno.pebnospan = rowDoc[b.PEB.toString() + b.ItemCode.toString() + b.BonNo.toString()]
+                            pebno.pebnospan = rowDoc[b.PEB.toString() + b.ItemCode.toString() + b.BCNo.toString()]
                         }
 
                         // let pebdate = result.data.find(o=>o.PEBDate + o.ROJob + o.Invoice == b.PEBDate + b.ROJob + b.Invoice)

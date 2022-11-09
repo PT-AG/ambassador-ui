@@ -10,7 +10,7 @@ const GarmentCurrencyLoader = require("../../../../loader/garment-currency-loade
 export class List {
   columns = [
     { field: "SupplierName", title: "Supplier" },
-    { field: "BillNo", title: "No BP Besar" },
+    // { field: "BillNo", title: "No BP Besar" },
     { field: "PaymentBill", title: "No BP Kecil" },
     { field: "DeliveryOrderNo", title: "No Surat Jalan" },
     { field: "PaymentType", title: "Tipe Bayar" },
