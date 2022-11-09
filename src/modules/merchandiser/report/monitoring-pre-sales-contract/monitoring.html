@@ -118,6 +118,7 @@
                         <th><label>Jenis Sales Contract</label></th>
                         <th><label>Buyer Agent</label></th>
                         <th><label>Buyer Brand</label></th>
+                        <th><label>Tipe Buyer</label></th>
                         <th><label>Jumlah Order</label></th>
                         <th><label>No PR Master</label></th>
                         <th><label>No RO Master</label></th>
@@ -164,6 +165,9 @@
                                     </td>
                                     <td rowspan.bind="data.itemsLength" align="center">
                                         <au-textbox value.bind="data.BuyerBrand" read-only="true"></au-textbox>
+                                    </td>
+                                    <td rowspan.bind="data.itemsLength" align="center">
+                                        <au-textbox value.bind="data.Type" read-only="true"></au-textbox>
                                     </td>
                                     <td rowspan.bind="data.itemsLength" align="center">
                                         <au-textbox value.bind="data.OrderQuantity" read-only="true"></au-textbox>

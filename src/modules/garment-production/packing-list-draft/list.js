@@ -18,6 +18,7 @@ export class List {
             }
         },
         { field: "buyerAgentName", title: "Buyer Agent" },
+        { field: "packingListType", title: "Jenis Packing List" },
         { field: "destination", title: "Destination" },
         { field: "shippingStaffName", title: "Shipping Staff" },
         {

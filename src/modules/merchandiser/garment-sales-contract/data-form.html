@@ -14,39 +14,47 @@
           options.bind="controlOptions">
         </au-textbox>
 
+        <au-autocomplete
+          label="Buyer"
+          value.bind="selectedBuyer"
+          read-only.bind="(readOnly||isEdit)"
+          error.bind="error.buyer"
+          loader.bind="buyerLoader"
+          text.bind="buyerView"
+          options.bind="controlOptions"
+          placeholder="pilih buyer">
+        </au-autocomplete>
+
+        <au-textbox
+          label="Nama Penerima"
+          value.bind="data.RecipientName"
+          error.bind="error.RecipientName"
+          read-only.bind="readOnly"
+          options.bind="controlOptions">
+        </au-textbox>
+
+        <au-textbox
+          label="Jabatan Penerima"
+          value.bind="data.RecipientJob"
+          error.bind="error.RecipientJob"
+          read-only.bind="readOnly"
+          options.bind="controlOptions">
+        </au-textbox>
+        
+        <au-multiline
+          label="Alamat Penerima"
+          value.bind="data.RecipientAddress"
+          read-only.bind="readOnly"
+          error.bind="error.RecipientAddress"
+          options.bind="controlOptions">
+        </au-multiline>
+
         <au-datepicker
           label="Tgl"
           value.bind="data.CreatedUtc"
           read-only="true"
           options.bind="controlOptions">
         </au-datepicker>
-
-        <au-autocomplete
-          label="No. RO"
-          value.bind="selectedRO"
-          error.bind="error.RONumber"
-          read-only.bind="(readOnly||isEdit)"
-          loader.bind="roLoader"
-          query.bind="filterCostCalculationGarment"
-          options.bind="controlOptions"
-          key="Name"
-          text.bind="roView"
-          placeholder="pilih RO">
-        </au-autocomplete>
-
-        <au-textbox
-          label="Buyer"
-          value.bind="data.buyer"
-          read-only="true"
-          options.bind="controlOptions">
-        </au-textbox>
-
-        <au-textbox
-          label="Komoditi"
-          value.bind="data.comodity"
-          read-only="true"
-          options.bind="controlOptions">
-        </au-textbox>
 
         <au-textbox
           label="Packing"
@@ -55,66 +63,7 @@
           read-only.bind="readOnly"
           options.bind="controlOptions">
         </au-textbox>
-
-        <au-textbox
-          label="Artikel"
-          value.bind="data.Article"
-          read-only="true"
-          options.bind="controlOptions">
-        </au-textbox>
-
-        <div class="row">
-
-          <div class="col-sm-4" style="padding-left:22%">
-
-            <textbox label="Quantity" read-only="true"></textbox>
-
-          </div>
-
-          <div class="col-sm-3">
-
-            <au-numeric
-              value.bind="data.Quantity"
-              error.bind="error.Quantity"
-              read-only="true">
-            </au-numeric>
-
-          </div>
-
-          <div class="col-sm-1">
-
-            <textbox label="Satuan" read-only="true"></textbox>
-
-          </div>
-
-          <div class="col-sm-3">
-
-            <au-textbox
-              value.bind="data.UomUnit"
-              read-only="true"
-              options.bind="controlOptions">
-            </au-textbox>
-
-          </div>
-
-        </div>
         
-        <au-multiline
-          label="Jenis Produk"
-          value.bind="data.Description"
-          read-only.bind="readOnly"
-          error.bind="error.Description"
-          options.bind="controlOptions">
-        </au-multiline>
-
-        <au-multiline
-          label="Material"
-          value.bind="data.Material"
-          read-only.bind="readOnly"
-          error.bind="error.Material"
-          options.bind="controlOptions">
-        </au-multiline>
-
         <au-multiline
           label="DocPresented"
           value.bind="data.DocPresented"
@@ -132,39 +81,12 @@
         </au-multiline>
 
         <au-numeric
-          label="Harga"
-          value.bind="data.Price"
-          error.bind="error.Price"
-          read-only.bind="readonly"
-          options.bind="controlOptions"
-          change.delegate="PriceChanged($event)"
-				  format = "0,0.0000"
-          if.bind="!hasItems">
-        </au-numeric>
-        <au-numeric
-          label="Harga"
-          value.bind="data.Price"
-          error.bind="error.Price"
-          read-only="true"
-          options.bind="controlOptions"
-				  format = "0,0.00"
-          if.bind="hasItems">
-        </au-numeric>
-
-        <au-numeric
           label="Total Amount"
-          value.bind="data.Amount"
+          value.bind="amount"
           read-only="true"
           format = "0,0.00"
           options.bind="controlOptions">
         </au-numeric>
-
-        <au-datepicker
-          label="Shipment"
-          value.bind="data.DeliveryDate"
-          read-only="true"
-          options.bind="controlOptions">
-        </au-datepicker>
 
         <au-dropdown
           label="Delivery"
@@ -182,7 +104,7 @@
           read-only.bind="readOnly"
           items.bind="countries"
           options.bind="controlOptions"
-          if.bind="type!='Lokal'"
+          if.bind="data.SCType!='Lokal'"
         ></au-dropdown>
 
         <au-textbox
@@ -191,14 +113,9 @@
           error.bind="error.Country"
           read-only.bind="readOnly"
           options.bind="controlOptions"
-          if.bind="type=='Lokal'"
+          if.bind="data.SCType=='Lokal'"
         ></au-textbox>
 
-      </div>
-
-<!--Right-->
-
-      <div class="col-md-6" style="padding:0">
         <au-multiline
           label="No. HS"
           value.bind="data.NoHS"
@@ -206,7 +123,12 @@
           read-only.bind="readOnly"
           options.bind="controlOptions">
         </au-multiline>
+        
+      </div>
 
+<!--Right-->
+
+      <div class="col-md-6" style="padding:0">
         <au-checkbox
           label="Material?"
           value.bind="data.IsMaterial"
@@ -248,7 +170,7 @@
           read-only.bind="readOnly"
           options.bind="controlOptions">
         </au-checkbox>
-
+        
         <au-multiline
           label="Payment"
           value.bind="data.PaymentDetail"
@@ -385,18 +307,34 @@
     <!--<au-textbox error.bind="error.Details" read-only.bind="true"></au-textbox>-->
 
     <au-collection
-      items.bind="data.Items"
-      errors.bind="error.Items"
+      items.bind="data.SalesContractROs"
+      errors.bind="error.SalesContractROs"
       read-only.bind="readOnly"
-      options.bind="itemsInfo.options"
       columns.bind="detailHeader"
-      change.delegate="itemsChanged($event)"
-      item-template="modules/merchandiser/garment-sales-contract/template/item"
-      add.bind="itemsInfo.onAdd"
-      options.bind="itemsOptions"
+      item-template="modules/merchandiser/garment-sales-contract/template/ro"
+      add.bind="addItems"
+      options.bind="itemOptions"
       remove.bind="removeItems"
-      view-model.ref="SCCollection">
+      view-model.ref="SCCollection"
+      change.delegate="itemsChanged($event)"
+      if.bind="selectedBuyer && type !='Ekspor'">
     </au-collection>
+
+    <!-- options.bind="itemsInfo.options" -->
+
+    <au-collection
+      items.bind="data.SalesContractROs"
+      errors.bind="error.SalesContractROs"
+      read-only.bind="readOnly"
+      columns.bind="detailHeader"
+      item-template="modules/merchandiser/garment-sales-contract/template/ro"
+      options.bind="itemOptions"
+      view-model.ref="SCCollection"
+      change.delegate="itemsChanged($event)"
+      if.bind="selectedBuyer && type =='Ekspor'">
+    </au-collection>
+
+    <!-- options.bind="itemsInfo.options" -->
 
     <au-textbox error.bind="error.TotalQuantity" read-only.bind="true"></au-textbox>
 

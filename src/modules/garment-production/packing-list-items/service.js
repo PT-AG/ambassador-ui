@@ -46,8 +46,13 @@ class SalesService extends RestService {
         return super.get(endpoint);
     }
 
-    getSalesContractById(id) {
-        var endpoint = `${SalesContractserviceUri}/${id}`;
+    // getSalesContractById(id) {
+    //     var endpoint = `${SalesContractserviceUri}/${id}`;
+    //     return super.get(endpoint);
+    // }
+
+    getSalesContractByRO(ro) {
+        var endpoint = `${SalesContractserviceUri}/by-ro/${ro}`;
         return super.get(endpoint);
     }
 

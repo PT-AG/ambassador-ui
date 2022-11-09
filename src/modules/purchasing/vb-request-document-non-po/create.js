@@ -23,20 +23,20 @@ export class Create {
         this.data.Date = new Date();
         this.data.Date.setHours(0, 0, 0, 0);
 
-        unitCosts.map((unit) => {
-            let item = {
-                Unit: unit
-            }
+        // unitCosts.map((unit) => {
+        //     let item = {
+        //         Unit: unit
+        //     }
 
-            this.data.Items.push(item);
-            if (unit.VBDocumentLayoutOrder === 2)
-                this.data.Items.push({
-                    Unit: {
-                        VBDocumentLayoutOrder: 3
-                    }
-                });
+        //     this.data.Items.push(item);
+        //     if (unit.VBDocumentLayoutOrder === 2)
+        //         this.data.Items.push({
+        //             Unit: {
+        //                 VBDocumentLayoutOrder: 3
+        //             }
+        //         });
 
-        })
+        // })
     }
 
     list() {

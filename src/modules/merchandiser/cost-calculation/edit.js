@@ -15,10 +15,19 @@ export class Edit {
 
     async activate(params) {
         var id = params.id;
-        this.data = await this.service.getById(id);
+        this.data = await this.service.getById(id);    
         if (this.data) {
             this.selectedPreSalesContract = {
                 SCNo: this.data.PreSCNo
+            }
+
+            this.selectedBookingOrder = {
+                BookingOrderId :this.data.BookingOrderId,
+                BookingOrderItemId : this.data.BookingOrderItemId,
+                BookingOrderNo : this.data.BookingOrderNo, 
+                ConfirmDate : this.data.ConfirmDate,
+                ConfirmQuantity : this.data.BOQuantity,
+                ComodityName : this.data.Comodity.Name,
             }
 
             const prMasterIds = this.data.CostCalculationGarment_Materials
@@ -28,7 +37,6 @@ export class Edit {
             const prMasterItemIds = this.data.CostCalculationGarment_Materials
                 .filter((item, index) => item.PRMasterItemId > 0 && this.data.CostCalculationGarment_Materials.findIndex(d => d.PRMasterItemId === item.PRMasterItemId) === index)
                 .map(item => item.PRMasterItemId);
-
             if (prMasterIds.length > 0) {
                 let prMasterFilter = {};
                 prMasterFilter[`(${prMasterIds.join("||")})`] = true;
@@ -38,7 +46,6 @@ export class Edit {
                     select: JSON.stringify({ "Id": "1", "Items.Id": "1", "Items.Quantity": "1" }),
                     filter: JSON.stringify(prMasterFilter)
                 });
-
                 let prMasters = [];
                 for (const d of prMasterResult.data) {
                     for (const i of d.Items) {

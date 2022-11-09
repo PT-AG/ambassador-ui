@@ -5,6 +5,7 @@ import GarmentUnitExpenditureNotesLoader from '../../../../loader/garment-unit-e
 @inject(Service, PurchasingService)
 export class Item {
 	@bindable selectedUEN;
+	UENList = [];
 
 	constructor(service, purchasingService) {
 		this.service = service;
@@ -34,18 +35,23 @@ export class Item {
 		this.isCreate = context.context.options.isCreate;
 		this.isEdit = context.context.options.isEdit;
 
+		this.UENList = context.context.options.UENList;
+
 		this.itemOptions = {
 			error: this.error,
 			isCreate: this.isCreate,
 			isEdit: this.isEdit,
 			readOnly: this.readOnly
 		};
+
 		this.isShowing = true;
+
 		if (this.data.Details) {
 			if (this.data.Details.length > 0) {
 				this.isShowing = true;
 			}
 		}
+
 		if (this.data) {
 			this.selectedUEN = {
 				UENNo: this.data.UnitExpenditureNo,
@@ -73,8 +79,18 @@ export class Item {
 	}
 
 	async selectedUENChanged(newValue, oldValue) {
-		if (newValue.UENNo != this.data.UnitExpenditureNo) {
-			this.data.Details.splice(0);
+
+		console.log(newValue);
+
+		if (newValue && newValue.UENNo != this.data.UnitExpenditureNo) {
+
+			this.data.Details.splice(0);	
+
+			if(this.UENList.includes(this.data.UnitExpenditureNo)) {
+				this.UENList.splice(this.UENList.indexOf(this.data.UnitExpenditureNo), 1);
+			}
+
+			this.UENList.push(newValue.UENNo);
 			this.data.UnitExpenditureNo = newValue.UENNo;
 			this.data.ExpenditureDate = newValue.ExpenditureDate;
 			this.data.UnitSender = {
@@ -88,6 +104,7 @@ export class Item {
 				Code: newValue.UnitRequestCode,
 				Name: newValue.UnitRequestName
 			};
+
 			newValue.Items.map(async i => {
 				const dataUnitDOItem = await this.purchasingService.getUnitDeliveryOrderItems(i.UnitDOItemId);
 				const detail = {};
@@ -97,16 +114,23 @@ export class Item {
 					Name: i.ProductName,
 					Remark: i.ProductRemark,
 				};
+
 				detail.Quantity = i.Quantity;
 				detail.DesignColor = dataUnitDOItem.DesignColor;
 				detail.Uom = {
 					Id: i.UomId,
 					Unit: i.UomUnit
 				}
+
 				this.data.Details.push(detail);
 			})
 
 		} else {
+
+			if(this.UENList.includes(this.data.UENNo)) {
+				this.UENList.splice(this.UENList.indexOf(this.data.UnitExpenditureNo), 1);
+			}
+
 			this.data.UENNo = null;
 		}
 	}
@@ -128,7 +152,8 @@ export class Item {
 
 			return this.purchasingService.getUnitExpenditureNotes(info)
 				.then((result) => {
-					let data = result.data.filter(x => !uenNo.includes(x.UENNo));
+					let _data = result.data.filter(x => !uenNo.includes(x.UENNo)); 
+					let data = _data.filter(x => !this.UENList.includes(x.UENNo));
 					return data;
 				});
 		}

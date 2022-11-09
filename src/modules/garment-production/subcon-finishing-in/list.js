@@ -1,13 +1,14 @@
 import { inject } from 'aurelia-framework';
-import { Service } from "./service";
+import { Service, PurchasingService } from "./service";
 import { Router } from 'aurelia-router';
 import { AuthService } from "aurelia-authentication";
 var moment = require("moment");
 
-@inject(Router, Service, AuthService)
+@inject(Router, Service, PurchasingService, AuthService)
 export class List {
-    constructor(router, service, authService) {
+    constructor(router, service, purchasingService, authService) {
         this.service = service;
+        this.purchasingService = purchasingService;
         this.router = router;
         this.authService = authService;
     }
@@ -16,17 +17,22 @@ export class List {
 
     activate(params) {
         let username = null;
+
+        console.log(this.authService.authenticated);
+
         if (this.authService.authenticated) {
             const me = this.authService.getTokenPayload();
             username = me.username;
         }
+
         this.filter = {
             CreatedBy: username,
-            FinishingInType: "PEMBELIAN"
+            FinishingInType: "PEMBELIAN",
+            'SubconType != null' : true
         }
     }
 
-    context = ["Rincian"];
+    context = ["Rincian", "Cetak"];
 
     columns = [
         { field: "FinishingInNo", title: "No Finishing In Subkon" },
@@ -69,12 +75,22 @@ export class List {
             });
     }
 
-    contextClickCallback(event) {
+    async contextClickCallback(event) {
         var arg = event.detail;
         var data = arg.data;
+        let pr = await this.purchasingService.getGarmentPR({ size: 1, filter: JSON.stringify({ RONo: data.RONo }) });
+        var buyer = "";
+
+        if(pr.data.length>0){
+            buyer = pr.data[0].Buyer.Code;
+        }
+
         switch (arg.name) {
             case "Rincian":
                 this.router.navigateToRoute('view', { id: data.Id });
+                break;
+            case "Cetak":
+                this.service.getPdfById(data.Id, buyer); 
                 break;
         }
     }

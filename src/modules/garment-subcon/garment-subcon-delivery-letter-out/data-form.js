@@ -170,7 +170,7 @@ export class DataForm {
             }
 
             var infoEPO = {
-                keyword: keyword,
+                keyword: this.data.PONo,
                 filter: JSON.stringify({ ProductName:"PROCESS",  GarmentEPOId: this.data.EPOId })
             };
     
@@ -184,24 +184,23 @@ export class DataForm {
     }
 
     selectedDLTypeChanged(newValue){
-        this.data.DLType=newValue;
-        this.selectedUEN=null;
+        this.data.DLType = newValue;
+        this.selectedUEN = null;
         this.data.UENId = 0;
         this.data.UENNo = "";
-        this.selectedEPO=null;
-        this.data.EPONo="";
-        this.data.EPOId=0;
-        this.selectedPO=null;
-        this.data.PONo="";
-        this.data.EPOItemId=0;
+        this.selectedEPO = null;
+        this.data.EPONo = "";
+        this.data.EPOId = 0;
+        this.selectedPO = null;
+        this.data.PONo = "";
+        this.data.EPOItemId = 0;
 
         this.itemOptions.DLType = this.data.DLType;
-        this.data.ContractQty=0;
-        this.data.UsedQty=0;
-        this.data.QtyUsed=0;
+        this.data.ContractQty = 0;
+        this.data.UsedQty = 0;
+        this.data.QtyUsed = 0;
         this.data.Items.splice(0);
-        this.context.selectedEPOViewModel.editorValue="";
-        
+        this.context.selectedEPOViewModel.editorValue = "";
     }
 
     selectedContractTypeChanged(newValue){
@@ -275,7 +274,6 @@ export class DataForm {
 
     async selectedUENChanged(newValue, oldValue){
         if(newValue) {
-            console.log(newValue)
             if(this.data.Items.length>0){
                 this.data.Items.splice(0);
             }
@@ -285,59 +283,87 @@ export class DataForm {
             this.purchasingService.getUnitDeliveryOrderById(newValue.UnitDOId)
             .then((deliveryOrder) => {
                 this.service.searchComplete({filter: JSON.stringify({ EPONo:this.data.EPONo })})
-                .then((contract)=>{
-                    var usedQty= 0;
-                    if(contract.data.length>0){
-                        for(var subcon of contract.data){
-                            if(subcon.Id!=this.data.Id){
-                                for(var subconItem of subcon.Items){
+                .then(async (contract)=> {
+                    var usedQty = 0;
+                    var pcsUom = {};
+
+                    if(contract.data.length>0) {
+                        for(var subcon of contract.data) {
+                            if(subcon.Id!=this.data.Id) {
+                                for(var subconItem of subcon.Items) {
                                     usedQty+=subconItem.Quantity;
-                                    console.log(subconItem);
+                                    //console.log(subconItem);
                                 }
                             }
-                            else{
+                            else {
                                 this.data.savedItems=subcon.Items;
                             }
                         }
                     }
+
                     this.data.QtyUsed=usedQty;
-                    if(deliveryOrder){
+
+                    if(deliveryOrder) {
+
+                        await this.coreService.getUom({ size: 1, filter: JSON.stringify({ Unit: "PCS" }) })
+                        .then((uomResult)=> {
+                            console.log(uomResult)
+                        
+                            pcsUom.Id =  uomResult.data[0].Id,
+                            pcsUom.Unit = uomResult.data[0].Unit
+
+                            // pcsUom = {
+                            //     Id: uomResult.data[0].Id,
+                            //     Unit: uomResult.data[0].Unit
+                            // };
+                        });
+
                         for(var uenItem of newValue.Items){
-                            var item={};
+
+                            var item = {};
+
                             item.UENItemId=uenItem._id || uenItem.Id;
-                            if(this.data.savedItems){
+                            if(this.data.savedItems) {
                                 var qty= this.data.savedItems.find(a=>a.UENItemId == uenItem.Id );
                                 if(this.isEdit) {
                                     item.Id = qty.Id;
                                 }
                                 if(qty)
-                                    item.Quantity=qty.Quantity;
+                                    item.Quantity = qty.Quantity;
                             }
                             //item.UENItemId=uenItem.Id;
-                            item.Product={
+                            item.Product = {
                                 Name: uenItem.ProductName,
                                 Code: uenItem.ProductCode,
                                 Id: uenItem.ProductId
                             };
-                            item.Uom={
+
+                            item.Uom = {
                                 Id: uenItem.UomId,
                                 Unit: uenItem.UomUnit
                             };
-                            this.coreService.getUom({ size: 1, filter: JSON.stringify({ Unit: "PCS" }) })
-                            .then((uomResult)=>{
-                                item.UomOut={
-                                    Id: uomResult.data[0].Id,
-                                    Unit: uomResult.data[0].Unit
-                                };
-                            });
+
+                            item.UomOut = pcsUom;
+
+                            console.log(item.UomOut);
+                            console.log(pcsUom);
+
+                            // this.coreService.getUom({ size: 1, filter: JSON.stringify({ Unit: "PCS" }) })
+                            // .then((uomResult)=> {
+                            //     item.UomOut = {
+                            //         Id: uomResult.data[0].Id,
+                            //         Unit: uomResult.data[0].Unit
+                            //     };
+                            // });
                             
                             item.ProductRemark=uenItem.ProductRemark;
                             //item.Quantity=uenItem.Quantity;
                             var doItem= deliveryOrder.Items.find(a=>a._id == uenItem.UnitDOItemId );
 
-                            if(doItem){
+                            if(doItem) {
                                 item.DesignColor = doItem.DesignColor;
                             }
+
                             item.FabricType= uenItem.FabricType;
                             item.ContractQuantity=uenItem.Quantity;
                             this.data.Items.push(item);

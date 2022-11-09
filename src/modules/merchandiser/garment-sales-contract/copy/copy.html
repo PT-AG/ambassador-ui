@@ -1,7 +1,7 @@
 <template>
     <div>Nomor Sales Contract Asal : <b>${copiedFrom.SCNo}</b> (Nomor RO: <b>${copiedFrom.RONo}</b>)</div>
     <br>
-    <h1 class="page-header">Copy Sales Contract Per RO</h1>
+    <h1 class="page-header">Copy Sales Contract</h1>
     <require from="modules/merchandiser/garment-sales-contract/data-form"></require>
     <block>
         <data-form data.bind="data" error.bind="error" selected-account-bank.bind="selectedAccountBank" selected-r-o.bind="selectedRo"></data-form>

@@ -6,10 +6,10 @@
             </au-autocomplete>
         </td>
         <td>
-            <au-numeric value.bind="data.quantity" error.bind="error.Quantity" format="0" if.bind="type=='DL'"
+            <au-numeric value.bind="data.quantity" error.bind="error.Quantity" format="0" if.bind="type=='AG'"
                 read-only.bind="readOnly">
             </au-numeric>
-            <au-numeric value.bind="data.quantity" error.bind="error.Quantity" format="0.00" if.bind="type!='DL'"
+            <au-numeric value.bind="data.quantity" error.bind="error.Quantity" format="0.00" if.bind="type!='AG'"
                 read-only.bind="readOnly">
             </au-numeric>
         </td>

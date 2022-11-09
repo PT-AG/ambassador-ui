@@ -82,7 +82,7 @@ export class DataForm {
         var _selectedSupplier = newValue;
         if (_selectedSupplier) {
             this.filterDO={
-                "BillNo != null": true,
+                //"BillNo != null": true,
                 SupplierName:_selectedSupplier.name
             };
         }

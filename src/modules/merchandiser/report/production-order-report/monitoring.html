@@ -55,6 +55,7 @@
                     <tr>
                         <th><label>Week</label></th>
                         <th><label>Buyer</label></th>
+                        <th><label>Tipe Buyer</label></th>
                         <th><label>Seksi</label></th>
                         <th><label>Komoditi</label></th>
                         <th><label>Artikel</label></th>
@@ -67,13 +68,13 @@
                         <th><label>Term Pembayaran</label></th>
                         <th><label>Tgl Confirm</label></th>
                         <th><label>Tgl Shipment</label></th>
-                        <th><label>Validasi Kadiv Md</label></th>
+                        <th><label>Validasi Direktur penjualan</label></th>
                     </tr>
                 </thead>
                 <tbody>
                     <!--No data to display-->
                     <tr if.bind="!tableData || tableData.length < 1">
-                        <td colspan="15">
+                        <td colspan="16">
                             <div class="alert alert-info"> Tidak ada data untuk ditampilkan. </div>
                         </td>
                     </tr>
@@ -91,6 +92,9 @@
                                     <template if.bind="detailIndex==0">
                                         <td rowspan.bind="data.Buyers[buyerIndex].Details.length || 1" align="center">
                                             <label><au-textbox value.bind="data.Buyers[buyerIndex].Buyer" read-only="true"></au-textbox></label>
+                                        </td>
+                                        <td rowspan.bind="data.Buyers[buyerIndex].Details.length || 1" align="center">
+                                            <label><au-textbox value.bind="data.Buyers[buyerIndex].Type" read-only="true"></au-textbox></label>
                                         </td>
                                     </template>
                                     <td rowspan.bind="data.UnpostReasons.length || 1">
@@ -135,7 +139,7 @@
                                 </tr>
                             </template>
                             <tr style="background: lightgray; font-weight: bold;">
-                                <td colspan="6" align="right">
+                                <td colspan="7" align="right">
                                     <au-textbox value="SUB TOTAL" read-only="true"></au-textbox>
                                 </td>
                                 <td align="right">

@@ -101,7 +101,7 @@ export class DataForm {
             { header: "Warna", value: "Color" }
         ],
         onAdd: function () {
-            this.data.Items.push({ IsSave: true, Comodity: this.data.Comodity, Uom: this.uom, SubconType: this.data.SubconType });
+            this.data.Items.push({ IsSave: true, Comodity: this.data.Comodity, Uom: this.uom, SubconType: this.data.SubconType, RONo: this.data.RONo });
         }.bind(this),
         options: {
             checkedAll: true,
@@ -207,7 +207,7 @@ export class DataForm {
                     this.itemsRONo = [""];
                     for (var item of result.items) {
                         for (var detail of item.fulfillments) {
-                            if (this.itemsRONo.indexOf(detail.rONo) < 0 && detail.product.Code === "PRC001") {
+                            if (this.itemsRONo.indexOf(detail.rONo) < 0 && detail.product.Name === "PROCESS") {
                                 this.itemsRONo.push(detail.rONo);
                             }
                         }
@@ -231,7 +231,7 @@ export class DataForm {
             let DODetailIds = [];
             for (var item of this.garmentDOData.items) {
                 for (var detail of item.fulfillments) {
-                    if (detail.rONo === newValue && detail.product.Code === "PRC001") {
+                    if (detail.rONo === newValue && detail.product.Name === "PROCESS") {
                         DODetailIds.push(detail.Id);
                     }
                 }
@@ -275,7 +275,7 @@ export class DataForm {
                                 }
                                 for (var item of this.garmentDOData.items) {
                                     for (var detail of item.fulfillments) {
-                                        if (detail.rONo === newValue && detail.product.Code === "PRC001") {
+                                        if (detail.rONo === newValue && detail.product.Name === "PROCESS") {
                                             this.dataDODetails.push({
                                                 ProductCode: detail.product.Code,
                                                 ProductName: detail.product.Name,

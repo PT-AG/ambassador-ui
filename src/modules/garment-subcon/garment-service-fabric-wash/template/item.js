@@ -8,6 +8,7 @@ const UENLoader = require('../../../../loader/garment-unit-expenditure-note-load
 @inject(Service, PurchasingService)
 export class Item {
     @bindable selectedUEN;
+    UENList = [];
 
     constructor(service, purchasingService) {
         this.service = service;
@@ -28,7 +29,9 @@ export class Item {
 
         this.isCreate = context.context.options.isCreate;
         this.isEdit = context.context.options.isEdit;
-        this.itemOptions=context.context.options;
+        this.itemOptions = context.context.options;
+        this.UENList = context.context.options.UENList;
+
         if(this.data){
             this.selectedUEN={
 				UENNo: this.data.UnitExpenditureNo,
@@ -42,13 +45,16 @@ export class Item {
 				Items: this.data.Items && []
             }
         }
+
         this.isShowing = true;
+
         if (this.data.Details) {
             if (this.data.Details.length > 0) {
                 this.isShowing = true;
             }
         }
     }
+
     itemsColumnsCreate = [
         "Kode Barang",
         "Nama Barang",
@@ -87,9 +93,13 @@ export class Item {
 				})
 			});
 
+            console.log(uenNo);
+
 			return this.purchasingService.getUnitExpenditureNotes(info)
 				.then((result) => {
-					let data = result.data.filter(x => !uenNo.includes(x.UENNo));
+
+					let _data = result.data.filter(x => !uenNo.includes(x.UENNo));
+                    let data = _data.filter(x => !this.UENList.includes(x.UENNo));
 					return data;
 				});
 		}
@@ -101,12 +111,17 @@ export class Item {
                 if(this.data.Details.length>0){
                     this.data.Details.splice(0);
                 }
+
+			    if(newValue.UENNo != this.data.UnitExpenditureNo && this.UENList.includes(this.data.UnitExpenditureNo)) {
+				    this.UENList.splice(this.UENList.indexOf(this.data.UnitExpenditureNo), 1);
+			    }
+
+                this.UENList.push(newValue.UENNo);
                 this.data.UnitExpenditureNo = newValue.UENNo;
                 this.data.UnitSender = {
                     Id: newValue.UnitSenderId,
                     Code: newValue.UnitSenderCode,
                     Name: newValue.UnitSenderName
-
                 };
                 
                 // this.data.UnitRequest={
@@ -152,11 +167,14 @@ export class Item {
                             this.data.Details.push(detail);
                         }
                     });
-            }
-            else {
+            } else {
+
+                if(this.UENList.includes(this.data.UENNo)) {
+                    this.UENList.splice(this.UENList.indexOf(this.data.UENNo), 1);
+                }
+
 				this.data.UENNo = null;
             }
         }
     }
-
 }

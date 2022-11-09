@@ -62,7 +62,7 @@
                     value.bind="selectedInvoiceType"
                     error.bind="error.InvoiceType"
                     read-only.bind="readOnly || isEdit"
-                    items.bind="data.packingListType=='EXPORT' ? InvoiceTypeOptions : InvoiceTypeOptionsR"
+                    items.bind="data.packingListType=='RE EXPORT' ? InvoiceTypeOptionsR : InvoiceTypeOptions"
                     options.bind="controlOptions">
                 </au-dropdown>
 
@@ -146,14 +146,22 @@
                     options.bind="controlOptions">
                 </au-autocomplete>
                 
-                <au-dropdown
+                <!-- <au-dropdown
                 label="Destination"
                 value.bind="data.destination"
                 error.bind="error.Destination"
                 read-only.bind="readOnly"
                 items.bind="countries"
                 options.bind="controlOptions">
-                </au-dropdown>
+                </au-dropdown> -->
+                
+                <au-textbox 
+                    label="Destination" 
+                    value.bind="data.destination" 
+                    error.bind="error.Destination"
+                    read-only.bind="readOnly" 
+                    options.bind="controlOptions">
+                </au-textbox>
 
                 <au-datepicker 
                     label="TGL Trucking" 

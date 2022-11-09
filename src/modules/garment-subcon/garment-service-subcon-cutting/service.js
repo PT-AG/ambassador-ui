@@ -51,6 +51,7 @@ class Service extends RestService {
         var endpoint = `${cuttingInUri}/complete`;
         return super.list(endpoint, info);
     }
+
     getPdfById(id) {
         var endpoint = `${serviceUri}/get-pdf/${id}`;
         return super.getPdf(endpoint);
@@ -66,6 +67,10 @@ class Service extends RestService {
         return super.getXls(endpoint);
     }
 
+    getCuttingInByROLoader(info) {
+        var endpoint = `${cuttingInUri}/by-roNo`;
+        return super.list(endpoint, info);
+    }
 
 }
 
