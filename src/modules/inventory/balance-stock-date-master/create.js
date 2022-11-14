@@ -1,17 +1,18 @@
-import { inject, Lazy } from 'aurelia-framework';
-import { Router } from 'aurelia-router';
-import { Service } from './service';
+import {inject, Lazy} from 'aurelia-framework';
+import {Router} from 'aurelia-router';
+import {Service} from './service';
+
 
 @inject(Router, Service)
 export class Create {
     constructor(router, service) {
         this.router = router;
         this.service = service;
-        this.data = { Items: [] };
-        this.isCreate=true;
+        this.data = {};
     }
 
     activate(params) {
+
     }
 
     list() {
@@ -19,11 +20,13 @@ export class Create {
     }
 
     cancelCallback(event) {
-        this.list();
+      this.list();
     }
 
     saveCallback(event) {
+        
         this.service.create(this.data)
+       
             .then(result => {
                 this.list();
             })
