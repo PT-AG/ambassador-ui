@@ -9,7 +9,7 @@ export class DataForm {
     @bindable _date;
     @bindable readOnly;
     @bindable balanceStockDate;
-    @bindable counter=0;
+    @bindable counter = 0;
     formOptions = {
         cancelText: "Kembali",
         saveText: "Simpan",
@@ -17,7 +17,7 @@ export class DataForm {
         editText: "Ubah",
     }
 
-      constructor(router, service) {
+    constructor(router, service) {
         this.service = service;
     }
 
@@ -26,56 +26,62 @@ export class DataForm {
         return (this.data.Id || '').toString() != '';
     }
      
-   
     async bind(context) {
-    this.context = context;
-    this.data = this.context.data;
-    this.error = this.context.error;
+      this.context = context;
+      this.data = this.context.data;
+      this.error = this.context.error;
 
-    this.cancelCallback = this.context.cancelCallback;
-    this.deleteCallback = this.context.deleteCallback;
-    this.editCallback = this.context.editCallback;
-    this.saveCallback = this.context.saveCallback;
-    this.data.BalanceStockDate= this.balanceDateLoader;
+      this.cancelCallback = this.context.cancelCallback;
+      this.deleteCallback = this.context.deleteCallback;
+      this.editCallback = this.context.editCallback;
+      this.saveCallback = this.context.saveCallback;
+      this.data.BalanceStockDate = this.balanceDateLoader;
     
-    var arg = {
-      size: 1,
-      order: {}
-    }
+      var arg = {
+        size: 1,
+        order: {}
+      }
 
-    this.service.search(arg)
+      this.service.search(arg)
       .then(result => {
-       for(var a of result.data)
-       {
-            this.data.BalanceStockDate =moment(a.BalanceStockDate).format("YYYY-MM-DD");
-            this._date= moment(a.BalanceStockDate).format("YYYY-MM-DD");
-            this.balanceStockDate =moment(a.BalanceStockDate).format("YYYY-MM-DD");
-       }
+
+        if(result.data){
+          for(var a of result.data)
+          {
+            this.data.BalanceStockDate = moment(a.BalanceStockDate).add(1, 'days').format("YYYY-MM-DD");
+            this._date = moment(a.BalanceStockDate).format("YYYY-MM-DD");
+            this.balanceStockDate = moment(a.BalanceStockDate).add(1, 'days').format("YYYY-MM-DD");
+          }
+        } else {
+          this.data.BalanceStockDate = moment().format("YYYY-MM-DD");
+          this._date = moment("1970-01-01").format("YYYY-MM-DD");
+          this.balanceStockDate = moment().format("YYYY-MM-DD");
+        }
+
         return {
           total: result.info.total,
           data: result.data
-          
         }
       });
     }
     
-
     balanceStockDateChanged(e) {
-        this.counter +=1;
-        var _newDate = new Date(e);
+      //this.counter +=1;
+      var _newDate = new Date(e);
        
-        if (moment(_newDate).format("YYYY-MM-DD") < this._date && moment(_newDate).format("YYYY-MM-DD") != '1970-01-01') {
-           alert('Tanggal tidak boleh lebih kecil dari tanggal Stock Opname sebelummya!');
-           this.balanceStockDate =null;
-           this.data.BalanceStockDate=null;
-        }else if (moment(_newDate).format("YYYY-MM-DD") == this._date && moment(_newDate).format("YYYY-MM-DD") != '1970-01-01' && this.counter > 1) {
-            alert('Tanggal tidak boleh sama dengan tanggal Stock Opname sebelummya!');
-            this.balanceStockDate =null;
-            this.data.BalanceStockDate=null;
-         }
-        else
-        {
-            this.data.BalanceStockDate =moment(_newDate).format("YYYY-MM-DD");
-        }
+      if (moment(_newDate).format("YYYY-MM-DD") < this._date && moment(_newDate).format("YYYY-MM-DD") != '1970-01-01') {
+        alert('Tanggal tidak boleh lebih kecil dari tanggal Stock Opname sebelummya!');
+        this.balanceStockDate = null;
+        this.data.BalanceStockDate = null;
+
+      } else if (moment(_newDate).format("YYYY-MM-DD") == this._date && moment(_newDate).format("YYYY-MM-DD") != '1970-01-01') {
+        alert('Tanggal tidak boleh sama dengan tanggal Stock Opname sebelummya!');
+        this.balanceStockDate = null;
+        this.data.BalanceStockDate = null;
+
+      } else {
+        this.data.BalanceStockDate = moment(_newDate).format("YYYY-MM-DD");
+
+      }
     }
 }
