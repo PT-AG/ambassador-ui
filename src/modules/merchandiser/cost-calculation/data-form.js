@@ -140,7 +140,7 @@ export class DataForm {
     this.selectedUnit = this.data.Unit?this.data.Unit:"";
     this.data.OTL1 = this.data.OTL1 ? this.data.OTL1 : Object.assign({}, this.defaultRate);
     this.data.OTL2 = this.data.OTL2 ? this.data.OTL2 : Object.assign({}, this.defaultRate);
-    this.data.ConfirmPrice =this.data.ConfirmPrice ? this.data.ConfirmPrice:0 ;
+    this.data.ConfirmPrice = this.data.ConfirmPrice ? this.data.ConfirmPrice : 0 ;
     this.create = this.context.create; 
     if (!this.create)
       {
@@ -424,7 +424,10 @@ export class DataForm {
     else if (newVal === "35 hari")
     {      
       this.data.LeadTime = 35;
-      
+    }
+    else if (newVal === "40 hari")
+    {      
+      this.data.LeadTime = 40;
     }
     else
       this.data.LeadTime = 0;
@@ -574,7 +577,6 @@ export class DataForm {
       this.data.UnitName=newVal.Name;
     }
   }
-
 
   @computedFrom('data.SMV_Cutting', 'data.SMV_Sewing', 'data.SMV_Finishing')
   get SMV_Total() {
