@@ -429,9 +429,9 @@ export class DataForm {
     {      
       this.data.LeadTime = 40;
     }
-    else
+    else {
       this.data.LeadTime = 0;
-     
+    }
   }
 
   @bindable imageUpload;
