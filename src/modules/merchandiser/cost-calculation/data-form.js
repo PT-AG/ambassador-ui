@@ -373,30 +373,26 @@ export class DataForm {
   async selectedBookingOrderChanged(newValue, oldValue) {
     //console.log(newValue);
     if (newValue)
-       {
-         this.data.BookingOrderId = newValue.BookingOrderId;
-         this.data.BookingOrderItemId = newValue.BookingOrderItemId;
-         this.data.BookingOrderNo = newValue.BookingOrderNo;   
-         this.data.BOQuantity = newValue.ConfirmQuantity;
-         this.data.ConfirmDate = newValue.ConfirmDate;   
-         //this.data.Commodity = newValue.ComodityName;
+      {
+        if(!this.data.Id){
+          this.data.BookingOrderId = newValue.BookingOrderId;
+          this.data.BookingOrderItemId = newValue.BookingOrderItemId;
+          this.data.BookingOrderNo = newValue.BookingOrderNo;   
+          this.data.BOQuantity = newValue.ConfirmQuantity;
+          this.data.ConfirmDate = newValue.ConfirmDate;   
+          //this.data.Commodity = newValue.ComodityName;
 
-         console.log(this.data.BookingOrderId);
-         console.log(this.data.BookingOrderItemId);      
-         console.log(this.data.BookingOrderNo);
-         console.log(this.data.BOQuantity);
-         console.log(this.data.ConfirmDate);     
-         //console.log(this.data.Commodity);   
-       } 
-       else 
-       {
-          this.data.BookingOrderId = 0;
-          this.data.BookingOrderItemId = 0;
-          this.data.BookingOrderNo = null;      
-          this.data.BOQuantity = 0;
-          this.data.ConfirmDate = null;
-         // this.data.Commodity = this.data.Commodity;
-       }
+        } 
+      } 
+      else 
+      {
+        this.data.BookingOrderId = 0;
+        this.data.BookingOrderItemId = 0;
+        this.data.BookingOrderNo = null;      
+        this.data.BOQuantity = 0;
+        this.data.ConfirmDate = null;
+        // this.data.Commodity = this.data.Commodity;
+      }
   }
 
   @bindable selectedComodity = "";
