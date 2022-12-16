@@ -30,7 +30,6 @@ export async function configure(aurelia) {
                 }
             }
 
-
             var core = "https://com-ambassador-service-core.azurewebsites.net/v1/";
             var auth = "https://com-ambassador-service-auth.azurewebsites.net/v1/";
             var production = "https://dl-production-webapi.azurewebsites.net/v1/";
