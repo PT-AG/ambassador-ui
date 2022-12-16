@@ -502,7 +502,7 @@ module.exports = [
         settings: {
             group: "merchandiser",
             subGroup: "monitoring",
-            permission: { "PGA": 2, "PDU": 1, "C9": 1 },
+            permission: { "PGA": 2, "B7": 1, "PDU": 1, "C9": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -516,7 +516,7 @@ module.exports = [
         settings: {
             group: "merchandiser",
             subGroup: "monitoring",
-            permission: { "PGA": 2, "PDU": 1, "C9": 1 },
+            permission: { "PGA": 2, "B7": 1, "PDU": 1, "C9": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -698,7 +698,7 @@ module.exports = [
         settings: {
             group: "merchandiser",
             subGroup: "monitoring",
-            permission: { "PGA": 2, "PDU": 1, "C9": 1 },
+            permission: { "PGA": 2, "B7": 1, "PDU": 1, "C9": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
