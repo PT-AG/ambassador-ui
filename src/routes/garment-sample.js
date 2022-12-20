@@ -66,7 +66,7 @@ module.exports = [
 		settings: {
 			group: "g-sample",
 			subGroup: "transaksi",
-			permission: { "C9": 1, "SMP1": 1,"PDU":1 },
+			permission: { "C9": 1, "SMP1": 1,"PDU":1, "B7":1 },
 			iconClass: 'fa fa-dashboard'
 		}
 	},
