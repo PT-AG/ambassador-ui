@@ -34,7 +34,7 @@ export class Create {
             })
             .catch(e => {
                 if (e.statusCode == 500) {
-                    alert("Terjadi Kesalahan Pada Sistem!\nHarap Simpan Kembali!");
+                    alert("Terjadi Kesalahan Pada Sistem!\nHarap periksa kembali data inputan!\nTidak boleh Qty pada Item bernilai 0!");
                 } else {
                     this.error = e;
                 }
