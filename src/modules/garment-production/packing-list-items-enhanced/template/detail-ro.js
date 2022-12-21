@@ -168,7 +168,7 @@ export class Item {
 									this.data.unit = result.Unit;
 									this.data.uom = result.UOM;
 									this.uom = result.UOM;
-									this.data.valas = "USD";
+									this.data.valas = result.Section=="MD01"? "IDR":"USD";
 									this.data.quantity = result.Quantity;
 									this.data.scNo = sc.SalesContractNo;
 									this.data.price = sc.Price;
