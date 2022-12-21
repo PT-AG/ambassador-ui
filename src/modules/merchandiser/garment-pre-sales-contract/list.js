@@ -25,7 +25,8 @@ export class List {
         { field: "SCType", title: "Jenis Sales Contract" },
         { field: "BuyerAgentName", title: "Buyer Agent"},
         { field: "BuyerBrandName", title: "Buyer Brand"},
-        { field: "OrderQuantity", title: "Jumlah Order" }
+        { field: "OrderQuantity", title: "Jumlah Order" },
+        { field: "Remark", title: "Keterangan" }
     ];
 
     rowFormatter(data, index) {
