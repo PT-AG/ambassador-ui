@@ -2,7 +2,7 @@ import { inject, bindable, BindingEngine, observable, computedFrom } from 'aurel
 import { Service, CoreService } from './service';
 
 import AccountBankLoader from "../../../loader/account-banks-loader";
-import BuyerBrandLoader from "../../../loader/garment-buyers-loader";
+import BuyerBrandLoader from "../../../loader/garment-buyer-brands-loader";
 
 @inject(BindingEngine, Service,CoreService, Element)
 export class DataForm {
