@@ -130,7 +130,7 @@ export class List {
             for (var l = 0; l < pr.items.length; l++) {
               dataTemp.backgroundColorWH[l] = parseFloat(dataTemp.WHBooking[l]) <= 45.5 ? "#FFFF00" : 
                 parseFloat(dataTemp.WHBooking[l]) <= 50.5 && parseFloat(dataTemp.WHBooking[l]) > 45.5 ? "#52df46" : 
-                parseFloat(dataTemp.WHBooking[l]) <= 58 && parseFloat(dataTemp.WHBooking[l]) > 50.5 ? "#f62c2c" :
+                parseFloat(dataTemp.WHBooking[l]) <= 56.5 && parseFloat(dataTemp.WHBooking[l]) > 50.5 ? "#f62c2c" :
                   "#797978";
             }
             dataTemp.weekSewingBlocking = pr.weekSewingBlocking;
