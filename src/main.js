@@ -30,15 +30,16 @@ export async function configure(aurelia) {
                 }
             }
 
-            var core = "https://com-ambassador-service-core.azurewebsites.net/v1/";
-            var auth = "https://com-ambassador-service-auth.azurewebsites.net/v1/";
+
+            var core = "https://com-ambassador-service-core-dev.azurewebsites.net/v1/";
+            var auth = "https://com-ambassador-service-auth-dev.azurewebsites.net/v1/";
             var production = "https://dl-production-webapi.azurewebsites.net/v1/";
             var productionAzure = "https://com-ambassador-service-finishing-printing.azurewebsites.net/v1/";
-            var purchasing = "https://dl-purchasing-webapi.azurewebsites.net/v1/";
-            var purchasingAzure = "https://com-ambassador-service-purchasing.azurewebsites.net/v1/";
+            var purchasing = "https://dl-purchasing-webapi.azurewebsites-dev.net/v1/";
+            var purchasingAzure = "https://com-ambassador-service-purchasing-dev.azurewebsites.net/v1/";
             var garmentPurchasing = "https://dl-purchasing-garment-webapi.azurewebsites.net/v1/";
             var inventory = "https://dl-inventory-webapi.azurewebsites.net/v1/";
-            var inventoryAzure = "https://com-ambassador-service-inventory.azurewebsites.net/v1/";
+            var inventoryAzure = "https://com-ambassador-service-inventory-dev.azurewebsites.net/v1/";
             var garmentMasterPlan = "https://dl-garment-master-plan-webapi.azurewebsites.net/v1/";
             var spMasterPlan = "https://dl-sp-master-plan-webapi.mybluemix.net/v1/";
             var spinning = "https://com-ambassador-service-spinning.azurewebsites.net/";
@@ -46,11 +47,11 @@ export async function configure(aurelia) {
             var customsReport = "https://com-ambassador-service-support.azurewebsites.net/v1/";
             var merchandiser = "https://com-ambassador-service-md.azurewebsites.net/v1/";
             const dealTracking = 'https://com-ambassador-service-deal-tracking.azurewebsites.net/v1/';
-            const sales = "http://localhost:5000/v1/";
+            const sales = "https://com-ambassador-service-sales-dev.azurewebsites.net/v1/";
             var weaving = "https://com-ambassador-service-weaving.azurewebsites.net/";
-            var finance = "https://com-ambassador-service-finance-accounting.azurewebsites.net/v1/";
-            var garmentProduction = "https://com-ambassador-service-garment.azurewebsites.net/";
-            var packingInventory = "https://com-ambassador-service-packing-inventory.azurewebsites.net/v1/";
+            var finance = "https://com-ambassador-service-finance-accounting-dev.azurewebsites.net/v1/";
+            var garmentProduction = "https://com-ambassador-service-garment-dev.azurewebsites.net/";
+            var packingInventory = "https://com-ambassador-service-packing-inventory-dev.azurewebsites.net/v1/";
             var dyeing = "https://dyeing-printing-etl-service.azurewebsites.net/api/";
             const garmentShipping = "https://garment-etl-service.azurewebsites.net/api/";
             var ItInven = "https://it-inventory-etl-service.azurewebsites.net/api/";
