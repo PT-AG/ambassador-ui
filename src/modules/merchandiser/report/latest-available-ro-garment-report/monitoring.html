@@ -41,7 +41,8 @@
                         <th><label>Kode Buyer</label></th>
                         <th><label>Nama Buyer</label></th>
                         <th><label>Tipe Buyer</label></th>
-                        <th><label>Artikel / Style</label></th>
+                        <th><label>Artikel</label></th>
+                        <th><label>Style </label></th>
                         <th><label>Quantity</label></th>
                         <th><label>Satuan</label></th>
                         <th><label>Fabric</label></th>
@@ -87,6 +88,9 @@
                             </td>
                             <td align="center">
                                 <au-textbox value.bind="tableData[i].Article" read-only="true"></au-textbox>
+                            </td>
+                            <td align="center">
+                                <au-textbox value.bind="tableData[i].CommodityDescription" read-only="true"></au-textbox>
                             </td>
                             <td align="center">
                                 <au-textbox value.bind="tableData[i].Quantity" read-only="true"></au-textbox>
