@@ -35,6 +35,14 @@
             options.bind="controlOptions">
         </au-textbox>
 
+        <au-textbox 
+            label="Qty Order" 
+            value.bind="data.QuantityOrder"
+            read-only.bind="true"
+            if.bind = "!options.readOnly"
+            options.bind="controlOptions">
+        </au-textbox>
+
         <au-datepicker 
             label="Tgl. PR" 
             value.bind="data.Date" 
