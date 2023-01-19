@@ -56,6 +56,7 @@ export class DataForm {
   }
   RO_Garment_SizeBreakdownsInfo = {
     columns: [
+      { header: "No" },
       { header: "Color", value: "Color" },
       { header: "Size Range", value: "RO_Garment_SizeBreakdowns_Detail" },
     ],

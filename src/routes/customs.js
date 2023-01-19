@@ -8,7 +8,7 @@ module.exports = [
         auth: true,
         settings: {
             group: "customs",
-            permission: { CT: 2, "C9": 1, "PDU":1 },
+            permission: { CT: 2, "C9": 1, "PDU":1, "B1": 1 },
             iconClass: 'fa fa-dashboard'
         },
     },
@@ -21,7 +21,7 @@ module.exports = [
         auth: true,
         settings: {
             group: "customs",
-            permission: { CT: 2, "C9": 1, "PDU":1  },
+            permission: { CT: 2, "C9": 1, "PDU":1, "B1": 1  },
             iconClass: 'fa fa-dashboard'
         },
     },
@@ -34,7 +34,7 @@ module.exports = [
         auth: true,
         settings: {
             group: "customs",
-            permission: { CT: 2, "C9": 1, "PDU":1  },
+            permission: { CT: 2, "C9": 1, "PDU":1, "B1": 1  },
             iconClass: 'fa fa-dashboard'
         },
     },
@@ -47,7 +47,7 @@ module.exports = [
         auth: true,
         settings: {
             group: "customs",
-            permission: { CT: 2, "C9": 1, "PDU":1 },
+            permission: { CT: 2, "C9": 1, "PDU":1, "B1": 1 },
             iconClass: 'fa fa-dashboard'
         },
     },
@@ -61,7 +61,7 @@ module.exports = [
         auth: true,
         settings: {
             group: "customs",
-            permission: { CT: 2, "C9": 1, "PDU":1 },
+            permission: { CT: 2, "C9": 1, "PDU":1, "B1": 1 },
             iconClass: 'fa fa-dashboard'
         },
 
@@ -76,7 +76,7 @@ module.exports = [
         auth : true,
         settings : {
             group : "customs",
-            permission : {CT: 2, "C9": 1, "PDU":1},
+            permission : {CT: 2, "C9": 1, "PDU":1, "B1": 1},
             iconClass : 'fa fa-dashboard'
         }
     },
@@ -89,7 +89,7 @@ module.exports = [
         auth: true,
         settings: {
             group: "customs",
-            permission: { CT: 2, "C9": 1, "PDU":1 },
+            permission: { CT: 2, "C9": 1, "PDU":1, "B1": 1 },
             iconClass: 'fa fa-dashboard'
         },
 
@@ -104,7 +104,7 @@ module.exports = [
         auth: true,
         settings: {
             group: "customs",
-            permission: { CT: 2, "C9": 1, "PDU":1 },
+            permission: { CT: 2, "C9": 1, "PDU":1, "B1": 1 },
             iconClass: 'fa fa-dashboard'
         }
 
@@ -119,7 +119,7 @@ module.exports = [
         auth: true,
         settings: {
             group: "customs",
-            permission: { CT: 2, "C9": 1, "PDU":1 },
+            permission: { CT: 2, "C9": 1, "PDU":1, "B1": 1 },
             iconClass: 'fa fa-dashboard'
         },
 
@@ -134,7 +134,7 @@ module.exports = [
         settings: {
             group: "customs",
             //permission: { "C9": 1,"C9": 1,"B1": 1 ,"C2A":1},
-            permission: { CT: 2, "C9": 1, "PDU":1 },
+            permission: { CT: 2, "C9": 1, "PDU":1, "B1": 1 },
             iconClass: 'fa fa-dashboard'
         },
 
@@ -149,7 +149,7 @@ module.exports = [
         settings: {
             group: "customs",
             //permission: { "C9": 1,"C9": 1,"B1": 1 ,"C2A":1 },
-            permission: { CT: 2, "C9": 1, "PDU":1 },
+            permission: { CT: 2, "C9": 1, "PDU":1, "B1": 1 },
             iconClass: 'fa fa-dashboard'
         },
 
@@ -164,7 +164,7 @@ module.exports = [
         auth: true,
         settings: {
             group: "customs",
-            permission: { CT: 2, "C9": 1, "PDU":1 },
+            permission: { CT: 2, "C9": 1, "PDU":1, "B1": 1 },
             iconClass: 'fa fa-dashboard'
         },
 
@@ -178,7 +178,7 @@ module.exports = [
         auth: true,
         settings: {
             group: "customs",
-            permission: { CT: 2, "C9": 1, "PDU":1 },
+            permission: { CT: 2, "C9": 1, "PDU":1, "B1": 1 },
             iconClass: 'fa fa-dashboard'
         },
 
@@ -192,7 +192,7 @@ module.exports = [
         auth: true,
         settings: {
             group: "customs",
-            permission: {  CT: 2, "C9": 1, "PDU":1},
+            permission: {  CT: 2, "C9": 1, "PDU":1, "B1": 1},
             iconClass: 'fa fa-dashboard'
         },
 
@@ -206,7 +206,7 @@ module.exports = [
         auth: true,
         settings: {
             group: "customs",
-            permission: {  CT: 2, "C9": 1, "PDU":1},
+            permission: {  CT: 2, "C9": 1, "PDU":1, "B1": 1},
             iconClass: 'fa fa-dashboard'
         },
 
@@ -220,7 +220,7 @@ module.exports = [
         auth: true,
         settings: {
             group: "customs",
-            permission: {  CT: 2, "C9": 1, "PDU":1},
+            permission: {  CT: 2, "C9": 1, "PDU":1, "B1": 1},
             iconClass: 'fa fa-dashboard'
         },
 
@@ -248,7 +248,7 @@ module.exports = [
         auth: true,
         settings: {
             group: "customs",
-            permission: {  CT: 2, "C9": 1, "PDU":1 },
+            permission: {  CT: 2, "C9": 1, "PDU":1, "B1": 1 },
             iconClass: 'fa fa-dashboard'
         },
 
@@ -262,10 +262,8 @@ module.exports = [
         auth: true,
         settings: {
             group: "customs",
-            permission: {  CT: 2, "C9": 1, "PDU":1},
+            permission: {  CT: 2, "C9": 1, "PDU":1, "B1": 1},
             iconClass: 'fa fa-dashboard'
         },
     },
-    
-  
 ]
