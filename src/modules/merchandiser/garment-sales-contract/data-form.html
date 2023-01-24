@@ -104,7 +104,7 @@
           read-only.bind="readOnly"
           items.bind="countries"
           options.bind="controlOptions"
-          if.bind="data.SCType!='Lokal'"
+          if.bind="data.SCType!='Lokal' || data.SCType!='Internal'"
         ></au-dropdown>
 
         <au-textbox
@@ -113,7 +113,7 @@
           error.bind="error.Country"
           read-only.bind="readOnly"
           options.bind="controlOptions"
-          if.bind="data.SCType=='Lokal'"
+          if.bind="data.SCType=='Lokal' || data.SCType=='Internal'"
         ></au-textbox>
 
         <au-multiline
