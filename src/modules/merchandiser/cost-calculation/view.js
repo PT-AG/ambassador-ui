@@ -107,6 +107,8 @@ export class View {
         CM_Price += Number(item.CM_Price);
       });
     }
+
+    var isFabricCM= this.data.CostCalculationGarment_Materials.find(a=>a.isFabricCM);
     
     this.CM_Price = ((CM_Price  * 1.05) / this.data.Rate.Value) + _confirmPrice;
     this.CM_Price = this.isDollar ? US + this.CM_Price.toLocaleString('en-EN', { minimumFractionDigits: 2}) : RP + this.CM_Price.toLocaleString('en-EN', { minimumFractionDigits: 2})
@@ -129,11 +131,22 @@ export class View {
     this.data.ConfirmPrice = this.isDollar
       ? US + this.data.ConfirmPrice.toLocaleString('en-EN', { minimumFractionDigits: 2})//numeral(this.data.ConfirmPrice).format()
       : RP + this.data.ConfirmPrice.toLocaleString('en-EN', { minimumFractionDigits: 2});
-    this.data.FOB_Price = this.isDollar
+    this.data.FOB_Price = isFabricCM ? numeral(0).format() : this.isDollar
       ? US + numeral(FOB_Price).format()
       : RP + numeral(FOB_Price).format();
-    this.data.CMT_Price =
-      CM_Price > 0 ? this.data.ConfirmPrice : numeral(0).format();
+    if(isFabricCM){
+      if(CM_Price > 0){
+        this.data.CMT_Price = this.data.ConfirmPrice ;
+      }
+      else{
+        this.data.CMT_Price =this.isDollar
+        ? US + numeral(FOB_Price).format()
+        : RP + numeral(FOB_Price).format();
+      }
+    }
+    else{
+      this.data.CMT_Price = numeral(0).format()
+    }
     this.data.CNF_Price = this.isDollar
       ? US + numeral(( CNF_Price +this.data.Freight)).format()
       : RP + numeral(0).format();
