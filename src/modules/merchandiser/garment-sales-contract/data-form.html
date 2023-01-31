@@ -104,7 +104,7 @@
           read-only.bind="readOnly"
           items.bind="countries"
           options.bind="controlOptions"
-          if.bind="data.SCType!='Lokal'"
+          if.bind="data.SCType!='Lokal' || data.SCType!='Internal'"
         ></au-dropdown>
 
         <au-textbox
@@ -113,7 +113,7 @@
           error.bind="error.Country"
           read-only.bind="readOnly"
           options.bind="controlOptions"
-          if.bind="data.SCType=='Lokal'"
+          if.bind="data.SCType=='Lokal' || data.SCType=='Internal'"
         ></au-textbox>
 
         <au-multiline
@@ -213,19 +213,15 @@
           value.bind="data.DownPayment"
           error.bind="error.DownPayment"
           read-only.bind="readOnly"
-          if.bind="type=='Lokal'"
+          if.bind="type=='Lokal' || type=='Internal'"
           options.bind="controlOptions">
         </au-textbox>
-        <div class="row" if.bind="type=='Lokal'">
 
+        <div class="row" if.bind="type=='Lokal' || type=='Internal'">
           <div class="col-sm-2" style="padding-left: 10%;">
-            
             <textbox label="Denda Keterlambatan" read-only="true"></textbox>
-            
           </div>
-
           <div class="col-sm-6">
-            
             <au-textbox
               value.bind="data.LatePayment"
               error.bind="error.LatePayment"
@@ -233,26 +229,16 @@
               read-only.bind="readOnly"
               options.bind="controlOptions">
             </au-textbox>
-            
           </div>
-
           <div class="col-sm-1">
-
               <textbox label="%" read-only="true"></textbox>
-
           </div>
-
       </div>
-        <div class="row" if.bind="type=='Lokal'">
-
+        <div class="row" if.bind="type=='Lokal' || type=='Internal'">
           <div class="col-sm-2" style="padding-left: 10%;">
-            
-            <textbox label="Pengembalian Barang" read-only="true"></textbox>
-            
+            <textbox label="Pengembalian Barang" read-only="true"></textbox>    
           </div>
-    
           <div class="col-sm-6">
-    
             <au-textbox
               value.bind="data.LateReturn"
               error.bind="error.LateReturn"
@@ -260,27 +246,16 @@
               read-only.bind="readOnly"
               options.bind="controlOptions">
             </au-textbox>
-    
           </div>
-    
           <div class="col-sm-1">
-    
             <textbox label="Hari" read-only="true"></textbox>
-    
           </div>
-            
         </div>
-    
-        <div class="row" if.bind="type=='Lokal'">
-    
+        <div class="row" if.bind="type=='Lokal' || type=='Internal'">
           <div class="col-sm-2" style="padding-left: 10%;">
-            
             <textbox label="Pemberitahuan Klaim" read-only="true"></textbox>
-            
           </div>
-    
           <div class="col-sm-6">
-            
             <au-textbox
               value.bind="data.Claim"
               error.bind="error.Claim"
@@ -288,24 +263,14 @@
               read-only.bind="readOnly"
               options.bind="controlOptions">
             </au-textbox>
-    
           </div>
-    
           <div class="col-sm-1">
-    
             <textbox label="Hari" read-only="true"></textbox>
-    
           </div>
-            
         </div>
-        
       </div>
-
     </div>
-    
-
     <!--<au-textbox error.bind="error.Details" read-only.bind="true"></au-textbox>-->
-
     <au-collection
       items.bind="data.SalesContractROs"
       errors.bind="error.SalesContractROs"
@@ -319,9 +284,7 @@
       change.delegate="itemsChanged($event)"
       if.bind="selectedBuyer && type !='Ekspor'">
     </au-collection>
-
     <!-- options.bind="itemsInfo.options" -->
-
     <au-collection
       items.bind="data.SalesContractROs"
       errors.bind="error.SalesContractROs"
@@ -333,9 +296,7 @@
       change.delegate="itemsChanged($event)"
       if.bind="selectedBuyer && type =='Ekspor'">
     </au-collection>
-
     <!-- options.bind="itemsInfo.options" -->
-
     <au-textbox error.bind="error.TotalQuantity" read-only.bind="true"></au-textbox>
 
   </form>
