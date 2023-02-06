@@ -28,9 +28,9 @@
               read-only.bind="readOnly" key="Id" text.bind="doView" options.bind="controlOptions">
             </au-autocomplete>
 
-            <au-autocomplete value.bind="bill" label="Nomor Bon" loader.bind="dOLoader"
+            <!-- <au-autocomplete value.bind="bill" label="Nomor Bon" loader.bind="dOLoader"
               placeholder="Cari Nomor Bon" read-only.bind="readOnly" key="Id" text.bind="BillNoView" options.bind="controlOptions">
-            </au-autocomplete>
+            </au-autocomplete> -->
 
             <au-autocomplete value.bind="paymentbill" label="Nomor Bon Kecil" loader.bind="dOLoader"
               placeholder="Cari Nomor Bon Kecil" read-only.bind="readOnly" key="Id" text.bind="PaymentBillNoView" options.bind="controlOptions">
@@ -116,7 +116,7 @@
                         <td colspan="2">SUPPLIER</td>
                         <td colspan="2">INVOICE</td>
                         <td colspan="2">SURAT JALAN</td>
-                        <td rowspan="2">NO BON</td>
+                        <!-- <td rowspan="2">NO BON</td> -->
                         <td rowspan="2">NO BON KECIL</td>
                         <td rowspan="2">MATA UANG</td>
                         <td rowspan="2">NOMINAL</td>
@@ -155,7 +155,7 @@
                         <td>${IN.invoiceDate | dateFormat:'DD MMMM YYYY'}</td>
                         <td>${IN.doNo}</td>
                         <td>${IN.doDate | dateFormat:'DD MMMM YYYY'}</td>
-                        <td>${IN.billNo}</td>
+                        <!-- <td>${IN.billNo}</td> -->
                         <td>${IN.paymentBill}</td>
                         <td>${IN.currencyCode}</td>
                         <td>${IN.priceTotal}</td>
