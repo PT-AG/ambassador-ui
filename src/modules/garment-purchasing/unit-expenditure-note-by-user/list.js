@@ -19,7 +19,7 @@ export class List {
         },
         { field: "ExpenditureType", title: "Jenis Pengeluaran" },
         { field: "ExpenditureTo", title: "Tujuan Barang" },
-        { field: "CreatedBy", title: "User" },
+        { field: "CreatedBy", title: "Yang Membuat" }
     ];
 
     loader = (info) => {
