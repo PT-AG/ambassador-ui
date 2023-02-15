@@ -241,7 +241,7 @@ module.exports = [
         settings: {
             group: "g-purchasing",
             subGroup: "transaksi",
-            permission: { "C9": 1,"PDU":1,"PG": 2 },
+            permission: { "C9": 1,"PDU":1,"PG": 2, "CT":2 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -657,7 +657,7 @@ module.exports = [
         settings: {
             group: "g-purchasing",
             subGroup: "transaksi",
-            permission: { "C9": 1, "PDU":1, "PG": 2 },
+            permission: { "C9": 1, "PDU":1, "PG": 2, "CT": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
