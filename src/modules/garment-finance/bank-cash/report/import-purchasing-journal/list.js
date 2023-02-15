@@ -37,17 +37,16 @@ export class List {
     
     controlOptions = {
         label: {
-            length: 4
+            length: 3
         },
         control: {
-            length: 4
+            length: 3
         }
     };
 
     activate() {
        
     }
-
      
     async searching() {
         this.data=[];
@@ -67,7 +66,6 @@ export class List {
         });
         
     }
-
 
     fillTable() {
         const columns = [
@@ -109,8 +107,8 @@ export class List {
     }
 
     reset() {
-        // this.year = moment().format("YYYY");
-        // this.month = { text: "January", value: 1 };
+        //this.year = moment().format("YYYY");
+        //this.month = { text: "January", value: 1 };
         this.dateFrom = null;
         this.dateTo = null;
         this.error = {};
