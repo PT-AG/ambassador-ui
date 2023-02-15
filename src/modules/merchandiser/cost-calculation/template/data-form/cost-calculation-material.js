@@ -120,6 +120,16 @@ export class CostCalculationMaterial {
                         this.data.showDialog = false;
                     });
                     
+            }else if (this.data.Category.name.toUpperCase() === "DIE CUT") {
+                this.categoryIsExist = true;
+                this.dialog.prompt("Apakah die cut ini menggunakan harga CMT?", "Detail Die Cut Material")
+                    .then(response => {
+                        if (response == "ok") {
+                            this.data.isFabricCM = true;
+                        }
+                        this.data.showDialog = false;
+                    });
+                    
             } else if (this.data.Category.name.toUpperCase() === "PROCESS") {
                 this.data.Product = await this.serviceCore.getByName(newVal.name);
                 let UOM = await this.serviceCore.getUomByUnit("PCS");
@@ -480,8 +490,20 @@ uomView =(uom)=>{
                     this.serviceCore.getCategoryId(this.data.Category.Id)
                         .then(category => {
                             this.data.Category = category;
+                            console.log(this.data.Category.name)
                             if (this.data.Category.name.toUpperCase() === "FABRIC") {
                                 this.dialog.prompt("Apakah fabric ini menggunakan harga CMT?", "Detail Fabric Material")
+                                    .then(response => {
+                                        if (response == "ok") {
+                                            this.data.isFabricCM = true;
+                                        } else {
+                                            this.data.isFabricCM = false;
+                                        }
+                                        this.data.showDialog = false;
+                                    });
+                            }
+                            else if (this.data.Category.name.toUpperCase() === "DIE CUT") {
+                                this.dialog.prompt("Apakah die cut ini menggunakan harga CMT?", "Detail Die Cut Material")
                                     .then(response => {
                                         if (response == "ok") {
                                             this.data.isFabricCM = true;
