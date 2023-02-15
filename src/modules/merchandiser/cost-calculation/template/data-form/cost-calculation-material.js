@@ -121,13 +121,17 @@ export class CostCalculationMaterial {
                     });
                     
             }else if (this.data.Category.name.toUpperCase() === "DIE CUT") {
-                this.categoryIsExist = true;
-                this.dialog.prompt("Apakah die cut ini menggunakan harga CMT?", "Detail Die Cut Material")
-                    .then(response => {
+                //this.categoryIsExist = true;
+                 this.dialog.prompt("Apakah die cut ini menggunakan harga CMT?", "Detail Die Cut Material")
+                    .then(async (response) => { 
                         if (response == "ok") {
                             this.data.isFabricCM = true;
                         }
-                        this.data.showDialog = false;
+                        
+                        this.categoryIsExist = false;
+                        this.data.Product = await this.serviceCore.getByName(newVal.name);
+                        this.productCode = this.data.Product ? this.data.Product.Code : "";
+                        //this.data.showDialog = false;
                     });
                     
             } else if (this.data.Category.name.toUpperCase() === "PROCESS") {
@@ -510,7 +514,7 @@ uomView =(uom)=>{
                                         } else {
                                             this.data.isFabricCM = false;
                                         }
-                                        this.data.showDialog = false;
+                                        //this.data.showDialog = false;
                                     });
                             }
                         });
