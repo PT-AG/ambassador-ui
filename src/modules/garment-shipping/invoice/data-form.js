@@ -33,7 +33,7 @@ export class DataForm {
     }
 
     bankFilter = {
-        DivisionName: "G"
+        DivisionName: "AMBASSADOR GARMINDO 2"
     };
 
     INCOTERMSOptions=["FOB", "FAS","CFR","CIF","EXW","FCA","CPT","CIP","DAT","DAP","DDP"];
@@ -74,7 +74,7 @@ export class DataForm {
                 });
             }
             
-            if (this.data.packingListType == "LOCAL"){
+            if (this.data.packingListType == "LOKAL"){
                 this.fabricType = this.data.fabricType;
             }else{
                 this.fabricType = {
@@ -180,7 +180,7 @@ export class DataForm {
         var selectedfabric = newValue;
         console.log(newValue);
         console.log(this.data.packingListType);
-        if (selectedfabric && this.data.packingListType == "LOCAL") {
+        if (selectedfabric && this.data.packingListType == "LOKAL") {
             this.data.fabricTypeId = 0 ;
             this.data.fabricType = selectedfabric;
         } else if (selectedfabric && this.data.packingListType == "EXPORT") {
@@ -246,7 +246,7 @@ export class DataForm {
                 }
                 _item.priceRO = item.priceRO;
                 _item.quantity = item.quantity;
-                _item.cmtPrice=item.priceCMT;
+                _item.cmtPrice = item.priceCMT;
                 _item.comodity = {
                     id: item.comodity.id,
                     code: item.comodity.code,
