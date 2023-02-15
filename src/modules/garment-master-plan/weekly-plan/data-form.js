@@ -259,11 +259,14 @@ export class DataForm {
     }
 
     onitemchange(event) {
+        
+        var path=event.composedPath ? event.composedPath() : event.path;
+
         var tdPath = 4; // td index in $event.path
         var trPath = 5; // tr index in $event.path
-        var column = event.path[tdPath].cellIndex; // index start from 0
+        var column = path[tdPath].cellIndex; // index start from 0
         var columnName = this.itemColumns[column].value;
-        var row = event.path[trPath].rowIndex; // start from 1
+        var row = path[trPath].rowIndex; // start from 1
 
         for (var i = row; i < this.data.Items.length; i++) {
              
