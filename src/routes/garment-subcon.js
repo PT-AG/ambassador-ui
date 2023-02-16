@@ -23,7 +23,8 @@ module.exports = [
     settings: {
       group: "g-subcon",
       subGroup: "packing list subcon",
-      permission: { "C9": 1, "AG2": 1, "PDU":1 },
+      permission:{"Q1":1},
+      // permission: { "C9": 1, "AG2": 1, "PDU":1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -37,7 +38,8 @@ module.exports = [
     settings: {
       group: "g-subcon",
       subGroup: "packing list subcon",
-      permission: { "C9": 1, "AG2": 1, "PDU":1 },
+      permission:{"Q2":1},
+      // permission: { "C9": 1, "AG2": 1, "PDU":1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -51,7 +53,8 @@ module.exports = [
     settings: {
       group: "g-subcon",
       subGroup: "packing list subcon",
-      permission: { "C9": 1, "AG2": 1, "PDU":1 },
+      permission:{"Q3":1},
+      // permission: { "C9": 1, "AG2": 1, "PDU":1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -65,7 +68,8 @@ module.exports = [
     settings: {
       group: "g-subcon",
       subGroup: "packing list subcon",
-      permission: { "C9": 1, "AG2": 1, "PDU":1 },
+      permission:{"Q4":1},
+      // permission: { "C9": 1, "AG2": 1, "PDU":1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -79,7 +83,8 @@ module.exports = [
     settings: {
       group: "g-subcon",
       subGroup: "surat jalan subcon",
-      permission: { "C9": 1, "AG2": 1, "PDU":1 },
+      permission:{"Q5":1},
+      // permission: { "C9": 1, "AG2": 1, "PDU":1 },
       iconClass: 'fa fa-dashboard'
     }
   },
