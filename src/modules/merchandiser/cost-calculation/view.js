@@ -184,7 +184,7 @@ export class View {
     //this.data.Comodity.Name = this.data.Comodity.Name;
     
     // Unpost tampil jika IsPosted = true dan ada approval yang false
-    this.hasUnpost = this.data.IsPosted && !(this.data.ApprovalIE.IsApproved && this.data.ApprovalMD.IsApproved && this.data.ApprovalPPIC.IsApproved && this.data.ApprovalPurchasing.IsApproved);
+    this.hasUnpost = this.data.IsPosted && !(this.data.ApprovalIE.IsApproved && this.data.ApprovalMD.IsApproved && this.data.ApprovalPPIC.IsApproved && this.data.ApprovalPurchasing.IsApproved && this.data.ApprovalKadivMD.IsApproved);
     if (this.data.IsPosted) {
       this.editCallback = null;
       this.deleteCallback = null;
