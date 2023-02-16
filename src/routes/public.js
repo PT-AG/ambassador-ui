@@ -19,11 +19,4 @@ module.exports = [
         moduleId: './forbidden',
         nav: false,
         title: 'forbidden'
-    },
-    {
-        route: 'changepass',
-        name: 'changepass',
-        moduleId: './changepass',
-        nav: false,
-        title: 'ChangePass'
-    },]
+    }]
