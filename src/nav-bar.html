@@ -48,13 +48,15 @@
                aria-expanded="false">
 
               Welcome, <span style="font-weight:bold;">${me.profile.firstname}</span> <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="#">Profile</a></li>
-              <li role="separator"
-                  class="divider"></li>
-              <li><a href="#"
-                   click.delegate="logout()">Sign Out</a></li>
-            </ul>
+              <ul class="dropdown-menu">
+                <li><a href="#">Profile</a></li>
+                <li><a href="#"
+                  click.delegate="changePass(me.username)">Change Password</a></li>
+                <li role="separator"
+                    class="divider"></li>
+                <li><a href="#"
+                     click.delegate="logout()">Sign Out</a></li>
+              </ul>
           </li>
         </ul>
       </div>
