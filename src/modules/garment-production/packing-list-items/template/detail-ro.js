@@ -156,6 +156,7 @@ export class Item {
                   this.data.valas = result.Section=="MD01"? "IDR":"USD";
                   this.data.quantity = result.Quantity;
                   this.data.scNo = sc.SalesContractNo;
+                  console.log(sc)
                   //this.data.amount=sc.Amount;
                   let avgPrice = 0;
                   // if (sc.Price == 0) {
@@ -164,7 +165,10 @@ export class Item {
                   //   avgPrice = sc.Price;
                   // }
                   if (sc.Price == 0) {
-                    avgPrice = sc.SalesContractROs[0].Items.reduce((acc, cur) => acc += cur.Price, 0) / sc.SalesContractROs[0].Items.length;
+                    if(sc.SalesContractROs[0].Items.length>0)
+                      avgPrice = sc.SalesContractROs[0].Items.reduce((acc, cur) => acc += cur.Price, 0) / sc.SalesContractROs[0].Items.length;
+                    else
+                      avgPrice = sc.SalesContractROs.find(a=>a.RONumber==result.RO_Number).Price;
                   } else {
                     avgPrice = sc.SalesContractROs[0].Price;
                   }
@@ -174,7 +178,7 @@ export class Item {
                   //this.data.amount = sc.Amount;
                   this.data.amount = sc.SalesContractROs[0].Amount;
 
-                  console.log(sc);
+                  console.log(avgPrice);
 
                   this.context.context.options.header.section = this.data.section;
                 });
