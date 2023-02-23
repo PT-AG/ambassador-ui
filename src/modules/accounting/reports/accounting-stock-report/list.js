@@ -27,7 +27,7 @@ export class List {
     @bindable KtgrItem;
     
     KategoriItems= ['','BAHAN BAKU','BAHAN EMBALANCE','BAHAN PENDUKUNG']
-    UnitItems = ['','KONFEKSI 2A','KONFEKSI 2B','KONFEKSI 2C','KONFEKSI 1A','KONFEKSI 1B']
+    UnitItems = ['','KONFEKSI AG1','KONFEKSI AG2']
 
     search(){
             this.info.page = 1;
@@ -94,10 +94,10 @@ export class List {
                 for(var _data of result.data){
                     //console.log(_data)
                     
-                    if(args.unitcode == "C2A"){
+                    if(args.unitcode == "AG1"){
                         _data.ReceiptPurchaseQty = _data.ReceiptPurchaseQty + _data.ReceiptKon2AQty,
                         _data.ReceiptPurchasePrice = _data.ReceiptPurchasePrice + _data.ReceiptKon2APrice
-                    }else if (args.unitcode == "C2B"){
+                    }else if (args.unitcode == "AG2"){
                         _data.ReceiptPurchaseQty = _data.ReceiptPurchaseQty + _data.ReceiptKon2BQty,
                         _data.ReceiptPurchasePrice = _data.ReceiptPurchasePrice + _data.ReceiptKon2BPrice
                     }else if (args.unitcode == "C2C"){
@@ -252,23 +252,23 @@ export class List {
     UnitItemChanged(newvalue){
         console.log(newvalue);
         if (newvalue) {
-            if (newvalue === "KONFEKSI 2A") {
-                this.unit = "C2A";
-                this.unitname = "KONFEKSI 2A";
+            if (newvalue === "KONFEKSI AG1") {
+                this.unit = "AG1";
+                this.unitname = "KONFEKSI AG1";
             }
-            else if (newvalue === "KONFEKSI 2B") { 
-                this.unit = "C2B"; 
-                this.unitname = "KONFEKSI 2B";
+            else if (newvalue === "KONFEKSI AG2") { 
+                this.unit = "AG2"; 
+                this.unitname = "KONFEKSI AG2";
             }
             else if (newvalue === "KONFEKSI 2C") {
                 this.unit = "C2C"; 
                 this.unitname = "KONFEKSI 2C";
-            }else if(newvalue === "KONFEKSI 1A"){
+            }else if(newvalue === "KONFEKSI AG1"){
                 this.unit = "AG1";
-                this.unitname = "KONFEKSI 1A";
-            }else if(newvalue === "KONFEKSI 1B"){
+                this.unitname = "KONFEKSI AG1";
+            }else if(newvalue === "KONFEKSI AG2"){
                 this.unit = "AG2";
-                this.unitname = "KONFEKSI 1B";
+                this.unitname = "KONFEKSI AG2";
             }else{
                 this.unit = "";
                 this.unitname = "";
