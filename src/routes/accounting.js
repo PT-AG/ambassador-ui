@@ -8,7 +8,8 @@ module.exports = [
     auth: true,
     settings: {
       group: "accounting",
-      permission: { "B1": 1, "C9": 1 },
+      // permission: { "B1": 1, "C9": 1 },
+      permission: { "N31": 1 },
       iconClass: 'fa fa-clone'
     }
   },
@@ -21,7 +22,8 @@ module.exports = [
     auth: true,
     settings: {
       group: "accounting",
-      permission: { "B1": 1, "C9": 1 },
+      // permission: { "B1": 1, "C9": 1 },
+      permission: { "N32": 1 },
       iconClass: 'fa fa-clone'
     }
   },
@@ -34,7 +36,8 @@ module.exports = [
     auth: true,
     settings: {
       group: "accounting",
-      permission: { "B1": 1, "C9": 1 },
+      // permission: { "B1": 1, "C9": 1 },
+      permission: { "N33": 1 },
       iconClass: 'fa fa-clone'
     }
   },
@@ -47,7 +50,8 @@ module.exports = [
     auth: true,
     settings: {
       group: "accounting",
-      permission: { "B1": 1, "C9": 1 },
+      // permission: { "B1": 1, "C9": 1 },
+      permission: { "N34": 1 },
       iconClass: 'fa fa-clone'
     }
   },
@@ -112,11 +116,12 @@ module.exports = [
     name: 'chart-of-accounts',
     moduleId: './modules/accounting/chart-of-accounts-view/index',
     nav: true,
-    title: 'Chart of Account',
+    title: 'Chart of Account All User',
     auth: true,
     settings: {
       group: "accounting",
-      permission: { "P1": 1, "P2": 1, "P2": 1, "P4": 1, "P5": 1, "P6": 1, "P7": 1, "PI": 1, "PG": 1, "PK": 1, "C9": 1 },
+      // permission: { "P1": 1, "P2": 1, "P3": 1, "P4": 1, "P5": 1, "P6": 1, "P7": 1, "PI": 1, "PG": 1, "PK": 1, "C9": 1 },
+      permission: { "N35": 1 },
       iconClass: 'fa fa-clone'
     }
   },
@@ -129,7 +134,8 @@ module.exports = [
     auth: true,
     settings: {
       group: "accounting",
-      permission: { "B1": 1, "C9": 1 },
+      // permission: { "B1": 1, "C9": 1 },
+      permission: { "N36": 1 },
       iconClass: 'fa fa-clone'
     }
   },
@@ -142,7 +148,8 @@ module.exports = [
     auth: true,
     settings: {
       group: "accounting",
-      permission: { "B1": 1, "C9": 1 },
+      // permission: { "B1": 1, "C9": 1 },
+      permission: { "N37": 1 },
       iconClass: 'fa fa-clone'
     }
   },
@@ -155,7 +162,8 @@ module.exports = [
     auth: true,
     settings: {
       group: "accounting",
-      permission: { "B1": 1, "C9": 1 },
+      // permission: { "B1": 1, "C9": 1 },
+      permission: { "N38": 1 },
       iconClass: 'fa fa-clone'
     }
   },
@@ -168,7 +176,8 @@ module.exports = [
     auth: true,
     settings: {
       group: "accounting",
-      permission: { "B1": 1, "C9": 1 },
+      // permission: { "B1": 1, "C9": 1 },
+      permission: { "N39": 1 },
       iconClass: 'fa fa-clone'
     }
   },
@@ -181,7 +190,8 @@ module.exports = [
     auth: true,
     settings: {
       group: "accounting",
-      permission: { "B1": 1, "C9": 1 },
+      // permission: { "B1": 1, "C9": 1 },
+      permission: { "N40": 1 },
       iconClass: 'fa fa-clone'
     }
   },
@@ -194,7 +204,8 @@ module.exports = [
     auth: true,
     settings: {
       group: "finance",
-      //permission: { "B1": 1, "C9": 1 },
+      // permission: { "B1": 1, "C9": 1 },
+      permission: {"K58":1},
       iconClass: 'fa fa-clone'
     }
   },
@@ -207,7 +218,8 @@ module.exports = [
     auth: true,
     settings: {
       group: "finance",
-      //permission: { "B1": 1, "C9": 1 },
+      // permission: { "B1": 1, "C9": 1 },
+      permission: {"K59":1},
       iconClass: 'fa fa-clone'
     }
   },
@@ -220,7 +232,8 @@ module.exports = [
     auth: true,
     settings: {
       group: "accounting",
-      permission: { "B1": 1, "C9": 1 },
+      // permission: { "B1": 1, "C9": 1 },
+      permission: { "N41": 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -234,7 +247,8 @@ module.exports = [
     settings: {
       group: "accounting",
       subGroup: "report",
-      permission: { "C9": 1, "PG": 1, "B9": 1, "B1": 1, "AG2": 1, "AG1": 1, "C2C": 1, "C2B": 1, "C2A": 1 },
+      // permission: { "C9": 1, "PG": 1, "B9": 1, "B1": 1, "C1B": 1, "C1A": 1, "C2C": 1, "C2B": 1, "C2A": 1 },
+      permission: { "N1": 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -248,7 +262,8 @@ module.exports = [
     settings: {
       group: "accounting",
       subGroup: "report",
-      permission: { "B1": 1, "C9": 1, "AG2": 1, "AG1": 1, "C2C": 1, "C2B": 1, "C2A": 1 },
+      // permission: { "B1": 1, "C9": 1, "C1B": 1, "C1A": 1, "C2C": 1, "C2B": 1, "C2A": 1 },
+      permission: { "N2": 1 },
       iconClass: 'fa fa-clone'
     }
   },
@@ -262,7 +277,8 @@ module.exports = [
     settings: {
       group: "accounting",
       subGroup: "report",
-      permission: { "B1": 1, "C9": 1 },
+      // permission: { "B1": 1, "C9": 1 },
+      permission: { "N3": 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -277,7 +293,8 @@ module.exports = [
     settings: {
       group: "accounting",
       subGroup: "report",
-      permission: { "C9": 1, "B1": 1 },
+      // permission: { "C9": 1, "B1": 1 },
+      permission: { "N4": 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -291,7 +308,8 @@ module.exports = [
     settings: {
       group: "accounting",
       subGroup: "report",
-      permission: { "C9": 1, "B1": 1 },
+      // permission: { "C9": 1, "B1": 1 },
+      permission: { "N5": 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -305,7 +323,8 @@ module.exports = [
     settings: {
       group: "accounting",
       subGroup: "report",
-      permission: { "C9": 1, "B1": 1 },
+      // permission: { "C9": 1, "B1": 1 },
+      permission: { "N6": 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -319,7 +338,8 @@ module.exports = [
     settings: {
       group: "accounting",
       subGroup: "report",
-      permission: { "C9": 1, "B1": 1 },
+      // permission: { "C9": 1, "B1": 1 },
+      permission: { "N7": 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -333,7 +353,8 @@ module.exports = [
     settings: {
       group: "accounting",
       subGroup: "report",
-      permission: { "C9": 1, "B1": 1 },
+      // permission: { "C9": 1, "B1": 1 },
+      permission: { "N8": 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -347,7 +368,8 @@ module.exports = [
     settings: {
       group: "accounting",
       subGroup: "report",
-      permission: { "C9": 1, "B1": 1 },
+      // permission: { "C9": 1, "B1": 1 },
+      permission: { "N9": 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -361,7 +383,8 @@ module.exports = [
     settings: {
       group: "accounting",
       subGroup: "report",
-      permission: { "C9": 1, "B1": 1 },
+      // permission: { "C9": 1, "B1": 1 },
+      permission: { "N10": 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -376,7 +399,8 @@ module.exports = [
     settings: {
       group: "accounting",
       subGroup: "report",
-      permission: { "C9": 1, "B1": 1 },
+      // permission: { "C9": 1, "B1": 1 },
+      permission: { "N11": 1 },
 
       iconClass: 'fa fa-dashboard'
     }
@@ -391,7 +415,8 @@ module.exports = [
     settings: {
       group: "accounting",
       subGroup: "accounting garment",
-      permission: { "B1": 1, "C9": 1 },
+      // permission: { "B1": 1, "C9": 1 },
+      permission: { "N12": 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -405,7 +430,8 @@ module.exports = [
     settings: {
       group: "accounting",
       subGroup: "accounting garment",
-      permission: { "B1": 1, "C9": 1 },
+      // permission: { "B1": 1, "C9": 1 },
+      permission: { "N13": 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -419,7 +445,8 @@ module.exports = [
     settings: {
       group: "accounting",
       subGroup: "accounting garment",
-      permission: { "B1": 1, "C9": 1 },
+      // permission: { "B1": 1, "C9": 1 },
+      permission: { "N14": 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -433,7 +460,8 @@ module.exports = [
     settings: {
       group: "accounting",
       subGroup: "accounting garment",
-      permission: { "C9": 1, "B1": 1, "B12": 1 },
+      // permission: { "C9": 1, "B1": 1, "B12": 1 },
+      permission: { "N15": 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -447,7 +475,8 @@ module.exports = [
     settings: {
       group: "accounting",
       subGroup: "accounting garment",
-      permission: { "B1": 1, "C9": 1, "B12": 1 },
+      // permission: { "B1": 1, "C9": 1, "B12": 1 },
+      permission: { "N16": 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -461,7 +490,8 @@ module.exports = [
     settings: {
       group: "accounting",
       subGroup: "accounting garment",
-      permission: { "B1": 1, "C9": 1, "B12": 1 },
+      // permission: { "B1": 1, "C9": 1, "B12": 1 },
+      permission: { "N17": 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -475,7 +505,8 @@ module.exports = [
     settings: {
       group: "accounting",
       subGroup: "accounting garment",
-      permission: { "C9": 1, "B12": 1, "B1": 1 },
+      // permission: { "C9": 1, "B12": 1, "B1": 1 },
+      permission: { "N18": 1 },
       iconClass: "fa fa-dashboard",
     }
   },
@@ -489,7 +520,8 @@ module.exports = [
     settings: {
       group: "accounting",
       subGroup: "accounting garment",
-      permission: { "C9": 1, "B12": 1, "B1": 1 },
+      // permission: { "C9": 1, "B12": 1, "B1": 1 },
+      permission: { "N19": 1 },
       iconClass: "fa fa-dashboard",
     }
   },
@@ -502,7 +534,8 @@ module.exports = [
     auth: true,
     settings: {
       group: "accounting",
-      permission: { "C9": 1 },
+      // permission: { "C9": 1 },
+      permission: { "N42": 1 },
       iconClass: "fa fa-dashboard",
     }
   },
@@ -515,7 +548,8 @@ module.exports = [
     auth: true,
     settings: {
       group: "accounting",
-      permission: { "C9": 1 },
+      // permission: { "C9": 1 },
+      permission: { "N43": 1 },
       iconClass: "fa fa-dashboard",
     }
   },
@@ -544,7 +578,8 @@ module.exports = [
     settings: {
       group: "accounting",
       subGroup: "fitur",
-      permission: { "B1": 1, "C9": 1 },
+      // permission: { "B1": 1, "C9": 1 },
+      permission: { "N20": 1 },
       iconClass: "fa fa-dashboard",
     }
   },
@@ -558,7 +593,8 @@ module.exports = [
     settings: {
       group: "accounting",
       subGroup: "report sample",
-      permission: { "C9": 1, "B1": 1 },
+      // permission: { "C9": 1, "B1": 1 },
+      permission: { "N21": 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -572,7 +608,8 @@ module.exports = [
     settings: {
       group: "accounting",
       subGroup: "report sample",
-      permission: { "C9": 1, "B1": 1 },
+      // permission: { "C9": 1, "B1": 1 },
+      permission: { "N22": 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -586,7 +623,8 @@ module.exports = [
     settings: {
       group: "accounting",
       subGroup: "report sample",
-      permission: { "C9": 1, "B1": 1 },
+      // permission: { "C9": 1, "B1": 1 },
+      permission: { "N23": 1 },
       iconClass: 'fa fa-dashboard'
     }
   }, 
@@ -600,7 +638,8 @@ module.exports = [
     settings: {
       group: "accounting",
       subGroup: "report sample",
-      permission: { "C9": 1, "B1": 1 },
+      // permission: { "C9": 1, "B1": 1 },
+      permission: { "N24": 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -614,7 +653,8 @@ module.exports = [
     settings: {
       group: "accounting",
       subGroup: "report sample",
-      permission: { "C9": 1, "B1": 1 },
+      // permission: { "C9": 1, "B1": 1 },
+      permission: { "N25": 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -628,7 +668,8 @@ module.exports = [
     settings: {
       group: "accounting",
       subGroup: "report sample",
-      permission: { "C9": 1, "B1": 1 },
+      // permission: { "C9": 1, "B1": 1 },
+      permission: { "N26": 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -642,7 +683,8 @@ module.exports = [
     settings: {
       group: "accounting",
       subGroup: "report sample",
-      permission: { "C9": 1, "B1": 1 },
+      // permission: { "C9": 1, "B1": 1 },
+      permission: { "N27": 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -656,7 +698,8 @@ module.exports = [
     settings: {
       group: "accounting",
       subGroup: "report sample",
-      permission: { "C9": 1, "B1": 1 },
+      // permission: { "C9": 1, "B1": 1 },
+      permission: { "N28": 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -670,7 +713,8 @@ module.exports = [
     settings: {
       group: "accounting",
       subGroup: "report sample",
-      permission: { "C9": 1, "B1": 1 },
+      // permission: { "C9": 1, "B1": 1 },
+      permission: { "N29": 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -684,7 +728,8 @@ module.exports = [
     settings: {
       group: "accounting",
       subGroup: "report sample",
-      permission: { "C9": 1, "B1": 1 },
+      // permission: { "C9": 1, "B1": 1 },
+      permission: { "N30": 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
