@@ -8,8 +8,8 @@ module.exports = [
         auth: true,
         settings: {
             group: "Auth",
-            // permission : {"A1":1},
-            permission : {"*":1},
+            permission : {"A1":1},
+            //permission : {"*":1},
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -22,8 +22,8 @@ module.exports = [
         auth: true,
         settings: {
             group: "Auth",
-            // permission : {"A2":1},
-            permission : {"*":1},
+            permission : {"A2":1},
+            //permission : {"*":1},
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -36,8 +36,8 @@ module.exports = [
         auth: true,
         settings: {
             group: "Auth",
-            // permission : {"A3":1},
-            permission : {"*":1},
+            permission : {"A3":1},
+            //permission : {"*":1},
             iconClass: 'fa fa-dashboard'
         }
     }]
