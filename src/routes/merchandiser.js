@@ -191,6 +191,22 @@ module.exports = [
         }
     },
     {
+        route: '/merchandiser/cost-calculation-approval/kadivmd',
+        name: 'cost-calculation-approval-kadivmd',
+        moduleId: './modules/merchandiser/cost-calculation-approval/index',
+        nav: true,
+        title: 'Cost Calculation Approval - Direktur Penjualan',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "approval",
+            permission:{"L35":1},
+            // permission: { "PGA": 4, "PDU": 1, "C9": 1 },
+            iconClass: 'fa fa-calculator',
+            type: "kadivmd"
+        }
+    },
+    {
         route: '/merchandiser/budget-validation-ie',
         name: 'budget-validation-ie',
         moduleId: './modules/merchandiser/cost-calculation-approval/index',
@@ -200,7 +216,7 @@ module.exports = [
         settings: {
             group: "merchandiser",
             subGroup: "approval",
-            permission:{"L35":1},
+            permission:{"L36":1},
             // permission: { "IE": 2, "PDU": 1, "C9": 1 },
             iconClass: 'fa fa-calculator',
             type: "ie"
@@ -216,25 +232,9 @@ module.exports = [
         settings: {
             group: "merchandiser",
             subGroup: "approval",
-            permission:{"L36":1},
+            permission:{"L37":1},
             // permission: { "PG": 3, "PDU": 1, "C9": 1 },
             iconClass: 'fa fa-calculator'
-        }
-    },
-    {
-        route: '/merchandiser/cost-calculation-approval/kadivmd',
-        name: 'cost-calculation-approval-kadivmd',
-        moduleId: './modules/merchandiser/cost-calculation-approval/index',
-        nav: true,
-        title: 'Cost Calculation Approval - Direktur Penjualan',
-        auth: true,
-        settings: {
-            group: "merchandiser",
-            subGroup: "approval",
-            permission:{"L37":1},
-            // permission: { "PGA": 4, "PDU": 1, "C9": 1 },
-            iconClass: 'fa fa-calculator',
-            type: "kadivmd"
         }
     },
     {
