@@ -25,13 +25,15 @@
         <label for="contact" class="col-sm-5 control-label"></label>
         <div class="col-sm-3">
           <button click.delegate="search()" class="btn btn-success">Cari</button>
-          <button click.delegate="reset()" class="btn btn-success">Reset</button>
+          <button click.delegate="reset()" class="btn btn-danger">Reset</button>
         </div>
       </div>
     </form>
   
     <div class="btn-group pull-left">
       <a click.delegate="ExportToExcel()" class='btn btn-primary'>Cetak Excel</a>
+
+      <a click.delegate="ExportDetailToExcel()" class='btn btn-success'>Cetak Detail Excel</a>
     </div>
     <table ref="table" class="table table-bordered table-hover" border="1" id="myTable" ></table>
 
