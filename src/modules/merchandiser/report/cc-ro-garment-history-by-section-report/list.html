@@ -46,12 +46,13 @@
                     <th class="text-center">Tipe Buyer</th>
                     <th class="text-center">Article / Style</th>
                     <th class="text-center">Tgl Shipment</th>        
-                    <th class="text-center">Tgl Validasi CC Kabag Md</th>        
+                    <th class="text-center">Tgl Validasi CC Marketing</th>
+                    <th class="text-center">Tgl Validasi CC Kabag/Kasie MD</th>       
+                    <th class="text-center">Tgl Validasi CC Direktur Penjualan</th>
                     <th class="text-center">Tgl Validasi CC IE</th>        
-                    <th class="text-center">Tgl Validasi CC Kabag Pembelian</th>        
-                    <th class="text-center">Tgl Validasi CC Kadiv Md</th>        
-                    <th class="text-center">Tgl Validasi RO Kabag Md</th>        
-                    <th class="text-center">Tgl Validasi RO Sample</th>                                    
+                    <th class="text-center">Tgl Validasi CC Pembelian</th>    
+                    <th class="text-center">Tgl Validasi RO Kasie Md</th>        
+                    <th class="text-center">Tgl Validasi RO QC</th>                                    
                  </tr>
             </thead>
             <tbody>
@@ -63,11 +64,12 @@
                         <td>${item.BrandName}</td>
                         <td>${item.Type}</td>
                         <td>${item.Article}</td>
-                        <td>${item.DeliveryDate}</td>                        
+                        <td>${item.DeliveryDate}</td>
+                        <td>${item.ValidatedPPICDate}</td>   
                         <td>${item.ApprovalMDDate}</td>
+                        <td>${item.ApprovalKadivMDDate}</td>
                         <td>${item.ApprovalIEDate}</td>                                  
                         <td>${item.ApprovalPurchDate}</td>
-                        <td>${item.ApprovalKadivMDDate}</td>
                         <td>${item.ValidatedMDDate}</td>
                         <td>${item.ValidatedSampleDate}</td>   
                     </tr>

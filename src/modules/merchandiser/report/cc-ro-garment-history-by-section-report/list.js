@@ -60,7 +60,6 @@ export class List {
         this.service.search(JSON.stringify(info))
             .then(result => {
                 this.data = result;
-                console.log(result);
                   
                 var datas = [];
                 for (var item of this.data){
@@ -70,7 +69,8 @@ export class List {
                     item.ApprovalPurchDate=moment(item.ApprovalPurchDate).format("DD MMM YYYY")=="01 Jan 0001" ? "-" : moment(item.ApprovalPurchDate).format("DD MMM YYYY");                    
                     item.ApprovalKadivMDDate=moment(item.ApprovalKadivMDDate).format("DD MMM YYYY")=="01 Jan 0001" ? "-" : moment(item.ApprovalKadivMDDate).format("DD MMM YYYY");                    
                     item.ValidatedMDDate=moment(item.ValidatedMDDate).format("DD MMM YYYY")=="01 Jan 0001" ? "-" : moment(item.ValidatedMDDate).format("DD MMM YYYY");                    
-                    item.ValidatedSampleDate=moment(item.ValidatedSampleDate).format("DD MMM YYYY")=="01 Jan 0001" ? "-" : moment(item.ValidatedSampleDate).format("DD MMM YYYY");                    
+                    item.ValidatedSampleDate=moment(item.ValidatedSampleDate).format("DD MMM YYYY")=="01 Jan 0001" ? "-" : moment(item.ValidatedSampleDate).format("DD MMM YYYY");   
+                    item.ValidatedPPICDate=moment(item.ValidatedPPICDate).format("DD MMM YYYY")=="01 Jan 0001" ? "-" : moment(item.ValidatedPPICDate).format("DD MMM YYYY");                   
                     
                     datas.push(item);
                 }
