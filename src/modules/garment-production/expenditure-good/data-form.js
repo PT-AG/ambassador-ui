@@ -26,6 +26,7 @@ export class DataForm {
         this.salesService=salesService;
         this.purchasingService=purchasingService;
     }
+
     expenditureTypes=["EXPORT","LOKAL","LAIN-LAIN","SISA"];
 
     formOptions = {
@@ -44,9 +45,7 @@ export class DataForm {
         }
     };
 
-
     itemsColumns = [""];
-
 
     async bind(context) {
         this.context = context;
@@ -57,6 +56,7 @@ export class DataForm {
             isEdit: this.context.isEdit,
             checkedAll: true,
             isCreate: this.context.isCreate
+        
         }
         if (this.data && this.data.Items) {
             this.data.Items.forEach(
@@ -66,6 +66,7 @@ export class DataForm {
             );
             
         }
+
         if(this.data.PackingListId){
             this.selectedInvoice={
                 invoiceNo:this.data.Invoice,
@@ -102,8 +103,7 @@ export class DataForm {
                                 }
                             }
                         }
-                        return roList;
-                    
+                    return roList;
                 });
         }
     }
@@ -134,10 +134,12 @@ export class DataForm {
         this.data.Buyer=null;
         this.data.ContractNo=null;
         this.data.Description ="";
-        if(newValue){
+        if(newValue)
+        {
             this.data.Unit=newValue;
         }
-        else{
+        else
+        {
             this.data.Unit=null;
             this.data.RONo = null;
             this.data.Article = null;
@@ -177,12 +179,20 @@ export class DataForm {
             let noResult = await this.salesService.getCostCalculationByRONo({ size: 1, filter: JSON.stringify({ RO_Number: this.data.RONo }) });
             if(noResult.data.length>0){
                 this.data.Description = noResult.data[0].CommodityDescription;
-            }
+            } 
 
-            let salesContractResult = await this.salesService.getSalesContractByRONo({ size: 1, filter: JSON.stringify({ RONumber: this.data.RONo }) });
+            var ROfilter = {};
+            ROfilter[`SalesContractROs.Any(RONumber.Equals("${this.data.RONo}"))`] = true;
+
+            let salesContractResult = await this.salesService.getSalesContractByRONo({ size: 1, filter: JSON.stringify(ROfilter) });
             if(salesContractResult.data.length>0){
                 this.data.ContractNo = salesContractResult.data[0].SalesContractNo;
             }
+
+            // let salesContractResult = await this.salesService.getSalesContractByRONo(this.data.RONo);
+            // if(salesContractResult.data.length > 0) {
+            //     this.data.ContractNo = salesContractResult.data[0].SalesContractNo;
+            // }
             
             let priceResult= await this.service.getComodityPrice({ filter: JSON.stringify({ ComodityId: this.data.Comodity.Id, UnitId: this.data.Unit.Id , IsValid:true})});
             if(priceResult.data.length>0){
@@ -191,6 +201,7 @@ export class DataForm {
             else{
                 this.data.Price=0;
             }
+
             this.data.colors=[];
             let finOutData=await this.service.searchFinishingOut({size:1000, filter: JSON.stringify({ RONo: this.data.RONo})});
             
@@ -252,7 +263,7 @@ export class DataForm {
                             }
                         }
                         console.log(this.size)
-                        this.sizes.sort((a, b)=>a.SizeName.localeCompare( b.SizeName));
+                        this.sizes.sort((a, b)=>a.SizeName.localeCompare(b.SizeName));
                     });
             }
         else {
@@ -276,7 +287,6 @@ export class DataForm {
         ]
     };
 
-
     ROView=(ro) => {
         return `${ro.RONo}`;
     }
@@ -291,6 +301,7 @@ export class DataForm {
         }
         return qty;
     }
+
     selectedSizeChanged(e){
         console.log(e);
         // this.selectedSize.RemainingQuantity=this.selectedSize.StockQuantity;
@@ -346,7 +357,7 @@ export class DataForm {
                 this.sizes[idx]=item;
             }
             this.error = null;
-     };
+        };
     }
 
     async selectedInvoiceChanged(newValue){
@@ -356,11 +367,13 @@ export class DataForm {
             this.data.PackingListId=newValue.packingListId;
             this.data.InvoiceId = newValue.id;
         }
+
         else{
             this.data.Invoice= "";
             this.data.PackingListId=0;
         }
     }
+
     manualChanged(newValue){
         if(!this.readOnly){
             if(this.context.selectedInvoiceViewModel)
@@ -369,6 +382,5 @@ export class DataForm {
             this.data.Invoice= "";
             this.data.PackingListId=0;
         }
-        
     }
 }

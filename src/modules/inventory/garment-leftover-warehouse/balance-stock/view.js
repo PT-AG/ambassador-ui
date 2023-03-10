@@ -8,11 +8,13 @@ export class View {
     constructor(router, service) {
         this.router = router;
         this.service = service;
+        this.isView=true;
     }
 
     async activate(params) {
         var id = params.id;
         this.data = await this.service.getById(id);
+        console.log(this.data);
     }
 
     cancelCallback(event) {

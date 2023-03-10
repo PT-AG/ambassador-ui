@@ -189,7 +189,7 @@ export class Item {
                           id: psc.SectionId,
                           code: result.Section,
                         };
-                        this.data.valas = "USD";
+                        this.data.valas = result.Section=="MD01"? "IDR":"USD";
                         this.data.scNo = sc.SalesContractNo;
                         //this.data.amount=sc.Amount;
                         let avgPrice = 0;
@@ -222,7 +222,7 @@ export class Item {
                 let uomResult = await this.coreService.getUom({ size: 1, keyword: 'PCS', filter: JSON.stringify({ Unit: 'PCS' }) });
                 this.data.uom = uomResult.data[0];
                 this.uom = uomResult.data[0];
-                this.data.valas = "USD";
+                this.data.valas = result.Section=="MD01"? "IDR":"USD";
                 this.data.quantity = result.SampleProducts.reduce((acc, cur) => acc += cur.Quantity, 0);
                 this.data.scNo = result.SampleRequestNo;
                 //this.data.amount=sc.Amount;

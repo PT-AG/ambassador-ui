@@ -62,11 +62,18 @@ export class DataForm {
             isView: this.context.isView,
             checkedAll: this.context.isCreate == true ? false : true,
             isEdit: this.isEdit,
-
+            UENList: []
         }
+
         if (this.data && this.data.Items) {
 
             this.selectedUomUnit = { Unit : this.data.UomUnit }
+
+            this.data.Items.forEach(
+                item => {
+                    this.itemOptions.UENList.push(item.UnitExpenditureNo);
+                }
+            );
 
             // this.data.Items.forEach(
             //     item => {
@@ -129,18 +136,25 @@ export class DataForm {
 
     get removeItems() {
         return (event) => {
+
+            var _uenno = event.detail.UnitExpenditureNo;
+        
+            if(this.itemOptions.UENList.includes(_uenno)){
+                this.itemOptions.UENList.splice(this.itemOptions.UENList.indexOf(event.detail.UnitExpenditureNo), 1);
+            }
+
             this.error = null;
+
+            console.log(this.UENList);
         };
     }
 
     selectedUomUnitChanged(newValue){
-		if (newValue) {
+	    if (newValue) {
 		  this.data.UomUnit = newValue.Unit;
 		} else {
 		  this.data.UomUnit = "";
 		}
-	
-		console.log(this.data.UomUnit);
 	}
 
     get totalQuantity() {

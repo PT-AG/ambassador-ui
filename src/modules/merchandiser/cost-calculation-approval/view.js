@@ -244,7 +244,9 @@ export class View {
     
         if (this.hasFOBRemark) {
             const a = (1.05 * CM_Price / this.data.Rate.Value) - (_insurance + _freight);
-            this.fobRemark = `US$ ${(_confirmPrice + a).toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            this.fobRemark = this.isDollar
+                ? US +`${(_confirmPrice + a).toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`:
+                  RP +`${(_confirmPrice + a).toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
         } else {
             this.fobRemark = "-";
         }

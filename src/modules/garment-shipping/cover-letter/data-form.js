@@ -27,9 +27,9 @@ export class DataForm {
         }
     };
 
-    filter= {      
-        "PEBNo!=null":true
-    }
+    // filter= {      
+    //     "PEBNo!=null":true
+    // }
     
     freightOptions = [
         "COLLECT",

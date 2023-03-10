@@ -23,11 +23,12 @@ export class List {
             }
         },
         {
-            field: "exportEstimationDate", title: "Tgl Perkiraan Export", formatter: function (value, data, index) {
+            field: "exportEstimationDate", title: "Tgl Perkiraan Kirim", formatter: function (value, data, index) {
                 return moment(value).format("DD MMM YYYY");
             }
         },
         { field: "destination", title: "Destination" },
+        { field: "createdBy", title: "Staff MD" }
     ];
 
     loader = (info) => {

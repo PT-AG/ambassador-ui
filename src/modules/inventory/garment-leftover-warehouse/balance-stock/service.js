@@ -3,6 +3,7 @@ import { RestService } from '../../../../utils/rest-service';
 const serviceUri = "garment/leftover-warehouse/balance-stocks";
 const uomServiceUri = 'master/uoms';
 const garmentProductsServiceUri = 'master/garmentProducts';
+const serviceBalanceUri ='balance-stock-date-master';
 
 class Service extends RestService {
 
@@ -14,7 +15,10 @@ class Service extends RestService {
         var endpoint = `${serviceUri}`;
         return super.list(endpoint, info);
     }
-
+    searchDate(info) {
+        var endpoint = `${serviceBalanceUri}`;
+        return super.list(endpoint, info);
+    }
     getById(id) {
         var endpoint = `${serviceUri}/${id}`;
         return super.get(endpoint);

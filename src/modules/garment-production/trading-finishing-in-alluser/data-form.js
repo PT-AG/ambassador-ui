@@ -86,7 +86,7 @@ export class DataForm {
         this.data.FinishingInType = "PEMBELIAN";
 
         if (!this.data.Unit) {
-            var unit = await this.coreService.getTradingUnit({ size: 1, keyword: 'TD2', filter: JSON.stringify({ Code: 'TD2' }) });
+            var unit = await this.coreService.getTradingUnit({ size: 1, keyword: 'AG2', filter: JSON.stringify({ Code: 'AG2' }) });
             this.data.Unit = unit.data[0];
         }
     }
@@ -103,7 +103,7 @@ export class DataForm {
         return (keyword) => {
             var info = {
                 keyword: keyword,
-                filter: JSON.stringify({ SupplierId: this.data.Supplier.Id })
+                filter: JSON.stringify({ SupplierId: this.data.Supplier.Id, UnitId : this.data.Unit.Id, StorageName : 'TRADING' })
             };
             return this.purchasingService.getGarmentURN(info)
                 .then((result) => {
@@ -173,13 +173,13 @@ export class DataForm {
                     this.itemsRONo = [""];
                     for (var item of result.items) {
                         for (var detail of item.fulfillments) {
-                            // if (this.itemsRONo.indexOf(detail.rONo) < 0 && detail.product.Code === "PRC001") {
-                            //     this.itemsRONo.push(detail.rONo);
-                            // }
-
-                            if (this.itemsRONo.indexOf(detail.rONo) < 0) {
+                            if (this.itemsRONo.indexOf(detail.rONo) < 0 && detail.product.Code === "BJ001") {
                                 this.itemsRONo.push(detail.rONo);
                             }
+
+                            // if (this.itemsRONo.indexOf(detail.rONo) < 0) {
+                            //     this.itemsRONo.push(detail.rONo);
+                            // }
                         }
                     }
                 });
@@ -201,12 +201,12 @@ export class DataForm {
             let DODetailIds = [];
             for (var item of this.garmentDOData.items) {
                 for (var detail of item.fulfillments) {
-                    // if (detail.rONo === newValue && detail.product.Code === "PRC001") {
-                    //     DODetailIds.push(detail.Id);
-                    // }
-                    if (detail.rONo === newValue) {
+                    if (detail.rONo === newValue && detail.product.Code === "BJ001") {
                         DODetailIds.push(detail.Id);
                     }
+                    // if (detail.rONo === newValue) {
+                    //     DODetailIds.push(detail.Id);
+                    // }
                 }
             }
 
@@ -251,27 +251,27 @@ export class DataForm {
                                 }
                                 for (var item of this.garmentDOData.items) {
                                     for (var detail of item.fulfillments) {
-                                        // if (detail.rONo === newValue && detail.product.Code === "PRC001") {
-                                        //     this.dataDODetails.push({
-                                        //         ProductCode: detail.product.Code,
-                                        //         ProductName: detail.product.Name,
-                                        //         RONo: detail.rONo,
-                                        //         PlanPO: detail.poSerialNumber,
-                                        //         Quantity: quantityByDODetailId[detail.Id] || 0,
-                                        //         SmallUomUnit: detail.smallUom.Unit
-                                        //     });
-
-                                        console.log(detail);
-
-                                        if (detail.rONo === newValue) {
+                                        if (detail.rONo === newValue && detail.product.Code === "BJ001") {
                                             this.dataDODetails.push({
                                                 ProductCode: detail.product.Code,
                                                 ProductName: detail.product.Name,
                                                 RONo: detail.rONo,
                                                 PlanPO: detail.poSerialNumber,
                                                 Quantity: quantityByDODetailId[detail.Id] || 0,
-                                                SmallUomUnit: detail.smallUom.Unit,
+                                                SmallUomUnit: detail.smallUom.Unit
                                             });
+
+                                        // console.log(detail);
+
+                                        // if (detail.rONo === newValue) {
+                                        //     this.dataDODetails.push({
+                                        //         ProductCode: detail.product.Code,
+                                        //         ProductName: detail.product.Name,
+                                        //         RONo: detail.rONo,
+                                        //         PlanPO: detail.poSerialNumber,
+                                        //         Quantity: quantityByDODetailId[detail.Id] || 0,
+                                        //         SmallUomUnit: detail.smallUom.Unit,
+                                        //     });
 
                                             var _product = {
                                                 Id : detail.product.Id,

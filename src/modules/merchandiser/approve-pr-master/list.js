@@ -104,30 +104,54 @@ export class List {
         switch (this.type) {
             case "MD1":
                 filter = Object.assign({
-                    IsValidatedMD1: false,
                     IsValidated: false,                    
+                    IsValidatedMD1: false,
                     ApprovalPR: this.section.ApprovalCC
+       
                 }, this.defaultFilter);
                 break;
-            case "Purchasing":
+
+            case "MD2":
                 filter = Object.assign({
                     IsValidatedMD1: true,
+                    IsValidatedMD2: false,
                     IsValidatedPurchasing: false,
                 }, this.defaultFilter);
                 if (this.section) {
                     filter.SectionName = this.section.Name;
                 }
                 break;
-            case "MD2":
+
+            case "Purchasing":
                 filter = Object.assign({
                     IsValidatedMD1: true,
-                    IsValidatedPurchasing: true,
-                    IsValidatedMD2: false,
+                    IsValidatedMD2: true,
+                    IsValidatedPurchasing: false,
                 }, this.defaultFilter);
                 if (this.section) {
                     filter.SectionName = this.section.Name;
                 }
                 break;
+
+            // case "Purchasing":
+            //     filter = Object.assign({
+            //         IsValidatedMD1: true,
+            //         IsValidatedPurchasing: false,
+            //     }, this.defaultFilter);
+            //     if (this.section) {
+            //         filter.SectionName = this.section.Name;
+            //     }
+            //     break;
+            // case "MD2":
+            //     filter = Object.assign({
+            //         IsValidatedMD1: true,
+            //         IsValidatedPurchasing: true,
+            //         IsValidatedMD2: false,
+            //     }, this.defaultFilter);
+            //     if (this.section) {
+            //         filter.SectionName = this.section.Name;
+            //     }
+            //     break;
         }
 
         return filter;
@@ -147,12 +171,17 @@ export class List {
 
         switch (this.type) {
             case "MD1":
-                this.section = { ApprovalCC: username };
+                this.section = 
+                { 
+                    ApprovalCC: username == "PUSPITA PRIMAHARANI" ? "VERA FATIMAH" : (username == "BAYU SETIAWAN" ? "WAHYU PAMUNGKAS" : username)
+                };
                 break;
-            case "Purchasing":
+
+            case "MD2":
                 this.section = null;
                 break;
-            case "MD2":
+
+            case "Purchasing":
                 this.section = null;
                 break;
         }

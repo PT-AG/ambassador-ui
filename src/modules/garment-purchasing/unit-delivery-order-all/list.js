@@ -6,7 +6,7 @@ import moment from 'moment';
 @inject(Router, Service)
 export class List {
 
-    context = ["Rincian"]
+    context = ["Rincian","Cetak PDF"]
 
     columns = [
 
@@ -69,17 +69,20 @@ export class List {
             case "Rincian":
                 this.router.navigateToRoute('view', { id: data.Id });
                 break;
+            case "Cetak PDF":
+                this.service.getPdfById(data.Id);
+                break;
         }
     }
 
-    contextShowCallback(index, name, data) {
-        switch (name) {
-            case "Cetak PDF":
-                return data.IsPosted;
-            default:
-                return true;
-        }
-    }
+    // contextShowCallback(index, name, data) {
+    //     switch (name) {
+    //         case "Cetak PDF":
+    //             return data.IsPosted;
+    //         default:
+    //             return true;
+    //     }
+    // }
 
     create() {
         this.router.navigateToRoute('create');

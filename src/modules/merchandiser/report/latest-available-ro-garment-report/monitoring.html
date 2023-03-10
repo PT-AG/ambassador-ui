@@ -42,14 +42,17 @@
                         <th><label>Nama Buyer</label></th>
                         <th><label>Tipe Buyer</label></th>
                         <th><label>Artikel</label></th>
+                        <th><label>Style </label></th>
                         <th><label>Quantity</label></th>
                         <th><label>Satuan</label></th>
+                        <th><label>Fabric</label></th>
+                        <th><label>Size</label></th>
                     </tr>
                 </thead>
                 <tbody>
                     <!--No data to display-->
                     <tr if.bind="!tableData || tableData.length < 1">
-                        <td colspan="12">
+                        <td colspan="15">
                             <div class="alert alert-info"> Tidak ada data untuk ditampilkan. </div>
                         </td>
                     </tr>
@@ -88,10 +91,19 @@
                                 <au-textbox value.bind="tableData[i].Article" read-only="true"></au-textbox>
                             </td>
                             <td align="center">
+                                <au-textbox value.bind="tableData[i].CommodityDescription" read-only="true"></au-textbox>
+                            </td>
+                            <td align="center">
                                 <au-textbox value.bind="tableData[i].Quantity" read-only="true"></au-textbox>
                             </td>
                             <td align="center">
                                 <au-textbox value.bind="tableData[i].Uom" read-only="true"></au-textbox>
+                            </td>
+                            <td align="center">
+                                <au-textbox value.bind="tableData[i].Fabric" read-only="true"></au-textbox>
+                            </td>
+                            <td align="center">
+                                <au-textbox value.bind="tableData[i].SizeRange" read-only="true"></au-textbox>
                             </td>
                         </tr>
                     </template>

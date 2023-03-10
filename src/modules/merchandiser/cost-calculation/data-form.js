@@ -140,7 +140,8 @@ export class DataForm {
     this.selectedUnit = this.data.Unit?this.data.Unit:"";
     this.data.OTL1 = this.data.OTL1 ? this.data.OTL1 : Object.assign({}, this.defaultRate);
     this.data.OTL2 = this.data.OTL2 ? this.data.OTL2 : Object.assign({}, this.defaultRate);
-    this.data.ConfirmPrice =this.data.ConfirmPrice ? this.data.ConfirmPrice:0 ;
+    this.data.ConfirmPrice = this.data.ConfirmPrice ? this.data.ConfirmPrice : 0 ;
+
     this.create = this.context.create; 
     if (!this.create)
       {
@@ -373,30 +374,26 @@ export class DataForm {
   async selectedBookingOrderChanged(newValue, oldValue) {
     //console.log(newValue);
     if (newValue)
-       {
-         this.data.BookingOrderId = newValue.BookingOrderId;
-         this.data.BookingOrderItemId = newValue.BookingOrderItemId;
-         this.data.BookingOrderNo = newValue.BookingOrderNo;   
-         this.data.BOQuantity = newValue.ConfirmQuantity;
-         this.data.ConfirmDate = newValue.ConfirmDate;   
-         //this.data.Commodity = newValue.ComodityName;
+      {
+        if(!this.data.Id){
+          this.data.BookingOrderId = newValue.BookingOrderId;
+          this.data.BookingOrderItemId = newValue.BookingOrderItemId;
+          this.data.BookingOrderNo = newValue.BookingOrderNo;   
+          this.data.BOQuantity = newValue.ConfirmQuantity;
+          this.data.ConfirmDate = newValue.ConfirmDate;   
+          //this.data.Commodity = newValue.ComodityName;
 
-         console.log(this.data.BookingOrderId);
-         console.log(this.data.BookingOrderItemId);      
-         console.log(this.data.BookingOrderNo);
-         console.log(this.data.BOQuantity);
-         console.log(this.data.ConfirmDate);     
-         //console.log(this.data.Commodity);   
-       } 
-       else 
-       {
-          this.data.BookingOrderId = 0;
-          this.data.BookingOrderItemId = 0;
-          this.data.BookingOrderNo = null;      
-          this.data.BOQuantity = 0;
-          this.data.ConfirmDate = null;
-         // this.data.Commodity = this.data.Commodity;
-       }
+        } 
+      } 
+      else 
+      {
+        this.data.BookingOrderId = 0;
+        this.data.BookingOrderItemId = 0;
+        this.data.BookingOrderNo = null;      
+        this.data.BOQuantity = 0;
+        this.data.ConfirmDate = null;
+        // this.data.Commodity = this.data.Commodity;
+      }
   }
 
   @bindable selectedComodity = "";
@@ -421,14 +418,17 @@ export class DataForm {
     {
       this.data.LeadTime = 25;
     }
+    else if (newVal === "35 hari")
+    {      
+      this.data.LeadTime = 35;
+    }
     else if (newVal === "40 hari")
     {      
       this.data.LeadTime = 40;
-      
     }
-    else
+    else {
       this.data.LeadTime = 0;
-     
+    }
   }
 
   @bindable imageUpload;
@@ -574,7 +574,6 @@ export class DataForm {
       this.data.UnitName=newVal.Name;
     }
   }
-
 
   @computedFrom('data.SMV_Cutting', 'data.SMV_Sewing', 'data.SMV_Finishing')
   get SMV_Total() {

@@ -36,7 +36,7 @@
                 <au-autocomplete
                     label="Komoditi"
                     placeholder="Cari Komoditi"
-                    value.bind="data.Comodity"
+                    value.bind="selectedComodity"
                     text.bind="comodityView"
                     error.bind="error.Commodity"
                     loader.one-time="comodityLoader"
@@ -126,6 +126,7 @@
                     read-only="true"
                     options.bind="length4">
                 </au-datepicker>
+
                 <au-datepicker
                     label="Confirm Date"
                     value.bind="data.ConfirmDate"
@@ -134,7 +135,7 @@
                     key="Code"
                     text="Name"
                     loader.bind="sizeRangeLoader">
-                </au-datepicker>
+                </au-datepicker>-->
             </div>
             <div class="col-md-3">
                 <au-dropdown

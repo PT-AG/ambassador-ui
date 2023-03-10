@@ -36,9 +36,9 @@ export class List {
       {
         field: "GarmentDeliveryOrderNo", title: "No Surat Jalan", rowspan: 2
       },
-      {
-        field: "BillNo", title: "No BP Besar", rowspan: 2
-      },
+      // {
+      //   field: "BillNo", title: "No BP Besar", rowspan: 2
+      // },
       {
         field: "PaymentBill", title: "No BP Kecil", rowspan: 2
       },
@@ -61,7 +61,7 @@ export class List {
         field: "CurrencyCode", title: "Mata Uang", rowspan: 2
       },
       {
-        title: "Pembelian", colspan: 3
+        title: "Pembelian", colspan: 4
       },
       {
         field: "Total", title: "Total(IDR)", rowspan: 2, formatter: function (value, data, index) {
@@ -82,6 +82,11 @@ export class List {
       },
       {
         field: "IncomeTaxAmount", title: "PPh", align: "right", formatter: function (value, data, index) {
+          return numeral(value).format("0,000.00");
+        }
+      },
+      {
+        field: "PriceCorrection", title: "Koreksi", align: "right", formatter: function (value, data, index) {
           return numeral(value).format("0,000.00");
         }
       }

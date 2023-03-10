@@ -76,7 +76,7 @@ export class DataForm {
     ]
 
     PackingTypeOptions = ["EXPORT", "RE EXPORT"];
-    InvoiceTypeOptions = ["DL", "SM"];
+    InvoiceTypeOptions = ["AG", "SM"];
 
     get say() {
         var number = this.data.totalCartons;
