@@ -33,10 +33,10 @@ export async function configure(aurelia) {
 
             var core = "https://com-ambassador-service-core-uat.azurewebsites.net/v1/";
             var auth = "https://com-ambassador-service-auth-uat.azurewebsites.net/v1/";
-            var purchasingAzure = "http://com-ambassador-service-purchasing-uat.azurewebsites.net/v1/";
+            var purchasingAzure = "https://com-ambassador-service-purchasing-uat.azurewebsites.net/v1/";
             var customsReport = "https://com-ambassador-service-support-uat.azurewebsites.net/v1/";
-            const sales = "http://com-ambassador-service-sales-uat.azurewebsites.net/v1/";
-            var garmentProduction = "http://com-ambassador-service-garment-uat.azurewebsites.net/";
+            const sales = "https://com-ambassador-service-sales-uat.azurewebsites.net/v1/";
+            var garmentProduction = "https://com-ambassador-service-garment-uat.azurewebsites.net/";
             var packingInventory = "https://com-ambassador-service-packing-inventory-uat.azurewebsites.net/v1/";
 
             var production = "https://dl-production-webapi.azurewebsites.net/v1/";
