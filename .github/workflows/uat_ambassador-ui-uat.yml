@@ -53,5 +53,5 @@ jobs:
         with:
           app-name: 'ambassador-ui-uat'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_F8B2492C07884FE6837BBF0A29C9F6FD }}
+          publish-profile: ${{ secrets.PUBLISH_PROFILE_UAT }}
           package: .
