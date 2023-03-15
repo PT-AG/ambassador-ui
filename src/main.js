@@ -38,13 +38,14 @@ export async function configure(aurelia) {
             const sales = "https://com-ambassador-service-sales-uat.azurewebsites.net/v1/";
             var garmentProduction = "https://com-ambassador-service-garment-uat.azurewebsites.net/";
             var packingInventory = "https://com-ambassador-service-packing-inventory-uat.azurewebsites.net/v1/";
+            var inventoryAzure = "https://com-ambassador-service-inventory-uat.azurewebsites.net/v1/";
+            var finance = "https://com-ambassador-service-finance-accounting-uat.azurewebsites.net/v1/";
 
             var production = "https://dl-production-webapi.azurewebsites.net/v1/";
             var productionAzure = "https://com-ambassador-service-finishing-printing.azurewebsites.net/v1/";
             var purchasing = "https://dl-purchasing-webapi.azurewebsites-dev.net/v1/";
             var garmentPurchasing = "https://dl-purchasing-garment-webapi.azurewebsites.net/v1/";
             var inventory = "https://dl-inventory-webapi.azurewebsites.net/v1/";
-            var inventoryAzure = "https://com-ambassador-service-inventory-dev.azurewebsites.net/v1/";
             var garmentMasterPlan = "https://dl-garment-master-plan-webapi.azurewebsites.net/v1/";
             var spMasterPlan = "https://dl-sp-master-plan-webapi.mybluemix.net/v1/";
             var spinning = "https://com-ambassador-service-spinning.azurewebsites.net/";
@@ -52,7 +53,6 @@ export async function configure(aurelia) {
             var merchandiser = "https://com-ambassador-service-md.azurewebsites.net/v1/";
             const dealTracking = 'https://com-ambassador-service-deal-tracking.azurewebsites.net/v1/';
             var weaving = "https://com-ambassador-service-weaving.azurewebsites.net/";
-            var finance = "https://com-ambassador-service-finance-accounting-dev.azurewebsites.net/v1/";
             var dyeing = "https://dyeing-printing-etl-service.azurewebsites.net/api/";
             const garmentShipping = "https://garment-etl-service.azurewebsites.net/api/";
             var ItInven = "https://it-inventory-etl-service.azurewebsites.net/api/";
