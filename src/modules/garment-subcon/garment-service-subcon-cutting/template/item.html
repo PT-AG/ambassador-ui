@@ -8,7 +8,7 @@
                 text="RONo"
                 query.bind="cuttingInFilter"
                 placeholder="Nomor RO"
-                read-only.bind="readOnly|| isEdit"
+                read-only.bind="readOnly|| data.Id"
                 options.bind="controlOptions"
                 view-model.ref="selectedCuttingInViewModel">
             </au-autocomplete>

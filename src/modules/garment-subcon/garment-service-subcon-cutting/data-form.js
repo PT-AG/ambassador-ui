@@ -4,6 +4,7 @@ import { Service, SalesService, CoreService } from "./service";
 const UnitLoader = require('../../../loader/garment-units-loader');
 var BuyerLoader = require('../../../loader/garment-buyers-loader');
 const UomLoader = require("../../../loader/uom-loader");
+var BuyerBrandLoader = require('../../../loader/garment-buyer-brands-loader');
 
 @inject(Service, SalesService, CoreService)
 export class DataForm {
@@ -16,6 +17,7 @@ export class DataForm {
     // @bindable error = {};
     @bindable itemOptions = {};
     @bindable selectedUnit;
+    @bindable selectedBuyer;
 
     constructor(service, salesService, coreService) {
         this.service = service;
@@ -96,6 +98,9 @@ export class DataForm {
             isEdit: this.isEdit,
             ROList: []
         }
+        if(this.data){
+            this.selectedBuyer=this.data.Buyer;
+        }
 
         if (this.data && this.data.Items) {
             this.data.Items.forEach(
@@ -151,7 +156,7 @@ export class DataForm {
         return (event) => {
             this.data.Items.push({
                 Unit:this.data.Unit,
-                Buyer:this.data.Buyer
+                Buyer:this.data.BuyerBrand
             });
         };
     }
@@ -196,10 +201,37 @@ export class DataForm {
     get buyerLoader() {
         return BuyerLoader;
     }
+    
+    get buyerBrandLoader() {
+        return BuyerBrandLoader;
+    }
 
     buyerView = (buyer) => {
         var buyerName = buyer.Name || buyer.name;
         var buyerCode = buyer.Code || buyer.code;
         return `${buyerCode} - ${buyerName}`
+    }
+
+    get filterBuyer(){
+        var filter={};
+        if(this.data.Buyer){
+            filter= {
+                BuyerCode: this.data.Buyer.Code
+            }
+        }
+        return filter;
+    }
+
+    selectedBuyerChanged(newValue){
+        if(!this.data.Id){
+            if(this.data.Items){
+                this.data.Items.splice(0);
+            }
+            this.data.BuyerBrand=null;
+            this.data.Buyer=null;
+        }
+        if(newValue){
+            this.data.Buyer=newValue;
+        }
     }
 }
