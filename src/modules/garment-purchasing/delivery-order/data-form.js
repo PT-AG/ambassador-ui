@@ -91,7 +91,7 @@ export class DataForm {
             else
             return (this.data.supplier.import || false) ? "Import" : "Lokal";
         } else {
-            return (this.data.shipmentNo || '') ? "Import" : "Lokal";
+            return (this.data.supplier.Import || false) ? "Import" : "Lokal";
         }
     }
 
