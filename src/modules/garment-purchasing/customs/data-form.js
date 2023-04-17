@@ -22,7 +22,7 @@ export class DataForm {
     @bindable beacukai;
     @bindable selectedCustomType;
     @bindable selectedCustomCategory;
-    typeCustoms = ["","20", "25","261", "262"]
+    typeCustoms = ["","20", "25","261", "262","SPPBMCP","2.8","4.1"]
     categoryCustoms = ["Non Fasilitas","Fasilitas"]
     importValueBC23=[
         "EXW",
