@@ -10,7 +10,7 @@ export class List {
 
     rowFormatter(data, index) {
         var today = new Date();
-        today.setDate(today.getDate()+45);
+        today.setDate(today.getDate()+40);
         var deliveryDates = new Date(Date.parse(data.DeliveryDate));
         if (deliveryDates <= today && data.ConfirmedQuantity < data.OrderQuantity){
             return { classes: "danger" }
@@ -72,7 +72,7 @@ export class List {
         } },
         { field: "statusOrder", title: "Status Sisa Order", formatter: function (value, data, index) {
             var today = new Date();
-            today.setDate(today.getDate()+45);
+            today.setDate(today.getDate()+40);
             var deliveryDates = new Date(Date.parse(data.DeliveryDate));
             if(data.ConfirmedQuantity < data.OrderQuantity && deliveryDates > today){
                 data.statusOrder = "On Proses";
