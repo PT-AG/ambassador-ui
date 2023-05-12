@@ -20,6 +20,7 @@ export class DataForm {
   }
   CCG_M_FabricInfo = {
     columns: [
+      { header: "No PO" },
       { header: "Product Code" },
       { header: "Composition" },
       { header: "Construction" },
@@ -33,6 +34,7 @@ export class DataForm {
   }
   CCG_M_AccessoriesInfo = {
     columns: [
+      { header: "No PO" },
       { header: "Product Code" },
       { header: "Description", value: "Description" },
       { header: "Detil Barang", value: "Detil Barang" },
