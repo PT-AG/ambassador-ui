@@ -30,7 +30,7 @@ export class View {
       this.selectedBuyer = { Code:this.data.BuyerCode, Name:this.data.BuyerName,};
       
       var today = new Date();
-      today.setDate(today.getDate()+45);
+      today.setDate(today.getDate()+40);
       var deliveryDates = new Date(Date.parse(this.data.DeliveryDate));
       if(this.data.ConfirmedQuantity === 0 && deliveryDates > today && this.data.HadConfirmed === false){
         this.hasEdit = true;

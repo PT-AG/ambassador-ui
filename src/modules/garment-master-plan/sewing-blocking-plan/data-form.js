@@ -29,7 +29,7 @@ export class DataForm {
     
     get filterBookingOrder(){
         var current=new Date();
-        var expired=new Date(current.getTime() + (86400000*45)).toLocaleDateString();
+        var expired=new Date(current.getTime() + (86400000*40)).toLocaleDateString();
         
         var filter= {
             "IsBlockingPlan": false,
