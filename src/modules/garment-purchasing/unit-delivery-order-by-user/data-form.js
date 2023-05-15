@@ -1,5 +1,5 @@
 import { inject, bindable, containerless, computedFrom, BindingEngine } from 'aurelia-framework'
-import { Service,CoreService } from "./service";
+import { Service, CoreService } from "./service";
 var StorageLoader = require('../../../loader/storage-loader');
 //var UnitLoader = require('../../../loader/garment-units-loader');
 var UnitSenderLoader = require('../../../loader/garment-sample-unit-loader');
@@ -9,7 +9,7 @@ var SupplierLoader = require('../../../loader/garment-supplier-loader');
 import moment from 'moment';
 
 @containerless()
-@inject(Service,CoreService, BindingEngine)
+@inject(Service, CoreService, BindingEngine)
 export class DataForm {
     @bindable readOnly = false;
     @bindable data = {};
@@ -34,7 +34,7 @@ export class DataForm {
     @bindable isSTransfer = false;
     @bindable RONoJob;
 
-    typeUnitDeliveryOrderOptions = ['PROSES', 'TRANSFER','SISA', 'SUBCON','TRANSFER SAMPLE'];//, 'SAMPLE'
+    typeUnitDeliveryOrderOptions = ['PROSES', 'TRANSFER', 'SISA', 'SUBCON', 'TRANSFER SAMPLE'];//, 'SAMPLE'
 
     controlOptions = {
         label: {
@@ -47,10 +47,10 @@ export class DataForm {
         }
     }
 
-    constructor(service,coreService, bindingEngine) {
+    constructor(service, coreService, bindingEngine) {
         this.service = service;
         this.bindingEngine = bindingEngine;
-        this.coreService=coreService;
+        this.coreService = coreService;
     }
 
     bind(context) {
@@ -60,13 +60,13 @@ export class DataForm {
         this.error = this.context.error;
 
         this.options = {
-            readOnly : this.readOnly,
-            isEdit : this.isEdit
+            readOnly: this.readOnly,
+            isEdit: this.isEdit
         };
 
         if (this.readOnly || this.isEdit) {
             // this.RONo = this.data.RONo;
-            this.items.columns =  [
+            this.items.columns = [
                 "Kode Barang",
                 "Nama Barang",
                 "Keterangan Barang",
@@ -77,7 +77,7 @@ export class DataForm {
                 "Tipe Fabric"
             ];
         }
-        
+
         if (this.data) {
             if (this.data.Items) {
                 this.options.checkedAll = this.data.Items.filter(item => item.IsDisabled === false).reduce((acc, curr) => acc && curr.IsSave, true);
@@ -131,7 +131,7 @@ export class DataForm {
     @computedFrom("data.UnitSender", "data.UnitDOType", "data.RONo", "data.Storage")
     get filterRONoAddProductByUnit() {
         var rONoFilter = {}
-        if (this.data.UnitSender  && this.data.Storage) {
+        if (this.data.UnitSender && this.data.Storage) {
             rONoFilter.UnitId = this.data.UnitSender.Id;
             rONoFilter.Type = this.data.UnitDOType;
             rONoFilter.RONo = this.data.RONo;
@@ -160,7 +160,7 @@ export class DataForm {
             this.RONoHeader = null;
             this.data.Article = null;
 
-            if(this.isSTransfer){
+            if (this.isSTransfer) {
                 if (!this.unitRequest) {
                     var units = await this.coreService.getSampleUnit({ size: 1, keyword: 'SMP1', filter: JSON.stringify({ Code: 'SMP1' }) });
                     this.unitRequest = units.data[0];
@@ -207,13 +207,13 @@ export class DataForm {
         }
         else {
             this.data.UnitRequest = null;
-            if (this.isProses || this.isSample|| this.isRemain || this.isSubcon || this.isSTransfer) {
+            if (this.isProses || this.isSample || this.isRemain || this.isSubcon || this.isSTransfer) {
                 this.unitSender = null;
             }
             this.context.unitRequestViewModel.editorValue = "";
         }
         this.storageRequest = null;
-        if(this.context.storageRequestViewModel && this.context.storageRequestViewModel.editorValue) {
+        if (this.context.storageRequestViewModel && this.context.storageRequestViewModel.editorValue) {
             this.context.storageRequestViewModel.editorValue = "";
         }
         this.storage = null;
@@ -243,7 +243,7 @@ export class DataForm {
         // this.context.RONoViewModel.editorValue = "";
         this.data.Article = null;
     }
-    supplierChanged(newValue){
+    supplierChanged(newValue) {
         var selectedSupplier = newValue;
         this.data.Supplier = selectedSupplier;
         this.data.Supplier._id = selectedSupplier.Id;
@@ -297,7 +297,7 @@ export class DataForm {
     //                 .then(result => {
     //                     if(result.data.length>0){
     //                         for(var item of result.data){ 
-                                
+
     //                             var Items = {};
     //                             Items.DOItemsId = item.DOItemsId;
     //                             Items.URNItemId = item.URNItemId;
@@ -322,12 +322,12 @@ export class DataForm {
     //                             Items.Quantity = Items.DefaultDOQuantity;
     //                             Items.IsSave = Items.Quantity > 0;
     //                             Items.IsDisabled = !(Items.Quantity > 0);
-                
+
     //                             this.dataItems.push(Items);
     //                         }
     //                     }
-                        
-                        
+
+
     //                 });
     //     }
     //     else{
@@ -336,70 +336,70 @@ export class DataForm {
     //         this.context.RONoViewModel.editorValue = "";
     //         this.dataItems = [];
     //     }
-            
+
     // }
 
     async searchRONo() {
         // this.data.Items = this.dataItems;
         this.data.Items = [];
         this.dataItems = [];
+        this.RONoJob = this.RONoJob ? this.RONoJob.toUpperCase() : null;
+        this.RONo = this.RONo ? this.RONo.toUpperCase() : null;
+        if (this.isTransfer) {
+            var filter = JSON.stringify({ RONo: this.RONoJob });
 
-        if(this.isTransfer){
-            var filter= JSON.stringify({RONo:this.RONoJob});
-            
             var info = {
-              keyword: this.RONoJob,
-              filter: filter
+                keyword: this.RONoJob,
+                filter: filter
             };
             this.data.RONo = this.RONoJob;
-            var ro=[];
+            var ro = [];
             this.service.getGarmentEPOByRONo(info)
-                .then((epo)=>{
-                    for(var a of epo.data){
-                        if(a.RONo==this.data.RONo){
-                            ro.push(a);break;
+                .then((epo) => {
+                    for (var a of epo.data) {
+                        if (a.RONo == this.data.RONo) {
+                            ro.push(a); break;
                         }
                     }
                     this.data.Article = ro[0].Article;
-                    this.service.searchDOItems({ filter: JSON.stringify({ RONo: this.data.RONo, UnitId:this.data.UnitSender.Id, StorageId:this.data.Storage.Id ? this.data.Storage.Id : this.data.Storage._id}) })
-                    .then(result=>{
-                        if(result.data.length>0){
-                            for(var item of result.data){ 
-                                
-                                var Items = {};
-                                Items.DOItemsId = item.DOItemsId;
-                                Items.URNItemId = item.URNItemId;
-                                Items.URNNo = item.URNNo;
-                                Items.DODetailId = item.DODetailId;
-                                Items.URNId = item.URNId;
-                                Items.POItemId = item.POItemId;
-                                Items.EPOItemId = item.EPOItemId;
-                                Items.PRItemId = item.PRItemId;
-                                Items.RONo = item.RONo;
-                                Items.Article = item.Article;
-                                Items.POSerialNumber = item.POSerialNumber;
-                                Items.ProductId = item.ProductId;
-                                Items.ProductCode = item.ProductCode;
-                                Items.ProductName = item.ProductName;
-                                Items.ProductRemark = `${item.POSerialNumber}; ${item.Article}; ${item.RONo}; ${item.ProductRemark}`;
-                                Items.UomId = item.SmallUomId;
-                                Items.UomUnit = item.SmallUomUnit;
-                                Items.PricePerDealUnit = item.PricePerDealUnit;
-                                Items.DesignColor = item.DesignColor;
-                                Items.DefaultDOQuantity = parseFloat(item.RemainingQuantity.toFixed(2));
-                                Items.Quantity = Items.DefaultDOQuantity;
-                                Items.IsSave = Items.Quantity > 0;
-                                Items.IsDisabled = !(Items.Quantity > 0);
-                                Items.CustomsCategory=item.CustomsCategory;
-                                this.dataItems.push(Items);
+                    this.service.searchDOItems({ filter: JSON.stringify({ RONo: this.data.RONo, UnitId: this.data.UnitSender.Id, StorageId: this.data.Storage.Id ? this.data.Storage.Id : this.data.Storage._id }) })
+                        .then(result => {
+                            if (result.data.length > 0) {
+                                for (var item of result.data) {
+
+                                    var Items = {};
+                                    Items.DOItemsId = item.DOItemsId;
+                                    Items.URNItemId = item.URNItemId;
+                                    Items.URNNo = item.URNNo;
+                                    Items.DODetailId = item.DODetailId;
+                                    Items.URNId = item.URNId;
+                                    Items.POItemId = item.POItemId;
+                                    Items.EPOItemId = item.EPOItemId;
+                                    Items.PRItemId = item.PRItemId;
+                                    Items.RONo = item.RONo;
+                                    Items.Article = item.Article;
+                                    Items.POSerialNumber = item.POSerialNumber;
+                                    Items.ProductId = item.ProductId;
+                                    Items.ProductCode = item.ProductCode;
+                                    Items.ProductName = item.ProductName;
+                                    Items.ProductRemark = `${item.POSerialNumber}; ${item.Article}; ${item.RONo}; ${item.ProductRemark}`;
+                                    Items.UomId = item.SmallUomId;
+                                    Items.UomUnit = item.SmallUomUnit;
+                                    Items.PricePerDealUnit = item.PricePerDealUnit;
+                                    Items.DesignColor = item.DesignColor;
+                                    Items.DefaultDOQuantity = parseFloat(item.RemainingQuantity.toFixed(2));
+                                    Items.Quantity = Items.DefaultDOQuantity;
+                                    Items.IsSave = Items.Quantity > 0;
+                                    Items.IsDisabled = !(Items.Quantity > 0);
+                                    Items.CustomsCategory = item.CustomsCategory;
+                                    this.dataItems.push(Items);
+                                }
                             }
-                        }
-                        this.data.Items = this.dataItems;
-                    })
+                            this.data.Items = this.dataItems;
+                        })
                 });
         }
-        else if(!this.isProses && !this.isTransfer && !this.isRemain && !this.isSample && !this.isSubcon&& !this.isSTransfer)
-        {
+        else if (!this.isProses && !this.isTransfer && !this.isRemain && !this.isSample && !this.isSubcon && !this.isSTransfer) {
             var data = [];
             var rONoFilter = {};
             if (this.data.UnitSender && this.data.Storage) {
@@ -414,107 +414,107 @@ export class DataForm {
             this.data.RONo = this.RONo;
             this.service.getgarmentURNforUnitDO(info)
                 .then(results => {
-                    for(var i in results.data){
+                    for (var i in results.data) {
                         data.push(i);
                     }
-                this.data.Article = data[0].Article;
-                this.service.searchDOItems({ filter: JSON.stringify({ RONo: this.data.RONo, UnitId:this.data.UnitSender.Id, StorageId:this.data.Storage.Id ? this.data.Storage.Id : this.data.Storage._id}) })
-                    .then(result=>{
-                        if(result.data.length>0){
-                            for(var item of result.data){ 
-                                
-                                var Items = {};
-                                Items.DOItemsId = item.DOItemsId;
-                                Items.URNItemId = item.URNItemId;
-                                Items.URNNo = item.URNNo;
-                                Items.DODetailId = item.DODetailId;
-                                Items.URNId = item.URNId;
-                                Items.POItemId = item.POItemId;
-                                Items.EPOItemId = item.EPOItemId;
-                                Items.PRItemId = item.PRItemId;
-                                Items.RONo = item.RONo;
-                                Items.Article = item.Article;
-                                Items.POSerialNumber = item.POSerialNumber;
-                                Items.ProductId = item.ProductId;
-                                Items.ProductCode = item.ProductCode;
-                                Items.ProductName = item.ProductName;
-                                Items.ProductRemark = `${item.POSerialNumber}; ${item.Article}; ${item.RONo}; ${item.ProductRemark}`;
-                                Items.UomId = item.SmallUomId;
-                                Items.UomUnit = item.SmallUomUnit;
-                                Items.PricePerDealUnit = item.PricePerDealUnit;
-                                Items.DesignColor = item.DesignColor;
-                                Items.DefaultDOQuantity = parseFloat(item.RemainingQuantity.toFixed(2));
-                                Items.Quantity = Items.DefaultDOQuantity;
-                                Items.IsSave = Items.Quantity > 0;
-                                Items.IsDisabled = !(Items.Quantity > 0);
-                                Items.CustomsCategory=item.CustomsCategory;
-                
-                                this.dataItems.push(Items);
+                    this.data.Article = data[0].Article;
+                    this.service.searchDOItems({ filter: JSON.stringify({ RONo: this.data.RONo, UnitId: this.data.UnitSender.Id, StorageId: this.data.Storage.Id ? this.data.Storage.Id : this.data.Storage._id }) })
+                        .then(result => {
+                            if (result.data.length > 0) {
+                                for (var item of result.data) {
+
+                                    var Items = {};
+                                    Items.DOItemsId = item.DOItemsId;
+                                    Items.URNItemId = item.URNItemId;
+                                    Items.URNNo = item.URNNo;
+                                    Items.DODetailId = item.DODetailId;
+                                    Items.URNId = item.URNId;
+                                    Items.POItemId = item.POItemId;
+                                    Items.EPOItemId = item.EPOItemId;
+                                    Items.PRItemId = item.PRItemId;
+                                    Items.RONo = item.RONo;
+                                    Items.Article = item.Article;
+                                    Items.POSerialNumber = item.POSerialNumber;
+                                    Items.ProductId = item.ProductId;
+                                    Items.ProductCode = item.ProductCode;
+                                    Items.ProductName = item.ProductName;
+                                    Items.ProductRemark = `${item.POSerialNumber}; ${item.Article}; ${item.RONo}; ${item.ProductRemark}`;
+                                    Items.UomId = item.SmallUomId;
+                                    Items.UomUnit = item.SmallUomUnit;
+                                    Items.PricePerDealUnit = item.PricePerDealUnit;
+                                    Items.DesignColor = item.DesignColor;
+                                    Items.DefaultDOQuantity = parseFloat(item.RemainingQuantity.toFixed(2));
+                                    Items.Quantity = Items.DefaultDOQuantity;
+                                    Items.IsSave = Items.Quantity > 0;
+                                    Items.IsDisabled = !(Items.Quantity > 0);
+                                    Items.CustomsCategory = item.CustomsCategory;
+
+                                    this.dataItems.push(Items);
+                                }
                             }
-                        }
-                        this.data.Items = this.dataItems;
-                    })
-            });
-        }else{
-            var filter= JSON.stringify({RONo:this.RONo});
+                            this.data.Items = this.dataItems;
+                        })
+                });
+        } else {
+            var filter = JSON.stringify({ RONo: this.RONo });
             var info = {
-              keyword: this.RONo,
-              filter: filter
+                keyword: this.RONo,
+                filter: filter
             };
             this.data.RONo = this.RONo;
-            var ro=[];
+            var ro = [];
             this.service.getGarmentEPOByRONo(info)
-                .then((epo)=>{
-                    for(var a of epo.data){
-                        if(a.RONo==this.data.RONo){
-                            ro.push(a);break;
+                .then((epo) => {
+                    for (var a of epo.data) {
+                        if (a.RONo == this.data.RONo) {
+                            ro.push(a); break;
                         }
                     }
                     this.data.Article = ro[0].Article;
-                    this.service.searchDOItems({ filter: JSON.stringify({ RONo: this.data.RONo, UnitId:this.data.UnitSender.Id, StorageId:this.data.Storage.Id ? this.data.Storage.Id : this.data.Storage._id}) })
-                    .then(result=>{
-                        if(result.data.length>0){
-                            for(var item of result.data){ 
-                                
-                                var Items = {};
-                                Items.DOItemsId = item.DOItemsId;
-                                Items.URNItemId = item.URNItemId;
-                                Items.URNNo = item.URNNo;
-                                Items.DODetailId = item.DODetailId;
-                                Items.URNId = item.URNId;
-                                Items.POItemId = item.POItemId;
-                                Items.EPOItemId = item.EPOItemId;
-                                Items.PRItemId = item.PRItemId;
-                                Items.RONo = item.RONo;
-                                Items.Article = item.Article;
-                                Items.POSerialNumber = item.POSerialNumber;
-                                Items.ProductId = item.ProductId;
-                                Items.ProductCode = item.ProductCode;
-                                Items.ProductName = item.ProductName;
-                                Items.ProductRemark = `${item.POSerialNumber}; ${item.Article}; ${item.RONo}; ${item.ProductRemark}`;
-                                Items.UomId = item.SmallUomId;
-                                Items.UomUnit = item.SmallUomUnit;
-                                Items.PricePerDealUnit = item.PricePerDealUnit;
-                                Items.DesignColor = item.DesignColor;
-                                Items.DefaultDOQuantity = parseFloat(item.RemainingQuantity.toFixed(2));
-                                Items.Quantity = Items.DefaultDOQuantity;
-                                Items.IsSave = Items.Quantity > 0;
-                                Items.IsDisabled = !(Items.Quantity > 0);
-                                Items.CustomsCategory=item.CustomsCategory;
-                
-                                this.dataItems.push(Items);
+                    this.service.searchDOItems({ filter: JSON.stringify({ RONo: this.data.RONo, UnitId: this.data.UnitSender.Id, StorageId: this.data.Storage.Id ? this.data.Storage.Id : this.data.Storage._id }) })
+                        .then(result => {
+                            if (result.data.length > 0) {
+                                for (var item of result.data) {
+
+                                    var Items = {};
+                                    Items.DOItemsId = item.DOItemsId;
+                                    Items.URNItemId = item.URNItemId;
+                                    Items.URNNo = item.URNNo;
+                                    Items.DODetailId = item.DODetailId;
+                                    Items.URNId = item.URNId;
+                                    Items.POItemId = item.POItemId;
+                                    Items.EPOItemId = item.EPOItemId;
+                                    Items.PRItemId = item.PRItemId;
+                                    Items.RONo = item.RONo;
+                                    Items.Article = item.Article;
+                                    Items.POSerialNumber = item.POSerialNumber;
+                                    Items.ProductId = item.ProductId;
+                                    Items.ProductCode = item.ProductCode;
+                                    Items.ProductName = item.ProductName;
+                                    Items.ProductRemark = `${item.POSerialNumber}; ${item.Article}; ${item.RONo}; ${item.ProductRemark}`;
+                                    Items.UomId = item.SmallUomId;
+                                    Items.UomUnit = item.SmallUomUnit;
+                                    Items.PricePerDealUnit = item.PricePerDealUnit;
+                                    Items.DesignColor = item.DesignColor;
+                                    Items.DefaultDOQuantity = parseFloat(item.RemainingQuantity.toFixed(2));
+                                    Items.Quantity = Items.DefaultDOQuantity;
+                                    Items.IsSave = Items.Quantity > 0;
+                                    Items.IsDisabled = !(Items.Quantity > 0);
+                                    Items.CustomsCategory = item.CustomsCategory;
+
+                                    this.dataItems.push(Items);
+                                }
                             }
-                        }
-                        this.data.Items = this.dataItems;
-                    })
-                }); 
+                            this.data.Items = this.dataItems;
+                        })
+                });
         }
 
         // this.service.searchDOItems({ filter: JSON.stringify({ RONo: this.data.RONo, UnitId:this.data.UnitSender.Id, StorageId:this.data.Storage.Id ? this.data.Storage.Id : this.data.Storage._id}) })
         //     .then(result=>{
         //         if(result.data.length>0){
         //             for(var item of result.data){ 
-                        
+
         //                 var Items = {};
         //                 Items.DOItemsId = item.DOItemsId;
         //                 Items.URNItemId = item.URNItemId;
@@ -539,18 +539,18 @@ export class DataForm {
         //                 Items.Quantity = Items.DefaultDOQuantity;
         //                 Items.IsSave = Items.Quantity > 0;
         //                 Items.IsDisabled = !(Items.Quantity > 0);
-        
+
         //                 this.dataItems.push(Items);
         //             }
         //         }
         //     })
-        
+
         this.options.checkedAll = this.data.Items.filter(item => item.IsDisabled === false).reduce((acc, curr) => acc && curr.IsSave, true);
         this.context.error.Items = [];
         this.context.error = [];
         this.RONoHeader = null;
         this.context.RONoHeaderViewModel.editorValue = "";
-    
+
     }
 
     // RONoChanged(newValue) {
@@ -577,7 +577,7 @@ export class DataForm {
     //                 .then(result => {
     //                     if(result.data.length>0){
     //                         for(var item of result.data){ 
-                                
+
     //                             var Items = {};
     //                             Items.DOItemsId = item.DOItemsId;
     //                             Items.URNItemId = item.URNItemId;
@@ -602,12 +602,12 @@ export class DataForm {
     //                             Items.Quantity = Items.DefaultDOQuantity;
     //                             Items.IsSave = Items.Quantity > 0;
     //                             Items.IsDisabled = !(Items.Quantity > 0);
-                
+
     //                             this.dataItems.push(Items);
     //                         }
     //                     }
-                        
-                        
+
+
     //                 });
     //         // }
     //         // else{
@@ -636,13 +636,13 @@ export class DataForm {
     //         //         Items.Quantity = Items.DefaultDOQuantity;
     //         //         Items.IsSave = Items.Quantity > 0;
     //         //         Items.IsDisabled = !(Items.Quantity > 0);
-    
+
     //         //         this.dataItems.push(Items);
     //         //     }
     //         //}
-            
+
     //     }
-        
+
     //     this.context.error.Items = [];
     //     this.context.error = [];
     //     this.RONoHeader = null;
@@ -657,35 +657,35 @@ export class DataForm {
             this.data.RONoHeader = null;
         }
         else if (newValue) {
-            this.service.searchDOItems({ filter: JSON.stringify({ RONo: newValue.RONo, UnitId:this.data.UnitSender.Id, StorageId:this.data.Storage.Id ? this.data.Storage.Id : this.data.Storage._id, POSerialNumber : newValue.POSerialNumber, DOItemsId: newValue.DOItemsId}) })
-                    .then(result=>{
-                        var selectedROHeader= result.data[0];
-                        this.newProduct.DOItemsId = selectedROHeader.DOItemsId;
-                        this.newProduct.URNItemId = selectedROHeader.URNItemId;
-                        this.newProduct.URNNo = selectedROHeader.URNNo;
-                        this.newProduct.DODetailId = selectedROHeader.DODetailId;
-                        this.newProduct.URNId = selectedROHeader.URNId;
-                        this.newProduct.POItemId = selectedROHeader.POItemId;
-                        this.newProduct.EPOItemId = selectedROHeader.EPOItemId;
-                        this.newProduct.PRItemId = selectedROHeader.PRItemId;
-                        this.newProduct.CustomsCategory=selectedROHeader.CustomsCategory;
-                        this.newProduct.RONo = selectedROHeader.RONo;
-                        this.newProduct.Article = selectedROHeader.Article;
-                        this.newProduct.POSerialNumber = selectedROHeader.POSerialNumber;
-                        this.newProduct.ProductId = selectedROHeader.ProductId;
-                        this.newProduct.ProductCode = selectedROHeader.ProductCode;
-                        this.newProduct.ProductName = selectedROHeader.ProductName;
-                        this.newProduct.ProductRemark = `${selectedROHeader.POSerialNumber}; ${selectedROHeader.Article}; ${selectedROHeader.RONo}; ${selectedROHeader.ProductRemark}`;
-                        this.newProduct.UomId = selectedROHeader.SmallUomId;
-                        this.newProduct.UomUnit = selectedROHeader.SmallUomUnit;
-                        this.newProduct.PricePerDealUnit = selectedROHeader.PricePerDealUnit;
-                        this.newProduct.DesignColor = selectedROHeader.DesignColor;
-                        this.newProduct.DefaultDOQuantity = parseFloat(selectedROHeader.RemainingQuantity.toFixed(2));
-                        this.newProduct.Quantity = this.newProduct.DefaultDOQuantity;
-                        this.newProduct.IsSave = this.newProduct.Quantity > 0;
-                        this.newProduct.IsDisabled = !(this.newProduct.Quantity > 0);
-                    });
-            
+            this.service.searchDOItems({ filter: JSON.stringify({ RONo: newValue.RONo, UnitId: this.data.UnitSender.Id, StorageId: this.data.Storage.Id ? this.data.Storage.Id : this.data.Storage._id, POSerialNumber: newValue.POSerialNumber, DOItemsId: newValue.DOItemsId }) })
+                .then(result => {
+                    var selectedROHeader = result.data[0];
+                    this.newProduct.DOItemsId = selectedROHeader.DOItemsId;
+                    this.newProduct.URNItemId = selectedROHeader.URNItemId;
+                    this.newProduct.URNNo = selectedROHeader.URNNo;
+                    this.newProduct.DODetailId = selectedROHeader.DODetailId;
+                    this.newProduct.URNId = selectedROHeader.URNId;
+                    this.newProduct.POItemId = selectedROHeader.POItemId;
+                    this.newProduct.EPOItemId = selectedROHeader.EPOItemId;
+                    this.newProduct.PRItemId = selectedROHeader.PRItemId;
+                    this.newProduct.CustomsCategory = selectedROHeader.CustomsCategory;
+                    this.newProduct.RONo = selectedROHeader.RONo;
+                    this.newProduct.Article = selectedROHeader.Article;
+                    this.newProduct.POSerialNumber = selectedROHeader.POSerialNumber;
+                    this.newProduct.ProductId = selectedROHeader.ProductId;
+                    this.newProduct.ProductCode = selectedROHeader.ProductCode;
+                    this.newProduct.ProductName = selectedROHeader.ProductName;
+                    this.newProduct.ProductRemark = `${selectedROHeader.POSerialNumber}; ${selectedROHeader.Article}; ${selectedROHeader.RONo}; ${selectedROHeader.ProductRemark}`;
+                    this.newProduct.UomId = selectedROHeader.SmallUomId;
+                    this.newProduct.UomUnit = selectedROHeader.SmallUomUnit;
+                    this.newProduct.PricePerDealUnit = selectedROHeader.PricePerDealUnit;
+                    this.newProduct.DesignColor = selectedROHeader.DesignColor;
+                    this.newProduct.DefaultDOQuantity = parseFloat(selectedROHeader.RemainingQuantity.toFixed(2));
+                    this.newProduct.Quantity = this.newProduct.DefaultDOQuantity;
+                    this.newProduct.IsSave = this.newProduct.Quantity > 0;
+                    this.newProduct.IsDisabled = !(this.newProduct.Quantity > 0);
+                });
+
         }
         // this.context.error.Items = [];
         // this.context.error = [];
@@ -705,7 +705,7 @@ export class DataForm {
     supplierView = (supplier) => {
         return `${supplier.code} - ${supplier.name}`;
     }
-    
+
 
     roNoView = (rono) => {
         return `${rono.RONo} - ${rono.ProductCode} - ${rono.ProductName} - ${rono.POSerialNumber} - ${rono.RemainingQuantity}`;
@@ -773,7 +773,7 @@ export class DataForm {
     //             }
     //             return ro;
     //         });
-                    
+
     //     }
     // }
 }
