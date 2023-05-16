@@ -86,6 +86,26 @@ export class DataForm {
             }
         };
 
+        this.deliveryReturnItemFabric={
+            columns: [
+                { header: "Kode Barang" },
+                { header: "Nama Barang" },
+                { header: "Keterangan Barang" },
+                { header: "RO Asal" },
+                { header: "Jumlah" },
+                { header: "Satuan" },
+                { header: "Design/Color" },
+                { header: "Warna" },
+                { header: "Rak" },
+                { header: "Box" },
+                { header: "Level" },
+                { header: "Area" },
+            ],
+            onRemove: function () {
+                this.bind();
+            }
+        };
+
         this.expenditureItem={
             columns: [
                 { header: "Kode Barang" },
@@ -272,6 +292,11 @@ export class DataForm {
                         DRItem.ReceiptCorrection=DRItem.SmallQuantity/DRItem.Conversion;
                         DRItem.OrderQuantity=0;
                         DRItem.DOCurrencyRate=dup.DOCurrency.Rate;
+                        DRItem.Rack = dritem.Rack,
+                        DRItem.Level = dritem.Level,
+                        DRItem.Box = dritem.Box,
+                        DRItem.Colour= dritem.Colour,
+                        DRItem.Area = dritem.Area,
                         DRItems.push(DRItem)
                     }
                 }
