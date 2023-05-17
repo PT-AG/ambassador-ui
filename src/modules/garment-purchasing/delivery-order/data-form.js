@@ -38,11 +38,14 @@ export class DataForm {
     bind(context) {
         this.context = context;
         this.data = this.context.data;
+        console.log(this.data.items           );
         this.error = this.context.error;
         var hasItems=true;
         if (this.data.items.length==0)
             hasItems=false;
-        console.log(context);
+        console.log(this.data);
+        
+        
         // if (this.data.totalQuantity)
         //     this.data.totalQuantity=this.data.totalQuantity.toLocaleString('en-EN', { minimumFractionDigits: 2 });
         // if (this.data.totalAmount)
@@ -91,7 +94,7 @@ export class DataForm {
             else
             return (this.data.supplier.import || false) ? "Import" : "Lokal";
         } else {
-            return (this.data.shipmentNo || '') ? "Import" : "Lokal";
+            return (this.data.supplier.Import || false) ? "Import" : "Lokal";
         }
     }
 
@@ -150,5 +153,24 @@ export class DataForm {
     itemChanged(e){
         console.log("after change parent",this);
         console.log("after change parent event",e);
+    }
+
+    get deleted() {
+        var receiptQty = 0;
+
+        for(var item of this.data.items)
+        {
+            
+            for(var detail of item.fulfillments)
+            {
+               
+                receiptQty += detail.receiptQuantity;
+            }
+           // console.log(receiptQty);
+
+        }
+        console.log(this.data.isInvoice);
+        return receiptQty !=0 || this.data.isCustoms || this.data.isInvoice;
+        //return this.data.isCustoms;
     }
 } 

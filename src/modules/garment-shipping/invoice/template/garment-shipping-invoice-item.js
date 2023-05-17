@@ -98,7 +98,7 @@ console.log(this.data);
     var selectedRo = newValue;
     this.salesService.getCostCalculationById(newValue.Id)
       .then(result => {
-        this.salesService.getSalesContractById(result.SCGarmentId)
+        this.salesService.getSalesContractByRO(result.RO_Number)
           .then(sc => {
             this.data.roNo = result.RO_Number;
             this.data.article = result.Article;
@@ -119,19 +119,24 @@ console.log(this.data);
             this.data.quantity = result.Quantity;
             this.data.scNo = sc.SalesContractNo;
             this.data.amount = sc.Amount;
-            this.data.price = sc.Price;
-            this.data.priceRO = sc.Price;
+            for(var ro of sc.SalesContractROs){
+              if(ro.RONumber==result.RO_Number){
+                  this.data.price = ro.Items[0].Price;
+                  this.data.priceRO = ro.Items[0].Price;
+              }
+            }
+            
             this.data.currencyCode = "USD"
             this.data.comodity = {
               id: result.Comodity.Id,
               code: result.Comodity.Code,
               name: result.Comodity.Name
             }
-
-            this.uom = sc.Uom;
+            
+            this.uom = result.UOM;
             this.data.uom = {
-              id: sc.Uom.Id,
-              unit: sc.Uom.Unit
+              id: result.UOM.Id,
+              unit: result.UOM.Unit
             }
           })
       });

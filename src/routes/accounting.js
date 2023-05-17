@@ -112,6 +112,38 @@ module.exports = [
     }
   },
   {
+    route: "garment-finance/report/export-receipt-bank-cash-journal",
+    name: "export-receipt-bank-cash-journal",
+    moduleId: "./modules/garment-finance/bank-cash/report/export-receipt-bank-cash-journal/index",
+    nav: true,
+    title: "Laporan Jurnal Penerimaan Kas Bank Export",
+    auth: true,
+    settings: {
+      group: "g-finance",
+      subGroup: "report kas bank",
+      // permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      //permission: { "J45": 1 },
+      permission: { "B1": 1, "C9": 1 },
+      iconClass: "fa fa-dashboard",
+    }
+  },
+  {
+    route: "garment-finance/report/local-receipt-bank-cash-journal",
+    name: "local-receipt-bank-cash-journal",
+    moduleId: "./modules/garment-finance/bank-cash/report/local-receipt-bank-cash-journal/index",
+    nav: true,
+    title: "Laporan Jurnal Penerimaan Kas Bank Lokal",
+    auth: true,
+    settings: {
+      group: "g-finance",
+      subGroup: "report kas bank",
+      // permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      //permission: { "J46": 1 },
+      permission: { "B1": 1, "C9": 1 },
+      iconClass: "fa fa-dashboard",
+    }
+  },
+  {
     route: '/accounting/chart-of-accounts-view',
     name: 'chart-of-accounts',
     moduleId: './modules/accounting/chart-of-accounts-view/index',
