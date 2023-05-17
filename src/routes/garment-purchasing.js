@@ -1169,7 +1169,7 @@ module.exports = [
         settings: {
             group: "g-purchasing",
             subGroup: "fitur",
-            permission: { "H60" :1 },
+            permission: { "H59" :1 },
             iconClass: 'fa fa-dashboard'
         }
     }
