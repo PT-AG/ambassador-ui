@@ -34,7 +34,7 @@ export class List {
   ];
 
   @bindable UnitItem;
-  UnitItems = ['', 'KONFEKSI 2A', 'KONFEKSI 2B', 'KONFEKSI 2C', 'KONFEKSI 1A', 'KONFEKSI 1B']
+  UnitItems = ['','AMBASSADOR GARMINDO 1','AMBASSADOR GARMINDO 2']
 
   constructor(router, service) {
     this.service = service;
@@ -95,18 +95,11 @@ export class List {
   UnitItemChanged(newvalue) {
 
     if (newvalue) {
-      if (newvalue === "KONFEKSI 2A") {
-        this.unit = "C2A";
+      if (newvalue === "AMBASSADOR GARMINDO 1") {
+        this.unit = "AG1";
       }
-      else if (newvalue === "KONFEKSI 2B") {
-        this.unit = "C2B";
-      }
-      else if (newvalue === "KONFEKSI 2C") {
-        this.unit = "C2C";
-      } else if (newvalue === "KONFEKSI 1A") {
-        this.unit = "C1A";
-      } else if (newvalue === "KONFEKSI 1B") {
-        this.unit = "C1B";
+      else if (newvalue === "AMBASSADOR GARMINDO 2") {
+        this.unit = "AG2";
       } else {
         this.unit = "";
         this.unitname = "";
