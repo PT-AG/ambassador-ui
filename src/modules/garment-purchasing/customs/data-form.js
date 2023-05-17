@@ -22,7 +22,7 @@ export class DataForm {
     @bindable beacukai;
     @bindable selectedCustomType;
     @bindable selectedCustomCategory;
-    typeCustoms = ["","20", "25","261", "262"]
+    typeCustoms = ["","20", "25","261", "262","SPPBMCP","2.8","4.1"]
     categoryCustoms = ["Non Fasilitas","Fasilitas"]
     importValueBC23=[
         "EXW",
@@ -277,9 +277,9 @@ export class DataForm {
                 var dataDelivery = [];
               
                 for(var a of result.data){
-                    var received=await this.service.searchURN({filter : JSON.stringify({"DONo" : `${a.doNo}`})});
-                    console.log(received)
-                    if(received.data.length==0){
+                    // var received=await this.service.searchURN({filter : JSON.stringify({"DONo" : `${a.doNo}`})});
+                    // console.log(received)
+                    // if(received.data.length==0){
                         var data = a;
                         data["selected"] = false;
                         data["doNo"]=a.doNo;
@@ -300,7 +300,7 @@ export class DataForm {
                         data["quantity"] = quantity;
                         data["price"] = totPrice.toFixed(3);
                         dataDelivery.push(data);
-                    }
+                //     }
                     
                 }
                 this.data.deliveryOrders = dataDelivery;

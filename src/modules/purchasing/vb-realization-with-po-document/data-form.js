@@ -97,13 +97,13 @@ export class DataForm {
 
         if (newVal) {
             let vbRequestDocument = await this.vbRequestService.getById(newVal.Id);
-
+            var typePurchasing= vbRequestDocument.SuppliantUnit.Code=="P2" ? "UMUM" : vbRequestDocument.TypePurchasing;
             this.itemsOptions.epoIds = vbRequestDocument.Items.map((item) => {
                 return item.PurchaseOrderExternal.Id;
             });
             this.itemsOptions.division = vbRequestDocument.SuppliantUnit.Division.Name;
             this.itemsOptions.currencyCode = vbRequestDocument.Currency.Code;
-            this.itemsOptions.typePurchasing = vbRequestDocument.TypePurchasing;
+            this.itemsOptions.typePurchasing = typePurchasing;
 
             this.ItemCollection.bind();
         }
