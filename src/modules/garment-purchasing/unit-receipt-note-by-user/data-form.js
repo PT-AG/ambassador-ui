@@ -17,6 +17,7 @@ export class DataForm {
     @bindable readOnly = false;
     @bindable data = {};
     @bindable error = {};
+    @bindable options = {};
     @bindable title;
     @bindable unit;
     @bindable supplier;
@@ -108,6 +109,7 @@ export class DataForm {
 
         this.expenditureItem={
             columns: [
+                { field: 'IsSave', title: '',checkbox: true, sortable: false,width:20 },
                 { header: "Kode Barang" },
                 { header: "Nama Barang" },
                 { header: "Keterangan Barang" },
