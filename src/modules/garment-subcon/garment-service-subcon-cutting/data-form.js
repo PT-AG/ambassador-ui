@@ -32,7 +32,7 @@ export class DataForm {
         editText: "Ubah"
     };
 
-    subconTypes=["BORDIR","PRINT","PLISKET","OTHERS"];
+    subconTypes=["BORDIR","PRINT","PLISKET","OTHERS","DIE CUT"];
     controlOptions = {
         label: {
             length: 2
