@@ -1,12 +1,6 @@
 <template>
     <tr>
         <td>
-            <au-checkbox 
-                value.bind="data.IsSave" 
-                disabled.bind="readOnly">
-            </au-checkbox>
-        </td>
-        <td>
             <au-textbox 
                 value.bind="data.Product.Code"
                 read-only.bind="true">
@@ -26,12 +20,6 @@
         </td>
         <td>
             <au-textbox 
-                value.bind="data.POSerialNumber"
-                read-only.bind="true">
-            </au-textbox>
-        </td>
-        <td>
-            <au-textbox 
                 value.bind="data.RONo"
                 read-only.bind="true">
             </au-textbox>
@@ -39,8 +27,7 @@
         <td>
             <au-numeric 
                 value.bind="data.SmallQuantity" 
-                error.bind="error.SmallQuantity"
-                read-only.bind="readOnly">
+                read-only="true">
             </au-numeric>
         </td>
         <td align='center'>
@@ -52,7 +39,42 @@
         <td>
             <au-textbox 
                 value.bind="data.DesignColor"
-                read-only.bind="readOnly">
+                read-only.bind="true">
+            </au-textbox>
+        </td>
+        <td>
+            <au-textbox 
+                value.bind="data.Colour"
+                read-only.bind="true"
+                options.bind="controlOptions">
+            </au-textbox>
+        </td>
+        <td>
+            <au-textbox 
+                value.bind="data.Rack"
+                read-only.bind="true"
+                options.bind="controlOptions">
+            </au-textbox>
+        </td>
+        <td>
+            <au-textbox 
+                value.bind="data.Box"
+                read-only.bind="true"
+                options.bind="controlOptions">
+            </au-textbox>
+        </td>
+        <td>
+            <au-textbox 
+                value.bind="data.Level"
+                read-only.bind="true"
+                options.bind="controlOptions">
+            </au-textbox>
+        </td>
+        <td>
+            <au-textbox 
+                value.bind="data.Area"
+                read-only.bind="true"
+                options.bind="controlOptions">
             </au-textbox>
         </td>
      </tr>
