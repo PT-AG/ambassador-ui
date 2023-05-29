@@ -141,7 +141,8 @@ export class DataForm {
     this.data.OTL1 = this.data.OTL1 ? this.data.OTL1 : Object.assign({}, this.defaultRate);
     this.data.OTL2 = this.data.OTL2 ? this.data.OTL2 : Object.assign({}, this.defaultRate);
     this.data.ConfirmPrice = this.data.ConfirmPrice ? this.data.ConfirmPrice : 0 ;
-
+    this.selectedComodity = this.data.Comodity ? this.data.Comodity : "";
+    this.data.BuyerCode =  this.data.Buyer ?  this.data.Buyer.Code : "";
     this.create = this.context.create; 
     if (!this.create)
       {
