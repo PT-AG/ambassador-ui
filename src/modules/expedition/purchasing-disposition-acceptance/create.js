@@ -6,7 +6,7 @@ import numeral from 'numeral';
 import { Service } from './service';
 import PurchasingDispositionExpeditionService from '../shared/purchasing-disposition-expedition-service';
 import { PermissionHelper } from '../../../utils/permission-helper';
-import { VERIFICATION, CASHIER } from '../shared/permission-constants';
+import { VERIFICATION, CASHIER } from './permission-constants';
 import { Container } from 'aurelia-dependency-injection';
 import { Config } from "aurelia-api"
 const DispositionLoader = require('../../../loader/purchase-dispositions-all-loader');

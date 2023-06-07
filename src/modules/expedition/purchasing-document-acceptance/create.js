@@ -10,7 +10,7 @@ import {
   VERIFICATION,
   CASHIER,
   ACCOUNTING,
-} from "../shared/permission-constants";
+} from "./permission-constant";
 const UnitPaymentOrderLoader = require("../../../loader/unit-payment-order-loader");
 const SupplierLoader = require("../../../loader/supplier-loader");
 const DivisionLoader = require("../../../loader/division-loader");

@@ -6,7 +6,7 @@ import { Dialog } from '../../../au-components/dialog/dialog';
 import { Service } from './service';
 import PurchasingDispositionExpeditionService from '../shared/purchasing-disposition-expedition-service';
 import { PermissionHelper } from '../../../utils/permission-helper';
-import { VERIFICATION, CASHIER, ACCOUNTING } from '../shared/permission-constants';
+import { VERIFICATION, CASHIER } from './permission-constants';
 
 @inject(Router, Service, PurchasingDispositionExpeditionService, Dialog, PermissionHelper)
 export class List {
