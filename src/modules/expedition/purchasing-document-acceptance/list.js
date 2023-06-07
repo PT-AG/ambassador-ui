@@ -10,7 +10,7 @@ import {
   VERIFICATION,
   CASHIER,
   ACCOUNTING,
-} from "../shared/permission-constants";
+} from "./permission-constant";
 
 @inject(
   Router,
