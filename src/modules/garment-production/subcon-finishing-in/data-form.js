@@ -231,7 +231,7 @@ export class DataForm {
             let DODetailIds = [];
             for (var item of this.garmentDOData.items) {
                 for (var detail of item.fulfillments) {
-                    if (detail.rONo === newValue && detail.product.Name === "PROCESS") {
+                    if (detail.rONo === newValue && (detail.product.Name === "PROCESS" || detail.product.Name === "SUBCON")) {
                         DODetailIds.push(detail.Id);
                     }
                 }
@@ -275,7 +275,7 @@ export class DataForm {
                                 }
                                 for (var item of this.garmentDOData.items) {
                                     for (var detail of item.fulfillments) {
-                                        if (detail.rONo === newValue && detail.product.Name === "PROCESS") {
+                                        if (detail.rONo === newValue && (detail.product.Name === "PROCESS" || detail.product.Name === "SUBCON")) {
                                             this.dataDODetails.push({
                                                 ProductCode: detail.product.Code,
                                                 ProductName: detail.product.Name,
