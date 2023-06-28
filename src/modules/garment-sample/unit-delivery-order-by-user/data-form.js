@@ -306,6 +306,13 @@ export class DataForm {
                         this.newProduct.Quantity = this.newProduct.DefaultDOQuantity;
                         this.newProduct.IsSave = this.newProduct.Quantity > 0;
                         this.newProduct.IsDisabled = !(this.newProduct.Quantity > 0);
+
+                        this.newProduct.CustomsCategory = selectedROHeader.CustomsCategory;
+                        this.newProduct.Rack = selectedROHeader.Rack;
+                        this.newProduct.Level = selectedROHeader.Level;
+                        this.newProduct.Box = selectedROHeader.Box;
+                        this.newProduct.Colour = selectedROHeader.Colour;
+                        this.newProduct.Area = selectedROHeader.Area;
                     });
             
         }
@@ -418,6 +425,14 @@ export class DataForm {
                             Items.Quantity = Items.DefaultDOQuantity;
                             Items.IsSave = Items.Quantity > 0;
                             Items.IsDisabled = !(Items.Quantity > 0);
+
+                            Items.CustomsCategory = item.CustomsCategory;
+
+                            Items.Rack = item.Rack;
+                            Items.Level = item.Level;
+                            Items.Box = item.Box;
+                            Items.Colour = item.Colour;
+                            Items.Area = item.Area;
             
                             this.dataItems.push(Items);
                         }
