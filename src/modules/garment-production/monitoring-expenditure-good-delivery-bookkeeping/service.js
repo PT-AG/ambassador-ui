@@ -12,7 +12,7 @@ export class Service extends RestService {
     }
 
     search(info) {
-        var endpoint = `${serviceUri}/monitoring`;
+        var endpoint = `${serviceUri}/for-monitoring-accounting`;
         var query = '';
 
         if (info.dateFrom && info.dateFrom !== "") {
@@ -28,7 +28,7 @@ export class Service extends RestService {
             else query = `${query}&unit=${info.unit}`;
         }
         if (query !== '')
-        endpoint = `${serviceUri}/monitoring?${query}`;
+        endpoint = `${serviceUri}/for-monitoring-accounting?${query}`;
 
     return super.get(endpoint);
 
@@ -36,7 +36,7 @@ export class Service extends RestService {
     }
 
     generateExcel(info) {
-        var endpoint = `${serviceUri}/download?unit=${info.unit}&dateFrom=${info.dateFrom}&dateTo=${info.dateTo}&type=${info.type}`;
+        var endpoint = `${serviceUri}/for-monitoring-accounting/download?unit=${info.unit}&dateFrom=${info.dateFrom}&dateTo=${info.dateTo}&type=${info.type}`;
         console.log(endpoint);
         var query = '';
         if (info.dateFrom && info.dateFrom !== "") {
@@ -51,12 +51,16 @@ export class Service extends RestService {
             if (query === '') query = `unit=${info.unit}`;
             else query = `${query}&unit=${info.unit}`;
         }
+        if (info.unitname && info.unitname !== "") {
+            if (query === '') query = `unitname=${info.unitname}`;
+            else query = `${query}&unitname=${info.unitname}`;
+        }
         if (info.type && info.type !== "") {
             if (query === '') query = `type=${info.type}`;
             else query = `${query}&type=${info.type}`;
         }
         if (query !== '')
-        endpoint = `${serviceUri}/download?${query}`;
+        endpoint = `${serviceUri}/for-monitoring-accounting/download?${query}`;
         console.log(endpoint);
     return super.getXls(endpoint);
     }
