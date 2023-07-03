@@ -24,23 +24,13 @@ export class List {
         this.unit = 0;
         this.unitname = "";
         if (newvalue) {
-            if (newvalue === "KONFEKSI 2A") {
-                this.unit = 45;
-                this.unitname = "KONFEKSI 2A";
+            if (newvalue === "AMBASSADOR GARMINDO 1") {
+                this.unit = 21;
+                this.unitname = "KONFEKSI AG1";
             }
-            else if (newvalue === "KONFEKSI 2B") { 
-                this.unit = 46;
-                this.unitname = "KONFEKSI 2B";
-            }
-            else if (newvalue === "KONFEKSI 2C") {
-                this.unit = 47; 
-                this.unitname = "KONFEKSI 2C";
-            }else if(newvalue === "KONFEKSI 1A"){
-                this.unit = 51;
-                this.unitname = "KONFEKSI 1A";
-            }else if(newvalue === "KONFEKSI 1B"){
-                this.unit = 52;
-                this.unitname = "KONFEKSI 1B";
+            else if (newvalue === "AMBASSADOR GARMINDO 2") { 
+                this.unit = 19;
+                this.unitname = "KONFEKSI AG2";
             }else if(newvalue === ""){
                 this.unit = 0;
                 this.unitname = "";
@@ -63,7 +53,7 @@ export class List {
                 for(var _data of result){
                       
                     _data.expenditureDate= moment(_data.expenditureDate).format("YYYY-MM-DD");
-                    _data.pebDate=  moment(_data.pebDate).format("DD MMM YYYY") == "01 Jan 1970" || moment(_data.pebDate).format("DD MMM YYYY") == "01 Jan 1900" ? "-" : moment(_data.pebDate).format("YYYY-MM-DD");
+                    // _data.pebDate=  moment(_data.pebDate).format("DD MMM YYYY") == "01 Jan 1970" || moment(_data.pebDate).format("DD MMM YYYY") == "01 Jan 1900" ? "-" : moment(_data.pebDate).format("YYYY-MM-DD");
                     _data.prices=_data.price.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                     _data.qtys=_data.qty.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                     _data.nominals=(_data.qty * _data.price).toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -76,6 +66,7 @@ export class List {
     ExportToExcel() {
         var info = {
             unit : this.unit ? this.unit : 0,
+            unitname : this.unitname ? this.unitname:"",
             dateFrom : this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
             dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : "",
             type:"bookkeeping"
