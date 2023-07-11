@@ -342,6 +342,7 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "kas bank",
+      permission: {"J26":1},
       //permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
       permission: {"J41":1},
       iconClass: "fa fa-dashboard",
@@ -357,6 +358,7 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "kas bank",
+      permission: {"J27":1},
       //permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
       permission: {"J42":1},
       iconClass: "fa fa-dashboard",
@@ -438,6 +440,21 @@ module.exports = [
     }
   },
   {
+    route: "garment-finance/adjustments",
+    name: "memorials",
+    moduleId: "./modules/garment-finance/bank-cash/adjustment/index",
+    nav: true,
+    title: "Jurnal Penyesuaian",
+    auth: true,
+    settings: {
+      group: "g-finance",
+      subGroup: "kas bank",
+      //permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      permission: {"J25":1},
+      iconClass: "fa fa-dashboard",
+    }
+  },
+  {
     route: "garment-finance/memorials",
     name: "memorials",
     moduleId: "./modules/garment-finance/bank-cash/memorial/index",
@@ -507,6 +524,7 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "kas bank",
+      permission: {"J28":1},
       //permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
       permission: {"J25":1},
       iconClass: "fa fa-dashboard",
