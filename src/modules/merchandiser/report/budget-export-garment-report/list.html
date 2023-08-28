@@ -1,5 +1,5 @@
 <template>
-    <h1 class="page-header">Monitoring Budget Export Garment</h1>
+    <h1 class="page-header">Monitoring Budget Garment</h1>
     <form class="form-horizontal">
         <au-autocomplete  value.bind="unitName" label="Unit"  loader.bind="unitLoader"></au-autocomplete>
         <au-autocomplete 
@@ -39,6 +39,7 @@
                     <th class="text-center">Seksi</th>
                     <th class="text-center">Kode Buyer</th>                    
                     <th class="text-center">Nama Buyer</th>
+                    <th class="text-center">Tipe Buyer</th>   
                     <th class="text-center">Article / Style</th>
                     <th class="text-center">Tgl Shipmnet</th>                    
                     <th class="text-center">No Plan PO</th>   
@@ -48,7 +49,7 @@
                     <th class="text-center">Qty Budget</th>
                     <th class="text-center">Satuan</th>
                     <th class="text-center">Harga Satuan</th>                    
-                    <th class="text-center">Total Budget</th>   
+                    <th class="text-center">Total Budget</th>
                  </tr>
             </thead>
             <tbody>
@@ -60,6 +61,7 @@
                         <td>${item.Section}</td>
                         <td>${item.BuyerCode}</td>                        
                         <td>${item.BuyerName}</td>
+                        <td>${item.Type}</td>
                         <td>${item.Article}</td>
                         <td>${item.DeliveryDate}</td>
                         <td>${item.PONumber}</td>
@@ -73,7 +75,7 @@
                     </tr>
                     <tr class="active">
                        <td class="text-center">.</td>
-                        <td class="text-center" colspan="7"><strong>NOMOR R/O : ${RONo.RONo}</strong></td>
+                        <td class="text-center" colspan="8"><strong>NOMOR R/O : ${RONo.RONo}</strong></td>
                         <td class="text-center" colspan="4"><strong>SUB TOTAL</strong></td>
                         <td class="text-center"><strong>.</strong></td>                     
                         <td class="text-center"><strong>.</strong></td>    
@@ -82,7 +84,7 @@
                     </tr>
                 </template>
                     <tr class="active">
-                        <td class="text-center" colspan="12"><strong>T O T A L . . . . . . :</strong></td>
+                        <td class="text-center" colspan="13"><strong>T O T A L . . . . . . :</strong></td>
                         <td class="text-center"><strong>.</strong></td>                     
                         <td class="text-center"><strong>.</strong></td>                                                                     
                         <td class="text-center"><strong>.</strong></td>                                             

@@ -82,7 +82,7 @@ export class DataForm {
         var _selectedSupplier = newValue;
         if (_selectedSupplier) {
             this.filterDO={
-                "BillNo != null": true,
+                //"BillNo != null": true,
                 SupplierName:_selectedSupplier.name
             };
         }
@@ -182,8 +182,9 @@ export class DataForm {
                             correctionNoteItem.PricePerDealUnitAfter = detail.pricePerDealUnitCorrection;
                             correctionNoteItem.PriceTotalBefore = parseFloat((detail.priceTotalCorrection).toFixed(2));
                             correctionNoteItem.PriceTotalAfter = parseFloat((detail.priceTotalCorrection).toFixed(2));
-    
-                            this.data.Items.push(correctionNoteItem);
+                            if(correctionNoteItem.Quantity>0){
+                                this.data.Items.push(correctionNoteItem);
+                            }
                         }
                     }
                     this.itemsTemp = JSON.parse(JSON.stringify(this.data.Items)); /* Clone Array */

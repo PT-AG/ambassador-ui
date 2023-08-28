@@ -4,6 +4,7 @@ import { Service, SalesService, CoreService } from "./service";
 const UnitLoader = require('../../../loader/garment-units-loader');
 var BuyerLoader = require('../../../loader/garment-buyers-loader');
 const UomLoader = require("../../../loader/uom-loader");
+var BuyerBrandLoader = require('../../../loader/garment-buyer-brands-loader');
 
 @inject(Service, SalesService, CoreService)
 export class DataForm {
@@ -16,6 +17,7 @@ export class DataForm {
     // @bindable error = {};
     @bindable itemOptions = {};
     @bindable selectedUnit;
+    @bindable selectedBuyer;
 
     constructor(service, salesService, coreService) {
         this.service = service;
@@ -29,7 +31,8 @@ export class DataForm {
         deleteText: "Hapus",
         editText: "Ubah"
     };
-    subconTypes=["BORDIR","PRINT","PLISKET","OTHERS"];
+
+    subconTypes=["BORDIR","PRINT","PLISKET","OTHERS","DIE CUT"];
     controlOptions = {
         label: {
             length: 2
@@ -48,9 +51,9 @@ export class DataForm {
         ]
     }
 
-    UomPackingfilter={
-        'Unit=="ROLL" || Unit=="COLI" || UNIT=="IKAT" || UNIT=="CARTON"': "true",
-    };
+    // UomPackingfilter={
+    //     'Unit=="ROLL" || Unit=="COLI" || UNIT=="IKAT" || UNIT=="CARTON"': "true",
+    // };
 
     get UomPackingLoader() {
         return UomLoader;
@@ -59,6 +62,7 @@ export class DataForm {
     get buyerLoader() {
         return BuyerLoader;
     }
+    
     buyerView = (buyer) => {
         var buyerName = buyer.Name || buyer.name;
         var buyerCode = buyer.Code || buyer.code;
@@ -92,17 +96,22 @@ export class DataForm {
             isView: this.context.isView,
             checkedAll: this.context.isCreate == true ? false : true,
             isEdit: this.isEdit,
-
+            ROList: []
+        }
+        if(this.data){
+            this.selectedBuyer=this.data.Buyer;
         }
 
         if (this.data && this.data.Items) {
             this.data.Items.forEach(
                 item => {
+                    this.itemOptions.ROList.push(item.RONo);
                     item.Unit = this.data.Unit;
                 }
             );
+
             for(var item of this.data.Items){
-                for(var d of item.Details){
+                for(var d of item.Details) {
                     var Sizes=[];
                     for(var s of d.Sizes){
                         var detail={};
@@ -113,16 +122,16 @@ export class DataForm {
                             detail.Uom=s.Uom;
                             Sizes.push(detail);
                         }
-                        else{
+                        else {
                             var exist= Sizes.find(a=>a.Size.Id==s.Size.Id);
-                            if(!exist){
+                            if(!exist) {
                                 detail.Quantity=s.Quantity;
                                 detail.Size=s.Size;
                                 detail.Color=s.Color;
                                 detail.Uom=s.Uom;
                                 Sizes.push(detail);
                             }
-                            else{
+                            else {
                                 var idx= Sizes.indexOf(exist);
                                 exist.Quantity+=s.Quantity;
                                 Sizes[idx]=exist;
@@ -147,13 +156,19 @@ export class DataForm {
         return (event) => {
             this.data.Items.push({
                 Unit:this.data.Unit,
-                Buyer:this.data.Buyer
+                Buyer:this.data.BuyerBrand
             });
         };
     }
 
     get removeItems() {
         return (event) => {
+
+            var _ro = event.detail.RONo;
+            if(this.itemOptions.ROList.includes(_ro)){
+                this.itemOptions.ROList.splice(this.itemOptions.ROList.indexOf(_ro), 1);
+            }
+
             this.error = null;
         };
     }
@@ -186,9 +201,37 @@ export class DataForm {
     get buyerLoader() {
         return BuyerLoader;
     }
+    
+    get buyerBrandLoader() {
+        return BuyerBrandLoader;
+    }
+
     buyerView = (buyer) => {
         var buyerName = buyer.Name || buyer.name;
         var buyerCode = buyer.Code || buyer.code;
         return `${buyerCode} - ${buyerName}`
+    }
+
+    get filterBuyer(){
+        var filter={};
+        if(this.data.Buyer){
+            filter= {
+                BuyerCode: this.data.Buyer.Code
+            }
+        }
+        return filter;
+    }
+
+    selectedBuyerChanged(newValue){
+        if(!this.data.Id){
+            if(this.data.Items){
+                this.data.Items.splice(0);
+            }
+            this.data.BuyerBrand=null;
+            this.data.Buyer=null;
+        }
+        if(newValue){
+            this.data.Buyer=newValue;
+        }
     }
 }

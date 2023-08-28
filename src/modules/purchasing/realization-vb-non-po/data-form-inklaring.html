@@ -105,6 +105,14 @@
       >
       </au-numeric>
 
+      <au-textbox
+          label="Invoice"
+          value.bind="data.InvoiceNo"
+          error.bind="error.InvoiceNo"
+          read-only.bind="readOnly"
+          options.bind="controlOptions">
+      </au-textbox>
+
       <au-multiline label="Keterangan"
                     value.bind="data.Remark"
                     read-only.bind="readOnly"
@@ -161,11 +169,11 @@
       >
       </au-textbox>
 
-      <div class="row">
+      <!-- <div class="row">
         <div class="col-sm-5" style="padding-left: 3.5%">
           <au-textbox label="Beban Unit :" read-only.bind="true"> </au-textbox>
         </div>
-      </div>
+      </div> -->
 
       <au-textbox
         read-only.bind="true"
@@ -174,13 +182,36 @@
         style="color: red"
       >
       </au-textbox>
-      <table>
+
+      <au-collection items.bind="data.UnitCosts"
+                     errors.bind="error.UnitCosts"
+                     columns.bind="unitcolumns"
+                     add.bind="addUnitCosts"
+                     remove.bind="onremoveUnitCosts"
+                     read-only.bind="readOnly"
+                     options.bind="itemOptions"
+                     title="Beban Unit :"
+                     if.bind="vbNonPOType != 'Dengan Nomor VB'"
+                     item-template="modules/purchasing/realization-vb-non-po/templates/unit">
+      </au-collection>
+
+      <au-collection items.bind="data.UnitCosts"
+                     errors.bind="error.UnitCosts"
+                     columns.bind="unitcolumns"
+                     read-only.bind="readOnly"
+                     options.bind="itemOptions"
+                     title="Beban Unit :"
+                     if.bind="vbNonPOType == 'Dengan Nomor VB'"
+                     item-template="modules/purchasing/realization-vb-non-po/templates/unit">
+      </au-collection>
+      
+      <!-- <table>
         <tr class="row" repeat.for="cardContents of cards">
           <td class="col-md-2" repeat.for="cardContent of cardContents">
             <div class="row">
               <div class="col-md-12">
                 <au-checkbox
-                  if.bind="cardContent.Unit.VBDocumentLayoutOrder != 3 || isVB"
+                  if.bind="cardContent.Unit.VBDocumentLayoutOrder != 10 || isVB"
                   change.delegate="resetAmount($event,cardContent)"
                   label.bind="cardContent.Unit.Name"
                   value.bind="cardContent.IsSelected"
@@ -190,7 +221,7 @@
                 >
                 </au-checkbox>
                 <au-checkbox
-                  if.bind="cardContent.Unit.VBDocumentLayoutOrder == 3 && !readOnly && !isVB"
+                  if.bind="cardContent.Unit.VBDocumentLayoutOrder == 10 && !readOnly && !isVB"
                   value.bind="cardContent.IsSelected"
                   change.delegate="otherUnitSelected($event,cardContent)"
                   error.bind="error.cardContent"
@@ -199,7 +230,7 @@
                 >
                 </au-checkbox>
                 <au-checkbox
-                  if.bind="cardContent.Unit.VBDocumentLayoutOrder == 3 && readOnly && !isVB"
+                  if.bind="cardContent.Unit.VBDocumentLayoutOrder == 10 && readOnly && !isVB"
                   label.bind="cardContent.Unit.Name"
                   value.bind="cardContent.IsSelected"
                   error.bind="error.cardContent"
@@ -208,7 +239,7 @@
                 >
                 </au-checkbox>
                 <au-autocomplete
-                  if.bind="cardContent.IsSelected && cardContent.Unit.VBDocumentLayoutOrder == 3 && !readOnly && !isVB"
+                  if.bind="cardContent.IsSelected && cardContent.Unit.VBDocumentLayoutOrder == 10 && !readOnly && !isVB"
                   value.bind="cardContentUnit"
                   read-only.bind="readOnly || isVB"
                   loader.bind="unitVBNonPOLoader"
@@ -242,7 +273,7 @@
             </div>
           </td>
         </tr>
-      </table>
+      </table> -->
     </div>
 
     <div slot="actions" class="btn-group">

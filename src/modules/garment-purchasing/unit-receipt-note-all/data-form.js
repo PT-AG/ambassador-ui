@@ -95,6 +95,20 @@ export class DataForm {
                 { header: "Design/Color" },
             ],
         };
+
+        this.expenditureItemLeftOver={
+            columns: [
+                { field: 'IsSave', title: '',checkbox: true, sortable: false,width:20 },
+                { header: "Kode Barang" },
+                { header: "Nama Barang" },
+                { header: "Keterangan Barang" },
+                { header: "PO No" },
+                { header: "RO Asal" },
+                { header: "Jumlah" },
+                { header: "Satuan" },
+                { header: "Design/Color" },
+            ],
+        };
     }
 
     filterExpend={
@@ -148,6 +162,13 @@ export class DataForm {
         }
         else{
             this.isProcess=false;
+        }
+
+        if(this.data.URNType=="SISA SUBCON"){
+            this.data.Items.forEach(item => {
+                item.IsSave = true;
+                
+            });
         }
     }
 

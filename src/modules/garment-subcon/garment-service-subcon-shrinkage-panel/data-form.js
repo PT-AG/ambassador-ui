@@ -2,6 +2,7 @@ import { bindable, inject, computedFrom } from "aurelia-framework";
 import { Service } from "./service";
 
 const UnitLoader = require('../../../loader/garment-units-loader');
+const UomLoader = require("../../../loader/uom-loader");
 
 @inject(Service)
 export class DataForm {
@@ -12,6 +13,7 @@ export class DataForm {
 	@bindable title;
 	@bindable data = {};
 	@bindable itemOptions = {};
+	@bindable selectedUomUnit;
 
 	constructor(service) {
 		this.service = service;
@@ -24,7 +26,7 @@ export class DataForm {
 		editText: "Ubah"
 	};
 
-	UomOptions = ['COLI', 'IKAT', 'CARTON', 'ROLL'];
+	// UomOptions = ['COLI', 'IKAT', 'CARTON', 'ROLL'];
 	controlOptions = {
 		label: {
 			length: 3
@@ -43,15 +45,31 @@ export class DataForm {
 		]
 	}
 
+	get UomPackingLoader() {
+		return UomLoader;
+	}
+
 	bind(context) {
 		this.context = context;
 		this.data = this.context.data;
+
+		this.selectedUomUnit = { Unit : this.data.UomUnit }
+		
 		this.error = this.context.error;
 		this.itemOptions = {
 			isCreate: this.context.isCreate,
 			isEdit: this.context.isEdit,
 			isView: this.context.isView,
-			checkedAll: this.context.isCreate == true ? false : true
+			checkedAll: this.context.isCreate == true ? false : true,
+			UENList: []
+		}
+
+		if(this.data && this.data.Items) {
+			this.data.Items.forEach(
+				item => {
+					this.itemOptions.UENList.push(item.UnitExpenditureNo);
+				}
+			  );
 		}
 	}
 
@@ -63,8 +81,25 @@ export class DataForm {
 
 	get removeItems() {
 		return (event) => {
+
+			var _uenno = event.detail.UnitExpenditureNo;
+        
+            if(this.itemOptions.UENList.includes(_uenno)){
+                this.itemOptions.UENList.splice(this.itemOptions.UENList.indexOf(event.detail.UnitExpenditureNo), 1);
+            }
+
 			this.error = null;
 		};
+	}
+
+	selectedUomUnitChanged(newValue){
+		if (newValue) {
+		  this.data.UomUnit = newValue.Unit;
+		} else {
+		  this.data.UomUnit = "";
+		}
+	
+		console.log(this.data.UomUnit);
 	}
 
 	/*get totalQuantity() {

@@ -1,6 +1,7 @@
 import { inject, bindable, BindingEngine, observable, computedFrom } from 'aurelia-framework'
 import { Service, InventoryService } from "./service";
-var UnitLoader = require('../../../loader/unit-loader');
+// var UnitLoader = require('../../../loader/unit-loader');
+var UnitLoader = require('../../../loader/garment-units-loader');
 var SupplierLoader = require('../../../loader/garment-supplier-loader');
 var StorageLoader = require('../../../loader/storage-loader');
 var DeliveryOrderLoader = require('../../../loader/garment-delivery-order-for-unit-receipt-note-loader');
@@ -16,6 +17,7 @@ export class DataForm {
     @bindable readOnly = false;
     @bindable data = {};
     @bindable error = {};
+    @bindable options = {};
     @bindable title;
     @bindable unit;
     @bindable supplier;
@@ -85,6 +87,39 @@ export class DataForm {
             }
         };
 
+        this.deliveryReturnItemFabric={
+            columns: [
+                { header: "Kode Barang" },
+                { header: "Nama Barang" },
+                { header: "Keterangan Barang" },
+                { header: "RO Asal" },
+                { header: "Jumlah" },
+                { header: "Satuan" },
+                { header: "Design/Color" },
+                { header: "Warna" },
+                { header: "Rak" },
+                { header: "Box" },
+                { header: "Level" },
+                { header: "Area" },
+            ],
+            onRemove: function () {
+                this.bind();
+            }
+        };
+
+        this.expenditureItemLeftOver={
+            columns: [
+                { field: 'IsSave', title: '',checkbox: true, sortable: false,width:20 },
+                { header: "Kode Barang" },
+                { header: "Nama Barang" },
+                { header: "Keterangan Barang" },
+                { header: "PO No" },
+                { header: "RO Asal" },
+                { header: "Jumlah" },
+                { header: "Satuan" },
+                { header: "Design/Color" },
+            ],
+        };
         this.expenditureItem={
             columns: [
                 { header: "Kode Barang" },
@@ -157,6 +192,13 @@ export class DataForm {
         }
         else{
             this.isProcess=false;
+        }
+
+        if(this.data.URNType=="SISA SUBCON"){
+            this.data.Items.forEach(item => {
+                item.IsSave = true;
+                
+            });
         }
     }
 
@@ -271,6 +313,11 @@ export class DataForm {
                         DRItem.ReceiptCorrection=DRItem.SmallQuantity/DRItem.Conversion;
                         DRItem.OrderQuantity=0;
                         DRItem.DOCurrencyRate=dup.DOCurrency.Rate;
+                        DRItem.Rack = dritem.Rack,
+                        DRItem.Level = dritem.Level,
+                        DRItem.Box = dritem.Box,
+                        DRItem.Colour= dritem.Colour,
+                        DRItem.Area = dritem.Area,
                         DRItems.push(DRItem)
                     }
                 }

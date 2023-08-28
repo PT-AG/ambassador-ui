@@ -122,7 +122,7 @@
                         </au-textbox>
 
                         <au-datepicker label="Tgl Perkiraan Export" value.bind="data.exportEstimationDate"
-                            error.bind="error.exportEstimationDate" read-only="true" options.bind="controlOptions">
+                            error.bind="error.exportEstimationDate" read-only.bind="readOnly" options.bind="controlOptions">
                         </au-datepicker>
 
                         <au-multiline label="Unit" value.bind="data.unit" error.bind="error.unit" placeholder="Unit"

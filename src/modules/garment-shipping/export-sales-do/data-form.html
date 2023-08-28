@@ -46,17 +46,26 @@
         </au-textbox>
 
         
-        <au-autocomplete 
+        <!-- <au-autocomplete 
             label="Bag Gudang Packing" 
             placeholder="Pilih bag gudang Packing" 
             value.bind="data.unit"
             error.bind="error.unit" 
-            loader.bind="unitLoader" 
+            
             text.bind="unitView"
-            query.bind="unitQuery"
+            items.bind="unitOptions"
             read-only.bind="readOnly || isEdit" 
             options.bind="controlOptions">
-        </au-autocomplete>
+        </au-autocomplete> -->
+
+        <au-dropdown
+            label="Bag Gudang Packing" 
+            value.bind="data.unit" 
+            error.bind="error.unit" 
+            read-only.bind="readOnly "
+            items.bind="unitOptions"
+            options.bind="controlOptions">
+        </au-dropdown>
 
         <au-dropdown
             label="Shipment Mode"

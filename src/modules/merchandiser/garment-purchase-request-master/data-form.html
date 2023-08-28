@@ -35,11 +35,11 @@
         <au-autocomplete
             value.bind="selectedPreSalesContract"
             error.bind="error.SalesContract"
-            label="No Sales Contract"
+            label="No Pre Sales Contract"
             loader.bind="preSalesContractLoader"
             text="SCNo"
             query.bind="salesContractFilter"
-            placeholder="No Sales Contract"
+            placeholder="No Pre Sales Contract"
             read-only.bind="readOnly || isEdit"
             options.bind="controlOptions"
             view-model.ref="selectedPreSalesContractViewModel">

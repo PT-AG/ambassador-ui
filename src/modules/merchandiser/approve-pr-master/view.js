@@ -23,6 +23,10 @@ export class View {
         this.data = await this.service.read(id);
 
         if (this.data) {
+
+            console.log(this.data);
+            console.log(this.type);
+
             this.selectedPreSalesContract = {
                 Id: this.data.SCId,
                 SCNo: this.data.SCNo
@@ -59,16 +63,24 @@ export class View {
                     this.hasApprove = !this.data.IsValidatedMD1;
                     // this.hasUnApprove = this.data.IsValidatedMD1 && !this.data.IsValidatedMD2 && !this.data.IsValidated;
                     break;
-                case "Purchasing":
-                    this.hasApprove = this.data.IsValidatedMD1 && !this.data.IsValidatedPurchasing;
-                    break;
+                // case "Purchasing":
+                //     this.hasApprove = this.data.IsValidatedMD1 && !this.data.IsValidatedPurchasing;
+                //     break;
+                // case "MD2":
+                //     this.hasApprove = this.data.IsValidatedMD1 && this.data.IsValidatedPurchasing && !this.data.IsValidatedMD2;
+                //     // this.hasUnApprove = this.data.IsValidatedMD2;
+                //      break;
                 case "MD2":
-                    this.hasApprove = this.data.IsValidatedMD1 && this.data.IsValidatedPurchasing && !this.data.IsValidatedMD2;
-                    // this.hasUnApprove = this.data.IsValidatedMD2;
+                    this.hasApprove = this.data.IsValidatedMD1 && !this.data.IsValidatedMD2 && !this.data.IsValidatedPurchasing;
                     break;
+                case "Purchasing":
+                    this.hasApprove = this.data.IsValidatedMD1 && this.data.IsValidatedMD2 && !this.data.IsValidatedPurchasing;
+                    break;
+                    // this.hasUnApprove = this.data.IsValidatedMD2;
                 default:
                     this.hasApprove = false;
                     this.hasUnApprove = false;
+                    break;
             }
 
             if (this.data.IsPosted === false) {

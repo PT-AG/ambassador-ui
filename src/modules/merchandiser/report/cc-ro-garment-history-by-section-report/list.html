@@ -22,8 +22,8 @@
             options.bind="controlOptions">
         </au-autocomplete>
         
-        <au-datepicker label="Tanggal Validasi RO Kabag Md Awal" value.bind="dateFrom"></au-datepicker>
-        <au-datepicker label="Tanggal Validasi RO Kabag Md Akhir" value.bind="dateTo"></au-datepicker>
+        <au-datepicker label="Tanggal Validasi RO Kasie Md Awal" value.bind="dateFrom"></au-datepicker>
+        <au-datepicker label="Tanggal Validasi RO Kasie Md Akhir" value.bind="dateTo"></au-datepicker>
         <div class="form-group">
             <label for="contact" class="col-sm-6 control-label"></label>
             <div class="col-sm-3">
@@ -43,14 +43,16 @@
                     <th class="text-center">Seksi</th>
                     <th class="text-center">Brand Buyer</th>
                     <th class="text-center">Nama Brand Buyer</th>
+                    <th class="text-center">Tipe Buyer</th>
                     <th class="text-center">Article / Style</th>
                     <th class="text-center">Tgl Shipment</th>        
-                    <th class="text-center">Tgl Validasi CC Kabag Md</th>        
+                    <th class="text-center">Tgl Validasi CC Marketing</th>
+                    <th class="text-center">Tgl Validasi CC Kabag/Kasie MD</th>       
+                    <th class="text-center">Tgl Validasi CC Direktur Penjualan</th>
                     <th class="text-center">Tgl Validasi CC IE</th>        
-                    <th class="text-center">Tgl Validasi CC Kabag Pembelian</th>        
-                    <th class="text-center">Tgl Validasi CC Kadiv Md</th>        
-                    <th class="text-center">Tgl Validasi RO Kabag Md</th>        
-                    <th class="text-center">Tgl Validasi RO Sample</th>                                    
+                    <th class="text-center">Tgl Validasi CC Pembelian</th>    
+                    <th class="text-center">Tgl Validasi RO Kasie Md</th>        
+                    <th class="text-center">Tgl Validasi RO QC</th>                                    
                  </tr>
             </thead>
             <tbody>
@@ -60,12 +62,14 @@
                         <td>${item.Section}</td>
                         <td>${item.BrandCode}</td>
                         <td>${item.BrandName}</td>
+                        <td>${item.Type}</td>
                         <td>${item.Article}</td>
-                        <td>${item.DeliveryDate}</td>                        
+                        <td>${item.DeliveryDate}</td>
+                        <td>${item.ValidatedPPICDate}</td>   
                         <td>${item.ApprovalMDDate}</td>
+                        <td>${item.ApprovalKadivMDDate}</td>
                         <td>${item.ApprovalIEDate}</td>                                  
                         <td>${item.ApprovalPurchDate}</td>
-                        <td>${item.ApprovalKadivMDDate}</td>
                         <td>${item.ValidatedMDDate}</td>
                         <td>${item.ValidatedSampleDate}</td>   
                     </tr>

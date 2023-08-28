@@ -3,12 +3,14 @@ import { inject, bindable, BindingEngine, observable, computedFrom } from 'aurel
 import { ServiceEffeciency } from './service-efficiency';
 import { RateService } from './service-rate';
 import { ServiceCore } from './service-core';
-
+import moment from 'moment';
 
 import numeral from 'numeral';
 numeral.defaultFormat("0,0.00");
 const rateNumberFormat = "0,0.000";
 var PreSalesContractLoader = require('../../../loader/garment-pre-sales-contracts-loader');
+var BookingOrderLoader = require('../../../loader/garment-booking-order-by-no-for-ccg-loader');
+
 var SizeRangeLoader = require('../../../loader/size-range-loader');
 var ComodityLoader = require('../../../loader/garment-comodities-loader');
 var UOMLoader = require('../../../loader/uom-loader');
@@ -28,7 +30,7 @@ export class DataForm {
   @bindable SelectedRounding;
   @bindable isCopy = false;
  
-  leadTimeList = ["", "25 hari", "40 hari"];
+  leadTimeList = ["", "25 hari", "35 hari"];
   defaultRate = { Id: 0, Value: 0, CalculatedValue: 0 };
   rateList = ["", "IDR", "USD"];
 
@@ -138,7 +140,25 @@ export class DataForm {
     this.selectedUnit = this.data.Unit?this.data.Unit:"";
     this.data.OTL1 = this.data.OTL1 ? this.data.OTL1 : Object.assign({}, this.defaultRate);
     this.data.OTL2 = this.data.OTL2 ? this.data.OTL2 : Object.assign({}, this.defaultRate);
-    this.data.ConfirmPrice =this.data.ConfirmPrice ? this.data.ConfirmPrice:0 ;
+    this.data.ConfirmPrice = this.data.ConfirmPrice ? this.data.ConfirmPrice : 0 ;
+    this.selectedComodity = this.data.Comodity ? this.data.Comodity : "";
+    this.data.BuyerCode =  this.data.Buyer ?  this.data.Buyer.Code : "";
+    this.create = this.context.create; 
+    if (!this.create)
+      {
+          this.selectedBookingOrder = {
+               BookingOrderId :this.data.BookingOrderId,
+               BookingOrderItemId : this.data.BookingOrderItemId,
+               BookingOrderNo : this.data.BookingOrderNo, 
+               ConfirmDate : this.data.ConfirmDate,
+               ConfirmQuantity : this.data.BOQuantity,
+               //ComodityName : this.data.Comodity.Name,
+        }
+      }
+      else
+      {
+          this.selectedBookingOrder = null;
+      }
     let promises = [];
 
     let wage;
@@ -236,6 +256,24 @@ export class DataForm {
     return PreSalesContractLoader;
   }
 
+  get bookingOrderLoader() {
+    return BookingOrderLoader;
+  }
+
+  bookingOrderView = (bookingorder) => {                          
+    return`${bookingorder.BookingOrderNo} - ${bookingorder.ComodityName} - ${bookingorder.ConfirmQuantity} - ${moment(bookingorder.ConfirmDate).format("DD MMM YYYY")}`
+  }
+
+ get filter() {
+     var filter = {};
+     filter = {
+               BuyerCode: this.data.BuyerCode,
+               SectionCode: this.data.Section,
+               ComodityCode: this.data.ComodityCode,
+              };          
+     return filter;
+  }
+
   get sizeRangeLoader() {
     return SizeRangeLoader;
   }
@@ -286,6 +324,7 @@ export class DataForm {
       this.data.PreSCId = newValue.Id;
       this.data.PreSCNo = newValue.SCNo;
       this.data.Section = newValue.SectionCode;
+      console.log(this.data.Section);
       const section = await this.serviceCore.getSection(newValue.SectionId);
       this.data.SectionName = section.Name;
       this.data.ApprovalCC = section.ApprovalCC;
@@ -295,6 +334,9 @@ export class DataForm {
         Code: newValue.BuyerAgentCode,
         Name: newValue.BuyerAgentName
       };
+      this.data.BuyerCode = this.data.Buyer.Code;
+      console.log(this.data.BuyerCode);
+
       this.data.BuyerBrand = {
         Id: newValue.BuyerBrandId,
         Code: newValue.BuyerBrandCode,
@@ -309,6 +351,7 @@ export class DataForm {
       this.data.ApprovalRO = null; 
       this.data.Buyer = null;
       this.data.BuyerBrand = null;
+      this.selectedBookingOrder = null;   
     }
 
     if ((oldValue && newValue) || (oldValue && !newValue)) {
@@ -327,6 +370,33 @@ export class DataForm {
     this.costCalculationGarment_MaterialsInfo.options.SCId = this.data.PreSCId;
   }
 
+ 
+ @bindable selectedBookingOrder;
+  async selectedBookingOrderChanged(newValue, oldValue) {
+    //console.log(newValue);
+    if (newValue)
+      {
+        if(!this.data.Id){
+          this.data.BookingOrderId = newValue.BookingOrderId;
+          this.data.BookingOrderItemId = newValue.BookingOrderItemId;
+          this.data.BookingOrderNo = newValue.BookingOrderNo;   
+          this.data.BOQuantity = newValue.ConfirmQuantity;
+          this.data.ConfirmDate = newValue.ConfirmDate;   
+          //this.data.Commodity = newValue.ComodityName;
+
+        } 
+      } 
+      else 
+      {
+        this.data.BookingOrderId = 0;
+        this.data.BookingOrderItemId = 0;
+        this.data.BookingOrderNo = null;      
+        this.data.BOQuantity = 0;
+        this.data.ConfirmDate = null;
+        // this.data.Commodity = this.data.Commodity;
+      }
+  }
+
   @bindable selectedComodity = "";
   selectedComodityChanged(newVal) {
     this.data.Comodity = newVal;
@@ -335,6 +405,11 @@ export class DataForm {
      this.data.ComodityCode=newVal.Code;
      this.data.ComodityName=newVal.Name;
     }
+    else
+    {
+          this.selectedBookingOrder = null;
+    }
+    console.log(this.data.ComodityCode);
   }
 
   @bindable selectedLeadTime = "";
@@ -344,14 +419,17 @@ export class DataForm {
     {
       this.data.LeadTime = 25;
     }
-    else if (newVal === "40 hari")
+    else if (newVal === "35 hari")
     {      
-      this.data.LeadTime = 40;
-      
+      this.data.LeadTime = 35;
     }
-    else
+    // else if (newVal === "40 hari")
+    // {      
+    //   this.data.LeadTime = 40;
+    // }
+    else {
       this.data.LeadTime = 0;
-     
+    }
   }
 
   @bindable imageUpload;
@@ -497,7 +575,6 @@ export class DataForm {
       this.data.UnitName=newVal.Name;
     }
   }
-
 
   @computedFrom('data.SMV_Cutting', 'data.SMV_Sewing', 'data.SMV_Finishing')
   get SMV_Total() {

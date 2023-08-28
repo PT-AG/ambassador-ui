@@ -13,7 +13,7 @@ export class DataForm {
     constructor(service) {
         this.service = service;
     }
-
+    typeOptions=["EXPORT","LOKAL"];
     formOptions = {
         cancelText: "Back"
     }

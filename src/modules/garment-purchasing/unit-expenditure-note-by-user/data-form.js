@@ -114,7 +114,7 @@ export class DataForm {
         }
         else{
             unitDeliveryOrderFilter[`UnitDOType== "${this.data.ExpenditureType}"`]=true;
-            unitDeliveryOrderFilter[`CreatedBy== "${username}"`]=true;
+            //unitDeliveryOrderFilter[`CreatedBy== "${username}"`]=true;
         }
         return unitDeliveryOrderFilter;
     }
@@ -266,6 +266,12 @@ export class DataForm {
                     Items.IsSave = Items.Quantity > 0;
                     Items.IsDisabled = !(Items.Quantity > 0);
 
+                    Items.Rack = item.Rack;
+                    Items.Level = item.Level;
+                    Items.Box = item.Box;
+                    Items.Colour = item.Colour;
+                    Items.Area = item.Area;
+
                     this.data.Items.push(Items);
                 }
             }
@@ -297,5 +303,22 @@ export class DataForm {
             "Jumlah Keluar",
             "Satuan",
             "Tipe Fabric"],
+    };
+
+    itemsFabric = {
+        columns: [
+            "Kode Buyer",
+            "Kode Barang",
+            "Nama Barang",
+            "Keterangan Barang",
+            "Design / Color",
+            "Jumlah Keluar",
+            "Satuan",
+            "Tipe Fabric",
+            "Warna",
+            "Rak",
+            "Box",
+            "Level",
+            "Area",],
     };
 }

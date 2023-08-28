@@ -224,6 +224,7 @@ export class DataForm {
                         qty += detail.Quantity;
                 }
             }
+            this.data.TotalAval=qty;
             return qty;
         }
 
@@ -232,6 +233,7 @@ export class DataForm {
             for(var item of this.data.Items){
                 qty += item.Quantity;
             }
+            this.data.TotalAval=qty;
             return qty;
         }
 

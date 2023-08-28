@@ -33,7 +33,7 @@ export class DataForm {
     }
 
     bankFilter = {
-        DivisionName: "G"
+        DivisionName: "AMBASSADOR GARMINDO 2"
     };
 
     INCOTERMSOptions=["FOB", "FAS","CFR","CIF","EXW","FCA","CPT","CIP","DAT","DAP","DDP"];
@@ -74,14 +74,19 @@ export class DataForm {
                 });
             }
             
-            
-            this.fabricType = {
-                Id: this.data.fabricTypeId,
-                Name: this.data.fabricType
+            if (this.data.packingListType == "LOKAL"){
+                this.fabricType = this.data.fabricType;
+            }else{
+                this.fabricType = {
+                    Id: this.data.fabricTypeId,
+                    Name: this.data.fabricType
+                }
             }
+            
 
             this.data.bankAccountId = this.data.bankAccountId;
             this.packinglists = this.data.invoiceNo;
+            this.packingListType = this.data.packingListType;
             this.isUpdated && this.updateItems(this.data.invoiceNo);
 
             this.data.npeDate=moment(this.data.npeDate).format("DD-MMM-YYYY")=="01-Jan-0001" ? null : this.data.npeDate;
@@ -173,10 +178,17 @@ export class DataForm {
 
     fabricTypeChanged(newValue, oldValue) {
         var selectedfabric = newValue;
-        if (selectedfabric) {
+        console.log(newValue);
+        console.log(this.data.packingListType);
+        if (selectedfabric && this.data.packingListType == "LOKAL") {
+            this.data.fabricTypeId = 0 ;
+            this.data.fabricType = selectedfabric;
+        } else if (selectedfabric && this.data.packingListType == "EXPORT") {
             this.data.fabricTypeId = selectedfabric.Id;
             this.data.fabricType = selectedfabric.Name;
         }
+
+        console.log(this.data.fabricType);
     }
     async packinglistsChanged(newValue, oldValue) {
         var selectedInv = newValue;
@@ -184,7 +196,7 @@ export class DataForm {
             this.data.packinglistId = selectedInv.id;
             this.data.invoiceNo = selectedInv.invoiceNo;
             this.data.invoiceDate = selectedInv.date;
-
+            this.data.packingListType = selectedInv.packingListType;
             this.shippingStaff = {
               Id: selectedInv.shippingStaff.id,
               Name: selectedInv.shippingStaff.name || ""
@@ -234,7 +246,7 @@ export class DataForm {
                 }
                 _item.priceRO = item.priceRO;
                 _item.quantity = item.quantity;
-                _item.cmtPrice=item.priceCMT;
+                _item.cmtPrice = item.priceCMT;
                 _item.comodity = {
                     id: item.comodity.id,
                     code: item.comodity.code,
@@ -280,6 +292,7 @@ export class DataForm {
             }
             this.dataItems=this.data.items;
             this.data.totalAmount = TotalAmount;
+            this.fabricType = null;
 
             this.data.consignee = packingItem.buyerAgent.name;//consignees.join("\n");
             this.percentageProcess(this.dataItems);
@@ -665,5 +678,9 @@ export class DataForm {
 
     itemChanged(e) {
         this.percentageProcess(this.data.items);
+    }
+
+    get isPackinglistType() {
+        return this.data.packingListType && (this.data.packingListType == "EXPORT");
     }
 }

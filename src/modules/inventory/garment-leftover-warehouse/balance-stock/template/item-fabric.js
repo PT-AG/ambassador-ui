@@ -24,7 +24,7 @@ export class ItemFabric {
         this.options = context.options;
 
         if (this.data.Uom == null) {
-            let uomResult = await this.coreService.getUom({ size: 1, filter: JSON.stringify({ Unit: 'MT' }) });
+            let uomResult = await this.coreService.getUom({ size: 1, filter: JSON.stringify({ Unit: 'MTR' }) });
             this.data.Uom = {
                 Id: uomResult.data[0].Id,
                 Unit: uomResult.data[0].Unit

@@ -279,4 +279,21 @@ export class DataForm {
             "Satuan",
             "Tipe Fabric"],
     };
+
+    itemsFabric  = {
+        columns: [
+            "Kode Buyer",
+            "Kode Barang",
+            "Nama Barang",
+            "Keterangan Barang",
+            "Design / Color",
+            "Jumlah Keluar",
+            "Satuan",
+            "Tipe Fabric",
+            "Warna",
+            "Rak",
+            "Box",
+            "Level",
+            "Area",],
+    };
 }

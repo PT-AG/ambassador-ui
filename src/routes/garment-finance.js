@@ -9,7 +9,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "ekspedisi ni",
-      permission: { "B11": 1, "C9": 1, "PG": 1, "APG": 1 },
+      // permission: { "PDU": 1, "C9": 1, "PG": 1 },
+      permission: {"J1":1},
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -23,7 +24,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "ekspedisi ni",
-      permission: { "B13": 1, "C9": 1, "B12": 1, "B11": 1, "PG": 1, "APG": 1, "B9": 1, "B4": 1, "B1": 1 },
+      permission: {"J2":1},
+      // permission: { "PDU":1, "C9": 1, "B9": 2, "B4": 2, "B1": 2 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -37,7 +39,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "ekspedisi ni",
-      permission: { "B13": 1, "C9": 1, "B9": 1 },
+      permission: {"J3":1},
+      // permission: { "PDU": 1, "C9": 1, "B9": 2 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -51,7 +54,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "ekspedisi ni",
-      permission: { "B13": 1, "C9": 1, "B12": 1, "B11": 1, "PG": 1, "APG": 1, "B9": 1, "B4": 1, "B1": 1 },
+      permission: {"J4":1},
+      // permission: { "PDU":1, "C9": 1, "B9": 1, "B4": 1, "B1": 1, PG: 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -65,7 +69,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "ekspedisi ni",
-      permission: { "C9": 1, "B4": 1, "B11": 1 },
+      permission: {"J5":1},
+      // permission: { "PDU":1,"C9": 1, "B4": 2 },
       iconClass: 'fa fa-dashboard'
     },
   },
@@ -80,7 +85,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "ekspedisi ni",
-      permission: { "C9": 1, "B4": 1, "B11": 1 },
+      permission: {"J6":1},
+      // permission: { "PDU":1, "C9": 1, "B9": 1, "B4": 1, "B1": 1, PG: 1 },
       iconClass: 'fa fa-dashboard'
     },
   },
@@ -94,7 +100,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "ekspedisi ni",
-      permission: { "C9": 1, "B4": 1, "B11": 1 },
+      permission: {"J7":1},
+      // permission: { "C9": 1, "B4": 2, "PDU": 1 },
       iconClass: "fa fa-dashboard",
     },
   },
@@ -108,7 +115,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "ekspedisi ni",
-      permission: { "C9": 1, "B4": 1, "B11": 1 },
+      permission: {"J8":1},
+      // permission: { "PDU":1, "C9": 1, "B9": 1, "B4": 1, "B1": 1, PG: 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -122,11 +130,12 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "ekspedisi disposisi",
-      permission: {
-        PG: 1,
-        APG: 1,
-        C9: 1,
-      },
+      permission: {"J9":1},
+      // permission: {
+      //   PG: 1,
+      //   PDU: 1,
+      //   C9: 1,
+      // },
       iconClass: "fa fa-clone",
     }
   },
@@ -140,13 +149,12 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "ekspedisi disposisi",
-      permission: {
-        B9: 1,
-        B13: 1,
-        B4: 1,
-        B11: 1,
-        C9: 1,
-      },
+      permission: {"J10":1},
+      // permission: {
+      //   B9: 2,
+      //   PDU: 1,
+      //   C9: 1,
+      // },
       iconClass: "fa fa-clone",
     },
   },
@@ -160,7 +168,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "ekspedisi disposisi",
-      permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "C9": 1, "PG": 1, "APG": 1 },
+      permission: {"J11":1},
+      // permission: { "PDU":1, "C9": 1, "B9": 2, "B4": 2, "B1": 2,  "PG": 1},
       iconClass: "fa fa-dashboard",
     },
   },
@@ -200,7 +209,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "ekspedisi disposisi",
-      permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "C9": 1 },
+      permission: {"J12":1},
+      // permission: { "PDU": 1, "B4": 2, "C9": 1 },
       iconClass: "fa fa-dashboard",
     }
   },
@@ -214,7 +224,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "ekspedisi disposisi",
-      permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      permission: {"J13":1},
+      // permission: { "PDU": 1, "C9": 1, "B9": 1, "B4": 1, "B1": 1,PG: 1 },
       iconClass: "fa fa-dashboard",
     }
   },
@@ -228,7 +239,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "ekspedisi disposisi",
-      permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      permission: {"J14":1},
+      // permission: { "PDU":1, "C9": 1, "B9": 1, "B4": 1, "B1": 1, PG: 1 },
       iconClass: "fa fa-dashboard",
     }
   },
@@ -242,7 +254,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "report",
-      permission: { "C9": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1 },
+      permission: {"J16":1},
+      // permission: { "C9": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -256,7 +269,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "report",
-      permission: { "B13": 1, "C9": 1 },
+      permission: {"J17":1},
+      // permission: { "B13": 1, "C9": 1, "B1" : 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -270,7 +284,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "report",
-      permission: { "B13": 1, "C9": 1 },
+      permission: {"J18":1},
+      // permission: { "B13": 1, "C9": 1, "B1" : 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -284,7 +299,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "report",
-      permission: { "B13": 1, "C9": 1 },
+      permission: {"J19":1},
+      // permission: { "B13": 1, "C9": 1, "B1" : 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -298,7 +314,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "report",
-      permission: { "B13": 1, "C9": 1 },
+      permission: {"J20":1},
+      // permission: { "B13": 1, "C9": 1, "B1" : 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
@@ -325,7 +342,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "kas bank",
-      permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      //permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      permission: {"J26":1},
       iconClass: "fa fa-dashboard",
     }
   },
@@ -338,8 +356,9 @@ module.exports = [
     auth: true,
     settings: {
       group: "g-finance",
-      subGroup: "kas bank",
-      permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      subGroup: "kas bank",  
+      //permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      permission: {"J27":1},
       iconClass: "fa fa-dashboard",
     }
   },
@@ -353,7 +372,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "report kas bank",
-      permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      //permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      //permission: {"J27":1},
       iconClass: "fa fa-dashboard",
     }
   },
@@ -367,7 +387,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "report kas bank",
-      permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      //permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      //permission: {"J28":1},
       iconClass: "fa fa-dashboard",
     }
   },
@@ -381,7 +402,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "report kas bank",
-      permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      //permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      permission: {"J29":1},
       iconClass: "fa fa-dashboard",
     }
   },
@@ -395,7 +417,38 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "report kas bank",
-      permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      //permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      permission: {"J30":1},
+      iconClass: "fa fa-dashboard",
+    }
+  },
+  {
+    route: "garment-finance/adjustments",
+    name: "memorials",
+    moduleId: "./modules/garment-finance/bank-cash/adjustment/index",
+    nav: true,
+    title: "Jurnal Penyesuaian",
+    auth: true,
+    settings: {
+      group: "g-finance",
+      subGroup: "kas bank",
+      //permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      permission: {"J47":1},
+      iconClass: "fa fa-dashboard",
+    }
+  },
+  {
+    route: "garment-finance/adjustments",
+    name: "memorials",
+    moduleId: "./modules/garment-finance/bank-cash/adjustment/index",
+    nav: true,
+    title: "Jurnal Penyesuaian",
+    auth: true,
+    settings: {
+      group: "g-finance",
+      subGroup: "kas bank",
+      //permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      permission: {"J25":1},
       iconClass: "fa fa-dashboard",
     }
   },
@@ -409,7 +462,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "kas bank",
-      permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      //permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      permission: {"J43":1},
       iconClass: "fa fa-dashboard",
     }
   },
@@ -423,7 +477,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "kas bank",
-      permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      //permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      permission: {"J44":1},
       iconClass: "fa fa-dashboard",
     }
   },
@@ -437,7 +492,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "report kas bank",
-      permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      //permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      permission: {"J31":1},
       iconClass: "fa fa-dashboard",
     }
   },
@@ -451,7 +507,8 @@ module.exports = [
       settings: {
           group: "g-finance",
           subGroup: "approval",
-          permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+          //permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+          permission: {"J40":1},
           iconClass: "fa fa-dashboard"
       }
   },
@@ -465,7 +522,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "kas bank",
-      permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      //permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      permission: {"J28":1},
       iconClass: "fa fa-dashboard",
     }
   },
@@ -479,7 +537,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "kas bank",
-      permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      //permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      permission: {"J26":1},
       iconClass: "fa fa-dashboard",
     }
   },
@@ -493,7 +552,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "report kas bank",
-      permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      //permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      permission: {"J32":1},
       iconClass: "fa fa-dashboard",
     }
   },
@@ -507,7 +567,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "report kas bank",
-      permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      //permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      permission: {"J33":1},
       iconClass: "fa fa-dashboard",
     }
   },
@@ -521,7 +582,8 @@ module.exports = [
       settings: {
           group: "g-finance",
           subGroup: "report kas bank",
-          permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+          //permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+          permission: {"J34":1},
           iconClass: "fa fa-dashboard"
       }
   },
@@ -535,7 +597,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "report kas bank",
-      permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      //permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      permission: {"J35":1},
       iconClass: "fa fa-dashboard",
     }
   },
@@ -549,7 +612,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "report kas bank",
-      permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      //permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      permission: {"J36":1},
       iconClass: "fa fa-dashboard",
     }
   },
@@ -563,7 +627,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "report kas bank",
-      permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      //permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      permission: {"J37":1},
       iconClass: "fa fa-dashboard",
     }
   },
@@ -577,7 +642,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "report kas bank",
-      permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      //permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      permission: {"J38":1},
       iconClass: "fa fa-dashboard",
     }
   },
@@ -591,7 +657,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "report kas bank",
-      permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      //permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      permission: {"J39":1},
       iconClass: "fa fa-dashboard",
     }
   },
@@ -605,7 +672,8 @@ module.exports = [
     settings: {
       group: "g-finance",
       subGroup: "ekspedisi disposisi",
-      permission: { "B9": 1, "B13": 1, "B4": 1, "B11": 1, "B1": 1, "B12": 1, "PG": 1, "APG": 1, "C9": 1 },
+      permission: {"J15":1},
+      // permission: { "PDU": 1, "C9": 1, "B9": 1, "B4": 1, "B1": 1, PG: 1 },
       iconClass: "fa fa-dashboard",
     }
   },

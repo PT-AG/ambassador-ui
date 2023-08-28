@@ -25,7 +25,6 @@ class Service extends RestService {
         return super.list(endpoint, info);
     }
 
-    
     getFinishedGoodByRo(info) {
         var endpoint = `${finishedGoodServiceUri}/get-by-ro`;
         return super.list(endpoint, info);
@@ -65,6 +64,8 @@ class Service extends RestService {
 
 const costCalculationServiceUri = 'cost-calculation-garments';
 const serviceUriSalesContract = "merchandiser/garment-sales-contracts";
+//const serviceUriSalesContract = "merchandiser/garment-sales-contracts/by-ro";
+
 class SalesService extends RestService {
     constructor(http, aggregator, config, api) {
         super(http, aggregator, config, "sales");
@@ -79,8 +80,12 @@ class SalesService extends RestService {
         var endpoint = `${serviceUriSalesContract}`;
         return super.list(endpoint, info);
     }
-}
 
+    // getSalesContractByRONo(ro) {
+    //     var endpoint = `${serviceUriSalesContract}/${ro}`;
+    //     return super.get(endpoint);
+    // }
+}
 
 const serviceUriPR = 'garment-purchase-requests';
 class PurchasingService extends RestService {
@@ -104,8 +109,7 @@ class PackingInventoryService extends RestService {
         var endpoint = `${shippingInvoiceServiceUri}/${id}`;
         return super.get(endpoint);
     }
-
-     
 }
-export { Service,SalesService,PurchasingService ,PackingInventoryService}
+
+export { Service, SalesService, PurchasingService, PackingInventoryService }
 

@@ -6,7 +6,7 @@ import moment from 'moment';
 @inject(Router, Service)
 export class List {
 
-    context = ["Rincian"]
+    context = ["Rincian", "Cetak PDF"]
 
     columns = [
 
@@ -21,7 +21,7 @@ export class List {
         { field: "UnitDOType", title: "Jenis Delivery Order" },
         { field: "UnitRequestName", title: "Unit Yang Meminta" },
         { field: "StorageName", title: "Gudang Yang Mengirim" },
-        { field: "CreatedBy", title: "Yamg Membuat" },        
+        { field: "CreatedBy", title: "Yamg Membuat" },
     ];
 
     loader = (info) => {
@@ -32,7 +32,8 @@ export class List {
             page: parseInt(info.offset / info.limit, 10) + 1,
             size: info.limit,
             keyword: info.search,
-            order: order
+            order: order,
+            filter: JSON.stringify({ 'UnitDOType=="MARKETING"': false })
         }
 
         return this.service.search(arg)
@@ -69,17 +70,20 @@ export class List {
             case "Rincian":
                 this.router.navigateToRoute('view', { id: data.Id });
                 break;
+            case "Cetak PDF":
+                this.service.getPdfById(data.Id);
+                break;
         }
     }
 
-    contextShowCallback(index, name, data) {
-        switch (name) {
-            case "Cetak PDF":
-                return data.IsPosted;
-            default:
-                return true;
-        }
-    }
+    // contextShowCallback(index, name, data) {
+    //     switch (name) {
+    //         case "Cetak PDF":
+    //             return data.IsPosted;
+    //         default:
+    //             return true;
+    //     }
+    // }
 
     create() {
         this.router.navigateToRoute('create');

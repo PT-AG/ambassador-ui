@@ -51,6 +51,7 @@ class Service extends RestService {
         var endpoint = `${cuttingInUri}/complete`;
         return super.list(endpoint, info);
     }
+
     getPdfById(id) {
         var endpoint = `${serviceUri}/get-pdf/${id}`;
         return super.getPdf(endpoint);
@@ -62,10 +63,14 @@ class Service extends RestService {
     }
 
     generateExcel(info) {
-        var endpoint = `${serviceUri}/download?dateFrom=${info.dateFrom}&dateTo=${info.dateTo}`;       
+        var endpoint = `${serviceUri}/download?dateFrom=${info.dateFrom}&dateTo=${info.dateTo}`;
         return super.getXls(endpoint);
     }
 
+    getCuttingInByROLoader(info) {
+        var endpoint = `${cuttingInUri}/by-roNo-Subcon`;
+        return super.list(endpoint, info);
+    }
 
 }
 
@@ -78,7 +83,7 @@ class CoreService extends RestService {
         var endpoint = `${comodityServiceUri}`;
         return super.list(endpoint, info);
     }
-    getUom(info) { 
+    getUom(info) {
         var endpoint = `${uomServiceUri}`;
         return super.list(endpoint, info);
     }
@@ -100,4 +105,4 @@ class SalesService extends RestService {
     }
 }
 
-export { Service, CoreService,SalesService }
+export { Service, CoreService, SalesService }
