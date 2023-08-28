@@ -101,10 +101,10 @@
         </div>
 
         <template if.bind="tableData.length > 0">
-            <au-textbox label="KESIAPAN BUDGET DENGAN LEAD TIME 40 HARI" read-only="true"></au-textbox>
-            <au-textbox label="Status OK" value="Selisih Tgl Kesiapan Budget dengan Tgl Shipment >= 40 hari" read-only="true"></au-textbox>
+            <au-textbox label="KESIAPAN BUDGET DENGAN LEAD TIME 35 HARI" read-only="true"></au-textbox>
+            <au-textbox label="Status OK" value="Selisih Tgl Kesiapan Budget dengan Tgl Shipment >= 35 hari" read-only="true"></au-textbox>
             <au-textbox label="Persentase Status OK" value="${dataOk35.total}/${tot35} X 100% = ${dataOk35.percent} %" read-only="true"></au-textbox>
-            <au-textbox label="Status NOT OK" value="Selisih Tgl Kesiapan Budget dengan Tgl Shipment < 40 hari" read-only="true"></au-textbox>
+            <au-textbox label="Status NOT OK" value="Selisih Tgl Kesiapan Budget dengan Tgl Shipment < 35 hari" read-only="true"></au-textbox>
             <au-textbox label="Persentase Status NOT OK" value="${dataNotOk35.total}/${tot35} X 100% = ${dataNotOk35.percent} %" read-only="true"></au-textbox>
         </template>
 
