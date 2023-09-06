@@ -20,17 +20,17 @@ export class List {
         this.service = service;
         this.router = router;
     }
+
     attached() {
     }
 
     activate() {
     }
 
-    search(){
-            this.info.page = 1;
-            this.info.total=0;
-            this.searching();
-        
+    search() {
+        this.info.page = 1;
+        this.info.total=0;
+        this.searching();
     }
       
     searching() {
@@ -53,41 +53,40 @@ export class List {
             dateToEx : this.dateToEx ? moment(this.dateToEx).format("YYYY-MM-DD") : ""
         };
 
-    
         this.service.search(args)
             .then(result => {
                 console.log(result.data);
                 var resultTotal=0;
                 //this.info.total=result.info.total; 
-                this.data = result.data.Result;
+                //this.data = result.data.Result;
+                this.data = result.data;
+
                 for(var item of this.data)
                 {
-                    this.resultTotal= item.Total;
-                   
-                    item.totalBudget =  numeral(item.prBudgetPrice * item.poDefaultQty).format("0,000.00");
+                    this.resultTotal = item.Total;
+                    item.totalBudget = numeral(item.prBudgetPrice * item.poDefaultQty).format("0,000.00");
                 }
-         this.info.total= this.resultTotal;
+                this.info.total = this.resultTotal;
             })
     }
 
     reset() {
-    this.unit = "",
-
-    this.epoNo = "",
-    this.article = "",
-    this.roNo = "",
-    this.poSerialNumber = "",
-    this.doNo = "",
-    this.supplier = "",
-    this.account = "",
-    this.poState="",
-    this.poIntState="",
-    this.dateFrom= "",
-    this.dateTo="",
-    this.dateFromEx= "",
-    this.dateToEx="",
-    this.data = [];
-    this.info.page = 1;
+        this.unit = "",
+        this.epoNo = "",
+        this.article = "",
+        this.roNo = "",
+        this.poSerialNumber = "",
+        this.doNo = "",
+        this.supplier = "",
+        this.account = "",
+        this.poState="",
+        this.poIntState="",
+        this.dateFrom= "",
+        this.dateTo="",
+        this.dateFromEx= "",
+        this.dateToEx="",
+        this.data = [];
+        this.info.page = 1;
     }
 
     exportToXls() {
@@ -123,40 +122,42 @@ export class List {
         }
 
     }
+
     changePage(e) {
         var page = e.detail;
         this.info.page = page;
         this.searching();
     }
 
-
     get unitLoader() {
         return UnitLoader;
     }
-        unitView = (unit) => {
+
+    unitView = (unit) => {
         return `${unit.Code}-${unit.Name}`
-      }
+    }
 
     get categoryLoader() {
         return CategoryLoader;
     }
-        categoryView = (category) => {
+
+    categoryView = (category) => {
         return `${category.code}-${category.name}`
-      }
+    }
 
     get supplierLoader() {
         return SupplierLoader;
     }
-        supplierView = (supplier) => {
+    
+    supplierView = (supplier) => {
         return `${supplier.code}-${supplier.name}`
-      }
+    }
 
     get accountLoader() {
-      
         return AccountLoader;
     }
-    accountView = (account) => {
-         
+
+    accountView = (account) => { 
         return `${account.CreatedBy}`;
-  }
+    }
 }
