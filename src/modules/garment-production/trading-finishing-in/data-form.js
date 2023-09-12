@@ -172,7 +172,7 @@ export class DataForm {
                     this.itemsRONo = [""];
                     for (var item of result.items) {
                         for (var detail of item.fulfillments) {
-                            if (this.itemsRONo.indexOf(detail.rONo) < 0 && detail.product.Code === "BJ001") {
+                            if (this.itemsRONo.indexOf(detail.rONo) < 0 && (detail.product.Code === "BJ001" || detail.product.Code === "GAR")) {
                                 this.itemsRONo.push(detail.rONo);
                             }
                             
@@ -200,7 +200,7 @@ export class DataForm {
             let DODetailIds = [];
             for (var item of this.garmentDOData.items) {
                 for (var detail of item.fulfillments) {
-                    if (detail.rONo === newValue && detail.product.Code === "BJ001") {
+                    if (detail.rONo === newValue && (detail.product.Code === "BJ001" || detail.product.Code === "GAR")) {
                         DODetailIds.push(detail.Id);
                     }
 
@@ -247,7 +247,7 @@ export class DataForm {
                                 }
                                 for (var item of this.garmentDOData.items) {
                                     for (var detail of item.fulfillments) {
-                                        if (detail.rONo === newValue && detail.product.Code === "BJ001") {
+                                        if (detail.rONo === newValue && (detail.product.Code === "BJ001" || detail.product.Code === "GAR")) {
                                             this.dataDODetails.push({
                                                 ProductCode: detail.product.Code,
                                                 ProductName: detail.product.Name,
