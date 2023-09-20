@@ -332,9 +332,11 @@
                 <au-numeric
                     label="Resiko (%)"
                     value.bind="data.Risk"
-                    error.bind="error.Risk"
-                    options.bind="length4">
+                    options.bind="length4"
+                    read-only="disabled">
                 </au-numeric>
+                    <!--error.bind="error.Risk"
+                    options.bind="length4"-->
             </div>
             <div class="col-md-5">
                 <div class="row">
