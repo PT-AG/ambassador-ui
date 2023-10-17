@@ -41,7 +41,7 @@ export class List {
         },
         { field: 'Status', title: 'Dikirim ke?' },
         { field: 'TotalPaid', title: 'Total Bayar',formatter: function(value,data,index){
-            return numeral(value).format('0.00');
+            return numeral(value).format('0.0000');
         } },
         { field: 'CurrencyCode', title: 'Mata Uang' },
         {

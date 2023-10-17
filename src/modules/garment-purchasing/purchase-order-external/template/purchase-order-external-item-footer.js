@@ -8,9 +8,9 @@ export class PurchaseOrderItemHeader {
     if (this.context.items) {
       if (this.context.items.length > 0) {
         var qty = this.context.items
-          .map((item) => parseFloat(parseFloat(item.data.DealQuantity).toFixed(2)));
+          .map((item) => parseFloat(parseFloat(item.data.DealQuantity).toFixed(4)));
         return qty
-          .reduce((prev, curr, index) => { return prev + parseFloat(curr.toFixed(2)) }, 0);
+          .reduce((prev, curr, index) => { return prev + parseFloat(curr.toFixed(4)) }, 0);
       } else {
         return 0;
       }

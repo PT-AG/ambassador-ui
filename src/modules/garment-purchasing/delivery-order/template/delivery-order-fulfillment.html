@@ -70,6 +70,7 @@
             <div  show.bind="!isWarning">
                 <au-numeric 
                     value.bind="doQuantity" 
+                    format="0,000.0000"
                     error.bind="error.doQuantity" 
                     read-only.bind="options.readOnly"
                     options.bind="controlOptions">
@@ -112,6 +113,7 @@
             <au-numeric 
                 value.bind="smallQuantity"
                 read-only.bind="true"
+                format="0,000.0000"
                 options.bind="controlOptions">
             </au-numeric>
         </td>
@@ -126,6 +128,7 @@
             <au-textbox 
                 value.bind="data.pricePerDealUnit" 
                 read-only.bind="true" 
+                format="0,000.0000"
                 options.bind="controlOptions">
             </au-textbox>
         </td>
@@ -133,6 +136,7 @@
             <au-numeric 
                 value.bind="priceTotal" 
                 read-only.bind="true" 
+                format="0,000.0000"
                 options.bind="controlOptions">
             </au-numeric>
         </td>

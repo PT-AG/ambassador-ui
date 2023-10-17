@@ -28,7 +28,7 @@ export class List {
         { field: 'CurrencyCode', title: 'Mata Uang' },
         {
             field: "Amount", title: "Total Bayar", formatter: function (value, data, index) {
-                return numeral(value).format("0,000.00");
+                return numeral(value).format("0,000.0000");
             }, align: "right"
         },
         { field: 'Remark', title: 'Keterangan' },

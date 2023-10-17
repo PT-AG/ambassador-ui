@@ -21,6 +21,7 @@
         <td class="col-sm-2">
             <au-numeric 
                 value.bind="vatValue"
+				format="0,000.0000"
                 show.bind="selectedEPO"
                 read-only="true"
                 error.bind="error.incomeTax">
@@ -46,6 +47,7 @@
             <au-numeric 
                 value.bind="dppValue"
                 show.bind="selectedEPO"
+				format="0,000.0000"
                 read-only="true"
                 error.bind="error.dppValue">
             </au-numeric>
@@ -54,6 +56,7 @@
             <au-numeric 
                 value.bind="incomeTaxValue"
                 show.bind="selectedEPO"
+				format="0,000.0000"
                 read-only="true"
                 error.bind="error.incomeTax">
             </au-numeric>

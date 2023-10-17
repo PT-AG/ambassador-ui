@@ -16,8 +16,8 @@ export class DeliveryOrderItem {
     @computedFrom("data.ReceiptQuantity", "data.Conversion")
     get SmallQuantity() {
 		// this.data.SmallQuantity = parseFloat((this.data.ReceiptQuantity * this.data.Conversion).toFixed(2));
-		this.data.SmallQuantity = parseFloat(this.data.ReceiptQuantity * this.data.Conversion).toLocaleString('en-EN', { minimumFractionDigits: 2,maximumFractionDigits: 2  });;
-        return parseFloat(this.data.ReceiptQuantity * this.data.Conversion).toLocaleString('en-EN', { minimumFractionDigits: 2,maximumFractionDigits: 2  });
+		this.data.SmallQuantity = parseFloat(this.data.ReceiptQuantity * this.data.Conversion).toLocaleString('en-EN', { minimumFractionDigits: 4,maximumFractionDigits: 4  });;
+        return parseFloat(this.data.ReceiptQuantity * this.data.Conversion).toLocaleString('en-EN', { minimumFractionDigits: 4,maximumFractionDigits: 4  });
 	}
 	
 	conversionChanged(e) {

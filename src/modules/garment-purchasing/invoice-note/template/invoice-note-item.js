@@ -37,12 +37,12 @@ export class DeliveryOrderItem {
     this.options = context.context.options;
     if(this.data.deliveryOrder){
       // this.data.deliveryOrder.totalAmount=this.data.deliveryOrder.totalAmount.toLocaleString('en-EN', { maximumFractionDigits: 2,minimumFractionDigits:2});
-      this.totalAmount = this.data.deliveryOrder.totalAmount.toLocaleString('en-EN', { maximumFractionDigits: 2,minimumFractionDigits:2});
+      this.totalAmount = this.data.deliveryOrder.totalAmount.toLocaleString('en-EN', { maximumFractionDigits: 4,minimumFractionDigits:4});
     }
     if (this.data.Id) {
       this.deliveryOrder =  this.data.deliveryOrder.doNo ;
       //  this.data.deliveryOrder.totalAmount= this.data.deliveryOrder.totalAmount.toLocaleString('en-EN', { maximumFractionDigits: 2,minimumFractionDigits:2});
-      this.totalAmount = this.data.deliveryOrder.totalAmount.toLocaleString('en-EN', { maximumFractionDigits: 2,minimumFractionDigits:2});
+      this.totalAmount = this.data.deliveryOrder.totalAmount.toLocaleString('en-EN', { maximumFractionDigits: 4,minimumFractionDigits:4});
     }
     this.filter={};
     if (this.options.supplierId && this.options.currencyCode && !this.options.useIncomeTax) {
@@ -123,7 +123,7 @@ export class DeliveryOrderItem {
       this.data.doDate = this.deliveryOrder.doDate;
       this.data.arrivalDate = this.deliveryOrder.arrivalDate;
       // this.deliveryOrder.totalAmount=  this.deliveryOrder.totalAmount.toLocaleString('en-EN', { maximumFractionDigits: 2,minimumFractionDigits:2});
-      this.totalAmount = this.deliveryOrder.totalAmount.toLocaleString('en-EN', { maximumFractionDigits: 2,minimumFractionDigits:2});
+      this.totalAmount = this.deliveryOrder.totalAmount.toLocaleString('en-EN', { maximumFractionDigits: 4,minimumFractionDigits:4});
       this.data.totalAmount=this.deliveryOrder.totalAmount;
       this.data.deliveryOrder=this.deliveryOrder;
     }

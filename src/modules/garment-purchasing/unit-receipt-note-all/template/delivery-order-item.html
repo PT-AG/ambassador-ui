@@ -21,6 +21,7 @@
 		<td>
 			<au-numeric
 				value.bind="data.ReceiptQuantity"
+                format="0,000.0000"
 				read-only.bind="readOnly"
 				error.bind="error.ReceiptQuantity">
 			</au-numeric>
@@ -44,6 +45,7 @@
         <td>
             <au-numeric 
                 value.bind="SmallQuantity"
+                format="0,000.0000"
                 read-only.bind="true"
                 options.bind="controlOptions">
             </au-numeric>

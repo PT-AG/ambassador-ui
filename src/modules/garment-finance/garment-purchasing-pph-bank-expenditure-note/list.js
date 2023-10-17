@@ -34,7 +34,7 @@ export class List {
             field: "TotalIncomeTax",
             title: "Total PPH",
             formatter: function(value, data, index) {
-                return numeral(value).format('0,000.00');
+                return numeral(value).format('0,000.0000');
             },
             align: 'right'
         },
@@ -42,7 +42,7 @@ export class List {
             field: "TotalDpp",
             title: "Total DPP",
             formatter: function(value, data, index) {
-                return numeral(value).format('0,000.00');
+                return numeral(value).format('0,000.0000');
             },
             align: 'right'
         },

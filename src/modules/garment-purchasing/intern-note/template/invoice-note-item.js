@@ -5,8 +5,8 @@ export class InvoiceNoteItem {
 		this.error = context.error;
 		this.readOnly = context.options.readOnly;
 		this.data.pricePerDealUnit=this.data.pricePerDealUnit.toLocaleString('en-EN', { maximumFractionDigits: 4,minimumFractionDigits:4});
-		this.data.quantity=this.data.quantity.toLocaleString('en-EN', { maximumFractionDigits: 2,minimumFractionDigits:2});
-		this.data.priceTotal=this.data.priceTotal.toLocaleString('en-EN', { maximumFractionDigits: 2,minimumFractionDigits:2});
+		this.data.quantity=this.data.quantity.toLocaleString('en-EN', { maximumFractionDigits: 4,minimumFractionDigits:4});
+		this.data.priceTotal=this.data.priceTotal.toLocaleString('en-EN', { maximumFractionDigits: 4,minimumFractionDigits:4});
 		var receiptQuantityTotal = 0;
 		var deliveryOrderItems = this.data.deliveryOrder.items || [];
 		for(let coba of deliveryOrderItems){
