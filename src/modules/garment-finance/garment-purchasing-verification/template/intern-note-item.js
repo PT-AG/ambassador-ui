@@ -38,7 +38,7 @@ export class InternNoteItem {
 		// console.log(context);
 		if (this.data.garmentInvoice && this.data.garmentInvoice.invoiceNo) {
 			this.invoice = this.data.garmentInvoice;
-			this.data.garmentInvoice.totalAmount = this.data.garmentInvoice.totalAmount.toLocaleString('en-EN', { maximumFractionDigits: 2, minimumFractionDigits: 2 });
+			this.data.garmentInvoice.totalAmount = this.data.garmentInvoice.totalAmount.toLocaleString('en-EN', { maximumFractionDigits: 4, minimumFractionDigits: 4 });
 		}
 
 		// this.filter = {};
@@ -98,7 +98,7 @@ export class InternNoteItem {
 		this.service.getGarmentInvoiceById(id)
 			.then(garmentInvoice => {
 				this.data.garmentInvoice = garmentInvoice;
-				this.data.garmentInvoice.totalAmount = this.getTotal(garmentInvoice).toLocaleString('en-EN', { maximumFractionDigits: 2, minimumFractionDigits: 2 });
+				this.data.garmentInvoice.totalAmount = this.getTotal(garmentInvoice).toLocaleString('en-EN', { maximumFractionDigits: 4, minimumFractionDigits: 4 });
 				this.details = [];
 				for (var garmentInvoiceItem of garmentInvoice.items) {
 					for (var detail of garmentInvoiceItem.details) {
@@ -111,9 +111,9 @@ export class InternNoteItem {
 							poSerialNumber: detail.pOSerialNumber,
 							roNo: detail.roNo,
 							pricePerDealUnit: detail.pricePerDealUnit.toLocaleString('en-EN', { maximumFractionDigits: 4, minimumFractionDigits: 4 }),
-							priceTotal: prices.toLocaleString('en-EN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }),
+							priceTotal: prices.toLocaleString('en-EN', { maximumFractionDigits: 4, minimumFractionDigits: 4 }),
 							paymentDueDays: detail.paymentDueDays,
-							quantity: detail.doQuantity.toLocaleString('en-EN', { maximumFractionDigits: 2, minimumFractionDigits: 2 }),
+							quantity: detail.doQuantity.toLocaleString('en-EN', { maximumFractionDigits: 4, minimumFractionDigits: 4 }),
 							invoiceDetailId: detail.Id,
 							paymentDueDate: new Date(dueDays),
 							deliveryOrder: {

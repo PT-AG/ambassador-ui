@@ -45,7 +45,7 @@ export class List {
       field: "Amount",
       title: "Total Bayar",
       formatter: function (value, data, index) {
-        return numeral(value).format("0,000.00");
+        return numeral(value).format("0,000.0000");
       },
       align: "right",
     },
@@ -88,7 +88,7 @@ export class List {
       field: "Amount",
       title: "Total Bayar",
       formatter: function (value, data, index) {
-        return numeral(value).format("0,000.00");
+        return numeral(value).format("0,000.0000");
       },
       align: "right",
     },
@@ -117,7 +117,7 @@ export class List {
       field: "Amount",
       title: "Total Bayar",
       formatter: function (value, data, index) {
-        return numeral(value).format("0,000.00");
+        return numeral(value).format("0,000.0000");
       },
       align: "right",
     },

@@ -128,18 +128,18 @@ export class List {
             BankExpenditureNoteNo: item.BankExpenditureNoteNo,
             InternalNoteNo: item.InternalNoteNo,
             InvoiceNo: item.InvoiceNo,
-            DPPAmount: item.DPPAmount ? numeral(item.DPPAmount).format("0,000.00") : 0,
-            CurrencyDPPAmount: item.CurrencyDPPAmount ? numeral(item.CurrencyDPPAmount).format("0,000.00") : 0,
-            VATAmount: item.VATAmount ? numeral(item.VATAmount).format("0,000.00") : 0,
-            IncomeTaxAmount: item.IncomeTaxAmount ? numeral(item.IncomeTaxAmount).format("0,000.00") : 0,
-            TotalInvoice: item.TotalInvoice ? numeral(item.TotalInvoice).format("0,000.00") : 0,
-            MutationPurchase: item.MutationPurchase ? numeral(item.MutationPurchase).format("0,000.00") : 0,
-            CurrencyMutationPurchase: item.CurrencyMutationPurchase ? numeral(item.CurrencyMutationPurchase).format("0,000.00") : 0,
-            MutationPayment: item.MutationPayment ? numeral(item.MutationPayment).format("0,000.00") : 0,
-            CurrencyMutationPayment: item.CurrencyMutationPayment ? numeral(item.CurrencyMutationPayment).format("0,000.00") : 0,
-            RemainBalance: item.RemainBalance ? numeral(item.RemainBalance).format("0,000.00") : 0,
-            CurrencyRemainBalance: item.CurrencyRemainBalance ? numeral(item.CurrencyRemainBalance).format("0,000.00") : 0,
-            InitialBalance: item.InitialBalance ? numeral(item.InitialBalance).format("0,000.00") : 0
+            DPPAmount: item.DPPAmount ? numeral(item.DPPAmount).format("0,000.0000") : 0,
+            CurrencyDPPAmount: item.CurrencyDPPAmount ? numeral(item.CurrencyDPPAmount).format("0,000.0000") : 0,
+            VATAmount: item.VATAmount ? numeral(item.VATAmount).format("0,000.0000") : 0,
+            IncomeTaxAmount: item.IncomeTaxAmount ? numeral(item.IncomeTaxAmount).format("0,000.0000") : 0,
+            TotalInvoice: item.TotalInvoice ? numeral(item.TotalInvoice).format("0,000.0000") : 0,
+            MutationPurchase: item.MutationPurchase ? numeral(item.MutationPurchase).format("0,000.0000") : 0,
+            CurrencyMutationPurchase: item.CurrencyMutationPurchase ? numeral(item.CurrencyMutationPurchase).format("0,000.0000") : 0,
+            MutationPayment: item.MutationPayment ? numeral(item.MutationPayment).format("0,000.0000") : 0,
+            CurrencyMutationPayment: item.CurrencyMutationPayment ? numeral(item.CurrencyMutationPayment).format("0,000.0000") : 0,
+            RemainBalance: item.RemainBalance ? numeral(item.RemainBalance).format("0,000.0000") : 0,
+            CurrencyRemainBalance: item.CurrencyRemainBalance ? numeral(item.CurrencyRemainBalance).format("0,000.0000") : 0,
+            InitialBalance: item.InitialBalance ? numeral(item.InitialBalance).format("0,000.0000") : 0
           };
           // } else if (!item.InvoiceDate && item.Mutation != null) {
           //   continue;
@@ -172,9 +172,9 @@ export class List {
           if (item.Currency) this.currency = item.Currency;
           newDatas.push(newData);
         }
-        this.closingBalance = numeral(result.finalBalance).format("0,000.00");
-        this.payment = numeral(this.payment).format("0,000.00");
-        this.purchase = numeral(this.purchase).format("0,000.00");
+        this.closingBalance = numeral(result.finalBalance).format("0,000.0000");
+        this.payment = numeral(this.payment).format("0,000.0000");
+        this.purchase = numeral(this.purchase).format("0,000.0000");
         // this.mutation = numeral(result.finalBalance).format('0,00');
 
         return newDatas;

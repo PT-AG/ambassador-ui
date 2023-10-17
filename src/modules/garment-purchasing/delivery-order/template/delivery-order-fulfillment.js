@@ -11,9 +11,9 @@ export class DeliveryOrderItem {
     this.context = context;
     this.data = context.data;
     this.data.pricePerDealUnit = this.data.pricePerDealUnit.toLocaleString('en-EN', { minimumFractionDigits: 4 }).replace(",","");
-    this.data.dealQuantity = this.data.dealQuantity.toLocaleString('en-EN', { minimumFractionDigits: 2 }).replace(",","");
+    this.data.dealQuantity = this.data.dealQuantity.toLocaleString('en-EN', { minimumFractionDigits: 4 }).replace(",","");
     // this.data.conversion = this.data.conversion.toLocaleString('en-EN', { minimumFractionDigits: 2 }).replace(",","");
-    this.data.doQuantity = this.data.doQuantity.toLocaleString('en-EN', { minimumFractionDigits: 2 }).replace(",","");
+    this.data.doQuantity = this.data.doQuantity.toLocaleString('en-EN', { minimumFractionDigits: 4 }).replace(",","");
     this.error = context.error;
     this.options = context.options;
     this.hasView = this.context.context.options.hasView;
@@ -43,12 +43,12 @@ export class DeliveryOrderItem {
 
   get smallQuantity() {
     this.data.smallQuantity= this.data.doQuantity * this.data.conversion;
-    return (Number(this.data.doQuantity) * Number(this.data.conversion)).toLocaleString('en-EN', { minimumFractionDigits: 2,maximumFractionDigits: 2  })
+    return (Number(this.data.doQuantity) * Number(this.data.conversion)).toLocaleString('en-EN', { minimumFractionDigits: 4,maximumFractionDigits: 4  })
   }
 
   get priceTotal() {
     this.data.priceTotal = this.data.doQuantity * this.data.pricePerDealUnit;
-    return (Number(this.data.doQuantity) * Number(this.data.pricePerDealUnit)).toLocaleString('en-EN', { minimumFractionDigits: 2,maximumFractionDigits: 2  });
+    return (Number(this.data.doQuantity) * Number(this.data.pricePerDealUnit)).toLocaleString('en-EN', { minimumFractionDigits: 4,maximumFractionDigits: 4  });
   }
 
   get productLoader() {

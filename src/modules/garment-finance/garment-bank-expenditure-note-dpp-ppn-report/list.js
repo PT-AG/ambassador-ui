@@ -35,7 +35,7 @@ export class List {
       field: "DPP",
       title: "DPP",
       formatter: function (value, data, index) {
-        return value ? numeral(value).format("0,000.00") : "-";
+        return value ? numeral(value).format("0,000.0000") : "-";
       },
       align: "right",
     },
@@ -43,7 +43,7 @@ export class List {
       field: "VAT",
       title: "PPN",
       formatter: function (value, data, index) {
-        return value || value == 0 ? numeral(value).format("0,000.00") : "-";
+        return value || value == 0 ? numeral(value).format("0,000.0000") : "-";
       },
       align: "right",
     },
@@ -51,7 +51,7 @@ export class List {
       field: "InternalNoteAmount",
       title: "Total Bayar Ke Supplier",
       formatter: function (value, data, index) {
-        return value ? numeral(value).format("0,000.00") : "-";
+        return value ? numeral(value).format("0,000.0000") : "-";
       },
       align: "right",
     },
@@ -64,7 +64,7 @@ export class List {
       field: "InvoiceAmount",
       title: "Nilai Invoice",
       formatter: function (value, data, index) {
-        return value ? numeral(value).format("0,000.00") : numeral(0).format("0,000.00");
+        return value ? numeral(value).format("0,000.0000") : numeral(0).format("0,000.0000");
       },
       align: "right",
     },
@@ -72,7 +72,7 @@ export class List {
       field: "InvoiceAmount",
       title: "Nilai Dibayar",
       formatter: function (value, data, index) {
-        return value ? numeral(value).format("0,000.00") : numeral(0).format("0,000.00");
+        return value ? numeral(value).format("0,000.0000") : numeral(0).format("0,000.0000");
       },
       align: "right",
     },
@@ -80,7 +80,7 @@ export class List {
       field: "Difference",
       title: "Selisih",
       formatter: function (value, data, index) {
-        return value ? numeral(value).format("0,000.00") : numeral(0).format("0,000.00");
+        return value ? numeral(value).format("0,000.0000") : numeral(0).format("0,000.0000");
       },
       align: "right",
     },

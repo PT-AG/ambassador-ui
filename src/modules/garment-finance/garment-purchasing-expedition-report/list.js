@@ -105,7 +105,7 @@ export class List {
         field: "DPP",
         title: "DPP",
         formatter: function (value, data, index) {
-          return value ? numeral(value).format("0,000.00") : "-";
+          return value ? numeral(value).format("0,000.0000") : "-";
         },
         sortable: true,
         align: "right",
@@ -115,7 +115,7 @@ export class List {
         field: "VAT",
         title: "PPN",
         formatter: function (value, data, index) {
-          return value ? numeral(value).format("0,000.00") : "-";
+          return value ? numeral(value).format("0,000.0000") : "-";
         },
         sortable: true,
         align: "right",
@@ -124,7 +124,7 @@ export class List {
         field: "IncomeTax",
         title: "PPh",
         formatter: function (value, data, index) {
-          return value ? numeral(value).format("0,000.00") : "-";
+          return value ? numeral(value).format("0,000.0000") : "-";
         },
         sortable: true,
         align: "right",
@@ -133,7 +133,7 @@ export class List {
         field: "TotalPaid",
         title: "Total",
         formatter: function (value, data, index) {
-          return value ? numeral(value).format("0,000.00") : "-";
+          return value ? numeral(value).format("0,000.0000") : "-";
         },
         sortable: true,
         align: "right",

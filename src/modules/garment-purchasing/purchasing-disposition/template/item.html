@@ -22,6 +22,7 @@
             <au-numeric 
                 value.bind="vatValue"
                 show.bind="selectedEPO"
+				format="0,000.0000"
                 read-only="true"
                 error.bind="error.incomeTax">
             </au-numeric>
@@ -46,6 +47,7 @@
             <au-numeric 
                 value.bind="dppValue"
                 show.bind="selectedEPO"
+				format="0,000.0000"
                 read-only="true"
                 error.bind="error.dppValue">
             </au-numeric>
@@ -54,6 +56,7 @@
             <au-numeric 
                 value.bind="incomeTaxValue"
                 show.bind="selectedEPO"
+				format="0,000.0000"
                 read-only="true"
                 error.bind="error.incomeTax">
             </au-numeric>
@@ -64,6 +67,7 @@
                 value.bind="data.DispositionAmountCreated"
                 show.bind="selectedEPO"
                 read-only="true"
+				format="0,000.0000"
                 error.bind="error.DispositionAmountCreated">
             </au-numeric>
         </td>

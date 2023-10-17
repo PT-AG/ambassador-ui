@@ -29,7 +29,7 @@
 			<au-textbox
 				value.one-way="data.QTYOrder"
 				read-only="true"
-				format = "0,0.00">
+				format="0,000.00">
 			</au-textbox>
 		</td>
 		<td>
@@ -50,14 +50,14 @@
 			<au-numeric
 				value.one-way="data.PricePerQTY"
 				read-only="true"
-				format = "0,0.00">
+				format="0,000.0000">
 			</au-numeric>
 		</td>
 		<td>
 			<au-numeric
 				value.one-way="data.PriceTotal"
 				read-only="true"
-				format = "0,0.00">
+				format="0,000.0000">
 			</au-numeric>
 		</td>
 		<td>
@@ -66,7 +66,7 @@
 				read-only.bind="(readOnly||isOver)"
 				error.bind="error.QTYPaid"
 				change.delegate="paidQtyChanged($event)"
-				format = "0,0.00">
+				format="0,000.0000">
 			</au-numeric>
 		</td>
 		<td>
@@ -75,7 +75,7 @@
 				read-only.bind="(readOnly||isOver)"
 				error.bind="error.PaidPrice"
 				change.delegate="paidQtyChanged($event)"
-				format = "0,0.00">
+				format="0,000.0000">
 			</au-numeric>
 		</td>
 		<td>

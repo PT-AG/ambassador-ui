@@ -15,6 +15,7 @@
 		<td>
 			<au-numeric value.bind="data.VatValue"
 						read-only.bind="true"
+						format="0,000.0000"
 						options.bind="controlOptions">
 			</au-numeric>
 		</td>
@@ -32,6 +33,7 @@
 		</td>
 		<td>
 			<au-numeric value.bind="data.IncomeTaxValue"
+						format="0,000.0000"
 						read-only.bind="true"
 						options.bind="controlOptions">
 			</au-numeric>
