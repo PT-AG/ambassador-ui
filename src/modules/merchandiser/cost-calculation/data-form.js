@@ -591,13 +591,21 @@ export class DataForm {
     return SMV_Total;
   }
 
-  @computedFrom('data.CommissionPortion', 'data.ConfirmPrice', 'data.Freight', 'data.Insurance', 'data.Rate')
-  get commissionRate() {
-    let CommissionRate = this.data.CommissionPortion / 100 * (this.data.ConfirmPrice - this.data.Insurance - this.data.Freight) * this.data.Rate.Value;
-    CommissionRate = numeral(CommissionRate).format();
-    this.data.CommissionRate=numeral(CommissionRate).value();
-    return CommissionRate;
+  //**2 Okt 23 switch input from CommissionPortion to CommissionRate*/
+  @computedFrom('data.CommissionRate', 'data.ConfirmPrice', 'data.Freight', 'data.Insurance', 'data.Rate')
+  get commissionPortion() {
+    let CommissionPortion = this.data.CommissionRate/ (this.data.ConfirmPrice - this.data.Insurance - this.data.Freight) * this.data.Rate.Value * 100;
+    CommissionPortion = numeral(CommissionPortion).format();
+    this.data.CommissionPortion=numeral(CommissionPortion).value();
+    return CommissionPortion;
   }
+  // @computedFrom('data.CommissionPortion', 'data.ConfirmPrice', 'data.Freight', 'data.Insurance', 'data.Rate')
+  // get commissionRate() {
+  //   let CommissionRate = this.data.CommissionPortion / 100 * (this.data.ConfirmPrice - this.data.Insurance - this.data.Freight) * this.data.Rate.Value;
+  //   CommissionRate = numeral(CommissionRate).format();
+  //   this.data.CommissionRate=numeral(CommissionRate).value();
+  //   return CommissionRate;
+  // }
 
   @computedFrom('data.OTL1', 'data.SMV_Total')
   get calculatedRateOTL1() {
