@@ -106,12 +106,14 @@ export class DataForm {
             this.gdash = [];
             this.dashdp = [];
             this.itinv = [];
+            this.gReceiptSub = [];
             
             
             this.data.permissions.menu = result.data;
 
             for(var data of this.data.permissions.menu)
             {
+                
                 if(data.Menu === 'MASTER')
                 {
                     //this.master.push(data);
@@ -394,6 +396,15 @@ export class DataForm {
                         this.itinv.push(data);
                     }
                 }
+
+                else if (data.Menu === "G-RECEIPT-SUBCON") {
+                  if (selectedCode.includes(data.Code) === true) {
+                    data.isEdit = true;
+                    this.gReceiptSub.push(data);
+                  } else {
+                    this.gReceiptSub.push(data);
+                  }
+                }
             }
 
             // this.auth = auth;
@@ -437,6 +448,7 @@ export class DataForm {
             this.fillTableGDas();
             this.fillTableDash();
             this.fillTableItInve();
+            this.filltableGReceiptSub();
             
            
 
@@ -444,6 +456,36 @@ export class DataForm {
     
       }
 
+      filltableGReceiptSub() {
+        //PREPARING
+        let columns = [];
+        columns.push({ field: "Menu", title: "Menu", width: 200 });
+        columns.push({ field: "SubMenu", title: "SubMenu", width: 200 });
+        columns.push({
+          field: "isEdit",
+          title: "",
+          checkbox: true,
+          sortable: false,
+          width: 20,
+        });
+        columns.push({ field: "MenuName", title: "MenuName" });
+        // columns.push({ field: 'permission', value:1 });
+    
+        var bootstrapTableOptions = {
+          columns: columns,
+          data: this.gReceiptSub,
+          fixedColumns: false,
+          fixedNumber: 1,
+        };
+        //bootstrapTableOptions.height = 150;
+    
+        $(this.tableGReceiptSub)
+          .bootstrapTable("destroy")
+          .bootstrapTable(bootstrapTableOptions);
+    
+        // console.log(bootstrapTableOptions);
+      }
+      
       fillTableItInve() {
         //PREPARING
         let columns = [];
