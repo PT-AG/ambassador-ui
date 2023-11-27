@@ -1,9 +1,9 @@
 module.exports = [
   //Transaksi
   {
-    route: '/merchandiser/garment-pre-sales-contract-by-user',
-    name: 'garment-pre-sales-contract-by-user',
-    moduleId: './modules/merchandiser/garment-pre-sales-contract/index',
+    route: "/garment-receipt-subcon/delivery-order-subcon",
+    name: "delivery-order-subcon",
+    moduleId: "./modules/garment-receipt-subcon/delivery-order-subcon/index",
     nav: true,
     title: "Surat Jalan Subcon",
     auth: true,
