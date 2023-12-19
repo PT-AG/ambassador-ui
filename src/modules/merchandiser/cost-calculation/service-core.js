@@ -5,6 +5,7 @@ const uomServiceUri = 'master/uoms';
 const sectionServiceUri = 'master/garment-sections';
 const serviceMasterGarmentProductUri = 'master/garmentProducts';
 const categoryServiceUri = 'master/garment-categories';
+const buyerServiceUri = 'master/garment-buyers';
 
 export class ServiceCore extends RestService {
 
@@ -45,6 +46,11 @@ export class ServiceCore extends RestService {
 
   getCategoryId(id) {
     var endpoint = `${categoryServiceUri}/${id}`;
+    return super.get(endpoint);
+  }
+
+  getBuyerId(id) {
+    var endpoint = `${buyerServiceUri}/${id}`;
     return super.get(endpoint);
   }
 }

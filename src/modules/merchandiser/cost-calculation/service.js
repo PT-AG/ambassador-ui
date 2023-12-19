@@ -5,10 +5,6 @@ import { Container } from 'aurelia-dependency-injection';
 import { Config } from "aurelia-api";
 
 const serviceUri = 'cost-calculation-garments';
-// const serviceUri = "rates";
-// const serviceUri = "efficiencies";
-
-
 
 class Service extends RestService {
 
