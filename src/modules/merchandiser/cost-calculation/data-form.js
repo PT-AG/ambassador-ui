@@ -143,6 +143,11 @@ export class DataForm {
     this.data.ConfirmPrice = this.data.ConfirmPrice ? this.data.ConfirmPrice : 0;
     this.selectedComodity = this.data.Comodity ? this.data.Comodity : "";
     this.data.BuyerCode = this.data.Buyer ? this.data.Buyer.Code : "";
+    this.buyerlocal=true;
+    if(this.data.Buyer){
+      const buyer = await this.serviceCore.getBuyerId(this.data.Buyer.Id);
+      this.buyerlocal=buyer.Type=="Lokal"? true:false;
+    }
     this.create = this.context.create;
     if (!this.create) {
       this.selectedBookingOrder = {
@@ -319,10 +324,11 @@ export class DataForm {
   @bindable selectedPreSalesContract;
   async selectedPreSalesContractChanged(newValue, oldValue) {
     if (newValue) {
+      this.data.CommissionPortion=0;
+      this.data.CommissionRate=0;
       this.data.PreSCId = newValue.Id;
       this.data.PreSCNo = newValue.SCNo;
       this.data.Section = newValue.SectionCode;
-      console.log(this.data.Section);
       const section = await this.serviceCore.getSection(newValue.SectionId);
       this.data.SectionName = section.Name;
       this.data.ApprovalCC = section.ApprovalCC;
@@ -333,8 +339,8 @@ export class DataForm {
         Name: newValue.BuyerAgentName
       };
       this.data.BuyerCode = this.data.Buyer.Code;
-      console.log(this.data.BuyerCode);
-
+      const buyer = await this.serviceCore.getBuyerId(newValue.BuyerAgentId);
+      this.buyerlocal=buyer.Type=="Lokal"? true:false;
       this.data.BuyerBrand = {
         Id: newValue.BuyerBrandId,
         Code: newValue.BuyerBrandCode,
@@ -585,20 +591,21 @@ export class DataForm {
   }
 
   //**2 Okt 23 switch input from CommissionPortion to CommissionRate*/
-  @computedFrom('data.CommissionRate', 'data.ConfirmPrice', 'data.Freight', 'data.Insurance', 'data.Rate')
+  @computedFrom('data.CommissionRate', 'data.ConfirmPrice', 'data.Freight', 'data.Insurance', 'data.Rate','data.Buyer')
   get commissionPortion() {
     let CommissionPortion = this.data.CommissionRate/ (this.data.ConfirmPrice - this.data.Insurance - this.data.Freight) * this.data.Rate.Value * 100;
     CommissionPortion = numeral(CommissionPortion).format();
     this.data.CommissionPortion=numeral(CommissionPortion).value();
     return CommissionPortion;
   }
-  // @computedFrom('data.CommissionPortion', 'data.ConfirmPrice', 'data.Freight', 'data.Insurance', 'data.Rate')
-  // get commissionRate() {
-  //   let CommissionRate = this.data.CommissionPortion / 100 * (this.data.ConfirmPrice - this.data.Insurance - this.data.Freight) * this.data.Rate.Value;
-  //   CommissionRate = numeral(CommissionRate).format();
-  //   this.data.CommissionRate=numeral(CommissionRate).value();
-  //   return CommissionRate;
-  // }
+  //**19 Dec 23 differentiate input between local and export*/
+  @computedFrom('data.CommissionPortion', 'data.ConfirmPrice', 'data.Freight', 'data.Insurance', 'data.Rate','data.Buyer')
+  get commissionRate() {
+    let CommissionRate = this.data.CommissionPortion / 100 * (this.data.ConfirmPrice - this.data.Insurance - this.data.Freight) * this.data.Rate.Value;
+    CommissionRate = numeral(CommissionRate).format();
+    this.data.CommissionRate=numeral(CommissionRate).value();
+    return CommissionRate;
+  }
 
   @computedFrom('data.OTL1', 'data.SMV_Total')
   get calculatedRateOTL1() {
