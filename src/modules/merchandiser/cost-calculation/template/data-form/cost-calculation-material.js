@@ -45,7 +45,8 @@ export class CostCalculationMaterial {
 
             if (this.data.Category.name.toUpperCase() == 'PROCESS') {
                 this.isProcess = true;
-                if(!this.data.Id) {
+                if(!this.data.Id && !this.data.isCopy) {
+                    console.log(this.data.Price)
                     this.data.Price = this.calculateProcessPrice();
                 }
                 
@@ -157,12 +158,16 @@ export class CostCalculationMaterial {
          
     }
 
+    //@computedFrom("data.Wage")
     calculateProcessPrice() {
-        let CuttingFee = this.data.Wage.Value * this.data.SMV_Cutting * (100 / 70);
-        let SewingFee = this.data.Wage.Value * this.data.SMV_Sewing * (100 / this.data.Efficiency.Value);
-        let FinishingFee = this.data.Wage.Value * this.data.SMV_Finishing * (100 / 92);
-        let THR = this.data.THR.Value * this.data.SMV_Total;
-        let result = CuttingFee + SewingFee + FinishingFee + THR;
+        var result =0;
+        if(this.data.Wage){
+            let CuttingFee = this.data.Wage.Value * this.data.SMV_Cutting * (100 / 70);
+            let SewingFee = this.data.Wage.Value * this.data.SMV_Sewing * (100 / this.data.Efficiency.Value);
+            let FinishingFee = this.data.Wage.Value * this.data.SMV_Finishing * (100 / 92);
+            let THR = this.data.THR.Value * this.data.SMV_Total;
+            result = CuttingFee + SewingFee + FinishingFee + THR;
+        }
         return numeral(numeral(result).format(rateNumberFormat)).value();
     }
 
@@ -415,9 +420,9 @@ get garmentProductWidthLoader() {
     }
 
  
-uomView =(uom)=>{
-    return uom?`${uom.Unit}` : "";
-}
+    uomView =(uom)=>{
+        return uom?`${uom.Unit}` : "";
+    }
 
     @computedFrom('data.Quantity', 'data.Price', 'data.Conversion', 'data.isFabricCM')
     get total() {
@@ -448,15 +453,18 @@ uomView =(uom)=>{
     @computedFrom('data.Category', 'data.Quantity', 'data.Conversion', 'data.QuantityOrder', 'data.FabricAllowance', 'data.AccessoriesAllowance')
     get budgetQuantity() {
         let allowance = 0;
-        if (this.data.Category) {
-            if (this.data.Category.name.toUpperCase() === "FABRIC") {
-                allowance = this.data.FabricAllowance / 100;
-            } else {
-                allowance = this.data.AccessoriesAllowance / 100;
+        let budgetQuantity=0;
+        if(this.data.Category && this.data.Quantity && this.data.Conversion && this.data.QuantityOrder && this.data.FabricAllowance && this.data.AccessoriesAllowance){
+            if (this.data.Category) {
+                if (this.data.Category.name.toUpperCase() === "FABRIC") {
+                    allowance = this.data.FabricAllowance / 100;
+                } else {
+                    allowance = this.data.AccessoriesAllowance / 100;
+                }
             }
+            budgetQuantity = this.data.Quantity && this.data.Conversion ? this.data.Quantity * this.data.QuantityOrder / this.data.Conversion + allowance * this.data.Quantity * this.data.QuantityOrder / this.data.Conversion : 0;
+            budgetQuantity = Math.ceil(budgetQuantity);
         }
-        let budgetQuantity = this.data.Quantity && this.data.Conversion ? this.data.Quantity * this.data.QuantityOrder / this.data.Conversion + allowance * this.data.Quantity * this.data.QuantityOrder / this.data.Conversion : 0;
-        budgetQuantity = Math.ceil(budgetQuantity);
         this.data.BudgetQuantity = Math.ceil(budgetQuantity);
         return budgetQuantity;
     }
