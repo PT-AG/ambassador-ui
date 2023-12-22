@@ -35,7 +35,7 @@ export class Copy {
         this.data = await this.service.getById(this.id);
         this.copiedROFrom = this.data.RO_Number;
         this.data.PreSCNoSource = this.data.PreSCNo;
-
+console.log(this.data)
         if (this.data) {
             let promises = [];
 
