@@ -454,6 +454,7 @@ get garmentProductWidthLoader() {
     get budgetQuantity() {
         let allowance = 0;
         let budgetQuantity=0;
+        if (!this.data.isCopy) {
         // if(this.data.Category && this.data.Quantity && this.data.Conversion && this.data.QuantityOrder && this.data.FabricAllowance && this.data.AccessoriesAllowance){
             if (this.data.Category) {
                 if (this.data.Category.name.toUpperCase() === "FABRIC") {
@@ -467,7 +468,10 @@ get garmentProductWidthLoader() {
         // }
         
         this.data.BudgetQuantity = Math.ceil(budgetQuantity);
-        console.log(" this.data.BudgetQuantity", this.data.BudgetQuantity)
+        }else{
+            budgetQuantity = this.data.BudgetQuantity;
+        }
+        
         return budgetQuantity;
     }
 
