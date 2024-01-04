@@ -31,6 +31,7 @@ export class CostCalculationMaterial {
     @bindable isProcess = false;
     activate(context) {
         this.context = context;
+     
         this.data = context.data;
         this.error = context.error;
         this.options = context.options;
@@ -454,8 +455,8 @@ get garmentProductWidthLoader() {
     get budgetQuantity() {
         let allowance = 0;
         let budgetQuantity=0;
-        if (!this.data.isCopy) {
-        // if(this.data.Category && this.data.Quantity && this.data.Conversion && this.data.QuantityOrder && this.data.FabricAllowance && this.data.AccessoriesAllowance){
+
+        if(this.data.Category && this.data.Quantity && this.data.Conversion && this.data.QuantityOrder ){//&& (this.data.FabricAllowance || this.data.AccessoriesAllowance)){
             if (this.data.Category) {
                 if (this.data.Category.name.toUpperCase() === "FABRIC") {
                     allowance = this.data.FabricAllowance / 100;
@@ -465,12 +466,9 @@ get garmentProductWidthLoader() {
             }
             budgetQuantity = this.data.Quantity && this.data.Conversion ? this.data.Quantity * this.data.QuantityOrder / this.data.Conversion + allowance * this.data.Quantity * this.data.QuantityOrder / this.data.Conversion : 0;
             budgetQuantity = Math.ceil(budgetQuantity);
-        // }
+        }
         
         this.data.BudgetQuantity = Math.ceil(budgetQuantity);
-        }else{
-            budgetQuantity = this.data.BudgetQuantity;
-        }
         
         return budgetQuantity;
     }
