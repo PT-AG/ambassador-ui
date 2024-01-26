@@ -108,14 +108,19 @@ export class DataForm {
   imageUploadChanged(newValue) {
     if (newValue) {
       let imageInput = document.getElementById('imageInput');
-      let reader = new FileReader();
-      reader.onload = event => {
-        let base64Image = event.target.result;
-        this.imagesSrc.push(base64Image);
-        this.imagesSrcChanged(this.imagesSrc);
+      if(imageInput.files[0].type == "image/jpeg" || imageInput.files[0].type == "image/jpg"){
+        let reader = new FileReader();
+        reader.onload = event => {
+          let base64Image = event.target.result;
+          this.imagesSrc.push(base64Image);
+          this.imagesSrcChanged(this.imagesSrc);
+        }
+        reader.readAsDataURL(imageInput.files[0]);
+        this.imageUpload = null;
+      }else{
+        alert("File Gambar Harus Format .jpeg atau .jpg");
       }
-      reader.readAsDataURL(imageInput.files[0]);
-      this.imageUpload = null;
+      
     }
   }
 
