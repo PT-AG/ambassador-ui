@@ -31,6 +31,7 @@ export class CostCalculationMaterial {
     @bindable isProcess = false;
     activate(context) {
         this.context = context;
+     
         this.data = context.data;
         this.error = context.error;
         this.options = context.options;
@@ -448,16 +449,22 @@ uomView =(uom)=>{
     @computedFrom('data.Category', 'data.Quantity', 'data.Conversion', 'data.QuantityOrder', 'data.FabricAllowance', 'data.AccessoriesAllowance')
     get budgetQuantity() {
         let allowance = 0;
-        if (this.data.Category) {
-            if (this.data.Category.name.toUpperCase() === "FABRIC") {
-                allowance = this.data.FabricAllowance / 100;
-            } else {
-                allowance = this.data.AccessoriesAllowance / 100;
+        let budgetQuantity=0;
+
+        if(this.data.Category && this.data.Quantity && this.data.Conversion && this.data.QuantityOrder ){//&& (this.data.FabricAllowance || this.data.AccessoriesAllowance)){
+            if (this.data.Category) {
+                if (this.data.Category.name.toUpperCase() === "FABRIC") {
+                    allowance = this.data.FabricAllowance / 100;
+                } else {
+                    allowance = this.data.AccessoriesAllowance / 100;
+                }
             }
+            budgetQuantity = this.data.Quantity && this.data.Conversion ? this.data.Quantity * this.data.QuantityOrder / this.data.Conversion + allowance * this.data.Quantity * this.data.QuantityOrder / this.data.Conversion : 0;
+            budgetQuantity = Math.ceil(budgetQuantity);
         }
-        let budgetQuantity = this.data.Quantity && this.data.Conversion ? this.data.Quantity * this.data.QuantityOrder / this.data.Conversion + allowance * this.data.Quantity * this.data.QuantityOrder / this.data.Conversion : 0;
-        budgetQuantity = Math.ceil(budgetQuantity);
+        
         this.data.BudgetQuantity = Math.ceil(budgetQuantity);
+        
         return budgetQuantity;
     }
 
