@@ -97,8 +97,16 @@
             error.bind="error.TotalAval"
             read-only.bind="readOnly"
             options.bind="footerOptions"
-            show.bind="isFabric"
-            style="display:none">
+            show.bind="isFabric">
+        </au-numeric>
+
+        <au-numeric 
+            label="TOTAL AVAL (KG)" 
+            value.bind="data.TotalAval" 
+            error.bind="error.TotalAval"
+            read-only.bind="readOnly"
+            options.bind="footerOptions"
+            show.bind="isAccessories">
         </au-numeric>
 
         <au-numeric 
