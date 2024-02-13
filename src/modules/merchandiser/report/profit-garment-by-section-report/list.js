@@ -100,6 +100,7 @@ export class List {
                         if (!subTotalSection[SECTION]) {
                            subTotalSection[SECTION] = 0;
                            } 
+                           //ini yg d pake
                            subTotalSection[SECTION] += data.Amount;
  
                         if (!subTotalSection1[SECTION]) {
@@ -134,6 +135,9 @@ export class List {
                this.AmountTotal = 0;
                this.AmountTotal1 = 0;
                this.AmountTotal2 = 0;
+               this.AmountTotalRp=0;
+               this.AmountTotalusd=0;
+
                       
                for (var data in dataBySection) {
                    Sections.push({
@@ -142,12 +146,26 @@ export class List {
                    subTotal: (subTotalSection[data]).toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
                    subTotal1: (subTotalSection1[data]).toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
                    subTotal2: (subTotalSection2[data]).toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
-                });
+                  //  subtotalusd:1111,
+                  //  subtotalrp:2222
+                  });
+                  console.log('SECTION :'+ SECTION);
                    this.AmountTotal += subTotalSection[data];                                     
                    this.AmountTotal1 += subTotalSection1[data];                                     
-                   this.AmountTotal2 += subTotalSection2[data];                                     
-               }
-               
+                   this.AmountTotal2 += subTotalSection2[data];  
+                   this.AmountTotalRp = subTotalSection[data];  
+                   this.AmountTotalusd = subTotalSection[data];                           
+                   console.log('subTotal :'+ this.AmountTotal);
+                   console.log('AmountTotalRp :'+ this.AmountTotalRp);
+                   console.log('AmountTotalusd :'+ this.AmountTotalusd);
+                  }
+
+               //ini subtotal keseluruhan
+               console.log("subTotal stlh loop" ,this.AmountTotal);
+               console.log('AmountTotalusd stlh loop :'+ this.AmountTotalRp);
+               console.log(`AmountTotalrp stlh loop : ${this.AmountTotal-this.AmountTotalRp}`);
+               this.subtotalusd=this.AmountTotalRp;
+               this.subtotalrp=this.AmountTotal-this.AmountTotalRp;
                this.AmountTotal = this.AmountTotal.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                this.AmountTotal1 = this.AmountTotal1.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                this.AmountTotal2 = this.AmountTotal2.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });

@@ -141,9 +141,19 @@
                             </template>
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="control-label text-left col-md-4">GRAND TOTAL</label>
-                            <p class="form-control-static col-md-8">${grandTotal | numberFormat:'0,000.00'}</p>
+                            <label class="control-label text-left col-md-4">GRAND TOTAL USD</label>
+                            <!-- <p class="form-control-static col-md-8">${grandTotal | numberFormat:'0,000.00'}</p> -->
+                            
+                            <p class="form-control-static col-md-8">${subtotalusd | numberFormat:'0,000.00'}</p>
+
                         </div>
+                        <div class="form-group col-md-6">
+                          <label class="control-label text-left col-md-4">GRAND TOTAL RP</label>
+                          <!-- <p class="form-control-static col-md-8">${grandTotal | numberFormat:'0,000.00'}</p> -->
+                          
+                          <p class="form-control-static col-md-8">${subtotalrp | numberFormat:'0,000.00'}</p>
+
+                      </div>
                     </div>
         <div class="alert alert-info text-center" role="alert" if.bind="data.length == 0">
             Tidak Ada Data Yang Ditemukan.
