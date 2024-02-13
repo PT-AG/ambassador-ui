@@ -213,7 +213,6 @@ export class DataForm {
     }
 
 
-   //@computedFrom("data.Unit")
     get totalQuantity(){
         
         if(this.data.ROList && this.isFabric){
@@ -224,16 +223,16 @@ export class DataForm {
                         qty += detail.Quantity;
                 }
             }
-            this.data.TotalAval=qty;
+            // this.data.TotalAval=qty;
             return qty;
         }
 
-        if(this.data.Items && this.isComponent ){
+        if(this.data.Items && !this.isFabric){
             var qty=0;
             for(var item of this.data.Items){
                 qty += item.Quantity;
             }
-            this.data.TotalAval=qty;
+            // this.data.TotalAval=qty;
             return qty;
         }
 
