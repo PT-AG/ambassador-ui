@@ -5,7 +5,7 @@ import {
   computedFrom,
   BindingEngine,
 } from "aurelia-framework";
-import { Service, CoreService } from "./service";
+import { Service, CoreService, SalesService } from "./service";
 var StorageLoader = require("../../../loader/storage-loader");
 //var UnitLoader = require('../../../loader/garment-units-loader');
 var UnitSenderLoader = require("../../../loader/garment-sample-unit-loader");
@@ -15,7 +15,7 @@ var SupplierLoader = require("../../../loader/garment-supplier-loader");
 import moment from "moment";
 
 @containerless()
-@inject(Service, CoreService, BindingEngine)
+@inject(Service, CoreService, SalesService, BindingEngine)
 export class DataForm {
   @bindable readOnly = false;
   @bindable data = {};
@@ -61,10 +61,11 @@ export class DataForm {
     },
   };
 
-  constructor(service, coreService, bindingEngine) {
+  constructor(service, coreService, salesService, bindingEngine) {
     this.service = service;
     this.bindingEngine = bindingEngine;
     this.coreService = coreService;
+    this.salesService = salesService;
   }
 
   bind(context) {
@@ -394,17 +395,31 @@ export class DataForm {
     this.RONoJob = this.RONoJob ? this.RONoJob.toUpperCase() : null;
     this.RONo = this.RONo ? this.RONo.toUpperCase() : null;
     if (this.isTransfer) {
-      var filter = JSON.stringify({ RONo: this.RONoJob });
+      var filter = JSON.stringify({
+        RO_Number: this.RONoJob,
+        IsPosted: true,
+        IsApprovedKadivMD: true,
+      });
 
       var info = {
         keyword: this.RONoJob,
         filter: filter,
       };
+      // this.data.RONo = this.RONoJob;
+      // var ro = [];
+      // this.service.getGarmentEPOByRONo(info).then((epo) => {
+      //   for (var a of epo.data) {
+      //     if (a.RONo == this.data.RONo) {
+      //       ro.push(a);
+      //       break;
+      //     }
+      //   }
+
       this.data.RONo = this.RONoJob;
       var ro = [];
-      this.service.getGarmentEPOByRONo(info).then((epo) => {
-        for (var a of epo.data) {
-          if (a.RONo == this.data.RONo) {
+      this.salesService.searchCCByRO(info).then((cc) => {
+        for (var a of cc.data) {
+          if (a.RO_Number == this.data.RONo) {
             ro.push(a);
             break;
           }
@@ -545,16 +560,20 @@ export class DataForm {
           });
       });
     } else {
-      var filter = JSON.stringify({ RONo: this.RONo });
+      var filter = JSON.stringify({
+        RO_Number: this.RONo,
+        IsPosted: true,
+        IsApprovedKadivMD: true,
+      });
       var info = {
         keyword: this.RONo,
         filter: filter,
       };
       this.data.RONo = this.RONo;
       var ro = [];
-      this.service.getGarmentEPOByRONo(info).then((epo) => {
-        for (var a of epo.data) {
-          if (a.RONo == this.data.RONo) {
+      this.salesService.searchCCByRO(info).then((cc) => {
+        for (var a of cc.data) {
+          if (a.RO_Number == this.data.RONo) {
             ro.push(a);
             break;
           }

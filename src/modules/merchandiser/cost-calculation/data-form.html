@@ -306,14 +306,31 @@
                     label="Other Expense"
                     value.bind="data.CommissionRate"
                     error.bind="error.CommissionRate"
-                    options.bind="length4">
+                    options.bind="length4"
+                    if.bind="buyerlocal">
                 </au-numeric>
                 <au-numeric
                     label="Other Expense(%)"
                     value.bind="commissionPortion"
                     options.bind="length4"
                     read-only="disabled"
-                    style="display:none">
+                    style="display:none"
+                    if.bind="buyerlocal">
+                </au-numeric>
+                <au-numeric
+                    label="Other Expense"
+                    value.bind="commissionRate"
+                    read-only="disabled"
+                    style="display:none"
+                    options.bind="length4"
+                    if.bind="!buyerlocal">
+                </au-numeric>
+                <au-numeric
+                    label="Other Expense(%)"
+                    value.bind="data.CommissionPortion"
+                    error.bind="error.CommissionPortion"
+                    options.bind="length4"
+                    if.bind="!buyerlocal">
                 </au-numeric>
             </div>
             <div class="col-md-2">
