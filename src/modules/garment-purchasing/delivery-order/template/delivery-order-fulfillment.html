@@ -153,6 +153,14 @@
                 options.bind="controlOptions">
             </au-textbox>
         </td>
+        <td>
+            <au-numeric 
+            value.bind="data.productSeries"
+            read-only.bind="options.readOnly"
+            format="0"
+            options.bind="controlOptions">
+        </au-numeric>
+        </td>
 <!--         
 		<td if.bind="!readOnly">
 			<button class="btn btn-danger pull-right" click.delegate="onremove(data)">-</button>
