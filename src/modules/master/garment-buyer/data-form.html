@@ -19,7 +19,7 @@
           label="Nama"
           value.bind="data.Name"
           error.bind="error.Name"
-          read-only.bind="readOnly"
+          read-only.bind="readOnly || isEdit"
         ></au-textbox>
 
         <au-multiline 
