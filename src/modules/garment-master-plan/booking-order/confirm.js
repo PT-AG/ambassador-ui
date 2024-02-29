@@ -44,7 +44,7 @@ export class Confirm {
           total_item = total_item + item.ConfirmQuantity;
 
           if (diff >= 0) {
-            if (diffDays >= 0 && diffDays <= 40) {
+            if (diffDays >= 0 && diffDays <= 35) {
                 warning.push('Comodity ' + item.ComodityName + ' (Jumlah Confirm = ' + item.ConfirmQuantity + ') kurang ' + diffDays + ' hari dari Tanggal Pengiriman\n');
             }
           }
@@ -67,7 +67,7 @@ export class Confirm {
           warning_confirm.push('Total Jumlah Confirm lebih dari Jumlah Order (Max Allowance 5% dari Jumah Order)\n');
 
         if (warning.length > 0 && warning_confirm.length <= 0) {
-          if (confirm('Tanggal Confirm <= 40 hari \n' + warning.toString().replace(/,/g, "") + 'Tetap Confirm ?')) {
+          if (confirm('Tanggal Confirm <= 35 hari \n' + warning.toString().replace(/,/g, "") + 'Tetap Confirm ?')) {
             this.service.update(this.data)
               .then(result => {
                 alert("Data Confirmed");
@@ -78,7 +78,7 @@ export class Confirm {
           }
         }
         else if (warning.length > 0 && warning_confirm.length > 0) {
-          if (confirm('Tanggal Confirm <= 40 hari \n' + warning.toString().replace(/,/g, "") + warning_confirm.toString() + 'Tetap Confirm?')) {
+          if (confirm('Tanggal Confirm <= 35 hari \n' + warning.toString().replace(/,/g, "") + warning_confirm.toString() + 'Tetap Confirm?')) {
             this.service.update(this.data)
               .then(result => {
                 alert("Data Confirmed");
