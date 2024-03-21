@@ -51,8 +51,8 @@ export class Monitoring {
                 
                 // DATA OK LEAD TIME 35  HARI
                 const total35 = this.tableData.filter(f => f.LeadTime == 35).length;
-                const totalOk35 = this.tableData.filter(f => f.DateDiff >= 30 && f.LeadTime == 35).length;
-                const totalNotOk35 = this.tableData.filter(f => f.DateDiff < 30 && f.LeadTime == 35).length;
+                const totalOk35 = this.tableData.filter(f => f.DateDiff >= 35 && f.LeadTime == 35).length;
+                const totalNotOk35 = this.tableData.filter(f => f.DateDiff < 35 && f.LeadTime == 35).length;
 
                 this.dataOk35 = {
                     total: totalOk35,
@@ -64,24 +64,24 @@ export class Monitoring {
                 };
                 this.tot35 = total35;
 
-                // DATA OK LEAD TIME 25  HARI
-                const total25 = this.tableData.filter(f => f.LeadTime == 25).length;
-                const totalOk25 = this.tableData.filter(f => f.DateDiff >= 20 && f.LeadTime == 25).length;
-                const totalNotOk25 = this.tableData.filter(f => f.DateDiff < 20 && f.LeadTime == 25).length;
+                // // DATA OK LEAD TIME 25  HARI
+                // const total25 = this.tableData.filter(f => f.LeadTime == 25).length;
+                // const totalOk25 = this.tableData.filter(f => f.DateDiff >= 20 && f.LeadTime == 25).length;
+                // const totalNotOk25 = this.tableData.filter(f => f.DateDiff < 20 && f.LeadTime == 25).length;
 
-                this.dataOk25 = {
-                    total: totalOk25,
-                    percent: (totalOk25 / total25 * 100).toFixed(2)
-                };
-                this.dataNotOk25 = {
-                    total: totalNotOk25,
-                    percent: (totalNotOk25 / total25 * 100).toFixed(2)
-                };
-                this.tot25 = total25;
+                // this.dataOk25 = {
+                //     total: totalOk25,
+                //     percent: (totalOk25 / total25 * 100).toFixed(2)
+                // };
+                // this.dataNotOk25 = {
+                //     total: totalNotOk25,
+                //     percent: (totalNotOk25 / total25 * 100).toFixed(2)
+                // };
+                // this.tot25 = total25;
                 // AKUMULASI DATA
-                const total = total35 + total25;
-                const totalOk =  totalOk35 + totalOk25;
-                const totalNotOk = totalNotOk35 + totalNotOk25;
+                const total = total35;// + total25;
+                const totalOk = totalOk35;// + totalOk25;
+                const totalNotOk = totalNotOk35;// + totalNotOk25;
                 
                 this.dataOk = {
                     total: totalOk,
@@ -91,7 +91,7 @@ export class Monitoring {
                     total: totalNotOk,
                     percent: (totalNotOk / total * 100).toFixed(2)
                 };
-                this.tot = this.tot25 + this.tot35; 
+                this.tot =this.tot35;// this.tot25 +  
             });
     }
 
