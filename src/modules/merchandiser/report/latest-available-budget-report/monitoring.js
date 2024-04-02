@@ -48,10 +48,11 @@ export class Monitoring {
         this.service.search({ filter: JSON.stringify(this.filter) })
             .then(result => {
                 this.tableData = result.data;
-                // DATA OK LEAD TIME 35  HARI
-                const total35 = this.tableData.filter(f => f.LeadTime == 35).length;
-                const totalOk35 = this.tableData.filter(f => f.DateDiff >= 35 && f.LeadTime == 35).length;
-                const totalNotOk35 = this.tableData.filter(f => f.DateDiff < 35 && f.LeadTime == 35).length;
+                this.LeadTime = '30';
+                // DATA OK LEAD TIME 30  HARI
+                const total30 = this.tableData.filter(f => f.LeadTime == 30).length;
+                const totalOk30 = this.tableData.filter(f => f.DateDiff >= 30 && f.LeadTime == 30).length;
+                const totalNotOk30 = this.tableData.filter(f => f.DateDiff < 30 && f.LeadTime == 30).length;
 
                 this.dataOk35 = {
                     total: totalOk35,
