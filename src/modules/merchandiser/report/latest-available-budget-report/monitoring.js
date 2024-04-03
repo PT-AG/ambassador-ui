@@ -49,6 +49,7 @@ export class Monitoring {
             .then(result => {
                 this.tableData = result.data;
                 this.LeadTime = '30';
+
                 // DATA OK LEAD TIME 35  HARI
                 const total35 = this.tableData.filter(f => f.LeadTime == 35).length;
                 const totalOk35 = this.tableData.filter(f => f.DateDiff >= 35 && f.LeadTime == 35).length;
@@ -64,7 +65,7 @@ export class Monitoring {
                 // };
                 // this.tot35 = total35;
 
-                  // DATA OK LEAD TIME 30  HARI
+                // DATA OK LEAD TIME 30  HARI
                   const total30 = this.tableData.filter(f => f.LeadTime == 30).length;
                   const totalOk30 = this.tableData.filter(f => f.DateDiff >= 30 && f.LeadTime == 30).length;
                   const totalNotOk30 = this.tableData.filter(f => f.DateDiff < 30 && f.LeadTime == 30).length;
