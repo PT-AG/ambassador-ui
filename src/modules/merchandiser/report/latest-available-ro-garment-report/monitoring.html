@@ -114,9 +114,9 @@
         <template if.bind="tableData.length > 0">
             <au-textbox label="KESIAPAN RO DENGAN LEAD TIME ${LeadTime} HARI" read-only="true"></au-textbox>
             <au-textbox label="Status OK" value="Selisih Tgl Penerimaan RO dengan Tgl Shipment >= ${LeadTime} hari" read-only="true"></au-textbox>
-            <au-textbox label="Persentase Status OK" value="${dataOk30.total}/${tot30} X 100% = ${dataOk30.percent} %" read-only="true"></au-textbox>
+            <au-textbox label="Persentase Status OK" value="${dataOk.total}/${tot} X 100% = ${dataOk.percent} %" read-only="true"></au-textbox>
             <au-textbox label="Status NOT OK" value="Selisih Tgl Penerimaan RO dengan Tgl Shipment < ${LeadTime} hari" read-only="true"></au-textbox>
-            <au-textbox label="Persentase Status NOT OK" value="${dataNotOk30.total}/${tot30} X 100% = ${dataNotOk30.percent} %" read-only="true"></au-textbox>
+            <au-textbox label="Persentase Status NOT OK" value="${dataNotOk.total}/${tot} X 100% = ${dataNotOk.percent} %" read-only="true"></au-textbox>
         </template>
 
         <!-- <template if.bind="tableData.length > 0">
