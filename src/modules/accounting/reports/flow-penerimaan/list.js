@@ -164,10 +164,11 @@ export class List {
                 console.log(result)
                 this.AmountTotal1 = 0;
                 this.AmountTotal2 = 0;
+                this.BuyAmount = 0;
                 this.data=[];
                 //var datatemp = [];
                 for (var i of result){
-                    
+                    this.BuyAmount  += i.jumlahbeli;
                     this.AmountTotal1 += i.jumlahterima;
                     this.AmountTotal2 += i.jumlah;
                     i.jumlah = i.jumlah.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
@@ -176,6 +177,7 @@ export class List {
                 }
                 this.AmountTotal1 = this.AmountTotal1.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                 this.AmountTotal2 = this.AmountTotal2.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                this.BuyAmount = this.BuyAmount.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
                 // this.data = result.data;
             })
 
