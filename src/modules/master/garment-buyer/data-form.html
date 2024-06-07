@@ -82,6 +82,14 @@
           items.bind="buyerTypes"
         ></au-dropdown>
 
+        <au-textbox 
+          label="NIK"
+          value.bind="data.NIK"
+          error.bind="error.NIK"
+          read-only.bind="readOnly"
+          if.bind = "data.BuyerType == 'Non Badan Hukum'"
+        ></au-textbox>
+
         <template replaceable part="actions"></template>
         </au-input-form>
       </div>
