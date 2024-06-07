@@ -74,6 +74,14 @@
           items.bind="types"
         ></au-dropdown>
 
+        <au-dropdown
+          label="Tipe Badan Hukum"
+          value.bind="data.BuyerType"
+          error.bind="error.BuyerType"
+          read-only.bind="readOnly"
+          items.bind="buyerTypes"
+        ></au-dropdown>
+
         <template replaceable part="actions"></template>
         </au-input-form>
       </div>
