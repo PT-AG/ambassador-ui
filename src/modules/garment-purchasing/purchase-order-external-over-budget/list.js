@@ -27,7 +27,7 @@ export class List {
         },
         { field: "EPONo", title: "Nomor PO Eksternal" },
         {
-            field: "OrderDate", title: "Tanggal PO Eksternal", formatter: function (value, data, index) {
+            field: "CreatedUtc", title: "Tanggal PO Eksternal", formatter: function (value, data, index) {
                 return moment(value).format("DD MMM YYYY");
             }
         },
