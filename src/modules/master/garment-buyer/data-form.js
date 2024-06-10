@@ -16,6 +16,7 @@ export class DataForm {
     selectedCountry = '';
     buyerTypes = ["", "Badan Hukum", "Non Badan Hukum"]
     constructor() {
+        
     }
 
     @computedFrom("data.Id")
