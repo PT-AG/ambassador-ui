@@ -23,8 +23,9 @@
 
                 <au-autocomplete label="Bank" placeholder="Pilih Bank" value.bind="data.bank" error.bind="error.bank"
                     loader.bind="bankLoader" text.bind="bankView" read-only.bind="readOnly || isEdit"
-                    query.bind="bankQuery" options.bind="controlOptions">
-                </au-autocomplete>
+                    options.bind="controlOptions">
+                
+                  </au-autocomplete>
 
                 <au-multiline label="Deskripsi" value.bind="data.description" error.bind="error.description" read-only.bind="readOnly"
                     placeholder="Description" read-only.bind="readOnly || isEdit" options.bind="controlOptions"> 
