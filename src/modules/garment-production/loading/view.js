@@ -20,12 +20,19 @@ export class View {
         //         break;
         //     }
         // }
-        var sewIn= await this.service.searchSewingIn({ filter: JSON.stringify({LoadingNo: this.data.LoadingNo}),size:1});
+        if (this.data.LoadingOutType == "SEWING") {
+            var sewIn = await this.service.searchSewingIn({ filter: JSON.stringify({ LoadingNo: this.data.LoadingNo }), size: 1 });
         
-        if(sewIn.data.length>0){
-            if(sewIn.data[0].TotalRemainingQuantity!=sewIn.data[0].TotalQuantity){
+            if (sewIn.data.length > 0) {
+                if (sewIn.data[0].TotalRemainingQuantity != sewIn.data[0].TotalQuantity) {
+                    this.deleteCallback = null;
+                    this.editCallback = null;
+                }
+            }
+        } else if (this.data.LoadingOutType == "BARANG JADI") {
+            this.editCallback = null;
+            if (this.data.CanDeleted.includes(false)) {
                 this.deleteCallback = null;
-                this.editCallback = null;
             }
         }
         this.selectedUnit=this.data.Unit;

@@ -18,7 +18,8 @@ export class View {
                 RONo:this.data.RONo
             };
             this.selectedUnit=this.data.Unit;
-            this.data.BuyerView= this.data.Buyer.Code + ' - '+ this.data.Buyer.Name;
+            this.data.BuyerView = this.data.Buyer.Code + ' - ' + this.data.Buyer.Name;
+            this.selectedExpenditureFrom=this.data.ExpenditureFrom;
         }
 
         var items=[];

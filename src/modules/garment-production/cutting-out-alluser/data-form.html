@@ -34,6 +34,16 @@
             options.bind="controlOptions">
         </au-autocomplete>
 
+        <au-dropdown
+        label="Proses Tujuan"
+        value.bind="data.CuttingOutType"
+        error.bind="error.CuttingOutType"
+        read-only.bind="readOnly || isEdit"
+        items.bind="CuttingOutTypeOptions"
+        options.bind="controlOptions "
+      >
+      </au-dropdown>
+
         <au-autocomplete
             value.bind="selectedCuttingIn"
             error.bind="error.RONo"

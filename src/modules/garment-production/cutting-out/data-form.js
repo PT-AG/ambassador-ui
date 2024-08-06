@@ -48,6 +48,8 @@ export class DataForm {
         ]
     }
 
+    CuttingOutTypeOptions = ["LOADING", "BARANG JADI"];
+
     @computedFrom("data.UnitFrom")
     get cuttingInFilter() {
         this.selectedCuttingIn = null;
@@ -108,7 +110,7 @@ export class DataForm {
                     this.data.Items.splice(0);
                 }
                 this.context.error.Items = [];
-                this.data.CuttingOutType = "SEWING";
+                // this.data.CuttingOutType = "SEWING";
                 this.data.RONo = newValue.RONo;
                 this.data.Article = newValue.Article;
                 let noResult = await this.salesService.getCostCalculationByRONo({ size: 1, filter: JSON.stringify({ RO_Number: this.data.RONo }) });
