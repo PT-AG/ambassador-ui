@@ -32,6 +32,13 @@ export class DataForm {
 
   // leadTimeList = ["", "25 hari", "35 hari"];
   leadTimeList = ["", "30 hari"];
+
+  subconTypes = [
+    "SUBCON SEWING",
+    "SUBCON CUTTING SEWING",
+    "SUBCON CUTTING SEWING FINISHING",
+  ];
+
   defaultRate = { Id: 0, Value: 0, CalculatedValue: 0 };
   rateList = ["", "IDR", "USD"];
 
@@ -94,7 +101,9 @@ export class DataForm {
         THR: this.data.THR,
         Wage: this.data.Wage,
         SMV_Total: this.data.SMV_Total,
-        Efficiency: this.data.Efficiency
+        Efficiency: this.data.Efficiency,
+        CCType: this.data.CCType,
+        SubconType: this.data.SubconType,
       });
       this.data.CostCalculationGarment_Materials.forEach((m, i) => m.MaterialIndex = i);
     }.bind(this),
@@ -111,7 +120,7 @@ export class DataForm {
 
   preSalesContractFilter = {
     IsPosted: true,
-    SCType: "JOB ORDER"
+    'SCType == "JOB ORDER" || SCType == "SUBCON" || SCType == "TERIMA SUBCON" || SCType == "SUBCON KELUAR"': true,
   }
 
   constructor(router, bindingEngine, serviceEffeciency, rateService, element, serviceCore) {
@@ -129,6 +138,7 @@ export class DataForm {
     this.context = context;
     this.data = this.context.data;
     this.error = this.context.error;
+    this.selectedSubconType = this.data.SubconType ? this.data.SubconType : "";
     this.selectedSMV_Cutting = this.data.SMV_Cutting ? this.data.SMV_Cutting : 0;
     this.selectedSMV_Sewing = this.data.SMV_Sewing ? this.data.SMV_Sewing : 0;
     this.selectedSMV_Finishing = this.data.SMV_Finishing ? this.data.SMV_Finishing : 0;
@@ -239,6 +249,8 @@ export class DataForm {
         item.Wage = this.data.Wage;
         item.SMV_Total = this.data.SMV_Total;
         item.Efficiency = this.data.Efficiency;
+        item.CCType = this.data.CCType;
+        item.SubconType = this.data.SubconType;
       })
     }
 
@@ -357,6 +369,7 @@ export class DataForm {
       this.data.Buyer = null;
       this.data.BuyerBrand = null;
       this.selectedBookingOrder = null;
+      this.data.CCType = null;
     }
 
     if ((oldValue && newValue) || (oldValue && !newValue)) {
@@ -510,6 +523,17 @@ export class DataForm {
     }
   }
 
+  @bindable selectedSubconType;
+  selectedSubconTypeChanged(newValue) {
+    this.data.SubconType = newValue;
+    if (this.data.CostCalculationGarment_Materials) {
+      this.data.CostCalculationGarment_Materials.forEach((item) => {
+        item.SubconType = this.data.SubconType;
+      });
+      this.context.itemsCollection.bind();
+    }
+  }
+
   @bindable selectedSMV_Cutting;
   selectedSMV_CuttingChanged(newValue) {
     this.data.SMV_Cutting = newValue;
@@ -609,17 +633,59 @@ export class DataForm {
     return CommissionRate;
   }
 
-  @computedFrom('data.OTL1', 'data.SMV_Total')
+  @computedFrom('data.OTL1', 'data.SMV_Total','data.SubconType')
   get calculatedRateOTL1() {
-    let calculatedRateOTL1 = this.data.SMV_Total ? this.data.OTL1.Value * this.data.SMV_Total * 60 : 0;
+    // let calculatedRateOTL1 = this.data.SMV_Total ? this.data.OTL1.Value * this.data.SMV_Total * 60 : 0;
+    let calculatedRateOTL1 = 0;
+    if (this.data.CCType == "SUBCON KELUAR") {
+      switch (this.data.SubconType) {
+        case "SUBCON SEWING":
+          calculatedRateOTL1 = this.data.SMV_Total
+            ? this.data.OTL1.Value *
+              (this.data.SMV_Cutting + this.data.SMV_Finishing)
+            : 0;
+          break;
+        case "SUBCON CUTTING SEWING":
+          calculatedRateOTL1 = this.data.SMV_Total
+            ? this.data.OTL1.Value * this.data.SMV_Finishing
+            : 0;
+          break;
+      }
+    } else {
+      calculatedRateOTL1 = this.data.SMV_Total
+        ? this.data.OTL1.Value * this.data.SMV_Total
+        : 0;
+    }
+
     calculatedRateOTL1 = numeral(calculatedRateOTL1).format();
     this.data.OTL1.CalculatedValue = numeral(calculatedRateOTL1).value();
     return calculatedRateOTL1;
   }
 
-  @computedFrom('data.OTL2', 'data.SMV_Total')
+  @computedFrom('data.OTL2', 'data.SMV_Total','data.SubconType')
   get calculatedRateOTL2() {
-    let calculatedRateOTL2 = this.data.SMV_Total ? this.data.OTL2.Value * this.data.SMV_Total * 60 : 0;
+    // let calculatedRateOTL2 = this.data.SMV_Total ? this.data.OTL2.Value * this.data.SMV_Total * 60 : 0;
+    let calculatedRateOTL2 = 0;
+
+    if (this.data.CCType == "SUBCON KELUAR") {
+      switch (this.data.SubconType) {
+        case "SUBCON SEWING":
+          calculatedRateOTL2 = this.data.SMV_Total
+            ? this.data.OTL2.Value *
+              (this.data.SMV_Cutting + this.data.SMV_Finishing)
+            : 0;
+          break;
+        case "SUBCON CUTTING SEWING":
+          calculatedRateOTL2 = this.data.SMV_Total
+            ? this.data.OTL2.Value * this.data.SMV_Finishing
+            : 0;
+          break;
+      }
+    } else {
+      calculatedRateOTL2 = this.data.SMV_Total
+        ? this.data.OTL2.Value * this.data.SMV_Total
+        : 0;
+    }
     calculatedRateOTL2 = numeral(calculatedRateOTL2).format();
     this.data.OTL2.CalculatedValue = numeral(calculatedRateOTL2).value();
     return calculatedRateOTL2;
