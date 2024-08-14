@@ -52,6 +52,16 @@ export class View {
                 }
             }
         }
+        if (this.data.SewingTo == "BARANG JADI") {
+            this.editCallback = null;
+
+            //create for delete button
+            if (this.data.CanDeleted.includes(false)) {
+                this.deleteCallback = null;
+            }
+
+        }
+
     }
 
     cancelCallback(event) {
