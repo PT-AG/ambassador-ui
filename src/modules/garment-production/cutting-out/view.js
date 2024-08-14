@@ -18,40 +18,46 @@ export class View {
                 RONo: this.data.RONo
             };
 
-            this.selectedUnit=this.data.Unit;
-            this.selectedUnitFrom=this.data.UnitFrom;
+            this.selectedUnit = this.data.Unit;
+            this.selectedUnitFrom = this.data.UnitFrom;
 
-            this.dataCutting = await this.service.getSewingDO(id);
-            let dataRemainingQuantity = 0, dataCuttingInQuantity = 0;
-            if (this.data.Items) {
-                var i = 0;
-                for(var sewingItem of this.dataCutting.Items){
-                    if(sewingItem.RemainingQuantity < sewingItem.Quantity){
-                        i++;
+            if (this.data.CuttingOutType == "LOADING") {
+                this.dataCutting = await this.service.getSewingDO(id);
+                let dataRemainingQuantity = 0, dataCuttingInQuantity = 0;
+                if (this.data.Items) {
+                    var i = 0;
+                    for (var sewingItem of this.dataCutting.Items) {
+                        if (sewingItem.RemainingQuantity < sewingItem.Quantity) {
+                            i++;
+                        }
                     }
-                }
-        //         let dataRemainingQuantity = 0, dataCuttingInQuantity = 0;
+                    //         let dataRemainingQuantity = 0, dataCuttingInQuantity = 0;
 
-        //         this.data.Items.forEach(
-        //             item => item.Details.forEach(
-        //                 detail => {
-        //                     detail.ProductCode = detail.Product.Code;
-        //                     detail.CuttingInUomUnit = detail.CuttingInUom.Unit;
-        //                     detail.Currency = "IDR";
+                    //         this.data.Items.forEach(
+                    //             item => item.Details.forEach(
+                    //                 detail => {
+                    //                     detail.ProductCode = detail.Product.Code;
+                    //                     detail.CuttingInUomUnit = detail.CuttingInUom.Unit;
+                    //                     detail.Currency = "IDR";
 
-        //                     dataRemainingQuantity += detail.RemainingQuantity;
-        //                     dataCuttingInQuantity += detail.CuttingInQuantity;
-        //                 }
-        //             )
-        //         );
+                    //                     dataRemainingQuantity += detail.RemainingQuantity;
+                    //                     dataCuttingInQuantity += detail.CuttingInQuantity;
+                    //                 }
+                    //             )
+                    //         );
                 
-        //         if(dataRemainingQuantity < dataCuttingInQuantity) {
-        //             this.editCallback = null;
-        //             this.deleteCallback = null;
-        //         }
-            }
-            if(i>0){
-                this.deleteCallback = null;
+                    //         if(dataRemainingQuantity < dataCuttingInQuantity) {
+                    //             this.editCallback = null;
+                    //             this.deleteCallback = null;
+                    //         }
+                }
+                if (i > 0) {
+                    this.deleteCallback = null;
+                }
+            } else if (this.data.CuttingOutType == "BARANG JADI") {
+                if (this.data.CanDeleted.includes(false)) {
+                    this.deleteCallback = null;
+                }
             }
         }
     }

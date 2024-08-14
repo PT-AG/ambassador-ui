@@ -4,6 +4,9 @@ const serviceUri = 'expenditure-goods';
 const comodityPriceserviceUri = 'comodity-prices';
 const finishedGoodServiceUri = 'finished-good-stocks';
 const serviceUriFinOut = 'finishing-outs';
+const serviceUriSewOut = 'sewing-outs';
+const serviceUriLoadingOut = 'loadings';
+const serviceUriCutOut = 'cutting-outs';
 
 class Service extends RestService {
     constructor(http, aggregator, config, endpoint) {
@@ -50,14 +53,29 @@ class Service extends RestService {
         return super.delete(endpoint, data);
     }
 
-    searchFinishingOut(info) {
-        var endpoint = `${serviceUriFinOut}`;
+    searchFinishingOutColor(info) {
+        var endpoint = `${serviceUriFinOut}/color`;
         return super.list(endpoint, info);
     }
 
     getPdfById(id,buyer) {
         var endpoint = `${serviceUri}/${id}/${buyer}`;
         return super.getPdf(endpoint);
+    }
+
+    searchSewingOutColor(info) {
+        var endpoint = `${serviceUriSewOut}/color`;
+        return super.list(endpoint, info);
+    }
+
+    searchLoadingOutColor(info) {
+        var endpoint = `${serviceUriLoadingOut}/color`;
+        return super.list(endpoint, info);
+    }
+
+    searchCuttingOutColor(info) {
+        var endpoint = `${serviceUriCutOut}/color`;
+        return super.list(endpoint, info);
     }
 
 }

@@ -37,6 +37,16 @@
             view-model.ref="selectedSewingDOViewModel">
         </au-autocomplete>
 
+        <au-dropdown
+        label="Proses Tujuan"
+        value.bind="data.LoadingOutType"
+        error.bind="error.LoadingOutType"
+        read-only.bind="readOnly || isEdit"
+        items.bind="LoadingOutTypeOptions"
+        options.bind="controlOptions"
+      >
+      </au-dropdown>
+
         <au-autocomplete
             value.bind="data.UnitFrom"
             error.bind="error.UnitFrom"

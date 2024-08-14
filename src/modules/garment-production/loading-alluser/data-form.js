@@ -18,7 +18,7 @@ export class DataForm {
     constructor(service) {
         this.service = service;
     }
-
+    LoadingOutTypeOptions = ["SEWING", "BARANG JADI"];
     formOptions = {
         cancelText: "Kembali",
         saveText: "Simpan",
