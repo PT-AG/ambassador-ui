@@ -261,7 +261,12 @@ export class DataForm {
                     if (ccResult.data && ccResult.data[0]) {
                         this.data.Article = ccResult.data[0].Article;
                         this.data.Comodity = ccResult.data[0].Comodity;
-                        this.uom = ccResult.data[0].UOM;
+                        // this.uom = ccResult.data[0].UOM;
+                        this.uom = {
+                            // Id: 12,
+                            Id: 5,
+                            Unit: "PCS"
+                        };
                     }
 
                     this.purchasingService.getGarmentURN(info)
