@@ -95,15 +95,31 @@ export class View {
                     { op: "replace", path: `/ROAcceptedBy`, value: this.me.username },
                     { op: "replace", path: `/ROAcceptedDate`, value: new Date() },
                 );
-            }
 
-            this.service.replaceCostCalculation(this.data.CostCalculationGarment.Id, jsonPatch)
+                //add validation for ROMD
+                if (this.data.CostCalculationGarment.IsValidatedROMD == false) {
+                    alert("Data belum di validasi oleh MD, harap follow up ke MD terlebih dahulu");
+                    this.backToList();
+                } else {
+                    this.service.replaceCostCalculation(this.data.CostCalculationGarment.Id, jsonPatch)
+                    .then(result => {
+                        this.backToList();
+                    })
+                    .catch(e => {
+                        this.error = e;
+                    });
+                }
+               
+
+            } else {
+                this.service.replaceCostCalculation(this.data.CostCalculationGarment.Id, jsonPatch)
                 .then(result => {
                     this.backToList();
                 })
                 .catch(e => {
                     this.error = e;
                 });
+            }
         }
     }
 
