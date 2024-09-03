@@ -231,7 +231,6 @@ export class DataForm {
                         this.data.Comodity = ccResult.data[0].Comodity;
                         // this.uom = ccResult.data[0].UOM;
                         this.uom = {
-                            Id: 12,
                             Id: 5,
                             Unit: "PCS"
                         };
