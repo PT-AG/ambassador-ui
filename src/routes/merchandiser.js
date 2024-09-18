@@ -930,4 +930,18 @@ module.exports = [
             iconClass: 'fa fa-calculator',
         }
     },
+    {
+        route: '/merchandiser/reject-ro-garment-report',
+        name: 'reject-ro-garment-report',
+        moduleId: './modules/merchandiser/report/reject-ro-garment-report/index',
+        nav: true,
+        title: 'Report Reject RO Garment',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "monitoring",
+            permission : {'L59' : 1},
+            iconClass: 'fa fa-calculator',
+        }
+    },
 ];
