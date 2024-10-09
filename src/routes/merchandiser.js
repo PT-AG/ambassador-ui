@@ -900,5 +900,48 @@ module.exports = [
             // permission: { "PGA": 2, "PDU": 1, "C9": 1 },
             iconClass: 'fa fa-calculator'
         }
-    }
+    },
+    {
+        route: '/merchandiser/cost-calculation-cancel-approval',
+        name: 'cost-calculation-cancel-approval',
+        moduleId: './modules/merchandiser/cost-calculation-cancel-approval/index',
+        nav: true,
+        title: 'Cancel Approval Cost Calculation',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "feature",
+            permission : {'L57' : 1},
+            iconClass: 'fa fa-calculator',
+            type: "kadivmd"
+        }
+    },
+    {
+        route: '/merchandiser/report-cost-calculation-cancel-approval',
+        name: 'report--cost-calculation-cancel-approval',
+        moduleId: './modules/merchandiser/report/cancel-approval-ccg-report/index',
+        nav: true,
+        title: 'Report Cancel Approval Cost Calculation',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "monitoring",
+            permission : {'L58' : 1},
+            iconClass: 'fa fa-calculator',
+        }
+    },
+    {
+        route: '/merchandiser/reject-ro-garment-report',
+        name: 'reject-ro-garment-report',
+        moduleId: './modules/merchandiser/report/reject-ro-garment-report/index',
+        nav: true,
+        title: 'Report Reject RO Garment',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "monitoring",
+            permission : {'L59' : 1},
+            iconClass: 'fa fa-calculator',
+        }
+    },
 ];
