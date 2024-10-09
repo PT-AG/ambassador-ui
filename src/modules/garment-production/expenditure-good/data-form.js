@@ -20,6 +20,7 @@ export class DataForm {
     @bindable selectedColor;
     @bindable selectedInvoice;
     @bindable manual;
+    @bindable selectedExpenditureFrom;
 
     constructor(service,salesService,purchasingService) {
         this.service = service;
@@ -27,6 +28,7 @@ export class DataForm {
         this.purchasingService=purchasingService;
     }
 
+    expenditureFromOptions = ["FINISHING","SEWING","LOADING", "CUTTING"];
     expenditureTypes=["EXPORT","LOKAL","LAIN-LAIN","SISA"];
 
     formOptions = {
@@ -83,11 +85,30 @@ export class DataForm {
         return `${unit.Code} - ${unit.Name}`;
     }
 
+    selectedExpenditureFromChanged(newValue, oldValue) {
+        this.selectedRO=null;
+        this.data.RONo = null;
+        this.data.Article = null;
+        this.data.Comodity=null;
+        this.data.Items = [];
+        this.data.Price=0;
+        this.data.Buyer=null;
+        this.data.ContractNo=null;
+        this.data.Description ="";
+        if (newValue) {
+            this.data.ExpenditureFrom = newValue;
+        }
+        else {
+            this.data.ExpenditureFrom = null;
+        }
+     }
+
+    @computedFrom("data.ExpenditureFrom")
     get roLoader() {
         return (keyword) => {
             var info = {
               keyword: keyword,
-              filter: JSON.stringify({UnitId: this.data.Unit.Id, "Quantity>0":true})
+              filter: JSON.stringify({UnitId: this.data.Unit.Id, "Quantity>0":true, FinishedFrom: this.data.ExpenditureFrom})
             };
             return this.service.getFinishedGoodByRo(info)
                 .then((result) => {
@@ -162,30 +183,30 @@ export class DataForm {
         this.sizes.splice(0);
         this.data.Price=0;
         this.data.Description ="";
-        if(newValue) {
+        if (newValue) {
             this.context.error.Items = [];
             this.data.RONo = newValue.RONo;
             this.data.Article = newValue.Article;
-            this.data.Comodity= newValue.Comodity;
-            var items=[];
+            this.data.Comodity = newValue.Comodity;
+            var items = [];
 
             let pr = await this.purchasingService.getGarmentPR({ size: 1, filter: JSON.stringify({ RONo: this.data.RONo }) });
                 
-            if(pr.data.length>0){
+            if (pr.data.length > 0) {
                 this.data.Buyer = pr.data[0].Buyer;
-                this.data.BuyerView= this.data.Buyer.Code + ' - '+ this.data.Buyer.Name;
+                this.data.BuyerView = this.data.Buyer.Code + ' - ' + this.data.Buyer.Name;
             }
 
             let noResult = await this.salesService.getCostCalculationByRONo({ size: 1, filter: JSON.stringify({ RO_Number: this.data.RONo }) });
-            if(noResult.data.length>0){
+            if (noResult.data.length > 0) {
                 this.data.Description = noResult.data[0].CommodityDescription;
-            } 
+            }
 
             var ROfilter = {};
             ROfilter[`SalesContractROs.Any(RONumber.Equals("${this.data.RONo}"))`] = true;
 
             let salesContractResult = await this.salesService.getSalesContractByRONo({ size: 1, filter: JSON.stringify(ROfilter) });
-            if(salesContractResult.data.length>0){
+            if (salesContractResult.data.length > 0) {
                 this.data.ContractNo = salesContractResult.data[0].SalesContractNo;
             }
 
@@ -194,78 +215,93 @@ export class DataForm {
             //     this.data.ContractNo = salesContractResult.data[0].SalesContractNo;
             // }
             
-            let priceResult= await this.service.getComodityPrice({ filter: JSON.stringify({ ComodityId: this.data.Comodity.Id, UnitId: this.data.Unit.Id , IsValid:true})});
-            if(priceResult.data.length>0){
-                this.data.Price= priceResult.data[0].Price;
+            let priceResult = await this.service.getComodityPrice({ filter: JSON.stringify({ ComodityId: this.data.Comodity.Id, UnitId: this.data.Unit.Id, IsValid: true }) });
+            if (priceResult.data.length > 0) {
+                this.data.Price = priceResult.data[0].Price;
             }
-            else{
-                this.data.Price=0;
+            else {
+                this.data.Price = 0;
             }
 
-            this.data.colors=[];
-            let finOutData=await this.service.searchFinishingOut({size:1000, filter: JSON.stringify({ RONo: this.data.RONo})});
-            
-            for(var data of finOutData.data){
-                if(data.Colors.length>0){
-                    for(var color of data.Colors){
-                        if(this.data.colors.length==0){
-                            this.data.colors.push(color);
-                        }
-                        else{
-                            var dup= this.data.colors.find(a=>a==color);
-                            if(!dup){
-                            this.data.colors.push(color);
-                            }
-                        }
+            //get data color by RONo
+            this.data.colors = [];
+            let resultColor = {};
+            //set filter to get color by RONo
+            let filterColor = { size: 99999, filter: JSON.stringify({ RONo: this.data.RONo }) };
+            switch (this.data.ExpenditureFrom) {
+                case "FINISHING":
+                    resultColor = await this.service.searchFinishingOutColor(filterColor);
+                    break;
+                case "SEWING":
+                    resultColor = await this.service.searchSewingOutColor(filterColor);
+                    break; 
+                case "LOADING":
+                    resultColor = await this.service.searchLoadingOutColor(filterColor);
+                    break;
+                case "CUTTING":
+                    resultColor = await this.service.searchCuttingOutColor(filterColor);
+                    break;
+            }
+
+            //mapping data color to array
+            for (var data of resultColor.data) {
+                if (this.data.colors.length == 0) {
+                    this.data.colors.push(data.Color);
+                }
+                else {
+                    var dup = this.data.colors.find(a => a == data.Color);
+                    if (!dup) {
+                        this.data.colors.push(data.Color);
                     }
                 }
             }
-            
-            Promise.resolve(this.service.getFinishedGood({ filter: JSON.stringify({ RONo: this.data.RONo, UnitId: this.data.Unit.Id}) }))
-                    .then(result => {
-                        for(var finGood of result.data){
-                            var item={};
-                            if(finGood.Quantity>0){
-                                if(this.sizes.length>0){
-                                    var duplicate= this.sizes.find(a=>a.Size.Id==finGood.Size.Id && a.Uom.Id==finGood.Uom.Id);
+
+            //get data finished good stock by RONo and Unit and ExpenditureFrom
+            Promise.resolve(this.service.getFinishedGood({ filter: JSON.stringify({ RONo: this.data.RONo, UnitId: this.data.Unit.Id, FinishedFrom: this.data.ExpenditureFrom }) }))
+                .then(result => {
+                    for (var finGood of result.data) {
+                        var item = {};
+                        if (finGood.Quantity > 0) {
+                            if (this.sizes.length > 0) {
+                                var duplicate = this.sizes.find(a => a.Size.Id == finGood.Size.Id && a.Uom.Id == finGood.Uom.Id);
                                     
-                                    if(duplicate){
-                                        var idx= this.data.Items.indexOf(duplicate);
-                                        //duplicate.Quantity+=finGood.Quantity;
-                                        duplicate.StockQuantity+=finGood.Quantity;
-                                        duplicate.RemainingQuantity=duplicate.StockQuantity;
-                                        this.sizes[idx]=duplicate;
-                                    }else{
-                                        item.IsSave=true;
-                                        item.Size=finGood.Size;
-                                        item.SizeName=finGood.Size.Size;
-                                        item.StockQuantity=finGood.Quantity;
-                                        item.RemainingQuantity=item.StockQuantity;
-                                        //item.Quantity=finGood.Quantity;
-                                        item.Uom= finGood.Uom;
-                                        item.colors=this.data.colors;
-                                        //this.data.Items.push(item);
-                                        this.sizes.push(item)
-                                    }
-                                }
-                                else{
-                                    item.IsSave=true;
-                                    item.Size=finGood.Size;
-                                    item.SizeName=finGood.Size.Size;
-                                    item.StockQuantity=finGood.Quantity;
-                                    item.RemainingQuantity=item.StockQuantity;
+                                if (duplicate) {
+                                    var idx = this.data.Items.indexOf(duplicate);
+                                    //duplicate.Quantity+=finGood.Quantity;
+                                    duplicate.StockQuantity += finGood.Quantity;
+                                    duplicate.RemainingQuantity = duplicate.StockQuantity;
+                                    this.sizes[idx] = duplicate;
+                                } else {
+                                    item.IsSave = true;
+                                    item.Size = finGood.Size;
+                                    item.SizeName = finGood.Size.Size;
+                                    item.StockQuantity = finGood.Quantity;
+                                    item.RemainingQuantity = item.StockQuantity;
                                     //item.Quantity=finGood.Quantity;
-                                    item.Uom= finGood.Uom;
-                                    item.colors=this.data.colors;
-                                    this.sizes.push(item);
+                                    item.Uom = finGood.Uom;
+                                    item.colors = this.data.colors;
+                                    //this.data.Items.push(item);
+                                    this.sizes.push(item)
                                 }
-                                
                             }
+                            else {
+                                item.IsSave = true;
+                                item.Size = finGood.Size;
+                                item.SizeName = finGood.Size.Size;
+                                item.StockQuantity = finGood.Quantity;
+                                item.RemainingQuantity = item.StockQuantity;
+                                //item.Quantity=finGood.Quantity;
+                                item.Uom = finGood.Uom;
+                                item.colors = this.data.colors;
+                                this.sizes.push(item);
+                            }
+                                
                         }
-                        console.log(this.size)
-                        this.sizes.sort((a, b)=>a.SizeName.localeCompare(b.SizeName));
-                    });
-            }
+                    }
+                    console.log(this.size)
+                    this.sizes.sort((a, b) => a.SizeName.localeCompare(b.SizeName));
+                });
+        }
         else {
             this.context.selectedROViewModel.editorValue = "";
             this.data.RONo = null;

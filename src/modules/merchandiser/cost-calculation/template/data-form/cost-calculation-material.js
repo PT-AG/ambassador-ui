@@ -46,8 +46,15 @@ export class CostCalculationMaterial {
 
             if (this.data.Category.name.toUpperCase() == 'PROCESS') {
                 this.isProcess = true;
-                if(!this.data.Id) {
-                    this.data.Price = this.calculateProcessPrice();
+                if(!this.data.Id && !this.data.isCopy) {
+                    //Calculated Price jika CC bukan tipe Subcon Keluar
+                    if (this.data.CCType != "SUBCON KELUAR")
+                        this.data.Price = this.calculateProcessPrice();
+
+                    //Calculated Price jika CC tipe Subcon Keluar
+                    else if (this.data.CCType == "SUBCON KELUAR") {
+                        this.data.Price = this.calculateProcessPriceSubconOut();
+                    };
                 }
                 
             }
@@ -135,7 +142,7 @@ export class CostCalculationMaterial {
                         //this.data.showDialog = false;
                     });
                     
-            } else if (this.data.Category.name.toUpperCase() === "PROCESS") {
+            } else if (this.data.Category.name.toUpperCase() === "PROCESS" || this.data.Category.name.toUpperCase() === "PROCESS SUBCON") {
                 this.data.Product = await this.serviceCore.getByName(newVal.name);
                 let UOM = await this.serviceCore.getUomByUnit("PCS");
                 this.data.UOMQuantity = UOM;
@@ -145,7 +152,19 @@ export class CostCalculationMaterial {
                 this.data.Conversion = 1;
                 this.categoryIsExist = false;
                 this.productCode = this.data.Product ? this.data.Product.Code : "";
-                this.data.Price = this.calculateProcessPrice();
+                //Calculated Price jika CC bukan tipe Subcon Keluar tapi Category Process
+                if (this.data.CCType != "SUBCON KELUAR" && this.data.Category.name.toUpperCase() === "PROCESS") {
+                    this.data.Price = this.calculateProcessPrice(); 
+
+                //Calculated Price jika CC tipe Subcon Keluar tapi Category Process
+                } else if(this.data.CCType == "SUBCON KELUAR" && this.data.Category.name.toUpperCase() === "PROCESS") {
+                    this.data.Price = this.calculateProcessPriceSubconOut();
+
+                //Disable IsProcess untuk jika Category PROCESS SUBCON
+                } else if (this.data.Category.name.toUpperCase() === "PROCESS SUBCON") {
+                    this.isProcess = false;
+                }
+                
             } else {
                 this.categoryIsExist = false;
                 this.data.Product = await this.serviceCore.getByName(newVal.name);
@@ -159,13 +178,44 @@ export class CostCalculationMaterial {
     }
 
     calculateProcessPrice() {
-        let CuttingFee = this.data.Wage.Value * this.data.SMV_Cutting * (100 / 75);
-        let SewingFee = this.data.Wage.Value * this.data.SMV_Sewing * (100 / this.data.Efficiency.Value);
-        let FinishingFee = this.data.Wage.Value * this.data.SMV_Finishing * (100 / 90);
-        let THR = this.data.THR.Value * this.data.SMV_Total;
+        var result =0;
+        if(this.data.Wage){
+            let CuttingFee = this.data.Wage.Value * this.data.SMV_Cutting * (100 / 70);
+            let SewingFee = this.data.Wage.Value * this.data.SMV_Sewing * (100 / this.data.Efficiency.Value);
+            let FinishingFee = this.data.Wage.Value * this.data.SMV_Finishing * (100 / 92);
+            let THR = this.data.THR.Value * this.data.SMV_Total;
+            result = CuttingFee + SewingFee + FinishingFee + THR;
+        }
+        return numeral(numeral(result).format(rateNumberFormat)).value();
+    }
+
+    calculateProcessPriceSubconOut() {
+        let CuttingFee = 0;
+        // let SewingFee = this.data.Wage.Value * this.data.SMV_Sewing * (100 / this.data.Efficiency.Value);
+        let SewingFee = 0;
+        let FinishingFee = 0;
+        let THR = 0;
+        switch (this.data.SubconType) {
+            //Jika tipe subcon Sewing maka ingore SMV_Sewing
+            case "SUBCON SEWING":
+                CuttingFee = this.data.Wage.Value * this.data.SMV_Cutting * (100 / 70);
+                FinishingFee = this.data.Wage.Value * this.data.SMV_Finishing * (100 / 92);
+                THR = this.data.THR.Value * (this.data.SMV_Cutting + this.data.SMV_Finishing);
+                break;
+            //Jika tipe subcon Cutting Sewing maka ingore SMV_Sewing dan SMV_Cutting
+            case "SUBCON CUTTING SEWING":
+                FinishingFee = this.data.Wage.Value * this.data.SMV_Finishing * (100 / 92);
+                THR = this.data.THR.Value * this.data.SMV_Finishing;
+                break
+             //Jika tipe subcon Cutting Sewing Finishing maka ignore semua SMV
+            default:
+                break;
+        }
+        // let THR = this.data.THR.Value * this.data.SMV_Total;
         let result = CuttingFee + SewingFee + FinishingFee + THR;
         return numeral(numeral(result).format(rateNumberFormat)).value();
     }
+
 
     @bindable selectedComposition;
     filterProductQuery = {};
@@ -422,17 +472,58 @@ uomView =(uom)=>{
 
     @computedFrom('data.Quantity', 'data.Price', 'data.Conversion', 'data.isFabricCM')
     get total() {
-        let total = this.data.Quantity && this.data.Conversion && parseFloat( this.data.Price) ? (parseFloat(this.data.Price) / this.data.Conversion * this.data.Quantity ): 0;
-        //total = numeral(total).format();
-        if (this.data.isFabricCM) {
-            this.data.Total = 0;
-            this.data.TotalTemp =numeral(total).value();
-            this.data.CM_Price =numeral(total).value();
-        }
-        else {
-            this.data.Total =numeral(total).value();
-            this.data.TotalTemp =numeral(total).value();;
-            this.data.CM_Price = null;
+        let total = 0;
+        //Calculated Item jika bukan tipe Subcon Keluar
+        if (this.data.CCType != "SUBCON KELUAR") {
+            total = this.data.Quantity && this.data.Conversion && parseFloat(this.data.Price) ? (parseFloat(this.data.Price) / this.data.Conversion * this.data.Quantity) : 0;
+            //total = numeral(total).format();
+            if (this.data.isFabricCM) {
+                this.data.Total = 0;
+                this.data.TotalTemp = numeral(total).value();
+                this.data.CM_Price = numeral(total).value();
+            }
+            else {
+                this.data.Total = numeral(total).value();
+                this.data.TotalTemp = numeral(total).value();;
+                this.data.CM_Price = null;
+            }
+        //Calculated Item jika tipe Subcon Keluar
+        } else if (this.data.CCType == "SUBCON KELUAR" && this.data.Category) {
+            //Calculated Item jika Category PROCESS SUBCON
+            if (this.data.Category.name.toUpperCase() === "PROCESS SUBCON") {
+                // total = this.data.Quantity && this.data.Conversion && parseFloat(this.data.Price) ? (parseFloat(this.data.Price) / this.data.Conversion * this.data.Quantity) : 0;
+                total =  this.data.Price ?  parseFloat(this.data.Price) : 0;
+                // //total = numeral(total).format();
+                // switch (this.data.SubconType) {
+                //     case "SUBCON SEWING":
+                //         total = total * (this.data.SMV_Sewing);
+                //         break;
+                //     case "SUBCON CUTTING SEWING":
+                //         total = total * (this.data.SMV_Sewing + this.data.SMV_Cutting);
+                //         break;
+                //     case "SUBCON CUTTING SEWING FINISHING":
+                //         total = total * (this.data.SMV_Sewing + this.data.SMV_Cutting + this.data.SMV_Finishing);
+                //         break;
+                // }
+            
+                this.data.Total = numeral(total).value();
+                this.data.TotalTemp = numeral(total).value();;
+                this.data.CM_Price = null;
+            //Calculated Item jika Category bukan PROCESS SUBCON
+            } else {
+                total = this.data.Quantity && this.data.Conversion && parseFloat(this.data.Price) ? (parseFloat(this.data.Price) / this.data.Conversion * this.data.Quantity) : 0;
+                //total = numeral(total).format();
+                if (this.data.isFabricCM) {
+                    this.data.Total = 0;
+                    this.data.TotalTemp = numeral(total).value();
+                    this.data.CM_Price = numeral(total).value();
+                }
+                else {
+                    this.data.Total = numeral(total).value();
+                    this.data.TotalTemp = numeral(total).value();;
+                    this.data.CM_Price = null;
+                }
+            }
         }
         total=parseFloat(total).toFixed(2);
         
