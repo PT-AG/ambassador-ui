@@ -14,6 +14,23 @@
                     options.bind="length4"
                     keypress.delegate="enterDelegate($event)">
                 </au-autocomplete>
+
+                <au-textbox 
+                    label="Tipe Pre SC" 
+                    value.bind="data.CCType" 
+                    read-only="true" 
+                    options.bind="length4">
+                </au-textbox>
+                
+                <au-dropdown 
+                    label="Jenis Subcon" 
+                    value.bind="selectedSubconType" 
+                    error.bind="error.SubconType"
+                    items.bind="subconTypes" 
+                    options.bind="length4" 
+                    if.bind="data.CCType == 'SUBCON KELUAR'">
+                </au-dropdown>
+                
                 <au-textbox
                     label="Artikel"
                     placeholder="Nama Artikel"

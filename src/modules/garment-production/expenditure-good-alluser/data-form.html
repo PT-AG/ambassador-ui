@@ -33,6 +33,15 @@
                     options.bind="controlOptions">
                 </au-dropdown>
 
+                <au-dropdown
+                    label="Asal Barang"
+                    value.bind="selectedExpenditureFrom"
+                    error.bind="error.ExpenditureFrom"
+                    read-only.bind="readOnly || isEdit"
+                    items.bind="expenditureFromOptions"
+                    options.bind="controlOptions ">
+                </au-dropdown>
+
                 <au-autocomplete
                     value.bind="selectedRO"
                     error.bind="error.RONo"

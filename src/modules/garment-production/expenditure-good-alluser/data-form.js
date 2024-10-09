@@ -21,7 +21,7 @@ export class DataForm {
         this.purchasingService=purchasingService;
     }
     expenditureTypes=["EXPORT","LAIN-LAIN","SISA"];
-
+    expenditureFromOptions = ["FINISHING","SEWING","LOADING", "CUTTING"];
     formOptions = {
         cancelText: "Kembali",
         saveText: "Simpan",

@@ -18,7 +18,7 @@ export class DataForm {
     @bindable itemOptions = {};
     @bindable selectedSewingTo;
 
-    sewingToOptions = ['FINISHING','SEWING', 'CUTTING'];
+    sewingToOptions = ['FINISHING','SEWING', 'CUTTING','BARANG JADI'];
 
     constructor(service,purchasingService) {
         this.service = service;

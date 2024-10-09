@@ -23,7 +23,7 @@ export class DataForm {
         this.salesService = salesService;
         this.coreService = coreService;
     }
-
+    CuttingOutTypeOptions = ["LOADING", "BARANG JADI"];
     formOptions = {
         cancelText: "Kembali",
         saveText: "Simpan",
