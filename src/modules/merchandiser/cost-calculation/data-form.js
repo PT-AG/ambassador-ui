@@ -653,7 +653,7 @@ export class DataForm {
       }
     } else {
       calculatedRateOTL1 = this.data.SMV_Total
-        ? this.data.OTL1.Value * this.data.SMV_Total
+        ? this.data.OTL1.Value * this.data.SMV_Total * 60
         : 0;
     }
 
@@ -683,7 +683,7 @@ export class DataForm {
       }
     } else {
       calculatedRateOTL2 = this.data.SMV_Total
-        ? this.data.OTL2.Value * this.data.SMV_Total
+        ? this.data.OTL2.Value * this.data.SMV_Total * 60
         : 0;
     }
     calculatedRateOTL2 = numeral(calculatedRateOTL2).format();
