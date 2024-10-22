@@ -912,7 +912,7 @@ module.exports = [
         settings: {
             group: "merchandiser",
             subGroup: "feature",
-            permission : {'L57' : 1},
+            permission : {'L58' : 1},
             iconClass: 'fa fa-calculator',
             type: "kadivmd"
         }
@@ -927,7 +927,7 @@ module.exports = [
         settings: {
             group: "merchandiser",
             subGroup: "monitoring",
-            permission : {'L58' : 1},
+            permission : {'L59' : 1},
             iconClass: 'fa fa-calculator',
         }
     },
@@ -941,7 +941,7 @@ module.exports = [
         settings: {
             group: "merchandiser",
             subGroup: "monitoring",
-            permission : {'L59' : 1},
+            permission : {'L60' : 1},
             iconClass: 'fa fa-calculator',
         }
     },
