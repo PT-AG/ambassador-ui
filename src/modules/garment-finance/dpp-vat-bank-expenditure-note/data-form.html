@@ -68,6 +68,13 @@
                        options.bind="controlOptions">
         </au-datepicker>
 
+         <au-textbox label="Keterangan"
+                    value.bind="data.Remark"
+                    error.bind="errorRemark"
+                    read-only.bind="readOnly"
+                    options.bind="controlOptions">
+        </au-textbox>
+
         <!-- <au-collection show.bind="readOnly"
                        items.bind="data.Items"
                        columns.bind="collection.columns"
