@@ -59,6 +59,21 @@
                     options.bind="controlOptions">
         </au-textbox>
 
+        <au-numeric label="Selisih Nominal" 
+                    value.bind="data.DiffAmount"
+                    error.bind="error.DiffAmount"
+                    read-only.bind="true"
+                    format="0,000.0000"
+                    options.bind="controlOptions">
+        </au-numeric> 
+
+        <au-textbox label="Keterangan Selisih"
+                    value.bind="data.DiffRemark"
+                    error.bind="error.DiffRemark"
+                    read-only.bind="true"
+                    options.bind="controlOptions">
+        </au-textbox>
+
         <au-collection items.bind="data.Items"
                        columns.bind="collection.columns"
                        item-template="modules/garment-finance/payment-disposition-note/templates/item-view"
