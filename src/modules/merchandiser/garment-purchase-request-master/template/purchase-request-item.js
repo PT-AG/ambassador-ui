@@ -14,6 +14,10 @@ export class PurchaseRequestItem {
   @bindable selectedWidth;
   @bindable selectedUom;
 
+  filterMaterial = {
+    "Name == \"GARMENT\"": false
+  };
+
   get categoryLoader() {
     return CategoryLoader;
   }
