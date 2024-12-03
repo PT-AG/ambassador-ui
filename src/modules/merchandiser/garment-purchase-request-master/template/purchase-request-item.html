@@ -11,6 +11,7 @@
             <au-autocomplete
                 value.bind="selectedCategory"
                 error.bind="error.Category"
+                query.bind="filterMaterial"
                 loader.bind="categoryLoader"
                 read-only.bind="readOnly || isEdit"
                 placeholder="Kategori"
