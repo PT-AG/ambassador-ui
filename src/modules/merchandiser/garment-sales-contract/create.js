@@ -14,7 +14,6 @@ export class Create {
         this.error = {};
     }
 
-
     back() {
         this.router.navigateToRoute('list');
     }
@@ -26,7 +25,6 @@ export class Create {
     }
 
     save() {
-        
         this.service.create(this.data)
             .then(result => {
                 alert("Data berhasil dibuat");

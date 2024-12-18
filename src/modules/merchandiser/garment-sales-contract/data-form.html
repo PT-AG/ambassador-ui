@@ -38,6 +38,7 @@
           value.bind="data.RecipientJob"
           error.bind="error.RecipientJob"
           read-only.bind="readOnly"
+          show.bind="selectedBuyer != null && buyerType == 'Badan Hukum'"
           options.bind="controlOptions">
         </au-textbox>
         
