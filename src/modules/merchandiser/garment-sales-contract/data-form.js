@@ -13,6 +13,8 @@ export class DataForm {
   @bindable error = {};
   @bindable hasItems = false;
   @bindable type = "Ekspor";
+  @bindable buyerType = "Non Badan Hukum";
+
   lampHeader = [{ header: "Standar Lampu" }];
 
   DeliveryOptions = ["BY LAND", "BY SEA", "BY AIR", "BY SEA-AIR"];
@@ -36,6 +38,7 @@ export class DataForm {
     this.data = context.data;
     this.error = context.error;
     this.data.CreatedUtc = this.data.CreatedUtc ? this.data.CreatedUtc : new Date();
+    
     // this.itemsInfo.options = {
     //   ROList: []
     // }
@@ -59,7 +62,9 @@ export class DataForm {
       this.data.buyer = this.data.BuyerBrandCode + " - " +this.data.BuyerBrandName;
       var buyerBrand = await this.coreService.getBuyerBrandById(this.data.BuyerBrandId);
       var buyer = await this.coreService.getBuyerById(buyerBrand.Buyers.Id);
+      
       this.type = buyer.Type;
+      this.buyerType = buyer.BuyerType;
       this.data.SCType = this.type;
       this.selectedBuyer = buyerBrand;
 
@@ -92,7 +97,6 @@ export class DataForm {
     if(!this.data.DocPresented || this.data.DocPresented==""){
       this.data.DocPresented="INVOICE OF COMMERCIAL VALUE \nPACKING LIST \nEXPORT LICENSE \nCERTIFICATE OF ORIGIN / G.S.P FORM A \nINSPECTION CERTIFICATE ";
     }
-    
   }
 
   @bindable selectedAccountBank;
@@ -103,7 +107,6 @@ export class DataForm {
       this.data.AccountBank = null;
     }
   }
-
 
   get detailHeader() {
       return [{ header: "RO" },{ header: "Article" }, 
@@ -149,10 +152,8 @@ export class DataForm {
   }
   
   get removeItems() {
-    return async (event) => //console.log(event.detail);
+    return async (event) =>
     {
-        console.log(event);
-
         var _ro = event.detail.RONumber;
 
         if(this.itemOptions.ROList.includes(_ro)){
@@ -169,23 +170,26 @@ export class DataForm {
         }
 
         this.data.Amount=parseFloat(this.data.Amount).toLocaleString('en-EN', { minimumFractionDigits: 2});
-      }
     }
+  }
   
   @bindable selectedBuyer;
   async selectedBuyerChanged(newValue){
-    if(!this.data.Id && this.data.SalesContractROs){
+    if (!this.data.Id && this.data.SalesContractROs) {
       this.data.SalesContractROs.splice(0);
     }
-    if(newValue){
-      this.data.BuyerBrandName= newValue.Name;
-      this.data.BuyerBrandCode= newValue.Code;
-      this.data.BuyerBrandId=newValue.Id;
-      var buyerBrand= await this.coreService.getBuyerBrandById(this.data.BuyerBrandId);
-      var buyer= await this.coreService.getBuyerById(buyerBrand.Buyers.Id);
-      this.type= buyer.Type;
-      this.data.SCType= buyer.Type;
-      if(this.type=="Ekspor"){
+
+    if (newValue) {
+      this.data.BuyerBrandName = newValue.Name;
+      this.data.BuyerBrandCode = newValue.Code;
+      this.data.BuyerBrandId = newValue.Id;
+      var buyerBrand = await this.coreService.getBuyerBrandById(this.data.BuyerBrandId);
+      var buyer = await this.coreService.getBuyerById(buyerBrand.Buyers.Id);
+      this.type = buyer.Type;
+      this.buyerType = buyer.BuyerType;
+      this.data.BuyerType = buyer.BuyerType;
+      this.data.SCType = buyer.Type;
+      if (this.type == "Ekspor") {
         this.data.SalesContractROs.push({
           buyer: this.data.BuyerBrandId,
           type: this.data.SCType
@@ -196,26 +200,26 @@ export class DataForm {
   
   get amount(){
     this.data.Amount=0;
-    if(this.data.SalesContractROs)
-      for(var item of this.data.SalesContractROs)
-        if(this.data.SalesContractROs){
+    if (this.data.SalesContractROs)
+      for (var item of this.data.SalesContractROs)
+        if (this.data.SalesContractROs) {
           this.data.Amount+=parseFloat(item.Amount);
         }
     return this.data.Amount;
   }
 
-  async itemsChanged(e){
+  async itemsChanged(e) {
     this.hasItems=true;
     this.data.Amount=0;
-    if(this.data.SalesContractROs){
-        for(var item of this.data.SalesContractROs){
-            if(item.Amount){
+    if (this.data.SalesContractROs) {
+        for (var item of this.data.SalesContractROs) {
+            if (item.Amount) {
                 this.data.Amount+=parseFloat(item.Amount);
             }
         }
+
        // this.data.Amount=parseFloat(this.data.Amount).toLocaleString('en-EN', { minimumFractionDigits: 2});
-        
        // console.log(this.data.Amount)
     }
-}
+  }
 }
