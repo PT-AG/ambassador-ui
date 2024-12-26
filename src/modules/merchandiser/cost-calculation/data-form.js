@@ -340,6 +340,7 @@ export class DataForm {
       this.data.CommissionPortion=0;
       this.data.CommissionRate=0;
       this.data.PreSCId = newValue.Id;
+      this.data.CCType = newValue.SCType;
       this.data.PreSCNo = newValue.SCNo;
       this.data.Section = newValue.SectionCode;
       const section = await this.serviceCore.getSection(newValue.SectionId);
