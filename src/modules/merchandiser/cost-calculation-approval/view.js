@@ -247,10 +247,6 @@ export class View {
         this.data.SMV_Total = numeral(this.data.SMV_Total).format();
     
         this.data.LeadTime = `${this.data.LeadTime} hari`
-        this.data.ConfirmPrice=(this.data.ConfirmPrice.toLocaleString('en-EN', { minimumFractionDigits: 2}));
-    
-
-        this.data.LeadTime = `${this.data.LeadTime} hari`
         this.data.ConfirmPrice = (this.data.ConfirmPrice.toLocaleString('en-EN', { minimumFractionDigits: 4 }));
 
         this.editCallback = this.approve;
