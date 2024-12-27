@@ -125,7 +125,6 @@ export class View {
         }
 
         var id = params.id;
-
         if (this.type !== "KadivMD" && this.type !== "PPIC" && this.type !== "IE") {
             this.data = await this.service.getById(id);
         } else {
@@ -183,42 +182,59 @@ export class View {
                 CM_Price += Number(item.CM_Price);
             });
         }
-
+        var isFabricCM= this.data.CostCalculationGarment_Materials.find(a=>a.isFabricCM);
+        
         let FOB_Price = this.data.ConfirmPrice;
-        let CNF_Price = _confirmPrice;
-        let CIF_Price = _confirmPrice;
-        if (this.data.Freight == 0) {
-            CNF_Price = 0;
-        }
-        if (this.data.Insurance == 0) {
-            CIF_Price = 0;
-        }
-        if (CM_Price > 0) {
-            FOB_Price = 0;
+        let CNF_Price=_confirmPrice;
+        let CIF_Price=_confirmPrice;
+        console.log(this.data.ConfirmPrice,_confirmPrice);
+        if(this.data.ConfirmPrice)
+            {
+            CNF_Price=0;
+            }
+            if(this.data.Insurance ==0)
+            {
+            CIF_Price=0;
+            }
+        if(CM_Price >0)
+        {
+            FOB_Price=0;
         }
         this.data.ConfirmPrice = this.isDollar
-            ? US + this.data.ConfirmPrice.toLocaleString('en-EN', { minimumFractionDigits: 4 })//numeral(this.data.ConfirmPrice).format()
-            : RP + this.data.ConfirmPrice.toLocaleString('en-EN', { minimumFractionDigits: 4 });
-        this.data.FOB_Price = this.isDollar
+            ? US + this.data.ConfirmPrice.toLocaleString('en-EN', { minimumFractionDigits: 2})//numeral(this.data.ConfirmPrice).format()
+            : RP + this.data.ConfirmPrice.toLocaleString('en-EN', { minimumFractionDigits: 2});
+        this.data.FOB_Price = isFabricCM ? numeral(0).format() : this.isDollar
             ? US + numeral(FOB_Price).format()
             : RP + numeral(FOB_Price).format();
-        this.data.CMT_Price =
-            CM_Price > 0 ? this.data.ConfirmPrice : numeral(0).format();
+            console.log(isFabricCM)
+        if(isFabricCM){
+            if(CM_Price > 0){
+            this.data.CMT_Price = this.data.ConfirmPrice ;
+            }
+            else{
+            this.data.CMT_Price =this.isDollar
+            ? US + numeral(FOB_Price).format()
+            : RP + numeral(FOB_Price).format();
+            }
+        }
+        else{
+            this.data.CMT_Price = numeral(0).format()
+        }
         this.data.CNF_Price = this.isDollar
-            ? US + numeral((CNF_Price + this.data.Freight)).format()
+            ? US + numeral(( CNF_Price +this.data.Freight)).format()
             : RP + numeral(0).format();
         this.data.CIF_Price = this.isDollar
-            ? US + numeral(CIF_Price + _insurance).format()
+            ? US + numeral(CIF_Price +_insurance).format()
             : RP + numeral(0).format();
         this.data.priceInfo = [
             {
-                FOB_Price: this.data.FOB_Price,
-                CMT_Price: this.data.CMT_Price,
-                CNF_Price: this.data.CNF_Price,
-                CIF_Price: this.data.CIF_Price
+            FOB_Price: this.data.FOB_Price,
+            CMT_Price: this.data.CMT_Price,
+            CNF_Price: this.data.CNF_Price,
+            CIF_Price: this.data.CIF_Price
             }
         ];
-
+        
         this.data.Freight = this.isDollar
             ? US + numeral(this.data.Freight).format()
             : RP + numeral(this.data.Freight).format();
@@ -229,6 +245,10 @@ export class View {
         this.data.SMV_Sewing = numeral(this.data.SMV_Sewing).format();
         this.data.SMV_Finishing = numeral(this.data.SMV_Finishing).format();
         this.data.SMV_Total = numeral(this.data.SMV_Total).format();
+    
+        this.data.LeadTime = `${this.data.LeadTime} hari`
+        this.data.ConfirmPrice=(this.data.ConfirmPrice.toLocaleString('en-EN', { minimumFractionDigits: 2}));
+    
 
         this.data.LeadTime = `${this.data.LeadTime} hari`
         this.data.ConfirmPrice = (this.data.ConfirmPrice.toLocaleString('en-EN', { minimumFractionDigits: 4 }));
