@@ -187,15 +187,15 @@ export class View {
         let FOB_Price = this.data.ConfirmPrice;
         let CNF_Price=_confirmPrice;
         let CIF_Price=_confirmPrice;
-        console.log(this.data.ConfirmPrice,_confirmPrice);
-        if(this.data.ConfirmPrice)
-            {
-            CNF_Price=0;
-            }
-            if(this.data.Insurance ==0)
-            {
-            CIF_Price=0;
-            }
+        
+        if(this.data.Freight==0)
+        {
+        CNF_Price=0;
+        }
+        if(this.data.Insurance ==0)
+        {
+        CIF_Price=0;
+        }
         if(CM_Price >0)
         {
             FOB_Price=0;
