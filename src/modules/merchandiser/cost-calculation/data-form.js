@@ -31,7 +31,7 @@ export class DataForm {
   @bindable isCopy = false;
 
   // leadTimeList = ["", "25 hari", "35 hari"];
-  leadTimeList = ["", "30 hari"];
+  leadTimeList = ["30 hari"];
 
   subconTypes = [
     "SUBCON SEWING",
