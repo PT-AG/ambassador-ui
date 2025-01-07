@@ -138,8 +138,9 @@ export class DataForm {
                                     if(doItem.Id == item.UnitDOItemId ){
                                         item.ROSource = doItem.RONo;
                                         item.DesignColor = doItem.DesignColor;
+                                        item.CustomsCategory=doItem.CustomsCategory;
                                     }
-                                    item.CustomsCategory=doItem.CustomsCategory;
+                                   
                                 }                
                             }
                         });
