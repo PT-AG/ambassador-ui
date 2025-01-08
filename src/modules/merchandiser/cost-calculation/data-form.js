@@ -31,7 +31,7 @@ export class DataForm {
   @bindable isCopy = false;
 
   // leadTimeList = ["", "25 hari", "35 hari"];
-  leadTimeList = ["", "30 hari"];
+  leadTimeList = ["30 hari"];
 
   subconTypes = [
     "SUBCON SEWING",
@@ -340,6 +340,7 @@ export class DataForm {
       this.data.CommissionPortion=0;
       this.data.CommissionRate=0;
       this.data.PreSCId = newValue.Id;
+      this.data.CCType = newValue.SCType;
       this.data.PreSCNo = newValue.SCNo;
       this.data.Section = newValue.SectionCode;
       const section = await this.serviceCore.getSection(newValue.SectionId);
