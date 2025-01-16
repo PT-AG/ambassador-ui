@@ -35,7 +35,7 @@ export class DataForm {
   CCG_M_AccessoriesInfo = {
     columns: [
       { header: "No PO" },
-      { header: "Product Code" },
+      { header: "Category Name" },
       { header: "Description", value: "Description" },
       { header: "Detil Barang", value: "Detil Barang" },
       { header: "Quantity", value: "Quantity" },
