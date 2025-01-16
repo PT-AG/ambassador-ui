@@ -34,7 +34,12 @@
             <au-textbox value.bind="data.Product.Code" options.bind="controlOptions" read-only.bind="disabled"></au-textbox>
         </td>
         <td class="col-sm-2">
-            <au-textbox value.bind="data.Description" options.bind="controlOptions" read-only.bind="disabled"></au-textbox>
+            <au-textbox value.bind="data.Category.name" options.bind="controlOptions"
+                read-only.bind="disabled"></au-textbox>
+        </td>
+        <td class="col-sm-2">
+            <au-textbox value.bind="data.Description" options.bind="controlOptions"
+                read-only.bind="disabled"></au-textbox>
         </td>
         <td class="col-sm-3">
             <au-textbox value.bind="data.ProductRemark" options.bind="controlOptions" read-only.bind="disabled"></au-textbox>
