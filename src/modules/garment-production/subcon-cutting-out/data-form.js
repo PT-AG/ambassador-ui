@@ -238,7 +238,7 @@ export class DataForm {
           keyword: keyword,
           // filter: JSON.stringify({ ProductName:"PROCESS"})
           filter: JSON.stringify({
-            '( ProductName == "PROCESS" || ProductName == "SUBCON" )': true,
+            '( ProductName == "PROCESS" || ProductName == "SUBCON" || ProductName =="PROCESS SUBCON")': true,
           }),
         };
         return this.purchasingService
