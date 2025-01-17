@@ -49,8 +49,8 @@ export class SideNavBar {
       if (route.config.auth !== true) return true;
 
       var routePermission = route.config.settings.permission || {};
-      var myPermission = me.permission;
-
+      var myPermission =JSON.parse(me.permission);
+      
       var routeKeys = Object.getOwnPropertyNames(routePermission);
 
       if (routeKeys.find((key) => key === "*")) return true;
@@ -75,10 +75,6 @@ export class SideNavBar {
 
     for (var route of routes) {
       if (route.settings && (route.settings.group || "").trim().length > 0) {
-        // if (
-        //   route.settings &&
-        //   (route.settings.subGroup || "").trim().length > 0
-        // ) {
         var key = (route.settings.group || "uncategorized").trim();
         var subKey = (route.settings.subGroup || "uncategorized").trim();
 
@@ -115,13 +111,6 @@ export class SideNavBar {
       this.activeSubMenu = [];
     }
 
-    // if (this.activeMenu.has("uncategorized")) {
-    //   this.activeMenu.delete("uncategorized");
-    // }
-
-    // console.log("this.activeTitle/key", this.activeTitle);
-    // console.log("this.activeMenu/value", this.activeMenu);
-    // console.log("this.hasNoSubGroup", this.hasNoSubGroup);
   }
 
   selectSubMenu(key, value) {
@@ -135,8 +124,6 @@ export class SideNavBar {
       this.activeItem = {};
     }
 
-    // console.log("this.activeSubtitle/key", this.activeSubtitle);
-    // console.log("this.activeSubMenu/value", this.activeSubMenu);
   }
 
   selectItem() {
