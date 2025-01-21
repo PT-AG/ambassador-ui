@@ -207,7 +207,7 @@ export class DataForm {
                     this.itemsRONo = [""];
                     for (var item of result.items) {
                         for (var detail of item.fulfillments) {
-                            if (this.itemsRONo.indexOf(detail.rONo) < 0 && (detail.product.Name === "PROCESS" ||detail.product.Name === "SUBCON" )) {
+                            if (this.itemsRONo.indexOf(detail.rONo) < 0 && (detail.product.Name === "PROCESS" ||detail.product.Name === "SUBCON" || detail.product.Name === "PROCESS SUBCON")) {
                                 this.itemsRONo.push(detail.rONo);
                             }
                         }
