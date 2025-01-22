@@ -231,12 +231,12 @@ export class DataForm {
             let DODetailIds = [];
             for (var item of this.garmentDOData.items) {
                 for (var detail of item.fulfillments) {
-                    if (detail.rONo === newValue && (detail.product.Name === "PROCESS" || detail.product.Name === "SUBCON")) {
+                    if (detail.rONo === newValue && (detail.product.Name === "PROCESS" || detail.product.Name === "SUBCON" || detail.product.Name === "PROCESS SUBCON")) {
                         DODetailIds.push(detail.Id);
                     }
                 }
             }
-
+console.log(DODetailIds);
             const DODetailIdFilter = DODetailIds
                 .filter((DODetailId, i) => DODetailIds.indexOf(DODetailId) == i)
                 .map(DODetailId => "DODetailId==" + DODetailId)
@@ -280,7 +280,7 @@ export class DataForm {
                                 }
                                 for (var item of this.garmentDOData.items) {
                                     for (var detail of item.fulfillments) {
-                                        if (detail.rONo === newValue && (detail.product.Name === "PROCESS" || detail.product.Name === "SUBCON")) {
+                                        if (detail.rONo === newValue && (detail.product.Name === "PROCESS" || detail.product.Name === "SUBCON" || detail.product.Name === "PROCESS SUBCON")) {
                                             this.dataDODetails.push({
                                                 ProductCode: detail.product.Code,
                                                 ProductName: detail.product.Name,
