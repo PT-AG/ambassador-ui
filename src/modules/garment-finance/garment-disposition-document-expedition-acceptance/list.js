@@ -9,8 +9,8 @@ import { PermissionHelper } from "../../../utils/permission-helper";
 import {
   VERIFICATION,
   CASHIER,
-  RETUR
-} from "../shared/permission-constants";
+  RETUR,
+} from "./permission-constant";
 
 @inject(Router, Service, Dialog, PermissionHelper)
 export class List {

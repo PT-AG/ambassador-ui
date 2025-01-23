@@ -10,7 +10,7 @@ import {
   VERIFICATION,
   CASHIER,
   RETUR,
-} from "../shared/permission-constants";
+} from "./permission-constant";
 const DispositionNoteLoader = require("../shared/disposition-note-loader");
 const SupplierLoader = require("../../../loader/garment-supplier-loader");
 // const DivisionLoader = require("../../../loader/division-loader");
@@ -156,6 +156,7 @@ export class Create {
     this.roles = [VERIFICATION, CASHIER, RETUR];
     this.accessCount = 0;
 
+    console.log("roles", this.roles);
     for (let i = this.roles.length - 1; i >= 0; i--) {
       for (let code of this.roles[i].code) {
         if (this.permissions.hasOwnProperty(code)) {
