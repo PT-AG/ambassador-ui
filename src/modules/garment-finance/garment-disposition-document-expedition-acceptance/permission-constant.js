@@ -3,7 +3,7 @@ export const VERIFICATION = {
     label: 'Verifikasi',
     position: 3, //VERIFICATION_DIVISION
     positionAutocomplete: 2, //SEND_TO_VERIFICATION_DIVISION
-    code: ['J25'],
+    code: ['J33'],
 };
 
 export const CASHIER = {
@@ -11,7 +11,7 @@ export const CASHIER = {
     label: 'Kasir',
     position: 5, //CASHIER_DIVISION
     positionAutocomplete: 4, //SEND_TO_CASHIER_DIVISION
-    code: ['J26'],
+    code: ['J34'],
 };
 
 export const RETUR = {
@@ -19,5 +19,5 @@ export const RETUR = {
     label: 'Retur',
     position: 1, //ACCOUNTING_DIVISION
     positionAutocomplete: 6, //SEND_TO_ACCOUNTING_DIVISION
-    code: ['J27'],
+    code: ['J35'],
 };
