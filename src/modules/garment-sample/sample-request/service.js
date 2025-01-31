@@ -48,4 +48,19 @@ class Service extends RestService {
     }
 }
 
-export { Service }
+const unitDeliveryOrderServiceUri = 'garment-unit-delivery-orders';  
+class PurchasingService extends RestService {
+
+    constructor(http, aggregator, config, endpoint){
+        super(http, aggregator, config, "purchasing-azure")
+    }
+
+    searchUnitDeliveryOrder(info) {
+        var endpoint = `${unitDeliveryOrderServiceUri}`;
+        return super.list(endpoint, info);
+    }
+
+    
+}
+
+export { Service,PurchasingService }
