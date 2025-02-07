@@ -30,80 +30,29 @@ export async function configure(aurelia) {
                 }
             }
 
-            var core = "https://com-ambassador-service-core.azurewebsites.net/v1/";
-            var auth = "https://com-ambassador-service-auth.azurewebsites.net/v1/";
-            var production = "https://dl-production-webapi.azurewebsites.net/v1/";
+            var core = "https://com-ambassador-service-core-v8.azurewebsites.net/v1/";
+            var auth = "https://com-ambassador-service-auth-v8.azurewebsites.net/v1/";
             var productionAzure = "https://com-ambassador-service-finishing-printing.azurewebsites.net/v1/";
-            var purchasing = "https://dl-purchasing-webapi.azurewebsites.net/v1/";
             var purchasingAzure = "https://com-ambassador-service-purchasing.azurewebsites.net/v1/";
-            var garmentPurchasing = "https://dl-purchasing-garment-webapi.azurewebsites.net/v1/";
-            var inventory = "https://dl-inventory-webapi.azurewebsites.net/v1/";
             var inventoryAzure = "https://com-ambassador-service-inventory.azurewebsites.net/v1/";
-            var garmentMasterPlan = "https://dl-garment-master-plan-webapi.azurewebsites.net/v1/";
-            var spMasterPlan = "https://dl-sp-master-plan-webapi.mybluemix.net/v1/";
-            var spinning = "https://com-ambassador-service-spinning.azurewebsites.net/";
-            var intPurchasing = "https://com-ambassador-service-internal-transfer.azurewebsites.net/v1/";
             var customsReport = "https://com-ambassador-service-support.azurewebsites.net/v1/";
-            var merchandiser = "https://com-ambassador-service-md.azurewebsites.net/v1/";
-            const dealTracking = 'https://com-ambassador-service-deal-tracking.azurewebsites.net/v1/';
             const sales = "https://com-ambassador-service-sales.azurewebsites.net/v1/";
-            var weaving = "https://com-ambassador-service-weaving.azurewebsites.net/";
             var finance = "https://com-ambassador-service-finance-accounting.azurewebsites.net/v1/";
             var garmentProduction = "https://com-ambassador-service-garment.azurewebsites.net/";
             var packingInventory = "https://com-ambassador-service-packing-inventory.azurewebsites.net/v1/";
-            var dyeing = "https://dyeing-printing-etl-service.azurewebsites.net/api/";
-            const garmentShipping = "https://garment-etl-service.azurewebsites.net/api/";
             var ItInven = "https://it-inventory-etl-service.azurewebsites.net/api/";
-
-
-            // var core = "https://com-ambassador-service-core-dev.azurewebsites.net/v1/";
-            // var auth = "https://com-ambassador-service-auth-dev.azurewebsites.net/v1/";
-            // var production = "https://dl-production-webapi.azurewebsites.net/v1/";
-            // var productionAzure = "https://com-ambassador-service-finishing-printing.azurewebsites.net/v1/";
-            // var purchasing = "https://dl-purchasing-webapi.azurewebsites-dev.net/v1/";
-            // var purchasingAzure = "http://localhost:59051/v1/";
-            // var garmentPurchasing = "https://dl-purchasing-garment-webapi.azurewebsites.net/v1/";
-            // var inventory = "https://dl-inventory-webapi.azurewebsites.net/v1/";
-            // var inventoryAzure = "https://com-ambassador-service-inventory-dev.azurewebsites.net/v1/";
-            // var garmentMasterPlan = "https://dl-garment-master-plan-webapi.azurewebsites.net/v1/";
-            // var spMasterPlan = "https://dl-sp-master-plan-webapi.mybluemix.net/v1/";
-            // var spinning = "https://com-ambassador-service-spinning.azurewebsites.net/";
-            // var intPurchasing = "https://com-ambassador-service-internal-transfer.azurewebsites.net/v1/";
-            // var customsReport = "https://com-ambassador-service-support.azurewebsites.net/v1/";
-            // var merchandiser = "https://com-ambassador-service-md.azurewebsites.net/v1/";
-            // const dealTracking = 'https://com-ambassador-service-deal-tracking.azurewebsites.net/v1/';
-            // const sales = "http://localhost:51465/v1/";
-            // var weaving = "https://com-ambassador-service-weaving.azurewebsites.net/";
-            // var finance = "https://com-ambassador-service-finance-accounting-dev.azurewebsites.net/v1/";
-            //var garmentProduction = "http://localhost:5005/";
-            // var packingInventory = "https://com-ambassador-service-packing-inventory-dev.azurewebsites.net/v1/";
-            // var dyeing = "https://dyeing-printing-etl-service.azurewebsites.net/api/";
-            // const garmentShipping = "https://garment-etl-service.azurewebsites.net/api/";
-            // var ItInven = "https://it-inventory-etl-service.azurewebsites.net/api/";
 
 
             config.registerEndpoint('auth', auth);
             config.registerEndpoint('core', core);
-            config.registerEndpoint('production', production, defaultConfig);
             config.registerEndpoint('production-azure', productionAzure, defaultConfig);
-            config.registerEndpoint('purchasing', purchasing, defaultConfig);
             config.registerEndpoint('purchasing-azure', purchasingAzure, defaultConfig);
-            config.registerEndpoint('garment-purchasing', garmentPurchasing, defaultConfig);
-            config.registerEndpoint('inventory', inventory, defaultConfig);
             config.registerEndpoint('inventory-azure', inventoryAzure, defaultConfig);
-            config.registerEndpoint('garment-master-plan', garmentMasterPlan, defaultConfig);
-            config.registerEndpoint('spinning', spinning, defaultConfig);
-            config.registerEndpoint('int-purchasing', intPurchasing, defaultConfig);
             config.registerEndpoint('customs-report', customsReport, defaultConfig);
-            config.registerEndpoint('merchandiser', merchandiser, defaultConfig);
-            config.registerEndpoint('deal-tracking', dealTracking, defaultConfig);
             config.registerEndpoint('sales', sales, defaultConfig);
-            config.registerEndpoint('weaving', weaving, defaultConfig);
             config.registerEndpoint('finance', finance, defaultConfig);
             config.registerEndpoint('garment-production', garmentProduction, defaultConfig);
             config.registerEndpoint('packing-inventory', packingInventory, defaultConfig);
-            config.registerEndpoint('dyeing', dyeing, { headers: { Accept: '*/*', 'Sec-Fetch-Site': 'cross-site' }, mode: 'cors' });
-            config.registerEndpoint('garment-shipping', garmentShipping, defaultConfig);
             config.registerEndpoint('ItInven', ItInven, { headers: { Accept: '*/*', 'Sec-Fetch-Site': 'cross-site' }, mode: 'cors' });
         })
         .plugin("aurelia-authentication", baseConfig => {
