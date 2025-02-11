@@ -692,7 +692,7 @@ export class DataForm {
     return calculatedRateOTL2;
   }
 
-  @computedFrom('data.Wage', 'data.SMV_Sewing', 'data.Efficiency' + 'data.SMV_Cutting', 'data.SMV_Finishing', 'data.THR', 'data.SMV_Total')
+  @computedFrom('data.Wage', 'data.SMV_Sewing', 'data.Efficiency' , 'data.SMV_Cutting', 'data.SMV_Finishing', 'data.THR', 'data.SMV_Total')
   get productionCost() {
     let productionCost = this.data.Efficiency ?
       (this.data.Efficiency.Value ? this.data.Wage.Value * this.data.SMV_Sewing * 100 / this.data.Efficiency.Value +
