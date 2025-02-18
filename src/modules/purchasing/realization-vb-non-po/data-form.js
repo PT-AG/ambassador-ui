@@ -1,6 +1,7 @@
 import { inject, bindable, containerless, computedFrom, BindingEngine } from 'aurelia-framework'
 import { Service } from "./service";
 import { CoreService } from "./core-service";
+import moment from 'moment';
 
 const UnitLoader = require('../../../loader/unit-loader');
 var CurrencyLoader = require('../../../loader/currency-loader');
@@ -68,6 +69,7 @@ export class DataForm {
         this.service = service;
         this.bindingEngine = bindingEngine;
         this.coreService = coreService;
+        this.isDelay = false;
     }
 
     bind(context) {
@@ -212,6 +214,22 @@ export class DataForm {
                 //this.data.UnitCosts = dataVBRequest.Items.find(a=>a.IsSelected);
             }
 
+            var realizationDate = moment(this.data.Date).format("YYYY-MM-DD");  
+            var estimationDate = moment(this.data.VBDocument.RealizationEstimationDate).format("YYYY-MM-DD");
+
+            var diff = dateDiffInDays( estimationDate, realizationDate);
+            
+
+            if (diff > 2 && this.vbNonPOType == "Dengan Nomor VB") {
+                this.isDelay = true;
+                this.data.IsDelay = true;
+            }
+            console.log("tanggal realisasi", realizationDate);
+            console.log("vbRequestDocument", estimationDate);
+            console.log("diff", diff);
+            console.log("isReason", this.isDelay);
+            console.log("Type",this.vbNonPOType);
+
 
             // if (this.data.UnitCosts) {
             //     var otherUnit = this.data.UnitCosts.find(s => s.Unit.VBDocumentLayoutOrder == 10);
@@ -327,4 +345,14 @@ export class DataForm {
         return CurrencyLoader;
     }
 
+}
+
+function dateDiffInDays(date1, date2) {
+    const dt1 = new Date(date1);
+    const dt2 = new Date(date2);
+
+    const diffTime = dt2 - dt1; // Selisih dalam milidetik
+    const diffDays = diffTime / (1000 * 60 * 60 * 24); // Konversi ke hari
+
+    return diffDays;
 }
