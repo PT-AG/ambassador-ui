@@ -773,7 +773,7 @@ module.exports = [
     name: "vb-with-po-request",
     moduleId: "./modules/purchasing/vb-with-po-request/index",
     nav: true,
-    title: "Permohonan VB Dengan PO",
+    title: "Permohonan VB Dengan PO (Uang Muka Pembelian)",
     auth: true,
     settings: {
       group: "finance",
