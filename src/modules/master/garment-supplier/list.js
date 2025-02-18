@@ -25,12 +25,6 @@ export class List {
       }
     },
     {
-      field: "usevat", title: "Kena PPN",
-      formatter: function (value, row, index) {
-        return value ? "YA" : "TIDAK";
-      }
-    },
-    {
       field: "usetax", title: "Kena PPH",
       formatter: function (value, row, index) {
         return value ? "YA" : "TIDAK";
