@@ -83,7 +83,8 @@ export class List {
   }
 
   initTab() {
-    this.tabs = ["Realisasi VB Non PO", "Realisasi VB Inklaring Non PO"];
+    //this.tabs = ["Realisasi VB Non PO", "Realisasi VB Inklaring Non PO"];
+    this.tabs = ["Realisasi VB Cash", "Realisasi VB Cash Inklaring"];
 
     // Default tab is non-inklaring
     this.activeTab = this.tabs[0];
@@ -101,7 +102,8 @@ export class List {
 
   create(activeTab) {
     const createRoute =
-      activeTab === "Realisasi VB Non PO" ? "create" : "create-inklaring";
+      //activeTab === "Realisasi VB Non PO" ? "create" : "create-inklaring";
+      activeTab === "Realisasi VB Cash" ? "create" : "create-inklaring";
     this.router.navigateToRoute(createRoute);
   }
 
@@ -109,7 +111,8 @@ export class List {
     var arg = event.detail;
     var data = arg.data;
     const viewRoute =
-      activeTab === "Realisasi VB Non PO" ? "view" : "view-inklaring";
+      //activeTab === "Realisasi VB Non PO" ? "view" : "view-inklaring";
+      activeTab === "Realisasi VB Cash" ? "view" : "view-inklaring";
     switch (arg.name) {
       case "Detail":
         this.router.navigateToRoute(viewRoute, {
