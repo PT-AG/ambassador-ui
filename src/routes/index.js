@@ -3,13 +3,9 @@ var masterRoutes = require("./master");
 var inventoryRoutes = require("./inventory");
 var publicRoutes = require("./public");
 var purchasingRoutes = require("./purchasing");
-var reportRoutes = require("./report");
 var authRoutes = require("./auth");
 var garmentPurchasingRoutes = require("./garment-purchasing");
 var garmentMasterPlanRoutes = require("./garment-master-plan");
-var migrationLog = require("./migration-log");
-var garmentMasterPlanRoutes = require("./garment-master-plan");
-var customsReportRoutes = require("./customs-report");
 let expeditionRoutes = require("./expedition");
 let merchandiserRoutes = require("./merchandiser");
 let accountingRoutes = require("./accounting");
@@ -29,12 +25,9 @@ export default [].concat(
   garmentPurchasingRoutes,
   garmentMasterPlanRoutes,
   garmentFinance,
-  customsReportRoutes,
   authRoutes,
   expeditionRoutes,
   merchandiserRoutes,
-  migrationLog,
-  reportRoutes,
   accountingRoutes,
   garmentProductionRoutes,
   garmentShippingRoutes,
