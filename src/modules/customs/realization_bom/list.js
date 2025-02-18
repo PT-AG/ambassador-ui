@@ -24,7 +24,7 @@ export class List{
     };
 
     @bindable UnitItem;
-    UnitItems = ['','KONFEKSI 2A','KONFEKSI 2B','KONFEKSI 2C','KONFEKSI 1A','KONFEKSI 1B']
+    UnitItems = ['','KONFEKSI AG1','KONFEKSI AG2']
 
     search(){
             this.info.page = 1;
