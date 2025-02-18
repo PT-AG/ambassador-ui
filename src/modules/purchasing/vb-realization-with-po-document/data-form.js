@@ -106,7 +106,23 @@ export class DataForm {
             this.itemsOptions.typePurchasing = typePurchasing;
 
             this.ItemCollection.bind();
+            var realizationDate = moment(this.data.Date).format("YYYY-MM-DD");  
+            var estimationDate = moment(vbRequestDocument.RealizationEstimationDate).format("YYYY-MM-DD");
+
+            var diff = dateDiffInDays( estimationDate, realizationDate);
+            
+
+            if (diff > 2 && this.data.Type == "Dengan Nomor VB") {
+                this.isDelay = true;
+                this.data.IsDelay = true;
+            }
+            console.log("tanggal realisasi", realizationDate);
+            console.log("vbRequestDocument", vbRequestDocument);
+            console.log("diff", diff);
+            console.log("isReason", this.isReason);
         }
+
+        
     }
 
     unitView = (unit) => {
@@ -124,6 +140,7 @@ export class DataForm {
     constructor(service, vbRequestService) {
         this.service = service;
         this.vbRequestService = vbRequestService;
+        this.isDelay = false;
     }
 
     async bind(context) {
@@ -161,4 +178,14 @@ export class DataForm {
             this.data.Items.push({})
         };
     }
+}
+
+function dateDiffInDays(date1, date2) {
+    const dt1 = new Date(date1);
+    const dt2 = new Date(date2);
+
+    const diffTime = dt2 - dt1; // Selisih dalam milidetik
+    const diffDays = diffTime / (1000 * 60 * 60 * 24); // Konversi ke hari
+
+    return diffDays;
 }
