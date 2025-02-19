@@ -133,6 +133,15 @@
       options.bind="controlOptions">
     </au-multiline>
 
+    <au-multiline 
+      show.bind="isDelay"
+      label="Alasan Keterlambatan"
+      value.bind="data.ReasonForDelay"
+      read-only.bind="readOnly"
+      error.bind="error.ReasonForDelay"
+      options.bind="controlOptions">
+    </au-multiline>
+
     <au-collection
       view-model.ref="ItemCollection"
       if.bind="(!isWithVB || vbRequestDocument) && data.Type != ''"

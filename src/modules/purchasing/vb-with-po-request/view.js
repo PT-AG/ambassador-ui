@@ -55,7 +55,8 @@ export class View {
         // this.service.delete(this.data).then(result => {
         //     this.cancel();
         // });
-        this.dialog.prompt('Apakah anda yakin akan menghapus data ini?', 'Hapus Data Permohonan VB dengan PO')
+        //this.dialog.prompt('Apakah anda yakin akan menghapus data ini?', 'Hapus Data Permohonan VB dengan PO')
+        this.dialog.prompt('Apakah anda yakin akan menghapus data ini?', 'Hapus Data Uang Muka Pembelian')
             .then(response => {
                 if (response.ok) {
                     this.service.delete(this.data)
