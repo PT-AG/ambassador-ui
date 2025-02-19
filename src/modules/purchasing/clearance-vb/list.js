@@ -3,8 +3,6 @@ import { Service } from "./service";
 import { Router } from "aurelia-router";
 import moment from "moment";
 import numeral from "numeral";
-import UnitAutoSuggest from "../../../components/customs/auto-suggests/unit-auto-suggest";
-
 import { Dialog } from "../../../au-components/dialog/dialog";
 import { CreateView } from "./custom-dialog-view/create-view";
 
