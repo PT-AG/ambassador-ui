@@ -32,7 +32,6 @@ export default class AccountAutoSuggestReact extends AutoSuggestReact {
     }
 }
 
-
 AccountAutoSuggestReact.propTypes = {
     options: React.PropTypes.shape({
         readOnly: React.PropTypes.bool,
