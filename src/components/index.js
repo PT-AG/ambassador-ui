@@ -15,5 +15,7 @@ export function configure(config) {
         './form/basic/auto-suggest',
         './form/basic/timepicker',
 
+        './customs/collections/account/role-item-collection',
+        './customs/collections/role/role-permission-item-collection',
     );
 }
