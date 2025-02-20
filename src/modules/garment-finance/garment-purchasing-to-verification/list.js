@@ -73,7 +73,9 @@ export class List {
         let data = arg.data;
         switch (arg.name) {
             case "Hapus":
-                this.service.sendToPurchasing(data)
+                var r = confirm("Apakah Anda yakin akan menghapus data ini?");
+                if(r == true) {
+                    this.service.sendToPurchasing(data)
                     .then(result => {
                         alert("Data berhasil dibuat");
                         this.tableList.refresh();
@@ -82,6 +84,8 @@ export class List {
                         alert("Terjadi kesalahan!");
                         this.error = e;
                     });
+                }
+                
                 break;
         }
     }
