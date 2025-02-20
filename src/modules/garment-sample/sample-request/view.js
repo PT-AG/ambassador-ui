@@ -1,13 +1,14 @@
 import { inject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
-import { Service } from './service';
+import { Service,PurchasingService } from './service';
 
-@inject(Router, Service)
+@inject(Router, Service,PurchasingService)
 export class View {
     isView = true;
-    constructor(router, service) {
+    constructor(router, service,purchasingService) {
         this.router = router;
         this.service = service;
+        this.purchasingService = purchasingService;
     }
 
     async activate(params) {
@@ -41,6 +42,14 @@ export class View {
         if (this.data.IsRevised) {
             this.alertInfo = "<strong>Alasan Revisi </strong> " + this.data.RevisedReason;
         }
+
+        //validate data with UnitDeliveryOrder
+        this.purchasingService.searchUnitDeliveryOrder({ size: 1, filter: JSON.stringify({ RONo: this.data.RONoSample }) })
+        .then((res) => {
+            if (res.data.length > 0) {
+                this.deleteCallback = null;
+            }
+        });
 
     }
 
