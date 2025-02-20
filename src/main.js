@@ -30,16 +30,16 @@ export async function configure(aurelia) {
                 }
             }
 
-            var core = "https://com-ambassador-service-core-v8.azurewebsites.net/v1/";
-            var auth = "https://com-ambassador-service-auth-v8.azurewebsites.net/v1/";
+            var core = "https://com-ambassador-service-core-dev.azurewebsites.net/v1/";
+            var auth = "https://com-ambassador-service-auth-dev.azurewebsites.net/v1/";
             var productionAzure = "https://com-ambassador-service-finishing-printing.azurewebsites.net/v1/";
-            var purchasingAzure = "https://com-ambassador-service-purchasing.azurewebsites.net/v1/";
-            var inventoryAzure = "https://com-ambassador-service-inventory.azurewebsites.net/v1/";
+            var purchasingAzure = "https://com-ambassador-service-purchasing-dev.azurewebsites.net/v1/";
+            var inventoryAzure = "https://com-ambassador-service-inventory-dev.azurewebsites.net/v1/";
             var customsReport = "https://com-ambassador-service-support.azurewebsites.net/v1/";
-            const sales = "https://com-ambassador-service-sales.azurewebsites.net/v1/";
-            var finance = "https://com-ambassador-service-finance-accounting.azurewebsites.net/v1/";
-            var garmentProduction = "https://com-ambassador-service-garment.azurewebsites.net/";
-            var packingInventory = "https://com-ambassador-service-packing-inventory.azurewebsites.net/v1/";
+            const sales = "https://com-ambassador-service-sales-dev.azurewebsites.net/v1/";
+            var finance = "https://com-ambassador-service-finance-accounting-dev.azurewebsites.net/v1/";
+            var garmentProduction = "https://com-ambassador-service-garment-dev.azurewebsites.net/";
+            var packingInventory = "https://com-ambassador-service-packing-inventory-dev.azurewebsites.net/v1/";
             var ItInven = "https://it-inventory-etl-service.azurewebsites.net/api/";
 
 
