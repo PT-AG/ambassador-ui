@@ -16,6 +16,7 @@ export default class RolePermissionItemReact extends React.Component {
         this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
         this.permissions = [{ name: "R", value: 4 }, { name: "W", value: 2 }, { name: "X", value: 1 }];
     }
+    
 
     handleValueChange(value) {
         this.setState({ value: value });

@@ -23,7 +23,7 @@ export class List {
         this.filter = {
             CreatedBy: username,
             FinishingInType: "PEMBELIAN",
-            SubconType: null
+            // SubconType: null
         }
     }
 
