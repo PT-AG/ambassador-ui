@@ -38,6 +38,7 @@ export class List {
 
     copy() {
         if (this.data) {
+            this.data.DataType="copy";
             this.router.navigateToRoute('copy', { id: this.data.RO_GarmentId });
         }
     }
