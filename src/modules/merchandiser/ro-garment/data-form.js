@@ -182,7 +182,7 @@ export class DataForm {
           
           this.newFab.forEach(element => {
             var exist = this.oldFabric.find(a => a.Product.Id === element.Product.Id && a.Description === element.Description );
-            console.log(exist,element.Product.Code)
+            
             if (exist) {
               element.Information = exist.Information;
             }
@@ -190,7 +190,7 @@ export class DataForm {
 
           this.newAcc.forEach(element => {
             var exist = this.oldAcc.find(a => a.Product.Id === element.Product.Id && a.Description === element.Description );
-            console.log(exist,element.Product.Code)
+            
             if (exist) {
               element.Information = exist.Information;
             }
