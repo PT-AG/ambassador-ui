@@ -149,6 +149,10 @@ export class DataForm {
         if (this.data.CostCalculationGarment.CostCalculationGarment_Materials.length !== 0) {
           this.CCG_M_Fabric = this.data.CostCalculationGarment.CostCalculationGarment_Materials.filter(item => item.Category.name.toUpperCase() === "FABRIC");
           this.CCG_M_Accessories = this.data.CostCalculationGarment.CostCalculationGarment_Materials.filter(item => item.Category.name.toUpperCase() !== "FABRIC");
+          
+          this.oldFabric = this.CCG_M_Fabric;
+          this.oldAcc = this.CCG_M_Accessories;
+        
         }
       } else {
         this.costCalculationGarment = this.data.CostCalculationGarment;
@@ -163,8 +167,7 @@ export class DataForm {
   }
 
   async costCalculationGarmentChanged(newValue) {
-    this.isCopy = false;
-
+    console.log(this.isCopy)
     if (newValue && newValue.Id) {
       if (!this.isEdit) {
         this.data.CostCalculationGarment = await this.service.getCostCalculationGarmentById(newValue.Id);
@@ -172,10 +175,39 @@ export class DataForm {
         this.data.Total = this.data.CostCalculationGarment.Quantity;
       }
       if (this.data.CostCalculationGarment.CostCalculationGarment_Materials.length !== 0) {
-        this.CCG_M_Fabric = this.data.CostCalculationGarment.CostCalculationGarment_Materials.filter(item => item.Category.name.toUpperCase() === "FABRIC");
-        this.CCG_M_Accessories = this.data.CostCalculationGarment.CostCalculationGarment_Materials.filter(item => item.Category.name.toUpperCase() !== "FABRIC");
+        if (this.isCopy) {
+          this.isCopy = false;
+          this.newFab = this.data.CostCalculationGarment.CostCalculationGarment_Materials.filter(item => item.Category.name.toUpperCase() === "FABRIC");
+          this.newAcc = this.data.CostCalculationGarment.CostCalculationGarment_Materials.filter(item => item.Category.name.toUpperCase() !== "FABRIC");
+          
+          this.newFab.forEach(element => {
+            var exist = this.oldFabric.find(a => a.Product.Id === element.Product.Id && a.Description === element.Description );
+            console.log(exist,element.Product.Code)
+            if (exist) {
+              element.Information = exist.Information;
+            }
+          });
+
+          this.newAcc.forEach(element => {
+            var exist = this.oldAcc.find(a => a.Product.Id === element.Product.Id && a.Description === element.Description );
+            console.log(exist,element.Product.Code)
+            if (exist) {
+              element.Information = exist.Information;
+            }
+          })
+          this.CCG_M_Fabric = this.newFab;
+          this.CCG_M_Accessories = this.newAcc;
+
+          
+        } else {
+          this.CCG_M_Fabric = this.data.CostCalculationGarment.CostCalculationGarment_Materials.filter(item => item.Category.name.toUpperCase() === "FABRIC");
+          this.CCG_M_Accessories = this.data.CostCalculationGarment.CostCalculationGarment_Materials.filter(item => item.Category.name.toUpperCase() !== "FABRIC");
+
+        }
+
         // this.CCG_M_Rate = this.data.CostCalculationGarment.CostCalculationGarment_Materials.filter(item => item.Category.Name.toUpperCase() === "ONG");
       }
+      
     }
     else {
       //this.data.CostCalculationGarment.CostCalculationGarment_Materials=[];
