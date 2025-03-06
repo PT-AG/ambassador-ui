@@ -39,7 +39,7 @@ export async function configure(aurelia) {
             const sales = "https://com-ambassador-service-sales-v8.azurewebsites.net/v1/";
             var finance = "https://com-ambassador-service-finance-accounting-v8.azurewebsites.net/v1/";
             var garmentProduction = "https://com-ambassador-service-garment.azurewebsites.net/";
-            var packingInventory = "https://com-ambassador-service-packing-inventory.azurewebsites.net/v1/";
+            var packingInventory = "https://com-ambassador-service-packing-inventory-v8.azurewebsites.net/v1/";
             var ItInven = "https://it-inventory-etl-service.azurewebsites.net/api/";
 
 
