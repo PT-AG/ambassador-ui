@@ -73,7 +73,6 @@ export class View {
       }
       if(this.data.IsBlockingPlan == true){
         this.hasMasterPlan = true;
-        this.hasDelete = false;
       }
   }
 
