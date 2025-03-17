@@ -11,6 +11,7 @@ export class Edit {
         this.prService = prService;
         this.data = {};
         this.error = {};
+        this.edit = true;
     }
 
     async activate(params) {
@@ -20,13 +21,15 @@ export class Edit {
             this.selectedPreSalesContract = {
                 SCNo: this.data.PreSCNo
             }
-
+            var bookingOrder= await this.service.getBookingOrderById(this.data.BookingOrderId);
+            
+            this.data.BOQuantity=bookingOrder.ConfirmedQuantity;
             this.selectedBookingOrder = {
                 BookingOrderId :this.data.BookingOrderId,
                 BookingOrderItemId : this.data.BookingOrderItemId,
                 BookingOrderNo : this.data.BookingOrderNo, 
                 ConfirmDate : this.data.ConfirmDate,
-                ConfirmQuantity : this.data.BOQuantity,
+                ConfirmQuantity : bookingOrder.ConfirmedQuantity,
                 ComodityName : this.data.Comodity.Name,
             }
 
