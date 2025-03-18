@@ -3,7 +3,7 @@ export const VERIFICATION = {
     label: 'Verifikasi',
     position: 3, //VERIFICATION_DIVISION
     positionAutocomplete: 2, //SEND_TO_VERIFICATION_DIVISION
-    code: ['K39'],
+    code: ['K41'],
 };
 
 export const CASHIER = {
@@ -11,7 +11,7 @@ export const CASHIER = {
     label: 'Kasir',
     position: 7, //CASHIER_DIVISION
     positionAutocomplete: 4, //SEND_TO_CASHIER_DIVISION
-    code: ['K40'],
+    code: ['K39'],
 };
 
 export const ACCOUNTING = {
@@ -19,5 +19,5 @@ export const ACCOUNTING = {
     label: 'Akuntansi',
     position: 8, //ACCOUNTING_DIVISION
     positionAutocomplete: 5, //SEND_TO_ACCOUNTING_DIVISION
-    code: ['K41'],
+    code: ['K40'],
 };
