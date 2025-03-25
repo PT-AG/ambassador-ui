@@ -208,6 +208,10 @@ export class CostCalculationMaterial {
                 FinishingFee = this.data.Wage.Value * this.data.SMV_Finishing * (100 / 92);
                 THR = this.data.THR.Value * this.data.SMV_Finishing;
                 break
+            case "SUBCON SEWING FINISHING":
+                CuttingFee = this.data.Wage.Value * this.data.SMV_Cutting * (100 / 70);
+                THR = this.data.THR.Value * (this.data.SMV_Cutting + this.data.SMV_Finishing);
+                break;
              //Jika tipe subcon Cutting Sewing Finishing maka ignore semua SMV
             default:
                 break;
