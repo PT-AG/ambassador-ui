@@ -36,6 +36,7 @@ export class DataForm {
   subconTypes = [
     "SUBCON SEWING",
     "SUBCON CUTTING SEWING",
+    "SUBCON SEWING FINISHING",
     "SUBCON CUTTING SEWING FINISHING",
   ];
 
@@ -651,6 +652,11 @@ export class DataForm {
             ? this.data.OTL1.Value * this.data.SMV_Finishing
             : 0;
           break;
+        case "SUBCON SEWING FINISHING":
+          calculatedRateOTL1 = this.data.SMV_Total
+            ? this.data.OTL1.Value * this.data.SMV_Cutting
+            : 0;
+          break;
       }
     } else {
       calculatedRateOTL1 = this.data.SMV_Total
@@ -679,6 +685,11 @@ export class DataForm {
         case "SUBCON CUTTING SEWING":
           calculatedRateOTL2 = this.data.SMV_Total
             ? this.data.OTL2.Value * this.data.SMV_Finishing
+            : 0;
+          break;
+        case "SUBCON SEWING FINISHING":
+          calculatedRateOTL2 = this.data.SMV_Total
+            ? this.data.OTL2.Value * this.data.SMV_Cutting
             : 0;
           break;
       }
