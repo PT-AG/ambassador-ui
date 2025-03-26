@@ -571,6 +571,8 @@ export class DataForm {
       };
       this.data.RONo = this.RONo;
       var ro = [];
+      //get data for article if not remain
+      if(!this.isRemain){
       this.salesService.searchCCByRO(info).then((cc) => {
         for (var a of cc.data) {
           if (a.RO_Number == this.data.RONo) {
@@ -579,7 +581,43 @@ export class DataForm {
           }
         }
         this.data.Article = ro[0].Article;
+        
+        //data for article if remain
+      })}else{
+        var filter = JSON.stringify({ RONo: this.RONo });
+        // var filter = JSON.stringify({
+        //     RO_Number: this.RONo,
+        //     IsApprovedKadivMD : true
+        // });
+  
+        var info = {
+          keyword: this.RONo,
+          filter: filter,
+        };
         this.service
+        .getGarmentEPOByRONo(info)
+        // this.salesService.GetArticleCC(info)
+        .then((cc) => {
+          for (var a of cc.data) {
+            // if (a.RO_Number == this.data.RONo) {
+            if (a.RONo == this.data.RONo) {
+              ro.push(a);
+              break;
+            }
+          }
+
+          if (ro.length) {
+            this.data.Article = ro[0].Article;
+            this.error.Article = null;
+          } else {
+            this.data.Article = null;
+            this.error.Article = "Artikel tidak ditemukan.";
+          }
+        });
+      }
+
+      //get data from DOitems to mapping in items
+      this.service
           .searchDOItems({
             filter: JSON.stringify({
               RONo: this.data.RONo,
@@ -633,7 +671,6 @@ export class DataForm {
             }
             this.data.Items = this.dataItems;
           });
-      });
     }
 
     // this.service.searchDOItems({ filter: JSON.stringify({ RONo: this.data.RONo, UnitId:this.data.UnitSender.Id, StorageId:this.data.Storage.Id ? this.data.Storage.Id : this.data.Storage._id}) })
