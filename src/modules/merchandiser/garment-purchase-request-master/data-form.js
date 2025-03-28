@@ -26,7 +26,8 @@ export class DataForm {
 
     prTypes = [
         "MASTER",
-        "SAMPLE"
+        "SAMPLE",
+        "SUBCON KELUAR"
     ];
 
     formOptions = {
@@ -35,18 +36,44 @@ export class DataForm {
         deleteText: "Hapus",
         editText: "Ubah"
     };
+    //CODE BEFORE
+    // @computedFrom("data.PRType")
+    // get salesContractFilter (){
+    //     let filter = {
+    //         IsPosted: true,
+    //         SCType: this.data.PRType == "MASTER" ?  "JOB ORDER" : "SAMPLE"
+    //     };
+    //     if (this.data.PRType == "SAMPLE") {
+    //         filter.IsPR = false;
+    //     }
+    //     return filter;
+    // }
 
+    //AFTER CODE
     @computedFrom("data.PRType")
-    get salesContractFilter (){
-        let filter = {
-            IsPosted: true,
-            SCType: this.data.PRType == "MASTER" ?  "JOB ORDER" : "SAMPLE"
-        };
-        if (this.data.PRType == "SAMPLE") {
-            filter.IsPR = false;
-        }
-        return filter;
+  get salesContractFilter() {
+    let filter = {
+      IsPosted: true,
+      // SCType: this.data.PRType == "MASTER" ? "JOB ORDER" : this.data.PRType,
+    };
+
+    if (this.data.PRType == "SAMPLE") {
+      filter.IsPR = false;
+      filter.SCType = "SAMPLE";
+    } else if (this.data.PRType == "MASTER") {
+      filter.SCType = "JOB ORDER";
+    } else if (this.data.PRType == "SUBCON KELUAR") {
+      let filterSubcon = {
+        IsPosted: true,
+        'SCType == "SUBCON KELUAR" || SCType == "SUBCON"': true,
+        //'SCType == "SUBCON KELUAR"': true,
+      };
+
+      return filterSubcon;
     }
+
+    return filter;
+  }
 
     bind(context) {
         this.context = context;
