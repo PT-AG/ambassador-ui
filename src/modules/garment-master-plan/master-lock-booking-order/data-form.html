@@ -1,0 +1,36 @@
+<template>
+    <style>
+        .table td,
+        .table th {
+            padding: 12px 16px !important;
+            vertical-align: middle !important;
+            font-size: 14px;
+        }
+    </style>
+
+    <au-input-form title.bind="title">
+        <!--text.bind="textFormatter"-->
+        <au-numeric label="Tahun" value.bind="data.Year" error.bind="error.Year" read-only.bind="isEdit"
+            options.bind="controlOptions" format="0">
+        </au-numeric>
+    </au-input-form>
+
+    <div class="row">
+        <div class="table-responsive">
+            <table ref="tableItem" class="table table-bordered table-hover" id="myTable"></table>
+        </div>
+    </div>
+
+    <br />
+    <div slot="actions" class="btn-group pull-right" with.bind="context">
+        <button class="btn btn-default" click.delegate="context.cancel($event)"
+            if.one-way="context.hasCancel">Kembali</button>
+        <button class="btn btn-primary" click.delegate="context.edit($event)" if.one-way="context.hasEdit">Ubah</button>
+        <button class="btn btn-success" click.delegate="context.save($event)"
+            if.one-way="context.hasSave">Simpan</button>
+        <button class="btn btn-danger" click.delegate="context.delete($event)"
+            if.one-way="context.hasDelete">Hapus</button>
+    </div>
+
+
+</template>
