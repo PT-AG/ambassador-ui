@@ -945,4 +945,18 @@ module.exports = [
             iconClass: 'fa fa-calculator',
         }
     },
+    {
+        route: '/merchandiser/wip-production-status-report',
+        name: 'wip-production-status-report',
+        moduleId: './modules/merchandiser/report/wip-production-status-report/index',
+        nav: true,
+        title: 'Laporan Status Produksi WIP',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "monitoring",
+            permission: { "L61": 1 },
+            iconClass: 'fa fa-calculator',
+        }
+    },
 ];
