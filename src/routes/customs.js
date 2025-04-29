@@ -80,7 +80,7 @@ module.exports = [
     settings: {
       group: "customs",
       // permission : {"C9": 1,"B6": 1,"B1": 1},
-      permission: { T6: 1 },
+      //permission: { T6: 1 },
       iconClass: "fa fa-dashboard",
     },
   },

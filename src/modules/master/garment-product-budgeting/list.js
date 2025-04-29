@@ -7,13 +7,15 @@ export class List {
     info = { page: 1, keyword: '' };
     context = ["Detail"];
     columns = [
-    { field: "Code", title: "Kode Barang" },
-    { field: "Name", title: "Nama Barang" },
-    { field: "UomUnit", title: "Satuan Default" },
-    // { field: "currency.code", title: "Mata Uang" },
-    // { field: "price", title: "Harga Barang" },
-    { field: "Tags", title: "Tags" },
-  ];
+      { field: "Code", title: "Kode Barang" },
+      { field: "Name", title: "Nama Barang" },
+      { field: "Composition", title: "Komposisi" },
+      { field: "Const", title: "Konstruksi" },
+      { field: "Yarn", title: "Yarn" },
+      { field: "Width", title: "Width" },
+      { field: "UomUnit", title: "Satuan Default" },
+      { field: "FabricType", title: "Jenis Fabric" },
+    ];
 
   loader = (info) => {
     var order = {};
