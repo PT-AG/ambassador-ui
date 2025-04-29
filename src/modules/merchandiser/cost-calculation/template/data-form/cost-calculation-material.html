@@ -107,7 +107,7 @@
             <!-- komposisi -->
             <td>
                 <div style="width: 200px;" class="tooltip-material-field">
-                    <au-autocomplete value.bind="selectedComposition"  read-only.bind="isReadOnly"  placeholder="Cari Komposisi" text="Composition" options.bind="controlOptions" loader.bind="garmentProductDistinctDescriptionLoader" show.bind="categoryIsExist" keypress.delegate="enterDelegate($event)">
+                    <au-autocomplete value.bind="selectedComposition"  read-only.bind="isReadOnly"  placeholder="Cari Komposisi" text.bind="CompositionView" options.bind="controlOptions" loader.bind="garmentProductDistinctDescriptionLoader" show.bind="categoryIsExist" keypress.delegate="enterDelegate($event)">
                     </au-autocomplete>
                     <span class="tooltiptext">Komposisi</span>
                 </div>
