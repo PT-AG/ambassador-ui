@@ -812,7 +812,11 @@ export class DataForm {
             this.newProduct.ProductId = selectedROHeader.ProductId;
             this.newProduct.ProductCode = selectedROHeader.ProductCode;
             this.newProduct.ProductName = selectedROHeader.ProductName;
-            this.newProduct.ProductRemark = `${selectedROHeader.POSerialNumber}; ${selectedROHeader.Article}; ${selectedROHeader.RONo}; ${selectedROHeader.ProductRemark}`;
+            //this.newProduct.ProductRemark = `${selectedROHeader.POSerialNumber}; ${selectedROHeader.Article}; ${selectedROHeader.RONo}; ${selectedROHeader.ProductRemark}`;
+            this.newProduct.ProductRemark = `${selectedROHeader.ProductCode}; ${selectedROHeader.POSerialNumber}; ${selectedROHeader.RONo}; ${selectedROHeader.Colour}; `;
+
+
+
             this.newProduct.UomId = selectedROHeader.SmallUomId;
             this.newProduct.UomUnit = selectedROHeader.SmallUomUnit;
             this.newProduct.PricePerDealUnit =
@@ -855,7 +859,9 @@ export class DataForm {
   };
 
   roNoView = (rono) => {
-    return `${rono.RONo} - ${rono.ProductCode} - ${rono.ProductName} - ${rono.POSerialNumber} - ${rono.RemainingQuantity} - ${rono.Colour}`;
+    //return `${rono.RONo} - ${rono.ProductCode} - ${rono.ProductName} - ${rono.POSerialNumber} - ${rono.RemainingQuantity} - ${rono.Colour}`;
+    return ` ${rono.ProductCode} - ${rono.POSerialNumber} - ${rono.RONo} -  ${rono.Colour} - ${rono.RemainingQuantity} `;
+
   };
 
   unitRequestView = (unitRequest) => {
