@@ -30,6 +30,7 @@ export async function configure(aurelia) {
                 }
             }
 
+            //dibawah ini PRD
             var core = "https://com-ambassador-service-core-v8.azurewebsites.net/v1/";
             var auth = "https://com-ambassador-service-auth-v8.azurewebsites.net/v1/";
             var productionAzure = "https://com-ambassador-service-finishing-printing.azurewebsites.net/v1/";
@@ -38,9 +39,44 @@ export async function configure(aurelia) {
             var customsReport = "https://com-ambassador-service-support.azurewebsites.net/v1/";
             const sales = "https://com-ambassador-service-sales-v8.azurewebsites.net/v1/";
             var finance = "https://com-ambassador-service-finance-accounting-v8.azurewebsites.net/v1/";
-            var garmentProduction = "https://com-ambassador-service-garment.azurewebsites.net/";
+            var garmentProduction = "https://com-ambassador-service-garment-v8.azurewebsites.net/";
             var packingInventory = "https://com-ambassador-service-packing-inventory-v8.azurewebsites.net/v1/";
             var ItInven = "https://it-inventory-etl-service.azurewebsites.net/api/";
+
+
+            // //dibawah ini utk debuging
+            // var core = "https://com-ambassador-service-core-v8.azurewebsites.net/v1/";
+            //  var auth = "https://com-ambassador-service-auth-v8.azurewebsites.net/v1/";
+            // // var production = "https://dl-production-webapi-dev.azurewebsites.net/v1/";
+            //  var productionAzure = "https://com-ambassador-service-finishing-printing-dev.azurewebsites.net/v1/";
+            // // var purchasing = "https://dl-purchasing-webapi-dev.azurewebsites-dev.net/v1/";
+            //  //var purchasingAzure = "https://com-ambassador-service-purchasing-dev.azurewebsites.net/v1/";
+            //  var purchasingAzure = "http://localhost:55763/v1/";
+
+            // // var garmentPurchasing = "https://dl-purchasing-garment-webapi.azurewebsites.net/v1/";
+            // // var inventory = "https://dl-inventory-webapi.azurewebsites.net/v1/";
+            //  var inventoryAzure = "https://com-ambassador-service-inventory-dev.azurewebsites.net/v1/";
+            // // var garmentMasterPlan = "https://8dl-garment-master-plan-webapi-dev.azurewebsites.net/v1/";
+            // // var spMasterPlan = "https://dl-sp-master-plan-webapi-dev.mybluemix.net/v1/";
+            // // var spinning = "https://com-ag-service-spinning-dev.azurewebsites.net/";
+            // // var intPurchasing = "https://com-ag-service-internal-transfer-dev.azurewebsites.net/v1/";
+            //  var customsReport = "https://com-ambassador-service-support-dev.azurewebsites.net/v1/";
+            // // var merchandiser = "https://com-ag-service-md-dev.azurewebsites.net/v1/";
+            // // const dealTracking = 'https://com-ag-service-deal-tracking-dev.azurewebsites.net/v1/';
+            //  const sales = "https://com-ambassador-service-sales-v8.azurewebsites.net/v1/";
+            // // var weaving = "https://com-ag-service-weaving-dev.azurewebsites.net/";
+            //  var finance = "https://com-ambassador-service-finance-accounting-dev.azurewebsites.net/v1/";
+            //  //bawah ini v8
+            //  var garmentProduction = "http://localhost:53460/";
+
+            //  //bawah ini v2
+            //  //var garmentProduction = "http://localhost:57914/";
+
+            // var packingInventory = "https://com-ambassador-service-packing-inventory-dev.azurewebsites.net/v1/";
+            // // var dyeing = "https://dyeing-printing-etl-service-dev.azurewebsites.net/api/";
+            // // const garmentShipping = "https://garment-etl-service-dev.azurewebsites.net/api/";
+            // var ItInven = "https://it-inventory-etl-service.azurewebsites.net/api/";
+
 
 
             config.registerEndpoint('auth', auth);
