@@ -28,6 +28,7 @@ export class DataForm {
         return (this.data.Id || '').toString() != '';
     }
     
+    FabricTypes=["Fasilitas", "Non Fasilitas"];
 
     bind(context) {
         this.context = context;
