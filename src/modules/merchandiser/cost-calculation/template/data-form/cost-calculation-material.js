@@ -633,4 +633,8 @@ get garmentProductWidthLoader() {
         else
             return true;
     }
+
+    CompositionView=(e)=>{
+        return e.Code + " - " + e.Composition; 
+    }
 }

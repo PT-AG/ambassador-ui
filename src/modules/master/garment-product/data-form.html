@@ -14,6 +14,15 @@
             items.bind="ProductTypes"
             change.delegate="ProductTypeChanged($event)"
           ></au-dropdown>  
+          
+          <au-dropdown
+            label="Tipe Fabric"
+            value.bind="data.FabricType"
+            error.bind="error.fabricType"
+            read-only.bind="readOnly"
+            if.bind="nameCheck"
+            items.bind="FabricTypes"
+          ></au-dropdown> 
 
           <au-textbox
             label="Kode"
@@ -31,7 +40,7 @@
 
           <au-autocomplete
             label="Satuan"
-            value.bind="data.UOM"
+            value.bind="data.UOM.Unit"
             error.bind="error.uom"
             read-only.bind="readOnly"
           ></au-autocomplete>

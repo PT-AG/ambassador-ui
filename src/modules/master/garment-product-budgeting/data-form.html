@@ -13,7 +13,16 @@
             read-only.bind="(readOnly || isEdit)"
             items.bind="ProductTypes"
             change.delegate="ProductTypeChanged($event)"
-          ></au-dropdown>  
+          ></au-dropdown> 
+
+          <au-dropdown
+            label="Tipe Fabric"
+            value.bind="data.FabricType"
+            error.bind="error.fabricType"
+            read-only.bind="readOnly"
+            if.bind="nameCheck"
+            items.bind="FabricTypes"
+          ></au-dropdown>   
 
           <au-textbox
             label="Kode"
