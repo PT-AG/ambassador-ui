@@ -6,6 +6,7 @@ export class DataForm {
     @bindable const;
     @bindable yarn;
     @bindable width;
+    @bindable UOM;
 
     ProductTypes = ['FABRIC', 'NON FABRIC']
 
@@ -24,10 +25,12 @@ export class DataForm {
     bind(context) {
     this.context = context;
     this.data = this.context.data;
-    if (this.data && this.data.UOM)
-            this.data.UOM.toString = function () {
-                return this.unit;
-            };
+    
+    this.UOM = this.data.UOM;
+    // if (this.data && this.data.UOM)
+    //         this.data.UOM.toString = function () {
+    //             return this.unit;
+    //         };
     this.error = this.context.error;
 
     this.cancelCallback = this.context.cancelCallback;
