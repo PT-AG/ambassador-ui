@@ -171,8 +171,8 @@ export class PurchaseOrderItem {
     } else {
       a = "TIDAK";
     }
-    return `${a} `;
-    //return `${a}- ${this.data.Product.Code} `;
+    //return `${a} `;
+    return `${a} - ${this.data.Product.Code} `;
 
   }
 
