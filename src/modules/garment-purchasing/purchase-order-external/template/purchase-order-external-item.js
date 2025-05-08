@@ -11,14 +11,7 @@ export class PurchaseOrderItem {
   @bindable selectedDealUom;
   @bindable price;
 
-  // get checkFabPrefix() {
-  //   var a = this.data.Product.Code || "";
-  //   if (a.substring(0, 3) === "fab") {
-  //     return "yes";
-  //   } else {
-  //     return "no";
-  //   }
-  // }
+
   async activate(context) {
     this.context = context;
     this.data = context.data;
@@ -165,8 +158,8 @@ export class PurchaseOrderItem {
   }
 
   get barFas() {
-    var a = this.data.Product.Code;
-    if (a && a.indexOf("FAS") !== -1) {
+    var a = this.data.Product.FabricType;
+    if (a && a.indexOf("Fasilitas") !== -1) {
       a = "YA";
     } else {
       a = "TIDAK";
