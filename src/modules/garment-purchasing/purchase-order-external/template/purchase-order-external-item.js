@@ -10,6 +10,8 @@ const POresource= 'garment-internal-purchase-orders';
 export class PurchaseOrderItem {
   @bindable selectedDealUom;
   @bindable price;
+
+
   async activate(context) {
     this.context = context;
     this.data = context.data;
@@ -153,6 +155,18 @@ export class PurchaseOrderItem {
 
   uomView = (uom) => {
     return uom.Unit
+  }
+
+  get barFas() {
+    var a = this.data.Product.FabricType;
+    if (a && a.indexOf("Fasilitas") !== -1) {
+      a = "YA";
+    } else {
+      a = "TIDAK";
+    }
+    //return `${a} `;
+    return `${a} - ${this.data.Product.Code} `;
+
   }
 
   get prNo() {
