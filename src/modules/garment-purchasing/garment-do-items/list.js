@@ -16,7 +16,7 @@ import moment from 'moment';
 
 @inject(Router, Service)
 export class List {
-  context = ["Update Racking", "Kartu Stelling"];
+  context = ["Update Racking", "Kartu Stelling", "Cetak Barcode"];
 
   columns = [
     { field: "ProductCode", title: "Kode Barang" },
@@ -88,6 +88,12 @@ export class List {
         break;
       case "Kartu Stelling":
         this.router.navigateToRoute('stelling', { id: data.Id });
+        break;
+      case "Cetak Barcode":
+        this.service
+          .getBarcodeById(data.Id)
+          .then((result) => {})
+          .catch((e) => {});
         break;
     }
   }
