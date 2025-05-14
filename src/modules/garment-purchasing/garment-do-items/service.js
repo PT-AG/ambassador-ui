@@ -33,6 +33,10 @@ class Service extends RestService {
         var endpoint = `${serviceUri}/stelling/${id}`;
         return super.getPdf(endpoint);
     }
+    getBarcodeById(id) {
+    var endpoint = `${serviceUri}/barcode/${id}`;
+    return super.getPdf(endpoint);
+    }
 
 
 }
