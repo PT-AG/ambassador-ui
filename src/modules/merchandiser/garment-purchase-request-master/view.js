@@ -26,18 +26,23 @@ export class View {
                 Id: this.data.SCId,
                 SCNo: this.data.SCNo
             };
-
             if (this.data.Items) {
-                let fabricItemsProductIds = this.data.Items
+                const removeDuplicates = (arr) => {
+                  return arr.filter((element, index) => {
+                    return arr.indexOf(element) === index;
+                  });
+                };
+                let fabricItemsProductIds = removeDuplicates(this.data.Items
                     .filter(i => i.Category.Name === "FABRIC")
-                    .map(i => i.Product.Id);
-
+                    .map(i => i.Product.Id));
+                    
                 if (fabricItemsProductIds.length) {
                     await this.coreService.getGarmentProductsByIds(fabricItemsProductIds)
                         .then(result => {
                             this.data.Items
                                 .filter(i => i.Category.Name === "FABRIC")
                                 .forEach(i => {
+                                    
                                     const product = result.find(d => d.Id == i.Product.Id);
 
                                     i.Composition = product;
