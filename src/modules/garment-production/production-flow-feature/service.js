@@ -8,6 +8,7 @@ const serviceUriPreparing = 'preparings';
 const hOrderKodeByNoServiceUri = 'local-merchandiser/horders/kode-by-no';
 const costCalculationServiceUri = 'cost-calculation-garments';
 const serviceUriCutting= 'cutting-outs/complete';
+const serviceUriCuttingSubcon= 'subcon-cutting-outs/complete';
 const serviceUriLoading= 'loadings/complete';
 const serviceUriSewing = 'sewing-outs/complete';
 const serviceUriFinishing = 'finishing-outs/complete';
@@ -31,6 +32,11 @@ export class Service extends RestService {
 
     searchCutting(info) {
         var endpoint = `${serviceUriCutting}`;
+        return super.list(endpoint, info);
+    }
+
+    searchCuttingSubcon(info) {
+        var endpoint = `${serviceUriCuttingSubcon}`;
         return super.list(endpoint, info);
     }
 
