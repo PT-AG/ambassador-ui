@@ -132,24 +132,16 @@ export class List {
 
                 this.service.searchCutting({ filter: JSON.stringify({ RONo: this.RONo}) })
                 .then(result => {
-                    this.cuttingData=[];
-                    this.cuttingSizes=[];
-                    this.totalCutQuantity=0;
-                    for(var cutting of result.data){
-                        for(var item of cutting.Items){
-                            for(var detail of item.Details){
-                                let dataItem=[];
-                                if (this.cuttingData.length==0){
-                                    dataItem["color"]=detail.Color;
-                                    dataItem["CuttingNo"]=cutting.CutOutNo;
-                                    dataItem["date"]=cutting.CuttingOutDate;
-                                    dataItem["qty"]=detail.CuttingOutQuantity;
-                                    dataItem[detail.Size.Size]= dataItem[detail.Size.Size] ? dataItem[detail.Size.Size]+detail.CuttingOutQuantity :detail.CuttingOutQuantity;
-                                    this.cuttingData.push(dataItem);
-                                }
-                                else{
-                                    var same= this.cuttingData.find(s=>s.color==detail.Color && s.CuttingNo==cutting.CutOutNo);
-                                    if(!same){
+                    this.service.searchCuttingSubcon({ filter: JSON.stringify({ RONo: this.RONo}) })
+                    .then(resultSubcon => {
+                        this.cuttingData=[];
+                        this.cuttingSizes=[];
+                        this.totalCutQuantity=0;
+                        for(var cutting of result.data){
+                            for(var item of cutting.Items){
+                                for(var detail of item.Details){
+                                    let dataItem=[];
+                                    if (this.cuttingData.length==0){
                                         dataItem["color"]=detail.Color;
                                         dataItem["CuttingNo"]=cutting.CutOutNo;
                                         dataItem["date"]=cutting.CuttingOutDate;
@@ -158,27 +150,84 @@ export class List {
                                         this.cuttingData.push(dataItem);
                                     }
                                     else{
-                                        var idx= this.cuttingData.indexOf(same);
-                                        same["qty"]+=detail.CuttingOutQuantity;
-                                        same[detail.Size.Size]= same[detail.Size.Size] ? same[detail.Size.Size]+detail.CuttingOutQuantity :detail.CuttingOutQuantity;
-                                        this.cuttingData[idx]=same;
+                                        var same= this.cuttingData.find(s=>s.color==detail.Color && s.CuttingNo==cutting.CutOutNo);
+                                        if(!same){
+                                            dataItem["color"]=detail.Color;
+                                            dataItem["CuttingNo"]=cutting.CutOutNo;
+                                            dataItem["date"]=cutting.CuttingOutDate;
+                                            dataItem["qty"]=detail.CuttingOutQuantity;
+                                            dataItem[detail.Size.Size]= dataItem[detail.Size.Size] ? dataItem[detail.Size.Size]+detail.CuttingOutQuantity :detail.CuttingOutQuantity;
+                                            this.cuttingData.push(dataItem);
+                                        }
+                                        else{
+                                            var idx= this.cuttingData.indexOf(same);
+                                            same["qty"]+=detail.CuttingOutQuantity;
+                                            same[detail.Size.Size]= same[detail.Size.Size] ? same[detail.Size.Size]+detail.CuttingOutQuantity :detail.CuttingOutQuantity;
+                                            this.cuttingData[idx]=same;
+                                        }
+                                        
                                     }
-                                    
-                                }
-                                if(this.cuttingSizes.length==0){
-                                    this.cuttingSizes.push(detail.Size.Size);
-                                }
-                                else{
-                                    var dup= this.cuttingSizes.find(a=>a==detail.Size.Size);
-                                    if(!dup){
+                                    if(this.cuttingSizes.length==0){
                                         this.cuttingSizes.push(detail.Size.Size);
                                     }
+                                    else{
+                                        var dup= this.cuttingSizes.find(a=>a==detail.Size.Size);
+                                        if(!dup){
+                                            this.cuttingSizes.push(detail.Size.Size);
+                                        }
+                                    }
+                                    this.totalCutQuantity+=detail.CuttingOutQuantity;
+                                    
                                 }
-                                this.totalCutQuantity+=detail.CuttingOutQuantity;
-
                             }
                         }
-                    }
+
+                        for(var cutting of resultSubcon.data){
+                            for(var item of cutting.Items){
+                                for(var detail of item.Details){
+                                    let dataItem=[];
+                                    if (this.cuttingData.length==0){
+                                        dataItem["color"]=detail.Color;
+                                        dataItem["CuttingNo"]=cutting.CutOutNo;
+                                        dataItem["date"]=cutting.CuttingOutDate;
+                                        dataItem["qty"]=detail.CuttingOutQuantity;
+                                        dataItem[detail.Size.Size]= dataItem[detail.Size.Size] ? dataItem[detail.Size.Size]+detail.CuttingOutQuantity :detail.CuttingOutQuantity;
+                                        this.cuttingData.push(dataItem);
+                                    }
+                                    else{
+                                        var same= this.cuttingData.find(s=>s.color==detail.Color && s.CuttingNo==cutting.CutOutNo);
+                                        if(!same){
+                                            dataItem["color"]=detail.Color;
+                                            dataItem["CuttingNo"]=cutting.CutOutNo;
+                                            dataItem["date"]=cutting.CuttingOutDate;
+                                            dataItem["qty"]=detail.CuttingOutQuantity;
+                                            dataItem[detail.Size.Size]= dataItem[detail.Size.Size] ? dataItem[detail.Size.Size]+detail.CuttingOutQuantity :detail.CuttingOutQuantity;
+                                            this.cuttingData.push(dataItem);
+                                        }
+                                        else{
+                                            var idx= this.cuttingData.indexOf(same);
+                                            same["qty"]+=detail.CuttingOutQuantity;
+                                            same[detail.Size.Size]= same[detail.Size.Size] ? same[detail.Size.Size]+detail.CuttingOutQuantity :detail.CuttingOutQuantity;
+                                            this.cuttingData[idx]=same;
+                                        }
+                                        
+                                    }
+                                    if(this.cuttingSizes.length==0){
+                                        this.cuttingSizes.push(detail.Size.Size);
+                                    }
+                                    else{
+                                        var dup= this.cuttingSizes.find(a=>a==detail.Size.Size);
+                                        if(!dup){
+                                            this.cuttingSizes.push(detail.Size.Size);
+                                        }
+                                    }
+                                    this.totalCutQuantity+=detail.CuttingOutQuantity;
+                                    
+                                }
+                            }
+                        }
+                    });
+                    
                     
                     this.service.searchLoading({ filter: JSON.stringify({ RONo: this.RONo}) })
                     .then(result => {
