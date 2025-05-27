@@ -148,10 +148,12 @@
       sortable.bind="true"
       if.bind="code"
       selections.bind="selectedItems"
-      options.bind="tableOptions"
+      page-size="25"
+      context.bind="context"
+      row-formatter.bind="rowFormatter"
     >
     </au-table>
-
+    
     <au-table
       view-model.ref="documentTable"
       data.bind="loader"
@@ -162,6 +164,31 @@
       options.bind="tableOptions"
     >
     </au-table>
+
+    <!-- <au-table
+      view-model.ref="tableList"
+      data.bind="loader"
+      columns.bind="columns2"
+      if.bind="code"
+      sortable.bind="true"
+      page-size="25"
+      context.bind="context"
+      row-formatter.bind="rowFormatter"
+    >
+      
+    </au-table>
+    <au-table
+      view-model.ref="tableList"
+      data.bind="loader"
+      columns.bind="columns2"
+      if.bind="!code"
+      sortable.bind="true"
+      page-size="25"
+      context.bind="context"
+      row-formatter.bind="rowFormatter"
+    >
+      
+    </au-table> -->
 
     <br />
   </au-input-form>
