@@ -23,7 +23,19 @@ export class DataForm {
         control: {
             length: 5
         }
+        
     }
+
+    controlOptionDates = {
+        label: {
+            length: 4
+        },
+        control: {
+            length: 5
+        },
+        minDate: new Date() // Mencegah pemilihan tanggal sebelum hari ini
+    }
+
 
     itemsColumns = ["Nomor PO"]
 
