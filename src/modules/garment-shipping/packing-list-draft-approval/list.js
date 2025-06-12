@@ -37,7 +37,9 @@ export class List {
             size: info.limit,
             keyword: info.search,
             order: order,
-            filter: JSON.stringify({ Status: "DRAFT_APPROVED_MD", ShippingStaffName: username  })
+            filter: JSON.stringify({ Status: "DRAFT_APPROVED_MD", ShippingStaffName: username,
+              "(IsFile != \"true\")":true
+              })
         }
 
         return this.service.search(arg)
