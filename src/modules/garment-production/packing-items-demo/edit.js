@@ -131,9 +131,9 @@ export class Edit {
         if (error.InvoiceType || error.Type || error.Date ) {
             errorNotif += "Tab DESCRIPTION ada kesalahan pengisian.\n"
         }
-        // if (error.InvoiceType || error.Type || error.Date || error.ItemsCount || error.Items) {
-        //   errorNotif += "Tab DESCRIPTION ada kesalahan pengisian.\n"
-        // }
+        if (error.Items) {
+          errorNotif += "Item tidak boleh kosong.\n"
+        }
         if (error.GrossWeight || error.NettWeight || error.totalCartons || error.SayUnit || error.MeasurementsCount || error.Measurements) {
             errorNotif += "Tab DETAIL MEASUREMENT ada kesalahan pengisian.\n"
         }
