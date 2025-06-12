@@ -34,7 +34,7 @@ export class Create {
 
     get packingListFilter() {
         var filter = {
-            "(Status == \"DRAFT\" || Status == \"DRAFT_APPROVED_SHIPPING\")": true
+            "(Status == \"DRAFT\" || Status == \"DRAFT_APPROVED_SHIPPING\")": true, "(IsFile != \"true\")":true
         };
 
         return filter;
