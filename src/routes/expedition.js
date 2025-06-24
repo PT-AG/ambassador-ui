@@ -831,6 +831,22 @@ module.exports = [
     },
   },
   {
+    route: "realization-non-vb",
+    name: "realization-non-vb",
+    moduleId: "./modules/purchasing/realization-non-vb/index",
+    nav: true,
+    //title: "Realisasi VB non PO",
+    title: "Realisasi Pembayaran Tanpa VB",
+    auth: true,
+    settings: {
+      group: "finance",
+      subGroup: "vb",
+      permission: {"K45":1},
+      // permission: {"*": 1,},
+      iconClass: "fa fa-dashboard",
+    },
+  },
+  {
     route: "vb-realization-with-po-document",
     name: "vb-realization-with-po-document",
     moduleId: "./modules/purchasing/vb-realization-with-po-document/index",
