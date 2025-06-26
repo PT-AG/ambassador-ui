@@ -97,6 +97,7 @@
       </au-numeric> -->
 
       <au-textbox
+          show.bind ="isClaim"
           label="Jenis Klaim"
           value.bind="data.ClaimType"
           error.bind="error.ClaimType"
@@ -177,7 +178,18 @@
                      item-template="modules/purchasing/realization-non-vb/templates/upload">
       </au-collection> -->
 
-      <div class="row">
+      <au-textbox read-only.bind="true"
+                  show.bind="error.DocumentFile"
+                  value.bind="error.DocumentFile"
+                  style="color: red">
+      </au-textbox>
+
+      <au-textbox error.bind="error.CompareNominalDisposisi"
+              show.bind="error.CompareNominalDisposisi"
+              read-only.bind="true"
+              style="color: red">
+      </au-textbox>
+      <div class="row" errors.bind="error.DocumentFile">
         <div class="col-md-6">
           <h4>File Dokumen</h4>
           <table class="table table-hover table-bordered">

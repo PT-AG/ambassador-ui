@@ -21,6 +21,10 @@ export class DataForm {
     //     return this.data.VBNonPOType == "Dengan Nomor VB";
     // }
     @computedFrom("data.DispositionType")
+
+    get isClaim() {
+        return this.data.DispositionType == "Klaim";
+    }
     @computedFrom("data.Id")
     get isEdit() {
         return (this.data.Id || '').toString() != '';
