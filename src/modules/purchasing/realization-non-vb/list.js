@@ -16,7 +16,7 @@ export class List {
 
   columns = [
     { field: "DocumentNo", title: "No. Realisasi VB" },
-    { field: "VBRequestDocumentNo", title: "No. Permohonan VB" },
+    // { field: "VBRequestDocumentNo", title: "No. Permohonan VB" },
     {
       field: "Date",
       title: "Tanggal Realisasi",
@@ -24,15 +24,8 @@ export class List {
         return moment(value).format("DD MMM YYYY");
       },
     },
-    {
-      field: "VBRequestDocumentRealizationEstimationDate",
-      title: "Tanggal Estimasi",
-      formatter: function (value, data, index) {
-        if (data.VBRequestDocumentNo)
-          return moment(value).format("DD MMM YYYY");
-        else return "-";
-      },
-    },
+    { field: "DispositionType", title: "Jenis Disposisi" },
+    { field: "ClaimType", title: "Jenis Klaim" },
     // { field: "UnitLoad", title: "Beban Unit" },
     { field: "CreatedBy", title: "Dibuat oleh" },
     {
