@@ -230,6 +230,7 @@ export class DataForm {
 
     }
 
+    
     @bindable unit;
     unitChanged(n, o) {
         if (this.unit) {
@@ -349,6 +350,18 @@ export class DataForm {
         this.data.DocumentsFileName.splice(index, 1);
         this.documentsPathTemp.splice(index, 1);
     }
+    // formatNumber(event, index) {
+    //     const input = event.target;
+    //     const value = input.value.replace(/,/g, ''); // Hapus separator sebelumnya
+    //     if (!isNaN(value)) {
+    //         input.value = new Intl.NumberFormat('en-US').format(value); // Tambahkan separator
+    //         this.doc.amount = parseFloat(value); // Simpan nilai asli tanpa separator
+    //     }
+    // }
+
+    
+
+
 
     documentInputChanged(index) {
         let documentInput = document.getElementById('documentInput' + index);
@@ -365,10 +378,13 @@ export class DataForm {
                     this.data.DocumentsFileName[index] = "";
                     alert("Maximum Document Size is 50 MB")
                 } else {
+                     // Hapus separator koma dari nilai input sebelum mengonversi ke angka
+                    const rawAmount = amountInput.value.replace(/,/g, '');
                     this.data.DocumentsFile[index] = base64Document;
                     this.data.DocumentsFileName[index] = {
                         documentName : documentInput.value.replace(/^.*[\\\/]/, ''),
-                        amount : amountInput.value ? parseFloat(amountInput.value) : 0,
+                        //amount : amountInput.value ? parseFloat(amountInput.value) : 0,
+                        amount: rawAmount ? parseFloat(rawAmount) : 0, 
                         documentFile : base64Document
                     };
                 }
@@ -389,10 +405,37 @@ export class DataForm {
         downloadLink.click();
     }
 
-    amountInputChanged(index) {
+    // amountInputChanged(index) {
             
-        let documentInput = document.getElementById('documentInput' + index);
+    //     let documentInput = document.getElementById('documentInput' + index);
 
+    //     if (documentInput.files[0]) {
+    //         let reader = new FileReader();
+    //         let amountInput = document.getElementById('amount' + index);
+    //         reader.onload = event => {
+    //             let base64Document = event.target.result;
+    //             const base64Content = base64Document.substring(base64Document.indexOf(',') + 1);
+    //             if (base64Content.length * 6 / 8 > 52428800) {
+    //                 documentInput.value = "";
+    //                 this.data.DocumentsFile[index] = "";
+    //                 this.data.DocumentsFileName[index] = "";
+    //                 alert("Maximum Document Size is 50 MB")
+    //             } else {
+    //                 this.data.DocumentsFile[index] = base64Document;
+    //                 this.data.DocumentsFileName[index] = {
+    //                     documentName : documentInput.value.replace(/^.*[\\\/]/, ''),
+    //                     amount : amountInput.value ? parseFloat(amountInput.value) : 0,
+    //                     documentFile : base64Document
+    //                 };
+    //             }
+    //         }
+    //         reader.readAsDataURL(documentInput.files[0]);
+    //     }
+    // }
+
+    amountInputChanged(index) {
+        let documentInput = document.getElementById('documentInput' + index);
+    
         if (documentInput.files[0]) {
             let reader = new FileReader();
             let amountInput = document.getElementById('amount' + index);
@@ -403,21 +446,35 @@ export class DataForm {
                     documentInput.value = "";
                     this.data.DocumentsFile[index] = "";
                     this.data.DocumentsFileName[index] = "";
-                    alert("Maximum Document Size is 50 MB")
+                    alert("Maximum Document Size is 50 MB");
                 } else {
+                    // Hapus separator koma dari nilai input sebelum mengonversi ke angka
+                    const rawAmount = amountInput.value.replace(/,/g, '');
                     this.data.DocumentsFile[index] = base64Document;
                     this.data.DocumentsFileName[index] = {
-                        documentName : documentInput.value.replace(/^.*[\\\/]/, ''),
-                        amount : amountInput.value ? parseFloat(amountInput.value) : 0,
-                        documentFile : base64Document
+                        documentName: documentInput.value.replace(/^.*[\\\/]/, ''),
+                        amount: rawAmount ? parseFloat(rawAmount) : 0, // Konversi nilai tanpa separator
+                        documentFile: base64Document
                     };
                 }
-            }
+            };
             reader.readAsDataURL(documentInput.files[0]);
         }
     }
 
+    formatNumber(event, index) {
+        const input = event.target;
+        console.log(input);
+        const rawValue = input.value.replace(/,/g, ''); // Hapus separator sebelumnya
+        if (!isNaN(rawValue)) {
+            const formattedValue = new Intl.NumberFormat('en-US').format(rawValue); // Tambahkan separator
+            input.value = formattedValue; // Tampilkan nilai dengan separator
+            this.data.DocumentsFileName[index].amount = parseFloat(rawValue); // Simpan nilai asli tanpa separator
+        }
+    }
+
 }
+
 
 function dateDiffInDays(date1, date2) {
     const dt1 = new Date(date1);
