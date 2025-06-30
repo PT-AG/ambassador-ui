@@ -1,10 +1,10 @@
-import { inject, bindable, computedFrom } from 'aurelia-framework';
+import { inject, bindable, containerless, computedFrom } from 'aurelia-framework';
 import { Service } from './service';
 import { VBRealizationService } from './vb-realization-service';
 import moment from 'moment';
 
 var VBRealizationLoader = require('./loader/vb-verification-loader');
-
+@containerless()
 @inject(Service, VBRealizationService)
 export class DataForm {
     @bindable title;
@@ -79,6 +79,10 @@ export class DataForm {
             }
         }
 
+        this.data.DocumentsFile = this.data.DocumentsFile || [];
+        this.data.DocumentsFileName = this.data.DocumentsFileName || [];
+        this.documentsPathTemp = [].concat(this.data.DocumentsPath);
+
     }
 
     vbHeaderOptions = {
@@ -97,6 +101,20 @@ export class DataForm {
         return (event) => {
             this.data.Items.push({})
         };
+    }
+
+
+    downloadDocument(index) {
+        // this.service.getFile((this.documentsPathTemp[index] || '').replace('/sales/', ''), this.data.DocumentsFileName[index]);
+        // console.log("index", this.data.DocumentsFile);
+        // console.log("index2", this.data.DocumentsFileName[0].DocumentsFileName);
+        const linkSource = this.data.DocumentsFile[index];
+        const downloadLink = document.createElement("a");
+        const fileName = this.data.DocumentsFileName[index].DocumentsFileName;
+        console.log("fileName", fileName);
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
     }
 
     @bindable selectedVBRealization;
@@ -133,6 +151,10 @@ export class DataForm {
                 vbRequestDocumentAmount: this.data.vbRealization.Header.VBRequestDocumentAmount,
                 vbType: this.data.vbRealization.Header.Type
             };
+
+            this.data.DocumentsFile = this.data.vbRealization.DocumentsFile || [];
+            this.data.DocumentsFileName = this.data.vbRealization.DocumentsFileName || [];
+            this.documentsPathTemp = [].concat(this.data.vbRealization.DocumentsPath);
         } else {
             this.data.vbRealization.Header.Id = 0;
         }
