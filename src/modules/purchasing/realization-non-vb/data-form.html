@@ -227,7 +227,9 @@
                     format="0,0.00"
                     options.bind="controlOptions">
                   </au-numeric> -->
-                  <input type="number"  read-only.bind="readOnly" id="amount${$index}" value.bind ="doc.amount" change.delegate="amountInputChanged($index)">
+                  <!-- <input type="number"  read-only.bind="readOnly" id="amount${$index}" value.bind ="doc.amount" change.delegate="amountInputChanged($index)"> -->
+                  <input type="text" id="amount${$index}" value.bind="doc.amount" change.delegate="amountInputChanged($index)" input.delegate="formatNumber($event, $index)">
+                  
                 </td>
 
                 <td if.bind="readOnly">
