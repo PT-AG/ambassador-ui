@@ -120,7 +120,7 @@
             columns.bind="items.columns"
             options.bind="options"
             read-only.bind="readOnly" 
-            show.bind="isItem && !isExternal && data.Storage.name == 'GUDANG BAHAN BAKU'"
+            show.bind="isItem && !isExternal && data.Storage.name != 'GUDANG BAHAN BAKU'"
             header-template="modules/garment-purchasing/unit-expenditure-note-by-user/template/unit-expenditure-note-item-header"
             item-template="modules/garment-purchasing/unit-expenditure-note-by-user/template/unit-expenditure-note-item">
         </au-collection>
