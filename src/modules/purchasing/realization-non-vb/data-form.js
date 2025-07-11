@@ -280,7 +280,7 @@ export class DataForm {
     //     }
     // }
     columns = [
-        "Tanggal", "Invoice", "Keterangan", "Jumlah", "Kena PPN", "PPh", "Total"
+        "Tanggal", "Reference", "Keterangan", "Jumlah", "Kena PPN", "PPh", "Total"
     ];
 
     unitcolumns = [
