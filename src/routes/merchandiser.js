@@ -945,20 +945,20 @@ module.exports = [
             iconClass: 'fa fa-calculator',
         }
     },
-    // {
-    //     route: '/merchandiser/wip-production-status-report',
-    //     name: 'wip-production-status-report',
-    //     moduleId: './modules/merchandiser/report/wip-production-status-report/index',
-    //     nav: true,
-    //     title: 'Laporan Status Produksi WIP',
-    //     auth: true,
-    //     settings: {
-    //         group: "merchandiser",
-    //         subGroup: "monitoring",
-    //         permission: { "L61": 1 },
-    //         iconClass: 'fa fa-calculator',
-    //     }
-    // },
+    {
+        route: '/merchandiser/wip-production-status-report',
+        name: 'wip-production-status-report',
+        moduleId: './modules/merchandiser/report/wip-production-status-report/index',
+        nav: true,
+        title: 'Laporan Status Produksi WIP',
+        auth: true,
+        settings: {
+            group: "merchandiser",
+            subGroup: "monitoring",
+            permission: { "L61": 1 },
+            iconClass: 'fa fa-calculator',
+        }
+    },
 
     // ENHANCE DEMO PACKING LIST
     {
@@ -972,7 +972,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "approval shipping",
             // permission: { "PGA": 1, "C9": 1 },
-            permission: { "L61": 1 },
+            permission: { "L62": 1 },
             iconClass: 'fa fa-calculator'
         }
     },
@@ -987,7 +987,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "approval shipping",
             // permission: { "PGA": 1, "C9": 1 },
-            permission: { "L62": 1 },
+            permission: { "L63": 1 },
             iconClass: 'fa fa-calculator'
         }
     },
@@ -1002,7 +1002,7 @@ module.exports = [
             group: "merchandiser",
             subGroup: "approval shipping",
             // permission: { "PGA": 1, "SG": 1, "C9": 1 },
-            permission: { "L63": 1 },
+            permission: { "L64": 1 },
             iconClass: 'fa fa-calculator'
         }
     },
