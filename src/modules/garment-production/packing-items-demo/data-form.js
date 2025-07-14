@@ -215,10 +215,10 @@ export class DataForm {
       const fileName = file.name;
       const fileExtension = fileName.split('.').pop().toLowerCase();
   
-      if (fileExtension !== 'pdf') {
-        alert("Format file harus PDF (.pdf)");
-        continue;
-      }
+    if (fileExtension !== 'pdf' && fileExtension !== 'xls' && fileExtension !== 'xlsx') {
+      alert("Format file harus PDF atau Excel (.pdf/.xls/.xlsx)");
+      continue;
+    }
   
       const reader = new FileReader();
   

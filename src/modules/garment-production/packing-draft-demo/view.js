@@ -134,7 +134,7 @@ export class View {
     saveCallback() {
       // Validasi: Pastikan ada minimal 1 file sebelum melanjutkan
     if (this.data.documentsFile.length === 0) {
-      alert("Wajib mengunggah file dokumen item format PDF");
+      alert("Wajib mengunggah file dokumen item format PDF atau EXCEL");
       return; // Berhenti di sini jika tidak ada file yang valid
   }
         if (confirm(this.formOptions.saveText + "?")) {
