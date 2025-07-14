@@ -229,8 +229,8 @@ documentInputChanged(index, event) {
     const fileName = file.name;
     const fileExtension = fileName.split('.').pop().toLowerCase();
 
-    if (fileExtension !== 'xls' && fileExtension !== 'xlsx') {
-      alert("Format file harus Excel (.xls atau .xlsx)");
+    if (fileExtension !== 'pdf' && fileExtension !== 'xls' && fileExtension !== 'xlsx') {
+      alert("Format file harus PDF atau Excel (.pdf/.xls/.xlsx)");
       continue;
     }
 

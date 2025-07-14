@@ -175,7 +175,7 @@
                           accept=".pdf, .xls, .xlsx, .doc, .docx"> -->
                           <input if.bind="!documentsPathTemp[$index]" type="file" id="documentInput${$index}"
                           value.bind="documentUpload" change.delegate="documentInputChanged($index, $event)"
-                          multiple accept=".pdf" style="display: none;">
+                          multiple accept=".pdf, .xls, .xlsx" style="display: none;">
                           <div if.bind="!documentsPathTemp[$index]"  >
                             <button type="button" click.delegate="triggerFileInput($index)">Choose File</button>
                             <span>${doc ? doc : 'No File chosen'}</span>
