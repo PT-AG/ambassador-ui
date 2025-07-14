@@ -1,0 +1,24 @@
+<template>
+ 
+
+  <h1 class="page-header">Realisasi Pembayaran Tanpa VB</h1>
+  <au-table
+    view-model.ref="tableList"
+    data.bind="loader"
+    columns.bind="columns"
+    sortable.bind="true"
+    page-size="25"
+    context.bind="context"
+    context-click.delegate="contextClickCallback($event, activeTab)"
+    context-show.call="contextShowCallback(index, context, data)"
+    selectable.bind="true"
+    selections.bind="dataToBePosted"
+    row-formatter.bind="rowFormatter"
+  >
+    <div slot="toolbar" class="btn-group">
+      <button class="btn btn-success" click.delegate="create(activeTab)">
+        Buat
+      </button>
+    </div>
+  </au-table>
+</template>

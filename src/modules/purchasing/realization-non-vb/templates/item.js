@@ -102,6 +102,7 @@ export class Item {
       if (this.data.IsGetPPn && this.data.VatTax)
         vatAmount = this.data.VatTax.Rate == 12 ? this.data.Amount *11/12 * (this.data.VatTax.Rate / 100): this.data.Amount * (this.data.VatTax.Rate / 100);
         //vatAmount = this.data.Amount * (this.data.VatTax.Rate / 100);
+
       this.data.Total = Math.round((this.data.Amount - (this.data.Amount * (this.data.IncomeTax.rate / 100)) + vatAmount + Number.EPSILON) * 100) / 100;
     } else {
       let vatAmount = 0;
