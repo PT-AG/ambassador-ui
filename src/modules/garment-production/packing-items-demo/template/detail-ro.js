@@ -156,7 +156,7 @@ export class Item {
                   this.data.valas = result.Section=="MD01"? "IDR":"USD";
                   this.data.quantity = result.Quantity;
                   this.data.scNo = sc.SalesContractNo;
-                  console.log(sc)
+                  //console.log(sc)
                   //this.data.amount=sc.Amount;
                   let avgPrice = 0;
                   // if (sc.Price == 0) {
@@ -200,12 +200,20 @@ export class Item {
                 this.data.valas = "USD";
                 this.data.quantity = result.SampleProducts.reduce((acc, cur) => acc += cur.Quantity, 0);
                 this.data.scNo = result.SampleRequestNo;
+                this.data.comodityDescription = (result.Comodity || {}).Name;
                 //this.data.amount=sc.Amount;
                 this.data.price = 0;
                 this.data.priceRO = 0;
                 this.data.comodity = result.Comodity;
                 this.data.amount = 0;
-                this.data.section=result.Section;
+                //this.data.section=result.Section;
+                this.data.section = {
+                    id: (result.Section || {}).Id,
+                    code: (result.Section || {}).Code,
+                  };
+                this.data.sectionName = "-";
+
+                this.context.context.options.header.section = this.data.section;
             })
       }
     }
