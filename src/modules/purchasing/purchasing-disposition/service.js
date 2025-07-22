@@ -32,13 +32,12 @@ export class Service extends RestService {
     }
 
     update(data) {
-        console.log(data);
         var endpoint = `${serviceUri}/${data.Id}`;
         return super.put(endpoint, data);
     }
 
     delete(data) {
-        var endpoint = `${serviceUri}/${data._id}`;
+        var endpoint = `${serviceUri}/${data.Id}`;
         return super.delete(endpoint, data);
     }
 
@@ -50,7 +49,7 @@ export class Service extends RestService {
     getPdfById(id) {
         var endpoint = `${serviceUri}/${id}`;
         return super.getPdf(endpoint);
-    } 
+    }
 
     searchPaymentDispo(epoId) {
         var config = Container.instance.get(Config);
