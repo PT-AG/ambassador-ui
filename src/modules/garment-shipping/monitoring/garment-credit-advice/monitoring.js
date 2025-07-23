@@ -35,7 +35,7 @@ export class List {
     }
 
     shippinginvoiceNoView = (invoiceNo) => {
-        return `${invoiceNo.InvoiceNoe}`
+        return `${invoiceNo.invoiceNo}`
     }
    
     activate() {
@@ -46,7 +46,7 @@ export class List {
         {
         var info = {
             buyerAgent : this.buyerAgent ? this.buyerAgent.Code : "",
-            invoiceNo : this.invoiceNo ? this.invoiceNo.InvoiceNo : "",
+            invoiceNo : this.invoiceNo ? this.invoiceNo.invoiceNo : "",
             paymentTerm : this.paymentTerm ? this.paymentTerm : "",
             dateFrom : this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
             dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : ""
@@ -134,7 +134,7 @@ export class List {
         {
             var info = {
                 buyerAgent : this.buyerAgent ? this.buyerAgent.Code : "",
-                invoiceNo : this.invoiceNo ? this.invoiceNo.InvoiceNo : "",
+                invoiceNo : this.invoiceNo ? this.invoiceNo.invoiceNo : "",
                 paymentTerm : this.paymentTerm ? this.paymentTerm : "",
                 dateFrom : this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
                 dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : ""
