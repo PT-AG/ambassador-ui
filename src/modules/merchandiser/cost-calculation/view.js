@@ -77,9 +77,12 @@ export class View {
     this.data = await this.service.getById(id);
     if(this.data.ApprovalMD.IsApproved || this.data.SCGarmentId)
     {
-      this.editCallback=null;
       this.deleteCallback=null;
     }
+    else if(this.data.ApprovalMD.IsApproved){
+      this.editCallback=null;
+    }
+
     this.data.FabricAllowance = numeral(this.data.FabricAllowance).format();
     this.data.AccessoriesAllowance = numeral(
       this.data.AccessoriesAllowance
