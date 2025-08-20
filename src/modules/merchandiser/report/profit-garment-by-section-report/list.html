@@ -55,7 +55,7 @@
                     <td align="center" rowspan="2">Amount</td>     
                     <!--<td align="center" rowspan="2">Komisi %</td>    -->
                     <td align="center" colspan="2">Komisi</td>  
-                    <td align="center" colspan="4">Profit</td>  
+                    <td align="center" colspan="5">Profit</td>  
                     <!--<td align="center" rowspan="2">Profit %</td>
                     <td align="center" rowspan="2">Profit IDR</td>                    
                     <td align="center" rowspan="2">Profit USD</td>
@@ -71,7 +71,8 @@
                     <td align="center" rowspan="2">Profit %</td>
                     <td align="center" rowspan="2">Profit IDR</td>                    
                     <td align="center" rowspan="2">Profit USD</td>
-                    <td align="center" rowspan="2">Profit/FOB %</td>                    
+                    <td align="center" rowspan="2">Profit/FOB %</td>  
+                    <td align="center" rowspan="2">Gross Profit</td>                  
                 </tr>
             </thead>
             <tbody>
@@ -106,7 +107,8 @@
                         <td class="text-right">${item.Profit}</td>
                         <td class="text-right">${item.ProfitIDR}</td>                        
                         <td class="text-right">${item.ProfitUSD}</td>      
-                        <td class="text-right">${item.ProfitFOB}</td>                                                
+                        <td class="text-right">${item.ProfitFOB}</td>  
+                        <td class="text-right">${item.GrossProfit}</td>                                              
                     </tr>
                         <tr class="active">
                         <td class="text-center">.</td>
@@ -124,7 +126,8 @@
                         <td class="text-center"><strong>.</strong></td>                                           
                         <td class="text-right"><strong>${Seksi.subTotal1}</strong></td>     
                         <td class="text-right"><strong>${Seksi.subTotal2}</strong></td>     
-                        <td class="text-center"><strong>.</strong></td>                                                                     
+                        <td class="text-center"><strong>.</strong></td> 
+                        <td class="text-center"><strong>${Seksi.subTotal3}</strong></td>                                                                     
                     </tr>
                 </template>
                 </tbody>
@@ -152,6 +155,13 @@
                           <!-- <p class="form-control-static col-md-8">${grandTotal | numberFormat:'0,000.00'}</p> -->
                           
                           <p class="form-control-static col-md-8">${subtotalrp | numberFormat:'0,000.00'}</p>
+
+                      </div>
+                      <div class="form-group col-md-6">
+                          <label class="control-label text-left col-md-4">GRAND TOTAL GROSS PROFIT</label>
+                          <!-- <p class="form-control-static col-md-8">${grandTotal | numberFormat:'0,000.00'}</p> -->
+                          
+                          <p class="form-control-static col-md-8">${grandTotalGrossProfit | numberFormat:'0,000.00'}</p>
 
                       </div>
                     </div>
