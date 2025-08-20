@@ -28,6 +28,7 @@
                     <th class="text-center">Profit USD</th>   
                     <th class="text-center">Profit IDR</th>   
                     <th class="text-center">Profit FOB</th>   
+                    <th class="text-center">Gross Profit</th>
                  </tr>
             </thead>
             <tbody>
@@ -42,7 +43,8 @@
                         <td class="text-right">${item.Amount}</td>      
                         <td class="text-right">${item.ProfitUSD}</td>      
                         <td class="text-right">${item.ProfitIDR}</td>      
-                        <td class="text-right">${item.ProfitFOB}</td>                              
+                        <td class="text-right">${item.ProfitFOB}</td>
+                        <td class="text-right">${item.GrossProfit}</td>                                
                     </tr>
                     <tr class="active">
                         <td class="text-center" colspan="3"><strong>${UOMX.UoM}</strong></td>
@@ -51,6 +53,7 @@
                         <td class="text-right"><strong>${UOMX.subTotal1}</strong></td>                     
                         <td class="text-right"><strong>${UOMX.subTotal2}</strong></td>                     
                         <td class="text-right"><strong>${UOMX.subTotal3}</strong></td>                                             
+                        <td class="text-right"><strong>${UOMX.subTotal4}</strong></td>
                     </tr>
                 </template>
                     <tr class="active">
@@ -59,6 +62,7 @@
                         <td class="text-right"><strong>${AmountTotal1}</strong></td> 
                         <td class="text-right"><strong>${AmountTotal2}</strong></td> 
                         <td class="text-right"><strong>${AmountTotal3}</strong></td> 
+                        <td class="text-right"><strong>${AmountTotal4}</strong></td> 
                     </tr>
             </tbody>
         </table>
