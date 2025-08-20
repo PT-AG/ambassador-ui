@@ -20,6 +20,14 @@ export class List {
     }
 
     searching() {
+        const toNum = (v) => {
+            if (typeof v === 'number' && Number.isFinite(v)) return v;
+            if (v === null || v === undefined) return 0;
+            const s = String(v).trim();
+            if (!s) return 0;
+            // hilangkan thousand separator tanpa regex
+            return Number(s.split(',').join('')) || 0;
+        };
         var info = {
             dateFrom : this.dateFrom,
             dateTo : this.dateTo,
@@ -55,27 +63,27 @@ export class List {
                         if (!subTotalUoM[BdgtUOM]) {
                            subTotalUoM[BdgtUOM] = 0;
                            } 
-                           subTotalUoM[BdgtUOM] += data.Amount;
+                           subTotalUoM[BdgtUOM] += toNum(data.Amount);
 
                         if (!subTotalUoM1[BdgtUOM]) {
                             subTotalUoM1[BdgtUOM] = 0;
                             } 
-                            subTotalUoM1[BdgtUOM] += data.ProfitUSD;                           
+                            subTotalUoM1[BdgtUOM] += toNum(data.ProfitUSD);                           
 
                         if (!subTotalUoM2[BdgtUOM]) {
                             subTotalUoM2[BdgtUOM] = 0;
                             } 
-                            subTotalUoM2[BdgtUOM] += data.ProfitIDR;                           
+                            subTotalUoM2[BdgtUOM] += toNum(data.ProfitIDR);                           
 
                         if (!subTotalUoM3[BdgtUOM]) {
                                 subTotalUoM3[BdgtUOM] = 0;
                                 } 
-                            subTotalUoM3[BdgtUOM] += data.ProfitFOB;  
+                            subTotalUoM3[BdgtUOM] += toNum(data.ProfitFOB);  
                             
                         if (!subTotalUoM4[BdgtUOM]) {
                                 subTotalUoM4[BdgtUOM] = 0;
                                 }                   
-                            subTotalUoM4[BdgtUOM] += data.GrossProfit;
+                            subTotalUoM4[BdgtUOM] += toNum(data.GrossProfit);
                         }    
 
                var BdgtUOMs = [];
