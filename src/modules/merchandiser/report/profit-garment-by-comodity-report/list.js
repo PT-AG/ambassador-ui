@@ -20,6 +20,14 @@ export class List {
     }
 
     searching() {
+        const toNum = (v) => {
+            if (typeof v === 'number' && Number.isFinite(v)) return v;
+            if (v === null || v === undefined) return 0;
+            const s = String(v).trim();
+            if (!s) return 0;
+            // hilangkan thousand separator tanpa regex
+            return Number(s.split(',').join('')) || 0;
+        };
         var info = {
             dateFrom : this.dateFrom,
             dateTo : this.dateTo,
@@ -34,6 +42,7 @@ export class List {
                 var subTotalUoM1 = {};
                 var subTotalUoM2 = {};
                 var subTotalUoM3 = {};
+                var subTotalUoM4 = {};
                 
                   for (var data of result) {
                        var BdgtUOM = data.UOMUnit;
@@ -48,27 +57,33 @@ export class List {
                             ProfitUSD : data.ProfitUSD.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),  
                             ProfitIDR : data.ProfitIDR.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),  
                             ProfitFOB : data.ProfitFOB.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),                                           
+                            GrossProfit : data.GrossProfit.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),                                         
                         });
                     
                         if (!subTotalUoM[BdgtUOM]) {
                            subTotalUoM[BdgtUOM] = 0;
                            } 
-                           subTotalUoM[BdgtUOM] += data.Amount;
+                           subTotalUoM[BdgtUOM] += toNum(data.Amount);
 
                         if (!subTotalUoM1[BdgtUOM]) {
                             subTotalUoM1[BdgtUOM] = 0;
                             } 
-                            subTotalUoM1[BdgtUOM] += data.ProfitUSD;                           
+                            subTotalUoM1[BdgtUOM] += toNum(data.ProfitUSD);                           
 
                         if (!subTotalUoM2[BdgtUOM]) {
                             subTotalUoM2[BdgtUOM] = 0;
                             } 
-                            subTotalUoM2[BdgtUOM] += data.ProfitIDR;                           
+                            subTotalUoM2[BdgtUOM] += toNum(data.ProfitIDR);                           
 
                         if (!subTotalUoM3[BdgtUOM]) {
                                 subTotalUoM3[BdgtUOM] = 0;
                                 } 
-                            subTotalUoM3[BdgtUOM] += data.ProfitFOB;                           
+                            subTotalUoM3[BdgtUOM] += toNum(data.ProfitFOB);  
+                            
+                        if (!subTotalUoM4[BdgtUOM]) {
+                                subTotalUoM4[BdgtUOM] = 0;
+                                }                   
+                            subTotalUoM4[BdgtUOM] += toNum(data.GrossProfit);
                         }    
 
                var BdgtUOMs = [];
@@ -76,6 +91,7 @@ export class List {
                this.AmountTotal1 = 0;
                this.AmountTotal2 = 0;
                this.AmountTotal3 = 0;
+               this.AmountTotal4 = 0;
                    
                for (var data in dataByUOM) {
                    BdgtUOMs.push({
@@ -85,17 +101,21 @@ export class List {
                    subTotal1: (subTotalUoM1[data]).toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
                    subTotal2: (subTotalUoM2[data]).toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
                    subTotal3: (subTotalUoM3[data]).toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),                   
+                   subTotal4: (subTotalUoM4[data]).toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
                 });
                    this.AmountTotal += subTotalUoM[data];                                     
                    this.AmountTotal1 += subTotalUoM1[data];                                     
                    this.AmountTotal2 += subTotalUoM2[data];                                     
-                   this.AmountTotal3 += subTotalUoM3[data];                                                        
+                   this.AmountTotal3 += subTotalUoM3[data];  
+                   this.AmountTotal4 += subTotalUoM4[data];  
                }
                
                this.AmountTotal = this.AmountTotal.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                this.AmountTotal1 = this.AmountTotal1.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                this.AmountTotal2 = this.AmountTotal2.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                this.AmountTotal3 = this.AmountTotal3.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+               this.AmountTotal4 = this.AmountTotal4.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
                this.BdgtUOMs = BdgtUOMs;
 
                 });        
@@ -118,6 +138,7 @@ export class List {
         this.AmountTotal1 = null;   
         this.AmountTotal2 = null;   
         this.AmountTotal3 = null;    
+        this.AmountTotal4 = null;
     }
 
     dateFromChanged(e) {
