@@ -57,7 +57,6 @@ export class List {
         this.service.search(JSON.stringify(info))
             .then(result => {
                 this.data = result;
-                console.log(result);
 
                 this.grandTotalByUom = [];
                 this.grandTotal = 0;
