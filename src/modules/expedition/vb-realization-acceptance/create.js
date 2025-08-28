@@ -206,6 +206,7 @@ export class Create {
 
   changeTable(role) {
     this.code = role.key === "CASHIER" ? true : false;
+    console.log("code", this.code);
     // this.dataToBePosted = [];
   }
 
@@ -249,7 +250,7 @@ export class Create {
     return this.service.search(arg).then((result) => {
       //   console.log(result);
       return {
-        total: result.info.total,
+        total: result.info.Count,
         data: result.data,
       };
     });
@@ -260,8 +261,8 @@ export class Create {
   }
 
   saveCallback(event) {
-    // console.log("this.selectedItems", this.selectedItems);
-
+    console.log("tes");
+    console.log(this.activeRole)
     if (this.selectedItems && this.selectedItems.length > 0) {
       const vbIds = this.selectedItems.map((datum) => {
         return datum.VBRealizationId;

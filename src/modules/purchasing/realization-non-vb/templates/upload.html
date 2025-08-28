@@ -1,0 +1,53 @@
+<template>
+</tr>
+  <tr if.bind="data.DocumentsFileName" repeat.for="doc of data.DocumentsFileName">
+    <!-- <td if.bind="readOnly">
+      <button class="btn btn-primary justify-content-center"
+        click.delegate="downloadDocument($index)">${doc}</button>
+    </td> -->
+    <td if.bind="!readOnly">
+      <input if.bind="!documentsPathTemp[$index]" type="file" id="documentInput${$index}"
+        value.bind="documentUpload" change.delegate="documentInputChanged($index)"
+        accept=".pdf, .xls, .xlsx, .doc, .docx">
+      <button if.bind="documentsPathTemp[$index]" class="btn btn-primary justify-content-center"
+        click.delegate="downloadDocument($index)">${doc}</button>
+      <span class="text-danger" if.bind="error.DocumentsFile[$index]">${error.DocumentsFile[$index]}</span>
+    </td>
+    <td>
+      <au-numeric 
+        value.bind="data.Amount"
+        read-only.bind="readOnly"
+        error.bind="error.Amount"
+        format="0,0.00"
+        options.bind="controlOptions">
+      </au-numeric>
+    </td>
+    <td class="col-sm-1">
+      <button class="btn btn-danger pull-right"
+              click.delegate="onremove(data, $event)">-</button>
+    </td>
+  </tr>
+  <!-- <tr>
+    <td>
+      <div class="col-sm-9">
+        <input type="file"
+               change.delegate="onFileSelected($event, data)">
+        <span if.bind="data.file">${data.file.name}</span>
+      </div>
+      <span class="help-block">${error.file}</span>
+    </td>
+    <td>
+      <au-numeric 
+        value.bind="data.Amount"
+        read-only.bind="readOnly"
+        error.bind="error.Amount"
+        format="0,0.00"
+        options.bind="controlOptions">
+      </au-numeric>
+    </td>
+    <td class="col-sm-1">
+      <button class="btn btn-danger pull-right"
+              click.delegate="onremove(data, $event)">-</button>
+    </td>
+  </tr> -->
+</template>

@@ -68,6 +68,7 @@ export class DataForm {
         { header: "Mata Uang" },
         { header: "Amount" },
         { header: "Unit" },
+        { header: "" },
     ]
 
     measureColumns = [

@@ -1123,4 +1123,70 @@ module.exports = [
             iconClass: "fa fa-dashboard"
         }
     },
+
+    // ENHANCE DEMO PACKING LIST 
+  {
+    route: "garment-shipping/packing-list-draft-approval-demo",
+    name: "garment-shipping/packing-list-draft-approval-demo",
+    moduleId: "modules/garment-shipping/packing-list-draft-approval-demo/index",
+    nav: true,
+    title: "Approval Draft Packing",
+    auth: true,
+    settings: {
+      group: "g-shipping",
+      subGroup: "approval",
+      // permission: { "C9": 1, "SG": 1 },
+      permission: { "P73": 1 },
+      iconClass: "fa fa-dashboard",
+    },
+  },
+
+  {
+    route: "garment-shipping/packing-list-approval-demo",
+    name: "garment-shipping/packing-list-approval-demo",
+    moduleId: "modules/garment-shipping/packing-list-approval-demo/index",
+    nav: true,
+    title: "Approval Packing",
+    auth: true,
+    settings: {
+      group: "g-shipping",
+      subGroup: "approval",
+      // permission: { "C9": 1, "SG": 1 },
+      permission: { "P74": 1 },
+      iconClass: "fa fa-dashboard",
+    },
+  },
+
+  {
+    route: "garment-shipping/packing-list-approved-demo",
+    name: "garment-shipping/packing-list-approved-demo",
+    moduleId: "modules/garment-shipping/packing-list-approved-demo/index",
+    nav: true,
+    title: "Approved Packing",
+    auth: true,
+    settings: {
+      group: "g-shipping",
+      subGroup: "approval",
+      // permission: { "C9": 1, "SG": 1 },
+      permission: { "P75": 1 },
+      iconClass: "fa fa-dashboard",
+    },
+  },
+
+  {
+    route: "garment-shipping/packing-list-approved-all-user-demo",
+    name: "garment-shipping/packing-list-approved-all-user-demo",
+    moduleId: "modules/garment-shipping/packing-list-approved-all-user-demo/index",
+    nav: true,
+    title: "Approved Packing ( All User )",
+    auth: true,
+    settings: {
+      group: "g-shipping",
+      subGroup: "approval",
+      // permission: { "C9": 1, "SG": 1 },
+      permission: { "P76": 1 },
+      iconClass: "fa fa-dashboard",
+    },
+  },
+  // END
 ]

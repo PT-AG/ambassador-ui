@@ -44,7 +44,7 @@ export class List {
             size: info.limit,
             keyword: info.search,
             order: order,
-            filter: JSON.stringify({ "(Status != \"CREATED\")": true })
+            filter: JSON.stringify({ "(Status != \"CREATED\")": true, "(IsFile != \"true\")":true })
         }
 
         return this.service.search(arg)
