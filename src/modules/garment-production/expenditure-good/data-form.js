@@ -358,7 +358,7 @@ export class DataForm {
         else{
             let objData = {};
             var item=Object.assign(objData, this.selectedSize);
-            item.Description=this.selectedColor;
+            item.Description= this.selectedColor ? this.selectedColor : this.data.Comodity.Name;
             item.Quantity=this.data.Quantity;
             item.RemainingQuantity-=this.selectedSize.Quantity;
             // if(this.data.Items){
