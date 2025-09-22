@@ -16,7 +16,16 @@ export class List {
     section=null;    
     dateFrom = null;
     dateTo = null;
-      
+
+    controlOptions = {
+        label: {
+            length: 4,
+        },
+        control: {
+            length: 4,
+        },
+    };  
+
     get sectionLoader() {
         return SectionLoader;
     }
@@ -61,13 +70,19 @@ export class List {
                 this.grandTotalByUom = [];
                 this.grandTotal = 0;
                 this.grandTotalGrossProfit = 0;
-
+                this.grandTotalPremi = 0;
+                this.grandTotalIDR = 0;
+                this.grandTotalUSD = 0;
+                
                 var dataBySection = {};
                 var subTotalSection = {};
                 var subTotalSection1 = {};
                 var subTotalSection2 = {};
                 var subTotalSection3 = {};
-                  
+                var subTotalSection4 = {};
+                // var subTotalIDR={};
+                // var subTotalUSD={};
+                  console.log(result);
                   for (var data of result) {
                        var SECTION = data.Section;
                         if (!dataBySection[SECTION]) dataBySection[SECTION] = [];                 
@@ -106,6 +121,7 @@ export class List {
                             FOBPrice : data.FOBPrice.toLocaleString('en-EN',{minimumFractionDigits: 4, maximumFractionDigits: 4}),
                             Amount : data.Amount.toLocaleString('en-EN',{minimumFractionDigits: 2, maximumFractionDigits: 2}),
                             GrossProfit : data.GrossProfit.toLocaleString('en-EN',{minimumFractionDigits: 2, maximumFractionDigits: 2}),
+                            Premi : data.Premi.toLocaleString('en-EN',{minimumFractionDigits: 2, maximumFractionDigits: 2}),
                          });
                     
                         if (!subTotalSection[SECTION]) {
@@ -127,7 +143,26 @@ export class List {
                             subTotalSection3[SECTION] = 0;
                             } 
                             subTotalSection3[SECTION] += toNum(data.GrossProfit);
+
+                        if (!subTotalSection4[SECTION]) {
+                            subTotalSection4[SECTION] = 0;
+                            }
+                            subTotalSection4[SECTION] += toNum(data.Premi);
+
+                        // if (!subTotalIDR[SECTION]) {
+                        //     subTotalIDR[SECTION] = 0;
+                        //     }
+                        //     subTotalIDR[SECTION] += toNum(data.ProfitIDR);
+
+                        // if (!subTotalUSD[SECTION]) {
+                        //     subTotalUSD[SECTION] = 0;
+                        //     }
+                        //     subTotalUSD[SECTION] += toNum(data.ProfitUSD);
                         }
+
+
+
+                        
                     //
                     for (var data of result) {
                         const uomIndex = this.grandTotalByUom.findIndex(uom => uom.uom == data.UOMUnit);
@@ -144,6 +179,10 @@ export class List {
                         //console.log(this.grandTotalByUom);
                         this.grandTotal += toNum(data.Amount);
                         this.grandTotalGrossProfit += toNum(data.GrossProfit);
+                        this.grandTotalPremi += toNum(data.Premi);
+                        this.grandTotalIDR += toNum(data.ProfitIDR);
+                        this.grandTotalUSD += toNum(data.ProfitUSD);
+
                     }
                     //
                        
@@ -152,8 +191,8 @@ export class List {
                this.AmountTotal1 = 0;
                this.AmountTotal2 = 0;
                this.AmountTotal3 = 0;
-               this.AmountTotalRp=0;
-               this.AmountTotalusd=0;
+            //    this.AmountTotalRp=0;
+            //    this.AmountTotalUsd=0;
 
                       
                for (var data in dataBySection) {
@@ -164,16 +203,19 @@ export class List {
                    subTotal1: (subTotalSection1[data]).toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
                    subTotal2: (subTotalSection2[data]).toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
                    subTotal3: (subTotalSection3[data]).toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
-                   //  subtotalusd:1111,
-                  //  subtotalrp:2222
+                   subTotal4: (subTotalSection4[data]).toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+                //    subTotalIDR: (subTotalIDR[data]).toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+                //    subTotalUSD: (subTotalUSD[data]).toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+                  
                   });
                 //   console.log('SECTION :'+ SECTION);
                    this.AmountTotal += subTotalSection[data];                                     
                    this.AmountTotal1 += subTotalSection1[data];                                     
                    this.AmountTotal2 += subTotalSection2[data];  
-                   this.AmountTotal3 += subTotalSection3[data];        
-                   this.AmountTotalRp = subTotalSection[data];  
-                   this.AmountTotalusd = subTotalSection[data];                           
+                   this.AmountTotal3 += subTotalSection3[data];  
+                   this.AmountTotal4 += subTotalSection4[data];  
+                //    this.AmountTotalRp += subTotalIDR[data];
+                //    this.AmountTotalUsd += subTotalUSD[data];                           
                 //    console.log('subTotal :'+ this.AmountTotal);
                 //    console.log('AmountTotalRp :'+ this.AmountTotalRp);
                 //    console.log('AmountTotalusd :'+ this.AmountTotalusd);
@@ -183,12 +225,14 @@ export class List {
              //console.log("subTotal stlh loop" ,this.AmountTotal);
             //    console.log('AmountTotalusd stlh loop :'+ this.AmountTotalRp);
             //    console.log(`AmountTotalrp stlh loop : ${this.AmountTotal-this.AmountTotalRp}`);
-               this.subtotalusd=this.AmountTotalRp;
-               this.subtotalrp=this.AmountTotal-this.AmountTotalRp;
+            //    this.subtotalusd= this.AmountTotalUsd.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            //    this.subtotalrp= this.AmountTotalRp.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            //    this.subtotalrp=this.AmountTotal-this.AmountTotalRp;
                this.AmountTotal = this.AmountTotal.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                this.AmountTotal1 = this.AmountTotal1.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                this.AmountTotal2 = this.AmountTotal2.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                this.AmountTotal3 = this.AmountTotal3.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+               this.AmountTotal4 = this.AmountTotal4.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                this.Sections = Sections;
 
                 });  
@@ -214,6 +258,7 @@ export class List {
         this.AmountTotal1 = null;
         this.AmountTotal2 = null;  
         this.AmountTotal3 = null;
+        this.AmountTotal4 = null;
     }
 
     dateFromChanged(e) {
