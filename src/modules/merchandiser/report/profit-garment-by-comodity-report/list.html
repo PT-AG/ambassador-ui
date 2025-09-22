@@ -2,8 +2,8 @@
     <h1 class="page-header">Display Profit Garment Per Komoditi</h1>
     <form class="form-horizontal">
           
-        <au-datepicker label="Tanggal Shipment Awal" value.bind="dateFrom"></au-datepicker>
-        <au-datepicker label="Tanggal Shipment Akhir" value.bind="dateTo"></au-datepicker>
+        <au-datepicker label="Tanggal Shipment Awal" value.bind="dateFrom" options.bind="controlOptions" ></au-datepicker>
+        <au-datepicker label="Tanggal Shipment Akhir" value.bind="dateTo" options.bind="controlOptions" ></au-datepicker>
         <div class="form-group">
             <label for="contact" class="col-sm-6 control-label"></label>
             <div class="col-sm-3">
@@ -29,6 +29,7 @@
                     <th class="text-center">Profit IDR</th>   
                     <th class="text-center">Profit FOB</th>   
                     <th class="text-center">Gross Profit</th>
+                    <th class="text-center">Premi</th>
                  </tr>
             </thead>
             <tbody>
@@ -44,7 +45,8 @@
                         <td class="text-right">${item.ProfitUSD}</td>      
                         <td class="text-right">${item.ProfitIDR}</td>      
                         <td class="text-right">${item.ProfitFOB}</td>
-                        <td class="text-right">${item.GrossProfit}</td>                                
+                        <td class="text-right">${item.GrossProfit}</td>  
+                        <td class="text-right">${item.Premi}</td>                              
                     </tr>
                     <tr class="active">
                         <td class="text-center" colspan="3"><strong>${UOMX.UoM}</strong></td>
@@ -54,6 +56,7 @@
                         <td class="text-right"><strong>${UOMX.subTotal2}</strong></td>                     
                         <td class="text-right"><strong>${UOMX.subTotal3}</strong></td>                                             
                         <td class="text-right"><strong>${UOMX.subTotal4}</strong></td>
+                        <td class="text-right"><strong>${UOMX.subTotal5}</strong></td>
                     </tr>
                 </template>
                     <tr class="active">
@@ -63,6 +66,7 @@
                         <td class="text-right"><strong>${AmountTotal2}</strong></td> 
                         <td class="text-right"><strong>${AmountTotal3}</strong></td> 
                         <td class="text-right"><strong>${AmountTotal4}</strong></td> 
+                        <td class="text-right"><strong>${AmountTotal5}</strong></td>
                     </tr>
             </tbody>
         </table>
