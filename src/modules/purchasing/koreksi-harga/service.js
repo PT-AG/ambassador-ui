@@ -20,3 +20,4 @@ export class Service extends RestService {
         return super.getXls(endpoint);
     }
 }
+
