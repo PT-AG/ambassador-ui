@@ -1,5 +1,5 @@
 import { inject, bindable, containerless, computedFrom, BindingEngine } from 'aurelia-framework'
-const CurrencyLoader = require('../../../../loader/garment-currencies-by-date-loader');
+const CurrencyLoader = require('../../../../loader/garment-currency-loader');
 import { Service } from '../service';
 
 @inject(Service)
