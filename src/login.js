@@ -23,6 +23,7 @@ export class Login {
         return this.authService.login({ "username": this.username, "password": this.password })
             .then(response => {
                 console.log("success logged " + response);
+                location.reload();
             })
             .catch(err => {
                 this.error = true;
