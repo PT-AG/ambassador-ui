@@ -74,26 +74,26 @@ export class List{
     }
 
     UnitItemChanged(newvalue){
-        
         if (newvalue) {
-            if (newvalue === "KONFEKSI 2A") {
-                this.unit = "C2A";
-                this.unitname = "KONFEKSI 2A";
+            if (newvalue === "KONFEKSI AG1") {
+                this.unit = "KONFEKSI AG1";
+                this.unitname = "AG1";
             }
-            else if (newvalue === "KONFEKSI 2B") { 
-                this.unit = "C2B";
-                this.unitname = "KONFEKSI 2B";
+            else if (newvalue === "KONFEKSI AG2") { 
+                this.unit = "KONFEKSI AG2";
+                this.unitname = "AG2";
             }
-            else if (newvalue === "KONFEKSI 2C") {
-                this.unit = "C2C"; 
-                this.unitname = "KONFEKSI 2C";
-            }else if(newvalue === "KONFEKSI 1A"){
-                this.unit = "AG1";
-                this.unitname = "KONFEKSI 1A";
-            }else if(newvalue === "KONFEKSI 1B"){
-                this.unit = "AG2";
-                this.unitname = "KONFEKSI 1B";
-            }else{
+            // else if (newvalue === "KONFEKSI 2C") {
+            //     this.unit = "C2C"; 
+            //     this.unitname = "KONFEKSI 2C";
+            // }else if(newvalue === "KONFEKSI 1A"){
+            //     this.unit = "AG1";
+            //     this.unitname = "KONFEKSI 1A";
+            // }else if(newvalue === "KONFEKSI 1B"){
+            //     this.unit = "AG2";
+            //     this.unitname = "KONFEKSI 1B";
+            // }
+            else{
                 this.unit = "";
                 this.unitname = "";
             }
@@ -103,21 +103,43 @@ export class List{
         }
     }
 
-    ExportToExcel() {
-        let args = {            
+    async ExportToExcel() {
+         this.errorMessage = null; // reset error
+            let args = {            
             dateFrom : this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
             dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : "",
             unitcode : this.unit ? this.unit : "",
             unitname : this.unitname ? this.unitname : "",
-        };
-        
-        this.service.generateExcel(args);
+            };
+
+            try {
+                await this.service.generateExcel(args);
+            } catch (error) {
+                this.errorMessage = error.message || "Gagal menghubungi server.";
+                alert(this.errorMessage);
+            }
+            
+            
     }
 
     changePage(e) {
         var page = e.detail;
         this.info.page = page;
         this.searching();
+    }
+
+    reset() {
+        this.dateFrom = null;
+        this.dateTo = null;
+        this.UnitItem = '';
+        this.data=[];
+        this.data2=[];
+        this.errorMessage = null;
+        this.info.page = 1;
+        this.info.total=0;
+
+        //reload network devtools
+        location.reload();
     }
 
 }
