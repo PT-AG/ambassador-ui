@@ -16,7 +16,7 @@ export class DeliveryOrderItem {
     this.data.doQuantity = this.data.doQuantity.toLocaleString('en-EN', { minimumFractionDigits: 2 }).replace(",","");
     this.error = context.error;
     this.options = context.options;
-   
+    this.isImport = this.context.context.options.isImport;
     this.hasView = this.context.context.options.hasView;
     this.hasEdit = this.context.context.options.hasEdit;
     this.hasCreate = this.context.context.options.hasCreate;
@@ -39,12 +39,8 @@ export class DeliveryOrderItem {
         this.data.dealQuantity=this.data.dealQuantity.toLocaleString('en-EN', { minimumFractionDigits: 10 });}
     } else {
       this.data.doQuantity = 0;
-
     }
-
-
   }
-
 
   get smallQuantity() {
     this.data.smallQuantity= this.data.doQuantity * this.data.conversion;
@@ -95,7 +91,6 @@ export class DeliveryOrderItem {
     }
   }
 
-
   conversionChanged(e) {
     if(!this.error)
       this.error={};
@@ -142,6 +137,4 @@ export class DeliveryOrderItem {
       length: 12
     }
   };
-
-  
 }
