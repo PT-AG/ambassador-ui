@@ -34,6 +34,35 @@ export class Create {
         // or activationStrategy.noChange to explicitly use the default behavior
     }
 
+    validateHSCodeBeforeSave() {
+    if (!this.data || !this.data.items || this.data.items.length === 0)
+        return true;
+
+    const allFulfillments = this.data.items.flatMap(item =>
+        (item.fulfillments || []).filter(f => f.isSave === true)
+    );
+
+    const allProducts = allFulfillments
+        .map(f => f.product)
+        .filter(p => p);
+
+    const uniqueProducts = allProducts.filter(
+        (value, index, self) =>
+        index === self.findIndex(t => t.Code === value.Code)
+    );
+
+    const hasEmptyHSCode = uniqueProducts.some(
+        p => !p.HSCode || p.HSCode.trim() === ""
+    );
+
+    if (hasEmptyHSCode && this.data.supplier.import) {
+        alert("HS Code belum diisi");
+        return false; 
+    }
+
+    return true; 
+    }
+
     save(event) {
         if(this.data.items.length>0){
             this.data.paymentType = this.data.items[0].paymentType;
@@ -46,13 +75,17 @@ export class Create {
             this.data.isPayIncomeTax = this.data.items[0].isPayIncomeTax;
             this.data.incomeTax = this.data.items[0].incomeTax;
         }
+        console.log(this.data);
+         if (!this.validateHSCodeBeforeSave()  ) {
+            return;
+        }
         this.service.create(this.data)
             .then(result => {
                 alert("Data berhasil dibuat");
                 this.router.navigateToRoute('create', {}, { replace: true, trigger: true });
             })
             .catch(e => {
-                this.error = e;
+                this.error = e; 
             })
     }
 }
