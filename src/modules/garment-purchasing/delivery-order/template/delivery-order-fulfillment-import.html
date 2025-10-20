@@ -153,20 +153,27 @@
                 options.bind="controlOptions">
             </au-textbox>
         </td>
-        <!-- <td if.bind = "isImport">
-            <au-numeric 
+        <td>
+            <au-textbox 
             value.bind="data.productSeries"
+            error.bind="error.productSeries"
             read-only.bind="options.readOnly"
-            format="0"
+            change.delegate="productSeriesChanged($event)"
             options.bind="controlOptions">
-        </au-numeric>
-        </td> -->
+            </au-textbox>
+        </td>
+        <td>
+            <au-textbox 
+            value.bind="data.product.HsCode"
+            error.bind="HsCode"
+            read-only.bind="options.readOnly || hasCreate || hasEdit"
+            options.bind="controlOptions">
+            </au-textbox>
+        </td>
 <!--         
 		<td if.bind="!readOnly">
 			<button class="btn btn-danger pull-right" click.delegate="onremove(data)">-</button>
 		</td> -->
-
-    
     </tr>
-   
+
 </template>

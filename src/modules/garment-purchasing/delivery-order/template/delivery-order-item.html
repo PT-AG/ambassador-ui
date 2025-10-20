@@ -24,6 +24,20 @@
         <td>
             <div if.bind="error.fulfillmentscount" class="form-group has-error"><span class="text-danger help-block">${error.fulfillmentscount}</span></div>
             <au-collection 
+                if.bind="supplierImport || (isImport && !options.readOnly)"
+                items.bind="data.fulfillments" 
+                errors.bind="error.fulfillments"
+                columns.bind="itemsColumns" 
+                remove.bind="removeItems"
+                options.bind="context.context.options"
+                read-only.bind="options.readOnly"
+                header-template="modules/garment-purchasing/delivery-order/template/delivery-order-fulfillment-header-import"
+                item-template="modules/garment-purchasing/delivery-order/template/delivery-order-fulfillment-import">
+            </au-collection>
+
+            <au-collection 
+                
+                if.bind="!supplierImport && (!isImport || options.readOnly)"
                 items.bind="data.fulfillments" 
                 errors.bind="error.fulfillments"
                 columns.bind="itemsColumns" 

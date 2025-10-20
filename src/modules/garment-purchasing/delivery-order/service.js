@@ -8,6 +8,8 @@ import { Config } from "aurelia-api";
 const serviceUri = 'garment-delivery-orders';
 const serviceUriByUser = 'garment-delivery-orders/by-user';
 
+const serviceBC = 'garment-beacukai';
+
 export class Service extends RestService {
 
     constructor(http, aggregator, config, endpoint) {
@@ -18,6 +20,12 @@ export class Service extends RestService {
         var endpoint = `${serviceUriByUser}`;
         return super.list(endpoint, info);
     }
+
+    searchBC(info) {
+        var endpoint = `${serviceBC}`;
+        return super.list(endpoint, info);
+    }
+
 
     getById(id) {
         var endpoint = `${serviceUri}/${id}`;
