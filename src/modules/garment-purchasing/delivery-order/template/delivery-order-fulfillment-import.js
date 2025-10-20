@@ -27,6 +27,11 @@ export class DeliveryOrderItem {
         if((this.hasEdit || this.hasView) && this.data.errorCount<1){
           this.data.isSave=true;
         }
+        // if(this.data.product){
+        //   this.hsCode=this.product.hsCode;
+        //   console.log(this.product);
+        //   console.log(this.hsCode);
+        // }
         if(this.data.purchaseOrderUom){
           this.selectedDealUom=this.data.purchaseOrderUom;
         }
@@ -57,6 +62,7 @@ export class DeliveryOrderItem {
   }
 
   productView = (product) => {
+    console.log(product);
     return `${product.Code} - ${product.Name}`
   }
 
@@ -117,6 +123,33 @@ export class DeliveryOrderItem {
       this.data.conversion=e.srcElement.value;
     }
   }
+
+  productSeriesChanged(e) {
+  if (!this.error)
+    this.error = {};
+
+  if (!this.context.context.options.hasView) {
+    const value = Number(this.data.productSeries);
+
+    if (isNaN(value)) {
+      this.error.productSeries = "Product Series harus diisi dengan angka";
+    } 
+    else if (this.data.productSeries === null || this.data.productSeries === undefined || this.data.productSeries === "") {
+      this.error.productSeries = "Product Series tidak boleh kosong";
+    } 
+    else if (value <= 0) {
+      this.error.productSeries = "Product Series harus lebih dari 0";
+    } 
+    else {
+      this.error.productSeries = null;
+    }
+
+    // Simpan nilai terbaru dari input
+    this.data.productSeries = value;
+  }
+}
+ 
+
 
   selectedDealUomChanged(newValue) {
     if (newValue.Id) {
