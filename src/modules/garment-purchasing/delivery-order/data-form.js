@@ -55,7 +55,18 @@ export class DataForm {
             this.supplierImport=true;
         }
         
-        
+        console.log("EDIT", this.context.hasEdit);
+        console.log("CREATE", this.context.hasCreate);
+        console.log("VIEW", this.context.hasView);
+        // console.log("isImport", this.data.supplier.Import);
+        console.log("isBC", this.isBC);
+        // this.isImport = this.data.supplier ? this.data.supplier.Import : false;
+        // if(this.isImport){
+        //     this.Import = true;
+        // }
+        // else{
+        //     this.Import = false;
+        // }
         // if (this.data.totalQuantity)
         //     this.data.totalQuantity=this.data.totalQuantity.toLocaleString('en-EN', { minimumFractionDigits: 2 });
         // if (this.data.totalAmount)
@@ -199,7 +210,43 @@ export class DataForm {
     }
 
     saveHSCode() {
-        console.log("Data HS Code disimpan:", this.productHSCodeList);
+        //console.log("Data HS Code disimpan:", this.productHSCodeList);
+          if (!this.productHSCodeList || this.productHSCodeList.length === 0) {
+        alert("Tidak ada data HS Code untuk disimpan.");
+        return;
+        }
+        //console.log("Data HS Code disimpan:", this.productHSCodeList);
+        this.productHSCodeList.forEach(p => p.error = "");
+        let hasError = false;
+      
+        this.productHSCodeList.forEach(item => {
+            if (!item.hsCode || item.hsCode.trim() === "") {
+                item.error = "HS Code tidak boleh kosong";
+                hasError = true;
+            }
+        });
+
+        const hsCodeMap = new Map();
+        this.productHSCodeList.forEach(item => {
+            const code = item.hsCode ? item.hsCode.trim() : "";
+            if (code) {
+                if (hsCodeMap.has(code)) {
+                    item.error = "HS Code duplikat dengan Barang lain";
+                    const duplicateItem = hsCodeMap.get(code);
+                    if (duplicateItem) {
+                        duplicateItem.error = "HS Code duplikat dengan Barang lain";
+                    }
+                    hasError = true;
+                } else {
+                    hsCodeMap.set(code, item);
+                }
+            }
+        });
+
+        if (hasError) {
+            console.warn("Validasi gagal:", this.productHSCodeList);
+            return;
+        }
 
         this.data.items.forEach(item => {
             item.fulfillments.forEach(detail => {
@@ -212,11 +259,10 @@ export class DataForm {
 
     alert("HS Code berhasil diperbarui!");
     this.showHSCodePopup = false;
-    console.log("Data setelah menyimpan HS Code:", this.data);
+    //console.log("Data setelah menyimpan HS Code:", this.data);
     }
 
     updateProductHSCodeList() {
-
         const products = this.data.items.flatMap(item =>
         item.fulfillments.map(detail => detail.product)
         );
@@ -243,7 +289,6 @@ export class DataForm {
 
         console.log("Updated HSCode List:", this.productHSCodeList);
         }
-
 
 
     get deleted() {

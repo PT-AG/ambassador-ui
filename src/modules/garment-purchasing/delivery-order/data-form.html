@@ -5,7 +5,7 @@
             <button class="btn btn-primary" click.delegate="context.edit($event)"  show.bind=!deleted    if.one-way="context.hasView && !isBC">Ubah</button>
             <button class="btn btn-success" click.delegate="context.save($event)"       if.one-way="context.hasSave">Simpan</button>
             <button class="btn btn-danger"  click.delegate="context.delete($event)" show.bind=!deleted    if.one-way="context.hasDelete && !isBC">Hapus</button>
-            <button if.one-way="data.supplier.Import == true || (!readOnly && isImport && onHSCode)" class="btn btn-primary" click.delegate="showProductHSCode()">HS Code</button>
+            <button if.one-way="!context.hasView && data.supplier.Import || isImport && !isBC" class="btn btn-primary" click.delegate="showProductHSCode()">HS Code</button>
 
         </div>
         <!-- Popup Overlay -->
@@ -14,13 +14,13 @@
               click.delegate="closePopup($event)">
             
             <div class="hs-popup-content" click.trigger.stop>
-              <h4 class="mb-3">Input HS Code per Produk</h4>
+              <h4 class="mb-3">Input HS Code per Barang</h4>
 
               <table class="table table-bordered table-striped">
                 <thead>
                   <tr>
                     <th>No</th>
-                    <th>Nama Produk</th>
+                    <th>Barang</th>
                     <th>HS Code</th>
                   </tr>
                 </thead>
@@ -37,6 +37,10 @@
                             if.bind="data.supplier.Import == true|| (!readOnly && isImport)"
                             options.bind="controlOptions"
                              />
+                            <p if.bind="item.error"
+                              style="color:red; font-size: 0.85em; margin-top: 4px;">
+                              ${item.error}
+                            </p>
                     </td>
                     <td if.bind="readOnly">
                       ${item.hsCode}
