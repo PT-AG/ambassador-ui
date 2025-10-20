@@ -105,6 +105,7 @@ export class List{
 
     async ExportToExcel() {
          this.errorMessage = null; // reset error
+         this.successMessage = null; // reset success
             let args = {            
             dateFrom : this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
             dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : "",
@@ -112,14 +113,21 @@ export class List{
             unitname : this.unitname ? this.unitname : "",
             };
 
-            try {
-                await this.service.generateExcel(args);
-            } catch (error) {
-                this.errorMessage = error.message || "Gagal menghubungi server.";
-                alert(this.errorMessage);
+            await this.service.generateExcel(args)
+        .then(result => {
+            console.log(result);
+            this.successMessage = "File Excel berhasil dibuat!"
+        })
+        .catch(error => {
+            if (error && error.message) {
+                this.errorMessage = error.message;
+            } else if (error && error.response && error.response.data) {
+                // kalau pakai axios misalnya
+                this.errorMessage = error.response.data.message || "Terjadi kesalahan pada server.";
+            } else {
+                this.errorMessage = "Gagal membuat file Excel.";
             }
-            
-            
+        });
     }
 
     changePage(e) {
