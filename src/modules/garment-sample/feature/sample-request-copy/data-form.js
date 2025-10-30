@@ -21,8 +21,25 @@ export class DataForm {
 
     constructor(service) {
         this.service = service;
+        this.imagesSrc = [];
+        this.maxSizeMB = 20;
+        this.totalSizeMB = 0;
+        this.progressPercent = 0;
+        this.progressColor = "#000000ff";
     }
+    get freeSpaceMB() {
+    return Math.max(0, this.maxSizeMB - this.totalSizeMB);
+    }
+    getBase64SizeMB(base64String) {
+        if (!base64String) return 0;
 
+        // Hilangkan header "data:image/png;base64,"
+        const base64Clean = base64String.split(',')[1] || base64String;
+        const sizeInBytes = (base64Clean.length * (3 / 4)) -
+            (base64Clean.endsWith('==') ? 2 : base64Clean.endsWith('=') ? 1 : 0);
+
+        return sizeInBytes / (1024 * 1024);
+    }
     formOptions = {
         cancelText: "Kembali",
         saveText: "Simpan",
@@ -87,6 +104,13 @@ export class DataForm {
         this.data.DocumentsFile = this.data.DocumentsFile || [];
         this.data.DocumentsFileName = this.data.DocumentsFileName || [];
         this.documentsPathTemp = [].concat(this.data.DocumentsPath);
+
+        for (let base64 of this.data.ImagesFile) {
+        let sizeMB = this.getBase64SizeMB(base64);
+        this.totalSizeMB += sizeMB;
+    }
+
+    this.updateProgressBar();
     }
 
     roView = (costCal) => {
@@ -156,18 +180,32 @@ export class DataForm {
 
     @bindable imageUpload;
     imageUploadChanged(newValue) {
-        if (newValue) {
-            let imageInput = document.getElementById('imageInput');
-            let reader = new FileReader();
-            reader.onload = event => {
-                let base64Image = event.target.result;
-                this.imagesSrc.push(base64Image);
-                this.imagesSrcChanged(this.imagesSrc);
-            }
-            reader.readAsDataURL(imageInput.files[0]);
-            this.imageUpload = null;
+    if (newValue) {
+      let imageInput = document.getElementById('imageInput');
+      let files = Array.from(imageInput.files);
+
+      for (let file of files) {
+        let fileSizeMB = file.size / (1024 * 1024);
+
+        if (this.totalSizeMB + fileSizeMB > this.maxSizeMB) {
+          alert(`Total file melebihi batas ${this.maxSizeMB} MB!`);
+          continue; // skip file ini
         }
+
+        let reader = new FileReader();
+        reader.onload = (event) => {
+          let base64Image = event.target.result;
+          this.imagesSrc.push(base64Image);
+          this.imagesSrcChanged(this.imagesSrc);
+          // Tambahkan ukuran file ke total
+          this.totalSizeMB += fileSizeMB;
+          this.updateProgressBar();
+        };
+        reader.readAsDataURL(file);
+      }
+      this.imageUpload = null;
     }
+  }
 
     @bindable imagesSrc = [];
     imagesSrcChanged(newValue) {
@@ -181,6 +219,28 @@ export class DataForm {
         this.imagesSrc.splice(index, 1);
         this.data.ImagesName.splice(index, 1);
         this.imagesSrcChanged(this.imagesSrc);
+        this.recalculateTotalSize();
+        this.updateProgressBar();
+    }
+
+    recalculateTotalSize() {
+        this.totalSizeMB = 0;
+        for (let img of this.imagesSrc) {
+        // Perkiraan ukuran base64 (bytes)
+        let sizeBytes = (img.length * 3) / 4;
+        this.totalSizeMB += sizeBytes / (1024 * 1024);
+        }
+    }
+
+    updateProgressBar() {
+        this.progressPercent = Math.min((this.totalSizeMB / this.maxSizeMB) * 100, 100);
+        if (this.progressPercent > 90) {
+        this.progressColor = "#f44336"; // merah
+        } else if (this.progressPercent > 70) {
+        this.progressColor = "#ff9800"; // oranye
+        } else {
+        this.progressColor = "#4caf50"; // hijau
+        }
     }
 
     onAddDocument() {

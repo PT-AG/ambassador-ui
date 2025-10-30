@@ -78,7 +78,7 @@ export class List {
         }
     }
 
-    create() {
-        this.router.navigateToRoute('create');
-    }
+    // create() {
+    //     this.router.navigateToRoute('create');
+    // }
 }

@@ -28,4 +28,13 @@
     <pagination if.bind="info.total>info.size" info.bind="info" change.delegate="changePage($event)" id="pager"></pagination>
     <hr/>
 </form>
+<div class="row" if.bind="errorMessage || successMessage">
+  <div class="col-lg-12">
+    <div class="alert ${errorMessage ? 'alert-danger' : 'alert-success'}" role="alert">
+      <div class="row vertical-align text-center">
+        ${errorMessage || successMessage}
+      </div>
+    </div>
+  </div>
+</div>
 </template> 

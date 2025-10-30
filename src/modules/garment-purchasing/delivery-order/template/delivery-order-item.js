@@ -7,6 +7,7 @@ var PurchaseOrderExternalLoader = require('../../../../loader/garment-purchase-o
 export class DeliveryOrderItem {
   @bindable selectedPurchaseOrderExternal;
 
+
   itemsColumns = [
     { header: " "},
     { header: "Nomor PR" },
@@ -40,7 +41,14 @@ export class DeliveryOrderItem {
     this.data = context.data;
     this.error = context.error;
     this.options = context.options;
-    console.log(context);
+    //console.log(this.productHSCode);
+    // console.log(this.data);
+    // console.log(this.context);
+    this.isImport = this.context.context.options.isImport;
+    //console.log(this.isImport);
+    this.supplierImport = this.context.context.options.supplierImport;
+    //console.log(this.supplierImport);
+    //this.options.isImport = this.isImport;
     if(this.data && this.context.context.options.hasCreate) {
       if(this.context.context.items[0].data.purchaseOrderExternal.no!=""){
           this.filter = 
@@ -60,7 +68,7 @@ export class DeliveryOrderItem {
           for(var item of this.context.context.items){
             this.filter[`EPONo == "${item.data.purchaseOrderExternal.no}"`]=false;
           }
-        console.log(this.filter);
+        //console.log(this.filter);
       }
       else {
         this.filter = this.context.context.options.supplierId ? 
@@ -87,7 +95,7 @@ export class DeliveryOrderItem {
         for(var item of this.context.context.items){
           this.filter[`EPONo == "${item.data.purchaseOrderExternal.no}"`]=false;
         }
-        console.log(this.filter);
+        //console.log(this.filter);
       }
       
       else {
@@ -199,6 +207,7 @@ export class DeliveryOrderItem {
           remark : item.Remark
         };
         this.data.fulfillments.push(fulfillment);
+        
       }
       this.isShowing = true;
         
@@ -243,6 +252,7 @@ export class DeliveryOrderItem {
           purchaseOrderUom : item.DealUom,
         };
         this.data.fulfillments.push(fulfillment);
+        this.productHSCode.push(item.Product);
       }
         this.isShowing = true;
     }
