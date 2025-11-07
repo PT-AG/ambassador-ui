@@ -2,8 +2,7 @@ module.exports = [
     {
         route: "/garment/master/garment-signature-masters",
         name: "garment-signature-masters",
-        moduleId:
-        "./modules/garment-purchasing/master/garment-signature-master/index",
+        moduleId: "./modules/garment-purchasing/master/garment-signature-master/index",
         nav: true,
         title: "Signature Master",
         auth: true,
