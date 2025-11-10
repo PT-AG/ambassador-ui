@@ -51,12 +51,13 @@
                     <td align="center" rowspan="2">Garment Price</td>
                     <td align="center" rowspan="2">Rate</td>
                     <td align="center" rowspan="2">Fabric Cost</td>
-                    <td align="center" rowspan="2">FOB Price</td>     
+                    <td align="center" rowspan="2">Price</td>     
                     <td align="center" rowspan="2">Amount</td>     
                     <!--<td align="center" rowspan="2">Komisi %</td>    -->
                     <td align="center" colspan="2">Komisi</td>  
                     <td align="center" colspan="5">Profit</td>  
                     <td align="center" rowspan="2">Premi</td>
+                    <td align="center" rowspan="2">Total Premi</td>
                     <!--<td align="center" rowspan="2">Profit %</td>
                     <td align="center" rowspan="2">Profit IDR</td>                    
                     <td align="center" rowspan="2">Profit USD</td>
@@ -111,7 +112,8 @@
                         <td class="text-right">${item.ProfitUSD}</td>      
                         <td class="text-right">${item.ProfitFOB}</td>  
                         <td class="text-right">${item.GrossProfit}</td>
-                        <td class="text-right">${item.Premi}</td>                                              
+                        <td class="text-right">${item.Premi}</td>       
+                        <td class="text-right">${item.TotalPremi}</td>                                            
                     </tr>
                         <tr class="active">
                         <td class="text-center">.</td>
@@ -131,7 +133,8 @@
                         <td class="text-right"><strong>${Seksi.subTotal2}</strong></td>     
                         <td class="text-center"><strong>.</strong></td> 
                         <td class="text-center"><strong>${Seksi.subTotal3}</strong></td>     
-                        <td class="text-right"><strong>${Seksi.subTotal4}</strong></td>                                                                
+                        <td class="text-right"><strong>${Seksi.subTotal4}</strong></td>   
+                        <td class="text-right"><strong>${Seksi.subTotal5}</strong></td>                                                                   
                     </tr>
                 </template>
                 </tbody>
