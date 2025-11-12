@@ -1,0 +1,82 @@
+<template>
+    <h1 class="page-header">LAPORAN REKAP COST-CALCULATION</h1>
+
+    <form class="form-horizontal">
+
+        <au-datepicker label="Tanggal Awal" value.bind="dateFrom" options.bind="controlOptions"></au-datepicker>
+        <au-datepicker label="Tanggal Akhir" value.bind="dateTo" options.bind="controlOptions"></au-datepicker>
+        <div class="form-group">
+            <label for="contact" class="col-sm-5 control-label"></label>
+            <div class="col-sm-3">
+                <button click.delegate="searching()" class='btn btn-success'>Cari Data</button>
+                <button click.delegate="reset()" class='btn btn-success'>Reset Data</button>
+            </div>
+        </div>
+        <div slot="toolbar" class="btn-group">
+            <button class='btn btn-primary' click.delegate="ExportToExcel()">Export To Excel</button>
+        </div>
+        <br>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover" border="1" id="poReport">
+                <thead align="center">
+                    <tr>
+                        <td align="center" >NO</td>
+                        <td align="center" >RO</td>
+                        <td align="center" >ARTIKEL</td>
+                        <td align="center" >QUANTITY</td>
+                        <td align="center" >TARIF OL</td>
+                        <td align="center" >THR</td>
+                        <td align="center" >TARIF OTL1</td>
+                        <td align="center" >TARIF OTL2</td>
+                        <td align="center" >TARIF OTL3</td>
+                        <td align="center" >HPP</td>
+                        <td align="center" >HARGA JUAL</td>
+                        <td align="center" >COST</td>
+                        <td align="center" >MAT</td>
+                        <td align="center" >FC</td>
+                        <td align="center" >FCFabric</td>
+                        <td align="center" >EFF</td>
+                        <td align="center" >SMV CUTT</td>
+                        <td align="center" >SMV SEW</td>
+                        <td align="center" >SMV FIN</td>
+                        <td align="center" >TOTAL SMV</td>
+                    </tr>
+
+                   
+                </thead>
+                <tbody>
+                    <tr repeat.for="item of data">
+                        <td>${$index + 1}</td>
+                        <td>${item.RO_Number}</td>
+                        <td>${item.Article}</td>
+                        <td align="right">${item.Quantity}</td>
+                        <td align="right">${item.OL}</td>
+                        <td align="right">${item.THR}</td>
+                        <td align="right">${item.OTL1}</td>
+                        <td align="right">${item.OTL2}</td>
+                        <td align="right">${item.OTL3}</td>
+                        <td align="right">${item.HPP}</td>
+                        <td align="right">${item.ConfirmPrice}</td>
+                        <td align="right">${item.Total_Process}</td>
+                        <td align="right">${item.MAT}</td>
+                        <td align="right">${item.FC}</td>
+                        <td align="right">${item.FCFab}</td>
+                        <td align="right">${item.EFF}</td>
+                        <td align="right">${item.SMV_Cutting}</td>
+                        <td align="right">${item.SMV_Sewing}</td>
+                        <td align="right">${item.SMV_Finishing}</td>
+                        <td align="right">${item.Total_SMV}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="alert alert-info text-center" role="alert" if.bind="data.length === 0">
+            Tidak ada data.
+        </div>
+        <pagination if.bind="info.total>info.size" info.bind="info" change.delegate="changePage($event)"></pagination>
+        <hr />
+    </form>
+
+
+</template>
