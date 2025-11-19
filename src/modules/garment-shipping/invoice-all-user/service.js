@@ -54,6 +54,16 @@ class Service extends RestService {
         return super.list(endpoint, info);
     }
   
+    getXlsById(id, type) {
+        var endpoint = `${serviceUri}/xls/${id}/${type}`;
+        return super.getXls(endpoint);
+    }
+
+    getWHXlsById(id, type) {
+        var endpoint = `${serviceUri}/whxls/${id}/${type}`;
+        return super.getXls(endpoint);
+    }
+    
 }
 
 const costCalculationServiceUri = 'cost-calculation-garments';
