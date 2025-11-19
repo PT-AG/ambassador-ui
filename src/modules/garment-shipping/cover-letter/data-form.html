@@ -65,10 +65,21 @@
                             placeholder="Order" text.bind="orderView" read-only="true" options.bind="controlOptions">
                         </au-autocomplete>
 
-                        <au-numeric label="Jumlah PCS" value.bind="data.pcsQuantity" error.bind="error.pcsQuantity"
+                        <au-numeric label="Jumlah" value.bind="data.quantity" error.bind="error.quantity"
                             read-only.bind="readOnly" options.bind="controlOptions">
                         </au-numeric>
 
+                        <au-autocomplete
+                            label="Satuan"
+                            value.bind="data.uom"
+                            error.bind="error.Uom"
+                            loader.bind="uomLoader"
+                            text.bind="uomView"
+                            placeholder="cari satuan"
+                            read-only.bind="readOnly"
+                            options.bind="controlOptions">
+                        </au-autocomplete>
+<!-- 
                         <au-numeric label="Jumlah SETS" value.bind="data.setsQuantity" error.bind="error.setsQuantity"
                             read-only.bind="readOnly" options.bind="controlOptions">
                         </au-numeric>
@@ -79,7 +90,7 @@
 
                         <au-numeric label="Jumlah Cartoon" value.bind="data.cartoonQuantity"
                             error.bind="error.cartoonQuantity" read-only.bind="readOnly" options.bind="controlOptions">
-                        </au-numeric>
+                        </au-numeric> -->
 
                         <au-autocomplete label="Forwarder" value.bind="data.forwarder" error.bind="error.forwarder"
                             loader.bind="forwarderLoader" text.bind="forwarderView" placeholder="Forwarder"
@@ -97,6 +108,10 @@
                         <au-textbox label="Pengemudi" value.bind="data.driver" error.bind="error.driver"
                             placeholder="Pengemudi" read-only.bind="readOnly" options.bind="controlOptions">
                         </au-textbox>
+
+                        <au-multiline label="Keterangan" value.bind="data.description" error.bind="error.description" 
+                            placeholder="Keterangan" read-only.bind="readOnly" options.bind="controlOptions">
+                        </au-multiline>
                     </div>
 
                     <div class="col-sm-6">
