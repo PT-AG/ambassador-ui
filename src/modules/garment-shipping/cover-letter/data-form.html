@@ -5,6 +5,15 @@
 
                 <div class="row">
                     <div class="col-sm-6">
+                        
+                        <au-textbox 
+                            label="No Surat Pengantar" 
+                            value.bind="data.coverLetterNo" 
+                            read-only="true"
+                            options.bind="controlOptions" 
+                            if.bind="data.coverLetterNo">
+                        </au-textbox>
+
                         <au-autocomplete label="Invoice No" value.bind="selectedShippingInvoice"
                             error.bind="error.invoiceNo" text="invoiceNo" loader.bind="shippingInvoiceLoader"
                             placeholder="Invoice No"  read-only.bind="readOnly || isEdit" options.bind="controlOptions">
@@ -72,7 +81,7 @@
                         <au-autocomplete
                             label="Satuan"
                             value.bind="data.uom"
-                            error.bind="error.Uom"
+                            error.bind="error.uom"
                             loader.bind="uomLoader"
                             text.bind="uomView"
                             placeholder="cari satuan"
