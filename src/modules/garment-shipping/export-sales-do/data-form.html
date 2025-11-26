@@ -17,7 +17,7 @@
             options.bind="controlOptions">
         </au-datepicker>
 
-        <au-autocomplete 
+        <!-- <au-autocomplete 
             label="Invoice No" 
             placeholder="Pilih invoice no" 
             value.bind="selectedInvoiceNo"
@@ -27,15 +27,26 @@
             query.bind="filter"
             read-only.bind="readOnly || data.id" 
             options.bind="controlOptions">
-        </au-autocomplete>
+        </au-autocomplete> -->
 
-        <au-textbox 
+        <!-- <au-textbox 
             label="Buyer Agent" 
             value.bind="data.buyerAgent.name || ''" 
             error.bind="error.buyerAgent" 
             read-only.bind="true"
             options.bind="controlOptions" >
-        </au-textbox>
+        </au-textbox> -->
+
+        <au-autocomplete
+            value.bind="selectedBuyerAgent"
+            error.bind="error.BuyerAgent"
+            label="Buyer Agent"
+            loader.bind="buyerLoader"
+            text.bind = "buyerView"
+            placeholder="Cari Buyer"
+            read-only.bind="readOnly"
+            options.bind="controlOptions">
+        </au-autocomplete>
 
         <au-textbox 
             label="Kepada" 

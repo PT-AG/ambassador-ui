@@ -9,13 +9,13 @@ export class Service extends RestService {
     }
 
 search(info) { 
-        var endpoint = `${serviceUri}?buyerAgent=${info.buyerAgent}&emkl=${info.emkl}&dateFrom=${info.dateFrom}&dateTo=${info.dateTo}`;
+        var endpoint = `${serviceUri}?buyerAgent=${info.buyerAgent}&emkl=${info.emkl}&dateFrom=${info.dateFrom}&dateTo=${info.dateTo}&clNo=${info.clNo}`;
         return super.get(endpoint);
         
     }
     
 generateExcel(info) {
-        var endpoint = `${serviceUri}/download?buyerAgent=${info.buyerAgent}&emkl=${info.emkl}&dateFrom=${info.dateFrom}&dateTo=${info.dateTo}`;
+        var endpoint = `${serviceUri}/download?buyerAgent=${info.buyerAgent}&emkl=${info.emkl}&dateFrom=${info.dateFrom}&dateTo=${info.dateTo}&clNo=${info.clNo}`;
         return super.getXls(endpoint);
     }
 
