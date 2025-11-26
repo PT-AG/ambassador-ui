@@ -2,7 +2,8 @@ import { inject, bindable, containerless, computedFrom, BindingEngine } from 'au
 import { Service } from "./service";
 
 const PackingListLoader = require('../../../loader/garment-packing-list-loader');
-const UnitLoader=require('../../../loader/unit-loader')
+const UnitLoader=require('../../../loader/unit-loader');
+var BuyerLoader = require('../../../loader/garment-buyers-loader');
 
 @inject(Service)
 export class DataForm {
@@ -15,6 +16,7 @@ export class DataForm {
     @bindable title;
     @bindable selectedInvoiceNo;
     @bindable selectedUnit;
+    @bindable selectedBuyerAgent;
 
     controlOptions = {
         label: {
@@ -48,8 +50,16 @@ export class DataForm {
             length: 2
         }
     };
-
+    get buyerLoader() {
+        return BuyerLoader;
+    }
+    buyerView = (buyer) => {
+        var buyerName = buyer.Name || buyer.name;
+        var buyerCode = buyer.Code || buyer.code;
+        return `${buyerCode} - ${buyerName}`
+    }
     itemsColumns = [
+        { header: "No RO"},
         { header: "Komoditi"},
         { header: "Description" },
         { header: "Quantity " },
@@ -73,7 +83,7 @@ export class DataForm {
         return result;
     }
 
-    // ShipmentModeOptions=["By Air", "By Sea"];
+    ShipmentModeOptions=["By Air", "By Sea", "By Land"];
     
     unitView = (unit) => {
         return `${unit.Code || unit.code} - ${unit.Name || unit.name}`;
@@ -124,5 +134,9 @@ export class DataForm {
                 this.data.deliverTo= coverLetter.data[0].destination;
             }
         }
+    }
+
+    selectedBuyerAgentChanged(newValue){
+
     }
 }
