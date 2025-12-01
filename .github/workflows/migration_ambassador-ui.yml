@@ -26,17 +26,27 @@ jobs:
       run: |
         npm install
         npm run build
-        
-    - name: Deploy to GitHub Pages
-      # You may pin to the exact commit or the version.
-      # uses: JamesIves/github-pages-deploy-action@132898c54c57c7cc6b80eb3a89968de8fc283505
-      uses: JamesIves/github-pages-deploy-action@3.7.1
+
+    - name: 'Deploy to Azure Web App'
+      uses: azure/webapps-deploy@v1
       with:
-        # This is the branch you wish to deploy to, for example gh-pages or docs.
-        BRANCH: main
-        # The folder in your repository that you want to deploy. If your build script compiles into a directory named build you would put it here. Folder paths cannot have a leading / or ./. If you wish to deploy the root directory you can place a . here.
-        FOLDER: ./dist
-        # Allows you to speicfy a different repository path so long as you have permissions to push to it. This should be formatted like so: JamesIves/github-pages-deploy-action
-        REPOSITORY_NAME: PT-AG/PT-AG.github.io
-        # Depending on the repository permissions you may need to provide the action with a GitHub personal access token instead of the provided GitHub token in order to deploy. This should be stored as a secret.
-        ACCESS_TOKEN: ${{ secrets.GHPAGES }}
+        app-name: 'ambassador-ui-dev'
+        slot-name: 'dev'
+        publish-profile: ${{ secrets.PUBLISH_PROFILE_DEV }}
+        package: ./dist
+
+    # - name: Deploy to GitHub Pages
+    #   # You may pin to the exact commit or the version.
+    #   # uses: JamesIves/github-pages-deploy-action@132898c54c57c7cc6b80eb3a89968de8fc283505
+    #   uses: JamesIves/github-pages-deploy-action@3.7.1
+    #   with:
+    #     # This is the branch you wish to deploy to, for example gh-pages or docs.
+    #     BRANCH: main
+    #     # The folder in your repository that you want to deploy. If your build script compiles into a directory named build you would put it here. Folder paths cannot have a leading / or ./. If you wish to deploy the root directory you can place a . here.
+    #     FOLDER: ./dist
+    #     # Allows you to speicfy a different repository path so long as you have permissions to push to it. This should be formatted like so: JamesIves/github-pages-deploy-action
+    #     REPOSITORY_NAME: PT-AG/PT-AG.github.io
+    #     # Depending on the repository permissions you may need to provide the action with a GitHub personal access token instead of the provided GitHub token in order to deploy. This should be stored as a secret.
+    #     ACCESS_TOKEN: ${{ secrets.GHPAGES }}
+
+    
