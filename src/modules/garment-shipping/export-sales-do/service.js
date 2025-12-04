@@ -44,5 +44,17 @@ class Service extends RestService {
     }
 }
 
+const costCalculationServiceUri = 'cost-calculation-garments';
+class SalesService extends RestService {
+    constructor(http, aggregator, config, api) {
+        super(http, aggregator, config, "sales");
+    }
 
-export { Service}
+    getCostCalculationById(id) {
+        var endpoint = `${costCalculationServiceUri}/${id}`;
+        return super.get(endpoint);
+    }
+}
+
+
+export { Service, SalesService}

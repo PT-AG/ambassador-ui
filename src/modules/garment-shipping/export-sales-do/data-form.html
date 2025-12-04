@@ -69,14 +69,17 @@
             options.bind="controlOptions">
         </au-autocomplete> -->
 
-        <au-dropdown
+         <au-autocomplete 
             label="Bag Gudang Packing" 
-            value.bind="data.unit" 
+            placeholder="Pilih bag gudang Packing" 
+            value.bind="data.unit"
             error.bind="error.unit" 
-            read-only.bind="readOnly "
-            items.bind="unitOptions"
+            loader.bind="unitLoader" 
+            text.bind="unitView"
+            query.bind="unitQuery"
+            read-only.bind="readOnly || isEdit" 
             options.bind="controlOptions">
-        </au-dropdown>
+        </au-autocomplete>
 
         <au-dropdown
             label="Shipment Mode"
@@ -91,7 +94,7 @@
             label="Tujuan" 
             value.bind="data.deliverTo" 
             error.bind="error.deliverTo" 
-            read-only.bind="true"
+            read-only.bind="readOnly"
             options.bind="controlOptions" >
         </au-textbox>
         
@@ -118,5 +121,39 @@
             item-template="modules/garment-shipping/export-sales-do/template/item">
         </au-collection>
         
+
+        <div class="row"">
+      <div class="col-md-6">
+        <h4>File Dokumen</h4>
+        <table class="table table-hover table-bordered">
+          <thead>
+            <th class="col-md-11">File</th>
+            <th if.bind="!readOnly" class="col-md-1">
+              <button click.delegate="onAddDocument()" class="btn btn-success pull-right">+</button>
+            </th>
+          </thead>
+          <tbody>
+            <tr if.bind="!data.documentsFileName || data.documentsFileName.length < 1">
+              <td colspan="2">
+                Tidak ada file
+              </td>
+            </tr>
+            <tr if.bind="data.documentsFileName" repeat.for="doc of data.documentsFileName">
+              <td if.bind="readOnly">
+                <button class="btn btn-primary justify-content-center" click.delegate="downloadDocument($index)">${doc}</button>
+              </td>
+              <td if.bind="!readOnly">
+                <input if.bind="!documentsPathTemp[$index]" type="file" id="documentInput${$index}" value.bind="documentUpload" change.delegate="documentInputChanged($index)" accept=".pdf, .xls, .xlsx, .doc, .docx">
+                <button if.bind="documentsPathTemp[$index]" class="btn btn-primary justify-content-center" click.delegate="downloadDocument($index)">${doc}</button>
+                <span class="text-danger" if.bind="error.documentsFile[$index]">${error.documentsFile[$index]}</span>
+              </td>
+              <td if.bind="!readOnly">
+                  <button class="btn btn-danger pull-right" click.delegate="onRemoveDocument($index)">-</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
     </au-input-form>
 </template>
