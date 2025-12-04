@@ -50,7 +50,9 @@ export class List {
             dateFrom : this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
             dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : "",
             dateFromEx : this.dateFromEx ? moment(this.dateFromEx).format("YYYY-MM-DD") : "",
-            dateToEx : this.dateToEx ? moment(this.dateToEx).format("YYYY-MM-DD") : ""
+            dateToEx : this.dateToEx ? moment(this.dateToEx).format("YYYY-MM-DD") : "",
+            shipmentDateFrom : this.dateFromShipment ? moment(this.dateFromShipment).format("YYYY-MM-DD") : "",
+            shipmentDateTo : this.dateToShipment ? moment(this.dateToShipment).format("YYYY-MM-DD") : ""
         };
 
         this.service.search(args)
@@ -85,6 +87,8 @@ export class List {
         this.dateTo="",
         this.dateFromEx= "",
         this.dateToEx="",
+        this.dateFromShipment = "";
+        this.dateToShipment = "";
         this.data = [];
         this.info.page = 1;
     }
@@ -106,10 +110,12 @@ export class List {
             dateFrom : this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
             dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : "",
             dateFromEx : this.dateFromEx ? moment(this.dateFromEx).format("YYYY-MM-DD") : "",
-            dateToEx : this.dateToEx ? moment(this.dateToEx).format("YYYY-MM-DD") : ""
+            dateToEx : this.dateToEx ? moment(this.dateToEx).format("YYYY-MM-DD") : "",
+            shipmentDateFrom : this.dateFromShipment ? moment(this.dateFromShipment).format("YYYY-MM-DD") : "",
+            shipmentDateTo : this.dateToShipment ? moment(this.dateToShipment).format("YYYY-MM-DD") : ""
         };
         
-        this.service.generateExcel(args.epono, args.unit, args.roNo, args.article, args.poSerialNumber, args.username, args.doNo, args.ipoStatus, args.supplier, args.status, args.dateFrom, args.dateTo, args.dateFromEx, args.dateToEx);
+        this.service.generateExcel(args.epono, args.unit, args.roNo, args.article, args.poSerialNumber, args.username, args.doNo, args.ipoStatus, args.supplier, args.status, args.dateFrom, args.dateTo, args.dateFromEx, args.dateToEx, args.shipmentDateFrom, args.shipmentDateTo);
     }
 
     dateFromChanged(e) {
