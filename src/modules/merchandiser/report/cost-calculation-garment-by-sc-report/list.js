@@ -5,6 +5,7 @@ import moment from 'moment';
 
 import GarmentBuyerLoader from "../../../../loader/garment-buyers-loader";
 import GarmentBuyerBrandLoader from "../../../../loader/garment-buyer-brands-loader";
+import GarmentSectionLoader from "../../../../loader/garment-sections-loader";
 @containerless()
 
 @inject(BindingEngine, Service, Element)
@@ -15,6 +16,7 @@ export class List {
     @bindable options = {};
     @bindable buyerAgent;
     @bindable buyerBrand;
+    @bindable section;
     @bindable BuyerId;
 
     filterBuyerBrand = {};
@@ -67,6 +69,10 @@ export class List {
     }
 
 
+    sectionView = (section) => {
+        return `${section.Code} - ${section.Name}`
+    }
+
     buyerAgentView = (buyerAgent) => {
         return `${buyerAgent.Code} - ${buyerAgent.Name}`
     }
@@ -81,6 +87,10 @@ export class List {
         return GarmentBuyerBrandLoader;
     }
 
+    get garmentSectionLoader() {
+        return GarmentSectionLoader;
+    }
+
 
     searching() {
         var info = {
@@ -93,6 +103,11 @@ export class List {
         if (this.buyerBrand) {
            info.buyerBrand = this.buyerBrand.Code
         }
+
+        if (this.section) {
+            info.section = this.section.Code;
+        }
+
         this.service.search(JSON.stringify(info))
             .then(result => {
                   this.data = result;
@@ -107,6 +122,7 @@ export class List {
                             dataByBrand[Brand].push({                                                        
                             RO_Number : data.RO_Number,
                             DeliveryDate : moment(data.DeliveryDate).format("DD MMM YYYY")=="01 Jan 1970"? "-" : moment(data.DeliveryDate).format("DD MMM YYYY"),                          
+                            PaymentMethod : data.PaymentMethod,
                             SalesContractNo : data.SalesContractNo,
                             Article : data.Article,
                             BuyerCode : data.BuyerCode,
@@ -163,6 +179,10 @@ export class List {
         if (this.buyerBrand) {
            info.buyerBrand = this.buyerBrand.Code
         }
+
+        if (this.section) {
+            info.section = this.section.Code;
+        }
         this.service.generateExcel(JSON.stringify(info));
     }
 
@@ -170,6 +190,7 @@ export class List {
         this.filterYear = this.currentYear;
         this.buyerAgent = null;
         this.buyerBrand = null;
+        this.section = null;
         this.brands = [];
         this.QtyTotal = null;            
         this.AmountTotal = null;    
