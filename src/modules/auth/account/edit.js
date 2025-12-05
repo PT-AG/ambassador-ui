@@ -2,7 +2,6 @@ import {inject, Lazy} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {Service} from './service';
 
-
 @inject(Router, Service)
 export class Edit {
     constructor(router, service) {
@@ -13,6 +12,12 @@ export class Edit {
     async activate(params) {
         var id = params.id;
         this.data = await this.service.getById(id);
+
+        // this.employee = {
+        //     DigitalId: this.data.digitalId,
+        //     Name: `${this.data.profile.firstname || ""} ${this.data.profile.lastname || ""}`.trim()
+        // };
+
         this.data.password = "";
     }
 
