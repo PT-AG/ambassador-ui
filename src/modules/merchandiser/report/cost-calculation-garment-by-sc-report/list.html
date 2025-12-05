@@ -4,6 +4,16 @@
     <h1 class="page-header">Display Cost Calculation Garment Per Buyer | Sales Contract</h1>
     <form class="form-horizontal">
 
+        <au-autocomplete 
+            label="Seksi"
+            value.bind="section"
+            loader.bind="garmentSectionLoader"
+            text.bind="sectionView"
+            key="Code"
+            placeholder="Cari Seksi"
+            options.bind="controlOptions">
+        </au-autocomplete>
+
         <au-input
             type="number"
             value.bind="filterYear"
@@ -53,6 +63,7 @@
                     <th class="text-center">Nomor</th>
                     <th class="text-center">No RO</th>
                     <th class="text-center">Tgl Shipment</th>        
+                    <th class="text-center">Term of Payment</th>        
                     <th class="text-center">Article / Style</th>
                     <th class="text-center">No Sales Contract</th>
                     <th class="text-center">Buyer Agent</th>
@@ -72,6 +83,7 @@
                         <td class="text-center"> ${$index + 1}</td>
                         <td>${data.RO_Number}</td>
                         <td>${data.DeliveryDate}</td>
+                        <td>${data.PaymentMethod}</td>
                         <td>${data.Article}</td>
                         <td>${data.SalesContractNo}</td>
                         <td>${data.BuyerCode}</td>
