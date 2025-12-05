@@ -41,6 +41,9 @@
                     <td align="center" rowspan="2">Tipe Buyer</td>
                     <td align="center" rowspan="2">Article / Style</td>
                     <td align="center" rowspan="2">Komoditi</td>
+                    <td align="center" rowspan="2">OTL 1</td>
+                    <td align="center" rowspan="2">OTL 2</td>
+                    <td align="center" rowspan="2">Confirm Date</td>
                     <td align="center" rowspan="2">Fabric Allowance %</td>      
                     <td align="center" rowspan="2">Acc Allowance %</td> 
                     <td align="center" rowspan="2">Tgl Shipment</td>      
@@ -92,6 +95,9 @@
                         <td>${item.Type}</td>
                         <td>${item.Article}</td>
                         <td>${item.Comodity}</td>
+                        <td class="text-right">${item.OTL1 | numberFormat:'0,000.00'}</td>
+                        <td class="text-right">${item.OTL2 | numberFormat:'0,000.00'}</td>
+                        <td>${item.ConfirmDate | dateFormat:'DD MMM YYYY'}</td>
                         <td class="text-right">${item.FabAllow}</td>
                         <td class="text-right">${item.AccAllow}</td>
                         <td>${item.DeliveryDate}</td>
