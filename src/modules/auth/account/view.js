@@ -13,6 +13,12 @@ export class View {
     async activate(params) {
         var id = params.id;
         this.data = await this.service.getById(id);
+
+        // this.employee = {
+        //     DigitalId: this.data.digitalId,
+        //     Name: `${this.data.profile.firstname || ""} ${this.data.profile.lastname || ""}`.trim()
+        // };
+
         this.data.password = "";
     }
 

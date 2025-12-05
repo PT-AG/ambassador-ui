@@ -4,9 +4,6 @@ import '../styles/signin.css';
 
 @inject(AuthService)
 export class Login {
-    // username = "dev";
-    // password = "Standar123";
-
     username="";
     password="";
     error = false;
@@ -22,14 +19,11 @@ export class Login {
 
         return this.authService.login({ "username": this.username, "password": this.password })
             .then(response => {
-                console.log("success logged " + response);
                 location.reload();
             })
             .catch(err => {
                 this.error = true;
                 this.disabledButton = false;
-                console.log(err);
-                console.log("login failure");
             });
     }
 } 
