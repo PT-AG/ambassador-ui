@@ -43,13 +43,25 @@
         <div class="row" show.bind="activeTab==0">
             <div class="row">
                 <div class="col-sm-6">
-                    <au-textbox 
-                        label="No Invoice" 
-                        value.bind="data.invoiceNo" 
-                        read-only="true"
-                        options.bind="controlOptions" 
-                        if.bind="readOnly || isEdit">
-                    </au-textbox>
+                    <au-checkbox label="Packing List Baru?"
+                        value.bind="newPL"
+                        read-only.bind="readOnly"
+                        options.bind="controlOptions"
+                        change.delegate="changeCheckBox()"
+                        if.bind="!readOnly && !isEdit">>
+                    </au-checkbox>
+
+                    <au-autocomplete
+                        value.bind="selectedInvoiceNo"
+                        error.bind="error.invoiceNo"
+                        label="No Invoice"
+                        loader.bind="invoiceLoader"
+                        text = "invoiceNo"
+                        placeholder="Cari Invoice"
+                        read-only.bind="readOnly"
+                        if.bind="!newPL || data.invoiceNo"
+                        options.bind="controlOptions">
+                    </au-autocomplete>
 
                     <au-dropdown
                         label="Jenis Packing List"
