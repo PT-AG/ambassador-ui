@@ -3,6 +3,7 @@ import { Service } from "./service";
 
 var BuyerLoader = require('../../../loader/garment-buyers-loader');
 var ShippingStaffLoader = require('../../../loader/garment-shipping-staff-loader');
+var InvoiceNoLoader = require('../../../loader/garment-pl-invoiceno-loader');
 
 @inject(Service)
 export class DataForm {
@@ -12,6 +13,7 @@ export class DataForm {
     @bindable isView = false;
     @bindable title;
     @bindable data = {};
+    @bindable selectedInvoiceNo;
 
     constructor(service) {
         this.service = service;
@@ -43,6 +45,8 @@ export class DataForm {
             length: 2
         }
     };
+
+    newPL=true;
 
     itemsColumns = [
         { header: "RO No" },
@@ -98,6 +102,11 @@ export class DataForm {
     get buyerLoader() {
         return BuyerLoader;
     }
+
+    get invoiceLoader() {
+        return InvoiceNoLoader;
+    }
+
     buyerView = (buyer) => {
         var buyerName = buyer.Name || buyer.name;
         var buyerCode = buyer.Code || buyer.code;
@@ -140,6 +149,13 @@ export class DataForm {
         this.shippingMarkImageSrc = this.data.shippingMarkImageFile || this.noImage;
         this.sideMarkImageSrc = this.data.sideMarkImageFile || this.noImage;
         this.remarkImageSrc = this.data.remarkImageFile || this.noImage;
+
+        if(this.data.invoiceNo){
+            this.data.invoiceNo= this.data.increment ? this.data.invoiceNo + " - " + this.data.increment : this.data.invoiceNo
+            this.selectedInvoiceNo={
+                invoiceNo:this.data.invoiceNo
+            }
+        }
     }
 
     get addItems() {
@@ -294,5 +310,18 @@ documentInputChanged(index, event) {
             result.push(countableQuantities + " " + u.unit);
         }
         return result.join(" / ");
+    }
+
+    selectedInvoiceNoChanged(newValue){
+        if(newValue){
+            if(this.data.invoiceNo != newValue.invoiceNo){
+                this.data.invoiceNo= newValue.invoiceNo;
+            }
+        }
+    }
+
+    changeCheckBox() {
+        this.selectedInvoiceNo=null;
+        this.data.invoiceNo=null;
     }
 }
