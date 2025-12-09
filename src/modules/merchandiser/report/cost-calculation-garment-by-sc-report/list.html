@@ -62,6 +62,7 @@
                 <tr>
                     <th class="text-center">Nomor</th>
                     <th class="text-center">No RO</th>
+                    <th class="text-center">Seksi</th>
                     <th class="text-center">Tgl Shipment</th>        
                     <th class="text-center">Term of Payment</th>        
                     <th class="text-center">Article / Style</th>
@@ -82,6 +83,7 @@
                     <tr repeat.for="data of brand.data">
                         <td class="text-center"> ${$index + 1}</td>
                         <td>${data.RO_Number}</td>
+                        <td>${data.Section}</td>
                         <td>${data.DeliveryDate}</td>
                         <td>${data.PaymentMethod}</td>
                         <td>${data.Article}</td>
@@ -98,7 +100,7 @@
                     </tr>
                     <tr class="active">
                        <td class="text-center">.</td>
-                        <td class="text-right" colspan="7"><strong>${brand.brand}</strong></td>
+                        <td class="text-right" colspan="9"><strong>${brand.brand}</strong></td>
                         <td class="text-center" colspan="2"><strong>SUB TOTAL</strong></td>
                         <td class="text-right"><strong>${brand.subTotal1}</strong></td>                     
                         <td class="text-right"><strong>.</strong></td>                     
@@ -107,7 +109,7 @@
                     </tr>
                 </template>
                     <tr class="active">
-                        <td class="text-center" colspan="10"><strong>T O T A L . . . . . . :</strong></td>
+                        <td class="text-center" colspan="12"><strong>T O T A L . . . . . . :</strong></td>
                         <td class="text-right"><strong>${QtyTotal}</strong></td>                     
                         <td class="text-right"><strong>.</strong></td>                                                                     
                         <td class="text-right"><strong>.</strong></td>                                             
