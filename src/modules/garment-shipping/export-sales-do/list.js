@@ -15,7 +15,7 @@ export class List {
                 return moment(value).format("DD MMM YYYY");
             }
         },
-        { field: "invoiceNo", title: "Invoice No" },
+        //{ field: "invoiceNo", title: "Invoice No" },
         { field: "buyerAgentName", title: "Buyer Agent" },
         { field: "to", title: "Kepada" },
         { field: "UnitName", title: "Bag Gudang" },

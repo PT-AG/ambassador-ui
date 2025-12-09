@@ -1,6 +1,17 @@
 <template>
     <tr>
         <td>
+            <au-autocomplete 
+                value.bind="selectedRO" 
+                error.bind="error.RONo" 
+                loader.bind="roLoader" 
+                text.bind="roView"
+                placeholder="cari RO" 
+                query.bind="filter" 
+                read-only.bind="readOnly">
+            </au-autocomplete>
+        </td>
+        <td>
             <au-autocomplete
                 value.bind="data.comodity"
                 error.bind="error.comodity"
@@ -34,7 +45,7 @@
                 text.bind = "uomView">
             </au-autocomplete>
         </td>
-        <td>
+        <!-- <td>
             <au-numeric
                 value.bind="data.cartonQuantity"
                 error.bind="error.cartonQuantity"
@@ -61,7 +72,7 @@
                 error.bind="error.volume"
                 read-only.bind="readOnly">
             </au-numeric>
-        </td>
+        </td> -->
         <td if.bind="!readOnly">
             <button class="btn btn-danger pull-right" click.delegate="onremove(data, $event)">-</button>
         </td>
