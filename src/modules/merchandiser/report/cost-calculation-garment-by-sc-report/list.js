@@ -115,12 +115,12 @@ export class List {
                   var dataByBrand = {};
                   var subTotalBrand = {};
                   var subTotalBrand1 = {};                 
-    
                   for (var data of result) {
                        var Brand = data.BrandName;
                         if (!dataByBrand[Brand]) dataByBrand[Brand] = [];                 
                             dataByBrand[Brand].push({                                                        
                             RO_Number : data.RO_Number,
+                            Section : data.Section,
                             DeliveryDate : moment(data.DeliveryDate).format("DD MMM YYYY")=="01 Jan 1970"? "-" : moment(data.DeliveryDate).format("DD MMM YYYY"),                          
                             PaymentMethod : data.PaymentMethod,
                             SalesContractNo : data.SalesContractNo,
