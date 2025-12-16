@@ -622,5 +622,63 @@ module.exports = [
             // permission: { "P1": 2, "P2": 2, "B1": 2, "PDU": 1,"C9":1 },
             iconClass: 'fa fa-dashboard'
         }
-    }
+    },
+
+    // new route purchasing approval POE & SPB
+    {
+        route: '/purchasing/approve-poe/kasie',
+        name: 'approve-purchase-order-external-kasie',
+        moduleId: './modules/purchasing/approval-purchase-order-external-kasie/index',
+        nav: true,
+        title: 'Approval Purchase Order External Kasie',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "approval",
+            permission: { "E40": 1 },
+            iconClass: 'fa fa-dashboard'
+        }
+    },
+    {
+        route: '/purchasing/approve-poe/kabag',
+        name: 'approval-purchase-order-external-kabag',
+        moduleId: './modules/purchasing/approval-purchase-order-external-kabag/index',
+        nav: true,
+        title: 'Approval Purchase Order External Kabag',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "approval",
+            permission: { "E41": 1 },
+            iconClass: 'fa fa-dashboard'
+        }
+    },
+    // {
+    //     route: '/purchasing/approve-poe/kabag',
+    //     name: 'approve-purchase-order-external',
+    //     moduleId: './modules/purchasing/approve-purchase-order-external/index',
+    //     nav: true,
+    //     title: 'Approval Surat Perintah Bayar Kasie',
+    //     auth: true,
+    //     settings: {
+    //         group: "purchasing",
+    //         subGroup: "approval",
+    //         permission: { "E42": 1 },
+    //         iconClass: 'fa fa-dashboard'
+    //     }
+    // },
+    // {
+    //     route: '/purchasing/approve-poe/kabag',
+    //     name: 'approve-purchase-order-external',
+    //     moduleId: './modules/purchasing/approve-purchase-order-external/index',
+    //     nav: true,
+    //     title: 'Approval Surat Perintah Bayar Kabag',
+    //     auth: true,
+    //     settings: {
+    //         group: "purchasing",
+    //         subGroup: "approval",
+    //         permission: { "E43": 1 },
+    //         iconClass: 'fa fa-dashboard'
+    //     }
+    // },
 ]
