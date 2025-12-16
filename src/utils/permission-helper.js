@@ -16,6 +16,7 @@ export class PermissionHelper {
 
     return JSON.parse(user.permission);
   }
+  
   getUser() {
     const config = this.authService.authentication.config;
     const storage = this.authService.authentication.storage;
