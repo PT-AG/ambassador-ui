@@ -44,6 +44,4 @@ export class Service extends RestService {
     var endpoint = `${serviceUri}/changePass`;
     return super.put(endpoint, data);
   }
-
-
 }

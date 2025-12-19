@@ -9,7 +9,7 @@ export class List {
     info = { page: 1, keyword: '' };
 
     rowFormatter(data, index) {
-        if (data.isPosted)
+        if (data.isPosted && data.IsApprovedKasie && data.IsApprovedKabag)
             return { classes: "success" }
         else
             return {}
@@ -49,6 +49,16 @@ export class List {
             formatter: function (value, row, index) {
                 return value ? "SUDAH" : "BELUM";
             }
+        },
+        { 
+            field: "IsApprovedKasie", 
+            title: "Approve Kasie", 
+            formatter: (value) => value ? "SUDAH" : "BELUM" 
+        },
+        { 
+            field: "IsApprovedKabag", 
+            title: "Approve Kabag", 
+            formatter: (value) => value ? "SUDAH" : "BELUM" 
         }
     ];
 
@@ -104,7 +114,7 @@ export class List {
     contextShowCallback(index, name, data) {
         switch (name) {
             case "Cetak PDF":
-                return data.isPosted;
+                return data.isPosted && data.IsApprovedKasie && data.IsApprovedKabag;
             default:
                 return true;
         }

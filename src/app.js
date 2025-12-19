@@ -9,6 +9,7 @@ export class App {
   constructor(authService) {
     this.authService = authService;
   }
+  
   configureRouter(config, router) {
     config.title = 'Aurelia';
     config.addPipelineStep('authorize', AuthStep);
