@@ -95,13 +95,20 @@
                 read-only.bind="readOnly">
             </au-autocomplete>
         </td>
+        <td class="bg-primary">
+            <au-numeric
+                value.bind="data.ctnQty"
+                format="0"
+                read-only.bind="readOnly">
+            </au-numeric>
+        </td>
 
         <td if.bind="!readOnly">
             <button class="btn btn-danger pull-right" click.delegate="onremove(data, $event)">-</button>
         </td>
-        <td if.bind="readOnly">
+        <!-- <td if.bind="readOnly">
             <button class="btn btn-info pull-right" if.bind= "data.details" click.delegate="toggle()">i</button>
-        </td>
+        </td> -->
     </tr>
     <tr show.bind="readOnly? isShowing : !isShowing" style="background-color:#C2B5B2;">
         <td colspan="3">
@@ -120,13 +127,28 @@
                 read-only.bind="readOnly">
             </au-multiline>
         </td>
-        
-        <td colspan="5">
+
+        <td  colspan="6">
+            <button class="btn btn-info pull-right"  click.delegate="toggle()">Generate</button>
         </td>
+        
+        <!-- <td colspan="5">
+        </td> -->
     </tr>
     <tr >
         <td colspan="13">
-            <p if.bind="error.DetailsCount" class="help-block text-center" style='color:red;'>${error.DetailsCount}</p>
-        </td>
+            <!-- <p if.bind="error.DetailsCount" class="help-block text-center" style='color:red;'>${error.DetailsCount}</p> -->
+             <au-collection 
+                items.bind="data.detailRows"
+                columns.bind="plColumns"
+                read-only.bind="readOnly"
+                add.bind="addItems" 
+                options.bind="itemOptions"
+                item-template="modules/garment-production/packing-items-demo/template/pl-template"
+                footer-template="modules/garment-production/packing-items-demo/template/pl-footer"
+                if.bind="data.detailRows">
+            </au-collection>   
+            </td> 
     </tr>
+
   </template>
