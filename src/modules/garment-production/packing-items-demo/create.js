@@ -52,4 +52,8 @@ export class Create {
             alert("Pilih Nomor Invoice");
         }
     }
+
+    invoiceNoView(inv){
+        return inv.increment? inv.invoiceNo +" - "+inv.increment : inv.invoiceNo;
+    }
 }
