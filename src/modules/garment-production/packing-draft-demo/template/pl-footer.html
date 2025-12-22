@@ -1,0 +1,62 @@
+<template>
+    <tr>
+        <td colspan="2" align='right'>
+            <au-textbox
+                label="TOTAL"
+                options.bind="controlOptions"
+                read-only.bind="true">
+            </au-textbox>
+        </td>
+        <td repeat.for="sz of sizes">
+            <au-textbox
+                value.bind="totalQuantity[sz]"
+                read-only.bind="true"
+                format="0">
+            </au-textbox>
+        </td>
+        
+        <td>
+            <au-numeric
+                value.bind="grandTotal"
+                read-only.bind="true"
+                format="0">
+            </au-numeric>
+        </td>
+        <td>
+            <au-numeric
+                value.bind="totalQuantityCTN"
+                read-only.bind="true"
+                format="0">
+            </au-numeric>
+        </td>
+        <td>
+            <au-numeric
+                value.bind="grandTotal"
+                read-only.bind="true"
+                format="0">
+            </au-numeric>
+        </td>
+        <td>
+            <au-numeric
+                value.bind="totalGW"
+                read-only.bind="true"
+                format="0.00">
+            </au-numeric>
+        </td>
+        <td>
+            <au-numeric
+                value.bind="totalNW"
+                read-only.bind="true"
+                format="0.00">
+            </au-numeric>
+        </td>
+        <td>
+            <au-numeric
+                value.bind="totalNNW"
+                read-only.bind="true"
+                format="0.00">
+            </au-numeric>
+        </td>
+
+    </tr>
+</template>
