@@ -20,35 +20,36 @@ export class Item {
     this.garmentProductionService = garmentProductionService;
     this.coreService = coreService;
   }
-getTotalSize(size) {
-  let total = 0;
-  for (let color of this.detail.Colors) {
-    let obj = color.Sizes.find((s) => s.Size.toUpperCase() === size);
-    if (obj) total += obj.Quatity;
+
+  getTotalSize(size) {
+    let total = 0;
+    for (let color of this.detail.Colors) {
+      let obj = color.Sizes.find((s) => s.Size.toUpperCase() === size);
+      if (obj) total += obj.Quatity;
+    }
+    return total;
   }
-  return total;
-}
   buildDetailsColumns() {
-    let dynamicSizeColumns = this.data.sizes.map(sz => ({
-        header: sz, 
-        value: sz
+    let dynamicSizeColumns = this.data.sizes.map((sz) => ({
+      header: sz,
+      value: sz,
     }));
 
     this.plColumns = [
-        { header: "STYLE / COLOR", value: "color" },
-        { header: "NOMOR", value: "nomor" },
+      { header: "STYLE / COLOR", value: "color" },
+      { header: "NOMOR", value: "nomor" },
 
-        // ======== Dynamic Size Columns ========
-        ...dynamicSizeColumns,
+      // ======== Dynamic Size Columns ========
+      ...dynamicSizeColumns,
 
-        { header: "TOTAL PCS", value: "qtyCtn" },
-        { header: "CTN", value: "cartons" },
-        { header: "TOTAL", value: "cartons" },
-        { header: "GW", value: "gw" },
-        { header: "NW", value: "nw" },
-        { header: "NNW", value: "nnw" },
+      { header: "TOTAL PCS", value: "qtyCtn" },
+      { header: "CTN", value: "cartons" },
+      { header: "TOTAL", value: "cartons" },
+      { header: "GW", value: "gw" },
+      { header: "NW", value: "nw" },
+      { header: "NNW", value: "nnw" },
     ];
-}
+  }
   createEmptySizeMap() {
     let map = {};
     this.data.sizes.forEach((sz) => (map[sz.toUpperCase()] = 0));
@@ -64,9 +65,9 @@ getTotalSize(size) {
       qtyDisplay: this.data.ctnQty,
       qtyCtn: this.data.ctnQty * fullCtn,
       ...this.createEmptySizeMap(),
-      gw:0,
-      nw:0,
-      nnw:0
+      gw: 0,
+      nw: 0,
+      nnw: 0,
     };
 
     row[sizeName] = this.data.ctnQty;
@@ -83,9 +84,9 @@ getTotalSize(size) {
       qtyDisplay: qtyTotal,
       qtyCtn: qtyTotal,
       ...this.createEmptySizeMap(),
-      gw:0,
-      nw:0,
-      nnw:0
+      gw: 0,
+      nw: 0,
+      nnw: 0,
     };
 
     Object.keys(sizeMap).forEach((sz) => {
@@ -121,7 +122,7 @@ getTotalSize(size) {
         }
 
         this.addRemainderRow(
-          buffer.length > 0 ? "Gabungan" : r.color,
+          buffer.length > 1 ? "Gabungan" : r.color,
           startNo,
           startNo,
           tmpSize,
@@ -140,7 +141,13 @@ getTotalSize(size) {
         tmpSize[x.size] = (tmpSize[x.size] || 0) + x.remainder;
       });
 
-      this.addRemainderRow(buffer.length > 0 ? "Gabungan" : buffer[0].color, startNo, startNo, tmpSize, total);
+      this.addRemainderRow(
+        buffer.length > 1 ? "Gabungan" : buffer[0].color,
+        startNo,
+        startNo,
+        tmpSize,
+        total
+      );
     }
   }
 
@@ -167,7 +174,13 @@ getTotalSize(size) {
         let start = currentStart;
         let end = currentStart + fullCtn - 1;
 
-        this.addFullCartonRow(color.Color, s.Size.toUpperCase(), fullCtn, start, end);
+        this.addFullCartonRow(
+          color.Color,
+          s.Size.toUpperCase(),
+          fullCtn,
+          start,
+          end
+        );
 
         currentStart = end + 1;
 
@@ -195,7 +208,7 @@ getTotalSize(size) {
     return Array.from(sizes); // Convert ke array
   }
 
-  async toggle() {
+  async generateTemplate() {
     if (this.data.roNo) {
       let ro = await this.salesService.getROGarment({
         keyword: this.data.roNo,
@@ -204,10 +217,9 @@ getTotalSize(size) {
       this.detail = ro.data[0];
     }
     this.data.sizes = this.extractSizes();
-    this.itemOptions.sizes=this.data.sizes;
+    this.itemOptions.sizes = this.data.sizes;
     this.buildDetailsColumns();
     this.generateCartonLayout();
-    console.log(this.data.detailRows);
   }
 
   roTypeOptions = ["RO JOB", "RO SAMPLE"];
@@ -300,7 +312,7 @@ getTotalSize(size) {
       isEdit: this.isEdit,
       header: context.context.options.header,
       item: this.data,
-      sizes:this.data.sizes
+      sizes: this.data.sizes,
     };
     if (this.data.roNo) {
       this.selectedRO = {
@@ -315,7 +327,7 @@ getTotalSize(size) {
       this.isShowing = true;
     }
 
-    if(this.data.detailRows){
+    if (this.data.detailRows) {
       this.buildDetailsColumns();
     }
   }
