@@ -9,7 +9,6 @@ export class List {
     context = ["Rincian", "Cetak PDF"]
 
     columns = [
-
         { field: "UnitDONo", title: "No. Delivery Order" },
         { field: "RONo", title: "No. RO" },
         { field: "Article", title: "Artikel" },
@@ -84,6 +83,10 @@ export class List {
     //             return true;
     //     }
     // }
+
+    monitoring() {
+        this.router.navigateToRoute('monitoring');
+    }
 
     create() {
         this.router.navigateToRoute('create');
