@@ -106,7 +106,7 @@ export class List {
               this.data = [];
               this.products=[];
               this.totalQuantity=0;
-              this.article = result.data[0].Article;
+              this.article = result.data[0]? result.data[0].Article : "";
                 for(var prepare of result.data){
                     // this.Article = prepare.Article;
                     let dataItem=[];
