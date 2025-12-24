@@ -1,0 +1,95 @@
+<template>
+    <style>
+        table > tbody > tr > td {
+            white-space: pre;
+        }
+    </style>
+
+    <h1 class="page-header">Monitoring Status Unit DO</h1>
+    <form class="form-horizontal">
+        <div class="form-group">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
+                <au-dropdown label="Jenis Unit DO" value.bind="unitDoType" items.bind="unitDoTypes"></au-dropdown>
+
+                <au-autocomplete 
+                    value.bind="unit" 
+                    label="Unit Yang Meminta" 
+                    loader.bind="unitLoader"
+                    placeholder="Cari Unit"
+                    text.bind="unitView"
+                    read-only.bind="readOnly" 
+                    options.bind="controlOptions">
+                </au-autocomplete>
+
+                <au-autocomplete 
+                    value.bind="storage" 
+                    label="Gudang Yang Mengirim" 
+                    loader.bind="storageLoader"
+                    placeholder="Cari Gudang"
+                    text.bind="storageView"
+                    read-only.bind="readOnly" 
+                    query.bind="storageFilter"
+                    options.bind="controlOptions">
+                </au-autocomplete>
+                
+                <au-textbox value.bind="unitDo" label="Nomor Unit DO" placeholder="No Unit DO">
+                </au-textbox>
+
+                <au-textbox value.bind="roNo" label="Nomor RO" placeholder="Nomor RO">
+                </au-textbox>
+
+                <au-datepicker label="Tanggal Awal" value.bind="dateFrom"></au-datepicker>
+                <au-datepicker label="Tanggal Akhir" value.bind="dateTo"></au-datepicker>
+
+                <label for="contact" class="col-sm-9 control-label"></label>
+                <div class="col-sm-3">
+                    <button click.delegate="search()" class='btn btn-success'>Cari</button>
+                    <button click.delegate="reset()" class='btn btn-success'>Reset</button>
+                </div>
+            </div>
+        </div>
+        <!-- <div>
+            <a click.delegate="exportToXls()" class='btn btn-primary'>Cetak Excel</a>
+        </div> -->
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover" border="1" id="poReport">
+                <thead align="center">
+                    <tr>
+                        <td>No</td>
+                        <td>No Unit DO</td>
+                        <td>No RO</td>
+                        <td>Article</td>
+                        <td>Tanggal Unit DO</td>
+                        <td>Jenis Unit DO</td>
+                        <td>Unit Yang Meminta</td>
+                        <td>Gudang Yang Mengirim</td>
+                        <td>Yang Membuat</td>
+                        <td>No Bon Pengeluaran Unit</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr repeat.for="item of data">
+                        <td>${$index + 1}</td>
+                        <td>${item.UnitDONo}</td>
+                        <td>${item.RONo}</td>
+                        <td>${item.Article}</td>
+                        <td>${item.Date}</td>
+                        <td>${item.UnitDOType}</td>
+                        <td>${item.UnitRequest.Name}</td>
+                        <td>${item.Storage.Name}</td>
+                        <td>${item.CreatedBy}</td>
+                        <td>${item.UENNo}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="alert alert-info text-center" role="alert" if.bind="data.length == 0">
+            Tidak ada data ditemukan.
+        </div>
+
+        <pagination if.bind="info.total>info.size" info.bind="info" change.delegate="changePage($event)" id="pager"></pagination>
+        <hr/>
+    </form>
+</template>

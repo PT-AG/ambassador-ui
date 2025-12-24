@@ -21,6 +21,11 @@ export class Service extends RestService {
         return super.list(endpoint, info);
     }
 
+    searchMonitoring(info) {
+        var endpoint = `${serviceUri}/monitoring`;
+        return super.list(endpoint, info);
+    }
+
     searchDOItems(info) {
         var endpoint = `${doItemsUri}`;
         return super.list(endpoint, info);
