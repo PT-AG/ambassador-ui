@@ -1186,5 +1186,19 @@ module.exports = [
             permission: { "H59" :1 },
             iconClass: 'fa fa-dashboard'
         }
+    },
+    {
+        route: '/budget-garment-reports',
+        name: 'budget-garment-reports',
+        moduleId: './modules/garment-purchasing/reports/budget-garment-report/index',
+        nav: true,
+        title: 'Monitoring Budget Garment',
+        auth: true,
+        settings: {
+            group: "g-purchasing",
+            subGroup: "monitoring",
+            permission: { "H59" :1 },
+            iconClass: 'fa fa-dashboard'
+        }
     }
 ]
