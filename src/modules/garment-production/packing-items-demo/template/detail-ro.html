@@ -106,9 +106,6 @@
         <td if.bind="!readOnly">
             <button class="btn btn-danger pull-right" click.delegate="onremove(data, $event)">-</button>
         </td>
-        <!-- <td if.bind="readOnly">
-            <button class="btn btn-info pull-right" if.bind= "data.details" click.delegate="toggle()">i</button>
-        </td> -->
     </tr>
     <tr show.bind="readOnly? isShowing : !isShowing" style="background-color:#C2B5B2;">
         <td colspan="3">
@@ -129,16 +126,13 @@
         </td>
 
         <td  colspan="6">
-            <button class="btn btn-info pull-right"  click.delegate="toggle()">Generate</button>
+            <button class="btn btn-info pull-right"  click.delegate="generateTemplate()">Generate</button>
         </td>
         
-        <!-- <td colspan="5">
-        </td> -->
     </tr>
     <tr >
         <td colspan="13">
-            <!-- <p if.bind="error.DetailsCount" class="help-block text-center" style='color:red;'>${error.DetailsCount}</p> -->
-             <au-collection 
+            <au-collection 
                 items.bind="data.detailRows"
                 columns.bind="plColumns"
                 read-only.bind="readOnly"

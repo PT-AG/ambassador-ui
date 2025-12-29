@@ -107,6 +107,9 @@ export class Item {
 
         this.avG_GW = this.data.avG_GW;
         this.avG_NW = this.data.avG_NW;
+        if (this.data.detailRows) {
+          this.buildDetailsColumns();
+        }
     }
 
     selectedROChanged(newValue) {
