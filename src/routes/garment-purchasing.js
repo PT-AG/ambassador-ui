@@ -1197,7 +1197,7 @@ module.exports = [
         settings: {
             group: "g-purchasing",
             subGroup: "monitoring",
-            permission: { "H59" :1 },
+            permission: { "H67" :1 },
             iconClass: 'fa fa-dashboard'
         }
     }
