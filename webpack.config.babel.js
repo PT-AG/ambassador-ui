@@ -103,20 +103,20 @@ let config = generateConfig(
 
     //babel({ options: { /* uses settings from .babelrc */ } }),
     babel({
-    options: {},
-    include: [
-        srcDir,
+        options: {},
+        include: [
+            srcDir,
 
-        // Aurelia core & plugins
-        /node_modules\/aurelia-/,
-        /node_modules\/aurelia-bootstrapper-webpack/,
-        /node_modules\/aurelia-loader-webpack/,
-        /node_modules\/aurelia-templating/,
-        /node_modules\/aurelia-framework/,
+            // Aurelia (cross-platform safe)
+            /node_modules[\\/]aurelia-/,
+            /node_modules[\\/]aurelia-bootstrapper-webpack/,
+            /node_modules[\\/]aurelia-loader-webpack/,
+            /node_modules[\\/]aurelia-templating/,
+            /node_modules[\\/]aurelia-framework/,
 
-        // Easy webpack internals
-        /node_modules\/@easy-webpack/
-    ]
+            // Easy webpack
+            /node_modules[\\/]@easy-webpack/
+        ]
     }),
     html(),
     css({ filename: 'styles.css', allChunks: true, sourceMap: false }),
