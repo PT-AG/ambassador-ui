@@ -106,9 +106,16 @@ let config = generateConfig(
         options: {},
         include: [
             srcDir,
-            /node_modules\/aurelia-/,
-            /node_modules\/aurelia-bootstrapper-webpack/,
-            /node_modules\/@easy-webpack/
+
+            // Aurelia (cross-platform safe)
+            /node_modules[\\/]aurelia-/,
+            /node_modules[\\/]aurelia-bootstrapper-webpack/,
+            /node_modules[\\/]aurelia-loader-webpack/,
+            /node_modules[\\/]aurelia-templating/,
+            /node_modules[\\/]aurelia-framework/,
+
+            // Easy webpack
+            /node_modules[\\/]@easy-webpack/
         ]
     }),
     html(),
