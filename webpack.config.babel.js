@@ -83,7 +83,8 @@ let config = generateConfig(
             'underscore':coreBundles.underscore
         },
         output: {
-            path: outDir
+            path: outDir,
+            filename: '[name].bundle.js'
         }
     },
 
@@ -107,15 +108,19 @@ let config = generateConfig(
         include: [
             srcDir,
 
-            // Aurelia (cross-platform safe)
-            /node_modules[\\/]aurelia-/,
-            /node_modules[\\/]aurelia-bootstrapper-webpack/,
-            /node_modules[\\/]aurelia-loader-webpack/,
-            /node_modules[\\/]aurelia-templating/,
-            /node_modules[\\/]aurelia-framework/,
+            // all aurelia-* packages (folder boundary)
+            /node_modules[\\/]aurelia-[^\\/]+[\\/]/,
 
-            // Easy webpack
-            /node_modules[\\/]@easy-webpack/
+            // explicit ones that often bite
+            /node_modules[\\/]aurelia-loader[\\/]/,
+            /node_modules[\\/]aurelia-loader-webpack[\\/]/,
+            /node_modules[\\/]aurelia-bootstrapper-webpack[\\/]/,
+
+            // easy-webpack internals
+            /node_modules[\\/]@easy-webpack[\\/]/,
+
+            // (optional) if you have JSX in src and babel doesn't catch:
+            // /node_modules[\\/]react[\\/]/,
         ]
     }),
     html(),
@@ -129,18 +134,7 @@ let config = generateConfig(
 
     ...(ENV === 'production' || ENV === 'development' ? [
         commonChunksOptimize({ appChunkName: 'app', firstChunk: 'aurelia-bootstrap' }),
-        copyFiles({ patterns: [{ from: 'favicon.ico', to: 'favicon.ico' }] }),
-       uglify({
-            debug: false,
-            compress: {
-            warnings: false,
-            drop_console: true
-            },
-            mangle: true,
-            output: {
-            comments: false
-            }
-        })
+        copyFiles({ patterns: [{ from: 'favicon.ico', to: 'favicon.ico' }] })
         ] : [
             /* ENV === 'test' */
             generateCoverage({ options: { 'force-sourcemap': true, esModules: true } })
