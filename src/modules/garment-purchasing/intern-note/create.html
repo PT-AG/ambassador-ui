@@ -1,4 +1,29 @@
 <template>
     <require from="./data-form"></require>
     <data-form title="Tambah Nota Intern Garment"></data-form>
+
+    <div class="modal-backdrop fade in" if.bind="showLateReasonDialog" style="display: block;"></div>
+    <div class="modal fade in" tabindex="-1" role="dialog" if.bind="showLateReasonDialog" style="display: block;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-danger">
+                    <h4 class="modal-title"><i class="fa fa-exclamation-triangle"></i> Peringatan Keterlambatan</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="text-danger" style="font-weight: bold;">
+                        Tanggal Nota Intern lebih kecil dari Hari Ini (Backdate).
+                    </p>
+                    <p>Mohon isi alasan keterlambatan di bawah ini untuk melanjutkan:</p>
+                    
+                    <div class="form-group">
+                        <textarea value.bind="data.lateReason" class="form-control" rows="4" placeholder="Masukan alasan keterlambatan..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" click.delegate="cancelLateReason()">Batal</button>
+                    <button type="button" class="btn btn-primary" click.delegate="submitLateReason()">Simpan Data</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>

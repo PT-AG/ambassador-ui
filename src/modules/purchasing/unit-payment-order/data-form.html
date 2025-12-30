@@ -240,6 +240,12 @@
                 <au-multiline label="Keterangan" value.bind="data.remark" placeholder="tambah keterangan" read-only.bind="readOnly"
                   options.bind="controlOptions">
                 </au-multiline>
+                <au-multiline 
+                    label="Alasan Keterlambatan" 
+                    value.bind="data.reasonLate" 
+                    read-only="true" 
+                    options.bind="controlOptions">
+                </au-multiline>
                 <au-dropdown
                     label="Keterangan Nilai Import"
                     value.bind="data.importInfo"

@@ -42,6 +42,11 @@ export class Service extends RestService {
         return super.getPdf(endpoint);
     }
 
+    post(data) {
+        var endpoint = `${serviceUri}/post`;
+        return super.post(endpoint, data);
+    }
+    
     getDefaultVat(info){
         var config = Container.instance.get(Config);
         var _endpoint = config.getEndpoint("core");

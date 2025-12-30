@@ -1188,6 +1188,7 @@ module.exports = [
         }
     },
     {
+<<<<<<< Updated upstream
         route: '/budget-garment-reports',
         name: 'budget-garment-reports',
         moduleId: './modules/garment-purchasing/reports/budget-garment-report/index',
@@ -1201,4 +1202,61 @@ module.exports = [
             iconClass: 'fa fa-dashboard'
         }
     }
+=======
+        route: '/garments/approve-intern-note-external-kasie',
+        name: 'approve-intern-note-external-kasie',
+        moduleId: './modules/garment-purchasing/approve-intern-note-kasie/index',
+        nav: true,
+        title: 'Approve Nota Internal Kasie',
+        auth: true,
+        settings: {
+            group: "g-purchasing",
+            subGroup: "approval",
+            permission: { "H63" :1 },
+            iconClass: 'fa fa-dashboard'
+        }
+    },
+    {
+        route: '/garments/approve-intern-note-external-kabag',
+        name: 'approve-intern-note-external-kabag',
+        moduleId: './modules/garment-purchasing/approve-intern-note-kabag/index',
+        nav: true,
+        title: 'Approve Nota Internal Kabag',
+        auth: true,
+        settings: {
+            group: "g-purchasing",
+            subGroup: "approval",
+            permission: { "H64" :1 },
+            iconClass: 'fa fa-dashboard'
+        }
+    },
+    {
+        route: '/garments/approve-garment-purchasing-disposition-kasie',
+        name: 'approve-garment-purchasing-disposition-kasie',
+        moduleId: './modules/garment-purchasing/approve-garment-purchasing-disposition-kasie/index',
+        nav: true,
+        title: 'Approve Disposisi Pembayaran Kasie',
+        auth: true,
+        settings: {
+            group: "g-purchasing",
+            subGroup: "approval",
+            permission: { "H65" :1 },
+            iconClass: 'fa fa-dashboard'
+        }
+    },
+    {
+        route: '/garments/approve-garment-purchasing-disposition-kabag',
+        name: 'approve-garment-purchasing-disposition-kabag',
+        moduleId: './modules/garment-purchasing/approve-garment-purchasing-disposition-kabag/index',
+        nav: true,
+        title: 'Approve Disposisi Pembayaran Kabag',
+        auth: true,
+        settings: {
+            group: "g-purchasing",
+            subGroup: "approval",
+            permission: { "H66" :1 },
+            iconClass: 'fa fa-dashboard'
+        }
+    },
+>>>>>>> Stashed changes
 ]

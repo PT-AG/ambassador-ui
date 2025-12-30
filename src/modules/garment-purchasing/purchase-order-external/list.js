@@ -9,7 +9,7 @@ export class List {
     info = { page: 1, keyword: '' };
 
     rowFormatter(data, index) {
-        if (data.IsPosted)
+        if (data.IsPosted && data.IsApprovedKasie && data.IsApprovedKabag)
             return { classes: "success" }
         else
             return {}
@@ -47,7 +47,13 @@ export class List {
         },
         { field: "IsApproved", title: "Status Approve" , formatter: function (value, data, index) {
                 return data.approveStatus;}
-        }
+        },
+        { field: "IsApprovedKasie", title: "Approve Kasie" , formatter: function (value, data, index) {
+            return value ? "YA" : "TIDAK"; }
+        },
+        { field: "IsApprovedKabag", title: "Approve Kabag" , formatter: function (value, data, index) {
+                return value ? "YA" : "TIDAK"; }
+        },
     ];
 
     loader = (info) => {
@@ -110,7 +116,7 @@ export class List {
     contextShowCallback(index, name, data) {
         switch (name) {
             case "Cetak PDF":
-                return data.IsPosted;
+                return data.IsPosted && data.IsApprovedKasie && data.IsApprovedKabag;
             default:
                 return true;
         }

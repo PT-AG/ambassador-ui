@@ -48,6 +48,11 @@ export class Service extends RestService {
         return super.getPdf(endpoint);
     } 
 
+    post(data) {
+        var endpoint = `${serviceUri}/posting`;
+        return super.post(endpoint, data);
+    }
+
     searchPaymentDispo(epoNo) {
         var endpoint = `${serviceEPOUri}/by-epo-no/?keyword=${epoNo}`;
 

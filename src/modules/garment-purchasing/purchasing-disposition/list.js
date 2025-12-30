@@ -6,11 +6,20 @@ import numeral from "numeral";
 
 @inject(Router, Service)
 export class List {
+    dataToBePosted = [];
+
     info = { page: 1, keyword: '' };
 
     context = ["Rincian", "Cetak PDF"]
 
     columns = [
+        {
+            field: "Check", title: "Post", checkbox: true, sortable: false,
+            formatter: function (value, data, index) {
+                this.checkboxEnabled = !data.IsPosted; 
+                return "";
+            }
+        },
         { field: "DispositionNo", title: "Nomor Disposisi Pembayaran" },
         {
             field: "CreatedUtc", title: "Tanggal Disposisi", formatter: function (value, data, index) {
@@ -28,8 +37,23 @@ export class List {
         { field: "AmountDisposition", title: "Nominal Disposisi", sortable: false,formatter:function(value, data, index) {
             return numeral(value).format("0,000.00");
         }},
+        { 
+            field: "IsPosted", title: "Status", formatter: function(value, data, index) {
+                if(data.IsApprovedKabag) return "SUDAH DISETUJUI KABAG";
+                if(data.IsApprovedKasie) return "SUDAH DISETUJUI KASIE";
+                if(data.IsPosted) return "SUDAH DIPOSTING";
+                return "DRAFT";
+            }
+        }
         
     ];
+
+    rowFormatter(data, index) {
+        if (data.IsApprovedKabag) 
+            return { classes: "success" }
+        else
+            return {}
+    }
 
     loader = (info) => {
         var order = {};
@@ -73,7 +97,7 @@ export class List {
     contextShowCallback(index, name, data) {
         switch (name) {
             case "Cetak PDF":
-                return true;
+                return data.IsApprovedKabag;
             default:
                 return true;
         }
@@ -81,5 +105,35 @@ export class List {
 
     create() {
         this.router.navigateToRoute('create');
+    }
+
+    posting() {
+        if (this.dataToBePosted.length > 0) {
+            if (confirm(`Posting ${this.dataToBePosted.length} data?`)) {
+                
+                var list = this.dataToBePosted.map(d => {
+                    return {
+                        Id: d.Id,
+                        DispositionNo: d.DispositionNo
+                    }
+                });
+
+                if (list.length === 0) {
+                    alert(`Data yang dipilih sudah diposting semua.`);
+                    return;
+                }
+
+                this.service.post(list)
+                    .then(result => {
+                        alert("Data berhasil diposting");
+                        this.table.refresh();
+                        this.dataToBePosted = [];
+                    })
+                    .catch(e => {
+                        this.error = e;
+                        alert("Gagal Posting: " + (e.message || e));
+                    })
+            }
+        }
     }
 }
