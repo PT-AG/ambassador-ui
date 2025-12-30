@@ -41,7 +41,7 @@ export async function configure(aurelia) {
             var garmentProduction = "https://com-ambassador-service-garment-dev.azurewebsites.net/";
             var packingInventory = "https://com-ambassador-service-packing-inventory-dev.azurewebsites.net/v1/";
             var ItInven = "https://it-inventory-etl-service.azurewebsites.net/api/";
-            var attendance = "https://com-ambassador-service-attendance-dev.azurewebsites.net/v1/";
+            var attendance = "https://ambassador-hr-portal-attendance-service-dev.azurewebsites.net/v1/";
 
             config.registerEndpoint('auth', auth);
             config.registerEndpoint('core', core);

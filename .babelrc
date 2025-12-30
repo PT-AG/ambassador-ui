@@ -1,67 +1,28 @@
 {
   "presets": [
-    "es2015",
-    "react",
-    "stage-1"
+    [
+      "env",
+      {
+        "targets": {
+          "browsers": [
+            "> 1%",
+            "last 2 versions",
+            "ie >= 11"
+          ]
+        },
+        "modules": false,
+        "loose": true
+      }
+    ],
+    "react"
+  ],
+  "plugins": [
+    "transform-decorators-legacy",
+    "transform-class-properties",
+    "transform-object-rest-spread"
   ],
   "env": {
-    "webpack": {
-      "plugins": [
-        "transform-decorators-legacy",
-        "transform-class-properties"
-      ],
-      "presets": [
-        [
-          "env",
-          {
-            "targets": {
-              "browsers": [
-                "last 2 versions",
-                "not ie <= 11"
-              ]
-            },
-            "loose": true,
-            "modules": false,
-            "whitelist": [
-              "transform-es2015-literals",
-              "transform-es2015-template-literals"
-            ],
-            "useBuiltIns": true
-          }
-        ]
-      ]
-    },
-    "e2e": {
-      "plugins": [
-        "transform-decorators-legacy",
-        "transform-class-properties"
-      ],
-      "presets": [
-        [
-          "env",
-          {
-            "targets": {
-              "browsers": [
-                "last 2 versions",
-                "not ie <= 11"
-              ]
-            },
-            "loose": true,
-            "modules": "commonjs",
-            "whitelist": [
-              "transform-es2015-literals",
-              "transform-es2015-template-literals"
-            ],
-            "useBuiltIns": true
-          }
-        ]
-      ]
-    },
     "node": {
-      "plugins": [
-        "transform-decorators-legacy",
-        "transform-class-properties"
-      ],
       "presets": [
         [
           "env",
@@ -69,7 +30,6 @@
             "targets": {
               "node": "current"
             },
-            "loose": true,
             "modules": "commonjs"
           }
         ]
