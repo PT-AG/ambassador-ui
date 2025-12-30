@@ -101,7 +101,16 @@ let config = generateConfig(
 
     aurelia({ root: rootDir, src: srcDir, title: title, baseUrl: baseUrl }),
 
-    babel({ options: { /* uses settings from .babelrc */ } }),
+    //babel({ options: { /* uses settings from .babelrc */ } }),
+    babel({
+        options: {},
+        include: [
+            srcDir,
+            /node_modules\/aurelia-/,
+            /node_modules\/aurelia-bootstrapper-webpack/,
+            /node_modules\/@easy-webpack/
+        ]
+    }),
     html(),
     css({ filename: 'styles.css', allChunks: true, sourceMap: false }),
     fontAndImages(),
@@ -110,27 +119,22 @@ let config = generateConfig(
     globalRegenerator(),
     generateIndexHtml({ minify: ENV === 'production' }),
 
-    ...(ENV === 'production' ? [
-        uglify({
-            debug: false,
-            mangle: true,
-            compress: {
-            drop_console: true,
-            warnings: false
-            },
-            output: {
-            comments: false
-            }
-        })
-        ] : []),
 
     ...(ENV === 'production' || ENV === 'development' ? [
         commonChunksOptimize({ appChunkName: 'app', firstChunk: 'aurelia-bootstrap' }),
         copyFiles({ patterns: [{ from: 'favicon.ico', to: 'favicon.ico' }] }),
-        uglify({ debug: false, mangle: true, compress: { drop_console: true, warnings: false },
-            output: { comments: false }
+       uglify({
+            debug: false,
+            compress: {
+            warnings: false,
+            drop_console: true
+            },
+            mangle: true,
+            output: {
+            comments: false
+            }
         })
-    ] : [
+        ] : [
             /* ENV === 'test' */
             generateCoverage({ options: { 'force-sourcemap': true, esModules: true } })
         ]),
