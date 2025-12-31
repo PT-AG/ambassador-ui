@@ -4,7 +4,6 @@
  **/
 import { generateConfig, get, stripMetadata, EasyWebpackConfig } from '@easy-webpack/core'
 import path from 'path'
-import uglify from '@easy-webpack/config-uglify'
 
 import envProd from '@easy-webpack/config-env-production'
 import envDev from '@easy-webpack/config-env-development'
@@ -19,6 +18,7 @@ import globalRegenerator from '@easy-webpack/config-global-regenerator'
 import generateIndexHtml from '@easy-webpack/config-generate-index-html'
 import commonChunksOptimize from '@easy-webpack/config-common-chunks-simple'
 import copyFiles from '@easy-webpack/config-copy-files'
+import uglify from '@easy-webpack/config-uglify'
 import generateCoverage from '@easy-webpack/config-test-coverage-istanbul'
 
 process.env.BABEL_ENV = 'webpack'
@@ -83,8 +83,7 @@ let config = generateConfig(
             'underscore':coreBundles.underscore
         },
         output: {
-            path: outDir,
-            filename: '[name].bundle.js'
+            path: outDir
         }
     },
 
@@ -102,27 +101,7 @@ let config = generateConfig(
 
     aurelia({ root: rootDir, src: srcDir, title: title, baseUrl: baseUrl }),
 
-    //babel({ options: { /* uses settings from .babelrc */ } }),
-    babel({
-        options: {},
-        include: [
-            srcDir,
-
-            // all aurelia-* packages (folder boundary)
-            /node_modules[\\/]aurelia-[^\\/]+[\\/]/,
-
-            // explicit ones that often bite
-            /node_modules[\\/]aurelia-loader[\\/]/,
-            /node_modules[\\/]aurelia-loader-webpack[\\/]/,
-            /node_modules[\\/]aurelia-bootstrapper-webpack[\\/]/,
-
-            // easy-webpack internals
-            /node_modules[\\/]@easy-webpack[\\/]/,
-
-            // (optional) if you have JSX in src and babel doesn't catch:
-            // /node_modules[\\/]react[\\/]/,
-        ]
-    }),
+    babel({ options: { /* uses settings from .babelrc */ } }),
     html(),
     css({ filename: 'styles.css', allChunks: true, sourceMap: false }),
     fontAndImages(),
@@ -131,11 +110,10 @@ let config = generateConfig(
     globalRegenerator(),
     generateIndexHtml({ minify: ENV === 'production' }),
 
-
     ...(ENV === 'production' || ENV === 'development' ? [
         commonChunksOptimize({ appChunkName: 'app', firstChunk: 'aurelia-bootstrap' }),
         copyFiles({ patterns: [{ from: 'favicon.ico', to: 'favicon.ico' }] })
-        ] : [
+    ] : [
             /* ENV === 'test' */
             generateCoverage({ options: { 'force-sourcemap': true, esModules: true } })
         ]),
@@ -143,6 +121,4 @@ let config = generateConfig(
     // ENV === 'production' ?
     //     uglify({ debug: false, mangle: { except: ['cb', '__webpack_require__'] } }) : {}
 ) 
-module.exports = stripMetadata(config);
-
-
+module.exports = stripMetadata(config)
