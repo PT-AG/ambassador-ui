@@ -168,5 +168,9 @@
       "stage-1",
       "react"
     ]
+  },
+  "resolutions": {
+    "util": "0.11.1",
+    "timers-browserify": "2.0.12"
   }
 }
