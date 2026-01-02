@@ -1,5 +1,5 @@
 import { inject, BindingEngine } from 'aurelia-framework';
-import { _ } from 'underscore';
+import * as _ from 'underscore';
 
 @inject(BindingEngine)
 export class Item {

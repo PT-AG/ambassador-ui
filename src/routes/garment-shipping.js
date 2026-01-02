@@ -348,6 +348,21 @@ module.exports = [
         }
     },
     {
+        route: "garment-shipping/export-sales-do-all-user",
+        name: "garment-shipping/export-sales-do-all-user",
+        moduleId: "modules/garment-shipping/export-sales-do-all-user/index",
+        nav: true,
+        title: "DO Penjualan (All User)",
+        auth: true,
+        settings: {
+            group: "g-shipping",
+            subGroup: "transaksi",
+            // permission: { "C9": 1, "SG": 1 },
+            permission: { "P77": 1 },
+            iconClass: "fa fa-dashboard"
+        }
+    },
+    {
         route: "garment-shipping/letter-of-credit",
         name: "garment-shipping/letter-of-credit",
         moduleId: "modules/garment-shipping/letter-of-credit/index",
