@@ -40,7 +40,12 @@ export class List {
         this.service.search(info)
             .then(result => {
                 this.data=[];
-                for(var _data of result){
+                for(var _data of result) {
+
+                    if (_data.Ro == null || _data.Ro == undefined || _data.Ro == "") {
+                        continue;
+                    }
+
                     _data.QtyOrder = _data.QtyOrder.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                     _data.FC = _data.FC.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                     _data._BeginingBalanceCuttingQty = _data.BeginingBalanceCuttingQty.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -138,10 +143,8 @@ export class List {
                     _data._ExpenditureNew = _data.ExpenditureNew.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                     _data._ExpenditureGoodInTransfer = _data.ExpenditureGoodInTransfer.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                     _data._ExpenditureGoodInTransferPrice = _data.ExpenditureGoodInTransferPrice.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                    console.log(_data);
 
                     this.data.push(_data);
-
                  }
             });
     }
@@ -153,6 +156,7 @@ export class List {
             dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") :  moment(new Date()).format("YYYY-MM-DD") ,
             ro : this.ro ?this.ro:""
         }
+
         this.service.generateExcel(info);
     }
 
