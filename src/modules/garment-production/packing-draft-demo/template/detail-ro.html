@@ -116,18 +116,64 @@
             <p if.bind="error.DetailsCount" class="help-block text-center" style='color:red;'>${error.DetailsCount}</p>
         </td>
     </tr>
-    <tr >
-        <td colspan="13">
+    <!-- <tr if.bind="isShowing">
+        <td colspan="1" style='border:none;'>
+        </td>
+        <td colspan="10" style='border:none;'>
             <au-collection 
-                items.bind="data.detailRows"
-                columns.bind="plColumns"
-                read-only.bind="readOnly"
-                add.bind="addItems" 
+                items.bind="data.details" 
+                errors.bind="error.Details" 
+                columns.bind="detailsColumns"
+                read-only.bind="readOnly" 
                 options.bind="itemOptions"
-                item-template="modules/garment-production/packing-items-demo/template/pl-template"
-                footer-template="modules/garment-production/packing-items-demo/template/pl-footer"
-                if.bind="data.detailRows">
-            </au-collection>   
-        </td> 
+                item-template="modules/garment-production/packing-list-draft/template/detail-carton">
+            </au-collection>
+        </td>
+        <td colspan="2" style='border:none;'>
+        </td>
+    </tr >
+    <tr show.bind="isShowing" style="background-color:#C2B5B2;">
+        <td colspan="2">
+            <au-numeric
+                label = "TOTAL QTY"
+                value.bind="totalQty"
+                error.bind="error.totalQty"
+                read-only.bind="true">
+            </au-numeric>
+        </td>
+        
+        <td colspan="2">
+            <au-numeric
+                label = "TOTAL CARTON"
+                value.bind="totalCtn"
+                read-only.bind="true">
+            </au-numeric>
+        </td>
+        
+        <td colspan="3">
+            <au-numeric
+                label = "Total GW"
+                value.one-way="subGrossWeight"
+                read-only="true">
+            </au-numeric>
+        </td>
+        <td colspan="3">
+            <au-numeric
+                label = "TOTAL NW"
+                value.one-way="subNetWeight"
+                read-only="true">
+            </au-numeric>
+        </td>
+        <td colspan="3">
+          <au-numeric
+              label = "Total NNW"
+              value.one-way="subNetNetWeight"
+              read-only="true">
+          </au-numeric>
+      </td>
     </tr>
+    <tr show.bind="isShowing" style='border:none;'>
+        <td colspan="13">
+        </td>
+    </tr> -->
 </template>
