@@ -69,7 +69,7 @@ export class DataForm {
         { header: "Mata Uang" },
         { header: "Amount" },
         { header: "Unit" },
-        { header: "Jml per Carton" },
+        { header: "" },
     ]
 
     measureColumns = [

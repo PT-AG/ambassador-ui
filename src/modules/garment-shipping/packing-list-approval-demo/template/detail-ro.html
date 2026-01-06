@@ -145,18 +145,20 @@
             <p if.bind="error.DetailsCount" class="help-block text-center" style='color:red;'>${error.DetailsCount}</p>
         </td>
     </tr>
-    <tr >
-        <td colspan="13">
+    <!-- <tr if.bind="isShowing">
+        <td colspan="1" style='border:none;'>
+        </td>
+        <td colspan="10" style='border:none;'>
             <au-collection 
-                items.bind="data.detailRows"
-                columns.bind="plColumns"
-                read-only.bind="readOnly"
-                add.bind="addItems" 
+                items.bind="data.details" 
+                errors.bind="error.Details" 
+                columns.bind="detailsColumns"
+                read-only.bind="true" 
                 options.bind="itemOptions"
-                item-template="modules/garment-production/packing-items-demo/template/pl-template"
-                footer-template="modules/garment-production/packing-items-demo/template/pl-footer"
-                if.bind="data.detailRows">
-            </au-collection>   
-        </td> 
-    </tr>
+                item-template="modules/garment-production/packing-draft-demo/template/detail-carton">
+            </au-collection>
+        </td>
+        <td colspan="2" style='border:none;'>
+        </td>
+    </tr > -->
 </template>
