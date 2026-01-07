@@ -472,6 +472,21 @@ module.exports = [
 		}
 	},
 	{
+		route: '/garment-sample/packing-list-sample-md-all-user',
+		name: 'garment-packing-list-sample-md-all-user',
+		moduleId: './modules/garment-sample/packing-list-sample-md-all-user/index',
+		nav: true,
+		title: 'Packing list Sample - Md (All User)',
+		auth: true,
+		settings: {
+			group: "g-sample",
+			subGroup: "md",
+			// permission: { "C9": 1, "PGA": 1 },
+			permission :{"R38":1},
+			iconClass: 'fa fa-dashboard'
+		}
+	},
+	{
 		route: '/garment-sample/feature/sample-request-copy',
 		name: 'garment-sample-request-copy',
 		moduleId: './modules/garment-sample/feature/sample-request-copy/copy/index',
