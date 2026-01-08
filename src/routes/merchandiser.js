@@ -118,7 +118,7 @@ module.exports = [
         settings: {
             group: "merchandiser",
             subGroup: "approval",
-            permission:{"L31":1},
+            //permission:{"L31":1},
             // permission: { "KM": 3, "C9": 1, "PDU": 1 },
             iconClass: 'fa fa-calculator',
             type: "MD2"
