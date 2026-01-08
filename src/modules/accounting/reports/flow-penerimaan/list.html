@@ -44,7 +44,8 @@
                     <td>Asal</td>
                     <td>Nomor Bukti</td>
                     <td>Supplier</td>
-                    <td>Tanggal</td>
+                    <td>Tanggal Bon</td>
+                    <td>Tanggal Datang</td>
                     <td>Jumlah Beli</td>
                     <td>Satuan Beli</td>
                     <td>Jumlah Terima</td>
@@ -69,6 +70,7 @@
                     <td>${IN.nobukti}</td>
                     <td>${IN.supplier}</td>
                     <td>${IN.tanggal | dateFormat:'DD MMMM YYYY' }</td>
+                    <td>${IN.arrivalDate | dateFormat:'DD MMMM YYYY' }</td>
                     <td>${IN.jumlahbeli}</td>
                     <td>${IN.satuanbeli}</td>
                     <td>${IN.jumlahterima}</td>
@@ -78,7 +80,7 @@
                     <!--<td>${SJ['Satuan Barang']}</td>-->
                 </tr>
                 <tr class="active">
-                    <td class="text-center" colspan="13"><strong>T O T A L  . . . . . . . . . . . . . . .</strong></td>
+                    <td class="text-center" colspan="15"><strong>T O T A L  . . . . . . . . . . . . . . .</strong></td>
                     <td class="text-right"><strong>${BuyAmount}</strong></td>
                     <td></td>
                     <td class="text-right"><strong>${AmountTotal1}</strong></td>
