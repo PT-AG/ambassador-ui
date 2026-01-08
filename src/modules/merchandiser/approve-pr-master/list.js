@@ -125,7 +125,7 @@ export class List {
             case "Purchasing":
                 filter = Object.assign({
                     IsValidatedMD1: true,
-                    IsValidatedMD2: true,
+                    //IsValidatedMD2: true,
                     IsValidatedPurchasing: false,
                 }, this.defaultFilter);
                 if (this.section) {
