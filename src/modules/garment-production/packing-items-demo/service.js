@@ -31,17 +31,11 @@ class Service extends RestService {
         var endpoint = `${serviceUri}/${data.id}`;
         return super.delete(endpoint, data);
     }
-
-    getPdfById(id) {
-        var endpoint = `${serviceUri}/${id}/pdf`;
-        return super.getPdf(endpoint);
-    }
 }
 
 const costCalculationServiceUri = 'cost-calculation-garments';
 const SalesContractserviceUri = "merchandiser/garment-sales-contracts";
 const PreSalesContractserviceUri = "merchandiser/garment-pre-sales-contracts";
-const roServiceUri = 'ro-garments';
 class SalesService extends RestService {
     constructor(http, aggregator, config, api) {
         super(http, aggregator, config, "sales");
@@ -65,11 +59,6 @@ class SalesService extends RestService {
     getPreSalesContractById(id) {
         var endpoint = `${PreSalesContractserviceUri}/${id}`;
         return super.get(endpoint);
-    }
-
-    getROGarment(ro) {
-        var endpoint = `${roServiceUri}/RoWithComponent`;
-        return super.list(endpoint, ro);
     }
 }
 

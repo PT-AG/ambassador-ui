@@ -69,7 +69,7 @@ export class DataForm {
         { header: "Mata Uang" },
         { header: "Amount" },
         { header: "Unit" },
-        { header: "Jml per Carton" },
+        { header: "" },
     ]
 
     measureColumns = [
@@ -106,12 +106,14 @@ export class DataForm {
             if (Math.floor(tempNumber / (100 * Math.pow(1000, i))) !== 0)
                 word = first[Math.floor(tempNumber / (100 * Math.pow(1000, i)))] + 'hundred ' + word;
         }
+
         return word.toUpperCase();
     }
 
     get buyerLoader() {
         return BuyerLoader;
     }
+
     buyerView = (buyer) => {
         var buyerName = buyer.Name || buyer.name;
         var buyerCode = buyer.Code || buyer.code;
@@ -121,6 +123,7 @@ export class DataForm {
     get shippingStaffLoader() {
         return ShippingStaffLoader;
     }
+
     shippingStaffView = (data) => {
         return `${data.Name || data.name}`
     }
@@ -137,11 +140,11 @@ export class DataForm {
             checkedAll: this.context.isCreate == true ? false : true,
             header: this.data
         }
-       
+
+        this.data.invoiceNo = this.data.increment ? this.data.invoiceNo + " - " + this.data.increment : this.data.invoiceNo
         this.data.documentsFile = this.data.documentsFile || [];
         this.data.documentsFileName = this.data.documentsFileName || [];
         this.documentsPathTemp = [].concat(this.data.documentsPath);
-        //this.error.documentsFile = this.error.documentsFile || [];
 
         this.shippingMarkImageSrc = this.data.shippingMarkImageFile || this.noImage;
         this.sideMarkImageSrc = this.data.sideMarkImageFile || this.noImage;
@@ -172,11 +175,8 @@ export class DataForm {
         };
     }
 
-
-
     //FITUR EXCEL
     onAddDocument() {
-      
         this.data.documentsFile.push("");
         this.data.documentsFileName.push("");
         this.documentsPathTemp.push("");
@@ -187,102 +187,103 @@ export class DataForm {
         this.data.documentsFileName.splice(index, 1);
         this.documentsPathTemp.splice(index, 1);
     }
+
     downloadDocument(index) {
-      // this.service.getFile((this.documentsPathTemp[index] || '').replace('/sales/', ''), this.data.DocumentsFileName[index]);
-      const linkSource = this.data.documentsFile[index];
-      const downloadLink = document.createElement("a");
-      const fileName = this.data.documentsFileName[index];
-     
-      downloadLink.href = linkSource;
-      downloadLink.download = fileName;
-      downloadLink.click();
-  }
+        // this.service.getFile((this.documentsPathTemp[index] || '').replace('/sales/', ''), this.data.DocumentsFileName[index]);
+        const linkSource = this.data.documentsFile[index];
+        const downloadLink = document.createElement("a");
+        const fileName = this.data.documentsFileName[index];
 
-  triggerFileInput(index) {
-    const input = document.getElementById('documentInput' + index);
-    if (input) {
-      input.click();
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
     }
-  }
 
-  documentInputChanged(index, event) {
-    const files = event.target.files;
-
-    if (!files || files.length === 0) return;
-  
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      const fileName = file.name;
-      const fileExtension = fileName.split('.').pop().toLowerCase();
-  
-    if (fileExtension !== 'pdf' && fileExtension !== 'xls' && fileExtension !== 'xlsx') {
-      alert("Format file harus PDF atau Excel (.pdf/.xls/.xlsx)");
-      continue;
-    }
-  
-      const reader = new FileReader();
-  
-      reader.onload = (event) => {
-        const base64Document = event.target.result;
-        const base64Content = base64Document.substring(base64Document.indexOf(',') + 1);
-        const fileSizeInBytes = base64Content.length * 6 / 8;
-  
-        if (fileSizeInBytes > 52428800) { // 50MB
-          this.error.documentsFile = this.error.documentsFile || [];
-          this.error.documentsFile.push("Maximum Document Size is 50 MB");
-          return;
-        }else{
-          this.data.documentsFile.push(base64Document);
-          this.data.documentsFileName.push(fileName);
+    triggerFileInput(index) {
+        const input = document.getElementById('documentInput' + index);
+        if (input) {
+            input.click();
         }
-        
-        this.data.documentsFile = this.data.documentsFile || [];
-        this.data.documentsFileName = this.data.documentsFileName || [];
-        
-      };
-
-      reader.readAsDataURL(file);
     }
-    this.data.documentsFile.splice(index, 1);
-    this.data.documentsFileName.splice(index, 1);
-    this.documentsPathTemp.splice(index, 1);
-    event.target.value = '';
-  }
-  
-  // documentInputChanged(index) {
-  //   let documentInput = document.getElementById('documentInput' + index);
-   
-  //   if (documentInput.files.length > 0) {
-  //     let file = documentInput.files[0];
-  //     let fileName = file.name;
-  //     let fileExtension = fileName.split('.').pop().toLowerCase();
-      
-  //       let reader = new FileReader();
-  //       reader.onload = event => {
-  //         if (fileExtension !== 'xls' && fileExtension !== 'xlsx') {
-  //             documentInput.value = "";
-  //             this.data.documentsFile[index] = "";
-  //             this.data.documentsFileName[index] = "";
-  //             alert("Format file harus Excel (.xls atau .xlsx)");
-  //           }
-  
-  //           let base64Document = event.target.result;
-  //           const base64Content = base64Document.substring(base64Document.indexOf(',') + 1);
-  //           if (base64Content.length * 6 / 8 > 52428800) {
-  //               this.error.documentsFile[index] ="Maximum Document Size is 50 MB";  
-  //               documentInput.value = "";
-  //               this.data.documentsFile[index] = "";
-  //               this.data.documentsFileName[index] = "";
-              
-  //           } else {
-  //               this.data.documentsFile[index] = base64Document;
-  //               this.data.documentsFileName[index] = documentInput.value.replace(/^.*[\\\/]/, '');
-  //           }
-  //       }
-  //       reader.readAsDataURL(documentInput.files[0]);
-  //   }
-  //  }
-  // END FITUR EXCEL
+
+    documentInputChanged(index, event) {
+        const files = event.target.files;
+
+        if (!files || files.length === 0) return;
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const fileName = file.name;
+            const fileExtension = fileName.split('.').pop().toLowerCase();
+
+            if (fileExtension !== 'pdf' && fileExtension !== 'xls' && fileExtension !== 'xlsx') {
+                alert("Format file harus PDF atau Excel (.pdf/.xls/.xlsx)");
+                continue;
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = (event) => {
+                const base64Document = event.target.result;
+                const base64Content = base64Document.substring(base64Document.indexOf(',') + 1);
+                const fileSizeInBytes = base64Content.length * 6 / 8;
+
+                if (fileSizeInBytes > 52428800) { // 50MB
+                    this.error.documentsFile = this.error.documentsFile || [];
+                    this.error.documentsFile.push("Maximum Document Size is 50 MB");
+                    return;
+                } else {
+                    this.data.documentsFile.push(base64Document);
+                    this.data.documentsFileName.push(fileName);
+                }
+
+                this.data.documentsFile = this.data.documentsFile || [];
+                this.data.documentsFileName = this.data.documentsFileName || [];
+
+            };
+
+            reader.readAsDataURL(file);
+        }
+        this.data.documentsFile.splice(index, 1);
+        this.data.documentsFileName.splice(index, 1);
+        this.documentsPathTemp.splice(index, 1);
+        event.target.value = '';
+    }
+
+    // documentInputChanged(index) {
+    //   let documentInput = document.getElementById('documentInput' + index);
+
+    //   if (documentInput.files.length > 0) {
+    //     let file = documentInput.files[0];
+    //     let fileName = file.name;
+    //     let fileExtension = fileName.split('.').pop().toLowerCase();
+
+    //       let reader = new FileReader();
+    //       reader.onload = event => {
+    //         if (fileExtension !== 'xls' && fileExtension !== 'xlsx') {
+    //             documentInput.value = "";
+    //             this.data.documentsFile[index] = "";
+    //             this.data.documentsFileName[index] = "";
+    //             alert("Format file harus Excel (.xls atau .xlsx)");
+    //           }
+
+    //           let base64Document = event.target.result;
+    //           const base64Content = base64Document.substring(base64Document.indexOf(',') + 1);
+    //           if (base64Content.length * 6 / 8 > 52428800) {
+    //               this.error.documentsFile[index] ="Maximum Document Size is 50 MB";  
+    //               documentInput.value = "";
+    //               this.data.documentsFile[index] = "";
+    //               this.data.documentsFileName[index] = "";
+
+    //           } else {
+    //               this.data.documentsFile[index] = base64Document;
+    //               this.data.documentsFileName[index] = documentInput.value.replace(/^.*[\\\/]/, '');
+    //           }
+    //       }
+    //       reader.readAsDataURL(documentInput.files[0]);
+    //   }
+    //  }
+    // END FITUR EXCEL
 
 
     get totalCBM() {

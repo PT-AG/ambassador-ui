@@ -13,6 +13,7 @@ export class Edit {
     async activate(params) {
         var id = params.id;
         this.data = await this.service.getById(id);
+        this.selectedPackingList = await this.service.getPackingListById(this.data.packingListId);
         this.error = {};
     }
 

@@ -8,11 +8,6 @@ import {
   Router
 } from 'aurelia-router';
 import moment from 'moment';
-// import { any } from 'bluebird';
-// const CategoryLoader = require('../../../../loader/machine-category-loader');
-// const MachineLoader = require('../../../../loader/machine-custom-loader');
-// const MachineTypeLoader = require('../../../../loader/machine-custom-type-loader');
-// const BrandLoader = require('../../../../loader/machine-brand-loader');
 
 @inject(Router, Service)
 export class List {
@@ -31,17 +26,16 @@ export class List {
     { field: "Level", title: "Level" },
     { field: "Box", title: "Box" },
     { field: "Area", title: "Area" },
+    { field: "UnitDO", title: "Pending" }
   ];
 
   @bindable UnitItem;
-  UnitItems = ['','AMBASSADOR GARMINDO 1','AMBASSADOR GARMINDO 2']
+  UnitItems = ['', 'AMBASSADOR GARMINDO 1', 'AMBASSADOR GARMINDO 2']
 
   constructor(router, service) {
     this.service = service;
     this.router = router;
   }
-
-
 
   tableOptions = {
     showColumns: false,
@@ -57,14 +51,26 @@ export class List {
       productcode: this.code ? this.code : "",
     };
 
-    return this.flag
-      ? this.service.search(params).then((result) => {
+    return this.flag ? this.service.search(params)
+      .then((result) => {
+        for (var _data of result.data) {
+          var unitDO = _data.UnitDOs.map(function (unit) {
+            return `<li>
+            ${unit.UnitDONo} - ${unit.DOQuantity}
+            </li>`;
+          });
+
+          unitDO = unitDO.filter(function (elem, index, self) {
+            return index == self.indexOf(elem);
+          })
+
+          _data.UnitDO = `<ul>${unitDO.join('')}</ul>`;
+        }
 
         return {
           data: result.data
         };
-      })
-      : { data: [] };
+      }) : { data: [] };
   }
 
   search() {
@@ -81,30 +87,25 @@ export class List {
       case "Update Racking":
         if (data.RemainingQuantity > 0) {
           this.router.navigateToRoute('edit', { id: data.Id });
-        }
-        else {
+        } else {
           alert("Maaf, Quantity 0 hanya bisa melihat Kartu Stelling");
-        }
-        break;
+        } break;
       case "Kartu Stelling":
         this.router.navigateToRoute('stelling', { id: data.Id });
         break;
       case "Cetak Barcode":
-        this.service
-          .getBarcodeById(data.Id)
-          .then((result) => {})
-          .catch((e) => {});
+        this.service.getBarcodeById(data.Id)
+          .then((result) => { })
+          .catch((e) => { });
         break;
     }
   }
 
   UnitItemChanged(newvalue) {
-
     if (newvalue) {
       if (newvalue === "AMBASSADOR GARMINDO 1") {
         this.unit = "AG1";
-      }
-      else if (newvalue === "AMBASSADOR GARMINDO 2") {
+      } else if (newvalue === "AMBASSADOR GARMINDO 2") {
         this.unit = "AG2";
       } else {
         this.unit = "";
@@ -134,5 +135,4 @@ export class List {
     this.flag = false;
     this.tableList.refresh();
   }
-
 }

@@ -13,7 +13,8 @@ export class View {
     async activate(params) {
         var id = params.id;
         this.data = await this.service.getById(id);
-        this.selectedPackingList = this.data.invoiceNo;
+        this.selectedPackingList = await this.service.getPackingListById(this.data.packingListId);
+        this.selectedBuyerAgent = this.data.buyerAgent;
     }
 
     cancelCallback(event) {
