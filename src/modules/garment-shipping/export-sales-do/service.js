@@ -2,6 +2,7 @@ import { RestService } from '../../../utils/rest-service';
 
 const serviceUri = 'garment-shipping/export-sales-dos';
 const serviceUriCoverLetter = 'garment-shipping/cover-letters';
+const serviceUriPackingList = 'garment-shipping/packing-lists';
 
 class Service extends RestService {
     constructor(http, aggregator, config, endpoint) {
@@ -15,6 +16,11 @@ class Service extends RestService {
 
     getById(id) {
         var endpoint = `${serviceUri}/${id}`;
+        return super.get(endpoint);
+    }
+
+    getPackingListById(id) {
+        var endpoint = `${serviceUriPackingList}/${id}`;
         return super.get(endpoint);
     }
 
@@ -55,6 +61,5 @@ class SalesService extends RestService {
         return super.get(endpoint);
     }
 }
-
 
 export { Service, SalesService}
