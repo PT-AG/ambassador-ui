@@ -1,16 +1,12 @@
 <template>
-
   <au-input-form title.bind="title" with.bind="context" options.bind="formOptions">
     <div slot="actions" class="btn-group">
       <button class="btn btn-default" click.delegate="context.cancel($event)"
         if.one-way="context.hasCancel">Kembali</button>
-      <!-- <button class="btn btn-primary" click.delegate="context.edit($event)" if.one-way="context.hasEdit">Ubah</button> -->
       <button class="btn btn-success" click.delegate="context.save($event)" if.one-way="context.hasSave">Simpan</button>
-      <!-- <button class="btn btn-danger" click.delegate="context.delete($event)" if.one-way="context.hasDelete">Hapus</button> -->
     </div>
 
     <div class="row">
-
       <au-textbox value.bind="data.POSerialNumber" error.bind="error.POSerialNumber" label="Nomor PO"
         read-only.bind="true" options.bind="controlOptions">
       </au-textbox>
@@ -22,7 +18,6 @@
       <au-textbox label="Unit" value.bind="data.UnitName" error.bind="error.UnitName" read-only.bind="true"
         options.bind="controlOptions">
       </au-textbox>
-
 
       <au-textbox value.bind="data.ProductCode" error.bind="error.ProductCode" label="Kode Barang" read-only.bind="true"
         options.bind="controlOptions">
@@ -41,14 +36,12 @@
       </au-textbox>
     </div>
 
-
-      <div class="table-responsive">
-        <au-collection items.bind="data.Items" errors.bind="error.Items" columns.bind="columns"
-          read-only.bind="readOnly" remove.bind="removeItems" add.bind="addItems" if.bind="isItems"
-          options.bind="itemOptions" item-template="modules/garment-purchasing/garment-do-items/template/item">
-        </au-collection>
-      </div>
-
+    <div class="table-responsive">
+      <au-collection items.bind="data.Items" errors.bind="error.Items" columns.bind="columns" read-only.bind="readOnly"
+        remove.bind="removeItems" add.bind="addItems" if.bind="isItems" options.bind="itemOptions"
+        item-template="modules/garment-purchasing/garment-do-items/template/item">
+      </au-collection>
+    </div>
   </au-input-form>
   <div class="row"></div>
 </template>
