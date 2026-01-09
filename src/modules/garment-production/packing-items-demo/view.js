@@ -71,6 +71,7 @@ export class View {
           netNetWeight: d.netNetWeight
         };
       }).filter((value, index, self) => self.findIndex(f => value.carton1 == f.carton1 && value.carton2 == f.carton2) === index);
+
       for (const detail of newDetails) {
         const cartonExist = false;
         const indexItem = this.data.items.indexOf(item);
@@ -85,6 +86,7 @@ export class View {
             }
           }
         }
+        
         if (!cartonExist) {
               item.subGrossWeight += detail.grossWeight * detail.cartonQuantity;
               item.subNetWeight += detail.netWeight * detail.cartonQuantity;

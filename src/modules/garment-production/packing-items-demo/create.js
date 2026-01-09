@@ -54,6 +54,6 @@ export class Create {
     }
 
     invoiceNoView(inv){
-        return inv.increment? inv.invoiceNo +" - "+inv.increment : inv.invoiceNo;
+        return inv.increment ? inv.invoiceNo + " - " + inv.increment : inv.invoiceNo;
     }
 }
