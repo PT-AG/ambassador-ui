@@ -70,11 +70,11 @@ export class View {
                 //     this.hasApprove = this.data.IsValidatedMD1 && this.data.IsValidatedPurchasing && !this.data.IsValidatedMD2;
                 //     // this.hasUnApprove = this.data.IsValidatedMD2;
                 //      break;
-                case "MD2":
-                    this.hasApprove = this.data.IsValidatedMD1 && !this.data.IsValidatedMD2 && !this.data.IsValidatedPurchasing;
-                    break;
+                // case "MD2":
+                //     this.hasApprove = this.data.IsValidatedMD1 && !this.data.IsValidatedMD2 && !this.data.IsValidatedPurchasing;
+                //     break;
                 case "Purchasing":
-                    this.hasApprove = this.data.IsValidatedMD1 && this.data.IsValidatedMD2 && !this.data.IsValidatedPurchasing;
+                    this.hasApprove = this.data.IsValidatedMD1 && !this.data.IsValidatedPurchasing;
                     break;
                     // this.hasUnApprove = this.data.IsValidatedMD2;
                 default:
@@ -108,7 +108,7 @@ export class View {
                 { op: "copy", path: `/Validated${this.type}Date`, from: "/LastModifiedUtc" },
             ];
 
-            if (this.type === "MD2") {
+            if (this.type === "Purchasing") {
                 jsonPatch.push(
                     { op: "replace", path: `/IsValidated`, value: true },
                     { op: "copy", path: `/ValidatedBy`, from: "/LastModifiedBy" },
