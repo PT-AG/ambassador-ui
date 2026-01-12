@@ -56,7 +56,9 @@ export class List {
         for (var _data of result.data) {
           var unitDO = _data.UnitDOs.map(function (unit) {
             return `<li>
-            ${unit.UnitDONo} - ${unit.DOQuantity}
+            No : ${unit.UnitDONo}</br>
+            Pemohon : ${unit.CreatedBy}</br>
+            Quantity : ${unit.DOQuantity}
             </li>`;
           });
 
