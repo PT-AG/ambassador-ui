@@ -6,8 +6,6 @@ import { Service } from './service';
 @inject(Router, Service)
 export class View {
     hasCancel = true;
-    hasEdit = true;
-    hasDelete = true;
     hasView = true;
     hasCreate = false;
     hasEdit = false;
@@ -55,23 +53,23 @@ export class View {
         //     this.isCustomsDisplay="Ya"
         // else
         //     this.isCustomsDisplay="Tidak"
-        if (this.data.customsId==0) {
-            this.hasDelete = true;
-            this.hasEdit = true;
-        }
+        // if (this.data.customsId==0) {
+        //     this.hasDelete = true;
+        //     this.hasEdit = true;
+        // }
     }
 
     cancel(event) {
         this.router.navigateToRoute('list');
     }
 
-    edit(event) {
-        this.router.navigateToRoute('edit', { id: this.data.Id });
-    }
+    // edit(event) {
+    //     this.router.navigateToRoute('edit', { id: this.data.Id });
+    // }
 
-    delete(event) {
-        this.service.delete(this.data).then(result => {
-            this.cancel();
-        });
-    }
+    // delete(event) {
+    //     this.service.delete(this.data).then(result => {
+    //         this.cancel();
+    //     });
+    // }
 }
