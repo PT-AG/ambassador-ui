@@ -49,7 +49,8 @@
                     <!--<td>Jenis</td>-->
                     <td>Tujuan</td>
                     <td>No. Bukti</td>
-                    <td>Tanggal</td>
+                    <td>Tanggal BUK</td>
+                    <td>Tanggal INPUT</td>
                     <td>Jumlah</td>
                     <td>Satuan</td>
                     <td>Jumlah Harga</td>
@@ -71,13 +72,14 @@
                     <td>${IN.UnitDestination}</td>
                     <td>${IN.UENNo}</td>
                     <td>${IN.ExpenditureDate | dateFormat:'DD MMMM YYYY' }</td>
+                    <td>${IN.CreatedUtc | dateFormat:'DD MMMM YYYY' }</td>
                     <td>${IN.Quantity}</td>
                     <td>${IN.UomUnit}</td>
                     <td>${IN.Total}</td>
                     <!--<td>${SJ['Satuan Barang']}</td>-->
                 </tr>
                 <tr class="active">
-                    <td class="text-center" colspan="13"><strong>T O T A L  . . . . . . . . . . . . . . .</strong></td>
+                    <td class="text-center" colspan="14"><strong>T O T A L  . . . . . . . . . . . . . . .</strong></td>
                     <td class="text-right"><strong>${AmountTotal1}</strong></td>
                     <td></td>
                     <td class="text-right"><strong>${AmountTotal2}</strong></td>
