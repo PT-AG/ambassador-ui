@@ -50,7 +50,7 @@ export class DataForm {
 
     get prMasterFilter() {
         let filter = {
-            "IsValidatedMD2": true
+            "IsValidatedMD1": true
         };
         filter["(PRType == \"MASTER\" || PRType == \"SAMPLE\")"] = true;
         filter["Items.Any(IsOpenPO==false)"] = true;
