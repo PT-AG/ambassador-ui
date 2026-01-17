@@ -35,12 +35,12 @@ export class List {
       }
     },
     { field: "IsValidatedMD1", title: "Approval Kasie MD", formatter: (value) => value ? "SUDAH" : "BELUM" },
-    { field: "IsValidatedMD2", title: "Approval Kabag/Kasie Penjualan", formatter: (value) => value ? "SUDAH" : "BELUM" },
+    //{ field: "IsValidatedMD2", title: "Approval Kabag/Kasie Penjualan", formatter: (value) => value ? "SUDAH" : "BELUM" },
     { field: "IsValidatedPurchasing", title: "Approval Kabag/Kasie Purchasing", formatter: (value) => value ? "SUDAH" : "BELUM" },
   ];
 
   rowFormatter(data, index) {
-    if (data.IsValidatedMD1 && data.IsValidatedMD2 && data.IsValidatedPurchasing && data.IsValidated)
+    if (data.IsValidatedMD1  && data.IsValidatedPurchasing && data.IsValidated)
       return { classes: "success" }
     else
       return { classes: "danger" }

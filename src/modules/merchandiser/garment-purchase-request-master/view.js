@@ -54,7 +54,7 @@ export class View {
                 }
             }
 
-            this.hasUnpost = this.data.IsPosted && !(this.data.IsValidated && this.data.IsValidatedMD1 && this.data.IsValidatedMD2);
+            this.hasUnpost = this.data.IsPosted && !(this.data.IsValidated && this.data.IsValidatedMD1);// && this.data.IsValidatedMD2);
 
             if (this.data.IsPosted) {
                 this.editCallback = null;

@@ -151,7 +151,7 @@ export class DataForm {
         this.remarkImageSrc = this.data.remarkImageFile || this.noImage;
 
         if(this.data.invoiceNo){
-            this.data.invoiceNo= this.data.increment ? this.data.invoiceNo + " - " + this.data.increment : this.data.invoiceNo;
+            this.data.invoiceNo= this.data.increment ? this.data.invoiceNo + " - " + this.data.increment : this.data.invoiceNo
             this.selectedInvoiceNo={
                 invoiceNo:this.data.invoiceNo
             }

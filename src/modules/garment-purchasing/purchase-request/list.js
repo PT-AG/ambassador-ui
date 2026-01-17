@@ -74,9 +74,9 @@ export class List {
                   data.BuyerCode = data.Buyer.Code;
                   data.BuyerName = data.Buyer.Name;
                   if (data.PRType == "MASTER" || data.PRType == "SAMPLE") {
-                    data.Status = (data.IsValidatedMD1 && data.IsValidatedMD2 && data.IsValidatedPurchasing) ? "SUDAH" : "BELUM";
+                    data.Status = (data.IsValidatedMD1 && data.IsValidatedPurchasing) ? "SUDAH" : "BELUM";
                     if (data.Status === "SUDAH") {
-                      data.Date = data.ValidatedMD2Date;
+                      data.Date = data.ValidatedPurchasingDate;
                     } 
                     else {
                       data.Date = null;
