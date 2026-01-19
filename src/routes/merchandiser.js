@@ -72,7 +72,7 @@ module.exports = [
         settings: {
             group: "merchandiser",
             subGroup: "monitoring",
-            permission : {'L64' : 1},
+            permission : {'L65' : 1},
             iconClass: 'fa fa-calculator'
         }
     },
