@@ -1202,7 +1202,6 @@ module.exports = [
         }
     },
     {
-<<<<<<< Updated upstream
         route: '/budget-garment-reports',
         name: 'budget-garment-reports',
         moduleId: './modules/garment-purchasing/reports/budget-garment-report/index',
@@ -1215,8 +1214,8 @@ module.exports = [
             permission: { "H67" :1 },
             iconClass: 'fa fa-dashboard'
         }
-    }
-=======
+    },
+    {
         route: '/garments/approve-intern-note-external-kasie',
         name: 'approve-intern-note-external-kasie',
         moduleId: './modules/garment-purchasing/approve-intern-note-kasie/index',
@@ -1272,5 +1271,4 @@ module.exports = [
             iconClass: 'fa fa-dashboard'
         }
     },
->>>>>>> Stashed changes
 ]

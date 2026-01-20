@@ -12,6 +12,7 @@ export class View {
     hasCancel = true;
     hasEdit = true;
     hasDelete = true;
+    hasApprove = false;
     async activate(params) {
         var id = params.id;
         this.data = await this.service.getById(id);
@@ -22,6 +23,10 @@ export class View {
 
         if (this.data.Supplier) {
             this.selectedSupplier = this.data.Supplier;
+        }
+
+        if (this.data.IsPosted && !this.data.IsApprovedKasie) {
+            this.hasApprove = true;
         }
 
         if (this.data.Division) {
