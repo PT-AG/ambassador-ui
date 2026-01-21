@@ -163,6 +163,28 @@ export class PurchaseOrderItem {
     return this.data.Product.Name;
   }
 
+  get budgetPrice() {
+    return this.data.BudgetPrice;
+  }
+
+  get totalBudgetPrice() {
+    return this.data.BudgetPrice * this.data.DealQuantity;
+  }
+
+  get totalPrice() {
+    return this.data.PricePerDealUnit * this.data.DealQuantity;
+  }
+
+  get overBudgetValue() {
+    return (this.data.PricePerDealUnit * this.data.DealQuantity) - (this.data.BudgetPrice * this.data.DealQuantity);
+  }
+
+  get overBudgetValuePercentage() {
+    var totalBudget = this.data.BudgetPrice * this.data.DealQuantity;
+    if (totalBudget === 0) return 0;
+    return (((this.data.PricePerDealUnit * this.data.DealQuantity) - totalBudget) / totalBudget) * 100;
+  }
+
   controlOptions = {
     control: {
       length: 12

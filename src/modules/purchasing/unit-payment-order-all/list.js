@@ -5,11 +5,26 @@ import moment from 'moment';
 
 @inject(Router, Service)
 export class List {
+    dataToBePosted = [];
     info = { page: 1, keyword: '' };
+
+    rowFormatter(data, index) {
+        if (data.isPosted && data.IsApprovedKasie && data.IsApprovedKabag )
+            return { classes: "success" }
+        else
+            return {}
+    }
 
     context = ["Rincian", "Cetak PDF"]
 
     columns = [
+        {
+            field: "isPosting", title: "Post", checkbox: true, sortable: false,
+            formatter: function (value, data, index) {
+                this.checkboxEnabled = !data.isPosted;
+                return ""
+            }
+        },
         { field: "DivisionName", title: "Divisi" },
         { field: "SupplierName", title: "Supplier" },
         {
@@ -18,7 +33,25 @@ export class List {
             }
         },
         { field: "UPONo", title: "Nomor Surat Perintah Bayar" },
-        { field: "unitReceiptNoteNo", title: "List Nomor Bon Unit-Nomor Surat Jalan", sortable: false }
+        { field: "unitReceiptNoteNo", title: "List Nomor Bon Unit-Nomor Surat Jalan", sortable: false },
+        {
+            field: "isPosted", title: "Status Post",
+            formatter: function (value, data, index) {
+                return value ? "SUDAH" : "BELUM";
+            }
+        },
+        { 
+            field: "IsApprovedKasie", 
+            title: "Approve Kasie", 
+            formatter: function (value, row, index) {
+                return value ? "SUDAH" : "BELUM" 
+            }
+        },
+        { 
+            field: "IsApprovedKabag", 
+            title: "Approve Kabag", 
+            formatter: (value) => value ? "SUDAH" : "BELUM" 
+        }
     ];
 
     loader = (info) => {
@@ -29,7 +62,7 @@ export class List {
             page: parseInt(info.offset / info.limit, 10) + 1,
             size: info.limit,
             keyword: info.search,
-            select: ["date", "no", "supplier.name", "division.name", "items.unitReceiptNote.no", "items.unitReceiptNote.deliveryOrder.no", "isPosted"],
+            select: ["date", "no", "supplier.name", "division.name", "items.unitReceiptNote.no", "items.unitReceiptNote.deliveryOrder.no", "isPosted", "items.unitReceiptNote.items.PriceTotal"],
             order: order
         }
 
@@ -72,9 +105,25 @@ export class List {
     contextShowCallback(index, name, data) {
         switch (name) {
             case "Cetak PDF":
-                return true;
-            default:
-                return true;
+            let totalAmount = 0;
+            if (data.items) {
+                data.items.forEach(item => {
+                    if (item.unitReceiptNote && item.unitReceiptNote.items) {
+                        item.unitReceiptNote.items.forEach(urnItem => {
+                            totalAmount += (urnItem.PriceTotal || 0);
+                        });
+                    }
+                });
+            }
+
+            if (totalAmount <= 3000000) {
+                return data.isPosted && data.IsApprovedKasie;
+            } else {
+                return data.isPosted && data.IsApprovedKasie && data.IsApprovedKabag;
+            }
+
+        default:
+            return true;
         }
     }
 

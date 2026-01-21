@@ -53,4 +53,9 @@ export class Service extends RestService {
         var endpoint = `garment-invoices/${id}`;
         return super.get(endpoint);
     }
+
+    post(data) {
+        var endpoint = `${serviceUri}/posting`;
+        return super.post(endpoint, data);
+    }
 }

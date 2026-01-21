@@ -623,62 +623,33 @@ module.exports = [
             iconClass: 'fa fa-dashboard'
         }
     },
-
-    // new route purchasing approval POE & SPB
+    
     {
-        route: '/purchasing/approve-poe/kasie',
-        name: 'approve-purchase-order-external-kasie',
-        moduleId: './modules/purchasing/approval-purchase-order-external-kasie/index',
+        route: '/purchasing/approve-spb/kasie',
+        name: 'approve-unit-payment-order-kasie',
+        moduleId: './modules/purchasing/approve-unit-payment-order-kasie/index',
         nav: true,
-        title: 'Approval Purchase Order External Kasie',
+        title: 'Approval Surat Perintah Bayar Kasie',
         auth: true,
         settings: {
             group: "purchasing",
             subGroup: "approval",
-            permission: { "E40": 1 },
+            permission: { "E42": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
     {
-        route: '/purchasing/approve-poe/kabag',
-        name: 'approval-purchase-order-external-kabag',
-        moduleId: './modules/purchasing/approval-purchase-order-external-kabag/index',
+        route: '/purchasing/approve-spb/kabag',
+        name: 'approve-unit-payment-order-kabag',
+        moduleId: './modules/purchasing/approve-unit-payment-order-kabag/index',
         nav: true,
-        title: 'Approval Purchase Order External Kabag',
+        title: 'Approval Surat Perintah Bayar Kabag',
         auth: true,
         settings: {
             group: "purchasing",
             subGroup: "approval",
-            permission: { "E41": 1 },
+            permission: { "E43": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
-    // {
-    //     route: '/purchasing/approve-poe/kabag',
-    //     name: 'approve-purchase-order-external',
-    //     moduleId: './modules/purchasing/approve-purchase-order-external/index',
-    //     nav: true,
-    //     title: 'Approval Surat Perintah Bayar Kasie',
-    //     auth: true,
-    //     settings: {
-    //         group: "purchasing",
-    //         subGroup: "approval",
-    //         permission: { "E42": 1 },
-    //         iconClass: 'fa fa-dashboard'
-    //     }
-    // },
-    // {
-    //     route: '/purchasing/approve-poe/kabag',
-    //     name: 'approve-purchase-order-external',
-    //     moduleId: './modules/purchasing/approve-purchase-order-external/index',
-    //     nav: true,
-    //     title: 'Approval Surat Perintah Bayar Kabag',
-    //     auth: true,
-    //     settings: {
-    //         group: "purchasing",
-    //         subGroup: "approval",
-    //         permission: { "E43": 1 },
-    //         iconClass: 'fa fa-dashboard'
-    //     }
-    // },
 ]

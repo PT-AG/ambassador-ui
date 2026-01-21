@@ -63,16 +63,6 @@ export class Service extends RestService {
         return super.put(endpoint);
     }
 
-    approveKasie(id) {
-        var endpoint = `${serviceUri}/approve-kasie/${id}`;
-        return super.post(endpoint, {});
-    }
-
-    approveKabag(id) {
-        var endpoint = `${serviceUri}/approve-kabag/${id}`;
-        return super.post(endpoint, {});
-    }
-
     getDefaultVat(info){
         var config = Container.instance.get(Config);
         var _endpoint = config.getEndpoint("core");

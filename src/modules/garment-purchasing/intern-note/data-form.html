@@ -27,6 +27,20 @@
             options.bind="auInputOptions">
         </au-multiline>
 
+        <div class="row" if.bind="data.lateReason">
+            <div class="col-md-6">
+                <div class="alert alert-warning" style="padding: 5px 10px; margin-bottom: 5px;">
+                    <i class="fa fa-exclamation-circle"></i> <strong>Keterlambatan</strong>
+                </div>
+                <au-multiline 
+                    label="Alasan Keterlambatan" 
+                    value.bind="data.lateReason" 
+                    read-only="true" 
+                    options.bind="auInputOptions">
+                </au-multiline>
+            </div>
+        </div>
+        
         <au-textbox 
                     label="Admin Pembelian" 
                     value.bind="data.CreatedBy" 

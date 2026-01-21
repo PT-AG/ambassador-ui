@@ -5,6 +5,13 @@ var moment = require("moment");
 
 @inject(Router, Service)
 export class List {
+    rowFormatter(data, index) {
+        if (data.IsApprovedKasie && data.IsApprovedKabag)
+            return { classes: "success" }
+        else
+            return {}
+    }
+
     columns = [
         { field: "inNo", title: "No. Nota Intern" },
         {
@@ -13,8 +20,21 @@ export class List {
             }
         },
         { field: "supplier.Name", title: "Supplier" },
+        { 
+            field: "TotalAmount", title: "Total Nominal", formatter: function(value, data, index){
+                return value ? value.toLocaleString('en-EN', { minimumFractionDigits: 2 }) : "0";
+            }
+        },
         { field: "items", title: "List No. Invoice", sortable: false },
-        { field: "CreatedBy", title: "Admin Pembelian" }
+        { field: "CreatedBy", title: "Admin Pembelian" },
+        { 
+            field: "IsPosted", title: "Status", formatter: function(value, data, index){
+                if(data.IsApprovedKabag) return "APPROVED KABAG";
+                if(data.IsApprovedKasie) return "APPROVED KASIE";
+                if(data.isPosted) return "POSTED";
+                return "DRAFT";
+            }
+        }
     ];
     
     context = ["Rincian", "Cetak PDF"];
@@ -75,50 +95,77 @@ export class List {
         }
     }
 
-	checkStatus(items) {
+	checkStatus(data) {
+        var items = data.items;
         var isCetak = true;
-        for(var item of items){
-            for(var detail of item.details){
-                var receiptQuantityTotal = 0;
-                var InvreceiptQuantityTotal = 0;
-                var deliveryOrderItems = detail.deliveryOrder.items || [];
-                var invoiceItems = item.garmentInvoice.items || [];
-                
-                var received=[];
 
-                for(var invoiceItem of invoiceItems){
-                    for(var detail of invoiceItem.details){
-                        for(let coba of deliveryOrderItems){
-                            for(let deliveryOrderDetail of coba.fulfillments){
-                                if(deliveryOrderDetail.Id == detail.dODetailId){
-                                    if(!received[deliveryOrderDetail.Id]){
-                                        received[deliveryOrderDetail.Id]=deliveryOrderDetail.receiptQuantity;
-                                    }
-                                    else{
-                                        received[deliveryOrderDetail.Id] +=deliveryOrderDetail.receiptQuantity;
+        if (items && items.length > 0) {
+            for (var item of items) {
+                for (var detail of item.details) {
+                    var deliveryOrderItems = detail.deliveryOrder.items || [];
+                    var invoiceItems = item.garmentInvoice.items || [];
+                    var received = [];
+
+                    for (var invoiceItem of invoiceItems) {
+                        for (var detailInv of invoiceItem.details) {
+                            for (let coba of deliveryOrderItems) {
+                                for (let deliveryOrderDetail of coba.fulfillments) {
+                                    if (deliveryOrderDetail.Id == detailInv.dODetailId) {
+                                        if (!received[deliveryOrderDetail.Id]) {
+                                            received[deliveryOrderDetail.Id] = deliveryOrderDetail.receiptQuantity;
+                                        } else {
+                                            received[deliveryOrderDetail.Id] += deliveryOrderDetail.receiptQuantity;
+                                        }
                                     }
                                 }
                             }
                         }
                     }
-                }
-                for(var flag of received){
-                    if(flag===0){
-                        isCetak = false;
-                        break;
+                    for (var flag of received) {
+                        if (flag === 0) {
+                            isCetak = false;
+                            break;
+                        }
                     }
                 }
             }
         }
-		return isCetak;
-	}
+
+        if (isCetak === false) {
+            return false;
+        }
+        var totalAmount = data.TotalAmount || 0;
+        var isKasie = data.IsApprovedKasie;
+        var isKabag = data.IsApprovedKabag;
+        var isPosted = data.isPosted;
+
+        if (!isKasie) {
+            return false;
+        }
+
+        if (totalAmount > 25000000) {
+            return isPosted && isKasie && isKabag;
+        } else {
+            return isPosted && isKasie;
+        }
+        return false;
+    }
 
     contextShowCallback(index, name, data) {
         switch (name) {
             case "Cetak PDF":
-                return this.checkStatus(data.items);
+                return this.checkStatus(data);
             default:
                 return true;
         }
+    }
+
+    rowFormatter(data, index) {
+        if (data.IsApprovedKasie && data.IsApprovedKabag)
+            return { classes: "success" }
+        else if (data.IsPosted)
+            return { classes: "error" }
+        else
+            return {}
     }
 }

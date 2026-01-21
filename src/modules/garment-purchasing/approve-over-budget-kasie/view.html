@@ -1,0 +1,9 @@
+<template>
+
+    <require from="./data-form"></require>
+    <data-form title="Approval Over Budget Kasie" data.bind="data" read-only.bind="true"></data-form>
+    <div class="btn-group pull-right">
+        <button class="btn btn-default" click.delegate="cancel($event)">Kembali</button>
+        <button class="btn btn-success" click.delegate="approve($event)">Approve</button>
+    </div>
+</template>

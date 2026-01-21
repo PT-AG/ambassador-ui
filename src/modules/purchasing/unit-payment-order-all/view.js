@@ -39,6 +39,34 @@ export class View {
             this.selectedVatTax = this.data.vatTax;
         }
 
+        let totalAmount = 0;
+        if (this.data.items) {
+            for (let item of this.data.items) {
+                if (item.unitReceiptNote && item.unitReceiptNote.items) {
+                    for (let urnItem of item.unitReceiptNote.items) {
+                        totalAmount += (urnItem.PriceTotal || 0);
+                    }
+                }
+            }
+        }
+
+        this.hasEdit = true;
+        this.hasDelete = true;
+
+        if (this.data.isPosted) {
+            if (totalAmount <= 3000000) {
+                if (this.data.IsApprovedKasie) {
+                    this.hasEdit = false;
+                    this.hasDelete = false;
+                }
+            } else {
+                if (this.data.IsApprovedKasie || this.data.IsApprovedKabag) {
+                    this.hasEdit = false;
+                    this.hasDelete = false;
+                }
+            }
+        }
+        
         // if (this.data.items) {
         //     // this.isCorrection = this.data.items
         //     //     .map((item) => {

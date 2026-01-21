@@ -1,0 +1,17 @@
+<template>
+    <require from="./data-form"></require>
+    <data-form 
+        title="Rincian Disposisi Pembayaran" 
+        read-only="true" 
+        selected-supplier.bind="selectedSupplier"
+        selected-currency.bind="selectedCurrency">
+    </data-form>
+
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <button class="btn btn-default" click.delegate="cancel()">Kembali</button>
+            <button class="btn btn-success" click.delegate="approve()" if.bind="hasApprove">Approve</button>
+        </div>
+    </div>
+    
+</template>
