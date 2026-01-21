@@ -1271,4 +1271,32 @@ module.exports = [
             iconClass: 'fa fa-dashboard'
         }
     },
+    {
+        route: '/garment/po-external/over-budget/approval/kasie',
+        name: 'approve-po-external-over-budget-kasie',
+        moduleId: './modules/garment-purchasing/approve-over-budget-kasie/index',
+        nav: true,
+        title: 'Approval Over Budget Kasie',
+        auth: true,
+        settings: {
+            group: "g-purchasing",
+            subGroup: "approval",
+            permission: { "H61" :1 },
+            iconClass: 'fa fa-dashboard'
+        }
+    },
+    {
+        route: '/garment/po-external/over-budget/approval/kabag',
+        name: 'approve-po-external-over-budget-kabag',
+        moduleId: './modules/garment-purchasing/approve-over-budget-kabag/index',
+        nav: true,
+        title: 'Approval Over Budget Kabag',
+        auth: true,
+        settings: {
+            group: "g-purchasing",
+            subGroup: "approval",
+            permission: { "H62" :1 },
+            iconClass: 'fa fa-dashboard'
+        }
+    },
 ]
