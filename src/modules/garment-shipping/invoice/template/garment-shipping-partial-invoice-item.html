@@ -1,0 +1,40 @@
+<template>
+    <tr>
+        <!-- <td>
+            <au-checkbox checked.bind="data.isSave" disabled.bind="isEdit || readOnly" change.delegate="selectedInvoiceChanged($event)"></au-checkbox>
+        </td> -->
+        <td>
+            <au-checkbox
+                checked.bind="data.isSave"
+                disabled.bind="isEdit || readOnly"
+                change.delegate="selectedInvoiceChanged($event)">
+            </au-checkbox>
+        </td>
+        <td>
+            <div class="col-sm-10">
+                <au-textbox value.bind="data.packingInvoiceNo" error.bind="error.packingInvoiceNo"
+                    read-only.bind="true" options.bind="length4">
+                </au-textbox>
+                <span show.bind="!header.id && data.isSave" style="color: #007bff; cursor: pointer; text-decoration: underline;" click.delegate="setPackingListAndInvoiceNo()">
+                    Pilih sebagai No Invoice
+                </span>
+            </div>
+            <div class="col-sm-2">
+                <button class="btn btn-info pull-right" if.bind="data" click.delegate="toggle()">i</button>
+            </div>
+        </td>
+    </tr>
+    <tr show.bind="isShowing">
+        <td colspan="2">
+            <!-- <div if.bind="error.detailCount" class="form-group has-error"><span class="text-danger help-block">${error.detailCount}</span></div> -->
+            <au-collection 
+                items.bind="data.details" 
+                errors.bind="error.details"
+                columns.bind="itemsColumns" 
+                options.bind="options"
+                read-only.bind="options.readOnly"
+                item-template="modules/garment-shipping/invoice/template/garment-shipping-partial-invoice-detail">
+            </au-collection>
+        </td>
+    </tr>
+</template>

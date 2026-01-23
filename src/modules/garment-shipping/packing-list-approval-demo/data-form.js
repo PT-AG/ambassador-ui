@@ -242,16 +242,18 @@ export class DataForm {
         return this.data.totalCartons;
       }
     }
+
     downloadDocument(index) {
-      // this.service.getFile((this.documentsPathTemp[index] || '').replace('/sales/', ''), this.data.DocumentsFileName[index]);
-      const linkSource = this.data.documentsFile[index];
-      const downloadLink = document.createElement("a");
-      const fileName = this.data.documentsFileName[index];
-  
-      downloadLink.href = linkSource;
-      downloadLink.download = fileName;
-      downloadLink.click();
-  }
+        // this.service.getFile((this.documentsPathTemp[index] || '').replace('/sales/', ''), this.data.DocumentsFileName[index]);
+        const linkSource = this.data.documentsFile[index];
+        const downloadLink = document.createElement("a");
+        const fileName = this.data.documentsFileName[index];
+
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+    }
+    
     totalQty() {
         let quantities = [];
         let result = [];
