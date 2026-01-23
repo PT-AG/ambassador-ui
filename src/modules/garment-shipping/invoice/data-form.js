@@ -6,14 +6,17 @@ import moment from 'moment';
 var InvoiceLoader = require('../../../loader/garment-packing-list-not-used-loader');
 var AccountBankLoader = require('../../../loader/account-banks-loader');
 var FabricTypeLoader = require('../../../loader/fabric-type-loader');
+var SectionLoader = require('../../../loader/garment-sections-loader');
+var BuyerLoader = require('../../../loader/garment-buyers-loader');
 var ShippingStaffLoader = require('../../../loader/garment-shipping-staff-loader');
-
 
 @inject(Service, CoreService, AuthService)
 export class DataForm {
     @bindable packinglists;
     @bindable shippingStaff;
+    @bindable section;
     @bindable bankAccount;
+    @bindable buyer;
     @bindable fabricType;
     @bindable data = {};
     @bindable items = {};
@@ -24,19 +27,18 @@ export class DataForm {
     @bindable isEdit = false;
     @bindable isUsed = false;
     @bindable isUpdated = false;
-    @bindable dataItems=[];
+    @bindable dataItems = [];
+    @bindable username = "";
 
     constructor(service, coreService, authService) {
         this.service = service;
         this.coreService = coreService;
         this.authService = authService;
-    }
-
-    bankFilter = {
-        DivisionName: "AMBASSADOR GARMINDO 2"
     };
 
-    INCOTERMSOptions=["FOB", "FAS","CFR","CIF","EXW","FCA","CPT","CIP","DAT","DAP","DDP"];
+    INCOTERMSOptions = ["FOB", "FAS", "CFR", "CIF", "EXW", "FCA", "CPT", "CIP", "DAT", "DAP", "DDP"];
+    fabricTypeOptions = ["POLYESTER/COTTON ( T/C )", "COTTON/POLYESTER ( CVC )", "COTTON", "VISCOSE", "VISCOSE POLYESTER", "VISCOSE FUJIETTE", "POLYESTER"];
+    countries = ["", "AFGHANISTAN", "ALBANIA", "ALGERIA", "ANDORRA", "ANGOLA", "ANGUILLA", "ANTIGUA AND BARBUDA", "ARGENTINA", "ARMENIA", "ARUBA", "AUSTRALIA", "AUSTRIA", "AZERBAIJAN", "BAHAMAS", "BAHRAIN", "BANGLADESH", "BARBADOS", "BELARUS", "BELGIUM", "BELIZE", "BENIN", "BERMUDA", "BHUTAN", "BOLIVIA", "BOSNIA AND HERZEGOVINA", "BOTSWANA", "BRAZIL", "BRITISH VIRGIN ISLANDS", "BRUNEI", "BULGARIA", "BURKINA FASO", "BURUNDI", "CAMBODIA", "CAMEROON", "CANADA", "CAPE VERDE", "CAYMAN ISLANDS", "CHAD", "CHILE", "CHINA", "COLOMBIA", "CONGO", "COOK ISLANDS", "COSTA RICA", "COTE D IVOIRE", "CROATIA", "CRUISE SHIP", "CUBA", "CYPRUS", "CZECH REPUBLIC", "DENMARK", "DJIBOUTI", "DOMINICA", "DOMINICAN REPUBLIC", "ECUADOR", "EGYPT", "EL SALVADOR", "EQUATORIAL GUINEA", "ESTONIA", "ETHIOPIA", "FALKLAND ISLANDS", "FAROE ISLANDS", "FIJI", "FINLAND", "FRANCE", "FRENCH POLYNESIA", "FRENCH WEST INDIES", "GABON", "GAMBIA", "GEORGIA", "GERMANY", "GHANA", "GIBRALTAR", "GREECE", "GREENLAND", "GRENADA", "GUAM", "GUATEMALA", "GUERNSEY", "GUINEA", "GUINEA BISSAU", "GUYANA", "HAITI", "HONDURAS", "HONG KONG", "HUNGARY", "ICELAND", "INDIA", "INDONESIA", "IRAN", "IRAQ", "IRELAND", "ISLE OF MAN", "ISRAEL", "ITALY", "JAMAICA", "JAPAN", "JERSEY", "JORDAN", "KAZAKHSTAN", "KENYA", "KUWAIT", "KYRGYZ REPUBLIC", "LAOS", "LATVIA", "LEBANON", "LESOTHO", "LIBERIA", "LIBYA", "LIECHTENSTEIN", "LITHUANIA", "LUXEMBOURG", "MACAU", "MACEDONIA", "MADAGASCAR", "MALAWI", "MALAYSIA", "MALDIVES", "MALI", "MALTA", "MAURITANIA", "MAURITIUS", "MEXICO", "MOLDOVA", "MONACO", "MONGOLIA", "MONTENEGRO", "MONTSERRAT", "MOROCCO", "MOZAMBIQUE", "NAMIBIA", "NEPAL", "NETHERLANDS", "NETHERLANDS ANTILLES", "NEW CALEDONIA", "NEW ZEALAND", "NICARAGUA", "NIGER", "NIGERIA", "NORTH KOREA", "NORWAY", "OMAN", "PAKISTAN", "PALESTINE", "PANAMA", "PAPUA NEW GUINEA", "PARAGUAY", "PERU", "PHILIPPINES", "POLAND", "PORTUGAL", "PUERTO RICO", "QATAR", "REUNION", "ROMANIA", "RUSSIA", "RWANDA", "SAINT PIERRE AND MIQUELON", "SAMOA", "SAN MARINO", "SATELLITE", "SAUDI ARABIA", "SENEGAL", "SERBIA", "SEYCHELLES", "SIERRA LEONE", "SINGAPORE", "SLOVAKIA", "SLOVENIA", "SOUTH AFRICA", "SOUTH KOREA", "SPAIN", "SRI LANKA", "ST KITTS AND NEVIS", "ST LUCIA", "ST VINCENT", "ST. LUCIA", "SUDAN", "SURINAME", "SWAZILAND", "SWEDEN", "SWITZERLAND", "SYRIA", "TAIWAN", "TAJIKISTAN", "TANZANIA", "THAILAND", "TIMOR L'ESTE", "TOGO", "TONGA", "TRINIDAD AND TOBAGO", "TUNISIA", "TURKEY", "TURKMENISTAN", "TURKS AND CAICOS", "UGANDA", "UKRAINE", "UNITED ARAB EMIRATES", "UNITED KINGDOM", "UNITED STATES OF AMERICA", "URUGUAY", "UZBEKISTAN", "VENEZUELA", "VIETNAM", "VIRGIN ISLANDS (US)", "YEMEN", "ZAMBIA", "ZIMBABWE"];
 
     bind(context) {
         this.context = context;
@@ -45,58 +47,101 @@ export class DataForm {
         this.save = this.context.saveCallback;
         this.cancel = this.context.cancelCallback;
         this.options = {
+            header: this.data,
             isCreate: this.context.isCreate,
             isView: this.context.isView,
             isEdit: this.context.isEdit,
             isUpdated: this.context.isUpdated,
             isUsed: this.context.isUsed,
-            itemData:this.data.items,
-            data:this.data,
+            itemData: this.data.items,
+            data: this.data,
         }
+
+        if (this.authService.authenticated) {
+            const me = this.authService.getTokenPayload();
+            this.username = me.username;
+        }
+
         this.isEdit = this.context.isEdit;
         this.isUpdated = this.context.isUpdated;
-        
 
         if (this.data.id != undefined) {
-            if(this.data.bankAccountId>0){
-                this.coreService.getBankAccountById(this.data.bankAccountId)
-                .then(result => {
 
-                    this.bankAccount =
-                    {
-                        Id: this.data.bankAccountId,
-                        BankName: result.BankName,
-                        Currency: {
-                            Code: result.Currency.Code
-                        }
-                    };
-                    this.data.bankAccount = result.BankName;
-                });
+            if (this.data.bankAccountId > 0) {
+                this.coreService.getBankAccountById(this.data.bankAccountId)
+                    .then(result => {
+                        this.bankAccount =
+                        {
+                            Id: this.data.bankAccountId,
+                            BankName: result.BankName,
+                            Currency: {
+                                Code: result.Currency.Code
+                            }
+                        };
+
+                        this.data.bankAccount = result.BankName;
+                    });
             }
-            
-            if (this.data.packingListType == "LOKAL"){
+
+            if (this.data.packingListType == "LOKAL") {
                 this.fabricType = this.data.fabricType;
-            }else{
+            } else {
                 this.fabricType = {
                     Id: this.data.fabricTypeId,
                     Name: this.data.fabricType
                 }
             }
-            
 
+            if (this.data.shippingStaffId > 0) {
+                this.shippingStaff = {
+                    id: this.data.shippingStaffId,
+                    name: this.data.shippingStaff
+                }
+            }
+
+            if (this.data.section) {
+                this.section = {
+                    id: this.data.section.id,
+                    code: this.data.section.code
+                }
+            }
+
+            if (this.data.buyerAgent) {
+                this.buyer = this.data.buyerAgent;
+            }
+
+            this.partial = this.data.isPartial;
             this.data.bankAccountId = this.data.bankAccountId;
             this.packinglists = this.data.invoiceNo;
             this.packingListType = this.data.packingListType;
-            this.isUpdated && this.updateItems(this.data.invoiceNo);
 
-            this.data.npeDate=moment(this.data.npeDate).format("DD-MMM-YYYY")=="01-Jan-0001" ? null : this.data.npeDate;
-            this.data.blDate=moment(this.data.blDate).format("DD-MMM-YYYY")=="01-Jan-0001" ? null : this.data.blDate;
-            this.data.coDate=moment(this.data.coDate).format("DD-MMM-YYYY")=="01-Jan-0001" ? null : this.data.coDate;
-            this.data.pebDate=moment(this.data.pebDate).format("DD-MMM-YYYY")=="01-Jan-0001" ? null : this.data.pebDate;
-            this.data.cotpDate=moment(this.data.cotpDate).format("DD-MMM-YYYY")=="01-Jan-0001" ? null : this.data.cotpDate;
+            if (this.partial == true) {
+                // var itemsByPackingInvoice = [];
+                // var distinctPackingInvoiceNos = new Set(this.data.items.map(item => item.packingInvoiceNo));
+                // for (var packingInvoiceNo of distinctPackingInvoiceNos) {
+                //     var detailsItems = this.data.items.filter(item => item.packingInvoiceNo === packingInvoiceNo);
+                //     var newItems = {
+                //         isSave: true,
+                //         isSelected: detailsItems.all(i => i.packingListId == this.data.packingListId),
+                //         packingInvoiceNo: packingInvoiceNo,
+                //         details: detailsItems.length > 0 ? [] : detailsItems
+                //     }
+
+                //     itemsByPackingInvoice.push(newItems);
+                // }
+
+                // this.data.itemsByPackingInvoice = itemsByPackingInvoice;
+            } else {
+                this.isUpdated && this.updateItems(this.data.invoiceNo);
+            }
+
+            this.data.npeDate = moment(this.data.npeDate).format("DD-MMM-YYYY") == "01-Jan-0001" ? null : this.data.npeDate;
+            this.data.blDate = moment(this.data.blDate).format("DD-MMM-YYYY") == "01-Jan-0001" ? null : this.data.blDate;
+            this.data.coDate = moment(this.data.coDate).format("DD-MMM-YYYY") == "01-Jan-0001" ? null : this.data.coDate;
+            this.data.pebDate = moment(this.data.pebDate).format("DD-MMM-YYYY") == "01-Jan-0001" ? null : this.data.pebDate;
+            this.data.cotpDate = moment(this.data.cotpDate).format("DD-MMM-YYYY") == "01-Jan-0001" ? null : this.data.cotpDate;
         }
-
-    }
+    };
 
     @bindable title;
     controlOptions = {
@@ -126,194 +171,412 @@ export class DataForm {
         }
     };
 
+    get buyerLoader() {
+        return BuyerLoader;
+    };
+
+    buyerView = (buyer) => {
+        var buyerName = buyer.Name || buyer.name;
+        var buyerCode = buyer.Code || buyer.code;
+        return `${buyerCode} - ${buyerName}`
+    };
+
     get invoiceLoader() {
         return InvoiceLoader;
-    }
+    };
 
     invoiceView = (inv) => {
         return `${inv.invoiceNo}`;
-    }
+    };
 
     get accountBankLoader() {
         return AccountBankLoader;
-    }
+    };
 
     accountBankView = (acc) => {
         return `${acc.BankName} - ${acc.Currency.Code}`;
-    }
+    };
 
     get shippingStaffLoader() {
         return ShippingStaffLoader;
-    }
+    };
 
     shippingStaffView = (acc) => {
-        return `${acc.Name}`;
-    }
+        return `${acc.Name || acc.name}`;
+    };
+
+    get sectionLoader() {
+        return SectionLoader;
+    };
+
+    sectionView = (section) => {
+        if (section.Name || section.name) {
+            return `${section.Code || section.code} - ${section.Name || section.name}`
+        } else {
+            return `${section.Code || section.code}`;
+        }
+    };
 
     get fabricTypeLoader() {
         return FabricTypeLoader;
-    }
+    };
 
     fabricTypeView = (acc) => {
         return `${acc.Name}`;
-    }
+    };
 
-    shippingStaffChanged(newValue, oldValue) {
-        var selectedShipping = newValue;
-        if (selectedShipping && this.data.id == undefined) {
-            this.data.shippingStaffId = selectedShipping.Id;
-            this.data.shippingStaff = selectedShipping.Name;
+    // async shippingStaffChanged(newValue, oldValue) {
+    //     var selectedShipping = newValue;
+
+    //     if (!newValue == null) {
+    //         this.data.packingListId = 0;
+    //         this.data.invoiceNo = null;
+    //         this.data.shippingStaff = null;
+    //         this.shippingStaff = null;
+    //     }
+
+    //     if (this.data.id) return;
+
+    //     if (newValue != this.data.shippingStaff && this.partial) {
+
+    //         this.data.packingListId = 0;
+    //         this.data.invoiceNo = null;
+    //         this.data.shippingStaff = null;
+    //         this.shippingStaff = null;
+
+    //         if (this.data.items && this.data.items.length > 0) {
+    //             this.data.items.splice(0);
+    //         }
+
+    //         if (this.partial && this.data.itemsByPackingInvoice && this.data.itemsByPackingInvoice.length > 0) {
+    //             this.data.itemsByPackingInvoice.splice(0);
+    //         }
+
+    //         this.shippingStaff = {
+    //             id: selectedShipping.Id || selectedShipping.id,
+    //             name: selectedShipping.Name || selectedShipping.name
+    //         };
+
+    //         this.data.shippingStaff = this.shippingStaff;
+
+    //         // if (newValue) {
+    //             // this.shippingStaff = {
+    //             //     id: selectedShipping.Id || selectedShipping.id,
+    //             //     name: selectedShipping.Name || selectedShipping.name
+    //             // };
+
+    //             // this.data.shippingStaff = this.shippingStaff;
+    //         // }
+    //     }
+
+    //     this.loadPackingList();
+    // };
+
+    async shippingStaffChanged(newValue, oldValue) {
+        if (this.data.id) return;
+
+        if (!newValue) {
+            this.data.packingListId = 0;
+            this.data.invoiceNo = null;
+            this.data.shippingStaff = null;
+            this.shippingStaff = null;
+        } else {
+            // Cegah loop: hanya update jika value benar-benar berbeda
+            const id = newValue.Id || newValue.id;
+            const name = newValue.Name || newValue.name;
+
+            if (
+                this.shippingStaff &&
+                this.shippingStaff.id === id &&
+                this.shippingStaff.name === name
+            ) {
+                return; // Sudah sama, tidak perlu update
+            }
+
+            if (newValue != this.data.shippingStaff && this.partial) {
+                this.data.packingListId = 0;
+                this.data.invoiceNo = null;
+
+                if (this.data.items && this.data.items.length > 0) {
+                    this.data.items.splice(0);
+                }
+                if (this.partial && this.data.itemsByPackingInvoice && this.data.itemsByPackingInvoice.length > 0) {
+                    this.data.itemsByPackingInvoice.splice(0);
+                }
+
+                this.shippingStaff = { id, name };
+                this.data.shippingStaff = this.shippingStaff;
+            }
+
+            this.loadPackingList();
         }
-    }
+    };
+
+    async sectionChanged(newValue, oldValue) {
+        if (this.data.id) return;
+
+        if (!newValue) {
+            this.data.packingListId = 0;
+            this.data.invoiceNo = null;
+            this.data.section = null;
+            this.section = null;
+        } else {
+            // Cegah loop: hanya update jika value benar-benar berbeda
+            const id = newValue.Id || newValue.id;
+            const name = newValue.Name || newValue.name;
+            const code = newValue.Code || newValue.code;
+
+            if (
+                this.section &&
+                this.section.id === id &&
+                this.section.name === name &&
+                this.section.code === code
+            ) {
+                return; // Sudah sama, tidak perlu update
+            }
+
+            if (newValue != this.data.section && this.partial) {
+
+                this.data.packingListId = 0;
+                this.data.invoiceNo = null;
+                this.data.section = null;
+                this.section = null;
+
+                if (this.data.items && this.data.items.length > 0) {
+                    this.data.items.splice(0);
+                }
+
+                if (this.partial && this.data.itemsByPackingInvoice && this.data.itemsByPackingInvoice.length > 0) {
+                    this.data.itemsByPackingInvoice.splice(0);
+                }
+
+                this.data.section = {
+                    id: id,
+                    name: name,
+                    code: code
+                };
+
+                this.section = this.data.section;
+            }
+
+            this.loadPackingList();
+        }
+        
+    };
+
+    async buyerChanged(newValue, oldValue) {
+        if (this.data.id) return;
+
+        if (!newValue) {
+            this.data.packingListId = 0;
+            this.data.invoiceNo = null;
+            this.data.buyerAgent = null;
+            this.data.consigneeAddress = null;
+            this.buyer = null;
+        } else {
+            // Cegah loop: hanya update jika value benar-benar berbeda
+            const id = newValue.Id || newValue.id;
+            const name = newValue.Name || newValue.name;
+            const code = newValue.Code || newValue.code;
+
+            if (
+                this.buyer &&
+                this.buyer.id === id &&
+                this.buyer.name === name &&
+                this.buyer.code === code
+            ) {
+                return; // Sudah sama, tidak perlu update
+            }
+
+            if (newValue != this.data.buyerAgent && this.partial) {
+                this.data.packingListId = 0;
+                this.data.invoiceNo = null;
+                this.data.buyerAgent = null;
+                this.data.consigneeAddress = null;
+                this.buyer = null;
+
+                if (this.data.items && this.data.items.length > 0) {
+                    this.data.items.splice(0);
+                }
+
+                if (this.partial && this.data.itemsByPackingInvoice && this.data.itemsByPackingInvoice.length > 0) {
+                    this.data.itemsByPackingInvoice.splice(0);
+                }
+
+                this.data.buyerAgent = newValue;
+                this.buyer = this.data.buyerAgent;
+
+                if (newValue) {
+                    var buyerBrand = await this.coreService.getBuyerById(newValue.Id);
+                    if (buyerBrand) {
+                        this.data.consigneeAddress = buyerBrand.Address;
+                    }
+                }
+            }
+
+            this.loadPackingList();
+        }
+    };
+
     bankAccountChanged(newValue, oldValue) {
         var selectedAccount = newValue;
         if (selectedAccount) {
-
             this.data.bankAccountId = selectedAccount.Id;
-
             this.data.bankAccount = selectedAccount.BankName;
-
         }
-    }
+    };
 
     fabricTypeChanged(newValue, oldValue) {
         var selectedfabric = newValue;
-        console.log(newValue);
-        console.log(this.data.packingListType);
         if (selectedfabric && this.data.packingListType == "LOKAL") {
-            this.data.fabricTypeId = 0 ;
+            this.data.fabricTypeId = 0;
             this.data.fabricType = selectedfabric;
         } else if (selectedfabric && this.data.packingListType == "EXPORT") {
             this.data.fabricTypeId = selectedfabric.Id;
             this.data.fabricType = selectedfabric.Name;
         }
+    };
 
-        console.log(this.data.fabricType);
-    }
     async packinglistsChanged(newValue, oldValue) {
+        if (this.data.id) return;
+
+        this.data.packingListId = 0;
+        this.data.invoiceNo = null;
+        this.data.section = null;
+        this.section = null;
+        this.data.shippingStaff = null;
+        this.selectedShippingStaff = null;
+        this.data.buyerAgent = null;
+        this.buyer = null;
+        this.data.isPartial = false;
+
         var selectedInv = newValue;
         if (selectedInv && this.data.id == undefined) {
-            this.data.packinglistId = selectedInv.id;
+            if (this.data.items && this.data.items.length > 0) {
+                this.data.items.splice(0);
+            }
+
+            if (this.partial && this.data.itemsByPackingInvoice && this.data.itemsByPackingInvoice.length > 0) {
+                this.data.itemsByPackingInvoice.splice(0);
+            }
+
+            this.data.packingListId = selectedInv.id;
             this.data.invoiceNo = selectedInv.invoiceNo;
             this.data.invoiceDate = selectedInv.date;
             this.data.packingListType = selectedInv.packingListType;
+            this.data.shippingStaffId = selectedInv.shippingStaff.id;
+            this.data.shippingStaff = selectedInv.shippingStaff.name;
+
             this.shippingStaff = {
-              Id: selectedInv.shippingStaff.id,
-              Name: selectedInv.shippingStaff.name || ""
+                id: selectedInv.shippingStaff.id,
+                name: selectedInv.shippingStaff.name || ""
             }
 
-            //console.log(newValue)
-            this.data.section =
-            {
+            this.data.section = {
                 id: selectedInv.section.id,
                 code: selectedInv.section.code
             }
-            this.data.buyerAgent =
-            {
+
+            this.section = this.data.section;
+            this.data.buyerAgent = {
                 id: selectedInv.buyerAgent.id,
                 code: selectedInv.buyerAgent.code,
                 name: selectedInv.buyerAgent.name
-            };
+            }
+
+            this.buyer = this.data.buyerAgent;
+
             if (selectedInv.paymentTerm)
                 this.data.lcNo = selectedInv.lcNo;
-            this.data.issuedBy = selectedInv.issuedBy;
 
+            this.data.isPartial = false;
+            this.data.issuedBy = selectedInv.issuedBy;
             var packingItem = await this.service.getPackingListById(selectedInv.id);
             var buyer = await this.coreService.getBuyerById(this.data.buyerAgent.id);
+
             this.data.consigneeAddress = buyer.Address;
             this.data.items.splice(0);
             this.dataItems.splice(0);
             this.data.garmentShippingInvoiceAdjustments.splice(0);
-           // console.log(packingItem)
             var consignee = "";
             var TotalAmount = 0;
             var _consignee = "";
             var consignees = [];
-            console.log(packingItem);
+
             for (var item of packingItem.items) {
-                console.log(this.data);
                 var _item = {};
                 _item.BuyerCode = this.data.buyerAgent.code;
                 _item.Section = this.data.section.code;
                 _item.roNo = item.roNo;
                 _item.scNo = item.scNo;
-                if(packingItem.invoiceType ==='DS' || packingItem.invoiceType ==='SM')
-                {
-                    _item.price = item.price; 
-                }else
-                {
-                     _item.price = item.priceFOB;
+
+                if (packingItem.invoiceType === 'DS' || packingItem.invoiceType === 'SM') {
+                    _item.price = item.price;
+                } else {
+                    _item.price = item.priceFOB;
                 }
+
+                _item.packingInvoiceNo = selectedInv.invoiceNo + " - " + selectedInv.increment;
                 _item.priceRO = item.priceRO;
                 _item.quantity = item.quantity;
                 _item.cmtPrice = item.priceCMT;
+
                 _item.comodity = {
                     id: item.comodity.id,
                     code: item.comodity.code,
                     name: item.comodity.name
-
                 };
+
                 _item.buyerBrand = {
                     id: item.buyerBrand.id,
                     code: item.buyerBrand.code,
                     name: item.buyerBrand.name
-
                 };
+
                 _item.uom = {
                     id: item.uom.id,
                     unit: item.uom.unit
-
                 };
+
                 _item.unit = {
                     id: item.unit.id,
                     code: item.unit.code,
                     name: item.unit.name
-
                 };
+
                 _item.amount = item.amount;
                 _item.currencyCode = item.valas;
+                _item.packingListId = selectedInv.id;
                 _item.packingListItemId = item.id;
                 _item.comodityDesc = item.orderNo;
                 _item.desc2 = item.article;
                 _item.desc3 = packingItem.colorJoin;
                 consignee += item.buyerBrand.name;
+
                 if (consignees.length > 0) {
                     var dup = consignees.find(a => a == item.buyerBrand.name);
                     if (!dup) {
                         consignees.push(item.buyerBrand.name)
                     }
-                }
-                else {
+                } else {
                     consignees.push(item.buyerBrand.name);
                 }
+
                 TotalAmount = TotalAmount + item.amount;
                 this.data.items.push(_item);
                 _consignee += item.buyerBrand.name + "\n";
             }
-            this.dataItems=this.data.items;
+
             this.data.totalAmount = TotalAmount;
+            this.data.amountCA = 0;
             this.fabricType = null;
-
-            this.data.consignee = packingItem.buyerAgent.name;//consignees.join("\n");
-            this.percentageProcess(this.dataItems);
-
+            this.data.consignee = packingItem.buyerAgent.name;
+            //this.percentageProcess(this.data);
         }
-        // else
-        // {
-        //     this.data.packinglistId= null;
-        //     this.data.invoiceNo = selectedInv.invoiceNo;
-        //     this.data.invoiceDate = null ;
+    };
 
-        //     this.data.section ={};
-        //     this.data.buyerAgent = {};
-        //     this.data.lcNo = null;
-        //     this.data.issuedBy = null;
-        //     this.data.items.slice(0);
-        // }
-
-    }
     async updateItems(invoiceNo) {
-        var dataPackingList = await this.service.getInvoiceNo({ filter: JSON.stringify({ InvoiceNo:invoiceNo })});
+        var dataPackingList = await this.service.getInvoiceNo({ filter: JSON.stringify({ InvoiceNo: invoiceNo }) });
         var invoiceData = await this.service.getById(this.data.id);
         var packingItem = await this.service.getPackingListById(dataPackingList.data[0].id);
         var buyer = await this.coreService.getBuyerById(this.data.buyerAgent.id);
@@ -324,6 +587,7 @@ export class DataForm {
         var TotalAmount = 0;
         var _consignee = "";
         var consignees = [];
+
         for (var item of packingItem.items) {
             var _item = {};
             var dataInvoiceLama = invoiceData.items.find(a => a.packingListItemId == item.id);
@@ -331,43 +595,42 @@ export class DataForm {
             _item.Section = this.data.section.code;
             _item.roNo = item.roNo;
             _item.scNo = item.scNo;
-           
             _item.priceRO = item.priceRO;
-            if(packingItem.invoiceType ==='DS' || packingItem.invoiceType ==='SM')
-            {
-                _item.price = item.price; 
-            }else
-            {
-                 _item.price = item.priceFOB;
+
+            if (packingItem.invoiceType === 'DS' || packingItem.invoiceType === 'SM') {
+                _item.price = item.price;
+            } else {
+                _item.price = item.priceFOB;
             }
+
             _item.quantity = item.quantity;
             _item.cmtPrice = item.priceCMT;
             _item.comodity = {
                 id: item.comodity.id,
                 code: item.comodity.code,
                 name: item.comodity.name
-
             };
+
             _item.buyerBrand = {
                 id: item.buyerBrand.id,
                 code: item.buyerBrand.code,
                 name: item.buyerBrand.name
-
             };
+
             _item.uom = {
                 id: item.uom.id,
                 unit: item.uom.unit
-
             };
+
             _item.unit = {
                 id: item.unit.id,
                 code: item.unit.code,
                 name: item.unit.name
-
             };
+
             this.data.shippingStaffId = packingItem.shippingStaff.id;
             this.data.shippingStaff = packingItem.shippingStaff.name;
-            this.shippingStaff = {
+            this.selectedShippingStaff = {
                 Id: packingItem.shippingStaff.id,
                 Name: packingItem.shippingStaff.name || ""
             }
@@ -381,7 +644,8 @@ export class DataForm {
             _item.lastModifiedUtc = item.lastModifiedUtc;
             _item.lastModifiedBy = item.lastModifiedBy;
             _item.lastModifiedAgent = item.lastModifiedAgent;
-            if(dataInvoiceLama) {
+
+            if (dataInvoiceLama) {
                 _item.id = dataInvoiceLama.id;
                 _item.createdUtc = dataInvoiceLama.createdUtc;
                 _item.createdBy = dataInvoiceLama.createdBy;
@@ -393,6 +657,7 @@ export class DataForm {
                 _item.desc3 = dataInvoiceLama.desc3;
                 _item.desc4 = dataInvoiceLama.desc4;
             }
+
             consignee += item.buyerBrand.name;
             if (consignees.length > 0) {
                 var dup = consignees.find(a => a == item.buyerBrand.name);
@@ -403,16 +668,123 @@ export class DataForm {
             else {
                 consignees.push(item.buyerBrand.name);
             }
+
             TotalAmount = TotalAmount + item.amount;
             this.data.items.push(_item);
             _consignee += item.buyerBrand.name + "\n";
         }
-        this.dataItems = this.data.items;
-        this.data.totalAmount = TotalAmount;
 
+        //this.dataItems = this.data.items;
+        this.data.totalAmount = TotalAmount;
         this.data.consignee = consignees.join("\n");
-        this.percentageProcess(this.dataItems);
-    }
+        //this.percentageProcess(this.data);
+    };
+
+    async loadPackingList() {
+        if (this.data.id) return;
+
+        if (this.data.buyerAgent && this.data.section && this.data.shippingStaff && this.data.isPartial) {
+            var filter = {
+                ShippingStaffName: this.data.shippingStaff.name || this.data.shippingStaff.Name,
+                'status=="CREATED" || status=="APPROVED_SHIPPING"': true,
+                BuyerAgentId: this.data.buyerAgent.id || this.data.buyerAgent.Id,
+                SectionId: this.data.section.id || this.data.section.Id,
+            };
+
+            this.data.amountCA = 0;
+
+            var pl = await this.service.getInvoicePartial(filter);
+            if (pl && pl.length > 0) {
+                var itemsByPackingInvoice = [];
+                var distinctPackingInvoiceNos = new Set(pl.map(item => item.invoiceNo + " - " + item.increment));
+
+                var consignee = "";
+                var TotalAmount = 0;
+                var consignees = [];
+
+                for (var packingInvoiceNo of distinctPackingInvoiceNos) {
+                    var data = pl.filter(item => (item.invoiceNo + " - " + item.increment) === packingInvoiceNo);
+                    for (var d of data) {
+                        var itemDetails = [];
+                        for (var e of d.items) {
+                            var details = {
+                                buyerCode: this.data.buyerAgent.code,
+                                section: this.data.section.code,
+
+                                packingListId: d.id,
+                                packingListItemId: e.id,
+                                packingInvoiceNo: d.invoiceNo + " - " + d.increment,
+                                roNo: e.roNo,
+                                scNo: e.scNo,
+                                price: (d.invoiceType === 'DS' || d.invoiceType === 'SM') ? e.price : e.priceFOB,
+                                priceRO: e.priceRO,
+                                quantity: e.quantity,
+                                cmtPrice: e.priceCMT,
+                                comodity: {
+                                    id: e.comodity.id,
+                                    code: e.comodity.code,
+                                    name: e.comodity.name
+                                },
+                                buyerBrand: {
+                                    id: e.buyerBrand.id,
+                                    code: e.buyerBrand.code,
+                                    name: e.buyerBrand.name
+                                },
+                                uom: {
+                                    id: e.uom.id,
+                                    unit: e.uom.unit
+                                },
+                                unit: {
+                                    id: e.unit.id,
+                                    code: e.unit.code,
+                                    name: e.unit.name
+                                },
+                                amount: e.amount,
+                                currencyCode: e.valas,
+                                comodityDesc: e.orderNo,
+                                desc2: e.article,
+                                desc3: d.colorJoin
+                            };
+
+                            consignee += e.buyerBrand.name;
+                            if (consignees.length > 0) {
+                                var dup = consignees.find(a => a == e.buyerBrand.name);
+                                if (!dup) {
+                                    consignees.push(e.buyerBrand.name);
+                                }
+                            } else {
+                                consignees.push(e.buyerBrand.name);
+                            }
+
+                            TotalAmount += e.amount;
+                            itemDetails.push(details);
+                        }
+
+                        var newItems = {
+                            isSave: false,
+                            isSelected: false,
+                            packingInvoiceNo: packingInvoiceNo,
+                            packingListType: d.packingListType,
+                            date: d.date,
+                            packingListId: d.id,
+                            details: d.items.length <= 0 ? [] : itemDetails
+                        }
+
+                        itemsByPackingInvoice.push(newItems);
+                    }
+                }
+
+                this.data.consignee = consignees.join("\n");
+                this.data.totalAmount = TotalAmount;
+                this.fabricType = null;
+                //this.percentageProcess(this.data);
+                this.data.itemsByPackingInvoice = itemsByPackingInvoice;
+            } else {
+                alert("Tidak ada Packing List yang dapat dipilih untuk Buyer tersebut.");
+            }
+        }
+    };
+
     packinglistColumns = {
         columns: [
             { header: "RoNo", value: "roNo" },
@@ -434,21 +806,32 @@ export class DataForm {
             { header: "Amount CMT", value: "cmtAmount" },
         ],
         onAdd: function () {
-
             this.data.items.push({
                 BuyerCode: this.data.buyerAgent.code,
                 Section: this.data.section.code,
-                isAdd: false 
+                isAdd: false
             });
+
             this.data.items.forEach((m, i) => m.MaterialIndex = i);
 
         }.bind(this),
         onRemove: function () {
             this.data.items.forEach((m, i) => m.MaterialIndex = i);
-            this.percentageProcess(this.data.items);
+            //this.percentageProcess(this.data);
         }.bind(this),
         options: {}
-    }
+    };
+
+    packinglistColumnsPartial = {
+        columns: [
+            { header: "" },
+            { header: "PackingList" },
+        ],
+
+        columnsItems: [
+            "PackingList"
+        ]
+    };
 
     adjustmentColumns = {
         columns: [
@@ -467,26 +850,16 @@ export class DataForm {
             this.data.garmentShippingInvoiceAdjustments.forEach((m, i) => m.MaterialIndex = i);
         }.bind(this),
         options: {}
-    }
-
-    fabricTypeOptions = ["POLYESTER/COTTON ( T/C )", "COTTON/POLYESTER ( CVC )", "COTTON", "VISCOSE", "VISCOSE POLYESTER", "VISCOSE FUJIETTE", "POLYESTER"];
-
-
-    countries =
-          ["", "AFGHANISTAN", "ALBANIA", "ALGERIA", "ANDORRA", "ANGOLA", "ANGUILLA", "ANTIGUA AND BARBUDA", "ARGENTINA", "ARMENIA", "ARUBA", "AUSTRALIA", "AUSTRIA", "AZERBAIJAN", "BAHAMAS", "BAHRAIN", "BANGLADESH", "BARBADOS", "BELARUS", "BELGIUM", "BELIZE", "BENIN", "BERMUDA", "BHUTAN", "BOLIVIA", "BOSNIA AND HERZEGOVINA", "BOTSWANA", "BRAZIL", "BRITISH VIRGIN ISLANDS", "BRUNEI", "BULGARIA", "BURKINA FASO", "BURUNDI", "CAMBODIA", "CAMEROON", "CANADA", "CAPE VERDE", "CAYMAN ISLANDS", "CHAD", "CHILE", "CHINA", "COLOMBIA", "CONGO", "COOK ISLANDS", "COSTA RICA", "COTE D IVOIRE", "CROATIA", "CRUISE SHIP", "CUBA", "CYPRUS", "CZECH REPUBLIC", "DENMARK", "DJIBOUTI", "DOMINICA", "DOMINICAN REPUBLIC", "ECUADOR", "EGYPT", "EL SALVADOR", "EQUATORIAL GUINEA", "ESTONIA", "ETHIOPIA", "FALKLAND ISLANDS", "FAROE ISLANDS", "FIJI", "FINLAND", "FRANCE", "FRENCH POLYNESIA", "FRENCH WEST INDIES", "GABON", "GAMBIA", "GEORGIA", "GERMANY", "GHANA", "GIBRALTAR", "GREECE", "GREENLAND", "GRENADA", "GUAM", "GUATEMALA", "GUERNSEY", "GUINEA", "GUINEA BISSAU", "GUYANA", "HAITI", "HONDURAS", "HONG KONG", "HUNGARY", "ICELAND", "INDIA", "INDONESIA", "IRAN", "IRAQ", "IRELAND", "ISLE OF MAN", "ISRAEL", "ITALY", "JAMAICA", "JAPAN", "JERSEY", "JORDAN", "KAZAKHSTAN", "KENYA", "KUWAIT", "KYRGYZ REPUBLIC", "LAOS", "LATVIA", "LEBANON", "LESOTHO", "LIBERIA", "LIBYA", "LIECHTENSTEIN", "LITHUANIA", "LUXEMBOURG", "MACAU", "MACEDONIA", "MADAGASCAR", "MALAWI", "MALAYSIA", "MALDIVES", "MALI", "MALTA", "MAURITANIA", "MAURITIUS", "MEXICO", "MOLDOVA", "MONACO", "MONGOLIA", "MONTENEGRO", "MONTSERRAT", "MOROCCO", "MOZAMBIQUE", "NAMIBIA", "NEPAL", "NETHERLANDS", "NETHERLANDS ANTILLES", "NEW CALEDONIA", "NEW ZEALAND", "NICARAGUA", "NIGER", "NIGERIA", "NORTH KOREA", "NORWAY", "OMAN", "PAKISTAN", "PALESTINE", "PANAMA", "PAPUA NEW GUINEA", "PARAGUAY", "PERU", "PHILIPPINES", "POLAND", "PORTUGAL", "PUERTO RICO", "QATAR", "REUNION", "ROMANIA", "RUSSIA", "RWANDA", "SAINT PIERRE AND MIQUELON", "SAMOA", "SAN MARINO", "SATELLITE", "SAUDI ARABIA", "SENEGAL", "SERBIA", "SEYCHELLES", "SIERRA LEONE", "SINGAPORE", "SLOVAKIA", "SLOVENIA", "SOUTH AFRICA", "SOUTH KOREA", "SPAIN", "SRI LANKA", "ST KITTS AND NEVIS", "ST LUCIA", "ST VINCENT", "ST. LUCIA", "SUDAN", "SURINAME", "SWAZILAND", "SWEDEN", "SWITZERLAND", "SYRIA", "TAIWAN", "TAJIKISTAN", "TANZANIA", "THAILAND", "TIMOR L'ESTE", "TOGO", "TONGA", "TRINIDAD AND TOBAGO", "TUNISIA", "TURKEY", "TURKMENISTAN", "TURKS AND CAICOS", "UGANDA", "UKRAINE", "UNITED ARAB EMIRATES", "UNITED KINGDOM", "UNITED STATES OF AMERICA", "URUGUAY", "UZBEKISTAN", "VENEZUELA", "VIETNAM", "VIRGIN ISLANDS (US)", "YEMEN", "ZAMBIA", "ZIMBABWE"];
+    };
 
     unitColumns = {
         columns: [
             { header: "Unit" },
             { header: "Jumlah (%)" },
             { header: "Amount (%)" },
-
         ],
-    }
+    };
 
-    // unitColumns=[{ title: "Unit", field: "unit.code" },
-    //       { title: "Jumlah (%)", field: "quantityPercentage" },
-    //       { title: "Amount (%)", field: "amountPercentage" },]
     get amountToBePaid() {
         var totalAmount = 0;
         var amountisCmt = 0;
@@ -494,193 +867,351 @@ export class DataForm {
         var amountCMT = 0;
         var adjustmentValue = 0;
         var total = 0;
-        if (this.data.items) {
-            for (var item of this.data.items) {
-                if (this.data.totalAmount > 0) { total = this.data.totalAmount };
-                if (item.quantity) {
-                    amountAll = amountAll + item.amount;
-                    if (item.cmtPrice > 0) {
-                        amountisCmt += item.quantity * item.price;
-                        amountCMT += item.quantity * item.cmtPrice;
-                    }
 
-                    totalAmount = amountAll - amountisCmt + amountCMT;
+        if (this.partial) {
+            if (this.data.itemsByPackingInvoice) {
+                for (var itemGroup of this.data.itemsByPackingInvoice.filter(i => i.isSave)) {
+                    if (this.data.totalAmount > 0) { total = this.data.totalAmount };
+                    for (var item of itemGroup.details) {
+                        if (item.quantity) {
+                            amountAll = amountAll + item.amount;
+                            if (item.cmtPrice > 0) {
+                                amountisCmt += item.quantity * item.price;
+                                amountCMT += item.quantity * item.cmtPrice;
+                            }
+
+                            totalAmount = amountAll - amountisCmt + amountCMT;
+                        }
+                    }
                 }
             }
-        }
 
-        if (this.data.garmentShippingInvoiceAdjustments) {
-            for (var item of this.data.garmentShippingInvoiceAdjustments) {
-                if (item.adjustmentValue) {
-                    adjustmentValue = adjustmentValue + item.adjustmentValue;
+            if (this.data.garmentShippingInvoiceAdjustments) {
+                for (var item of this.data.garmentShippingInvoiceAdjustments) {
+                    if (item.adjustmentValue) {
+                        adjustmentValue = adjustmentValue + item.adjustmentValue;
+                    }
+                }
+            }
+        } else {
+            if (this.data.items) {
+                for (var item of this.data.items) {
+                    if (this.data.totalAmount > 0) { total = this.data.totalAmount };
+                    if (item.quantity) {
+                        amountAll = amountAll + item.amount;
+                        if (item.cmtPrice > 0) {
+                            amountisCmt += item.quantity * item.price;
+                            amountCMT += item.quantity * item.cmtPrice;
+                        }
+
+                        totalAmount = amountAll - amountisCmt + amountCMT;
+                    }
+                }
+            }
+
+            if (this.data.garmentShippingInvoiceAdjustments) {
+                for (var item of this.data.garmentShippingInvoiceAdjustments) {
+                    if (item.adjustmentValue) {
+                        adjustmentValue = adjustmentValue + item.adjustmentValue;
+                    }
                 }
             }
         }
 
         this.data.amountToBePaid = totalAmount + adjustmentValue;
         return totalAmount + adjustmentValue;
-    }
+    };
+
     get totalAmounts() {
         var totalAmount = 0;
 
-        if (this.data.items) {
-
-            for (var item of this.data.items) {
-
-                if (item.amount > 0) {
-                    totalAmount = totalAmount + (item.price * item.quantity);
-                } else {
-                    totalAmount = 0;
+        if (this.partial) {
+            if (this.data.itemsByPackingInvoice) {
+                for (var itemGroup of this.data.itemsByPackingInvoice.filter(i => i.isSave)) {
+                    for (var item of itemGroup.details) {
+                        if (item.amount > 0) {
+                            totalAmount = totalAmount + (item.price * item.quantity);
+                        } else {
+                            totalAmount = 0;
+                        }
+                    }
+                }
+            } else {
+                if (this.data.items) {
+                    for (var item of this.data.items) {
+                        if (item.amount > 0) {
+                            totalAmount = totalAmount + (item.price * item.quantity);
+                        } else {
+                            totalAmount = 0;
+                        }
+                    }
                 }
             }
         }
 
         this.data.totalAmount = totalAmount;
         return totalAmount;
-    }
+    };
 
     get lessFabricCosts() {
         var lessFabCost = 0;
 
-        if (this.data.items) {
-
-            for (var item of this.data.items) {
-
-                if (item.cmtPrice > 0) {
-                    lessFabCost += ((item.cmtPrice-item.price) * item.quantity);
+        if (this.partial) {
+            if (this.data.itemsByPackingInvoice) {
+                for (var itemGroup of this.data.itemsByPackingInvoice.filter(i => i.isSave)) {
+                    for (var item of itemGroup.details) {
+                        if (item.cmtPrice > 0) {
+                            lessFabCost += ((item.cmtPrice - item.price) * item.quantity);
+                        }
+                    }
                 }
-           }
+            }
+        } else {
+            if (this.data.items) {
+                for (var item of this.data.items) {
+                    if (item.cmtPrice > 0) {
+                        lessFabCost += ((item.cmtPrice - item.price) * item.quantity);
+                    }
+                }
+            }
         }
 
         this.lessFabCost = lessFabCost;
         return lessFabCost;
-    }
-        
-    get sectionLoader() {
-        return SectionLoader;
-    }
-    sectionView = (section) => {
-        return `${section.Code} - ${section.Name}`
-    }
+    };
 
     get filter() {
-      let username = null;
-      if (this.authService.authenticated) {
-          const me = this.authService.getTokenPayload();
-          username = me.username;
-      }
-//   
-      return {
-        'status=="CREATED" || status=="DRAFT_APPROVED_SHIPPING" || status=="POSTED" || status=="APPROVED_MD" || status=="APPROVED_SHIPPING" || status=="REVISED_MD" || status=="REVISED_SHIPPING" || status=="REJECTED_MD" || status=="REJECTED_SHIPPING_UNIT"':true,
-        ShippingStaffName: username
-      }
-    }
+        let username = null;
+
+        if (this.authService.authenticated) {
+            const me = this.authService.getTokenPayload();
+            username = me.username;
+        }
+
+        return {
+            'status=="CREATED" || status=="DRAFT_APPROVED_SHIPPING" || status=="POSTED" || status=="APPROVED_MD" || status=="APPROVED_SHIPPING" || status=="REVISED_MD" || status=="REVISED_SHIPPING" || status=="REJECTED_MD" || status=="REJECTED_SHIPPING_UNIT"': true,
+            ShippingStaffName: username
+        }
+    };
+
+    bankFilter = {
+        DivisionName: "AMBASSADOR GARMINDO 2"
+    };
 
     get addItems() {
         return (event) => {
             this.data.Items.push({});
         };
-    }
+    };
 
     get removeItems() {
         return (event) => {
-            this.percentageProcess(this.data.items);
+            //this.percentageProcess(this.data);
             this.error = null;
         };
-    }
+    };
 
-    percentageProcess(items) {
-        this.data.garmentShippingInvoiceUnits = [];
-        var percents = [];
-        var totalqty = 0;
-        var totalamount = 0;
-        if (items) {
-            if (items.length > 0) {
-                for (var i of items) {
-                    totalqty += i.quantity;
-                    totalamount += i.price * i.quantity;
-                    var percent = {};
-                    if (i.unit) {
-                        if (percents.length == 0) {
-                            percent.unit = i.unit;
-                            percent.qty = i.quantity;
-                            percent.amount = i.price * i.quantity;
-                            percents.push(percent);
-                        }
-                        else {
-                            var dup = percents.find(a => a.unit.code == i.unit.code);
-                            if (dup) {
-                                var idx = percents.indexOf(dup);
-                                dup.amount += i.price * i.quantity;
-                                dup.qty += i.quantity;
-                                percents[idx] = dup;
-                            }
-                            else {
-                                percent.unit = i.unit;
-                                percent.qty = i.quantity;
-                                percent.amount = i.price * i.quantity;
-                                percents.push(percent);
-                            }
-                        }
-                    }
-                }
-                if (percents.length > 0) 
-                {
-                    // for (var p of percents) 
-                    // {
-                    //     console.log(p);
-                    //     if (p.amount > 0 && totalamount > 0) 
-                    //     {
-                    //         p.amountPercentage = p.amount / totalamount * 100;
-                    //     }
-                    //     if (p.qty > 0 && totalqty > 0) 
-                    //     {
-                    //         p.quantityPercentage = p.qty / totalqty * 100;
-                    //     }
-                    //     this.data.garmentShippingInvoiceUnits.push(p)
-                    // }
-                    //Enhance Jason Sept 2021
-                    var tempArray = [];
-                    for (var i = 0; i < percents.length; i++) 
-                    {
-                        if (percents[i].amount > 0 && totalamount > 0) 
-                        {
-                            if(i == percents.length - 1)
-                            {
-                                var sumPercentage = tempArray.reduce((a,b) => a + b, 0);
-                                var lastPercentage = 100 - sumPercentage;
-                                percents[i].amountPercentage = parseFloat(lastPercentage.toFixed(2));
-                                tempArray.push(percents[i].amountPercentage);
-                            }
-                            else
-                            {
-                                var percentage = percents[i].amount / totalamount * 100;
-                                percents[i].amountPercentage = parseFloat(percentage.toFixed(2));
-                                tempArray.push(percents[i].amountPercentage);
-                            }
-                        }
-                        if (percents[i].qty > 0 && totalqty > 0) 
-                        {
-                            percents[i].quantityPercentage = percents[i].qty / totalqty * 100;
-                        }
-                        this.data.garmentShippingInvoiceUnits.push(percents[i]);
-                    }
-                    //console.log("data-form1");
-                    //console.log(tempArray);
-                }
-            }
-        }
-        //console.log("data-form2");
-        return this.data.garmentShippingInvoiceUnits
-        //console.log("data-form3");
-    }
+    // percentageProcess(items) {
+    //     this.data.garmentShippingInvoiceUnits = [];
+    //     var percents = [];
+    //     var totalqty = 0;
+    //     var totalamount = 0;
 
+    //     if (items) {
+    //         if (items.length > 0) {
+    //             for (var i of items) {
+    //                 totalqty += i.quantity;
+    //                 totalamount += i.price * i.quantity;
+    //                 var percent = {};
+    //                 if (i.unit) {
+    //                     if (percents.length == 0) {
+    //                         percent.unit = i.unit;
+    //                         percent.qty = i.quantity;
+    //                         percent.amount = i.price * i.quantity;
+    //                         percents.push(percent);
+    //                     } else {
+    //                         var dup = percents.find(a => a.unit.code == i.unit.code);
+    //                         if (dup) {
+    //                             var idx = percents.indexOf(dup);
+    //                             dup.amount += i.price * i.quantity;
+    //                             dup.qty += i.quantity;
+    //                             percents[idx] = dup;
+    //                         }
+    //                         else {
+    //                             percent.unit = i.unit;
+    //                             percent.qty = i.quantity;
+    //                             percent.amount = i.price * i.quantity;
+    //                             percents.push(percent);
+    //                         }
+    //                     }
+    //                 }
+    //             }
 
-    itemChanged(e) {
-        this.percentageProcess(this.data.items);
-    }
+    //             if (percents.length > 0) {
+    //                 var tempArray = [];
+    //                 for (var i = 0; i < percents.length; i++) {
+    //                     if (percents[i].amount > 0 && totalamount > 0) {
+    //                         if (i == percents.length - 1) {
+    //                             var sumPercentage = tempArray.reduce((a, b) => a + b, 0);
+    //                             var lastPercentage = 100 - sumPercentage;
+    //                             percents[i].amountPercentage = parseFloat(lastPercentage.toFixed(2));
+    //                             tempArray.push(percents[i].amountPercentage);
+    //                         }
+    //                         else {
+    //                             var percentage = percents[i].amount / totalamount * 100;
+    //                             percents[i].amountPercentage = parseFloat(percentage.toFixed(2));
+    //                             tempArray.push(percents[i].amountPercentage);
+    //                         }
+    //                     }
+
+    //                     if (percents[i].qty > 0 && totalqty > 0) {
+    //                         percents[i].quantityPercentage = percents[i].qty / totalqty * 100;
+    //                     }
+
+    //                     this.data.garmentShippingInvoiceUnits.push(percents[i]);
+    //                 }
+    //             }
+    //         }
+    //     }
+
+    //     return this.data.garmentShippingInvoiceUnits
+    // }
+
+    // percentageProcess(data) {
+    //     this.data.garmentShippingInvoiceUnits = [];
+    //     var percents = [];
+    //     var totalqty = 0;
+    //     var totalamount = 0;
+
+    //     if (this.partial && data.itemsByPackingInvoice) {
+    //         for (var itemGroup of data.itemsByPackingInvoice.filter(i => i.isSave)) {
+    //             if (itemGroup.details.length > 0) {
+    //                 for (var i of itemGroup.details) {
+    //                     totalqty += i.quantity;
+    //                     totalamount += i.price * i.quantity;
+    //                     var percent = {};
+    //                     if (i.unit) {
+    //                         if (percents.length == 0) {
+    //                             percent.unit = i.unit;
+    //                             percent.qty = i.quantity;
+    //                             percent.amount = i.price * i.quantity;
+    //                             percents.push(percent);
+    //                         } else {
+    //                             var dup = percents.find(a => a.unit.code == i.unit.code);
+    //                             if (dup) {
+    //                                 var idx = percents.indexOf(dup);
+    //                                 dup.amount += i.price * i.quantity;
+    //                                 dup.qty += i.quantity;
+    //                                 percents[idx] = dup;
+    //                             } else {
+    //                                 percent.unit = i.unit;
+    //                                 percent.qty = i.quantity;
+    //                                 percent.amount = i.price * i.quantity;
+    //                                 percents.push(percent);
+    //                             }
+    //                         }
+    //                     }
+    //                 }
+
+    //                 if (percents.length > 0) {
+    //                     var tempArray = [];
+    //                     for (var i = 0; i < percents.length; i++) {
+    //                         if (percents[i].amount > 0 && totalamount > 0) {
+    //                             if (i == percents.length - 1) {
+    //                                 var sumPercentage = tempArray.reduce((a, b) => a + b, 0);
+    //                                 var lastPercentage = 100 - sumPercentage;
+    //                                 percents[i].amountPercentage = parseFloat(lastPercentage.toFixed(2));
+    //                                 tempArray.push(percents[i].amountPercentage);
+    //                             } else {
+    //                                 var percentage = percents[i].amount / totalamount * 100;
+    //                                 percents[i].amountPercentage = parseFloat(percentage.toFixed(2));
+    //                                 tempArray.push(percents[i].amountPercentage);
+    //                             }
+    //                         }
+
+    //                         if (percents[i].qty > 0 && totalqty > 0) {
+    //                             percents[i].quantityPercentage = percents[i].qty / totalqty * 100;
+    //                         }
+
+    //                         this.data.garmentShippingInvoiceUnits.push(percents[i]);
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     } else {
+    //         var items = data.items;
+    //         if (items.length > 0) {
+    //             for (var i of items) {
+    //                 totalqty += i.quantity;
+    //                 totalamount += i.price * i.quantity;
+    //                 var percent = {};
+    //                 if (i.unit) {
+    //                     if (percents.length == 0) {
+    //                         percent.unit = i.unit;
+    //                         percent.qty = i.quantity;
+    //                         percent.amount = i.price * i.quantity;
+    //                         percents.push(percent);
+    //                     } else {
+    //                         var dup = percents.find(a => a.unit.code == i.unit.code);
+    //                         if (dup) {
+    //                             var idx = percents.indexOf(dup);
+    //                             dup.amount += i.price * i.quantity;
+    //                             dup.qty += i.quantity;
+    //                             percents[idx] = dup;
+    //                         } else {
+    //                             percent.unit = i.unit;
+    //                             percent.qty = i.quantity;
+    //                             percent.amount = i.price * i.quantity;
+    //                             percents.push(percent);
+    //                         }
+    //                     }
+    //                 }
+    //             }
+
+    //             if (percents.length > 0) {
+    //                 var tempArray = [];
+    //                 for (var i = 0; i < percents.length; i++) {
+    //                     if (percents[i].amount > 0 && totalamount > 0) {
+    //                         if (i == percents.length - 1) {
+    //                             var sumPercentage = tempArray.reduce((a, b) => a + b, 0);
+    //                             var lastPercentage = 100 - sumPercentage;
+    //                             percents[i].amountPercentage = parseFloat(lastPercentage.toFixed(2));
+    //                             tempArray.push(percents[i].amountPercentage);
+    //                         }
+    //                         else {
+    //                             var percentage = percents[i].amount / totalamount * 100;
+    //                             percents[i].amountPercentage = parseFloat(percentage.toFixed(2));
+    //                             tempArray.push(percents[i].amountPercentage);
+    //                         }
+    //                     }
+
+    //                     if (percents[i].qty > 0 && totalqty > 0) {
+    //                         percents[i].quantityPercentage = percents[i].qty / totalqty * 100;
+    //                     }
+
+    //                     this.data.garmentShippingInvoiceUnits.push(percents[i]);
+    //                 }
+    //             }
+    //         }
+    //     }
+
+    //     return this.data.garmentShippingInvoiceUnits
+    // };
+
+    // itemChanged(e) {
+    //     this.percentageProcess(this.data);
+    // };
+
+    changeCheckBox() {
+        if (!this.partial)
+            this.partial = true;
+        else
+            this.partial = !this.partial;
+
+        this.data.isPartial = this.partial;
+    };
 
     get isPackinglistType() {
         return this.data.packingListType && (this.data.packingListType == "EXPORT");
-    }
+    };
 }

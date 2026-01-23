@@ -8,34 +8,39 @@ export class View {
         this.router = router;
         this.service = service;
     }
-    isView= true;
-    isEdit =false;
+
+    isView = true;
+    isEdit = false;
     isUpdated = false;
+    partial = false;
 
     async activate(params) {
         let id = params.id;
         this.data = await this.service.getById(id);
-        this.hasEdit=true;
-        this.hasUpdated = true;
-        this.hasCancel=true;
-        if(this.data.isUsed == true)
-        {
-            this.hasDelete=false;
+        this.hasEdit = true;
+        this.hasUpdated = !this.data.isPartial;
+        this.partial = this.data.isPartial;
+        this.hasCancel = true;
+
+        if (this.data.isUsed == true) {
+            this.hasDelete = false;
+        } else {
+            this.hasDelete = true;
         }
-        else
-        { 
-            this.hasDelete=true;
-        
+
+        if (this.data.isPartial) {
+            this.data.items = [];
         }
-      
     }
 
     cancel(event) {
         this.router.navigateToRoute('list');
     }
+
     edit(event) {
         this.router.navigateToRoute('edit', { id: this.data.id });
     }
+
     delete(event) {
         if (confirm(`Hapus ${this.data.invoiceNo}?`))
             this.service.delete(this.data)
@@ -46,8 +51,8 @@ export class View {
                     this.error = e;
                 })
     }
+
     update(event) {
-        this.router.navigateToRoute('update', {id: this.data.id });
+        this.router.navigateToRoute('update', { id: this.data.id });
     }
-   
 }
