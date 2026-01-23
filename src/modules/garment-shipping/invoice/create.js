@@ -15,7 +15,15 @@ export class Create {
 
     bind() {
         this.partial = false;
-        this.data = { items: [], itemsByPackingInvoice: [] };
+        this.data = { 
+            shippingStaff: {},
+            shippingStaffId: 0,
+            buyerAgent: {},
+            section: {},
+            invoiceDate: new Date(),
+            packingListId: 0,
+            items: [], 
+            itemsByPackingInvoice: [] };
         this.error = {};
     }
 
@@ -41,9 +49,9 @@ export class Create {
             this.data.shippingStaff = selectedShippingStaff.Name || selectedShippingStaff.name;
         }
 
-        if (this.data.isPartial) {
-            this.data.itemsByPackingInvoice = this.data.itemsByPackingInvoice.filter(i => i.isSave);
-        }
+        // if (this.data.isPartial) {
+        //     this.data.itemsByPackingInvoice;
+        // }
 
         this.service.create(this.data)
             .then(result => {
@@ -52,9 +60,17 @@ export class Create {
                     this.router.navigateToRoute('create', {}, { replace: true, trigger: true });
                 } else {
                     alert("Data gagal dibuat");
+                    
+                    this.data.shippingStaff = {
+                        id: this.data.shippingStaffId || this.data.shippingStaff.Id,
+                        name: this.data.shippingStaff || this.data.shippingStaff.Name
+                    }
+
+                    this.error = result.error;
                 }
             })
             .catch(error => {
+                console.log(error);
                 this.error = error;
             });
     }

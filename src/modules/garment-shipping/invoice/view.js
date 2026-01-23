@@ -8,7 +8,7 @@ export class View {
         this.router = router;
         this.service = service;
     }
-    
+
     isView = true;
     isEdit = false;
     isUpdated = false;
@@ -23,9 +23,13 @@ export class View {
         this.hasCancel = true;
 
         if (this.data.isUsed == true) {
-            this.hasDelete=false;
-        } else { 
-            this.hasDelete=true;
+            this.hasDelete = false;
+        } else {
+            this.hasDelete = true;
+        }
+
+        if (this.data.isPartial) {
+            this.data.items = [];
         }
     }
 
@@ -49,6 +53,6 @@ export class View {
     }
 
     update(event) {
-        this.router.navigateToRoute('update', {id: this.data.id });
+        this.router.navigateToRoute('update', { id: this.data.id });
     }
 }
