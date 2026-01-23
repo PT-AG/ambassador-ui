@@ -74,7 +74,7 @@ export class GarmentShippingPartialInvoiceItem {
             this.header.packingListId = 0;
             this.header.invoiceNo = null;
             this.header.packingListType = null;
-            this.header.invoiceDate = null;
+            this.header.invoiceDate = new Date();
         }
     }
 }

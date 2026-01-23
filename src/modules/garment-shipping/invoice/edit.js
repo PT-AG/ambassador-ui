@@ -31,6 +31,10 @@ export class Edit {
         } else {
             this.isUsed = false;
         }
+
+        if (this.data.isPartial) {
+            this.data.items = [];
+        }
     }
 
     cancel(event) {
@@ -39,7 +43,11 @@ export class Edit {
 
     save(event) {
         this.service.update(this.data).then(result => {
-            this.cancel();
+            if (result.statusCode == 200 || result.statusCode == 201) {
+                this.cancel();
+            } else {
+                this.error = result.error;
+            }
         }).catch(e => {
             this.error = e;
         })
