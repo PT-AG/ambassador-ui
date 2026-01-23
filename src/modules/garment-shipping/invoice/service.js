@@ -1,9 +1,8 @@
 import { RestService } from '../../../utils/rest-service';
-import { Container } from 'aurelia-dependency-injection';
+import { Config } from "aurelia-api";
 const serviceUri = 'garment-shipping/invoices';
 const resourceStockUri = 'garment-shipping/packing-lists';
- 
-import { Config } from "aurelia-api";
+
 class Service extends RestService {
     constructor(http, aggregator, config, endpoint) {
         super(http, aggregator, config, "packing-inventory");
@@ -53,7 +52,7 @@ class Service extends RestService {
         var endpoint = `${resourceStockUri}`;
         return super.list(endpoint, info);
     }
-  
+
     getXlsById(id, type) {
         var endpoint = `${serviceUri}/xls/${id}/${type}`;
         return super.getXls(endpoint);
@@ -63,10 +62,16 @@ class Service extends RestService {
         var endpoint = `${serviceUri}/whxls/${id}/${type}`;
         return super.getXls(endpoint);
     }
+
+    getInvoicePartial(filter) {
+        var endpoint = `${resourceStockUri}/partial?filter=` + JSON.stringify(filter);
+        return super.get(endpoint);
+    }
 }
 
 const costCalculationServiceUri = 'cost-calculation-garments';
 const SalesContractserviceUri = "merchandiser/garment-sales-contracts";
+
 class SalesService extends RestService {
     constructor(http, aggregator, config, api) {
         super(http, aggregator, config, "sales");
@@ -86,8 +91,11 @@ class SalesService extends RestService {
         return super.get(endpoint);
     }
 }
+
 const coreserviceUri = "master/account-banks";
-const serviceUriBuyer = 'master/garment-buyers';
+const serviceUriBuyer = "master/garment-buyers";
+const serviceUriShippingStaff = "master/garment-shipping-staffs";
+
 class CoreService extends RestService {
     constructor(http, aggregator, config, api) {
         super(http, aggregator, config, "core");
@@ -103,7 +111,10 @@ class CoreService extends RestService {
         return super.get(endpoint);
     }
 
-    
+    getShippingStaff(keyword) {
+        var endpoint = `${serviceUriShippingStaff}?keyword=${keyword}`
+        return super.get(endpoint);
+    }
 }
 
-export { Service, SalesService,CoreService}
+export { Service, SalesService, CoreService }
