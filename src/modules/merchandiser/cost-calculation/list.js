@@ -7,7 +7,7 @@ import { AuthService } from "aurelia-authentication";
 @inject(Router, Service, AuthService)
 export class List {
     dataToBePosted = [];
-    context = ["Detail", "Cetak Cost Calculation", "Cetak Budget", "Cetak Cost Calculation (DRAFT)", "Cetak Budget (DRAFT)"];
+    context = ["Detail", "Cetak Cost Calculation", "Cetak Budget", "Cetak Cost Calculation (DRAFT)", "Cetak Budget (DRAFT)", "Cetak Excel"];
     columns = [
         {
             field: "isPosting", title: "Post", checkbox: true, sortable: false,
@@ -119,6 +119,9 @@ export class List {
             case "Cetak Budget":
             case "Cetak Budget (DRAFT)":
                 this.service.getBudgetById(data.Id)
+                break;
+            case "Cetak Excel":
+                this.service.getExcelById(data.Id)
                 break;
         }
     }
