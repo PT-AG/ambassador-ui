@@ -1,9 +1,7 @@
-import { bindable, computedFrom } from 'aurelia-framework'
-import { factories } from 'powerbi-client';
-import { Container } from 'aurelia-dependency-injection';
-import { Config } from "aurelia-api";
-
+import { inject, BindingEngine, computedFrom } from 'aurelia-framework'
+import { Service } from "../service";
 var UomLoader = require('../../../../loader/uom-loader');
+@inject(BindingEngine,Service)
 export class UnitDeliveryOrderItem {
 
   fabricOptions = ['NON FABRIC', 'MAIN FABRIC', 'CONTRASS', 'INTERLINING', 'LINING', 'PIPING', 'SLEEK', 'FRONTING', 'FELT', 'RIB'];
@@ -15,6 +13,22 @@ export class UnitDeliveryOrderItem {
 
     this.readOnly = this.options.readOnly || this.data.IsDisabled;
     this.isEdit = context.context.options.isEdit;
+
+    // if( this.data.Id){
+    //   var filter= JSON.stringify({RONo:this.data.RONo});
+    //       var info = {
+    //         filter: filter
+    //       };
+    //   var epo=await this.service.getGarmentEPOByRONo(info);
+      
+    //   const item = epo.data.find(a => a.Id === this.data.EPOItemId);
+    //   this.data.Remark = item ? item.Remark : "";
+    // }
+  }
+
+  constructor(bindingEngine, service) {
+    this.bindingEngine = bindingEngine;
+    this.service = service;
   }
 
   bind() {
