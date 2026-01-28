@@ -152,6 +152,11 @@ class Service extends RestService {
         return super.list(endpoint, info);
     }
 
+     getExcelById(id) {
+        var endpoint = `${serviceUri}/excel/${id}`;
+        return super.getXls(endpoint);
+    }
+
 };
 
 const serviceUriPurchaseRequest = 'garment-purchase-requests';
