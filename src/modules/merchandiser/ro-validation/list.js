@@ -18,6 +18,7 @@ export class List {
         { field: "BrandName", title: "Nama Buyer" },
         { field: "CostCalculationGarment.Article", title: "Artikel" },
         { field: "CostCalculationGarment.UnitName", title: "Unit"},
+        { field: "CostCalculationGarment.LeadTime", title: "Lead Time"},
         { field: "Total", title: "Kuantitas RO"}
     ];
 
