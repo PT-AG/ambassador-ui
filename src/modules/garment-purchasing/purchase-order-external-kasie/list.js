@@ -14,8 +14,10 @@ export class List {
       if (data.IsPosted && data.IsApprovedKasie && data.IsApprovedKabag)
         return { classes: "success" };
       else return {};
-    } else {
+    } else if (!data.IsOverBudget && data.IsPosted) {
       return { classes: "success" };
+    } else {
+      return {};
     }
   }
 
