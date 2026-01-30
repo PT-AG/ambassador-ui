@@ -90,6 +90,7 @@ export class DataForm {
         "Jumlah DO",
         "Satuan",
         "Tipe Fabric",
+        "Keterangan",
       ];
 
       this.itemsFabric.columns = [
@@ -106,6 +107,7 @@ export class DataForm {
         "Box",
         "Level",
         "Area",
+        "Keterangan",
       ];
     }
 
@@ -114,6 +116,7 @@ export class DataForm {
         this.options.checkedAll = this.data.Items.filter(
           (item) => item.IsDisabled === false
         ).reduce((acc, curr) => acc && curr.IsSave, true);
+
       }
 
       this.isProses = this.data.UnitDOType === "PROSES";
@@ -471,6 +474,7 @@ export class DataForm {
                 Items.Box = item.Box;
                 Items.Colour = item.Colour;
                 Items.Area = item.Area;
+                Items.Remark= item.Remark;
                 if (!this.itemToException.includes(Items.ProductName)) {
                   this.dataItems.push(Items);
                 }
@@ -550,6 +554,7 @@ export class DataForm {
                 Items.Box = item.Box;
                 Items.Colour = item.Colour;
                 Items.Area = item.Area;
+                Items.Remark= item.Remark;
 
                 if (!this.itemToException.includes(Items.ProductName)) {
                   this.dataItems.push(Items);
@@ -625,6 +630,7 @@ export class DataForm {
                 Items.Box = item.Box;
                 Items.Colour = item.Colour;
                 Items.Area = item.Area;
+                Items.Remark= item.Remark;
 
                 if (!this.itemToException.includes(Items.ProductName)) {
                   this.dataItems.push(Items);
@@ -830,6 +836,7 @@ export class DataForm {
             this.newProduct.Box = selectedROHeader.Box;
             this.newProduct.Colour = selectedROHeader.Colour;
             this.newProduct.Area = selectedROHeader.Area;
+            this.newProduct.Remark= selectedROHeader.Remark;
           } else {
             this.newProduct.IsDisabled = true;
           }
@@ -891,6 +898,7 @@ export class DataForm {
       "Jumlah DO Awal",
       "Satuan",
       "Tipe Fabric",
+      "Keterangan"
     ],
   };
 
@@ -908,6 +916,7 @@ export class DataForm {
       "Box",
       "Level",
       "Area",
+      "Keterangan"
     ],
   };
 
