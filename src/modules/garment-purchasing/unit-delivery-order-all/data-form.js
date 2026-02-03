@@ -70,7 +70,8 @@ export class DataForm {
                 "Jumlah DO Awal",
                 "Jumlah DO",
                 "Satuan",
-                "Tipe Fabric"
+                "Tipe Fabric",
+                "Keterangan",
             ];
 
             this.itemsFabric.columns =  [
@@ -87,6 +88,7 @@ export class DataForm {
                 "Box",
                 "Level",
                 "Area",
+                "Keterangan",
             ];
         }
         
