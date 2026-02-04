@@ -13,6 +13,7 @@ export class List {
     }
 
     filter = {};
+
     activate(params) {
         let username = null;
         if (this.authService.authenticated) {
@@ -40,7 +41,8 @@ export class List {
     ]
 
     loader = (info) => {
-        var order = { "IsReceived": "asc", "Date": "desc" };
+        var order = {};
+        //var order = { "IsReceived": "asc", "Date": "desc" };
         if (info.sort)
             order[info.sort] = info.order;
 
