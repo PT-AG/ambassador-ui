@@ -210,12 +210,26 @@ export class DataForm {
                 }
             }
 
-            const DODetailIdFilter = DODetailIds
-                .filter((DODetailId, i) => DODetailIds.indexOf(DODetailId) == i)
-                .map(DODetailId => "DODetailId==" + DODetailId)
-                .join(" || ");
-            const filter = { SupplierId: this.data.Supplier.Id };
-            filter[`Items.Any(${DODetailIdFilter})`] = true;
+            // const DODetailIdFilter = DODetailIds
+            //     .filter((DODetailId, i) => DODetailIds.indexOf(DODetailId) == i)
+            //     .map(DODetailId => "DODetailId==" + DODetailId)
+            //     .join(" || ");
+            // const filter = { SupplierId: this.data.Supplier.Id };
+            // filter[`Items.Any(${DODetailIdFilter})`] = true;
+            // const info = {
+            //     filter: JSON.stringify(filter)
+            // };
+
+            const uniqueIds = DODetailIds.filter((id, i) => DODetailIds.indexOf(id) === i);
+            const idList = uniqueIds.join(", ");
+
+            const filter = { 
+                SupplierId: this.data.Supplier.Id 
+            };
+
+            // Hasilnya: Items.Any(DODetailId IN (78870, 78871))
+            filter[`Items.Any(DODetailId IN (${idList}))`] = true;
+
             const info = {
                 filter: JSON.stringify(filter)
             };
