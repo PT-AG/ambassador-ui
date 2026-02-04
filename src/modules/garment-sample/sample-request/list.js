@@ -13,6 +13,7 @@ export class List {
     }
 
     filter = {};
+
     activate(params) {
         let username = null;
         if (this.authService.authenticated) {
@@ -61,19 +62,19 @@ export class List {
         return this.service.search(arg)
             .then(result => {
                 result.data.forEach(s => {
-                    s.BuyerName=s.Buyer.Name;
-                    s.Status="CREATED";
-                    if(s.IsPosted && !s.IsReceived && !s.IsRejected && !s.IsRevised){
-                        s.Status="POSTED";
+                    s.BuyerName = s.Buyer.Name;
+                    s.Status = "CREATED";
+                    if (s.IsPosted && !s.IsReceived && !s.IsRejected && !s.IsRevised) {
+                        s.Status = "POSTED";
                     }
-                    else if(s.IsReceived && !s.IsRevised){
-                        s.Status="APPROVED";
+                    else if (s.IsReceived && !s.IsRevised) {
+                        s.Status = "APPROVED";
                     }
-                    else if(s.IsRejected){
-                        s.Status="REJECTED";
+                    else if (s.IsRejected) {
+                        s.Status = "REJECTED";
                     }
-                    else if(s.IsRevised){
-                        s.Status="REVISED";
+                    else if (s.IsRevised) {
+                        s.Status = "REVISED";
                     }
                 });
                 return {
@@ -122,11 +123,11 @@ export class List {
     }
 
     rowFormatter(data, index) {
-        if (data.Status=="APPROVED")
+        if (data.Status == "APPROVED")
             return { classes: "success" }
-        else if (data.Status=="REVISED")
+        else if (data.Status == "REVISED")
             return { classes: "info" }
-        else if (data.Status=="REJECTED")
+        else if (data.Status == "REJECTED")
             return { classes: "danger" }
         else
             return {}
