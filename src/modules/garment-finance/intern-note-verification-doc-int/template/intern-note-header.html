@@ -1,0 +1,64 @@
+<template>
+    <tr>
+        <td>
+            <au-textbox value.bind="data.inNo" 
+                    read-only.bind="true" 
+                    options.bind="controlOptions">
+            </au-textbox>
+        </td>
+        <td>
+            <au-datepicker value.bind="data.inDate" read-only.bind="true" options.bind="controlOptions">
+            </au-datepicker>
+        </td>
+        <td>
+            <au-textbox value.bind="data.currency.Code" 
+                    read-only.bind="true" 
+                    options.bind="controlOptions">
+            </au-textbox>
+        </td>
+        <td>
+            <au-textbox value.bind="data.supplier.Name" 
+                    read-only.bind="true" 
+                    options.bind="controlOptions">
+            </au-textbox>
+        </td>
+        <td>
+            <au-textbox value.bind="invoice.invoiceNo" 
+                    read-only.bind="true" 
+                    options.bind="controlOptions">
+            </au-textbox>
+        </td>
+        <td>
+            <au-datepicker value.bind="invoice.invoiceDate" read-only.bind="true" options.bind="controlOptions">
+            </au-datepicker>
+        </td>
+        <td>
+            <au-numeric value.bind="invoice.totalAmount" read-only.bind="true" format="0.00" options.bind="controlOptions">
+			</au-numeric>
+        </td>
+        <td>
+            <au-textbox value.bind="data.remark" 
+                    read-only.bind="true" 
+                    options.bind="controlOptions">
+            </au-textbox>
+        </td>
+        <td>
+            <div class="col-sm-7">
+                <au-textbox value.bind="data.CreatedBy" 
+                    read-only.bind="true" 
+                    options.bind="controlOptions">
+                </au-textbox>
+            </div>
+            <div class="col-sm-1  pull-right">
+                <button class="btn btn-info pull-right" if.bind="details" click.delegate="toggle()">i</button>
+            </div>
+        </td>
+    </tr>
+    <tr show.bind="isShowing">
+        <td colspan="9">
+            <au-collection items.bind="details" columns.bind="itemsInfo.columns"
+                item-template="modules/garment-finance/intern-note-verification-doc-int/template/intern-note-detail">
+            </au-collection>
+        </td>
+    </tr>
+</template>
