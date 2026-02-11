@@ -1,0 +1,42 @@
+<template>
+  <!-- Tabel Purchase Order -->
+  <div if.bind="hasPO" style="margin-top:10px;" ref="poContainer">
+    <au-table
+      data.bind="poRows"
+      columns.bind="poColumns"
+      options.bind="tableOptions"
+      sortable.bind="false"
+      page-size.bind="50">
+    </au-table>
+    <!-- <div repeat.for ="item of "></div>
+    <au-table
+      data.bind="poRows.POItems"
+      columns.bind="poItemColumns"
+      options.bind="tableOptions"
+      sortable.bind="false"
+      page-size.bind="50">
+    </au-table>-->
+  </div> 
+
+  <!-- Tabel Delivery Order (Surat Jalan) -->
+  <div if.bind="hasDO" style="margin-top:10px;" ref="doContainer">
+    <au-table
+      data.bind="doRows"
+      columns.bind="doColumns"
+      options.bind="tableOptions"
+      sortable.bind="false"
+      page-size.bind="50">
+    </au-table>
+  </div>
+
+  <!-- Tabel Faktur Pajak -->
+  <div if.bind="hasTax" style="margin-top:10px;" ref="taxContainer">
+    <au-table
+      data.bind="taxRows"
+      columns.bind="taxColumns"
+      options.bind="tableOptions"
+      sortable.bind="false"
+      page-size.bind="50">
+    </au-table>
+  </div>
+</template>
