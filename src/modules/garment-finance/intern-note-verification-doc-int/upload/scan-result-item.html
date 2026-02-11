@@ -1,0 +1,11 @@
+<template>
+  <au-table
+    if.bind="items && items.length > 0"
+    data.bind="items"
+    columns.bind="columns"
+    options.bind="tableOptions"
+    sortable.bind="false"
+    page-size.bind="50"
+    element.ref="tableElement">
+  </au-table>
+</template>
