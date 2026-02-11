@@ -17,7 +17,7 @@ export class List {
         this.service = service;
 
         this.flag = false;
-        
+
         this.error = {};
     }
 
@@ -37,34 +37,57 @@ export class List {
     }
 
     columns = [
-        { field: "index", title: "No" , sortable: false},
-        { field: "tglspb", title: "TglSPB" , sortable: false , formatter: function (value, data, index) {
+        { field: "index", title: "No", sortable: false },
+        {
+            field: "tglspb", title: "TglSPB", sortable: false, formatter: function (value, data, index) {
                 return moment(value).format("DD/MM/YYYY");
-            }},
+            }
+        },
         { field: "nospb", title: "NoSPB", sortable: false },
         { field: "namabrg", title: "NamaBrg", sortable: false },
         { field: "satuan", title: "Sat", sortable: false },
-         { field: "jumlah", title: "Jml", sortable: false },
-         { field: "hrgsat", title: "HrgSat", sortable: false },
-         { field: "jumlahhrg", title: "JmlHrg", sortable: false },
-         { field: "ppn", title: "Ppn", sortable: false },
-         { field: "total", title: "Total", sortable: false },
-         { field: "pph", title: "Pph", sortable: false },
-         { field: "tglpr", title: "Tglpr", sortable: false, formatter: function (value, data, index) {
+        { field: "jumlah", title: "Jml", sortable: false },
+        { field: "hrgsat", title: "HrgSat", sortable: false },
+        { field: "jumlahhrg", title: "JmlHrg", sortable: false },
+        { field: "ppn", title: "Ppn", sortable: false },
+        { field: "total", title: "Total", sortable: false },
+        { field: "pph", title: "Pph", sortable: false },
+        { field: "totaltagihan", title: "Total Tagihan", sortable: false },
+        {
+            field: "tglpr", title: "Tglpr", sortable: false, formatter: function (value, data, index) {
                 return moment(value).format("DD/MM/YYYY");
-            } },
+            }
+        },
         { field: "nopr", title: "NoPR", sortable: false },
-         { field: "tglbon", title: "TglBon", sortable: false, formatter: function (value, data, index) {
+        {
+            field: "tglbon", title: "TglBon", sortable: false, formatter: function (value, data, index) {
                 return moment(value).format("DD/MM/YYYY");
-            } },
+            }
+        },
         { field: "nobon", title: "NoBon", sortable: false },
-        { field: "tglinv", title: "TglInv", sortable: false, formatter: function (value, data, index) {
+        {
+            field: "tglinv", title: "TglInv", sortable: false, formatter: function (value, data, index) {
                 return moment(value).format("DD/MM/YYYY");
-            } },
+            }
+        },
         { field: "noinv", title: "NoInv", sortable: false },
-        { field: "jt", title: "Jt", sortable: false, formatter: function (value, data, index) {
+        {
+            field: "jt", title: "Jt", sortable: false, formatter: function (value, data, index) {
                 return moment(value).format("DD/MM/YYYY");
-            } },
+            }
+        },
+        {
+            field: "tglppn", title: "Tgl PPn", sortable: false, formatter: function (value, data, index) {
+                if (!value) {
+                    return "-";
+                }
+
+                return moment(value).format("DD/MM/YYYY");
+            }
+        },
+        {
+            field: "noppn", title: "No PPn", sortable: false 
+        },
         { field: "kodesupplier", title: "KdSupp", sortable: false },
         { field: "supplier", title: "Supp", sortable: false },
         { field: "unit", title: "unit", sortable: false },
@@ -73,9 +96,6 @@ export class List {
         { field: "term", title: "Term", sortable: false },
         { field: "matauang", title: "MtUang", sortable: false },
         { field: "kategori", title: "Kat", sortable: false },
-         
-         
-       
     ];
 
     search() {
@@ -89,7 +109,7 @@ export class List {
     }
 
     reset() {
-        this.pr=null;
+        this.pr = null;
         this.unit = null;
         this.supplier = null;
         this.spb = null;
@@ -114,11 +134,11 @@ export class List {
         let args = {
             page: parseInt(info.offset / info.limit, 10) + 1,
             size: info.limit,
-            supplierId: this.supplier ? this.supplier._id: "",
-            noSPB: this.spb ? this.spb.no:"",
+            supplierId: this.supplier ? this.supplier._id : "",
+            noSPB: this.spb ? this.spb.no : "",
             unitId: this.unit ? this.unit.Id : "",
-            dateTo: this.dateTo? moment(this.dateTo).format("MM/DD/YYYY"):"",
-            dateFrom: this.dateFrom? moment(this.dateFrom).format("MM/DD/YYYY"):"",
+            dateTo: this.dateTo ? moment(this.dateTo).format("MM/DD/YYYY") : "",
+            dateFrom: this.dateFrom ? moment(this.dateFrom).format("MM/DD/YYYY") : "",
 
         };
 
@@ -126,12 +146,12 @@ export class List {
             (
                 this.service.search(args)
                     .then(result => {
-                        var index=0;
-                        for(var a of result.data){
+                        var index = 0;
+                        for (var a of result.data) {
                             index++;
-                            a.index=index;
-                            if(a.isCanceled){
-                                a.status="Dibatalkan";
+                            a.index = index;
+                            if (a.isCanceled) {
+                                a.status = "Dibatalkan";
                             }
                         }
                         return {
@@ -147,13 +167,13 @@ export class List {
 
         if (Object.getOwnPropertyNames(this.error).length === 0) {
             let args = {
-            supplierId: this.supplier ? this.supplier._id: "",
-            noSPB: this.spb ? this.spb.no:"",
-            unitId: this.unit ? this.unit.Id : "",
-            dateTo: this.dateTo? moment(this.dateTo).format("MM/DD/YYYY"):"",
-            dateFrom: this.dateFrom? moment(this.dateFrom).format("MM/DD/YYYY"):"",
+                supplierId: this.supplier ? this.supplier._id : "",
+                noSPB: this.spb ? this.spb.no : "",
+                unitId: this.unit ? this.unit.Id : "",
+                dateTo: this.dateTo ? moment(this.dateTo).format("MM/DD/YYYY") : "",
+                dateFrom: this.dateFrom ? moment(this.dateFrom).format("MM/DD/YYYY") : "",
 
-        };
+            };
 
             this.service.getXls(args)
                 .catch(e => {
@@ -166,18 +186,18 @@ export class List {
         return UnitLoader;
     }
 
-     get supplierLoader() {
+    get supplierLoader() {
         return SupplierLoader;
     }
 
     get prLoader() {
         return PRLoader;
     }
-    
+
     get categoryLoader() {
         return CategoryLoader;
     }
-    
+
     get budgetLoader() {
         return BudgetLoader;
     }
@@ -187,6 +207,6 @@ export class List {
     }
 
     prView = (tr) => {
-      return `${tr.no}`;
-  }
+        return `${tr.no}`;
+    }
 }
