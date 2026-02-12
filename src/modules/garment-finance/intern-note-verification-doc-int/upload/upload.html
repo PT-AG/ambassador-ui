@@ -1,0 +1,27 @@
+<template>
+	<require from="../css/loader.css"></require>
+		<div class="panel panel-default">
+		<div class="panel-heading text-center">Upload File PDF untuk Verifikasi</div>
+		<div class="panel-body">
+			<div>
+				<input type="file" id="pdfFile" name="file" accept="application/pdf" change.delegate="onFileChanged($event)" ref="fileInput">
+				<button class="btn btn-success pull-right" style="margin-left:10px;" disabled.bind="disabled || !selectedFile" click.delegate="upload()">Scan File</button>
+				<button class="btn btn-default pull-right" style="margin-left:10px;" disabled.bind="disabled" click.delegate="clear()">Clear</button>
+			</div>
+			<div class="text-center" style="margin-top:5px;">
+		    <span class="help-block" show.bind="error.file">${error.file}</span>
+			</div>
+	<pre if.bind="error.upload" class="text-center">${error.upload}</pre>
+		</div>
+	</div>
+
+	<!-- Loader overlay for scanning/uploading -->
+	<div if.bind="isScanning" class="scan-loader-overlay-global">
+		<div class="scan-loader-spinner-global">
+			<i class="fa fa-spinner fa-spin" style="font-size:3rem;color:#0D2F56;"></i>
+			<div style="margin-top:16px;color:#0D2F56;font-weight:bold;font-size:1.2rem;">
+				Memuat Data hasil pindai...
+			</div>
+		</div>
+	</div>
+</template>
