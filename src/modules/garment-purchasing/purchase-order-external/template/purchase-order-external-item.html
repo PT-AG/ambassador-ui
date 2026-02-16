@@ -101,6 +101,46 @@
                 >
             </au-textbox>
         </td>
+        <td show.bind="context.context.options.checkOverBudget">
+            <au-numeric
+                value.bind="budgetPrice"
+                read-only.bind="true"
+                options.bind="controlOptions"
+                format="0,000.00">
+            </au-numeric>
+        </td>
+        <td show.bind="context.context.options.checkOverBudget">
+            <au-numeric
+                value.bind="totalBudgetPrice"
+                read-only.bind="true"
+                options.bind="controlOptions"
+                format="0,000.00">
+            </au-numeric>
+        </td>
+        <td show.bind="context.context.options.checkOverBudget">
+             <au-numeric
+                value.bind="totalPrice"
+                read-only.bind="true"
+                options.bind="controlOptions"
+                format="0,000.00">
+            </au-numeric>
+        </td>
+        <td show.bind="context.context.options.checkOverBudget">
+             <au-numeric
+                value.bind="overBudgetValue"
+                read-only.bind="true"
+                options.bind="controlOptions"
+                format="0,000.00">
+            </au-numeric>
+        </td>
+        <td show.bind="context.context.options.checkOverBudget">
+             <au-numeric
+                value.bind="overBudgetValuePercentage"
+                read-only.bind="true"
+                options.bind="controlOptions"
+                format="0.00">
+            </au-numeric>
+        </td>
         <td show.bind="context.context.options.checkOverBudget" align="center">
             <au-checkbox
                 value.bind="data.IsOverBudget"
