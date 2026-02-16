@@ -123,6 +123,26 @@
             </au-textbox>                   
         </td>
         <td>
+            <au-numeric 
+                value.bind="data.qtyPIB" 
+                error.bind="error.qtyPIB"
+                read-only.bind="options.readOnly"
+                options.bind="controlOptions">
+            </au-numeric>
+        </td>
+        <td>
+            <au-autocomplete 
+                value.bind="selectedPibUom" 
+                error.bind="error.uomPIB"
+                loader.bind="uomLoader"
+                text.bind="uomView"
+                placeholder="cari satuan" 
+                key="unit"
+                read-only.bind="options.readOnly"
+                options.bind="controlOptions">
+            </au-autocomplete>                   
+        </td>
+        <td>
             <au-textbox 
                 value.bind="data.pricePerDealUnit" 
                 read-only.bind="true" 

@@ -6,6 +6,7 @@ export class DeliveryOrderItem {
   isWarning = false;
   @bindable doQuantity;
   @bindable selectedDealUom;
+  @bindable selectedPibUom;
 
   activate(context) {
     this.context = context;
@@ -35,6 +36,12 @@ export class DeliveryOrderItem {
         if(this.data.purchaseOrderUom){
           this.selectedDealUom=this.data.purchaseOrderUom;
         }
+        if(this.data.uomPIB && (this.data.uomPIB.Unit || this.data.uomPIB.unit)){
+            this.selectedPibUom=this.data.uomPIB;
+        } else {
+            this.selectedPibUom = this.data.smallUom;
+            this.data.uomPIB = this.data.smallUom;
+        }
       this.doQuantity=this.data.doQuantity;
       // if(this.data.conversion){
       //   this.data.conversion=this.data.conversion.toLocaleString('en-EN', { minimumFractionDigits: 10 });}
@@ -42,6 +49,8 @@ export class DeliveryOrderItem {
         this.data.pricePerDealUnit=this.data.pricePerDealUnit.toLocaleString('en-EN',  { minimumFractionDigits: 4 });}
       if(this.data.dealQuantity){
         this.data.dealQuantity=this.data.dealQuantity.toLocaleString('en-EN', { minimumFractionDigits: 10 });}
+      if(this.data.qtyPIB){
+        this.data.qtyPIB=this.data.qtyPIB.toLocaleString('en-EN', { minimumFractionDigits: 2 }).replace(",","");}
     } else {
       this.data.doQuantity = 0;
     }
@@ -157,12 +166,21 @@ export class DeliveryOrderItem {
     }
   }
 
+  selectedPibUomChanged(newValue) {
+      if(newValue){
+          this.data.uomPIB=newValue;
+      }
+      else {
+          this.data.uomPIB=null;
+      }
+  }
+
   get uomLoader() {
     return UomLoader;
   }
 
   uomView = (uom) => {
-    return uom.Unit
+    return uom.Unit || uom.unit || uom;
   }
 
   controlOptions = {

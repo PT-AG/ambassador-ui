@@ -1,26 +1,29 @@
-<template >
+<template>
   <tr>
-      <th width="5%" if.bind="!options.hasView" >
-        <au-checkbox 
-          value.bind="saveAll"
-          change.delegate="saveAllChanged($event)">
-        </au-checkbox>
-      </th>
-      <!-- <th width="15%">Nomor PR</th> -->
-      <th width="15%">Nomor Referensi PR</th>
-      <th width="15%">Barang</th>
-      <th width="15%">Keterangan Barang</th>
-      <th width="15%">Dipesan</th>
-      <th width="15%">Diterima</th>
-      <th width="15%">Satuan</th>
-      <th width="15%">Konversi</th>
-      <th width="15%">Jumlah Kecil</th>
-      <th width="15%">Satuan Kecil</th>
-      <th width="15%">Harga</th>
-      <th width="15%">Harga Total</th>
-      <th width="15%">Mata Uang</th>
-      <th width="15%">Catatan</th>
-      <th width="15%">Seri Barang</th>
-      <th width="15%">HS Code</th>
+    <th width="5%" if.bind="!options.hasView">
+      <au-checkbox
+        value.bind="saveAll"
+        change.delegate="saveAllChanged($event)"
+      >
+      </au-checkbox>
+    </th>
+    <!-- <th width="15%">Nomor PR</th> -->
+    <th width="5%">Nomor Referensi PR</th>
+    <th width="10%">Barang</th>
+    <th width="15%">Keterangan Barang</th>
+    <th width="5%">Dipesan</th>
+    <th width="5%">Diterima</th>
+    <th width="10%">Satuan</th>
+    <th width="5%">Konversi</th>
+    <th width="5%">Jumlah Kecil</th>
+    <th width="5%">Satuan Kecil</th>
+    <th width="15%">Qty PIB</th>
+    <th width="30%">Satuan PIB</th>
+    <th width="10%">Harga</th>
+    <th width="10%">Harga Total</th>
+    <th width="5%">Mata Uang</th>
+    <th width="10%">Catatan</th>
+    <th width="10%">Seri Barang</th>
+    <th width="10%">HS Code</th>
   </tr>
 </template>
