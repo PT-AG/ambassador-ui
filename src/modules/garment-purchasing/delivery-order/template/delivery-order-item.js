@@ -203,6 +203,8 @@ export class DeliveryOrderItem {
           codeRequirment : codeRequirmentTemp,
           smallUom : item.SmallUom,
           purchaseOrderUom : item.DealUom,
+          qtyPIB: item.QtyPIB,
+          uomPIB: item.UomPIB,
           isSave : false,
           remark : item.Remark
         };
@@ -248,8 +250,10 @@ export class DeliveryOrderItem {
           currency : newValue.Currency,
           product : item.Product,
           codeRequirment : codeRequirmentTemp,
-          smallUom : item.SmallUom,
-          purchaseOrderUom : item.DealUom,
+          smallUom : item.SmallUom || item.smallUom,
+          purchaseOrderUom : item.DealUom || item.purchaseOrderUom,
+          qtyPIB: item.QtyPIB || item.qtyPIB,
+          uomPIB: item.UomPIB || item.uomPIB,
         };
         this.data.fulfillments.push(fulfillment);
         this.productHSCode.push(item.Product);

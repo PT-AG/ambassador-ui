@@ -1,7 +1,7 @@
 <template>
     <tr>
         <td >
-            <div class="col-sm-11">
+            <div class="col-sm-10">
                 <au-autocomplete 
                     value.bind="selectedPurchaseOrderExternal"
                     error.bind="error.purchaseOrderExternal"
@@ -14,9 +14,9 @@
                     options.bind="controlOptions">
                 </au-autocomplete>
             </div>
-            <div class="col-sm-1">
-                <button class="btn btn-danger pull-left" click.delegate="onremove(data, $event)" if.bind="!options.readOnly">-</button>            
-                <button class="btn btn-info pull-right" if.bind= "data.fulfillments" click.delegate="toggle()">i</button>
+            <div class="col-sm-2">
+                <button class="btn btn-danger" click.delegate="onremove(data, $event)" if.bind="!options.readOnly">-</button>            
+                <button class="btn btn-info" if.bind= "data.fulfillments" click.delegate="toggle()">i</button>
             </div>
         </td>
     </tr>
@@ -24,7 +24,7 @@
         <td>
             <div if.bind="error.fulfillmentscount" class="form-group has-error"><span class="text-danger help-block">${error.fulfillmentscount}</span></div>
             <au-collection 
-                if.bind="supplierImport || (isImport && !options.readOnly)"
+                if.bind="supplierImport || isImport"
                 items.bind="data.fulfillments" 
                 errors.bind="error.fulfillments"
                 columns.bind="itemsColumns" 
@@ -36,8 +36,7 @@
             </au-collection>
 
             <au-collection 
-                
-                if.bind="!supplierImport && (!isImport || options.readOnly)"
+                if.bind="!supplierImport && !isImport"
                 items.bind="data.fulfillments" 
                 errors.bind="error.fulfillments"
                 columns.bind="itemsColumns" 
