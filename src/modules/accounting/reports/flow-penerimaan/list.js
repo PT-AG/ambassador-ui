@@ -9,85 +9,72 @@ var UnitReceiptLoader = require('../../../../loader/garment-unit-receipt-note-lo
 
 @inject(Router, Service)
 export class List {
+    reprosesOption = ['', 'Bahan Baku', 'Bahan Embalase', 'Bahan Pendukung', 'Subkon'];
+    unitOption = ['', 'AMBASSADOR GARMINDO 1', 'AMBASSADOR GARMINDO 2'];
 
-     reprosesOption = ['','Bahan Baku', 'Bahan Embalase','Bahan Pendukung','Subkon'];
-     unitOption = ['','AMBASSADOR GARMINDO 1','AMBASSADOR GARMINDO 2'];
-  constructor(router, service) {
+    constructor(router, service) {
         this.service = service;
         this.router = router;
-
     }
+
     @bindable categoryselect
     @bindable unitselect
+
     tableOptions = {
         search: false,
         showToggle: false,
         showColumns: false
     }
-    get unitLoader(){
+
+    get unitLoader() {
         return UnitLoader;
     }
+
     unitView = (unit) => {
-      
         return `${unit.Code} - ${unit.Name}`
     }
 
     categoryselectChanged(newvalue) {
-        //console.log(newvalue)
         if (newvalue) {
             if (newvalue === "Bahan Baku") {
                 this.category = "BB";
             }
-            else if (newvalue === "Bahan Pendukung") { 
-                this.category = "BP"; 
+            else if (newvalue === "Bahan Pendukung") {
+                this.category = "BP";
             }
             else if (newvalue === "Bahan Embalase") {
-                this.category = "BE"; 
-            }else if (newvalue === "Subkon"){
+                this.category = "BE";
+            } else if (newvalue === "Subkon") {
                 this.category = "SUBKON"
-            }else{
+            } else {
                 this.category = "";
             }
         }
-       // console.log(this.category)
     }
-    unitselectChanged(newvalue){
-        
+
+    unitselectChanged(newvalue) {
         if (newvalue) {
-            if (newvalue === "CENTRAL 2A") {
-                this.unit = "C2A";
-                this.unitname = "CENTRAL 2A";
-            }
-            else if (newvalue === "CENTRAL 2B") { 
-                this.unit = "C2B";
-                this.unitname = "CENTRAL 2B";
-            }
-            else if (newvalue === "CENTRAL 2C/EX. K4") {
-                this.unit = "C2C";
-                this.unitname = "CENTRAL 2C/EX. K4";
-            }else if(newvalue === "CENTRAL 1A/EX. K3"){
-                this.unit = "AG1";
-                this.unitname = "CENTRAL 1A/EX. K3";
-            }else if(newvalue === "CENTRAL 1B"){
+            if (newvalue === "AMBASSADOR GARMINDO 2") {
                 this.unit = "AG2";
-                this.unitname = "CENTRAL 1B";
-            }else{
+                this.unitname = "AMBASSADOR GARMINDO 2";
+            } else if (newvalue === "AMBASSADOR GARMINDO 1") {
+                this.unit = "AG1";
+                this.unitname = "AMBASSADOR GARMINDO 1";
+            } else {
                 this.unit = "";
                 this.unitname = "";
             }
         }
-
-        //console.log(this.unit);
-        //console.log(this.uniname);
     }
-    get supplierLoader(){
+
+    get supplierLoader() {
         return SupplierLoader;
     }
-     get unitReceiptLoader(){
+
+    get unitReceiptLoader() {
         return UnitReceiptLoader;
-     
     }
-   
+
     // columns = [
     //     { field: "no", title: "No" , sortable: false},
     //     { field: "kdbarang", title: "Kode Barang", sortable: false },
@@ -112,7 +99,7 @@ export class List {
     //         }  
     //     },
     //     { field: "tipepembayaran", title: "Metode Pembayaran", sortable: false },
-       
+
     // ]
     // Values() {
     //     this.arg.dateFrom = this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : null;
@@ -125,7 +112,7 @@ export class List {
     //     this.arg.unit = this.unit ? this.unit : "";
     //     console.log(this.arg);
     // }
-    
+
     // listDataFlag = false;
     // loader = (info) => {
     //     var order = {};
@@ -150,66 +137,54 @@ export class List {
     //             })
     //     ) : { total: 0, data: {} };
     // }
+
     search() {
-        // console.log(this.dateTo);
         let args = {
-            dateFrom : this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : null,
-            dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : "",
-            category : this.category ? this.category : "",
-            unit : this.unit ? this.unit : ""
-          }
-        //this.listDataFlag = true;
+            dateFrom: this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : null,
+            dateTo: this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : "",
+            category: this.category ? this.category : "",
+            unit: this.unit ? this.unit : ""
+        }
+        
         this.service.search(args)
             .then(result => {
-                console.log(result)
                 this.AmountTotal1 = 0;
                 this.AmountTotal2 = 0;
                 this.BuyAmount = 0;
-                this.data=[];
-                //var datatemp = [];
-                for (var i of result){
-                    this.BuyAmount  += i.jumlahbeli;
+                this.data = [];
+                
+                for (var i of result) {
+                    this.BuyAmount += i.jumlahbeli;
                     this.AmountTotal1 += i.jumlahterima;
                     this.AmountTotal2 += i.jumlah;
+                    i.hargasatuan = i.hargasatuan.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
                     i.jumlah = i.jumlah.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-
                     this.data.push(i);
                 }
+
                 this.AmountTotal1 = this.AmountTotal1.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                 this.AmountTotal2 = this.AmountTotal2.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
                 this.BuyAmount = this.BuyAmount.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-                // this.data = result.data;
             })
-
-        // this.table.refresh();
     }
 
-
-    
-     ExportToExcel() {
-        console.log(this.unitname);
+    ExportToExcel() {
         var info = {
-            
-            category : this.category ? this.category : "",
-            categoryname: this.category === "BB" ? "GUDANG BAHAN BAKU" : this.category === "BE" ? "GUDANG BAHAN EMBALASE" : this.category === "BP" ?  "GUDANG BAHAN PENDUKUNG" : "",
-            unit : this.unit ? this.unit : "",
-            unitname: this.unitname ? this.unitname: "",
-            dateFrom : this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
-            dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : ""
+            category: this.category ? this.category : "",
+            categoryname: this.category === "BB" ? "GUDANG BAHAN BAKU" : this.category === "BE" ? "GUDANG BAHAN EMBALASE" : this.category === "BP" ? "GUDANG BAHAN PENDUKUNG" : "",
+            unit: this.unit ? this.unit : "",
+            unitname: this.unitname ? this.unitname : "",
+            dateFrom: this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
+            dateTo: this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : ""
         }
-        console.log(info);
-        this.service.generateXls(  info.unit,  info.category, info.dateFrom, info.dateTo, info.unitname, info.categoryname)
+        
+        this.service.generateXls(info.unit, info.category, info.dateFrom, info.dateTo, info.unitname, info.categoryname)
     }
-  
 
     reset() {
-       
-    
         this.unit = "";
         this.dateFrom = "";
         this.dateTo = "";
         this.category = "";
-      
-        
     }
 }
