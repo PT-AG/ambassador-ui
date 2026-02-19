@@ -30,7 +30,7 @@ export class ScanResultSuport {
     const root = this.result ? (this.result.data || this.result.Data || this.result) : null;
     const poArr = root && root.PurchaseOrder && (root.PurchaseOrder.PurchaseOrders || root.PurchaseOrder.purchaseOrders) || [];
     const doArr = root && root.DeliveryOrder && (root.DeliveryOrder.Document || root.DeliveryOrder.document) || [];
-    const taxContainer = root && (root.TaxInvoice || root.taxInvoice) || null;
+    const taxContainer = root && (root.InvoiceTax || root.invoiceTax) || null;
     let taxObj = null;
     if (taxContainer) {
       // Typical shape: { TaxInvoice: { TaxInvoiceNumber, TaxInvoiceDate, ValueAddedTax, ... } }
@@ -287,6 +287,21 @@ this.poItemColumns=[{field: 'ItemSerialNumber', title : 'ItemSerialNumber'}]
     ];
     set.forEach(s => { const td = tr.cells[s.idx]; if (td) td.textContent = s.value == null ? '' : String(s.value); });
   }
+  isShowing =false;
+  toggle() {
+        if (!this.isShowing)
+            this.isShowing = true;
+        else
+            this.isShowing = !this.isShowing;
+    }
+
+  isShowing1 =false;
+  toggle1() {
+        if (!this.isShowing1)
+            this.isShowing1 = true;
+        else
+            this.isShowing1 = !this.isShowing1;
+    }
 }
 
 export default ScanResultSuport;
