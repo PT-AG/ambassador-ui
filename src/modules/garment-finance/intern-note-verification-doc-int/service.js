@@ -7,7 +7,7 @@ import { RestService } from '../../../utils/rest-service';
 const serviceUri = 'garment-in-do-revision';
 const serviceInternNotesUri = 'garment-intern-notes';
 const uploadScanUri = 'garment-in-do-revision/scan-delivery-order';
-const compareInternalNoteDeliveryOrderUri = 'garment-purchasing-expeditions/compare-internal-note-delivery-order';
+const compareInvoiceUri = 'garment-in-do-revision/compare-invoice';
 
 export class Service extends RestService {
     constructor(http, aggregator, config) {
@@ -47,21 +47,44 @@ export class Service extends RestService {
         const endpoint = `${serviceUri}/${Id}`;
         return super.delete(endpoint);
     }
-    // POST ke endpoint compare-internal-note-delivery-order
-    // Bisa kirim ScanResult (string) atau File (object), salah satu wajib
-    postCompareInternalNoteDeliveryOrder(garmentInvoiceId, garmentInternNoteId, { scanResult = null, file = null } = {}) {
-        const endpoint = `${compareInternalNoteDeliveryOrderUri}?garmentInvoiceId=${garmentInvoiceId}&garmentInternNoteId=${garmentInternNoteId}`;
+    /**
+     * Compare Invoice D365 dengan hasil scan/file
+     * @param {Object} invoiceObj - Data invoice D365 (akan di-JSON.stringify)
+     * @param {Object} options - { scanResult: string, file: File }
+     */
+    postCompareInvoice(invoiceObj, options = {}) {
+        const { scanResult = null, file = null } = options;
+
+        if (!invoiceObj) {
+            alert('InternalNote data is required');
+            return Promise.reject(new Error('InternalNote data is required'));
+        }
+
         const formData = new FormData();
+        formData.append('InternalNote', JSON.stringify(invoiceObj));
+
         if (scanResult) {
             formData.append('ScanResult', scanResult);
-        }
-        if (file) {
+        } else if (file) {
             formData.append('File', file);
+        } else {
+            alert('Either scanResult or file is required');
+            return Promise.reject(new Error('Either scanResult or file is required'));
         }
-        return this.endpoint.client.fetch(endpoint, {
+
+        return this.endpoint.client.fetch(compareInvoiceUri, {
             method: 'POST',
             body: formData
-        }).then(response => response.json());
+        }).then(response => {
+            if (!response.ok) {
+                alert(`Request failed: ${response.status} ${response.statusText}`);
+                throw new Error(`Request failed: ${response.status} ${response.statusText}`);
+            }
+            return response.json();
+        }).catch(error => {
+            alert(`Error: ${error.message}`);
+            throw error;
+        });
     }
 
     uploadFile(file) {

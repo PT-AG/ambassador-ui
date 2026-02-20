@@ -134,9 +134,11 @@ export class ScanResultData {
 				formatter: () => `
 					<div style="white-space:nowrap; display:inline-flex; align-items:center;">
 						<button class="btn btn-info btn-sm toggle-items">i</button>
-						<button class="btn btn-warning btn-sm action-edit" title="Edit" style="margin-left:6px;"><i class="fa fa-edit"></i></button>
-						<button class="btn btn-success btn-sm action-save" title="Simpan" style="margin-left:6px;" disabled><i class="fa fa-save"></i></button>
+						
 					</div>`
+
+					// <button class="btn btn-warning btn-sm action-edit" title="Edit" style="margin-left:6px;"><i class="fa fa-edit"></i></button>
+					// 	<button class="btn btn-success btn-sm action-save" title="Simpan" style="margin-left:6px;" disabled><i class="fa fa-save"></i></button>
 				,
 				// events: {
 				// 	'click .toggle-items': function (e) { try { if (e) { e.preventDefault(); e.stopPropagation(); } } catch(_) {} self.toggleItems(); },
@@ -222,10 +224,10 @@ export class ScanResultData {
 
 		// Delegated click handler as a robust fallback
 		this._panelClick = (e) => {
-			const editBtn = e.target && e.target.closest && e.target.closest('button.action-edit');
-			if (editBtn) { try { e.preventDefault(); e.stopPropagation(); } catch(_) {} this.startEdit(); return; }
-			const saveBtn = e.target && e.target.closest && e.target.closest('button.action-save');
-			if (saveBtn) { try { e.preventDefault(); e.stopPropagation(); } catch(_) {} this.saveEdit(); return; }
+			// const editBtn = e.target && e.target.closest && e.target.closest('button.action-edit');
+			// if (editBtn) { try { e.preventDefault(); e.stopPropagation(); } catch(_) {} this.startEdit(); return; }
+			// const saveBtn = e.target && e.target.closest && e.target.closest('button.action-save');
+			// if (saveBtn) { try { e.preventDefault(); e.stopPropagation(); } catch(_) {} this.saveEdit(); return; }
 			const toggleBtn = e.target && e.target.closest && e.target.closest('button.toggle-items');
 			if (toggleBtn) { try { e.preventDefault(); e.stopPropagation(); } catch(_) {} this.toggleItems(); return; }
 		};

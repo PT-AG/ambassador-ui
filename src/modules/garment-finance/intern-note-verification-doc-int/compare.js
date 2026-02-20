@@ -30,25 +30,105 @@ export class Create {
         // or activationStrategy.noChange to explicitly use the default behavior
     }
 
-    save(event) {
-        this.service.postCompareInternalNoteDeliveryOrder(garmentInvoiceId, garmentInternNoteId, postData)
-            .then(response => {
-                this.isScanning = false;
-                // Response handling
-                if (response && response.statusCode === 200) {
-                alert('Pengecekan NI dan SJ berhasil, tidak ada perbedaan');
-                if (this.router) this.router.navigateToRoute('list');
-                } else if (response && response.statusCode === 201) {
-                alert('No Nota Intern dan Surat Jalan Tidak Sesuai');
-                if (this.router) this.router.navigateToRoute('list');
-                } else {
-                const msg = response && response.message ? response.message : 'Terjadi error tidak diketahui';
-                alert('Maaf terjadi error karena: ' + msg);
+    async save(event) {
+        const vm = this.dataFormRef;
+        console.log(vm)
+        let selected = vm && vm.internalNote ? vm.internalNote : null;
+        // Remove 'purchaseOrders' property if exists
+        if (selected && selected.purchaseOrders) {
+            delete selected.purchaseOrders;
+        }
+        if (!selected || !(selected.Id || selected.inNo)) {
+            alert('Anda harus memilih Nomor NI terlebih dahulu.');
+            return;
+        }
+        const scanResult = vm && vm.scanResult;
+        const file = vm && vm.selectedFile;
+        if (!scanResult && !file) {
+            alert('Pastikan anda mengupload File Invoice');
+            return;
+        }
+        // Aktifkan loader
+        this.isScanning = true;
+        try {
+            console.log('[Cek Invoice] JSON yang akan dikirim:');
+            console.log(JSON.stringify(selected, null, 2));
+            let scanResultToSend = null;
+            if (scanResult) {
+                // Mapping ke template JSON yang benar
+                let raw = scanResult;
+                if (typeof scanResult === 'object' && scanResult.result) {
+                    raw = scanResult.result;
                 }
-            })
-            .catch(err => {
-                this.isScanning = false;
-                alert('Maaf terjadi error karena: ' + (err && err.message ? err.message : err));
+                const root = raw.data || raw.Data || raw;
+                // Invoice
+                let invoice = {};
+                if (root.Invoice) {
+                    invoice = {
+                        Header: root.Invoice.Header || root.Invoice.header || {},
+                        Items: root.Invoice.Items || root.Invoice.items || []
+                    };
+                } else {
+                    invoice = {
+                        Header: root.header || {},
+                        Items: root.items || []
+                    };
+                }
+                console.log(root)
+                // PurchaseOrder
+                let purchaseOrder = { PurchaseOrder: [] };
+                if (root.PurchaseOrder && Array.isArray(root.PurchaseOrder.PurchaseOrders)) {
+                    purchaseOrder.PurchaseOrders = root.PurchaseOrder.PurchaseOrders;
+                }
+                // DeliveryOrder
+                let deliveryOrder = { DeliveryOrder: [] };
+                if (root.DeliveryOrder && Array.isArray(root.DeliveryOrder.Document)) {
+                    deliveryOrder.Document = root.DeliveryOrder.Document;
+                }
+                // TaxInvoice
+                let taxInvoice = { InvoiceTax: {} };
+                if (root.InvoiceTax && root.InvoiceTax.TaxInvoice) {
+                    taxInvoice.InvoiceTax.TaxInvoice = root.InvoiceTax;
+                }
+                // Build payload sesuai template
+                scanResultToSend = {
+                    Invoice: invoice,
+                    PurchaseOrder: purchaseOrder,
+                    DeliveryOrder: deliveryOrder,
+                    InvoiceTax: taxInvoice
+                };
+                console.log('[Cek Invoice] ScanResult (template) yang akan dikirim:', JSON.stringify(scanResultToSend, null, 2));
+            } else if (file) {
+                console.log('[Cek Invoice] File PDF yang dipilih:', file.name);
+            }
+            // Kirim ke backend, biarkan service.js yang handle FormData
+            const service = this.service || (vm && vm.service);
+            const response = await service.postCompareInvoice(selected, {
+                scanResult: scanResultToSend ? JSON.stringify(scanResultToSend) : null,
+                file: file
             });
+            // Sukses
+            this.isScanning = false;
+            // Perbaiki pengecekan status response
+            let status = response && (response.status || response.statusCode);
+            if (typeof status === 'string') status = parseInt(status);
+            if (status === 200) {
+                if (window.confirm('Selamat Hasil Pengecekan Dokumen Invoice Sama!')) {
+                    this.router.navigateToRoute('list');
+                }
+            } else if (status === 201) {
+                if (window.confirm('Hasil Pengecekan Data Selesai, Terdapat Data yang berbeda.')) {
+                    this.router.navigateToRoute('list');
+                }
+            } else {
+                if (window.confirm('Hasil pengecekan selesai.')) {
+                    this.router.navigateToRoute('list');
+                }
+            }
+        } catch (e) {
+            this.isScanning = false;
+            const msg = e && e.message ? e.message : 'Terjadi masalah, jangan panik coba lagi';
+            window.alert(msg);
+        }
     }
 }
