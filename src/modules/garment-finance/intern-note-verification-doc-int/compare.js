@@ -86,9 +86,9 @@ export class Create {
                     deliveryOrder.Document = root.DeliveryOrder.Document;
                 }
                 // TaxInvoice
-                let taxInvoice = { InvoiceTax: {} };
+                let taxInvoice = { TaxInvoice: {} };
                 if (root.InvoiceTax && root.InvoiceTax.TaxInvoice) {
-                    taxInvoice.InvoiceTax.TaxInvoice = root.InvoiceTax;
+                    taxInvoice.TaxInvoice = root.InvoiceTax.TaxInvoice;
                 }
                 // Build payload sesuai template
                 scanResultToSend = {
