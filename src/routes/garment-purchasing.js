@@ -241,6 +241,20 @@ module.exports = [
             permission: { "H68": 1 },
             iconClass: 'fa fa-dashboard'
         }
+    },{
+        route: '/garment/delivery-order-all-user',
+        name: 'delivery-order-all-user',
+        moduleId: './modules/garment-purchasing/delivery-order-all-user/index',
+        nav: true,
+        title: 'Surat Jalan (All User)',
+        auth: true,
+        settings: {
+            group: "g-purchasing",
+            subGroup: "transaksi",
+            // permission: { "C9": 1, "PG": 1 },
+            permission: { "H68": 1 },
+            iconClass: 'fa fa-dashboard'
+        }
     },
     {
         route: '/garment/monitoring-delivery-order',
