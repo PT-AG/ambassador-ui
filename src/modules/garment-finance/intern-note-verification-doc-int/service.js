@@ -21,7 +21,12 @@ export class Service extends RestService {
         const endpoint = `${serviceUri}`;
         return super.list(endpoint, info);
     }
-    
+
+    getDataById(id) {
+        const endpoint = `${serviceUri}/${id}`;
+        return super.getById(endpoint);
+    }
+
     getById(id) {
         const endpoint = `${serviceInternNotesUri}/${id}`;
         return this.purchasingService.get(endpoint);

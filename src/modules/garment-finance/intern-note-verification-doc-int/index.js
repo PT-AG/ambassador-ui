@@ -13,8 +13,15 @@ export class Index {
         moduleId: './compare',
         name: 'compare',
         nav: false,
-        title: 'Compare'
-      }
+        title: 'Compare : Verifikasi NI dan Dokumen Eksternal'
+      },
+      // { 
+      //   route: 'view/:id', 
+      //   moduleId: './view', 
+      //   name: 'view', 
+      //   nav: false, 
+      //   title: 'View: Verifikasi NI dan Dokumen Eksternal' 
+      // },
     ]);
 
     this.router = router;

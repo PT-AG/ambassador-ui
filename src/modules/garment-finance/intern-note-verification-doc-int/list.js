@@ -16,7 +16,22 @@ export class List {
     // Bind viewModel reference untuk button onclick
     window.viewModel = this;
   }
+  
+  // context = ["Rincian"];
+  // contextClickCallback(event) {
+  //       var arg = event.detail;
+  //       var data = arg.data;
+  //       switch (arg.name) {
+  //           case "Rincian":
+  //               this.router.navigateToRoute('view', { id: data.Id });
+  //               break;
+  //       }
+  //   }
 
+    
+  contextShowCallback(index, name, data) {
+      return name === "Lihat Detail";
+  }
   // Lifecycle method untuk memastikan tabel ter-render dengan benar
   attached() {
     // Pastikan event handler lama dihapus agar tidak duplikat
@@ -96,7 +111,8 @@ export class List {
           // Pastikan field yang diperlukan ada
           item.invoiceNo = item.invoiceNo || item.INNo || 'N/A';
           item.supplierName = item.supplierName || 'N/A';
-          item.remark= item.ppn == item.ppnScan ? "-" : "PPN tidak sesuai"
+          item.remark= item.dpp == item.dppScan ? "" : "DPP tidak sesuai, "
+          item.remark+= item.ppn == item.ppnScan ? "" : "PPN tidak sesuai"
         });
         return {
           total: data.total,
