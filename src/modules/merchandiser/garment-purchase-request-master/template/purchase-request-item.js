@@ -1,6 +1,6 @@
-import {inject, computedFrom} from 'aurelia-framework';
-import {bindable} from 'aurelia-framework'
-import {CoreService} from '../service';
+import { inject, computedFrom } from 'aurelia-framework';
+import { bindable } from 'aurelia-framework'
+import { CoreService } from '../service';
 import numeral from 'numeral';
 let CategoryLoader = require('../../../../loader/garment-category-loader');
 let UomLoader = require('../../../../loader/uom-loader');
@@ -78,6 +78,7 @@ export class PurchaseRequestItem {
     } else {
       filter.Composition = "this.data.Composition.Composition";
     }
+    
     return filter;
   }
 
@@ -89,6 +90,7 @@ export class PurchaseRequestItem {
     } else {
       filter.Const = "this.data.Const.Const";
     }
+
     return filter;
   }
 
@@ -100,6 +102,7 @@ export class PurchaseRequestItem {
     } else {
       filter.Yarn = "this.data.Yarn.Yarn";
     }
+
     return filter;
   }
 
@@ -121,7 +124,7 @@ export class PurchaseRequestItem {
 
     this.readOnly = this.options.readOnly;
     this.isEdit = context.context.options.isEdit && this.data.Id > 0;
-    
+
     if (this.data) {
       this.selectedCategory = this.data.Category;
       this.selectedComposition = this.data.Composition;
@@ -167,6 +170,7 @@ export class PurchaseRequestItem {
       this.data.Product = null;
       // this.data.Uom = null;
     }
+
     this.compositionViewModel.editorValue = "";
     this.selectedComposition = null;
   }
@@ -174,10 +178,10 @@ export class PurchaseRequestItem {
   selectedCompositionChanged(newValue) {
     if (newValue) {
       this.data.Composition = newValue;
-    }
-    else {
+    } else {
       this.data.Composition = null;
     }
+
     this.constViewModel.editorValue = "";
     this.selectedConst = null;
   }
@@ -185,10 +189,10 @@ export class PurchaseRequestItem {
   selectedConstChanged(newValue) {
     if (newValue) {
       this.data.Const = newValue;
-    }
-    else {
+    } else {
       this.data.Const = null;
     }
+
     this.yarnViewModel.editorValue = "";
     this.selectedYarn = null;
   }
@@ -196,10 +200,10 @@ export class PurchaseRequestItem {
   selectedYarnChanged(newValue) {
     if (newValue) {
       this.data.Yarn = newValue;
-    }
-    else {
+    } else {
       this.data.Yarn = null;
     }
+
     this.widthViewModel.editorValue = "";
     this.selectedWidth = null;
   }
@@ -214,22 +218,19 @@ export class PurchaseRequestItem {
       //   Id: 1,
       //   Unit: "MT"
       // };
-    }
-    else {
+    } else {
       this.data.Width = null;
       this.data.Product = null;
-      // this.data.Uom = null;
     }
   }
 
   selectedUomChanged(newValue) {
-  
     this.data.Uom = {
-      Id :newValue.Id,
-      Unit : newValue.Unit
-    } ;
+      Id: newValue.Id,
+      Unit: newValue.Unit
+    };
+
     this.data.PriceUom = newValue;
     this.data.PriceConversion = 1;
-    console.log(this.data.Uom);
   }
 }
