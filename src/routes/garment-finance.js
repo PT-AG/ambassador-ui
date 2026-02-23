@@ -655,7 +655,7 @@ module.exports = [
       group: "g-finance",
       subGroup: "ekspedisi ni",
       // permission: { "C9": 1, "PG": 7 },
-      permission: { "J15": 1 },
+      permission: { "J36": 1 },
       iconClass: "fa fa-dashboard",
     },
   },
