@@ -96,6 +96,7 @@ export class List {
           // Pastikan field yang diperlukan ada
           item.invoiceNo = item.invoiceNo || item.INNo || 'N/A';
           item.supplierName = item.supplierName || 'N/A';
+          item.remark= item.ppn == item.ppnScan ? "-" : "PPN tidak sesuai"
         });
         return {
           total: data.total,
@@ -132,6 +133,7 @@ export class List {
     { field: 'index', title: 'No', formatter: (value, row, index) => index + 1, width: 80, align: 'center', sortable: false },
     { field: 'invoiceNo', title: 'Invoice', width: 200, align: 'left', sortable: true },
     { field: 'supplierName', title: 'Nama Supplier', width: 250, align: 'left', sortable: true },
+    { field: 'remark', title: 'Keterangan', width: 250, align: 'left', sortable: true },
     { 
       field: 'actions', 
       title: 'Aksi', 
