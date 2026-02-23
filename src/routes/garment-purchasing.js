@@ -248,7 +248,7 @@ module.exports = [
       group: "g-purchasing",
       subGroup: "transaksi",
       // permission: { "C9": 1, "PG": 1 },
-      permission: { H68: 1 },
+      permission: { H61: 1 },
       iconClass: "fa fa-dashboard",
     },
   },
