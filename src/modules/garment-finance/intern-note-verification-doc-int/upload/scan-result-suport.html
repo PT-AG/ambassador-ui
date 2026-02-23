@@ -1,0 +1,113 @@
+<template>
+  <!-- Tabel Purchase Order -->
+  <div if.bind="hasPO" style="margin-top:10px;" ref="poContainer">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th colspan="3">Nomor PO</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <template repeat.for="row of poRows">
+          <!-- HEADER PO -->
+          <tr>
+            <td colspan="3">
+              <b>${row.PO.PurchaseOrderNumber}</b> <button class="btn btn-info pull-right" if.bind="row.POItems" click.delegate="toggle()">i</button>
+            </td>
+          </tr>
+
+          <!-- DETAIL ITEMS -->
+          <tr if.bind="isShowing">
+            <td colspan="3">
+              <table class="table table-sm table-bordered mb-0">
+                <thead>
+                  <tr>
+                    <th>Serial Number</th>
+                    <th>Quantity</th>
+                    <th>Harga</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr repeat.for="po of row.POItems">
+                    <td>${po.ItemSerialNumber}</td>
+                    <td>${po.Quantity}</td>
+                    <td>${po.UnitPrice}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+
+        </template>
+      </tbody>
+    </table>
+  </div> 
+
+  <!-- Tabel Delivery Order (Surat Jalan) -->
+  <div if.bind="hasDO" style="margin-top:10px;" ref="doContainer">
+    <!-- <au-table
+      data.bind="doRows"
+      columns.bind="doColumns"
+      options.bind="tableOptions"
+      sortable.bind="false"
+      page-size.bind="50">
+    </au-table> -->
+
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th colspan="3">Nomor Surat Jalan</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <template repeat.for="row of doRows">
+          <!-- HEADER PO -->
+          <tr>
+            <td colspan="3">
+              <b>${row.Header.DocumentNumber}</b> <button class="btn btn-info pull-right" if.bind="row.Items" click.delegate="toggle1()">i</button>
+            </td>
+          </tr>
+
+          <!-- DETAIL ITEMS -->
+          <tr if.bind="isShowing1">
+            <td colspan="3">
+              <table class="table table-sm table-bordered mb-0">
+                <thead>
+                  <tr>
+                    <th>Kode Produk</th>
+                    <th>Deskripsi</th>
+                    <th>Quantity</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr repeat.for="do of row.Items">
+                    <td>${do.ProductCode}</td>
+                    <td>${do.ProductDescription}</td>
+                    <td>${do.Quantity}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+
+        </template>
+      </tbody>
+    </table>
+
+  </div>
+
+  <!-- Tabel Faktur Pajak -->
+  <div if.bind="hasTax" style="margin-top:10px;" ref="taxContainer">
+    <au-table
+      data.bind="taxRows"
+      columns.bind="taxColumns"
+      options.bind="tableOptions"
+      sortable.bind="false"
+      page-size.bind="50">
+    </au-table>
+  </div>
+</template>

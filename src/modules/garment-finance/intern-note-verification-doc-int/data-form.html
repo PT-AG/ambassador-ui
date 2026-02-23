@@ -1,0 +1,45 @@
+<template>
+    <au-input-form title.bind="title" with.bind="context">
+        
+
+        <div slot="actions" class="btn-group">
+            <button class="btn btn-danger" click.delegate="context.delete($event)" if.one-way="context.hasDelete">Hapus</button>
+        </div>
+
+        <au-autocomplete value.bind="internalNote" error.bind="error.internalNote" label="No Nota Intern" loader.bind="internalNoteLoader" text="inNo"
+            placeholder="Cari Nomor Nota Internal..." options.bind="controlOptions">
+        </au-autocomplete>
+
+        <au-collection items.one-way="selectedInternalNote" columns.bind="itemsInfo.columns" show.bind="internalNote.Id"
+            item-template="modules/garment-finance/intern-note-verification-doc-int/template/intern-note-header">
+        </au-collection>
+
+        <!-- Upload section moved to the bottom of the form -->
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-md-12">
+                <compose view-model.bind="uploadVm" model.bind="{ onResult: handleUploadResult, onFileSelected: handleFileSelected }"></compose>
+            </div>
+        </div>
+
+        <!-- Scan result displayed below upload section -->
+        <div class="row" if.bind="showScanJson">
+            <div class="col-md-12">
+                <compose view-model.bind="scanResultVm" model.bind="{ result: scanResult }"></compose>
+            </div>
+        </div>
+
+        <!-- Tabular view for scan result (header + items toggle) -->
+        <div class="row">
+            <div class="col-md-12">
+                <div if.bind="showScanResultData">
+                    <compose 
+                        view-model.bind="scanResultDataVm" 
+                        model.bind="{ result: scanResult, key: scanResultDataKey }"
+                        strategy="replace-part">
+                    </compose>
+                </div>
+            </div>
+        </div>
+
+    </au-input-form>
+</template>

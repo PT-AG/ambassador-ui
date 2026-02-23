@@ -1,0 +1,39 @@
+<template>
+	<require from="./scan-result-item"></require>
+	<require from="./scan-result-suport"></require>
+
+	<!-- Single container for Header + Items using au-table -->
+	<div class="panel panel-default" if.bind="hasHeader || hasItems" ref="panel">
+		<div class="panel-body">
+			<!-- Header: one-row dataset -->
+			<au-table
+				element.ref="headerTableEl"
+				data.bind="headerData"
+				columns.bind="headerColumns"
+				options.bind="tableOptions"
+				sortable.bind="false"
+				page-size.bind="50">
+			</au-table>
+
+			<!-- Items: toggle (rendered by separate component) -->
+			<div if.bind="showItems" style="margin-top:10px;" ref="itemsContainer">
+				<scan-result-item items.bind="items"></scan-result-item>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- Support tables: PO, SJ, TaxInvoice -->
+	<div if.bind="hasHeader || hasItems" style="margin-top:10px;">
+		<scan-result-suport result.bind="result" view-model.ref="supportRef"></scan-result-suport>
+	</div>
+
+	<!-- JSON viewer for latest edited data snapshot -->
+	<!-- <div style="margin-top:20px;" if.bind="hasHeader || hasItems">
+		<button class="btn btn-primary" click.delegate="showEditedJson()">Lihat Data Hasil Edit</button>
+		<pre id="edited-json-view" style="background:#f8f9fa; padding:10px; border-radius:4px; margin-top:10px; max-height:300px; overflow:auto;">${editedJsonString}</pre>
+	</div> -->
+
+	<!-- Spacer to prevent overlap with floating action buttons -->
+	<div style="height: 56px;"></div>
+</template>

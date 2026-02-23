@@ -1,0 +1,9 @@
+<template>
+    <require from="./data-form"></require>
+    <data-form title="Verifikasi NI dan Dokumen Eksternal" error.bind="error" view-model.ref="dataFormRef"></data-form>
+
+    <div class="btn-group" style="position: fixed; right: 20px; bottom: 20px; z-index: 1000;">
+        <button class="btn btn-default" click.delegate="cancel($event)">Kembali</button>
+        <button class="btn btn-success" click.delegate="save($event)">Cek Dokumen</button>
+    </div>
+</template>
