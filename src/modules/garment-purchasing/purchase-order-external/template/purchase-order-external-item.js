@@ -159,12 +159,11 @@ export class PurchaseOrderItem {
 
   get barFas() {
     var a = this.data.Product.FabricType;
-    if (a && a.indexOf("Fasilitas") !== -1) {
+    if (a && a==="Fasilitas") {
       a = "YA";
     } else {
       a = "TIDAK";
     }
-    //return `${a} `;
     return `${a} - ${this.data.Product.Code} `;
 
   }
