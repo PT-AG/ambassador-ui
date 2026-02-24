@@ -9,7 +9,8 @@ export class List {
     columns = [
         { field: "Code", title: "Kode Seksi" },
         { field: "Name", title: "Nama Seksi" },
-        { field: "ApprovalCC", title: "Approval PR / CC Oleh" },
+        { field: "ApprovalPR", title: "Approval PR Oleh" },
+        { field: "ApprovalCC", title: "Approval CC Oleh" },
         { field: "ApprovalRO", title: "Approval RO Garment Oleh" }        
     ];
 
@@ -30,7 +31,6 @@ export class List {
                 var data = {}
                 data.total = result.info.total;
                 data.data = result.data;
-                // return data;
                 return {
                     total: result.info.total,
                     data: result.data
