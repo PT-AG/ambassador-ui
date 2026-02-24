@@ -1,0 +1,69 @@
+<template>
+    <tr>
+        <td>
+            <au-datepicker value.bind="data.deliveryOrder.doDate" read-only.bind="true">
+            </au-datepicker>
+        </td>
+        <td>
+            <au-textbox value.bind="data.deliveryOrder.doNo" 
+                read-only.bind="true">
+            </au-textbox>
+        </td>
+        <td>
+            <au-textbox value.bind="data.ePONo" 
+                read-only.bind="true">
+            </au-textbox>
+        </td>
+        <td>
+            <au-textbox value.bind="data.poSerialNumber" 
+                read-only.bind="true">
+            </au-textbox>
+        </td>
+        <td>
+            <au-textbox value.bind="data.roNo" 
+                read-only.bind="true">
+            </au-textbox>
+        </td>
+        <td>
+            <au-textbox value.bind="data.deliveryOrder.paymentMethod" 
+                read-only.bind="true">
+            </au-textbox>
+        </td>
+        <td>
+            <au-textbox value.bind="data.deliveryOrder.paymentType" 
+                read-only.bind="true">
+            </au-textbox>
+        </td>
+        <td>
+            <au-datepicker value.bind="data.paymentDueDate" read-only.bind="true">
+            </au-datepicker>
+        </td>
+        <td>
+            <au-textbox value.bind="product" 
+                read-only.bind="true">
+            </au-textbox>
+        </td>
+        <td>
+            <au-numeric value.bind="data.quantity" read-only.bind="true" format="0.00">
+			</au-numeric>
+        </td>
+        <td>
+            <au-textbox value.bind="data.uomUnit.Unit" 
+                read-only.bind="true">
+            </au-textbox>
+        </td>
+        <td>
+            <au-numeric value.bind="data.pricePerDealUnit" read-only.bind="true" format="0.0000">
+			</au-numeric>
+        </td>
+        <td>
+            <au-numeric value.bind="data.priceTotal" read-only.bind="true" format="0.00">
+			</au-numeric>
+        </td>
+        <td>
+            <au-textbox value.bind="status" 
+                read-only.bind="true">
+            </au-textbox>
+        </td>
+    </tr>
+</template>

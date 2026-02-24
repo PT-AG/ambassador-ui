@@ -644,5 +644,19 @@ module.exports = [
       // permission: { "PDU": 1, "C9": 1, "B9": 1, "B4": 1, "B1": 1, PG: 1 },
       iconClass: "fa fa-dashboard",
     }
+  },{
+    route: "/garment-finance/intern-note-verification-doc-int",
+    name: "intern-note-verification-doc-int",
+    moduleId: "./modules/garment-finance/intern-note-verification-doc-int/index",
+    nav: true,
+    title: "Verifikasi NI dan Dokumen Eksternal",
+    auth: true,
+    settings: {
+      group: "g-finance",
+      subGroup: "ekspedisi ni",
+      // permission: { "C9": 1, "PG": 7 },
+      permission: { "J36": 1 },
+      iconClass: "fa fa-dashboard",
+    },
   },
 ]
