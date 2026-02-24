@@ -20,7 +20,7 @@
                 options.bind="controlOptions">
 			</au-textbox>
 		</td>
-		<td class="col-sm-3 bg-primary">
+		<td class="col-sm-1 bg-primary">
 			<au-numeric 
                 error.bind="error.Quantity" 
                 value.bind="data.Quantity" 
@@ -42,12 +42,22 @@
 			</au-autocomplete>
 		</td>
         
-        <td class="col-sm-5 bg-primary">
+        <td class="col-sm-3 bg-primary">
 			<au-textbox 
                 error.bind="error.Remark" 
                 value.bind="data.Remark" 
 				read-only.bind="readOnly"
                 placeholder="Remark"
+                options.bind="controlOptions">
+			</au-textbox>
+		</td>
+
+        <td class="col-sm-2 bg-primary">
+			<au-textbox 
+                error.bind="error.PONumber" 
+                value.bind="data.PONumber" 
+				read-only.bind="readOnly"
+                placeholder="Nomor PO"
                 options.bind="controlOptions">
 			</au-textbox>
 		</td>
