@@ -12,6 +12,7 @@ export class ChangePass {
     // password="";
     error = false;
     disabledButton = false;
+    statusMessage = null;
 
     constructor(authService,service) {
         this.authService = authService;
@@ -27,23 +28,28 @@ export class ChangePass {
         this.error = false;
         this.disabledButton = true;
         this.data ={};
-        if(this.password1 == this.password2)
-        {
-            this.data.username =  this.username;
-            this.data.password = this.password1;
+        if (this.password1 == this.password2) {
 
-            this.service.updatePass(this.data)  
-            .then(result => {
-                alert("Kata Sandi Berhasil DiUbah");
-                this.authService.logout("#/login");
-            })
-            .catch(e => {
-                this.error = e;
+             this.statusMessage = PasswordValidator.validate(this.password1);
+
+            if (this.statusMessage) {
+                alert(this.statusMessage);
                 this.disabledButton = false;
-            })
+            } else {
+                this.data.username = this.username;
+                this.data.password = this.password1;
 
-        }else
-        {
+                this.service.updatePass(this.data)
+                    .then(result => {
+                        alert("Kata Sandi Berhasil DiUbah");
+                        this.authService.logout("#/login");
+                    })
+                    .catch(e => {
+                        this.error = e;
+                        this.disabledButton = false;
+                    })
+            }
+        } else {
             alert("Kata Sandi dan Konfirmasi Kata Sandi harus sama.")
             this.disabledButton = false;
         }
