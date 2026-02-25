@@ -106,7 +106,7 @@ export class List {
                 filter = Object.assign({
                     IsValidated: false,                    
                     IsValidatedMD1: false,
-                    ApprovalPR: this.section.ApprovalCC
+                    ApprovalPR: this.section.ApprovalPR
        
                 }, this.defaultFilter);
                 break;
