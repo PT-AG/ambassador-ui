@@ -27,6 +27,10 @@ export class Service extends RestService {
             if (query === '') query = `unit=${info.unit}`;
             else query = `${query}&unit=${info.unit}`;
         }
+        if (info.type && info.type !== "") {
+            if (query === '') query = `type=${info.type}`;
+            else query = `${query}&type=${info.type}`;
+        }
         if (query !== '')
         endpoint = `${serviceUri}/monitoring?${query}`;
 
@@ -50,6 +54,10 @@ export class Service extends RestService {
         if (info.unit && info.unit !== "") {
             if (query === '') query = `unit=${info.unit}`;
             else query = `${query}&unit=${info.unit}`;
+        }
+        if (info.type && info.type !== "") {
+            if (query === '') query = `type=${info.type}`;
+            else query = `${query}&type=${info.type}`;
         }
         if (query !== '')
         endpoint = `${serviceUri}/monitoring/download?${query}`;
