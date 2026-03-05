@@ -25,8 +25,8 @@
             options.bind="controlOptions">
         </au-autocomplete> -->
   
-        <au-datepicker label="Tanggal Awal" value.bind="dateFrom"></au-datepicker>
-        <au-datepicker label="Tanggal Akhir" value.bind="dateTo"></au-datepicker>
+        <au-datepicker label="Tanggal Awal" value.bind="dateFrom" options.bind="controlOptions"></au-datepicker>
+        <au-datepicker label="Tanggal Akhir" value.bind="dateTo" options.bind="controlOptions"></au-datepicker>
   
         <div class="form-group">
             <label for="contact" class="col-sm-6 control-label"></label>
@@ -72,7 +72,7 @@
                   <td class="text-center">${item.roNo}</td>
                   <td class="text-left">${item.buyerArticle}</td>
                   <td class="text-left">${item.colour}</td> 
-                  <td class="text-left">${item.name}</td>
+                  <td class="text-left">${item.comodityName}</td>
                   <td class="text-left">${item.unitname}</td>
                   <td class="text-right">${item.prices}</td>
                   <td class="text-right">${item.qtys}</td>

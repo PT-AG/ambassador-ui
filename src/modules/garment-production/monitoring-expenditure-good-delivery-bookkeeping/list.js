@@ -66,10 +66,8 @@ export class List {
     ExportToExcel() {
         var info = {
             unit : this.unit ? this.unit : 0,
-            unitname : this.unitname ? this.unitname:"",
             dateFrom : this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
-            dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : "",
-            type:"bookkeeping"
+            dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : ""
       
         }
         this.service.generateExcel(info);
@@ -82,7 +80,14 @@ export class List {
         return `${unit.Code} - ${unit.Name}`;
     
     }
-
+ controlOptions = {
+    label: {
+      length: 4
+    },
+    control: {
+      length: 4
+    }
+  }
     
     reset() {
         this.dateFrom = null;

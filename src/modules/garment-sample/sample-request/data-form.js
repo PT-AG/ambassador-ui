@@ -43,7 +43,8 @@ export class DataForm {
         "Detail Spesifikasi",
         "Quantity",
         "Satuan",
-        "Keterangan"
+        "Keterangan",
+        "Nomor PO"
     ];
 
     controlOptions = {
