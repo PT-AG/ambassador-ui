@@ -1006,4 +1006,19 @@ module.exports = [
       iconClass: "fa fa-dashboard",
     },
   },
+  {
+    route: "purchasing-section",
+    name: "purchasing-section",
+    moduleId: "./modules/master/purchasing-section/index",
+    nav: true,
+    title: "Seksi Purchasing",
+    auth: true,
+    settings: {
+      group: "master",
+      // permission: { "*": 1 },
+      // permission: { C9: 1, B1: 2, PDU:1 },
+      permission:{"B44":1},
+      iconClass: "fa fa-dashboard",
+    },
+  },
 ];
