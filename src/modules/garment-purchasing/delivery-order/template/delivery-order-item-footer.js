@@ -83,8 +83,9 @@ export class DetailFooter {
           if (item.data.fulfillments instanceof Array) {
             var qty = item.data.fulfillments
               .map((fulfillment) => {
-                if(fulfillment.isSave==true)
-                 return parseFloat(((fulfillment.doQuantity) * (fulfillment.pricePerDealUnit)))
+                if(fulfillment.isSave==true){
+                  return parseFloat(Number(fulfillment.doQuantity) * Number(fulfillment.pricePerDealUnit.replace(/,/g, "")))
+                }
                 else return 0
               });
             return qty
