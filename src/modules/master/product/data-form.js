@@ -1,4 +1,4 @@
-import {inject, bindable, computedFrom} from 'aurelia-framework';
+import { inject, bindable, computedFrom } from 'aurelia-framework';
 
 export class DataForm {
     @bindable title;
@@ -10,33 +10,29 @@ export class DataForm {
         editText: "Ubah",
     }
 
-    
-
     @computedFrom("data.Id")
     get isEdit() {
         return (this.data.Id || '').toString() != '';
     }
 
     bind(context) {
-    this.context = context;
-    this.data = this.context.data;
-    if (this.data && this.data.UOM)
+        this.context = context;
+        this.data = this.context.data;
+        if (this.data && this.data.UOM)
             this.data.UOM.toString = function () {
                 return this.Unit;
             };
-    this.error = this.context.error;
 
-    this.cancelCallback = this.context.cancelCallback;
-    this.deleteCallback = this.context.deleteCallback;
-    this.editCallback = this.context.editCallback;
-    this.saveCallback = this.context.saveCallback;
+        this.error = this.context.error;
+        this.cancelCallback = this.context.cancelCallback;
+        this.deleteCallback = this.context.deleteCallback;
+        this.editCallback = this.context.editCallback;
+        this.saveCallback = this.context.saveCallback;
     }
-
 
     uomChanged(e) {
         var selectedUom = e.detail;
         if (selectedUom)
             this.data.UOM = selectedUom.Id;
     }
-
 }

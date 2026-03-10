@@ -11,6 +11,7 @@ export class List {
         this.router = router;
         this.today = new Date();
     }
+
     bind(context) {
         console.log(context);
         this.context = context;
@@ -20,9 +21,11 @@ export class List {
     search(){
             this.searching();        
     }
+
     activate() {
        
     }
+
     tableData = []
     searching() {
         var args = {
@@ -31,36 +34,18 @@ export class List {
             unitcode : this.unitcode ? this.unitcode.Code : "",
             page: this.info.page,
             size: this.info.size,
-            
-           
         };
         
         this.service.search(args)
             .then(result=>{
-                // var datas=[];
-                // console.log(result)
-                // for(var _data of result.data){
-                //     //console.log(_data)
-
-                  
-                //     datas.push(_data);
-
-                //  }
-                //  this.info.total= result.info.total;
-                //  this.data = result.data;
-                // //console.log(this.data)
-                // console.log(result.info.total)
-                // console.log(this.info)
-               
                 this.rowCount=[];
                 var rowDoc=[];
                 this.info.total=result.info.total;    
                 var index=0;    
                 for(var a of result.data){
-                    //var bc=a.Invoice.toString();
-                    //var doc=a.ExpanditurGoodId;
                     var inv=a.Invoice.toString();
                     var bon=a.ExpenditureGoodId;
+
                     if(!this.rowCount[inv]){
                         this.rowCount[inv]=1;
                     }
@@ -70,27 +55,27 @@ export class List {
  
                     if(!rowDoc[bon+inv]){
                         index++;
-                        //a.count=index;
                         rowDoc[bon+inv]=1;
                     }
                     else{
                         rowDoc[bon+inv]++;
                     }
                 }
+
                 for(var b of result.data){
                     let bcno=result.data.find(o=> o.Invoice + o.ExpenditureGoodId==b.Invoice + b.ExpenditureGoodId);
                     if(bcno){
                         bcno.docspan=rowDoc[b.ExpenditureGoodId+b.Invoice];
                     }
+
                     let invc=result.data.find(o=> o.Invoice ==b.Invoice);
                     if(invc){
                         invc.rowspan=this.rowCount[b.Invoice];
                     }
                 }
+
                 this.data=result.data;
-            
             });
-            
     }
 
     reset() {
@@ -98,7 +83,6 @@ export class List {
         this.dateTo="",
         this.KtgrItem="",
         this.unitcode=""
-        
     }
 
     ExportToExcel() {
@@ -107,7 +91,6 @@ export class List {
             dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : "",
             unitcode : this.unitcode ? this.unitcode.Code : "",
             unitname: this.unitcode ? this.unitcode.UnitName : "",
-       
         };
         
         this.service.generateExcel(args);
@@ -122,7 +105,6 @@ export class List {
             this.dateTo = e.srcElement.value;
         }
     }
-
 
     changePage(e) {
         var page = e.detail;

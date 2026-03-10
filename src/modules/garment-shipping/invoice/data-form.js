@@ -995,7 +995,8 @@ export class DataForm {
     };
 
     bankFilter = {
-        DivisionName: "AMBASSADOR GARMINDO 2"
+        //DivisionName: "AMBASSADOR GARMINDO 2"
+        DivisionName: "AMBASSADOR GARMINDO"
     };
 
     get addItems() {
