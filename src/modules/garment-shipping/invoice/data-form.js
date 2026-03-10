@@ -564,17 +564,23 @@ export class DataForm {
     }
 
     get filter() {
-      let username = null;
-      if (this.authService.authenticated) {
-          const me = this.authService.getTokenPayload();
-          username = me.username;
-      }
-//   
-      return {
-        'status=="CREATED" || status=="DRAFT_APPROVED_SHIPPING" || status=="POSTED" || status=="APPROVED_MD" || status=="APPROVED_SHIPPING" || status=="REVISED_MD" || status=="REVISED_SHIPPING" || status=="REJECTED_MD" || status=="REJECTED_SHIPPING_UNIT"':true,
-        ShippingStaffName: username
-      }
-    }
+        let username = null;
+
+        if (this.authService.authenticated) {
+            const me = this.authService.getTokenPayload();
+            username = me.username;
+        }
+
+        return {
+            'status=="CREATED" || status=="DRAFT_APPROVED_SHIPPING" || status=="POSTED" || status=="APPROVED_MD" || status=="APPROVED_SHIPPING" || status=="REVISED_MD" || status=="REVISED_SHIPPING" || status=="REJECTED_MD" || status=="REJECTED_SHIPPING_UNIT"': true,
+            ShippingStaffName: username
+        }
+    };
+
+    bankFilter = {
+        //DivisionName: "AMBASSADOR GARMINDO 2"
+        DivisionName: "AMBASSADOR GARMINDO"
+    };
 
     get addItems() {
         return (event) => {

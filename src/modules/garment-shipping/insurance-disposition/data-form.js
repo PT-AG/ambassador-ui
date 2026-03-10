@@ -66,8 +66,6 @@ export class DataForm {
         { header: "Premi Per Unit (C1B)" },
     ];
 
-
-
     unitColumns = {
         columns: [
             { header: "Unit" },
@@ -125,15 +123,20 @@ export class DataForm {
                     if (!dup)
                         this.data.unitCharge.push({ unitCode: "C2C" });
                 }
-                if (item.amount1APercentage > 0 || item.amount1A > 0) {
-                    var dup = this.data.unitCharge.find(a => a.unitCode == "AG1");
-                    if (!dup)
-                        this.data.unitCharge.push({ unitCode: "AG1" });
-                }
+                // if (item.amount1APercentage > 0 || item.amount1A > 0) {
+                //     var dup = this.data.unitCharge.find(a => a.unitCode == "AG1");
+                //     if (!dup)
+                //         this.data.unitCharge.push({ unitCode: "AG1" });
+                // }
+                // if (item.amount1BPercentage > 0 || item.amount1B > 0) {
+                //     var dup = this.data.unitCharge.find(a => a.unitCode == "AG2");
+                //     if (!dup)
+                //         this.data.unitCharge.push({ unitCode: "AG2" });
+                // } 
                 if (item.amount1BPercentage > 0 || item.amount1B > 0) {
-                    var dup = this.data.unitCharge.find(a => a.unitCode == "AG2");
+                    var dup = this.data.unitCharge.find(a => a.unitCode == "AG");
                     if (!dup)
-                        this.data.unitCharge.push({ unitCode: "AG2" });
+                        this.data.unitCharge.push({ unitCode: "AG" });
                 }
                 if (this.data.policyType == "Piutang") {
                     item.rate = this.data.rate;
@@ -167,7 +170,6 @@ export class DataForm {
     }
 
     selectedInsuranceChanged(newValue) {
-        console.log(newValue)
         if (newValue) {
             this.data.insurance = {
                 id: newValue.Id || newValue.id,
@@ -175,6 +177,7 @@ export class DataForm {
                 code: newValue.Code || newValue.code,
                 bankName: newValue.BankName || newValue.bankName
             };
+            
             this.data.bankName = this.data.insurance.bankName;
         }
     }
@@ -206,17 +209,21 @@ export class DataForm {
                 if (!dup)
                     this.data.unitCharge.push({ unitCode: "C2C" });
             }
-            if (item.amount1APercentage > 0 || item.amount1A > 0) {
-                var dup = this.data.unitCharge.find(a => a.unitCode == "AG1");
-                if (!dup)
-                    this.data.unitCharge.push({ unitCode: "AG1" });
-            }
+            // if (item.amount1APercentage > 0 || item.amount1A > 0) {
+            //     var dup = this.data.unitCharge.find(a => a.unitCode == "AG1");
+            //     if (!dup)
+            //         this.data.unitCharge.push({ unitCode: "AG1" });
+            // }
+            // if (item.amount1BPercentage > 0 || item.amount1B > 0) {
+            //     var dup = this.data.unitCharge.find(a => a.unitCode == "AG2");
+            //     if (!dup)
+            //         this.data.unitCharge.push({ unitCode: "AG2" });
+            // }
             if (item.amount1BPercentage > 0 || item.amount1B > 0) {
-                var dup = this.data.unitCharge.find(a => a.unitCode == "AG2");
+                var dup = this.data.unitCharge.find(a => a.unitCode == "AG");
                 if (!dup)
-                    this.data.unitCharge.push({ unitCode: "AG2" });
+                    this.data.unitCharge.push({ unitCode: "AG" });
             }
-
         }
     }
 }

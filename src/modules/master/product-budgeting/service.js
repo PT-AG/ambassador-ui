@@ -1,6 +1,6 @@
 import { inject, Lazy } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-fetch-client';
-import { RestService } from '../../../utils/rest-service'; 
+import { RestService } from '../../../utils/rest-service';
 
 const serviceUri = 'master/products';
 
@@ -39,5 +39,4 @@ export class Service extends RestService {
     var endpoint = `${serviceUri}?keyword=${code}`;
     return super.get(endpoint);
   }
-
 }

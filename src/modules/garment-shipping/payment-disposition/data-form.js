@@ -40,6 +40,7 @@ export class DataForm {
             length: 5
         }
     };
+    
     length4 = {
         label: {
             align: "right",
@@ -49,6 +50,7 @@ export class DataForm {
             length: 6
         }
     }
+
     footerOptions = {
         label: {
             length: 3
@@ -62,6 +64,7 @@ export class DataForm {
         { header: "Unit"},
         { header: "Nilai Tagihan" },
     ];
+
     unitsColumnsForwarder = [
         { header: "Unit"},
         { header: "Persentase (%)"},
@@ -91,7 +94,6 @@ export class DataForm {
         { header: "Tagihan"},
         { header: "Nominal"},
     ]
-
 
     get buyerLoader() {
         return BuyerLoader;
@@ -204,6 +206,7 @@ export class DataForm {
             this.error = null;
         };
     }
+
     get addInvoices() {
         return (event) => {
             this.data.invoiceDetails.push({buyer: this.data.buyerAgent});
@@ -294,7 +297,6 @@ export class DataForm {
         }
     }
 
-
     invoiceChanged(e){
         this.data.unitCharges=[];
         if(this.data.invoiceDetails){
@@ -369,7 +371,6 @@ export class DataForm {
             this.data.courierId=this.data.courier.id;
             this.data.address=newValue.Address;
             this.data.npwp=newValue.NPWP;
-            
         }
         else{
             this.data.courier=null;
