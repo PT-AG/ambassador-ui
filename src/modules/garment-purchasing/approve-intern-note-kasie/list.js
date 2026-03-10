@@ -1,10 +1,44 @@
 import { inject } from 'aurelia-framework';
-import { Service } from "./service";
+import { Service,ServiceCore } from "./service";
 import { Router } from 'aurelia-router';
+import { AuthService } from "aurelia-authentication";
 var moment = require("moment");
 
-@inject(Router, Service)
+@inject(Router, Service,ServiceCore, AuthService)
 export class List {
+
+    async activate(params, routeConfig, navigationInstruction) {
+        const instruction = navigationInstruction.getAllInstructions()[0];
+        const parentInstruction = instruction.parentInstruction;
+        this.title = parentInstruction.config.title;
+        this.type = parentInstruction.config.settings.type;
+
+        this.username = null;
+        if (this.authService.authenticated) {
+            const me = this.authService.getTokenPayload();
+            this.username = me.username;
+        }
+        var filterS = {
+            Manager1: this.username
+        };
+
+        var argS = {
+            filter: JSON.stringify(filterS)
+        };
+
+        var section= await this.serviceCore.searchSection(argS);
+        this.filterSection={};
+        if(section.data.length>0){
+            for(var staf of section.data){
+                this.filterSection[`CreatedBy=="${staf.Name}"`]=true;
+            }
+        }
+        else{
+            this.filterSection[`CreatedBy=="null"`]=true;
+        }
+        
+    }
+
     columns = [
         { field: "inNo", title: "No. Nota Intern" },
         {
@@ -24,15 +58,14 @@ export class List {
         if (info.sort)
             order[info.sort] = info.order;
         
-        var filter = {
-            IsApprovedKasie: false
-        };
+        this.filterSection["IsApprovedKasie==false"]=true;
+        this.filterSection["IsPosted==true"]=true;
 
         var arg = {
             page: parseInt(info.offset / info.limit, 10) + 1,
             size: info.limit,
             keyword: info.search,
-            filter: JSON.stringify(filter),
+            filter: JSON.stringify(this.filterSection),
             order: order
         };
 
@@ -59,13 +92,11 @@ export class List {
             });
     }
 
-    constructor(router, service) {
+    constructor(router, service,serviceCore, authService) {
         this.service = service;
         this.router = router;
-    }
-
-    create() {
-        this.router.navigateToRoute('create');
+        this.serviceCore=serviceCore;
+        this.authService=authService;
     }
 
     contextClickCallback(event) {

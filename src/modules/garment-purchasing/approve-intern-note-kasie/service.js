@@ -59,3 +59,14 @@ export class Service extends RestService {
         return super.post(endpoint, null);
     }
 }
+const servicePurchSectionUri = 'master/purchasing-sections';
+export class ServiceCore extends RestService {
+    constructor(http, aggregator, config, endpoint) {
+        super(http, aggregator, config, "core");
+    }
+
+    searchSection(info) {
+        var endpoint = `${servicePurchSectionUri}`;
+        return super.list(endpoint, info);
+    }
+}
