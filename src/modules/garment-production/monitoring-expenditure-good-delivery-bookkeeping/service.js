@@ -12,7 +12,7 @@ export class Service extends RestService {
     }
 
     search(info) {
-        var endpoint = `${serviceUri}/for-monitoring-accounting`;
+        var endpoint = `${serviceUri}/monitoring`;
         var query = '';
 
         if (info.dateFrom && info.dateFrom !== "") {
@@ -27,8 +27,12 @@ export class Service extends RestService {
             if (query === '') query = `unit=${info.unit}`;
             else query = `${query}&unit=${info.unit}`;
         }
+        if (info.type && info.type !== "") {
+            if (query === '') query = `type=${info.type}`;
+            else query = `${query}&type=${info.type}`;
+        }
         if (query !== '')
-        endpoint = `${serviceUri}/for-monitoring-accounting?${query}`;
+        endpoint = `${serviceUri}/monitoring?${query}`;
 
     return super.get(endpoint);
 
@@ -36,10 +40,10 @@ export class Service extends RestService {
     }
 
     generateExcel(info) {
-        var endpoint = `${serviceUri}/for-monitoring-accounting/download?unit=${info.unit}&dateFrom=${info.dateFrom}&dateTo=${info.dateTo}&type=${info.type}`;
+        var endpoint = `${serviceUri}/monitoring/download`;
         console.log(endpoint);
         var query = '';
-        if (info.dateFrom && info.dateFrom !== "") {
+         if (info.dateFrom && info.dateFrom !== "") {
             if (query === '') query = `dateFrom=${info.dateFrom}`;
             else query = `${query}&dateFrom=${info.dateFrom}`;
         }
@@ -51,16 +55,12 @@ export class Service extends RestService {
             if (query === '') query = `unit=${info.unit}`;
             else query = `${query}&unit=${info.unit}`;
         }
-        if (info.unitname && info.unitname !== "") {
-            if (query === '') query = `unitname=${info.unitname}`;
-            else query = `${query}&unitname=${info.unitname}`;
-        }
         if (info.type && info.type !== "") {
             if (query === '') query = `type=${info.type}`;
             else query = `${query}&type=${info.type}`;
         }
         if (query !== '')
-        endpoint = `${serviceUri}/for-monitoring-accounting/download?${query}`;
+        endpoint = `${serviceUri}/monitoring/download?${query}`;
         console.log(endpoint);
     return super.getXls(endpoint);
     }
