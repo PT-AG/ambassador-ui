@@ -11,8 +11,8 @@ export class List {
     // @bindable categoryselect
     @bindable unitselect
     KategoriItem = ['','BAHAN BAKU','BAHAN PENDUKUNG', 'BAHAN EMBALACE'];
-    //unitOption = ['','CENTRAL 2A', 'CENTRAL 2B','CENTRAL 2C/EX. K4','CENTRAL 1A/EX. K3','CENTRAL 1B'];
-    unitOption = ['','AMBASSADOR GARMINDO 1','AMBASSADOR GARMINDO 2'];
+    //unitOption = ['','AMBASSADOR GARMINDO 1','AMBASSADOR GARMINDO 2'];
+    unitOption = ['','AMBASSADOR GARMINDO'];
 
     KtgrItemChanged(newvalue){
         if (newvalue) {
@@ -39,8 +39,8 @@ export class List {
             // }
         }
     }
+    
     unitselectChanged(newvalue){
-        
         if (newvalue) {
             if (newvalue === "AMBASSADOR GARMINDO 1") {
                 this.unit = "AG1";
@@ -49,6 +49,10 @@ export class List {
             else if (newvalue === "AMBASSADOR GARMINDO 2") { 
                 this.unit = "AG2";
                 this.unitname = "AMBASSADOR GARMINDO 2";
+            } 
+            else if(newvalue === "AMBASSADOR GARMINDO") {
+                this.unit = "AG";
+                this.unitname = "AMBASSADOR GARMINDO";
             }
             // else if (newvalue === "CENTRAL 2C/EX. K4") {
             //     this.unit = "C2C";

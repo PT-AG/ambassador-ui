@@ -36,7 +36,8 @@ export class DataForm {
     }
 
     ShipmentModeOptions = ["By Air", "By Sea", "By Land"];
-    unitOptions = ["AG1 - AMBASSADOR GARMINDO 1", "AG2 - AMBASSADOR GARMINDO 2"];
+    //unitOptions = ["AG1 - AMBASSADOR GARMINDO 1", "AG2 - AMBASSADOR GARMINDO 2"];
+    unitOptions = ["AG - AMBASSADOR GARMINDO"];
 
     footerOptions = {
         label: {
@@ -87,7 +88,7 @@ export class DataForm {
 
     get unitQuery() {
         var result = {}
-        result[`Code == "AG1" || Code == "AG2"`] = true;
+        result[`Code == "AG1" || Code == "AG2" || Code == "AG"`] = true;
         return result;
     }
 

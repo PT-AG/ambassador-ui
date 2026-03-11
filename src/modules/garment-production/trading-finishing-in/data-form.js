@@ -86,7 +86,7 @@ export class DataForm {
         this.data.FinishingInType = "PEMBELIAN";
 
         if (!this.data.Unit) {
-            var unit = await this.coreService.getTradingUnit({ size: 1, keyword: 'AG2', filter: JSON.stringify({ Code: 'AG2' }) });
+            var unit = await this.coreService.getTradingUnit({ size: 1, keyword: 'AG', filter: JSON.stringify({ Code: 'AG' }) });
             this.data.Unit = unit.data[0];
         }
     }

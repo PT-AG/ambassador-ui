@@ -96,8 +96,9 @@ export class DataForm {
         if (this.data.items) {
             for (const item of this.data.items) {
                 if (item.paymentDisposition && item.paymentDisposition.amountPerUnit) {
-                    bills["AG1"] += item.paymentDisposition.amountPerUnit["AG1"] || 0;
-                    bills["AG2"] += item.paymentDisposition.amountPerUnit["AG2"] || 0;
+                    bills["AG"]  += item.paymentDisposition.amountPerUnit["AG"]  || 0;
+                    // bills["AG1"] += item.paymentDisposition.amountPerUnit["AG1"] || 0;
+                    // bills["AG2"] += item.paymentDisposition.amountPerUnit["AG2"] || 0;
                     bills["C2A"] += item.paymentDisposition.amountPerUnit["C2A"] || 0;
                     bills["C2B"] += item.paymentDisposition.amountPerUnit["C2B"] || 0;
                     bills["C2C"] += item.paymentDisposition.amountPerUnit["C2C"] || 0;
