@@ -16,6 +16,14 @@ export class List {
         this.service = service;
         this.router = router;
     }
+    controlOptions = {
+        label: {
+          length: 4,
+        },
+        control: {
+          length: 4,
+        },
+    };
 
     @bindable categoryselect
     @bindable unitselect

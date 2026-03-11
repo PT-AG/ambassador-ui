@@ -8,17 +8,17 @@
               options.bind="controlOptions" >
         </au-dropdown>
                 
-        <au-dropdown label="Unit" value.bind="unitselect" items.bind="unitOption"></au-dropdown>
+        <au-dropdown label="Unit" value.bind="unitselect" items.bind="unitOption" options.bind="controlOptions"></au-dropdown>
        
-        
-        
         <au-datepicker 
                     label="Tanggal Awal" 
-                    value.bind="dateFrom">
+                    value.bind="dateFrom"
+                    options.bind="controlOptions">
                 </au-datepicker>
         <au-datepicker 
                 label="Tanggal Akhir" 
-                value.bind="dateTo">
+                value.bind="dateTo"
+                options.bind="controlOptions">
             </au-datepicker>
         
         <div class="form-group">

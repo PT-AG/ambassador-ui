@@ -13,6 +13,15 @@ export class List {
         this.today = new Date();
         this.BC = ['','BCDL', 'SELAIN BCDL'];
     }
+
+    controlOptions = {
+        label: {
+          length: 4,
+        },
+        control: {
+          length: 4,
+        },
+    };
    
     unitName=null;    
     supplierType = null;
