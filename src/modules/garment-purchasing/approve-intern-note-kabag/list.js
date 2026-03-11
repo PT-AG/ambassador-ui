@@ -2,9 +2,43 @@ import { inject } from 'aurelia-framework';
 import { Service } from "./service";
 import { Router } from 'aurelia-router';
 var moment = require("moment");
+import { AuthService } from "aurelia-authentication";
 
-@inject(Router, Service)
+@inject(Router, Service,ServiceCore, AuthService)
 export class List {
+
+    async activate(params, routeConfig, navigationInstruction) {
+        const instruction = navigationInstruction.getAllInstructions()[0];
+        const parentInstruction = instruction.parentInstruction;
+        this.title = parentInstruction.config.title;
+        this.type = parentInstruction.config.settings.type;
+
+        this.username = null;
+        if (this.authService.authenticated) {
+            const me = this.authService.getTokenPayload();
+            this.username = me.username;
+        }
+        var filterS = {
+            Manager2: this.username
+        };
+
+        var argS = {
+            filter: JSON.stringify(filterS)
+        };
+
+        var section= await this.serviceCore.searchSection(argS);
+        this.filterSection={};
+        if(section.data.length>0){
+            for(var staf of section.data){
+                this.filterSection[`CreatedBy=="${staf.Name}"`]=true;
+            }
+        }
+        else{
+            this.filterSection[`CreatedBy=="null"`]=true;
+        }
+        
+    }
+
     columns = [
         { field: "inNo", title: "No. Nota Intern" },
         {
@@ -24,10 +58,10 @@ export class List {
         if (info.sort)
             order[info.sort] = info.order;
         
-        var filter = {
-            IsApprovedKasie: true,
-            IsApprovedKabag: false
-        };
+
+        this.filterSection["IsApprovedKasie==true"]=true;
+        this.filterSection["IsApprovedKabag==false"]=true;
+        this.filterSection["IsPosted==true"]=true;
 
         var arg = {
             page: parseInt(info.offset / info.limit, 10) + 1,
@@ -60,9 +94,11 @@ export class List {
             });
     }
 
-    constructor(router, service) {
+    constructor(router, service,serviceCore, authService) {
         this.service = service;
         this.router = router;
+        this.serviceCore=serviceCore;
+        this.authService=authService;
     }
 
     create() {
