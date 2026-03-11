@@ -1,5 +1,5 @@
 import { inject } from 'aurelia-framework';
-import { Service } from "./service";
+import { Service,ServiceCore } from "./service";
 import { Router } from 'aurelia-router';
 var moment = require("moment");
 import { AuthService } from "aurelia-authentication";
@@ -28,10 +28,15 @@ export class List {
 
         var section= await this.serviceCore.searchSection(argS);
         this.filterSection={};
+        var filter="";
         if(section.data.length>0){
             for(var staf of section.data){
-                this.filterSection[`CreatedBy=="${staf.Name}"`]=true;
+                if(filter=="")
+                    filter=`CreatedBy=="${staf.Name}"`;
+                else
+                    filter+=`|| CreatedBy=="${staf.Name}"`;
             }
+            this.filterSection[`${filter}`]=true
         }
         else{
             this.filterSection[`CreatedBy=="null"`]=true;
@@ -67,7 +72,7 @@ export class List {
             page: parseInt(info.offset / info.limit, 10) + 1,
             size: info.limit,
             keyword: info.search,
-            filter: JSON.stringify(filter),
+            filter: JSON.stringify(this.filterSection),
             order: order
         };
 

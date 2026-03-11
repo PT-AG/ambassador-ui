@@ -151,7 +151,7 @@ export class List {
         var isKabag = data.IsApprovedKabag;
         var isPosted = data.isPosted;
 
-        if (totalAmount > 25000000) {
+        if (totalAmount >= 25000000) {
             return isPosted && isKasie && isKabag;
         } else {
             return isPosted && isKasie;
