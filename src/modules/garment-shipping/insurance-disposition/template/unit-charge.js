@@ -35,10 +35,13 @@ export class GarmentShippingInvoiceUnits {
         if (this.data.unitCode == "C2C" && item.amount2C > 0) {
           amount += item.amount2C;
         }
-        if (this.data.unitCode == "AG1" && item.amount1A > 0) {
-          amount += item.amount1A;
-        }
-        if (this.data.unitCode == "AG2" && item.amount1B > 0) {
+        // if (this.data.unitCode == "AG1" && item.amount1A > 0) {
+        //   amount += item.amount1A;
+        // }
+        // if (this.data.unitCode == "AG2" && item.amount1B > 0) {
+        //   amount += item.amount1B;
+        // } 
+        if (this.data.unitCode == "AG" && item.amount1B > 0) {
           amount += item.amount1B;
         }
       }

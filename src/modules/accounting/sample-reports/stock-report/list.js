@@ -147,7 +147,6 @@ export class List {
     }
 
     UnitItemChanged(newvalue){
-        console.log(newvalue);
         if (newvalue) {
             if (newvalue === "KONFEKSI 2A") {
                 this.unit = "C2A";

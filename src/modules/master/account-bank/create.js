@@ -11,7 +11,13 @@ export class Create {
     }
 
     activate(params) {
-
+        this.data = {
+            Division : {
+                Name : "AMBASSADOR GARMINDO",
+                Id : 0,
+                Code : "AG"
+            }
+        }
     }
 
     list() {

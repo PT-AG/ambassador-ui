@@ -72,7 +72,8 @@ export class DataForm {
     }
 
     get unitQuery(){
-        var result = { "_CreatedBy" : "router" }
+        //var result = { "_CreatedBy" : "router" }
+        var result = {};
         return result;   
     }
 
