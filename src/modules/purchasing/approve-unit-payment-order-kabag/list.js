@@ -1,13 +1,51 @@
 import {inject} from 'aurelia-framework';
-import {Service} from "./service";
-import {Router} from 'aurelia-router';
+import { Service,ServiceCore } from "./service";
+import { Router } from 'aurelia-router';
+import { AuthService } from "aurelia-authentication";
 import moment from 'moment';
 
-@inject(Router, Service)
+@inject(Router, Service,ServiceCore, AuthService)
 export class List {
     info = { page: 1, keyword: '' };
 
     context = ["Rincian"]
+
+    async activate(params, routeConfig, navigationInstruction) {
+        const instruction = navigationInstruction.getAllInstructions()[0];
+        const parentInstruction = instruction.parentInstruction;
+        this.title = parentInstruction.config.title;
+        this.type = parentInstruction.config.settings.type;
+
+        this.username = null;
+        if (this.authService.authenticated) {
+            const me = this.authService.getTokenPayload();
+            this.username = me.username;
+        }
+        var filterS = {
+            Manager2: this.username
+        };
+
+        var argS = {
+            filter: JSON.stringify(filterS)
+        };
+
+        var section= await this.serviceCore.searchSection(argS);
+        this.filterSection={};
+        var filter="";
+        if(section.data.length>0){
+            for(var staf of section.data){
+                if(filter=="")
+                    filter=`CreatedBy=="${staf.Name}"`;
+                else
+                    filter+=`|| CreatedBy=="${staf.Name}"`;
+            }
+            this.filterSection[`${filter}`]=true
+        }
+        else{
+            this.filterSection[`CreatedBy=="null"`]=true;
+        }
+        
+    }
 
     columns = [
         { field: "DivisionName", title: "Divisi" },
@@ -23,10 +61,9 @@ export class List {
 
     loader = (info) => {
         var order = {};
-        var filter = {
-            IsApprovedKabag: false,
-            IsApprovedKasie: true,
-        };
+       this.filterSection["IsApprovedKasie==true"]=true;
+        this.filterSection["IsApprovedKabag==false"]=true;
+        this.filterSection["kabag"]=true;
 
         if (info.sort)
             order[info.sort] = info.order;
@@ -35,31 +72,13 @@ export class List {
             size: info.limit,
             keyword: info.search,
             select: ["date", "no", "supplier.name", "division.name", "items.unitReceiptNote.no", "items.unitReceiptNote.deliveryOrder.no", "items.unitReceiptNote.items.PriceTotal", "isPosted", "isApprovedKasie", "isApprovedKabag"],
-            filter: JSON.stringify(filter),
+            filter: JSON.stringify(this.filterSection),
             order: order
         }
 
         return this.service.search(arg)
             .then(result => {
-                //filtering data
-
-                var filteredData = result.data.filter(item => {
-                    var totalHarga = 0;
-                    
-                    if (item.items && item.items.length > 0) {
-                        for (var upoItem of item.items) {
-                            if (upoItem.unitReceiptNote && upoItem.unitReceiptNote.items) {
-                                for (var detailItem of upoItem.unitReceiptNote.items) {
-                                    totalHarga += (detailItem.PriceTotal || 0);
-                                }
-                            }
-                        }
-                    }
-                    
-                    return totalHarga > 3000000;
-                });
-
-                for (var _data of filteredData) {
+                for (var _data of result.data) {
                     var btuNo = _data.items.map(function (item) {
                         return `<li>${item.unitReceiptNote.no} - ${item.unitReceiptNote.deliveryOrder.no} </li>`;
                     });
@@ -69,17 +88,17 @@ export class List {
                     _data.SupplierName = _data.supplier.name;
                 }
                 return {
-                    // total: result.info.total,
-                    // data: result.data
-                    total: filteredData.length,
-                    data: filteredData
+                    total: result.info.total,
+                    data: result.data
                 }
             });
     }
 
-    constructor(router, service) {
+    constructor(router, service,serviceCore, authService) {
         this.service = service;
         this.router = router;
+        this.serviceCore=serviceCore;
+        this.authService=authService;
     }
 
     contextClickCallback(event) {

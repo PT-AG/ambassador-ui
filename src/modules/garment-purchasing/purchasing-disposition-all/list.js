@@ -74,10 +74,17 @@ export class List {
     contextShowCallback(index, name, data) {
         switch (name) {
             case "Cetak PDF":
-                return true;
+                return data.IsApprovedKabag;
             default:
                 return true;
         }
+    }
+
+    rowFormatter(data, index) {
+        if (data.IsApprovedKabag) 
+            return { classes: "success" }
+        else
+            return {}
     }
 
     create() {
