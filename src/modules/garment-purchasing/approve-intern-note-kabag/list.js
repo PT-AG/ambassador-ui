@@ -67,6 +67,7 @@ export class List {
         this.filterSection["IsApprovedKasie==true"]=true;
         this.filterSection["IsApprovedKabag==false"]=true;
         this.filterSection["IsPosted==true"]=true;
+        this.filterSection["kabag"]=true;
 
         var arg = {
             page: parseInt(info.offset / info.limit, 10) + 1,
@@ -80,9 +81,7 @@ export class List {
         return this.service.search(arg)
             .then(result => {
                 const data = result.data
-                    .filter(d => d.TotalAmount >= 25000000)
                     .map(s => {
-                        console.log(s.TotalAmount)
                         s.items.toString = function () {
                             let str = "<ul>";
                             for (let item of s.items) {
@@ -94,7 +93,7 @@ export class List {
                     });
 
                 return {
-                    total: data.length,
+                    total:  result.info.total,
                     data: data
                 };
             });

@@ -1,17 +1,16 @@
 import { inject, Lazy } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
-import { Service, AzureService } from './service';
+import { Service } from './service';
 
 
-@inject(Router, Service, AzureService)
+@inject(Router, Service)
 export class View {
     hasCancel = true;
     hasApprove = true;
 
-    constructor(router, service, azureService) {
+    constructor(router, service) {
         this.router = router;
         this.service = service;
-        this.azureService = azureService;
     }
 
     async activate(params) {
@@ -36,31 +35,6 @@ export class View {
         if (this.data.vatTax) {
             this.selectedVatTax = this.data.vatTax;
         }
-
-        // if (this.data.items) {
-        //     // this.isCorrection = this.data.items
-        //     //     .map((item) => {
-        //     //         return item.unitReceiptNote.items
-        //     //             .map((urnItem) => urnItem.correction.length > 0)
-        //     //             .reduce((prev, curr, index) => {
-        //     //                 return prev || curr
-        //     //             }, false);
-        //     //     })
-        //     //     .reduce((prev, curr, index) => {
-        //     //         return prev || curr
-        //     //     }, false);
-
-
-        //     // if (!this.isCorrection) {
-        //     //     this.hasEdit = true;
-        //     //     this.hasDelete = true;
-        //     // }
-        // }
-
-        // if (this.data.position !== 1 && this.data.position !== 6) {
-        //     this.hasEdit = false;
-        //     this.hasDelete = false;
-        // }
 
         if (this.data.IsCorrection) {
             this.hasEdit = false;
