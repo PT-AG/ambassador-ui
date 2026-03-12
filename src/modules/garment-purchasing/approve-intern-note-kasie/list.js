@@ -28,14 +28,20 @@ export class List {
 
         var section= await this.serviceCore.searchSection(argS);
         this.filterSection={};
+        var filter="";
         if(section.data.length>0){
             for(var staf of section.data){
-                this.filterSection[`CreatedBy=="${staf.Name}"`]=true;
+                if(filter=="")
+                    filter=`CreatedBy=="${staf.Name}"`;
+                else
+                    filter+=`|| CreatedBy=="${staf.Name}"`;
             }
+            this.filterSection[`${filter}`]=true
         }
         else{
             this.filterSection[`CreatedBy=="null"`]=true;
         }
+
         
     }
 

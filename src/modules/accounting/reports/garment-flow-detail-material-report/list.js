@@ -256,5 +256,12 @@ export class List {
     get unitLoader() {
       return UnitLoader;
     }
-    
+    controlOptions = {
+        label: {
+          length: 4,
+        },
+        control: {
+          length: 4,
+        },
+    };
 }

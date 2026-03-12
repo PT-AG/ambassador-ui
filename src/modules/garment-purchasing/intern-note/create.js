@@ -62,12 +62,12 @@ export class Create {
 
     save() 
     {
-        if (this.checkIsLate()) {
-            this.showLateReasonDialog = true; 
-        } 
-        else {
+        // if (this.checkIsLate()) {
+        //     this.showLateReasonDialog = true; 
+        // } 
+        // else {
             this.saveData();
-        }
+        //}
     }
 
     cancelLateReason() {
