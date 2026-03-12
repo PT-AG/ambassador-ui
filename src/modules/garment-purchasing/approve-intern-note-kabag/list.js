@@ -79,23 +79,24 @@ export class List {
 
         return this.service.search(arg)
             .then(result => {
-                var data = {}
-                data.total = result.info.total;
-                data.data = result.data;
-                data.data.forEach(s => {
-                    s.items.toString = function () {
-                        var str = "<ul>";
-                        for (var item of s.items) {
-                            str += `<li>${item.garmentInvoice.invoiceNo}</li>`;
-                        }
-                        str += "</ul>";
-                        return str;
-                    }
-                });
+                const data = result.data
+                    .filter(d => d.TotalAmount >= 25000000)
+                    .map(s => {
+                        console.log(s.TotalAmount)
+                        s.items.toString = function () {
+                            let str = "<ul>";
+                            for (let item of s.items) {
+                                str += `<li>${item.garmentInvoice.invoiceNo}</li>`;
+                            }
+                            return str + "</ul>";
+                        };
+                        return s;
+                    });
+
                 return {
-                    total: result.info.total,
-                    data: result.data
-                }
+                    total: data.length,
+                    data: data
+                };
             });
     }
 

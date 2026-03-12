@@ -14,12 +14,12 @@ export class Service extends RestService {
     }
 
     search(info) {
-        var endpoint = `${serviceUri}`;
+        var endpoint = `${serviceUri}/all`;
         return super.list(endpoint, info);
     }
 
     getById(id) {
-        var endpoint = `${serviceUri}/${id}`;
+        var endpoint = `${serviceUri}/all/${id}`;
         return super.get(endpoint);
     }
 
@@ -33,3 +33,15 @@ export class Service extends RestService {
         return super.post(endpoint, {});
     }
 } 
+
+const servicePurchSectionUri = 'master/purchasing-sections';
+export class ServiceCore extends RestService {
+    constructor(http, aggregator, config, endpoint) {
+        super(http, aggregator, config, "core");
+    }
+
+    searchSection(info) {
+        var endpoint = `${servicePurchSectionUri}`;
+        return super.list(endpoint, info);
+    }
+}

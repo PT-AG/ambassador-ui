@@ -1,14 +1,52 @@
 import {inject} from 'aurelia-framework';
-import {Service} from "./service";
+import { Service,ServiceCore } from "./service";
 import {Router} from 'aurelia-router';
+import { AuthService } from "aurelia-authentication";
 import moment from 'moment';
 import numeral from "numeral";
 
-@inject(Router, Service)
+@inject(Router, Service,ServiceCore, AuthService)
 export class List {
     info = { page: 1, keyword: '' };
 
-    context = ["Rincian","Cetak PDF"]
+    context = ["Rincian"];
+
+    async activate(params, routeConfig, navigationInstruction) {
+        const instruction = navigationInstruction.getAllInstructions()[0];
+        const parentInstruction = instruction.parentInstruction;
+        this.title = parentInstruction.config.title;
+        this.type = parentInstruction.config.settings.type;
+
+        this.username = null;
+        if (this.authService.authenticated) {
+            const me = this.authService.getTokenPayload();
+            this.username = me.username;
+        }
+        var filterS = {
+            Manager2: this.username
+        };
+
+        var argS = {
+            filter: JSON.stringify(filterS)
+        };
+
+        var section= await this.serviceCore.searchSection(argS);
+        this.filterSection={};
+        var filter="";
+        if(section.data.length>0){
+            for(var staf of section.data){
+                if(filter=="")
+                    filter=`CreatedBy=="${staf.Name}"`;
+                else
+                    filter+=`|| CreatedBy=="${staf.Name}"`;
+            }
+            this.filterSection[`${filter}`]=true
+        }
+        else{
+            this.filterSection[`CreatedBy=="null"`]=true;
+        }
+        
+    }
 
     columns = [
         { field: "DispositionNo", title: "Nomor Disposisi Pembayaran" },
@@ -36,16 +74,17 @@ export class List {
         var order = {};
         if (info.sort)
             order[info.sort] = info.order;
+
+        this.filterSection["IsApprovedKasie==true"]=true;
+        this.filterSection["IsApprovedKabag==false"]=true;
+        this.filterSection["IsPosted==true"]=true;
+
         var arg = {
             page: parseInt(info.offset / info.limit, 10) + 1,
             size: info.limit,
             keyword: info.search,
             order: order,
-            filter: JSON.stringify({ 
-                IsPosted: true, 
-                IsApprovedKasie: true, 
-                IsApprovedKabag: false
-            })
+            filter: JSON.stringify(this.filterSection),
         }
 
         return this.service.search(arg)
@@ -58,9 +97,11 @@ export class List {
             });
     }
 
-    constructor(router, service) {
+    constructor(router, service,serviceCore, authService) {
         this.service = service;
         this.router = router;
+        this.serviceCore=serviceCore;
+        this.authService=authService;
     }
 
     contextClickCallback(event) {
