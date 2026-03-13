@@ -63,6 +63,7 @@ export class List {
     loader = (info) => {
         var order = {};
         this.filterSection["IsApprovedKasie==false"]=true;
+        this.filterSection["IsPosted==true"]=true;
 
         if (info.sort)
             order[info.sort] = info.order;

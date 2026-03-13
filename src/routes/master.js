@@ -1021,4 +1021,18 @@ module.exports = [
       iconClass: "fa fa-dashboard",
     },
   },
+  {
+    route: "signature-masters",
+    name: "signature-masters",
+    moduleId:
+      "./modules/garment-purchasing/master/garment-signature-master/index",
+    nav: true,
+    title: "Signature Master",
+    auth: true,
+    settings: {
+      group: "master",
+      permission: { H60: 1 },
+      iconClass: "fa fa-dashboard",
+    },
+  },
 ];
