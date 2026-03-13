@@ -39,8 +39,8 @@ export class List {
         }},
         { 
             field: "IsPosted", title: "Status", formatter: function(value, data, index) {
-                if(data.IsApprovedKabag) return "SUDAH DISETUJUI KABAG";
-                if(data.IsApprovedKasie) return "SUDAH DISETUJUI KASIE";
+                if(data.IsApprovedKabag) return "SUDAH DISETUJUI MANAGER 2";
+                if(data.IsApprovedKasie) return "SUDAH DISETUJUI MANAGER 1";
                 if(data.IsPosted) return "SUDAH DIPOSTING";
                 return "DRAFT";
             }

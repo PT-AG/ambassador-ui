@@ -43,14 +43,14 @@ export class List {
         },
         { 
             field: "IsApprovedKasie", 
-            title: "Approve Kasie", 
+            title: "Approve Manager 1", 
             formatter: function (value, row, index) {
                 return value ? "SUDAH" : "BELUM" 
             }
         },
         { 
             field: "IsApprovedKabag", 
-            title: "Approve Kabag", 
+            title: "Approve Manager 2", 
             formatter: (value) => value ? "SUDAH" : "BELUM" 
         }
     ];

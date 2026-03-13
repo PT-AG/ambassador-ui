@@ -11,7 +11,7 @@ export class List {
   rowFormatter(data, index) {
     if (data.IsOverBudget)
     {
-      if (data.IsPosted && data.IsApprovedKasie && data.IsApprovedKabag)
+      if (data.IsPosted && data.IsApproved )
         return { classes: "success" };
       else return {};
     } else if (!data.IsOverBudget && data.IsPosted) {
@@ -63,20 +63,6 @@ export class List {
       title: "Status Approve",
       formatter: function (value, data, index) {
         return data.approveStatus;
-      },
-    },
-    {
-      field: "IsApprovedKasie",
-      title: "Approve Kasie",
-      formatter: function (value, data, index) {
-        return value ? "YA" : "TIDAK";
-      },
-    },
-    {
-      field: "IsApprovedKabag",
-      title: "Approve Kabag",
-      formatter: function (value, data, index) {
-        return value ? "YA" : "TIDAK";
       },
     },
   ];
@@ -143,8 +129,6 @@ export class List {
         {
           return (
             data.IsPosted &&
-            data.IsApprovedKasie &&
-            data.IsApprovedKabag &&
             data.IsApproved
           );
         } else {

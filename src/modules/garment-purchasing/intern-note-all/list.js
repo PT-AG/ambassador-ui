@@ -28,10 +28,10 @@ export class List {
         { field: "items", title: "List No. Invoice", sortable: false },
         { field: "CreatedBy", title: "Admin Pembelian" },
         { 
-            field: "IsPosted", title: "Status", formatter: function(value, data, index){
-                if(data.IsApprovedKabag) return "APPROVED KABAG";
-                if(data.IsApprovedKasie) return "APPROVED KASIE";
-                if(data.isPosted) return "POSTED";
+            field: "IsPosted", title: "Status", formatter: function(value, data, index) {
+                if(data.IsApprovedKabag) return "SUDAH DISETUJUI MANAGER 2";
+                if(data.IsApprovedKasie) return "SUDAH DISETUJUI MANAGER 1";
+                if(data.isPosted) return "SUDAH DIPOSTING";
                 return "DRAFT";
             }
         }

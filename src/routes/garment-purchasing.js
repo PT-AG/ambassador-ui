@@ -1,20 +1,5 @@
 module.exports = [
   {
-    route: "/garment/master/garment-signature-masters",
-    name: "garment-signature-masters",
-    moduleId:
-      "./modules/garment-purchasing/master/garment-signature-master/index",
-    nav: true,
-    title: "Signature Master",
-    auth: true,
-    settings: {
-      group: "g-purchasing",
-      subGroup: "master",
-      permission: { H60: 1 },
-      iconClass: "fa fa-dashboard",
-    },
-  },
-  {
     route: "/garment/etl/garment-purchase-requests",
     name: "etl-garment-purchase-requests",
     moduleId:
@@ -1251,11 +1236,11 @@ module.exports = [
     },
   },
   {
-    route: "/garments/approve-intern-note-external-kasie",
-    name: "approve-intern-note-external-kasie",
+    route: "/garments/approve-intern-note-external-manager1",
+    name: "approve-intern-note-external-manager1",
     moduleId: "./modules/garment-purchasing/approve-intern-note-kasie/index",
     nav: true,
-    title: "Approve Nota Internal Kasie",
+    title: "Approve Nota Internal Manager 1",
     auth: true,
     settings: {
       group: "g-purchasing",
@@ -1265,11 +1250,11 @@ module.exports = [
     },
   },
   {
-    route: "/garments/approve-intern-note-external-kabag",
-    name: "approve-intern-note-external-kabag",
+    route: "/garments/approve-intern-note-external-manager2",
+    name: "approve-intern-note-external-manager2",
     moduleId: "./modules/garment-purchasing/approve-intern-note-kabag/index",
     nav: true,
-    title: "Approve Nota Internal Kabag",
+    title: "Approve Nota Internal Manager 2",
     auth: true,
     settings: {
       group: "g-purchasing",
@@ -1279,12 +1264,12 @@ module.exports = [
     },
   },
   {
-    route: "/garments/approve-garment-purchasing-disposition-kasie",
-    name: "approve-garment-purchasing-disposition-kasie",
+    route: "/garments/approve-garment-purchasing-disposition-manager1",
+    name: "approve-garment-purchasing-disposition-manager1",
     moduleId:
       "./modules/garment-purchasing/approve-garment-purchasing-disposition-kasie/index",
     nav: true,
-    title: "Approve Disposisi Pembayaran Kasie",
+    title: "Approve Disposisi Pembayaran Manager 1",
     auth: true,
     settings: {
       group: "g-purchasing",
@@ -1294,12 +1279,12 @@ module.exports = [
     },
   },
   {
-    route: "/garments/approve-garment-purchasing-disposition-kabag",
-    name: "approve-garment-purchasing-disposition-kabag",
+    route: "/garments/approve-garment-purchasing-disposition-manager2",
+    name: "approve-garment-purchasing-disposition-manager2",
     moduleId:
       "./modules/garment-purchasing/approve-garment-purchasing-disposition-kabag/index",
     nav: true,
-    title: "Approve Disposisi Pembayaran Kabag",
+    title: "Approve Disposisi Pembayaran Manager 2",
     auth: true,
     settings: {
       group: "g-purchasing",
@@ -1308,32 +1293,32 @@ module.exports = [
       iconClass: "fa fa-dashboard",
     },
   },
-  {
-    route: "/garment/po-external/over-budget/approval/kasie",
-    name: "approve-po-external-over-budget-kasie",
-    moduleId: "./modules/garment-purchasing/approve-over-budget-kasie/index",
-    nav: true,
-    title: "Approval POE Over Budget Kasie",
-    auth: true,
-    settings: {
-      group: "g-purchasing",
-      subGroup: "approval",
-      permission: { H61: 1 },
-      iconClass: "fa fa-dashboard",
-    },
-  },
-  {
-    route: "/garment/po-external/over-budget/approval/kabag",
-    name: "approve-po-external-over-budget-kabag",
-    moduleId: "./modules/garment-purchasing/approve-over-budget-kabag/index",
-    nav: true,
-    title: "Approval POE Over Budget Kabag",
-    auth: true,
-    settings: {
-      group: "g-purchasing",
-      subGroup: "approval",
-      permission: { H62: 1 },
-      iconClass: "fa fa-dashboard",
-    },
-  },
+  // {
+  //   route: "/garment/po-external/over-budget/approval/kasie",
+  //   name: "approve-po-external-over-budget-kasie",
+  //   moduleId: "./modules/garment-purchasing/approve-over-budget-kasie/index",
+  //   nav: true,
+  //   title: "Approval POE Over Budget Kasie",
+  //   auth: true,
+  //   settings: {
+  //     group: "g-purchasing",
+  //     subGroup: "approval",
+  //     permission: { H61: 1 },
+  //     iconClass: "fa fa-dashboard",
+  //   },
+  // },
+  // {
+  //   route: "/garment/po-external/over-budget/approval/kabag",
+  //   name: "approve-po-external-over-budget-kabag",
+  //   moduleId: "./modules/garment-purchasing/approve-over-budget-kabag/index",
+  //   nav: true,
+  //   title: "Approval POE Over Budget Kabag",
+  //   auth: true,
+  //   settings: {
+  //     group: "g-purchasing",
+  //     subGroup: "approval",
+  //     permission: { H62: 1 },
+  //     iconClass: "fa fa-dashboard",
+  //   },
+  // },
 ];

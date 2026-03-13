@@ -14,7 +14,6 @@ export class DetailFooter {
       var total = this.context.items
         .map((item) => {
 
-          console.log(item.data.garmentInvoice.totalAmount2);
           if(isNaN(item.data.garmentInvoice.totalAmount2) ){
  
             return 0

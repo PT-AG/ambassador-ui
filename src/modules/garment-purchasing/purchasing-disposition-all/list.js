@@ -29,6 +29,14 @@ export class List {
             return numeral(value).format("0,000.00");
         }},
         { field: "CreatedBy", title: "Yang Membuat"},
+        { 
+            field: "IsPosted", title: "Status", formatter: function(value, data, index) {
+                if(data.IsApprovedKabag) return "SUDAH DISETUJUI MANAGER 2";
+                if(data.IsApprovedKasie) return "SUDAH DISETUJUI MANAGER 1";
+                if(data.IsPosted) return "SUDAH DIPOSTING";
+                return "DRAFT";
+            }
+        }
         
     ];
 
