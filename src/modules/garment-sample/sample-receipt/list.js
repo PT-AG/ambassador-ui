@@ -31,12 +31,13 @@ export class List {
 
     columns = [
         { field: "RONoSample", title: "RO Sample" },
-        { field: "SampleCategory", title: "Jenis Sample" },
+        { field: "SampleCategory", title: "Kategori Sample" },
         { field: "SampleRequestNo", title: "Nomor Surat Sample" },
         { field: "Date", title: "Tgl Surat Sample", formatter: value => moment(value).format("DD MMM YYYY") },
         { field: "BuyerName", title: "Buyer" },
         { field: "SentDate", title: "Tgl Kirim", formatter: value => moment(value).format("DD MMM YYYY") },
         { field: "POBuyer", title: "PO Buyer" },
+        { field: "Remark", title: "Keterangan" },
         { field: "Status", title: "Status" },
     ]
 

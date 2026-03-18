@@ -82,7 +82,7 @@ export class List {
                     "CostCalculationGarment.IsValidatedROMD": false,
                     "CostCalculationGarment.IsValidatedROSample": false,
                     "IsPosted": true,
-                    "CostCalculationGarment.ApprovalRO": username
+                    //"CostCalculationGarment.ApprovalRO": username
                 };
                 break;
             case "sample":
