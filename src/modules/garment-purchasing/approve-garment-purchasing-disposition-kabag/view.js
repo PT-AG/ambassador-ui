@@ -25,7 +25,7 @@ export class View {
             this.selectedSupplier = this.data.Supplier;
         }
 
-        if (this.data.IsPosted && !this.data.IsApprovedKasie) {
+        if (this.data.IsPosted && this.data.IsApprovedKasie) {
             this.hasApprove = true;
         }
 
@@ -121,7 +121,7 @@ export class View {
 
     approve(event) {
         if (confirm("Yakin ingin menyetujui Disposisi Pembayaran ini?")) {
-            this.service.approveKabag(this.data.Id)
+            this.service.approve(this.data.Id)
                 .then(result => {
                     alert("Data berhasil disetujui (Kabag)");
                     this.cancel();

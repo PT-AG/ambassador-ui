@@ -106,7 +106,7 @@ export class List {
                 filter = Object.assign({
                     IsValidated: false,                    
                     IsValidatedMD1: false,
-                    ApprovalPR: this.section.ApprovalCC
+                    ApprovalPR: this.section.ApprovalPR
        
                 }, this.defaultFilter);
                 break;
@@ -173,7 +173,8 @@ export class List {
             case "MD1":
                 this.section = 
                 { 
-                    ApprovalCC: username == "PUSPITA PRIMAHARANI" ? "VERA FATIMAH" : (username == "SEPTIANA SANDRA" ? "WAHYU PAMUNGKAS" : username)
+                    //ApprovalCC: username == "PUSPITA PRIMAHARANI" ? "VERA FATIMAH" : (username == "SEPTIANA SANDRA" ? "WAHYU PAMUNGKAS" : username),
+                    ApprovalPR: username
                 };
                 break;
 

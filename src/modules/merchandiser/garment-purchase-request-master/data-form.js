@@ -1,4 +1,4 @@
-import {inject, bindable, computedFrom} from 'aurelia-framework'
+import { inject, bindable, computedFrom } from 'aurelia-framework'
 var UnitLoader = require('../../../loader/garment-units-loader');
 var PreSalesContractLoader = require('../../../loader/garment-pre-sales-contracts-loader');
 import { CoreService } from './service';
@@ -51,29 +51,29 @@ export class DataForm {
 
     //AFTER CODE
     @computedFrom("data.PRType")
-  get salesContractFilter() {
-    let filter = {
-      IsPosted: true,
-      // SCType: this.data.PRType == "MASTER" ? "JOB ORDER" : this.data.PRType,
-    };
+    get salesContractFilter() {
+        let filter = {
+            IsPosted: true,
+            // SCType: this.data.PRType == "MASTER" ? "JOB ORDER" : this.data.PRType,
+        };
 
-    if (this.data.PRType == "SAMPLE") {
-      filter.IsPR = false;
-      filter.SCType = "SAMPLE";
-    } else if (this.data.PRType == "MASTER") {
-      filter.SCType = "JOB ORDER";
-    } else if (this.data.PRType == "SUBCON KELUAR") {
-      let filterSubcon = {
-        IsPosted: true,
-        'SCType == "SUBCON KELUAR" || SCType == "SUBCON"': true,
-        //'SCType == "SUBCON KELUAR"': true,
-      };
+        if (this.data.PRType == "SAMPLE") {
+            filter.IsPR = false;
+            filter.SCType = "SAMPLE";
+        } else if (this.data.PRType == "MASTER") {
+            filter.SCType = "JOB ORDER";
+        } else if (this.data.PRType == "SUBCON KELUAR") {
+            let filterSubcon = {
+                IsPosted: true,
+                'SCType == "SUBCON KELUAR" || SCType == "SUBCON"': true,
+                //'SCType == "SUBCON KELUAR"': true,
+            };
 
-      return filterSubcon;
+            return filterSubcon;
+        }
+
+        return filter;
     }
-
-    return filter;
-  }
 
     bind(context) {
         this.context = context;
@@ -81,7 +81,7 @@ export class DataForm {
         this.error = this.context.error;
 
         this.itemOptions = {
-            isEdit : this.isEdit
+            isEdit: this.isEdit
         };
 
         if (this.readOnly || this.isEdit) {
@@ -123,8 +123,8 @@ export class DataForm {
         } else {
             return "-";
         }
-	}
-    
+    }
+
     changePRType(e) {
         this.context.selectedPreSalesContractViewModel.editorValue = "";
         this.selectedPreSalesContract = null;
@@ -147,8 +147,8 @@ export class DataForm {
 
             const section = await this.coreService.getGarmentSection(newValue.SectionId);
             this.data.SectionName = section.Name;
-            this.data.ApprovalPR = section.ApprovalCC; 
-            
+            this.data.ApprovalPR = section.ApprovalPR;
+
         } else {
             this.data.SCId = 0;
             this.data.SCNo = null;

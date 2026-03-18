@@ -1,17 +1,16 @@
 import { inject, Lazy } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
-import { Service, AzureService } from './service';
+import { Service } from './service';
 
 
-@inject(Router, Service, AzureService)
+@inject(Router, Service)
 export class View {
     hasCancel = true;
     hasApprove = true;
 
-    constructor(router, service, azureService) {
+    constructor(router, service) {
         this.router = router;
         this.service = service;
-        this.azureService = azureService;
     }
 
     async activate(params) {

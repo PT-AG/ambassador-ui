@@ -5,7 +5,6 @@ import { Config } from "aurelia-api";
 import { RestService } from '../../../utils/rest-service';
 
 const serviceUri = 'unit-payment-orders';
-const pdeServiceUri = 'expedition/purchasing-document-expeditions'
 
 export class Service extends RestService {
 
@@ -14,7 +13,7 @@ export class Service extends RestService {
     }
 
     search(info) {
-        var endpoint = `${serviceUri}/`;
+        var endpoint = `${serviceUri}`;
         return super.list(endpoint, info);
     }
 
@@ -36,15 +35,18 @@ export class Service extends RestService {
             return result.data;
         })
     }
+
 }
 
-export class AzureService extends RestService {
+
+const servicePurchSectionUri = 'master/purchasing-sections';
+export class ServiceCore extends RestService {
     constructor(http, aggregator, config, endpoint) {
-        super(http, aggregator, config, "purchasing-azure");
+        super(http, aggregator, config, "core");
     }
 
-    delete(data) {
-        var endpoint = `${pdeServiceUri}/PDE/${data.no}`;
-        return super.delete(endpoint, data);
+    searchSection(info) {
+        var endpoint = `${servicePurchSectionUri}`;
+        return super.list(endpoint, info);
     }
 }

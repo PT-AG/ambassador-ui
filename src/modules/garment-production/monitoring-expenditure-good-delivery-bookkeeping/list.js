@@ -17,21 +17,23 @@ export class List {
 
     @bindable UnitItem;
 
-    UnitItems = ['','AMBASSADOR GARMINDO 1','AMBASSADOR GARMINDO 2']
+    UnitItems = ['','AMBASSADOR GARMINDO'];
+    isExports=['','EXPORT','LOKAL'];
 
     UnitItemChanged(newvalue){
-        // console.log(newvalue);
         this.unit = 0;
         this.unitname = "";
         if (newvalue) {
             if (newvalue === "AMBASSADOR GARMINDO 1") {
                 this.unit = 21;
                 this.unitname = "KONFEKSI AG1";
-            }
-            else if (newvalue === "AMBASSADOR GARMINDO 2") { 
+            } else if (newvalue === "AMBASSADOR GARMINDO 2") { 
                 this.unit = 19;
                 this.unitname = "KONFEKSI AG2";
-            }else if(newvalue === ""){
+            } else if(newvalue === "AMBASSADOR GARMINDO") {
+                this.unit = 0;
+                this.unitname = "KONFEKSI AG";
+            } else if(newvalue === ""){
                 this.unit = 0;
                 this.unitname = "";
             }
@@ -44,7 +46,8 @@ export class List {
         var info = {
             unit : this.unit ? this.unit : 0,
             dateFrom : this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
-            dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : ""
+            dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : "",
+            type: this.isExport ? this.isExport : ""
         }
         this.service.search(info)
             .then(result => {
@@ -66,10 +69,9 @@ export class List {
     ExportToExcel() {
         var info = {
             unit : this.unit ? this.unit : 0,
-            unitname : this.unitname ? this.unitname:"",
             dateFrom : this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
             dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : "",
-            type:"bookkeeping"
+            type: this.isExport ? this.isExport : ""
       
         }
         this.service.generateExcel(info);
@@ -82,7 +84,14 @@ export class List {
         return `${unit.Code} - ${unit.Name}`;
     
     }
-
+ controlOptions = {
+    label: {
+      length: 4
+    },
+    control: {
+      length: 4
+    }
+  }
     
     reset() {
         this.dateFrom = null;

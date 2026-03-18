@@ -625,11 +625,11 @@ module.exports = [
     },
     
     {
-        route: '/purchasing/approve-spb/kasie',
-        name: 'approve-unit-payment-order-kasie',
+        route: '/purchasing/approve-spb/manager1',
+        name: 'approve-unit-payment-order-manager1',
         moduleId: './modules/purchasing/approve-unit-payment-order-kasie/index',
         nav: true,
-        title: 'Approval Surat Perintah Bayar Kasie',
+        title: 'Approval Surat Perintah Bayar Manager 1',
         auth: true,
         settings: {
             group: "purchasing",
@@ -639,11 +639,11 @@ module.exports = [
         }
     },
     {
-        route: '/purchasing/approve-spb/kabag',
-        name: 'approve-unit-payment-order-kabag',
+        route: '/purchasing/approve-spb/manager2',
+        name: 'approve-unit-payment-order-manager2',
         moduleId: './modules/purchasing/approve-unit-payment-order-kabag/index',
         nav: true,
-        title: 'Approval Surat Perintah Bayar Kabag',
+        title: 'Approval Surat Perintah Bayar Manager 2',
         auth: true,
         settings: {
             group: "purchasing",

@@ -37,9 +37,9 @@ export class List {
         { field: "CorrectionDate", title: "Tgl Koreksi Penerimaan", sortable: false, formatter: function (value, data, index) {
             return moment(value).format("DD/MM/YYYY");
         }},
-        { field: "CorrectionNote", title: "Nota Koreksi", sortable: false },
+        //{ field: "CorrectionNote", title: "Nota Koreksi", sortable: false },
         { field: "URNNo", title: "Penerimaan Unit", sortable: false },
-        { field: "BillNo", title: "Penerimaan Pusat", sortable: false },
+        //{ field: "BillNo", title: "Penerimaan Pusat", sortable: false },
         { field: "Supplier", title: "Asal Barang", sortable: false },
         { field: "SupplierCode", title: "Kode Supplier", sortable: false },
         { field: "RONo", title: "RO", sortable: false },

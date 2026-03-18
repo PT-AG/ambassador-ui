@@ -155,6 +155,17 @@ export class PurchaseOrderItem {
     return uom.Unit
   }
 
+  get barFas() {
+    var a = this.data.Product.FabricType;
+    if (a && a==="Fasilitas") {
+      a = "YA";
+    } else {
+      a = "TIDAK";
+    }
+    return `${a} - ${this.data.Product.Code} `;
+
+  }
+
   get prNo() {
     return `${this.data.PRNo} - ${this.data.PO_SerialNumber} - ${this.data.Article}`;
   }

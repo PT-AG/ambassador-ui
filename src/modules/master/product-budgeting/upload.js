@@ -21,9 +21,8 @@ export class Create {
     }
 
     cancelCallback(event) {
-      this.list();
+        this.list();
     }
-
 
     saveCallback(event) {
         var e = {};
@@ -35,7 +34,7 @@ export class Create {
             this.error = e;
         } else {
             formData.append("fileUpload", fileList[0]);
- 
+
             var endpoint = 'master/upload-products';
             var request = {
                 method: 'POST',
@@ -47,22 +46,18 @@ export class Create {
             this.service.endpoint.client.fetch(endpoint, request)
                 .then(response => {
                     if (response.status == 200) {
-                        var getRequest =this.service.endpoint.client.fetch(endpoint, request);
+                        var getRequest = this.service.endpoint.client.fetch(endpoint, request);
                         this.service._downloadFile(getRequest);
                         this.service.publish(getRequest);
                         alert("Upload gagal!\n Ada beberapa data yang harus diperbaiki. Silahkan lihat Error Log untuk melihat detil dari error tersebut.");
                         this.list();
-                    }
-                    else if (response.status == 404) {
+                    } else if (response.status == 404) {
                         alert("Urutan format kolom CSV tidak sesuai.\n Format Kolom: Kode Barang, Nama Barang, Satuan, Mata Uang, Harga, Tags, Keterangan");
-                    }
-                    else if (response.status == 201) {
+                    } else if (response.status == 201) {
                         alert("Data Berhasil Diupload");
                         this.list();
-
                     }
                 })
         }
     }
-
 }

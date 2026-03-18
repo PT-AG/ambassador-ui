@@ -10,11 +10,9 @@ export class items {
         return InvoiceLoader;
     }
 
-
     comodityView = (comodity) => {
         return `${comodity.Code || comodity.code} - ${comodity.Name || comodity.name}`;
     }
-
 
     constructor(service) {
         this.service = service;
@@ -34,6 +32,7 @@ export class items {
             invoiceNo: this.data.invoiceNo,
             id: this.data.invoiceId
         }
+
         if (this.data.id) {
             var invoice = await this.service.getInvoiceById(this.data.invoiceId);
             for (var item of invoice.garmentShippingInvoiceUnits) {
@@ -48,7 +47,6 @@ export class items {
                 if (item.unit.code.includes("1B"))
                     this.data.amount1BPercentage = item.amountPercentage;
             }
-
         }
     }
 
@@ -66,6 +64,7 @@ export class items {
             if (this.type != "Kargo") {
                 this.data.amount = newValue.totalAmount;
             }
+
             var invoice = await this.service.getInvoiceById(this.data.invoiceId);
             for (var item of invoice.garmentShippingInvoiceUnits) {
                 if (item.unit.code.includes("2A"))
@@ -79,8 +78,7 @@ export class items {
                 if (item.unit.code.includes("1B"))
                     this.data.amount1BPercentage = item.amountPercentage;
             }
-        }
-        else {
+        } else {
             this.data.buyerAgent = null;
             this.data.invoiceNo = "";
             this.data.invoiceId = 0;
@@ -98,6 +96,7 @@ export class items {
         if (this.data.amount && this.data.currencyRate && this.type == "Kargo") {
             this.data.amountIDR = this.data.amount * this.data.currencyRate;
         }
+
         return this.data.amountIDR;
     }
 
@@ -107,6 +106,7 @@ export class items {
         if (this.data.amount && this.rate && this.type != "Kargo") {
             this.data.premi = this.data.amount * this.data.rate / 100;
         }
+        
         return this.data.premi;
     }
 
@@ -116,12 +116,12 @@ export class items {
             if (this.data.amount && this.data.currencyRate && this.data.amount2APercentage) {
                 this.data.amount2A = this.data.amount * this.data.currencyRate * this.data.amount2APercentage / 100;
             }
-        }
-        else {
+        } else {
             if (this.data.premi && this.data.amount2APercentage) {
                 this.data.amount2A = this.data.premi * this.data.amount2APercentage / 100;
             }
         }
+
         return this.data.amount2A;
     }
 
@@ -131,8 +131,7 @@ export class items {
             if (this.data.amount && this.data.currencyRate && this.data.amount2BPercentage) {
                 this.data.amount2B = this.data.amount * this.data.currencyRate * this.data.amount2BPercentage / 100;
             }
-        }
-        else {
+        } else {
             if (this.data.amount2BPercentage && this.data.premi) {
                 this.data.amount2B = this.data.premi * this.data.amount2BPercentage / 100;
             }
@@ -147,12 +146,12 @@ export class items {
             if (this.data.amount && this.data.currencyRate && this.data.amount2CPercentage) {
                 this.data.amount2C = this.data.amount * this.data.currencyRate * this.data.amount2CPercentage / 100;
             }
-        }
-        else {
+        } else {
             if (this.data.amount2CPercentage && this.data.premi) {
                 this.data.amount2C = this.data.premi * this.data.amount2CPercentage / 100;
             }
         }
+
         return this.data.amount2C;
     }
 
@@ -162,12 +161,12 @@ export class items {
             if (this.data.amount && this.data.currencyRate && this.data.amount1APercentage) {
                 this.data.amount1A = this.data.amount * this.data.currencyRate * this.data.amount1APercentage / 100;
             }
-        }
-        else {
+        } else {
             if (this.data.amount1APercentage && this.data.premi) {
                 this.data.amount1A = this.data.premi * this.data.amount1APercentage / 100;
             }
         }
+        
         return this.data.amount1A;
     }
 
@@ -177,12 +176,12 @@ export class items {
             if (this.data.amount && this.data.currencyRate && this.data.amount1BPercentage) {
                 this.data.amount1B = this.data.amount * this.data.currencyRate * this.data.amount1BPercentage / 100;
             }
-        }
-        else {
+        } else {
             if (this.data.amount1BPercentage && this.data.premi) {
                 this.data.amount1B = this.data.premi * this.data.amount1BPercentage / 100;
             }
         }
+        
         return this.data.amount1B;
     }
 }

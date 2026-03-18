@@ -35,8 +35,8 @@ export class List {
         { field: "CreatedBy", title: "Admin Pembelian" },
         { 
             field: "IsPosted", title: "Status", formatter: function(value, data, index) {
-                if(data.IsApprovedKabag) return "SUDAH DISETUJUI KABAG";
-                if(data.IsApprovedKasie) return "SUDAH DISETUJUI KASIE";
+                if(data.IsApprovedKabag) return "SUDAH DISETUJUI MANAGER 2";
+                if(data.IsApprovedKasie) return "SUDAH DISETUJUI MANAGER 1";
                 if(data.isPosted) return "SUDAH DIPOSTING";
                 return "DRAFT";
             }
@@ -151,7 +151,7 @@ export class List {
         var isKabag = data.IsApprovedKabag;
         var isPosted = data.isPosted;
 
-        if (totalAmount > 25000000) {
+        if (totalAmount >= 25000000) {
             return isPosted && isKasie && isKabag;
         } else {
             return isPosted && isKasie;
