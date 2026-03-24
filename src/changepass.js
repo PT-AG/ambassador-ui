@@ -1,6 +1,7 @@
 import { Aurelia, inject } from 'aurelia-framework';
 import { AuthService } from "aurelia-authentication";
-import {Service} from './modules/auth/account/service';
+import { Service } from './modules/auth/account/service';
+import { PasswordValidator } from './utils/password-validator';
 import '../styles/signin.css';
 
 @inject(AuthService,Service)
