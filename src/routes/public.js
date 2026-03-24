@@ -25,5 +25,6 @@ module.exports = [
         name: 'changepass',
         moduleId: './changepass',
         nav: false,
+        auth: true,
         title: 'ChangePass'
     },]
