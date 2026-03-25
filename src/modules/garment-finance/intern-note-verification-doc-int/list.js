@@ -149,6 +149,10 @@ export class List {
     { field: 'index', title: 'No', formatter: (value, row, index) => index + 1, width: 80, align: 'center', sortable: false },
     { field: 'invoiceNo', title: 'Invoice', width: 200, align: 'left', sortable: true },
     { field: 'supplierName', title: 'Nama Supplier', width: 250, align: 'left', sortable: true },
+    { field: 'dppScan', title: 'DPP (document)', width: 250, align: 'right', sortable: true },
+    { field: 'dpp', title: 'DPP (NI)', width: 250, align: 'right', sortable: true },
+    { field: 'ppnScan', title: 'PPN (Document)', width: 250, align: 'right', sortable: true },
+    { field: 'ppn', title: 'PPN (NI)', width: 250, align: 'right', sortable: true },
     { field: 'remark', title: 'Keterangan', width: 250, align: 'left', sortable: true },
     { 
       field: 'actions', 
