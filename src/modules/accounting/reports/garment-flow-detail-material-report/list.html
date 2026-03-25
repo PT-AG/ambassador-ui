@@ -32,62 +32,64 @@
             <button class='btn btn-primary' click.delegate="xls()">Export To Excel</button>
           </div>
         <br>
-    <div class="table-responsive">  
-        <table class="table table-bordered table-hover" border="1" id="doReport">
-            <thead align="center">
-                <tr>
-                    <td>No</td>
-                    <td>Kode Barang</td>
-                    <td>Nama Barang</td>
-                    <td>No PO</td>
-                    <td>Keterangan Barang</td>
-                    <td>No R/O</td>
-                    <td>Artikel</td>
-                    <td>Kode Buyer</td>
-                    <td>Untuk RO</td>
-                    <td>Untuk Artikel</td>
-                    <!--<td>Jenis</td>-->
-                    <td>Tujuan</td>
-                    <td>No. Bukti</td>
-                    <td>Tanggal BUK</td>
-                    <td>Tanggal INPUT</td>
-                    <td>Jumlah</td>
-                    <td>Satuan</td>
-                    <td>Jumlah Harga</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr repeat.for="IN of data">
-                    <td>${$index + 1}</td>
-                    <td>${IN.ProductCode}</td>
-                    <td>${IN.ProductName}</td>
-                    <td>${IN.POSerialNumber}</td>
-                    <td>${IN.ProductRemark}</td>
-                    <td>${IN.RONo}</td>
-                    <td>${IN.Article }</td>
-                    <td>${IN.BuyerCode}</td>
-                    <td>${IN.RONoDO}</td>
-                    <td>${IN.ArticleDO}</td>
-                    <!--<td>${IN.UnitDOType}</td>-->
-                    <td>${IN.UnitDestination}</td>
-                    <td>${IN.UENNo}</td>
-                    <td>${IN.ExpenditureDate | dateFormat:'DD MMMM YYYY' }</td>
-                    <td>${IN.CreatedUtc | dateFormat:'DD MMMM YYYY' }</td>
-                    <td>${IN.Quantity}</td>
-                    <td>${IN.UomUnit}</td>
-                    <td>${IN.Total}</td>
-                    <!--<td>${SJ['Satuan Barang']}</td>-->
-                </tr>
-                <tr class="active">
-                    <td class="text-center" colspan="14"><strong>T O T A L  . . . . . . . . . . . . . . .</strong></td>
-                    <td class="text-right"><strong>${AmountTotal1}</strong></td>
-                    <td></td>
-                    <td class="text-right"><strong>${AmountTotal2}</strong></td>
-
-                </tr>
-            </tbody>
-        </table>
-    </div>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover" border="1" id="doReport">
+                <thead align="center">
+                    <tr>
+                        <td>No</td>
+                        <td>Kode Barang</td>
+                        <td>Nama Barang</td>
+                        <td>No PO</td>
+                        <td>Keterangan Barang</td>
+                        <td>No R/O</td>
+                        <td>Artikel</td>
+                        <td>Kode Buyer</td>
+                        <td>Untuk RO</td>
+                        <td>Untuk Artikel</td>
+                        <td>Tujuan</td>
+                        <td>Tipe Retur</td>
+                        <td>No. Bukti</td>
+                        <td>Tanggal BUK</td>
+                        <td>Tanggal INPUT</td>
+                        <td>Jumlah</td>
+                        <td>Satuan</td>
+                        <td>Jumlah Harga</td>
+                        <td>No. Bon Terima</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr repeat.for="IN of data">
+                        <td>${$index + 1}</td>
+                        <td>${IN.ProductCode}</td>
+                        <td>${IN.ProductName}</td>
+                        <td>${IN.POSerialNumber}</td>
+                        <td>${IN.ProductRemark}</td>
+                        <td>${IN.RONo}</td>
+                        <td>${IN.Article }</td>
+                        <td>${IN.BuyerCode}</td>
+                        <td>${IN.RONoDO}</td>
+                        <td>${IN.ArticleDO}</td>
+                        <td>${IN.UnitDestination}</td>
+                        <td>${IN.ReturType}</td>
+                        <td>${IN.UENNo}</td>
+                        <td>${IN.ExpenditureDate | dateFormat:'DD MMMM YYYY' }</td>
+                        <td>${IN.CreatedUtc | dateFormat:'DD MMMM YYYY' }</td>
+                        <td>${IN.Quantity}</td>
+                        <td>${IN.UomUnit}</td>
+                        <td>${IN.Total}</td>
+                        <td>${IN.URNNo}</td>
+                    </tr>
+                    <tr class="active">
+                        <td class="text-center" colspan="15"><strong>T O T A L . . . . . . . . . . . . . . .</strong>
+                        </td>
+                        <td class="text-right"><strong>${AmountTotal1}</strong></td>
+                        <td></td>
+                        <td class="text-right"><strong>${AmountTotal2}</strong></td>
+                        <td class="text-right"><strong></strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         <div class="alert alert-info text-center" role="alert" if.bind="data.length == 0">
             Tidak Ada Data Yang Ditemukan.
         </div>
