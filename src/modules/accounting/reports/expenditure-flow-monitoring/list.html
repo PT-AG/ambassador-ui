@@ -1,0 +1,96 @@
+<template>
+  <au-input-form title.bind="title" with.bind="context">
+    <style>
+      table>tbody>tr>td {
+        white-space: pre;
+      }
+    </style>
+
+    <h1 class="page-header">Monitoring Flow Barang Jadi</h1>
+
+    <form class="form-horizontal">
+
+      <au-dropdown label="Unit" value.bind="UnitItem" items.bind="UnitItems" options.bind="controlOptions">
+      </au-dropdown>
+
+      <au-datepicker label="Tanggal Awal" value.bind="dateFrom" options.bind="controlOptions"></au-datepicker>
+      <au-datepicker label="Tanggal Akhir" value.bind="dateTo" options.bind="controlOptions"></au-datepicker>
+<!-- 
+      <au-textbox label="No RO" value.bind="ro" read-only.bind="readOnly" options.bind="controlOptions"></au-textbox> -->
+      <div class="form-group">
+        <label for="contact" class="col-sm-6 control-label"></label>
+        <div class="col-sm-3">
+          <button click.delegate="searching()" class='btn btn-success'>Cari</button>
+          <button click.delegate="reset()" class='btn btn-success'>Reset</button>
+        </div>
+      </div>
+
+      <div class="btn-group pull-left">
+        <a click.delegate="ExportToExcel()" class='btn btn-primary'>Excel</a>
+      </div>
+    </form>
+    <br>
+    </br>
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover" border="1" id="myTable">
+        <thead align="center">
+          <tr>
+            <td >RO</td>
+            <td >ARTIKEL</td>
+            <td >KOMODITI</td>
+            <td >JUMLAH ORDER</td>
+            
+            <td >Saldo Awal Barang jadi</td>
+            <td >Barang Jadi In/ (WIP BJ)</td>
+            <td >Barang Jadi In Transfer</td>
+            <td >Penerimaan Lain-lain (Retur)</td>
+            <td >Pengiriman Export</td>
+            <td >Pengiriman Lokal</td>
+            <td >Pengiriman Gudang Sisa</td>
+            <td >Pengiriman Lain-lain/Sample</td>
+            <td >Adjust Barang Jadi</td>
+            <td >Saldo Akhir Barang Jadi</td>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- <require from="../../../../../lib/number-format-value-converter"></require> -->
+          <tr repeat.for="item of data">
+            <td class="text-center">${item.Ro}</td>
+            <td class="text-center">${item.Article}</td>
+            <td class="text-center">${item.Comodity}</td>
+            <td class="text-right">${item.QtyOrder}</td>
+            <td class="text-right">${item.BeginingBalanceExpenditureGood}</td>
+            <td class="text-right">${item.ExpenditureGoodRemainingQty}</td>
+            <td class="text-right">${item.ExpenditureGoodInTransfer}</td>
+            <td class="text-right">${item.ExpenditureGoodRetur}</td>
+            <td class="text-right">${item.ExportQty}</td>
+            <td class="text-right">${item.LocalQty}</td>
+            <td class="text-right">${item.OtherQty}</td>
+            <td class="text-right">${item.SampleQty}</td>
+            <td class="text-right">${item.ExpenditureGoodAdj}</td>
+            <td class="text-right">${item.EndBalanceExpenditureGood}</td>
+          </tr>
+          <tr class="active">
+            <td class="text-center" colspan="4"><strong>T O T A L </strong></td>
+            <td class="text-right"><strong>${BeginingBalanceExpenditureGoodTotal}</strong></td>
+            <td class="text-right"><strong>${FinishingInExpenditureTotal}</strong></td>
+
+            <td class="text-right"><strong>${ExpenditureGoodInTransferTotal}</strong></td>
+            <td class="text-right"><strong>${ExpenditureGoodReturTotal}</strong></td>
+            <td class="text-right"><strong>${ExportQtyTotal}</strong></td>
+            <td class="text-right"><strong>${LocalQtyTotal}</strong></td>
+            <td class="text-right"><strong>${OtherQtyTotal}</strong></td>
+            <td class="text-right"><strong>${SampleQtyTotal}</strong></td>
+            <td class="text-right"><strong>${ExpenditureGoodAdjTotal}</strong></td>
+            <td class="text-right"><strong>${EndBalanceExpenditureGoodTotal}</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="alert alert-info text-center" role="alert" if.bind="data.length === 0">
+      Tidak ada data.
+    </div>
+    <hr />
+  </au-input-form>
+  <div class="row"></div>
+</template>
