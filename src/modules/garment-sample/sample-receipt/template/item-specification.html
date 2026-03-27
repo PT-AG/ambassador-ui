@@ -29,6 +29,15 @@
 			</au-textbox>
 		</td>
 
+        <td class="col-sm-2 bg-primary">
+			<au-textbox 
+                error.bind="error.PONumber" 
+                value.bind="data.PONumber" 
+				read-only.bind="readOnly"
+                placeholder="Nomor PO"
+                options.bind="controlOptions">
+			</au-textbox>
+		</td>
 
 		<td if.bind="!readOnly" class="col-sm-1">
 			<button class="btn btn-danger pull-right" click.delegate="onremove(data, $event)">-</button>
