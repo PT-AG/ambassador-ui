@@ -74,7 +74,7 @@ export class Login {
                     this.disabledButton = false;
                     window.location.href = `#/changepass?Username=${this.username}`;
                 } else {
-                    location.reload();
+                    // location.reload();
                 }
             })
             .catch(err => {
