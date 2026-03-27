@@ -2,81 +2,69 @@
   <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
       <div class="navbar-header">
-        <button type="button"
-                class="navbar-toggle collapsed"
-                data-toggle="collapse"
-                data-target="#navbar"
-                aria-expanded="false"
-                aria-controls="navbar">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+          aria-expanded="false" aria-controls="navbar">
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand"
-           href="#">
+        <a class="navbar-brand" href="#">
           <div class="img-responsive logo"></div>
           AG MANAGEMENT SYSTEM
         </a>
       </div>
-      <div id="navbar"
-           class="navbar-collapse collapse"
-           if.bind="isAuthenticated">
+      <div id="navbar" class="navbar-collapse collapse" if.bind="isAuthenticated">
 
         <ul class="d-inline nav navbar-nav navbar-right">
           <li class="dropdown">
-            <a href="#"
-               class="dropdown-toggle"
-               data-toggle="dropdown"
-               role="button"
-               aria-haspopup="true"
-               aria-expanded="false">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+              aria-expanded="false">
 
               <i class="fa fa-bell fa-lg">
-                <!-- <span class="badge badge-danger" style="background-color: red">
-                  9
-                </span> -->
               </i>
             </a>
           </li>
-          <li if.bind="showNotification" class="dropdown">
-              <a href="#"
-                class="dropdown-toggle"
-                data-toggle="dropdown"
-                role="button"
-                aria-haspopup="true"
-                aria-expanded="false">
-                <span style.bind="isWarning 
-                  ? (isBlinkOn 
-                    ? 'padding: 7px 15px; font-size: 18px; background-color: #DC143C; color: white;' 
-                    : 'padding: 7px 15px; font-size: 18px; background-color: white; color: black;') 
-                  : 'padding: 7px 15px; font-size: 18px; background-color: white; color: black;'">
-
-                  Sesi berakhir dalam: <span style="font-weight: bold;">${countdown}</span> 
-                </span>
-              </a>
-          </li>
           <li class="dropdown">
-            <a href="#"
-               class="dropdown-toggle"
-               data-toggle="dropdown"
-               role="button"
-               aria-haspopup="true"
-               aria-expanded="false">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+              aria-expanded="false">
 
-              Welcome, <span style="font-weight:bold;">${me.profile.firstname}</span> <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Profile</a></li>
-                <li><a href="#"
-                  click.delegate="changePass(me.username)">Change Password</a></li>
-                <li role="separator"
-                    class="divider"></li>
-                <li><a href="#"
-                     click.delegate="logout()">Sign Out</a></li>
-              </ul>
+              Welcome, <span style="font-weight:bold;">${me.username}</span> <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li>
+                <a href="javascript:void(0)" click.trigger="changePass()">Ubah Kata Sandi</a>
+              </li>
+              <li>
+                <a href="javascript:void(0)" click.trigger="logout()">Keluar</a>
+              </li>
+            </ul>
+            <!--<dialog-custom></dialog-custom>-->
           </li>
         </ul>
       </div>
     </div>
   </nav>
+
+  <!-- <style>
+    div.show {
+      display: block;
+      z-index: 99;
+    }
+  </style>
+
+  <div id="confirmBox" class="modal modal-overlay" tabindex="-1" role="dialog" aria-labelledby="confirmBoxTitle">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmBoxTitle" style="font-weight: bold;">Sesi Berakhir</h5>
+            </div>
+            <div class="modal-body" style="font-size: large;">
+                Sesi log in sudah habis, silahkan log in kembali.
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="button" class="btn btn-primary" click.trigger="logout()">Log In Kembali</button>
+            </div>
+        </div>
+    </div>
+  </div> -->
 </template>

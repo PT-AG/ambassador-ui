@@ -1,17 +1,51 @@
-export class PasswordValidator {
-    static validate(password) {
-        if (!password) return "Kata sandi tidak boleh kosong.";
-        if (password.length < 8) return "Kata sandi harus minimal 8 karakter.";
+export const PasswordValidator = {
+  validate(password) {
 
-        let hasUpperCase = /[A-Z]/.test(password);
-        let hasLowerCase = /[a-z]/.test(password);
-        let hasNumber = /[0-9]/.test(password);
-        let hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    var validationMessage = "";
 
-        if (!hasUpperCase || !hasLowerCase || !hasNumber || !hasSpecialChar) {
-            return "Kata sandi harus mengandung kombinasi huruf besar, huruf kecil, angka, dan karakter khusus.";
-        }
+    // Validasi null atau kosong
+    if (password == null || password.trim() === "" || password === undefined) {
+      validationMessage += "Password harus diisi.\n";
+    } else {
+      // Validasi panjang minimal
+      if (password.length < 8) {
+        validationMessage += "Password minimal harus 8 karakter.\n";
+      }
 
-        return null;
+      // Validasi kompleksitas
+      if (!/[A-Z]/.test(password)) {
+        validationMessage += "Password harus mengandung minimal satu huruf kapital.\n";
+      }
+      if (!/[a-z]/.test(password)) {
+        validationMessage += "Password harus mengandung minimal satu huruf kecil.\n";
+      }
+      if (!/[0-9]/.test(password)) {
+        validationMessage += "Password harus mengandung minimal satu angka.\n";
+      }
+      if (!/[!@#$%^&*(),.?":;{}|<>]/.test(password)) {
+        validationMessage += "Password harus mengandung minimal satu karakter spesial.\n";
+      }
+
+      // Validasi karakter tidak valid (opsional)
+      if (/[\u0000-\u001F]/.test(password)) {
+        validationMessage += "Password mengandung karakter tidak valid.\n";
+      }
+
+      // Validasi karakter yang berulang lebih dari 3 kali berturut-turut
+      if (/(.)\1{2,}/.test(password)) {
+        validationMessage += "Password tidak boleh mengandung karakter yang sama 3 kali berturut-turut.\n";
+      }
+
+      // Validasi hanya huruf atau hanya angka
+      // if (/^[a-zA-Z]+$/.test(password)) {
+      //   return "Password tidak boleh hanya huruf.";
+      // }
+
+      // if (/^\d+$/.test(password)) {
+      //   return "Password tidak boleh hanya angka.";
+      // }
     }
-}
+
+    return validationMessage === "" ? null : validationMessage; // Password valid
+  }
+};
