@@ -1245,7 +1245,7 @@ module.exports = [
     settings: {
       group: "g-purchasing",
       subGroup: "approval",
-      permission: { H63: 1 },
+      permission: { H62: 1 },
       iconClass: "fa fa-dashboard",
     },
   },
@@ -1259,7 +1259,7 @@ module.exports = [
     settings: {
       group: "g-purchasing",
       subGroup: "approval",
-      permission: { H64: 1 },
+      permission: { H63: 1 },
       iconClass: "fa fa-dashboard",
     },
   },
@@ -1274,7 +1274,7 @@ module.exports = [
     settings: {
       group: "g-purchasing",
       subGroup: "approval",
-      permission: { H65: 1 },
+      permission: { H64: 1 },
       iconClass: "fa fa-dashboard",
     },
   },
@@ -1289,7 +1289,7 @@ module.exports = [
     settings: {
       group: "g-purchasing",
       subGroup: "approval",
-      permission: { H66: 1 },
+      permission: { H65: 1 },
       iconClass: "fa fa-dashboard",
     },
   },
