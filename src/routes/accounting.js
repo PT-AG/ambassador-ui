@@ -765,4 +765,19 @@ module.exports = [
       iconClass: 'fa fa-dashboard'
     }
   },
+  {
+    route: '/accounting/reports/expenditure-flow-monitoring',
+    name: 'expenditure-flow-monitoring',
+    moduleId: './modules/accounting/reports/expenditure-flow-monitoring/index',
+    nav: true,
+    title: 'Monitoring Flow Barang Jadi',
+    auth: true,
+    settings: {
+      group: "accounting",
+      subGroup: "report",
+      // permission: { "C9": 1, "B1": 1 },
+      permission: { "N44": 1 },
+      iconClass: 'fa fa-dashboard'
+    }
+  },
 ];
