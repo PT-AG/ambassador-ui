@@ -634,7 +634,7 @@ module.exports = [
         settings: {
             group: "purchasing",
             subGroup: "approval",
-            permission: { "E42": 1 },
+            permission: { "E40": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -648,7 +648,7 @@ module.exports = [
         settings: {
             group: "purchasing",
             subGroup: "approval",
-            permission: { "E43": 1 },
+            permission: { "E41": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },

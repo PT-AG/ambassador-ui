@@ -776,7 +776,7 @@ module.exports = [
       group: "accounting",
       subGroup: "report",
       // permission: { "C9": 1, "B1": 1 },
-      permission: { "N30": 1 },
+      permission: { "N44": 1 },
       iconClass: 'fa fa-dashboard'
     }
   },
