@@ -40,6 +40,13 @@
         <au-datepicker value.bind="dateTo" label="Sampai Tgl" options.bind="controlOptions" error.bind="error.date">
         </au-datepicker>
 
+        
+        <au-datepicker value.bind="duedateFrom" label="Periode Awal Jatuh Tempo" options.bind="controlOptions" error.bind="error.date">
+        </au-datepicker>
+
+        <au-datepicker value.bind="duedateTo" label="Periode Awal Jatuh Tempo" options.bind="controlOptions" error.bind="error.date">
+        </au-datepicker>
+
         <div class="form-group">
             <label for="contact" class="col-sm-5 control-label"></label>
             <div class="col-sm-3">
@@ -70,6 +77,7 @@
                         <td rowspan="2">JENIS BARANG</td>
                         <td rowspan="2">RATE</td>
                         <td colspan="3">NOTA KOREKSI</td>
+                        <td rowspan="2">TANGGAL JATUH TEMPO NI</td>
                         <td rowspan="2">TIPE BAYAR</td>
                         <td rowspan="2">PEMBAYARAN</td>
                         <td rowspan="2">TANGGAL PEMBAYARAN</td>
@@ -111,6 +119,7 @@
                         <td>${IN.cnNo}</td>
                         <td>${IN.cnDate}</td>
                         <td>${IN.cnAmount}</td>
+                        <td>${IN.dueDateInternNote | dateFormat:'DD MMMM YYYY'}</td>
                         <td>${IN.paymentType}</td>
                         <td>${IN.paymentDoc}</td>
                         <td>${IN.paymentDate}</td>
