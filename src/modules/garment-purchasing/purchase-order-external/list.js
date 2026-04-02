@@ -11,12 +11,14 @@ export class List {
   rowFormatter(data, index) {
     if (data.IsOverBudget)
     {
-      if (data.IsPosted )
+      if (data.IsPosted && data.IsApproved )
         return { classes: "success" };
       else return {};
-    } else {
+    } 
+    else if (data.IsPosted ) {
       return { classes: "success" };
     }
+    else return {};
   }
 
   context = ["Rincian", "Cetak PDF"];
