@@ -18,12 +18,12 @@ export class Service extends RestService {
     }
     
     generateExcel(info) {
-      var endpoint = `${serviceUri}/monitoring/download?dateFrom=${info.dateFrom}&dateTo=${info.dateTo}&no=${info.no}&supplierCode=${info.supplierCode}&curencyCode=${info.curencyCode}&invoiceNo=${info.invoiceNo}&npn=${info.npn}&doNo=${info.doNo}&billNo=${info.billNo}&paymentBill=${info.paymentBill}`;
+      var endpoint = `${serviceUri}/monitoring/download?dateFrom=${info.dateFrom}&dateTo=${info.dateTo}&no=${info.no}&supplierCode=${info.supplierCode}&curencyCode=${info.curencyCode}&invoiceNo=${info.invoiceNo}&npn=${info.npn}&doNo=${info.doNo}&billNo=${info.billNo}&paymentBill=${info.paymentBill}&duedateFrom=${info.duedateFrom}&duedateTo=${info.duedateTo}`;
       return super.getXls(endpoint);
     }
 
     generateExcelExtra(info) {
-        var endpoint = `${serviceUri}/monitoring/download-detail?unitId=${info.unitId}&supplierId=${info.supplierId}&noSPB=${info.noSPB}&dateFrom=${info.dateFrom}&dateTo=${info.dateTo}`;
+        var endpoint = `${serviceUri}/monitoring/download-detail?unitId=${info.unitId}&supplierId=${info.supplierId}&noSPB=${info.noSPB}&dateFrom=${info.dateFrom}&dateTo=${info.dateTo}&duedateFrom=${info.duedateFrom}&duedateTo=${info.duedateTo}`;
         return super.getXls(endpoint);
     }
 

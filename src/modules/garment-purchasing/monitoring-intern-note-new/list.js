@@ -18,6 +18,11 @@ export class List {
     this.error = {};
   }
 
+  controlOptions = {
+        label: { length: 5 },
+        control: { length: 4 }
+    }
+
   bind(context) {
     this.context = context;
   }
@@ -47,7 +52,9 @@ export class List {
       npn: this.npn ? this.npn : "",
       doNo: this.deliveryorder ? this.deliveryorder.doNo : "",
       billNo: this.bill ? this.bill.billNo : "",
-      paymentBill: this.paymentbill ? this.paymentbill.paymentBill : ""
+      paymentBill: this.paymentbill ? this.paymentbill.paymentBill : "",
+      duedateFrom : this.duedateFrom ?moment(this.duedateFrom).format("YYYY-MM-DD") : "",
+      duedateTo : this.duedateTo ?moment(this.duedateTo).format("YYYY-MM-DD") : "",
     };
 
     this.service.search(args)
@@ -82,7 +89,9 @@ export class List {
         npn: this.npn ? this.npn : "",
         doNo: this.deliveryorder ? this.deliveryorder.doNo : "",
         billNo: this.bill ? this.bill.billNo : "",
-        paymentBill: this.paymentBill ? this.paymentbill.paymentBill : ""
+        paymentBill: this.paymentBill ? this.paymentbill.paymentBill : "",
+      duedateFrom : this.duedateFrom ?moment(this.duedateFrom).format("YYYY-MM-DD") : "",
+      duedateTo : this.duedateTo ?moment(this.duedateTo).format("YYYY-MM-DD") : "",
       };
 
       this.service.generateExcel(args)
@@ -105,7 +114,9 @@ export class List {
         npn: this.npn ? this.npn : "",
         doNo: this.deliveryorder ? this.deliveryorder.doNo : "",
         billNo: this.bill ? this.bill.billNo : "",
-        paymentBill: this.paymentBill ? this.paymentbill.paymentBill : ""
+        paymentBill: this.paymentBill ? this.paymentbill.paymentBill : "",
+        duedateFrom : this.duedateFrom ?moment(this.duedateFrom).format("YYYY-MM-DD") : "",
+        duedateTo : this.duedateTo ?moment(this.duedateTo).format("YYYY-MM-DD") : "",
       };
 
       this.service.generateExcelExtra(args)
@@ -174,6 +185,8 @@ export class List {
     this.paymentbill = null;
     this.invoice = null;
     this.data = [];
+    this.duedateFrom = null;
+    this.duedateTo = null;
   }
 
   changePage(e) {
