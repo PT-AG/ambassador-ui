@@ -108,6 +108,30 @@ export class List {
           "en-EN",
           { minimumFractionDigits: 2, maximumFractionDigits: 2 }
         );
+        _data.OTL1CalculatedValue = _data.OTL1CalculatedValue.toLocaleString(
+          "en-EN",
+          { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+        );
+        _data.OTL2CalculatedValue = _data.OTL2CalculatedValue.toLocaleString(
+          "en-EN",
+          { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+        );
+        _data.Total_Material = _data.Total_Material.toLocaleString(
+          "en-EN",
+          { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+        );
+        _data.Total_Subcon = _data.Total_Subcon.toLocaleString(
+          "en-EN",
+          { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+        );
+        _data.Other_Expenses = _data.Other_Expenses.toLocaleString(
+          "en-EN",
+          { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+        );
+        _data.Total_Cost = _data.Total_Cost.toLocaleString(
+          "en-EN",
+          { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+        );
 
         this.data.push(_data);
       }
