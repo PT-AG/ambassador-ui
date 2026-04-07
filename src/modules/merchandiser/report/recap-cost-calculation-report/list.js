@@ -132,6 +132,10 @@ export class List {
           "en-EN",
           { minimumFractionDigits: 2, maximumFractionDigits: 2 }
         );
+        _data.Total_SubconProcess = _data.Total_SubconProcess.toLocaleString(
+          "en-EN",
+          { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+        );
 
         this.data.push(_data);
       }
