@@ -36,4 +36,11 @@ export class View {
                 this.list();
             });
     }
+
+    unlock() {
+        this.service.unlock(this.data)
+            .then(result => {
+                this.activate({ id: this.data._id });
+            });
+    }
 }

@@ -30,6 +30,11 @@ export class Service extends RestService {
     return super.put(endpoint, data);
   }
 
+  unlock(data) {
+    var endpoint = `${serviceUri}/unLock/${data._id}`;
+    return super.put(endpoint, data);
+  }
+
   delete(data) {
     var endpoint = `${serviceUri}/${data._id}`;
     return super.delete(endpoint, data);
