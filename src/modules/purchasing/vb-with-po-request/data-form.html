@@ -48,7 +48,8 @@
                      text.bind="unitView"
                      read-only.bind="readOnly || isEdit"
                      options.bind="controlOptions"
-                     placeholder="Cari Unit Pemohon">
+                     placeholder="Cari Unit Pemohon"
+                     query.bind="unitfilter">
     </au-autocomplete>
 
     <au-autocomplete value.bind="TypePurchasing || data.TypePurchasing"
