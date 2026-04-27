@@ -63,13 +63,12 @@ export class DataForm {
 
     @bindable selectedSuppliantUnit;
     selectedSuppliantUnitChanged(newVal, oldVal) {
-
         if (oldVal || this.isCreate && this.data.Items && this.data.Items.length > 0)
             this.data.Items.splice(0, this.data.Items.length);
 
         if (newVal) {
             this.data.SuppliantUnit = newVal;
-            this.itemsOptions.division = newVal.Division.Name;
+            this.itemsOptions.division = newVal.Name;
         } else {
             delete this.data.SuppliantUnit;
             delete this.itemsOptions.division;
@@ -101,7 +100,8 @@ export class DataForm {
             this.itemsOptions.epoIds = vbRequestDocument.Items.map((item) => {
                 return item.PurchaseOrderExternal.Id;
             });
-            this.itemsOptions.division = vbRequestDocument.SuppliantUnit.Division.Name;
+            console.log(this.vbRequestDocument.SuppliantUnitName)
+            this.itemsOptions.division = this.vbRequestDocument.SuppliantUnitName;
             this.itemsOptions.currencyCode = vbRequestDocument.Currency.Code;
             this.itemsOptions.typePurchasing = typePurchasing;
 
@@ -143,6 +143,10 @@ export class DataForm {
         this.isDelay = false;
     }
 
+    unitfilter= {
+        'Name.Contains("PEMBELIAN")':true
+    }
+
     async bind(context) {
         this.context = context;
         this.data = this.context.data;
@@ -167,7 +171,7 @@ export class DataForm {
             this.itemsOptions.epoIds = vbRequestDocument.Items.map((item) => {
                 return item.PurchaseOrderExternal.Id;
             });
-            this.itemsOptions.division = vbRequestDocument.SuppliantUnit.Division.Name;
+            this.itemsOptions.division = this.vbRequestDocument.SuppliantUnitName;
             this.itemsOptions.currencyCode = vbRequestDocument.Currency.Code;
             this.itemsOptions.typePurchasing = vbRequestDocument.TypePurchasing;
         }
