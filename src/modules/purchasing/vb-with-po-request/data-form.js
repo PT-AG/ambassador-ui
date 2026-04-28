@@ -149,6 +149,10 @@ export class DataForm {
         return result.toLocaleString('en-EN', { minimumFractionDigits: 2 });
     }
 
+    unitfilter= {
+        'Name.Contains("PEMBELIAN")':true
+    }
+
     unitView = (unit) => {
         return `${unit.Code} - ${unit.Name}`
     }
