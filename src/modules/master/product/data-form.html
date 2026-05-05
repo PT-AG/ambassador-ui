@@ -55,6 +55,8 @@
             read-only.bind="readOnly"
           ></au-multiline>
 
+          <au-checkbox label="Fixed Asset" value.bind="data.IsFixedAsset" error.bind="error.IsFixedAsset" read-only.bind="readOnly"></au-checkbox>
+
           <template replaceable part="actions"></template>
 
         </au-input-form>
