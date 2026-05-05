@@ -23,6 +23,8 @@
         <au-multiline label="Keterangan" value.bind="data.Description" error.bind="error.description"
           read-only.bind="readOnly"></au-multiline>
 
+        <au-checkbox label="Fixed Asset" value.bind="data.IsFixedAsset" error.bind="error.IsFixedAsset" read-only.bind="readOnly"></au-checkbox>
+
         <au-collection if.bind="isPermitted" items.bind="data.MappingCategories" errors.bind="error.MappingCategories"
           columns.bind="columns" add.bind="addItems" remove.bind="onremove" read-only.bind="readOnly"
           item-template="modules/master/product-budgeting/template/mapping-category">
