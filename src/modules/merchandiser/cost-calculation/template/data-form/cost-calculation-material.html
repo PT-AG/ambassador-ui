@@ -32,16 +32,28 @@
         <td>
             <button class="btn btn-primary" click.delegate="clickPRMaster()">+</button>
         </td>
-        <!-- pomaster -->
+        <!-- doitems -->
         <td>
+            <button class="btn btn-primary" click.delegate="clickPOSerialNumber()">+</button>
+        </td>
+        <!-- poserialNumber -->
+        <td>
+            <div style="min-width: 50px;" class="tooltip-material-field">
+                <au-textbox value.bind="data.POMaster || data.PO_SerialNumber" options.bind="controlOptions" read-only.bind="true">
+                </au-textbox>
+                <span class="tooltiptext">No. PO</span>
+            </div>
+        </td>
+        <!-- pomaster -->
+        <!-- <td>
             <div style="min-width: 50px;" class="tooltip-material-field">
                 <au-textbox value.bind="data.POMaster" options.bind="controlOptions" read-only.bind="true">
                 </au-textbox>
                 <span class="tooltiptext">No. PO</span>
             </div>
-        </td>
+        </td> -->
         <!-- FROM PR MASTER -->
-        <template if.bind="data.POMaster">
+        <template if.bind="data.POMaster || data.PO_SerialNumber">
             <td>
                 <div style="width: 100px;" class="tooltip-material-field">
                     <au-textbox value.bind="data.Category.name" options.bind="controlOptions" read-only="true"></au-textbox>
@@ -86,7 +98,7 @@
             </td>
         </template>
         <!-- INPUT MANUAL -->
-        <template if.bind="!data.POMaster">
+        <template if.bind="!data.POMaster && !data.PO_SerialNumber">
             <!-- kategori -->
             <td>
                 <div style="width: 100px;" class="tooltip-material-field">

@@ -160,6 +160,7 @@ class Service extends RestService {
 };
 
 const serviceUriPurchaseRequest = 'garment-purchase-requests';
+const serviceUriDOItems = 'garment-do-items';
 
 class PurchasingService extends RestService {
     constructor(http, aggregator, config, endpoint) {
@@ -173,6 +174,11 @@ class PurchasingService extends RestService {
 
     searchItems(info) {
         var endpoint = `${serviceUriPurchaseRequest}/items`;
+        return super.list(endpoint, info);
+    }
+
+    searchdoItems(info) {
+        var endpoint = `${serviceUriDOItems}/cost-calculation`;
         return super.list(endpoint, info);
     }
 }

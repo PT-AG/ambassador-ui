@@ -49,6 +49,11 @@ export class ServiceCore extends RestService {
     return super.get(endpoint);
   }
 
+  getCategoryName(info) {
+    var endpoint = `${categoryServiceUri}/byName`;
+    return super.list(endpoint, info);;
+  }
+
   getBuyerId(id) {
     var endpoint = `${buyerServiceUri}/${id}`;
     return super.get(endpoint);

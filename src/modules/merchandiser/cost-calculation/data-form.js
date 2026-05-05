@@ -71,6 +71,7 @@ export class DataForm {
     columns: [
       { header: "No." },
       { header: "PR Master" },
+      { header: "PO Gudang" },
       { header: "No. PO" },
       { header: "Kategori", value: "Category" },
       { header: "Kode Barang", value: "ProductCode" },
