@@ -7,6 +7,7 @@ const GarmentCategoryLoader = require('../../../../../loader/garment-category-lo
 import { Service } from '../../service';
 import { ServiceCore } from '../../service-core';
 import { PRMasterDialog } from './pr-master-dialog';
+import { DOItemsDialog } from './do-items-dialog';
 
 const rateNumberFormat = "0,0.000";
 
@@ -362,36 +363,35 @@ export class CostCalculationMaterial {
                 });
         }
   
-}
-get garmentProductWidthLoader() {
-        
-    return (keyword) => {
-        var filter = "";
-        if (this.selectedCategory && this.selectedCategory.name) {
-            if (this.selectedComposition && this.selectedComposition.Composition) {
-                if (this.selectedConstruction && this.selectedConstruction.Const && this.selectedConstruction.Const.length > 0) {
-                    if (this.selectedYarn && this.selectedYarn.Yarn && this.selectedYarn.Yarn.length > 0) {
-                        filter = JSON.stringify({ "name": this.selectedCategory.name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const, "yarn": this.selectedYarn.Yarn });
+    }
+    get garmentProductWidthLoader() {
+        return (keyword) => {
+            var filter = "";
+            if (this.selectedCategory && this.selectedCategory.name) {
+                if (this.selectedComposition && this.selectedComposition.Composition) {
+                    if (this.selectedConstruction && this.selectedConstruction.Const && this.selectedConstruction.Const.length > 0) {
+                        if (this.selectedYarn && this.selectedYarn.Yarn && this.selectedYarn.Yarn.length > 0) {
+                            filter = JSON.stringify({ "name": this.selectedCategory.name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const, "yarn": this.selectedYarn.Yarn });
+                        } else {
+                            filter = JSON.stringify({ "name": this.selectedCategory.name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const });
+                        }
                     } else {
-                        filter = JSON.stringify({ "name": this.selectedCategory.name, "Composition": this.selectedComposition.Composition, "const": this.selectedConstruction.Const });
+                        filter = JSON.stringify({ "name": this.selectedCategory.name, "Composition": this.selectedComposition.Composition });
                     }
                 } else {
-                    filter = JSON.stringify({ "name": this.selectedCategory.name, "Composition": this.selectedComposition.Composition });
-                }
-            } else {
-                if (this.selectedCategory.name.toUpperCase() == 'FABRIC') {
-                    filter = JSON.stringify({ "name": this.selectedCategory.name })
+                    if (this.selectedCategory.name.toUpperCase() == 'FABRIC') {
+                        filter = JSON.stringify({ "name": this.selectedCategory.name })
+                    }
                 }
             }
-        }
 
-        return this.service.getGarmentProductWidths(keyword, filter)
-            .then((result) => {
-               return result;
-            });
+            return this.service.getGarmentProductWidths(keyword, filter)
+                .then((result) => {
+                return result;
+                });
+        }
     }
 
-}
     getWidthText = (product) => {
         return product ? `${product.Width}` : '';
     }
@@ -621,6 +621,69 @@ get garmentProductWidthLoader() {
                                     });
                             }
                         });
+                }
+            });
+    }
+
+    clickPOSerialNumber(){
+        this.dialog.show(DOItemsDialog, { CCId: this.context.context.options.CCId || 0, SCId: this.context.context.options.SCId || 0 })
+            .then(response => {
+                if (!response.wasCancelled) {
+                    this.error = {};
+
+                    const result = response.output;
+
+                    this.data.DOItemId = result.DOItemId;
+                    this.data.PO_SerialNumber = result.POSerialNumber;
+
+                    this.data.Product = result.Product;
+                    this.productCode = this.data.Product ? this.data.Product.Code : "";
+                    this.data.Description = result.Description;
+                    this.data.CategoryName = this.data.Product ? this.data.Product.Name : "";
+
+                    this.data.ProductRemark = null;
+                    this.data.Quantity = 0;
+                    this.data.UOMQuantity = null;
+                    this.data.Price = result.BudgetPrice;
+                    this.data.UOMPrice = result.PriceUom;
+                    this.data.Conversion = 0;
+                    this.data.ShippingFeePortion = 0;
+                    this.data.AvailableQuantity = result.AvailableQuantity;
+                    
+                     var productQuery = {
+                     Name: this.data.CategoryName
+                };
+
+                this.serviceCore.getCategoryName(productQuery).then(category => {
+                        this.data.Category = {
+                            name: category.data.Name,
+                            code : category.data.Code,
+                            Id: category.data.Id
+                        };
+                        console.log(this.data.Category.name)
+                        if (this.data.Category.name.toUpperCase() === "FABRIC") {
+                            this.dialog.prompt("Apakah fabric ini menggunakan harga CMT?", "Detail Fabric Material")
+                                .then(response => {
+                                    if (response == "ok") {
+                                        this.data.isFabricCM = true;
+                                    } else {
+                                        this.data.isFabricCM = false;
+                                    }
+                                    this.data.showDialog = false;
+                                });
+                        }
+                        else if (this.data.Category.name.toUpperCase() === "DIE CUT") {
+                            this.dialog.prompt("Apakah die cut ini menggunakan harga CMT?", "Detail Die Cut Material")
+                                .then(response => {
+                                    if (response == "ok") {
+                                        this.data.isFabricCM = true;
+                                    } else {
+                                        this.data.isFabricCM = false;
+                                    }
+                                    //this.data.showDialog = false;
+                                });
+                        }
+                    });
                 }
             });
     }
