@@ -170,6 +170,7 @@ export class List {
                     this.AmountTotal1 += i.jumlahterima;
                     this.AmountTotal2 += i.jumlah;
                     i.hargasatuan = i.hargasatuan.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                    i.hargasatuanconversion = i.hargasatuanconversion.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
                     i.jumlah = i.jumlah.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
                     this.data.push(i);
                 }
