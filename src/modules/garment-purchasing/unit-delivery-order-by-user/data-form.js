@@ -48,7 +48,7 @@ export class DataForm {
     "TRANSFER SAMPLE",
   ]; //, 'SAMPLE'
 
-  itemToException = ["SUBCON", "WASH", "EMBROIDERY", "PROCCES"];
+  //itemToException = ["SUBCON", "WASH", "EMBROIDERY", "PROCCES"];
 
   controlOptions = {
     label: {
@@ -71,7 +71,6 @@ export class DataForm {
   bind(context) {
     this.context = context;
     this.data = this.context.data;
-    // console.log(this.data);
     this.error = this.context.error;
 
     this.options = {
@@ -232,7 +231,6 @@ export class DataForm {
         // return result.data.filter(data => data && itemIds.indexOf(data.URNItemId) < 0);
         let itemIds = this.data.Items.map((i) => i.DOItemsId);
         // let colorLIst = this.data.Items.map(i => i.Colour);
-        // console.log('urn',itemIds);
         return result.data.filter(
           (data) => data && itemIds.indexOf(data.DOItemsId) < 0
         );
@@ -325,7 +323,6 @@ export class DataForm {
 
   storageChanged(newValue) {
     var selectedStorage = newValue;
-    console.log(newValue);
     if (selectedStorage) {
       this.data.Storage = selectedStorage;
     } else {
@@ -475,9 +472,9 @@ export class DataForm {
                 Items.Colour = item.Colour;
                 Items.Area = item.Area;
                 Items.Remark= item.Remark;
-                if (!this.itemToException.includes(Items.ProductName)) {
+                //if (!this.itemToException.includes(Items.ProductName)) {
                   this.dataItems.push(Items);
-                }
+                //}
               }
             }
             this.data.Items = this.dataItems;
@@ -556,9 +553,9 @@ export class DataForm {
                 Items.Area = item.Area;
                 Items.Remark= item.Remark;
 
-                if (!this.itemToException.includes(Items.ProductName)) {
+                //if (!this.itemToException.includes(Items.ProductName)) {
                   this.dataItems.push(Items);
-                }
+                //}
               }
             }
             this.data.Items = this.dataItems;
@@ -632,9 +629,9 @@ export class DataForm {
                 Items.Area = item.Area;
                 Items.Remark= item.Remark;
 
-                if (!this.itemToException.includes(Items.ProductName)) {
+                //if (!this.itemToException.includes(Items.ProductName)) {
                   this.dataItems.push(Items);
-                }
+                //}
               }
             }
             this.data.Items = this.dataItems;
@@ -802,7 +799,7 @@ export class DataForm {
         })
         .then((result) => {
           var selectedROHeader = result.data[0];
-          if (!this.itemToException.includes(selectedROHeader.ProductName)) {
+          //if (!this.itemToException.includes(selectedROHeader.ProductName)) {
             this.newProduct.DOItemsId = selectedROHeader.DOItemsId;
             this.newProduct.URNItemId = selectedROHeader.URNItemId;
             this.newProduct.URNNo = selectedROHeader.URNNo;
@@ -837,9 +834,9 @@ export class DataForm {
             this.newProduct.Colour = selectedROHeader.Colour;
             this.newProduct.Area = selectedROHeader.Area;
             this.newProduct.Remark= selectedROHeader.Remark;
-          } else {
-            this.newProduct.IsDisabled = true;
-          }
+          // } else {
+          //   this.newProduct.IsDisabled = true;
+          // }
         });
     }
     // this.context.error.Items = [];
