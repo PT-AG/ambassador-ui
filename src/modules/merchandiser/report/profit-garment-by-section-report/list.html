@@ -33,6 +33,7 @@
                     <td align="center" rowspan="2">Nomor</td>
                     <td align="center" rowspan="2">Nomor RO</td>
                     <td align="center" rowspan="2">Seksi</td>
+                    <td align="center" rowspan="2">Nama Sales</td>
                     <td align="center" rowspan="2">Nama Unit</td>
                     <td align="center" rowspan="2">Buyer Agent</td>
                     <td align="center" rowspan="2">Nama Buyer Agent</td>
@@ -78,7 +79,6 @@
                     <td align="center" rowspan="2">Profit USD</td>
                     <td align="center" rowspan="2">Profit/FOB %</td>  
                     <td align="center" rowspan="2">Gross Profit</td>
-                    
                 </tr>
             </thead>
             <tbody>
@@ -87,6 +87,7 @@
                         <td class="text-center"> ${$index + 1}</td>
                         <td>${item.RO_Number}</td>
                         <td>${item.Section}</td>
+                        <td>${item.SalesName}</td>
                         <td>${item.UnitName}</td>
                         <td>${item.BuyerCode}</td>
                         <td>${item.BuyerName}</td>
@@ -125,7 +126,7 @@
                         <td class="text-center">.</td>
                         <td class="text-center"><strong>.</strong></td>                     
                         <td class="text-center"><strong>.</strong></td>    
-                        <td class="text-center" colspan="10"><strong>S E K S I : ${Seksi.SECTION}</strong></td>
+                        <td class="text-center" colspan="11"><strong>S E K S I : ${Seksi.SECTION}</strong></td>
                         <td class="text-center" colspan="6"><strong>SUB TOTAL</strong></td>
                         <td class="text-center"><strong>.</strong></td>    
                         <td class="text-center"><strong>.</strong></td>   
