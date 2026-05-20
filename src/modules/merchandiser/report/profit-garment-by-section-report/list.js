@@ -90,6 +90,7 @@ export class List {
                             dataBySection[SECTION].push({            
                             RO_Number : data.RO_Number,
                             Section : data.Section,
+                            SalesName : data.SalesName,
                             UnitName : data.UnitName,
                             BuyerCode : data.BuyerCode,
                             BuyerName : data.BuyerName,
