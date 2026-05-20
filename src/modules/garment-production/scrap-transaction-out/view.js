@@ -12,20 +12,20 @@ export class View {
     async activate(params) {
         let id = params.id;
         this.data = await this.service.read(id);
-        this.hasEdit=true;
-        this.hasDelete=true;
-        this.hasCancel=true;
-        this.isView= true;
-        console.log(this.data);
-      
+        this.hasEdit = false;
+        this.hasDelete = true;
+        this.hasCancel = true;
+        this.isView = true;
     }
 
     cancel(event) {
         this.router.navigateToRoute('list');
     }
+
     edit(event) {
         this.router.navigateToRoute('edit', { id: this.data.Id });
     }
+
     delete(event) {
         if (confirm(`Hapus ${this.data.TransactionNo}?`))
             this.service.delete(this.data)
@@ -36,5 +36,4 @@ export class View {
                     this.error = e;
                 })
     }
-   
 }
