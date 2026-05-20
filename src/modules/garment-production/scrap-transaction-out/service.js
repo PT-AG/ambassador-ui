@@ -2,6 +2,7 @@ import { RestService } from '../../../utils/rest-service';
 
 const serviceUri = 'scrap-transactions';
 const getServiceUri = 'scrap-transactions/out';
+const getScrapServiceUri = 'scrap-dos';
 const uomServiceUri = 'master/uoms';
 const serviceStockUri = 'scrap-stocks';
 const remainingQtyUri='scrap-stocks/remainingQty';
@@ -13,10 +14,8 @@ class Service extends RestService {
     search(info) {
         var endpoint = `${getServiceUri}`;
         return super.list(endpoint, info);
-        
     }
     
-
     searchStock(info) {
         var endpoint = `${serviceStockUri}`;
         return super.list(endpoint, info);
@@ -32,6 +31,11 @@ class Service extends RestService {
         return super.get(endpoint);
     }
 
+    getScrapDOById(id) {
+        var endpoint = `${getScrapServiceUri}/${id}`;
+        return super.get(endpoint);
+    }
+
     update(data) {
         var endpoint = `${serviceUri}/${data.Id}`;
         return super.put(endpoint, data);
@@ -41,11 +45,16 @@ class Service extends RestService {
         var endpoint = `${serviceUri}/${data.Id}`;
         return super.delete(endpoint, data);
     }
+
     searchRemaining(info) {
         var endpoint = `${remainingQtyUri}`;
         return super.list(endpoint, info);
     }
-    
+
+    getPdfById(id) {
+        var endpoint = `${serviceUri}/${id}/pdf`;
+        return super.getPdf(endpoint);
+    }
 }
 
 

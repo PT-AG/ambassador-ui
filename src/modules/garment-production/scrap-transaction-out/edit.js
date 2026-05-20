@@ -14,7 +14,6 @@ export class Edit {
     async activate(params) {
         var id = params.id;
         this.data = await this.service.read(id);
-    
     }
 
     bind(context) {
@@ -24,11 +23,6 @@ export class Edit {
         this.hasCancel=true;
         this.hasSave=true;
         this.isEdit=true;
-       
-        // this.cancelCallback = this.context.cancelCallback;
-        // this.deleteCallback = this.context.deleteCallback;
-        // this.editCallback = this.context.editCallback;
-        // this.saveCallback = this.context.saveCallback;
     }
 
     list() {
@@ -48,6 +42,5 @@ export class Edit {
                 this.error = e;
             })
     }
-
 }
 
