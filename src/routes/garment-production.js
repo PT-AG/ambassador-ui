@@ -613,7 +613,7 @@ module.exports = [
         settings: {
             group: "g-production",
             subGroup: "aval",
-            permission:{"O50":1},
+            permission:{"O75":1},
             // permission: { "C9": 1, "AG2": 1, "PDU":1 },
             iconClass: 'fa fa-dashboard'
         }
