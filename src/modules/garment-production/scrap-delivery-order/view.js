@@ -12,8 +12,10 @@ export class View {
     async activate(params) {
         let id = params.id;
         this.data = await this.service.read(id);
-        this.hasEdit = false;
-        this.hasDelete = true;
+        // this.hasEdit = true;
+        // this.hasDelete = true;
+        this.hasEdit = !this.data.IsUsed;
+        this.hasDelete = !this.data.IsUsed;
         this.hasCancel = true;
         this.isView = true;
     }

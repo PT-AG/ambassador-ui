@@ -604,6 +604,21 @@ module.exports = [
         }
     },
     {
+        route: '/garment-production/scrap-delivery-order',
+        name: 'garment-production-scrap-delivery-order',
+        moduleId: './modules/garment-production/scrap-delivery-order/index',
+        nav: true,
+        title: 'Permintaan Pengeluaran Barang Aval',
+        auth: true,
+        settings: {
+            group: "g-production",
+            subGroup: "aval",
+            permission:{"O50":1},
+            // permission: { "C9": 1, "AG2": 1, "PDU":1 },
+            iconClass: 'fa fa-dashboard'
+        }
+    },
+    {
         route: '/garment-production/scrap-transaction-out',
         name: 'garment-production-scrap-transaction-out',
         moduleId: './modules/garment-production/scrap-transaction-out/index',
