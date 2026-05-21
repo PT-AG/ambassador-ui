@@ -10,7 +10,7 @@ export class UnitDeliveryOrderItem {
     this.data = context.data;
     this.error = context.error;
     this.options = context.options;
-
+    
     this.readOnly = this.options.readOnly || this.data.IsDisabled;
     this.isEdit = context.context.options.isEdit;
 

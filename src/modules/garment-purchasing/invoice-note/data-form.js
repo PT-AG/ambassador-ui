@@ -341,11 +341,11 @@ export class DataForm {
                 this.options.useVat=false;
                 this.options.useIncomeTax=false;
             }
-            if (oldValue) {
-                this.data.supplier = {};
-                this.data.supplierId = null;
-                this.data.items.splice(0);
-            }
+            // if (oldValue) {
+            //     this.data.supplier = {};
+            //     this.data.supplierId = null;
+            //     this.data.items.splice(0);
+            // }
         } else {
             this.data.supplier = {};
             this.data.supplierId = null;

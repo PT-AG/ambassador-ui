@@ -573,14 +573,59 @@ export class DataForm {
       };
       this.data.RONo = this.RONo;
       var ro = [];
-      this.salesService.searchCCByRO(info).then((cc) => {
-        for (var a of cc.data) {
-          if (a.RO_Number == this.data.RONo) {
-            ro.push(a);
-            break;
+      await this.salesService.searchCCByRONo(this.data.RONo).then((costcal) => {
+        this.data.Article = costcal.Article;
+        if(this.isProses ){
+            for(var materialData of costcal.CostCalculationGarment_Materials){
+              if(materialData.DOItemId>0){
+                let ccData=materialData;
+                this.service.searchDOItemById(materialData.DOItemId).then((doitem)=>{
+                  var Items = {};
+                  var storageid=this.data.Storage.Id ? this.data.Storage.Id : this.data.Storage._id;
+                  if(doitem.StorageId==storageid){
+                    Items.DOItemsId = doitem.Id;
+                    Items.URNItemId = doitem.URNItemId;
+                    Items.URNNo = doitem.URNNo;
+                    Items.DODetailId = doitem.DODetailId;
+                    Items.URNId = doitem.URNId;
+                    Items.POItemId = doitem.POItemId;
+                    Items.EPOItemId = doitem.EPOItemId;
+                    Items.PRItemId = doitem.PRItemId;
+                    Items.RONo = doitem.RO;
+                    Items.Article = costcal.Article;
+                    Items.POSerialNumber = doitem.POSerialNumber;
+                    Items.ProductId = doitem.ProductId;
+                    Items.ProductCode = doitem.ProductCode;
+                    Items.ProductName = doitem.ProductName;
+                    Items.ProductRemark = `${doitem.POSerialNumber}; ${costcal.Article}; ${doitem.RO}; ${ccData.ProductRemark}`;
+                    Items.UomId = doitem.SmallUomId;
+                    Items.UomUnit = doitem.SmallUomUnit;
+                    Items.PricePerDealUnit = doitem.PricePerDealUnit;
+                    Items.DesignColor = doitem.DesignColor;
+                    Items.DefaultDOQuantity = parseFloat(
+                      ccData.RemainingQuantity.toFixed(2)
+                    );
+                    Items.Quantity = Items.DefaultDOQuantity;
+                    Items.IsSave = Items.Quantity > 0;
+                    Items.IsDisabled = !(Items.Quantity > 0);
+                    Items.CustomsCategory = doitem.CustomsCategory;
+
+                    Items.AvailableQuantity=ccData.RemainingQuantity;
+
+                    Items.Rack = doitem.Rack;
+                    Items.Level = doitem.Level;
+                    Items.Box = doitem.Box;
+                    Items.Colour = doitem.Colour;
+                    Items.Area = doitem.Area;
+                    Items.Remark= ccData.Description;
+                    Items.CCMaterialId=ccData.Id;
+
+                    this.dataItems.push(Items);
+                  }
+                })
+              }
+            }
           }
-        }
-        this.data.Article = ro[0].Article;
         this.service
           .searchDOItems({
             filter: JSON.stringify({
@@ -629,12 +674,11 @@ export class DataForm {
                 Items.Area = item.Area;
                 Items.Remark= item.Remark;
 
-                //if (!this.itemToException.includes(Items.ProductName)) {
-                  this.dataItems.push(Items);
-                //}
+                this.dataItems.push(Items);
               }
             }
             this.data.Items = this.dataItems;
+            console.log(this.data.Items)
           });
       });
     }
