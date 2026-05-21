@@ -608,7 +608,7 @@ module.exports = [
         name: 'garment-production-scrap-delivery-order',
         moduleId: './modules/garment-production/scrap-delivery-order/index',
         nav: true,
-        title: 'Permintaan Pengeluaran Barang Aval',
+        title: 'DO Barang Aval',
         auth: true,
         settings: {
             group: "g-production",
