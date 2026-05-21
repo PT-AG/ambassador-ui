@@ -560,6 +560,7 @@ export class CostCalculationMaterial {
         }
         
         this.data.BudgetQuantity = Math.ceil(budgetQuantity);
+        this.data.RemainingQuantity = this.data.BudgetQuantity;
         
         return budgetQuantity;
     }

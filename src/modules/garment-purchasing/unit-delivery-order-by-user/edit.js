@@ -1,16 +1,17 @@
 import { inject, Lazy } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
-import { Service } from './service';
+import { Service,SalesService } from './service';
 
 
-@inject(Router, Service)
+@inject(Router, Service, SalesService)
 export class Edit {
     hasCancel = true;
     hasSave = true;
 
-    constructor(router, service) {
+    constructor(router, service,salesService) {
         this.router = router;
         this.service = service;
+        this.salesService=salesService;
     }
 
     bind() {
@@ -66,11 +67,17 @@ export class Edit {
                     this.RONo = this.data.RONo
                 }
             }
-
+            var costcal=await this.salesService.searchCCByRONo(this.data.RONo);
             if (this.data.Items) {
                 for (let item of this.data.Items) {
                     item.IsSave = true;
                     item.IsDisabled = false;
+                    if( item.CCMaterialId>0){
+                        var cc= costcal.CostCalculationGarment_Materials.find(a=>a.Id==item.CCMaterialId);
+                        if(cc){
+                            item.AvailableQuantity=cc.RemainingQuantity;
+                        }
+                    }
                 }
             }
 

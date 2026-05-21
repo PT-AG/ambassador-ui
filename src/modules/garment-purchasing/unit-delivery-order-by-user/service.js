@@ -6,7 +6,7 @@ import { Config } from "aurelia-api";
 import moment from "moment";
 
 const serviceUri = "garment-unit-delivery-orders";
-const doItemsUri = "garment-do-items/unit-delivery-order";
+const doItemsUri = "garment-do-items";
 const doItemsMoreUri = "garment-do-items/unit-delivery-order/more";
 const garmentEPOServiceUri = "garment-external-purchase-orders/unit-do/by-ro";
 const garmentURNforUnitDO = "garment-unit-receipt-notes/unit-delivery-order";
@@ -23,13 +23,18 @@ export class Service extends RestService {
   }
 
   searchDOItems(info) {
-    var endpoint = `${doItemsUri}`;
+    var endpoint = `${doItemsUri}/unit-delivery-order`;
     return super.list(endpoint, info);
   }
 
   searchMoreDOItems(info) {
     var endpoint = `${doItemsMoreUri}`;
     return super.list(endpoint, info);
+  }
+
+  searchDOItemById(id) {
+    var endpoint = `${doItemsUri}/${id}`;
+    return super.get(endpoint);
   }
 
   getById(id) {
@@ -94,5 +99,15 @@ export class SalesService extends RestService {
   searchCCByRO(info) {
     var endpoint = `${serviceUriCC}`;
     return super.list(endpoint, info);
+  }
+
+  searchCCByRONo(ro) {
+    var endpoint = `${serviceUriCC}/by-ro/${ro}`;
+    return super.get(endpoint);
+  }
+
+  searchCCById(id) {
+    var endpoint = `${serviceUriCC}/${id}`;
+    return super.get(endpoint);
   }
 }
