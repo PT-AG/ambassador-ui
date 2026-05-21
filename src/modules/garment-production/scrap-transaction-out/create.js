@@ -8,17 +8,18 @@ export class Create {
     constructor(router, service) {
         this.router = router;
         this.service = service;
-     
-      
+
+
     }
 
     bind() {
         this.data = {};
         this.error = {};
-        this.hasCancel=true;
-        this.hasSave=true;
-        this.isCreate= true;
+        this.hasCancel = true;
+        this.hasSave = true;
+        this.isCreate = true;
     }
+
     activate(params) {
 
     }
@@ -35,21 +36,26 @@ export class Create {
     }
 
     save(event) {
-     
-        
-        if(this.data.Items.length > 0)
-        {
-            var total=0;
-            for(var i=0;i <this.data.Items.length ;i++)
-            {
-                total=total+ parseFloat( this.data.Items[i].Quantity);
+        if (this.data.Items.length > 0) {
+            var total = 0;
+            for (var i = 0; i < this.data.Items.length; i++) {
+                total = total + parseFloat(this.data.Items[i].Quantity);
             }
-            if(total ===0)
-            {
+            if (total === 0) {
                 alert("Jumlah tidak boleh 0 semua");
-            }else
-            {
+            } else {
                 this.service.create(this.data)
+                    .then(result => {
+                        alert("Data berhasil dibuat");
+                        this.router.navigateToRoute('create', {}, { replace: true, trigger: true });
+                    })
+                    .catch(e => {
+                        this.error = e;
+                    })
+            }
+        }
+        else {
+            this.service.create(this.data)
                 .then(result => {
                     alert("Data berhasil dibuat");
                     this.router.navigateToRoute('create', {}, { replace: true, trigger: true });
@@ -57,19 +63,7 @@ export class Create {
                 .catch(e => {
                     this.error = e;
                 })
-            }
-        }
-        else
-        {
-            this.service.create(this.data)
-            .then(result => {
-                alert("Data berhasil dibuat");
-                this.router.navigateToRoute('create', {}, { replace: true, trigger: true });
-            })
-            .catch(e => {
-                this.error = e;
-            })
         }
     }
-    
+
 }

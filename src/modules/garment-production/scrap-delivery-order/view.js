@@ -29,7 +29,7 @@ export class View {
     }
 
     delete(event) {
-        if (confirm(`Hapus ${this.data.TransactionNo}?`))
+        if (confirm(`Hapus ${this.data.DOScrapTransactionNo}?`))
             this.service.delete(this.data)
                 .then(result => {
                     this.cancel();

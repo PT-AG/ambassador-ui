@@ -102,7 +102,7 @@ export class DataForm {
                             RemainingQuantity: items.Quantity,
                             UomUnit: "KG",
                             UomId: uom,
-                            TransactionType: "OUT"
+                            // TransactionType: "OUT"
                         }
                     );
                 }
@@ -115,7 +115,7 @@ export class DataForm {
 
                     if (item.ScrapClassificationId === qty.ScrapClassificationId && this.data.ScrapDestinationId === qty.ScrapDestinationId) {
                         item.RemainingQuantity = qty.Quantity + item.Quantity;
-                        item.TransactionType = "OUT";
+                        // item.TransactionType = "OUT";
                         item.IsEdit = true;
                     }
                 }

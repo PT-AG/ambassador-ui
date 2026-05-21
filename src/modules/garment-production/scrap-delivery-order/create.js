@@ -16,6 +16,7 @@ export class Create {
         this.hasCancel = true;
         this.hasSave = true;
         this.isCreate = true;
+        this.readOnly = false;
     }
 
     activate(params) {
