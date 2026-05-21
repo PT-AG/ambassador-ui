@@ -9,8 +9,8 @@ export class List {
         this.service = service;
         this.router = router;
     }
-
-    context = ["Rincian", "Cetak PDF"];
+    
+    context = ["Rincian"];
 
     columns = [
         { field: "DOScrapTransactionNo", title: "No DO Aval" },
@@ -47,9 +47,9 @@ export class List {
             case "Rincian":
                 this.router.navigateToRoute('view', { id: data.Id });
                 break;
-            case "Cetak PDF":
-                this.service.getPdfById(data.Id);
-                break;
+            // case "Cetak PDF":
+            //     this.service.getPdfById(data.Id);
+            //     break;
         }
     }
 
