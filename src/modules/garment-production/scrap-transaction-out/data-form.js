@@ -33,6 +33,10 @@ export class DataForm {
         this.bindingEngine = bindingEngine;
     }
 
+    isEmptyGuid(guid) {
+        return !guid || guid === "00000000-0000-0000-0000-000000000000";
+    }
+
     bind(context) {
         this.context = context;
         this.dataView = this.context.data;
@@ -41,10 +45,19 @@ export class DataForm {
         this.error = this.context.error;
         this.options.isCreate = this.context.isCreate;
         this.options.isView = this.context.isView;
+
         if (this.data.Id) {
-            this.service.getScrapDOById(this.data.ReferenceId).then((results) => {
-                this.selectedScrapDo = results || {};
-            })
+            if (this.isEmptyGuid(this.data.ReferenceId)) {
+                this.selectedScrapDo = { 
+                    DOScrapTransactionNo : "-",
+                    DOScrapTransactionDate : this.data.TranscationDate
+                };
+            } else {
+                this.service.getScrapDOById(this.data.ReferenceId)
+                .then((results) => {
+                    this.selectedScrapDo = results;
+                });
+            }
         }
     }
 
@@ -103,6 +116,7 @@ export class DataForm {
 
             this.data.ScrapDestinationId = newValue.ScrapDestinationId;
             this.data.ScrapDestinationName = newValue.ScrapDestinationName;
+            this.data.ReferenceDate = newValue.DOScrapTransactionDate;
             this.data.ReferenceId = newValue.Id
             this.service.searchStock({ order: { "ScrapClassificationName": "asc" }, filter: JSON.stringify({ ScrapDestinationName: this.data.ScrapDestinationName }) }).then((results) => {
                 for (var item of results.data) {
