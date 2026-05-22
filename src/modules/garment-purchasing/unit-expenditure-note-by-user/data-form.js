@@ -194,6 +194,7 @@ export class DataForm {
             this.isItem = false;
             this.data.UnitDOId = null;
             this.data.UnitDONo = "";
+            this.data.UnitDOFor = null;
         }
         else if(selectedUnitDeliveryOrder){
             if(newValue.UnitDOType== "MARKETING"){
@@ -235,6 +236,7 @@ export class DataForm {
             }
             this.dataUnitDO=await this.service.getUnitDOId(this.data.UnitDOId);
             this.data.RoJob=this.dataUnitDO.RONo;
+            this.data.UnitDOFor = this.dataUnitDO.UnitDOFor;
             this.data.Items = [];
             console.log(selectedUnitDeliveryOrder)
             for(var item of selectedUnitDeliveryOrder.Items){
