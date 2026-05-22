@@ -1,6 +1,6 @@
-import {inject, Lazy} from 'aurelia-framework';
-import {Router} from 'aurelia-router';
-import {Service} from './service';
+import { inject, Lazy } from 'aurelia-framework';
+import { Router } from 'aurelia-router';
+import { Service } from './service';
 
 
 @inject(Router, Service)
@@ -14,15 +14,16 @@ export class Edit {
     async activate(params) {
         var id = params.id;
         this.data = await this.service.read(id);
+
     }
 
     bind(context) {
         this.context = context;
         this.data = this.context.data;
         this.error = this.context.error;
-        this.hasCancel=true;
-        this.hasSave=true;
-        this.isEdit=true;
+        this.hasCancel = true;
+        this.hasSave = true;
+        this.isEdit = true;
     }
 
     list() {
@@ -34,7 +35,7 @@ export class Edit {
     }
 
     save(event) {
-               this.service.update(this.data)
+        this.service.update(this.data)
             .then(result => {
                 this.cancel();
             })
