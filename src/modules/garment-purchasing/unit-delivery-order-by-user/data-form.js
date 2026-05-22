@@ -221,9 +221,9 @@ export class DataForm {
 
   unitDOFromChanged(newValue) {
     if (newValue) {
-      this.data.UnitDOFrom = newValue;
+      this.data.UnitDOFor = newValue;
     } else {
-      this.data.UnitDOFrom = null;
+      this.data.UnitDOFor = null;
     }
   }
 

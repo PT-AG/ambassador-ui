@@ -19,7 +19,7 @@ export class List {
             }
         },
         { field: "UnitDOType", title: "Jenis Delivery Order" },
-        { field: "UnitDOFrom", title: "Unit" },
+        { field: "UnitDOFor", title: "Unit" },
         { field: "UnitRequestName", title: "Unit Yang Meminta" },
         { field: "StorageName", title: "Gudang Yang Mengirim" },
         { field: "CreatedBy", title: "Yang Membuat" }
