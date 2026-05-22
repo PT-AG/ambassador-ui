@@ -35,6 +35,15 @@
                     items.bind="typeUnitDeliveryOrderOptions"
                     options.bind="controlOptions">
                 </au-dropdown>
+
+                <au-dropdown 
+                    label="Unit" 
+                    value.bind="unitDOFrom" 
+                    error.bind="error.UnitDOFrom" 
+                    read-only.bind="readOnly || isEdit"
+                    items.bind="unitDOFromOptions"
+                    options.bind="controlOptions">
+                </au-dropdown>
         
                 <au-datepicker 
                     label="Tgl. Delivery Order" 
