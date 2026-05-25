@@ -118,7 +118,7 @@ export class DataForm {
             this.data.ScrapDestinationName = newValue.ScrapDestinationName;
             this.data.ReferenceDate = newValue.DOScrapTransactionDate;
             this.data.ReferenceId = newValue.Id
-            this.service.searchStock({ order: { "ScrapClassificationName": "asc" }, filter: JSON.stringify({ ScrapDestinationName: this.data.ScrapDestinationName }) }).then((results) => {
+            this.service.searchRemaining({ order: { "ScrapClassificationName": "asc" }, filter: JSON.stringify({ ScrapDestinationName: this.data.ScrapDestinationName }) }).then((results) => {
                 for (var item of results.data) {
                     var itemFromDoc = scrapFromDoc.find(x => x.ScrapClassificationId == item.ScrapClassificationId)
                     if (itemFromDoc) {
