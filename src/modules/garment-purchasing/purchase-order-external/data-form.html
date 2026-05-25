@@ -68,7 +68,7 @@
 
                 <numeric label="Tempo Pembayaran" value.bind="data.PaymentDueDays" error.bind="error.PaymentDueDays"
                     format="0" read-only.bind="true" post-fix="hari"
-                    if.bind="data.PaymentType=='CASH' || data.PaymentType=='T/T BEFORE'">
+                    if.bind="data.PaymentType=='CASH' || data.PaymentType=='T/T BEFORE'|| data.PaymentType=='DP (DOWN PAYMENT) + BP (BALANCE PAYMENT)'">
                 </numeric>
 
                 <numeric label="Tempo Pembayaran" value.bind="data.PaymentDueDays" error.bind="error.PaymentDueDays"
