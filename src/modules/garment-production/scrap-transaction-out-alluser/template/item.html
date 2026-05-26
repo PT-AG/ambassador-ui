@@ -10,6 +10,7 @@
             <au-textbox 
                 value.bind="data.RemainingQuantity" 
                 read-only.bind="true"
+                show-bind="isCreate"
                 format="0,000.00">
             </au-textbox>  
         </td>
@@ -17,7 +18,7 @@
             <au-numeric 
                 value.bind="data.Quantity" 
                 error.bind="error.Quantity"
-                read-only.bind="readOnly"
+                read-only.bind="true"
                 format="0,000.00">
             </au-numeric>  
         </td>
@@ -33,7 +34,6 @@
                 read-only.bind="readOnly">
             </au-textbox>
         </td>
-        
      </tr>
 </template>
 
