@@ -152,6 +152,10 @@ export class View {
                 material.IsPRMaster = material.PRMasterId > 0;
                 material.Status = material.IsPRMaster ? "MASTER" : "JOB ORDER";
             });
+
+            if(this.approval.data.CostCalculationGarment_Materials.length==0){
+                this.approval.data.IsProcess=true;
+            }
         }
 
         this.data.FabricAllowance = numeral(this.data.FabricAllowance).format();
