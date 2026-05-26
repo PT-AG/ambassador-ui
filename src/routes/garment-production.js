@@ -649,6 +649,21 @@ module.exports = [
         }
     },
     {
+        route: '/garment-production/scrap-stock-report',
+        name: 'garment-production-scrap-stock-report',
+        moduleId: './modules/garment-production/scrap-stock-report/index',
+        nav: true,
+        title: 'Laporan Stock Barang Aval',
+        auth: true,
+        settings: {
+            group: "g-production",
+            subGroup: "aval",
+            permission:{"O76":1},
+            // permission: { "C9": 1, "AG2": 1, "PDU":1 },
+            iconClass: 'fa fa-dashboard'
+        }
+    },
+    {
         route: '/customs/pemasukan-tc-kecil',
         name: 'monitoring-pemasukan-tc-kecil',
         moduleId: './modules/customs/tc-kecil-in/index',
@@ -662,7 +677,6 @@ module.exports = [
             // permission: { "C9": 1, "AG2": 1, "PDU":1 , "B1":1},
             iconClass: 'fa fa-dashboard'
         },
-
     },
     {
         route: '/customs/pengeluaran-tc-kecil',
@@ -680,7 +694,6 @@ module.exports = [
         },
 
     },
-    
     {
         route: '/customs/pemasukan-sampah-sapuan',
         name: 'monitoring-pemasukan-sampah-sapuan',
