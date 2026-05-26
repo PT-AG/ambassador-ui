@@ -1,0 +1,57 @@
+<template>
+    <h1 class="page-header">LAPORAN STOCK BARANG AVAL</h1>
+    <form class="form-horizontal">
+        <au-datepicker label="Tanggal Awal" value.bind="dateFrom" options.bind="controlOptions"></au-datepicker>
+        <au-datepicker label="Tanggal Akhir" value.bind="dateTo" options.bind="controlOptions"></au-datepicker>
+        <au-autocomplete label="Asal Barang" value.bind="destination" loader.bind="destinationLoader" text.bind="destinationView" options.bind="controlOptions">
+        </au-autocomplete>
+        <au-autocomplete label="Barang Aval" value.bind="classification" loader.bind="classificationLoader" text.bind="classificationView" options.bind="controlOptions">
+        </au-autocomplete>
+
+        <div class="form-group">
+            <label for="contact" class="col-sm-5 control-label"></label>
+            <div class="col-sm-3">
+                <button click.delegate="searching()" class='btn btn-success'>Cari Data</button>
+                <button click.delegate="reset()" class='btn btn-success'>Reset Data</button>
+            </div>
+        </div>
+        <div slot="toolbar" class="btn-group">
+            <button class='btn btn-primary' click.delegate="ExportToExcel()">Export To Excel</button>
+        </div>
+        <br>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover" border="1" id="poReport">
+                <thead align="center">
+                    <tr>
+                        <td align="center">NO</td>
+                        <td align="center">ASAL BARANG</td>
+                        <td align="center">NAMA BARANG</td>
+                        <td align="center">SATUAN</td>
+                        <td align="center">SALDO AWAL</td>
+                        <td align="center">PENERIMAAN</td>
+                        <td align="center">PENGELUARAN</td>
+                        <td align="center">SALDO AKHIR</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr repeat.for="item of data">
+                        <td>${$index + 1}</td>
+                        <td>${item.DestinationName}</td>
+                        <td>${item.ClassificationName}</td>
+                        <td>${item.UnitQtyName}</td>
+                        <td>${item.SaldoAwal}</td>
+                        <td>${item.Pemasukan}</td>
+                        <td>${item.Pengeluaran}</td>
+                        <td>${item.SaldoAkhir}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="alert alert-info text-center" role="alert" if.bind="data.length === 0">
+            Tidak ada data.
+        </div>
+        <pagination if.bind="info.total>info.size" info.bind="info" change.delegate="changePage($event)"></pagination>
+        <hr />
+    </form>
+</template>
