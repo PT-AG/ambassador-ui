@@ -23,10 +23,23 @@ export class DataForm {
         control: {
             length: 5
         }
-    };
-    filter={
-        IsUsed:true
-    };
+    }
+
+    // filter={
+    //     IsUsed:true
+    // };
+
+    get filter() {
+        return {
+            'status=="CREATED" || status=="DRAFT_APPROVED_SHIPPING" || status=="POSTED" || status=="APPROVED_MD" || status=="APPROVED_SHIPPING" || status=="REVISED_MD" || status=="REVISED_SHIPPING" || status=="REJECTED_MD" || status=="REJECTED_SHIPPING_UNIT"': true,
+            BuyerAgentCode: this.selectedBuyerAgent ? this.selectedBuyerAgent.Code || this.selectedBuyerAgent.code : ""
+        };
+    }
+
+    ShipmentModeOptions = ["By Air", "By Sea", "By Land"];
+    //unitOptions = ["AG1 - AMBASSADOR GARMINDO 1", "AG2 - AMBASSADOR GARMINDO 2"];
+    unitOptions = ["AG - AMBASSADOR GARMINDO"];
+
     footerOptions = {
         label: {
             length: 3
@@ -54,13 +67,13 @@ export class DataForm {
         return UnitLoader;
     }
 
-    unitOptions = ["AG1 - AMBASSADOR GARMINDO 1", "AG2 - AMBASSADOR GARMINDO 2"];
-    // get unitQuery(){
-    //     var result = { "Description" : "GARMENT" }
-    //     return result;   
-    //   }
+    get unitQuery() {
+        var result = {}
+        result[`Code == "AG1" || Code == "AG2" || Code == "AG"`] = true;
+        return result;
+    }
 
-    ShipmentModeOptions=["By Air", "By Sea"];
+    // ShipmentModeOptions=["By Air", "By Sea"];
     
     unitView = (unit) => {
         return `${unit.Code || unit.code} - ${unit.Name || unit.name}`;

@@ -86,7 +86,7 @@ export class DataForm {
         this.data.FinishingInType = "PEMBELIAN";
 
         if (!this.data.Unit) {
-            var unit = await this.coreService.getTradingUnit({ size: 1, keyword: 'AG2', filter: JSON.stringify({ Code: 'AG2' }) });
+            var unit = await this.coreService.getTradingUnit({ size: 1, keyword: 'AG', filter: JSON.stringify({ Code: 'AG' }) });
             this.data.Unit = unit.data[0];
         }
     }
@@ -173,7 +173,7 @@ export class DataForm {
                     this.itemsRONo = [""];
                     for (var item of result.items) {
                         for (var detail of item.fulfillments) {
-                            if (this.itemsRONo.indexOf(detail.rONo) < 0 && detail.product.Code === "BJ001") {
+                            if (this.itemsRONo.indexOf(detail.rONo) < 0 && (detail.product.Code === "BJ001" || detail.product.Code === "GAR")) {
                                 this.itemsRONo.push(detail.rONo);
                             }
 
@@ -201,27 +201,38 @@ export class DataForm {
             let DODetailIds = [];
             for (var item of this.garmentDOData.items) {
                 for (var detail of item.fulfillments) {
-                    if (detail.rONo === newValue && detail.product.Code === "BJ001") {
+                    if (detail.rONo === newValue && (detail.product.Code === "BJ001" || detail.product.Code === "GAR")) {
                         DODetailIds.push(detail.Id);
                     }
+
                     // if (detail.rONo === newValue) {
                     //     DODetailIds.push(detail.Id);
                     // }
                 }
             }
 
-            const DODetailIdFilter = DODetailIds
-                .filter((DODetailId, i) => DODetailIds.indexOf(DODetailId) == i)
-                .map(DODetailId => "DODetailId==" + DODetailId)
-                .join(" || ");
-            const filter = { SupplierId: this.data.Supplier.Id };
-            filter[`Items.Any(${DODetailIdFilter})`] = true;
-            const info = {
-                filter: JSON.stringify(filter)
+            // const DODetailIdFilter = DODetailIds
+            //     .filter((DODetailId, i) => DODetailIds.indexOf(DODetailId) == i)
+            //     .map(DODetailId => "DODetailId==" + DODetailId)
+            //     .join(" || ");
+            // const filter = { SupplierId: this.data.Supplier.Id };
+            // filter[`Items.Any(${DODetailIdFilter})`] = true;
+            // const info = {
+            //     filter: JSON.stringify(filter)
+            // };
+
+            const uniqueIds = DODetailIds.filter((id, i) => DODetailIds.indexOf(id) === i);
+            const idList = uniqueIds.join(", ");
+
+            const filter = { 
+                SupplierId: this.data.Supplier.Id 
             };
 
-            const subconCuttingInfo = {
-                filter: JSON.stringify({ RONo: newValue })
+             // Hasilnya: Items.Any(DODetailId IN (78870, 78871))
+            filter[`Items.Any(DODetailId IN (${idList}))`] = true;
+
+            const info = {
+                filter: JSON.stringify(filter)
             };
 
             const costCalculationInfo = {
@@ -251,7 +262,7 @@ export class DataForm {
                                 }
                                 for (var item of this.garmentDOData.items) {
                                     for (var detail of item.fulfillments) {
-                                        if (detail.rONo === newValue && detail.product.Code === "BJ001") {
+                                        if (detail.rONo === newValue && (detail.product.Code === "BJ001" || detail.product.Code === "GAR")) {
                                             this.dataDODetails.push({
                                                 ProductCode: detail.product.Code,
                                                 ProductName: detail.product.Name,

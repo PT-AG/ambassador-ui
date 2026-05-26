@@ -4,7 +4,7 @@ const serviceUri = 'scrap-transactions';
 const getServiceUri = 'scrap-transactions/out';
 const uomServiceUri = 'master/uoms';
 const serviceStockUri = 'scrap-stocks';
-const remainingQtyUri='scrap-stocks/remainingQty';
+const remainingQtyUri = 'scrap-stocks/remainingQty';
 class Service extends RestService {
     constructor(http, aggregator, config, endpoint) {
         super(http, aggregator, config, "garment-production");
@@ -14,15 +14,15 @@ class Service extends RestService {
         var endpoint = `${getServiceUri}`;
         console.log(endpoint);
         return super.list(endpoint, info);
-        
+
     }
-    
+
 
     searchStock(info) {
         var endpoint = `${serviceStockUri}`;
         return super.list(endpoint, info);
     }
-    
+
     create(data) {
         var endpoint = `${serviceUri}`;
         return super.post(endpoint, data);
@@ -51,9 +51,8 @@ class Service extends RestService {
         var endpoint = `${serviceUri}/${id}/pdf`;
         return super.getPdf(endpoint);
     }
-    
-}
 
+}
 
 class CoreService extends RestService {
     constructor(http, aggregator, config, endpoint) {
@@ -65,4 +64,4 @@ class CoreService extends RestService {
         return super.list(endpoint, info);
     }
 }
-export { Service,CoreService }
+export { Service, CoreService }

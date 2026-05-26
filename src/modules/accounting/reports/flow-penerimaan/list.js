@@ -10,7 +10,8 @@ var UnitReceiptLoader = require('../../../../loader/garment-unit-receipt-note-lo
 @inject(Router, Service)
 export class List {
     reprosesOption = ['', 'Bahan Baku', 'Bahan Embalase', 'Bahan Pendukung', 'Subkon'];
-    unitOption = ['', 'AMBASSADOR GARMINDO 1', 'AMBASSADOR GARMINDO 2'];
+    //unitOption = ['', 'AMBASSADOR GARMINDO 1', 'AMBASSADOR GARMINDO 2'];
+    unitOption = ['', 'AMBASSADOR GARMINDO'];
 
     constructor(router, service) {
         this.service = service;
@@ -60,6 +61,9 @@ export class List {
             } else if (newvalue === "AMBASSADOR GARMINDO 1") {
                 this.unit = "AG1";
                 this.unitname = "AMBASSADOR GARMINDO 1";
+            } else if (newvalue === "AMBASSADOR GARMINDO") {
+                this.unit = "AG";
+                this.unitname = "AMBASSADOR GARMINDO";
             } else {
                 this.unit = "";
                 this.unitname = "";

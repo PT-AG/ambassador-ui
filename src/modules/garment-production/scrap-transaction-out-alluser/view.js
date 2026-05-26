@@ -23,9 +23,11 @@ export class View {
     cancel(event) {
         this.router.navigateToRoute('list');
     }
+
     // edit(event) {
     //     this.router.navigateToRoute('edit', { id: this.data.Id });
     // }
+
     // delete(event) {
     //     if (confirm(`Hapus ${this.data.TransactionNo}?`))
     //         this.service.delete(this.data)
@@ -36,5 +38,4 @@ export class View {
     //                 this.error = e;
     //             })
     // }
-   
 }

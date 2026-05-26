@@ -1,11 +1,11 @@
-import {inject} from 'aurelia-framework';
-import {Service} from "./service";
-import {Router} from 'aurelia-router';
+import { inject } from 'aurelia-framework';
+import { Service } from "./service";
+import { Router } from 'aurelia-router';
 
 @inject(Router, Service)
 export class List {
-    context = ["detail"];
-    columns = [
+  context = ["detail"];
+  columns = [
     { field: "AccountName", title: "Nama Akun" },
     { field: "AccountNumber", title: "No Akun" },
     { field: "BankCode", title: "Kode Bank" },
@@ -13,7 +13,7 @@ export class List {
     { field: "BankAddress", title: "Alamat Bank" },
     { field: "Currency.Code", title: "Kode Mata Uang" },
     { field: "Division.Name", title: "Nama Divisi" },
-    { field: "AccountCOA", title: "COA" },   
+    { field: "AccountCOA", title: "COA" },
   ];
 
   loader = (info) => {
@@ -25,25 +25,25 @@ export class List {
       page: parseInt(info.offset / info.limit, 10) + 1,
       size: info.limit,
       keyword: info.search,
-      select: ["AccountName","AccountNumber","BankCode","BankName","BankAddress","CurrencyCode","DivisionName","AccountCOA"],
+      select: ["AccountName", "AccountNumber", "BankCode", "BankName", "BankAddress", "CurrencyCode", "DivisionName", "AccountCOA"],
       order: order
     }
 
     return this.service.search(arg)
-      .then(result => {   
-          var data = {}
-          data.total = result.info.total;
-          data.data = result.data;
-          return data;
+      .then(result => {
+        var data = {}
+        data.total = result.info.total;
+        data.data = result.data;
+        return data;
       });
   }
 
-    constructor(router, service) {
-        this.service = service;
-        this.router = router;
-    }
+  constructor(router, service) {
+    this.service = service;
+    this.router = router;
+  }
 
-    contextCallback(event) {
+  contextCallback(event) {
     var arg = event.detail;
     var data = arg.data;
     switch (arg.name) {
@@ -53,8 +53,8 @@ export class List {
     }
   }
 
-    create() {
-        this.router.navigateToRoute('create');
-    }
+  create() {
+    this.router.navigateToRoute('create');
+  }
 
 }

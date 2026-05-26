@@ -27,7 +27,8 @@ export class List {
     @bindable KtgrItem;
     
     KategoriItems= ['','BAHAN BAKU','BAHAN EMBALANCE','BAHAN PENDUKUNG']
-    UnitItems = ['','AMBASSADOR GARMINDO 1','AMBASSADOR GARMINDO 2']
+    // UnitItems = ['','AMBASSADOR GARMINDO 1','AMBASSADOR GARMINDO 2']
+    UnitItems = ['','AMBASSADOR GARMINDO'];
 
     search(){
             this.info.page = 1;
@@ -140,10 +141,12 @@ export class List {
             if (newvalue === "AMBASSADOR GARMINDO 1") {
                 this.unit = "AG1";
                 this.unitname = "AMBASSADOR GARMINDO 1";
-            }
-            else if (newvalue === "AMBASSADOR GARMINDO 2") { 
+            } else if (newvalue === "AMBASSADOR GARMINDO 2") { 
                 this.unit = "AG2";
                 this.unitname = "AMBASSADOR GARMINDO 2";
+            } else if(newvalue === "AMBASSADOR GARMINDO") {
+                this.unit = "AG";
+                this.unitname = "AMBASSADOR GARMINDO";
             }
             // else if (newvalue === "KONFEKSI 2C") {
             //     this.unit = "C2C"; 
@@ -154,7 +157,7 @@ export class List {
             // }else if(newvalue === "KONFEKSI 1B"){
             //     this.unit = "AG2";
             //     this.unitname = "KONFEKSI 1B";
-            else{
+            else {
                 this.unit = "";
                 this.unitname = "";
             }

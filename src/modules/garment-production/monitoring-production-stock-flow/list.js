@@ -26,7 +26,8 @@ export class List {
 
     @bindable UnitItem;
 
-    UnitItems = ['','AMBASSADOR GARMINDO 1','AMBASSADOR GARMINDO 2']
+    //UnitItems = ['','AMBASSADOR GARMINDO 1','AMBASSADOR GARMINDO 2']
+    UnitItems = ['','AMBASSADOR GARMINDO'];
 
     searching() {
         var info = {

@@ -20,7 +20,6 @@ export class DataForm {
 
     constructor(permissionHelper) {
         this.permissions = permissionHelper.getUserPermissions();
-        console.log(this.permissions);
         this.isPermitted = this.isPermittedRole();
     }
 
@@ -52,7 +51,6 @@ export class DataForm {
         }
 
         this.error = this.context.error;
-
         this.cancelCallback = this.context.cancelCallback;
         this.deleteCallback = this.context.deleteCallback;
         this.editCallback = this.context.editCallback;

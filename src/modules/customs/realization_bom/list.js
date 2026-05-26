@@ -4,7 +4,7 @@ import { Router } from 'aurelia-router';
 var moment = require('moment');
 
 @inject(Router, Service)
-export class List{
+export class List {
 
     constructor(router, service) {
         this.service = service;
@@ -12,7 +12,7 @@ export class List{
         this.today = new Date();
     }
 
-    info = { page: 1,size:50};
+    info = { page: 1, size: 50 };
 
     controlOptions = {
         label: {
@@ -24,64 +24,60 @@ export class List{
     };
 
     @bindable UnitItem;
-    UnitItems = ['','KONFEKSI AG1','KONFEKSI AG2']
+    //UnitItems = ['','KONFEKSI AG1','KONFEKSI AG2']
+    UnitItems = ['', 'KONFEKSI AG']
 
-    search(){
-            this.info.page = 1;
-            this.info.total=0;
-            this.searching();        
+    search() {
+        this.info.page = 1;
+        this.info.total = 0;
+        this.searching();
     }
+
     activate() {
-       
+
     }
 
     tableData = []
     searching() {
         var args = {
-            // page: this.info.page,
-            // size: this.info.size,
-            dateFrom : this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
-            dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : "",
-            unitcode : this.unit ? this.unit : "",
+            dateFrom: this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
+            dateTo: this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : "",
+            unitcode: this.unit ? this.unit : "",
         };
+
         this.service.search(args)
-            .then(result=>{
-                var datas=[];
-                var datadetail=[];
-                var index=0;
+            .then(result => {
+                var datas = [];
+                var datadetail = [];
+                var index = 0;
 
-                for(var _data of result.data){
-                    
-                    var ro =_data.RO;
-
-                    for(var _data1 of _data.rincian){
+                for (var _data of result.data) {
+                    var ro = _data.RO;
+                    for (var _data1 of _data.rincian) {
                         datadetail.push(_data1);
                     }
 
                     datas.push(_data);
-
                 }
-                this.data=datas;
-            
-                this.data2=datadetail
-                console.log("data1",this.data);
-                console.log("data2",this.data2);
 
-
-            })
-
-
+                this.data = datas;
+                this.data2 = datadetail
+            });
     }
 
-    UnitItemChanged(newvalue){
+    UnitItemChanged(newvalue) {
         if (newvalue) {
             if (newvalue === "KONFEKSI AG1") {
                 this.unit = "KONFEKSI AG1";
                 this.unitname = "AG1";
             }
-            else if (newvalue === "KONFEKSI AG2") { 
+            else if (newvalue === "KONFEKSI AG2") {
                 this.unit = "KONFEKSI AG2";
                 this.unitname = "AG2";
+            }
+            else if (newvalue === "KONFEKSI AG") {
+                this.unit = "KONFEKSI AG";
+                this.unitname = "AG";
             }
             // else if (newvalue === "KONFEKSI 2C") {
             //     this.unit = "C2C"; 
@@ -93,41 +89,40 @@ export class List{
             //     this.unit = "AG2";
             //     this.unitname = "KONFEKSI 1B";
             // }
-            else{
+            else {
                 this.unit = "";
                 this.unitname = "";
             }
-        }else{
+        } else {
             this.unit = "";
             this.unitname = "";
         }
     }
 
     async ExportToExcel() {
-         this.errorMessage = null; // reset error
-         this.successMessage = null; // reset success
-            let args = {            
-            dateFrom : this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
-            dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : "",
-            unitcode : this.unit ? this.unit : "",
-            unitname : this.unitname ? this.unitname : "",
-            };
+        this.errorMessage = null;
+        this.successMessage = null;
+        let args = {
+            dateFrom: this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
+            dateTo: this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : "",
+            unitcode: this.unit ? this.unit : "",
+            unitname: this.unitname ? this.unitname : "",
+        };
 
-            await this.service.generateExcel(args)
-        .then(result => {
-            console.log(result);
-            this.successMessage = "File Excel berhasil dibuat!"
-        })
-        .catch(error => {
-            if (error && error.message) {
-                this.errorMessage = error.message;
-            } else if (error && error.response && error.response.data) {
-                // kalau pakai axios misalnya
-                this.errorMessage = error.response.data.message || "Terjadi kesalahan pada server.";
-            } else {
-                this.errorMessage = "Gagal membuat file Excel.";
-            }
-        });
+        await this.service.generateExcel(args)
+            .then(result => {
+                console.log(result);
+                this.successMessage = "File Excel berhasil dibuat!"
+            })
+            .catch(error => {
+                if (error && error.message) {
+                    this.errorMessage = error.message;
+                } else if (error && error.response && error.response.data) {
+                    this.errorMessage = error.response.data.message || "Terjadi kesalahan pada server.";
+                } else {
+                    this.errorMessage = "Gagal membuat file Excel.";
+                }
+            });
     }
 
     changePage(e) {
@@ -140,14 +135,11 @@ export class List{
         this.dateFrom = null;
         this.dateTo = null;
         this.UnitItem = '';
-        this.data=[];
-        this.data2=[];
+        this.data = [];
+        this.data2 = [];
         this.errorMessage = null;
         this.info.page = 1;
-        this.info.total=0;
-
-        //reload network devtools
+        this.info.total = 0;
         location.reload();
     }
-
 }
