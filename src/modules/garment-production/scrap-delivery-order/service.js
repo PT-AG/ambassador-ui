@@ -1,19 +1,18 @@
 import { RestService } from '../../../utils/rest-service';
 
-const serviceUri = 'scrap-transactions';
-const getServiceUri = 'scrap-transactions/out';
-const getScrapServiceUri = 'scrap-dos';
+const serviceUri = 'scrap-dos';
 const uomServiceUri = 'master/uoms';
 const serviceStockUri = 'scrap-stocks';
 const remainingQtyUri='scrap-stocks/remainingQty';
+
 class Service extends RestService {
     constructor(http, aggregator, config, endpoint) {
         super(http, aggregator, config, "garment-production");
     }
 
     search(info) {
-        var endpoint = `${getServiceUri}`;
-        return super.list(endpoint, info);
+        var endpoint = `${serviceUri}`;
+        return super.list(endpoint, info);   
     }
     
     searchStock(info) {
@@ -28,11 +27,6 @@ class Service extends RestService {
 
     read(id) {
         var endpoint = `${serviceUri}/${id}`;
-        return super.get(endpoint);
-    }
-
-    getScrapDOById(id) {
-        var endpoint = `${getScrapServiceUri}/${id}`;
         return super.get(endpoint);
     }
 
@@ -57,7 +51,6 @@ class Service extends RestService {
     }
 }
 
-
 class CoreService extends RestService {
     constructor(http, aggregator, config, endpoint) {
         super(http, aggregator, config, "core");
@@ -68,4 +61,5 @@ class CoreService extends RestService {
         return super.list(endpoint, info);
     }
 }
+
 export { Service,CoreService }

@@ -12,8 +12,10 @@ export class View {
     async activate(params) {
         let id = params.id;
         this.data = await this.service.read(id);
-        this.hasEdit = false;
-        this.hasDelete = true;
+        // this.hasEdit = true;
+        // this.hasDelete = true;
+        this.hasEdit = !this.data.IsUsed;
+        this.hasDelete = !this.data.IsUsed;
         this.hasCancel = true;
         this.isView = true;
     }
@@ -27,7 +29,7 @@ export class View {
     }
 
     delete(event) {
-        if (confirm(`Hapus ${this.data.TransactionNo}?`))
+        if (confirm(`Hapus ${this.data.DOScrapTransactionNo}?`))
             this.service.delete(this.data)
                 .then(result => {
                     this.cancel();

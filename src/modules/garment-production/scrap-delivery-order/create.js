@@ -8,8 +8,6 @@ export class Create {
     constructor(router, service) {
         this.router = router;
         this.service = service;
-
-
     }
 
     bind() {
@@ -18,6 +16,7 @@ export class Create {
         this.hasCancel = true;
         this.hasSave = true;
         this.isCreate = true;
+        this.readOnly = false;
     }
 
     activate(params) {
@@ -41,6 +40,7 @@ export class Create {
             for (var i = 0; i < this.data.Items.length; i++) {
                 total = total + parseFloat(this.data.Items[i].Quantity);
             }
+
             if (total === 0) {
                 alert("Jumlah tidak boleh 0 semua");
             } else {
@@ -53,8 +53,7 @@ export class Create {
                         this.error = e;
                     })
             }
-        }
-        else {
+        } else {
             this.service.create(this.data)
                 .then(result => {
                     alert("Data berhasil dibuat");
@@ -65,5 +64,4 @@ export class Create {
                 })
         }
     }
-
 }

@@ -23,7 +23,7 @@ export class DataForm {
 
     termPaymentImportOptions = ['T/T PAYMENT', 'CMT', 'FREE FROM BUYER', 'SAMPLE'];
     termPaymentLocalOptions = ['AG', 'CMT', 'FREE FROM BUYER', 'SAMPLE'];
-    typePaymentOptions = ['T/T AFTER', 'FREE', 'CASH', 'T/T BEFORE'];
+    typePaymentOptions = ['T/T AFTER', 'FREE', 'CASH', 'T/T BEFORE','DP (DOWN PAYMENT) + BP (BALANCE PAYMENT)'];
     typePaymentStorageOptions = ['EX MASTER FREE', 'EX MASTER BELI', 'EX MASTER GUDANG'];
     categoryOptions = ['FABRIC', 'ACCESSORIES']
     qualityStandardTypeOptions = ['JIS', 'AATCC', 'ISO', 'AS']
@@ -304,7 +304,7 @@ export class DataForm {
         var selectedPayment = e.srcElement.value;
         if (selectedPayment) {
             this.data.PaymentType = selectedPayment;
-            if (this.data.PaymentType == "CASH" || this.data.PaymentType == "T/T BEFORE") {
+            if (this.data.PaymentType == "CASH" || this.data.PaymentType == "T/T BEFORE" || this.data.PaymentType =='DP (DOWN PAYMENT) + BP (BALANCE PAYMENT)') {
                 this.data.PaymentDueDays = 0;
             }
 

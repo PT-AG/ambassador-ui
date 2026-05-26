@@ -9,12 +9,12 @@ export class List {
         this.service = service;
         this.router = router;
     }
+    
+    context = ["Rincian"];
 
-    context = ["Rincian", "Cetak PDF"];
-   
     columns = [
-        { field: "TransactionNo", title: "No Bon" },
-        { field: "TransactionDate", title: "Tanggal Keluar", formatter: value => moment(value).format("DD MMM YYYY") },
+        { field: "DOScrapTransactionNo", title: "No DO Aval" },
+        { field: "DOScrapTransactionDate", title: "Tanggal DO", formatter: value => moment(value).format("DD MMM YYYY") },
         { field: "ScrapDestinationName", title: "Asal Barang" }
     ]
 
@@ -32,7 +32,7 @@ export class List {
 
         return this.service.search(arg)
             .then(result => {
-               console.log(result);
+                console.log(result);
                 return {
                     total: result.info.total,
                     data: result.data
@@ -47,15 +47,13 @@ export class List {
             case "Rincian":
                 this.router.navigateToRoute('view', { id: data.Id });
                 break;
-            case "Cetak PDF":
-                this.service.getPdfById(data.Id);
-                break;
+            // case "Cetak PDF":
+            //     this.service.getPdfById(data.Id);
+            //     break;
         }
     }
 
     create() {
         this.router.navigateToRoute('create');
-      }
-    
-   
+    }
 }

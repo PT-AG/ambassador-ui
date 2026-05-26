@@ -1,14 +1,15 @@
 
 import { inject, bindable, computedFrom, BindingEngine } from 'aurelia-framework'
-import { Service ,CoreService} from './service';
+import { Service, CoreService } from './service';
 
-const DestinationLoader = require('../../../loader/garment-scrap-destination-loader');
+const ScrapDoLoader = require('../../../loader/scrap-dos-loader');
 
-@inject(Service,CoreService, BindingEngine)
+@inject(Service, CoreService, BindingEngine)
 export class DataForm {
     @bindable title;
     @bindable readOnly;
     @bindable selectedDestination;
+    @bindable selectedScrapDo;
     @bindable isEdit = false;
     @bindable isCreate = false;
     @bindable isView = false;
@@ -22,15 +23,20 @@ export class DataForm {
 
     @computedFrom("data.Id")
     get isEdit() {
-        this.readOnly=true;
+        this.readOnly = true;
         return (this.data.Id || '').toString() != '';
-      
     }
-    constructor(service,coreService, bindingEngine) {
+
+    constructor(service, coreService, bindingEngine) {
         this.service = service;
-        this.coreService=coreService;
+        this.coreService = coreService;
         this.bindingEngine = bindingEngine;
     }
+
+    isEmptyGuid(guid) {
+        return !guid || guid === "00000000-0000-0000-0000-000000000000";
+    }
+
     bind(context) {
         this.context = context;
         this.dataView = this.context.data;
@@ -38,13 +44,23 @@ export class DataForm {
         this.data.TransactionType = "OUT";
         this.error = this.context.error;
         this.options.isCreate = this.context.isCreate;
-        console.log(this.options.isCreate);
         this.options.isView = this.context.isView;
-        if(this.data)
-        {
-            this.selectedDestination= this.data.ScrapDestinationName;
+
+        if (this.data.Id) {
+            if (this.isEmptyGuid(this.data.ReferenceId)) {
+                this.selectedScrapDo = { 
+                    DOScrapTransactionNo : "-",
+                    DOScrapTransactionDate : this.data.TranscationDate
+                };
+            } else {
+                this.service.getScrapDOById(this.data.ReferenceId)
+                .then((results) => {
+                    this.selectedScrapDo = results;
+                });
+            }
         }
     }
+
     itemsInfo = {
         columns: [
             "Jenis Barang Aval",
@@ -54,6 +70,7 @@ export class DataForm {
             "Keterangan"
         ]
     }
+
     itemsColumns = [""];
     controlOptions = {
         label: {
@@ -63,64 +80,108 @@ export class DataForm {
             length: 5
         }
     }
-   
-    destinationView = (unit) => {
-        return `${unit.Code} - ${unit.Name}`;
+
+    // destinationView = (unit) => {
+    //     return `${unit.Code} - ${unit.Name}`;
+    // }
+
+    scrapDoView = (scrapDo) => {
+        return `${scrapDo.DOScrapTransactionNo}`;
     }
 
-    get destinationLoader() {
-        return DestinationLoader;
+    // get destinationLoader() {
+    //     return DestinationLoader;
+    // }
+
+    get scrapDoLoader() {
+        return ScrapDoLoader;
     }
-    async selectedSourceChanged(newValue) {
-        if (newValue) {
-            this.data.ScrapSourceId = newValue.Id;
-            this.data.ScrapSourceName = newValue.Name;
-        }
-    }
-    async selectedDestinationChanged(newValue) {
+
+    // async selectedSourceChanged(newValue) {
+    //     if (newValue) {
+    //         this.data.ScrapSourceId = newValue.Id;
+    //         this.data.ScrapSourceName = newValue.Name;
+    //     }
+    // }
+
+    scrapDOFilter = { IsUsed: false }
+
+    async selectedScrapDoChanged(newValue) {
         if (newValue && this.options.isCreate) {
             this.data.Items.splice(0);
-        let uomResult = await this.coreService.getUom({ size: 1, filter: JSON.stringify({ Unit: "KG" }) });
-        let uom = uomResult.data[0].Id;
 
-            this.data.ScrapDestinationId = newValue.Id;
-            this.data.ScrapDestinationName = newValue.Name;
-            this.service.searchStock({order: {"ScrapClassificationName" : "asc"}, filter: JSON.stringify({ ScrapDestinationName:  this.data.ScrapDestinationName }) }).then((results) => {
-           
-                for(var items of results.data)
-                {
-                    this.data.Items.push(
-                        {
-                            ScrapDestinationId : items.ScrapDestinationId,
-                            ScrapDestinationName : items.ScrapDestinationName,
-                            ScrapClassificationId : items.ScrapClassificationId,
-                            ScrapClassificationName : items.ScrapClassificationName,
-                            Quantity : 0,
-                            RemainingQuantity : items.Quantity,
-                            UomUnit:"KG",
-                            UomId: uom,
-                            TransactionType :"OUT"
-                        }
-                    );
-                }              
-              });
-            }else
-            {
-                let remaingQtyResult = await this.service.searchRemaining(this.data.ScrapDestinationName);
-                
-                for(var item of this.data.Items)
-                {
-                     for(var qty of remaingQtyResult.data)
-                     { 
-                          
-                        if (item.ScrapClassificationId ===  qty.ScrapClassificationId && this.data.ScrapDestinationId === qty.ScrapDestinationId )
-                        {
-                            item.RemainingQuantity = qty.Quantity + item.Quantity;
-                            item.TransactionType = "OUT";
-                            item.IsEdit= true;
-                        }
+            var scrapFromDoc = newValue.Items;
+            let uomResult = await this.coreService.getUom({ size: 1, filter: JSON.stringify({ Unit: "KG" }) });
+            let uom = uomResult.data[0].Id;
+
+            this.data.ScrapDestinationId = newValue.ScrapDestinationId;
+            this.data.ScrapDestinationName = newValue.ScrapDestinationName;
+            this.data.ReferenceDate = newValue.DOScrapTransactionDate;
+            this.data.ReferenceId = newValue.Id
+            this.service.searchRemaining({ order: { "ScrapClassificationName": "asc" }, filter: JSON.stringify({ ScrapDestinationName: this.data.ScrapDestinationName }) }).then((results) => {
+                for (var item of results.data) {
+                    var itemFromDoc = scrapFromDoc.find(x => x.ScrapClassificationId == item.ScrapClassificationId)
+                    if (itemFromDoc) {
+                        this.data.Items.push(
+                            {
+                                ScrapDestinationId: item.ScrapDestinationId,
+                                ScrapDestinationName: item.ScrapDestinationName,
+                                ScrapClassificationId: item.ScrapClassificationId,
+                                ScrapClassificationName: item.ScrapClassificationName,
+                                Quantity: itemFromDoc.Quantity,
+                                ReferenceItemId: itemFromDoc.Id,
+                                RemainingQuantity: itemFromDoc.Quantity,
+                                UomUnit: "KG",
+                                UomId: uom,
+                                TransactionType: "OUT"
+                            }
+                        );
                     }
                 }
-            } 
+            });
         }
     }
+
+    // async selectedDestinationChanged(newValue) {
+    //     if (newValue && this.options.isCreate) {
+    //         this.data.Items.splice(0);
+
+    //         let uomResult = await this.coreService.getUom({ size: 1, filter: JSON.stringify({ Unit: "KG" }) });
+    //         let uom = uomResult.data[0].Id;
+
+    //         this.data.ScrapDestinationId = newValue.Id;
+    //         this.data.ScrapDestinationName = newValue.Name;
+    //         this.service.searchStock({ order: { "ScrapClassificationName": "asc" }, filter: JSON.stringify({ ScrapDestinationName: this.data.ScrapDestinationName }) }).then((results) => {
+
+    //             for (var items of results.data) {
+    //                 this.data.Items.push(
+    //                     {
+    //                         ScrapDestinationId: items.ScrapDestinationId,
+    //                         ScrapDestinationName: items.ScrapDestinationName,
+    //                         ScrapClassificationId: items.ScrapClassificationId,
+    //                         ScrapClassificationName: items.ScrapClassificationName,
+    //                         Quantity: 0,
+    //                         RemainingQuantity: items.Quantity,
+    //                         UomUnit: "KG",
+    //                         UomId: uom,
+    //                         TransactionType: "OUT"
+    //                     }
+    //                 );
+    //             }
+    //         });
+    //     } else {
+    //         let remaingQtyResult = await this.service.searchRemaining(this.data.ScrapDestinationName);
+
+    //         for (var item of this.data.Items) {
+    //             for (var qty of remaingQtyResult.data) {
+
+    //                 if (item.ScrapClassificationId === qty.ScrapClassificationId && this.data.ScrapDestinationId === qty.ScrapDestinationId) {
+    //                     item.RemainingQuantity = qty.Quantity + item.Quantity;
+    //                     item.TransactionType = "OUT";
+    //                     item.IsEdit = true;
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+}
