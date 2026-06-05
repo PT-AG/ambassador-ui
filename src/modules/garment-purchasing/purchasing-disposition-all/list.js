@@ -31,6 +31,10 @@ export class List {
         { field: "CreatedBy", title: "Yang Membuat"},
         { 
             field: "IsPosted", title: "Status", formatter: function(value, data, index) {
+                if(data.IsApprovedDirector) return "SUDAH DISETUJUI DIREKSI";
+                if(data.IsApprovedBudget2) return "SUDAH DISETUJUI ANGGARAN2";
+                if(data.IsApprovedBudget1) return "SUDAH DISETUJUI ANGGARAN1";
+                if(data.IsApprovedVerification) return "SUDAH DISETUJUI VERIFICATION";
                 if(data.IsApprovedKabag) return "SUDAH DISETUJUI MANAGER 2";
                 if(data.IsApprovedKasie) return "SUDAH DISETUJUI MANAGER 1";
                 if(data.IsPosted) return "SUDAH DIPOSTING";
@@ -82,14 +86,14 @@ export class List {
     contextShowCallback(index, name, data) {
         switch (name) {
             case "Cetak PDF":
-                return data.IsApprovedKabag;
+                return data.IsApprovedDirector;
             default:
                 return true;
         }
     }
 
     rowFormatter(data, index) {
-        if (data.IsApprovedKabag) 
+        if (data.IsApprovedDirector) 
             return { classes: "success" }
         else
             return {}

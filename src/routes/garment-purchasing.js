@@ -1264,35 +1264,96 @@ module.exports = [
     },
   },
   {
-    route: "/garments/approve-garment-purchasing-disposition-manager1",
-    name: "approve-garment-purchasing-disposition-manager1",
-    moduleId:
-      "./modules/garment-purchasing/approve-garment-purchasing-disposition-kasie/index",
-    nav: true,
-    title: "Approve Disposisi Pembayaran Manager 1",
-    auth: true,
-    settings: {
-      group: "g-purchasing",
-      subGroup: "approval",
-      permission: { H64: 1 },
-      iconClass: "fa fa-dashboard",
+        route: '/garment/purchasing-disposition-approval/manager1',
+        name: 'purchasing-disposition-approval-manager1',
+        moduleId: './modules/garment-purchasing/purchasing-disposition-approval/index',
+        nav: true,
+        title: 'Approve Disposisi Pembayaran - Manager 1',
+        auth: true,
+        settings: {
+            group: "g-purchasing",
+            subGroup: "approval",
+            permission: { H64 : 1 },
+            iconClass: 'fa fa-calculator',
+            type: "manager1"
+        }
     },
-  },
-  {
-    route: "/garments/approve-garment-purchasing-disposition-manager2",
-    name: "approve-garment-purchasing-disposition-manager2",
-    moduleId:
-      "./modules/garment-purchasing/approve-garment-purchasing-disposition-kabag/index",
-    nav: true,
-    title: "Approve Disposisi Pembayaran Manager 2",
-    auth: true,
-    settings: {
-      group: "g-purchasing",
-      subGroup: "approval",
-      permission: { H65: 1 },
-      iconClass: "fa fa-dashboard",
+    {
+        route: '/garment/purchasing-disposition-approval/manager2',
+        name: 'purchasing-disposition-approval-manager2',
+        moduleId: './modules/garment-purchasing/purchasing-disposition-approval/index',
+        nav: true,
+        title: 'Approve Disposisi Pembayaran - Manager 2',
+        auth: true,
+        settings: {
+            group: "g-purchasing",
+            subGroup: "approval",
+            permission: { H65 : 1 },
+            iconClass: 'fa fa-calculator',
+            type: "manager2"
+        }
     },
-  },
+    {
+        route: '/garment/purchasing-disposition-approval/verification',
+        name: 'purchasing-disposition-approval-verification',
+        moduleId: './modules/garment-purchasing/purchasing-disposition-approval/index',
+        nav: true,
+        title: 'Approve Disposisi Pembayaran - Verifikasi',
+        auth: true,
+        settings: {
+            group: "g-purchasing",
+            subGroup: "approval",
+            permission: { H65 : 1 },
+            iconClass: 'fa fa-calculator',
+            type: "verification"
+        }
+    },
+    {
+        route: '/garment/purchasing-disposition-approval/budget1',
+        name: 'purchasing-disposition-approval-budget1',
+        moduleId: './modules/garment-purchasing/purchasing-disposition-approval/index',
+        nav: true,
+        title: 'Approve Disposisi Pembayaran - Anggaran 1',
+        auth: true,
+        settings: {
+            group: "g-purchasing",
+            subGroup: "approval",
+            permission: { H65 : 1 },
+            iconClass: 'fa fa-calculator',
+            type: "budget1"
+        }
+    },
+    {
+        route: '/garment/purchasing-disposition-approval/budget2',
+        name: 'purchasing-disposition-approval-budget2',
+        moduleId: './modules/garment-purchasing/purchasing-disposition-approval/index',
+        nav: true,
+        title: 'Approve Disposisi Pembayaran - Anggaran 2',
+        auth: true,
+        settings: {
+            group: "g-purchasing",
+            subGroup: "approval",
+            permission: { H65 : 1 },
+            iconClass: 'fa fa-calculator',
+            type: "budget2"
+        }
+    },
+
+    {
+        route: '/garment/purchasing-disposition-approval/director',
+        name: 'purchasing-disposition-approval-director',
+        moduleId: './modules/garment-purchasing/purchasing-disposition-approval/index',
+        nav: true,
+        title: 'Approve Disposisi Pembayaran - Direksi',
+        auth: true,
+        settings: {
+            group: "g-purchasing",
+            subGroup: "approval",
+            permission: { H65 : 1 },
+            iconClass: 'fa fa-calculator',
+            type: "director"
+        }
+    },
   // {
   //   route: "/garment/po-external/over-budget/approval/kasie",
   //   name: "approve-po-external-over-budget-kasie",

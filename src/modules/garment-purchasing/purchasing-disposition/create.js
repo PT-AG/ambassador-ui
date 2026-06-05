@@ -1,28 +1,50 @@
 import {inject, Lazy} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
-import {Service} from './service';
+import {Service,ServiceCore} from './service';
 import {activationStrategy} from 'aurelia-router';
 import moment from 'moment';
+import { AuthService } from "aurelia-authentication";
 
-@inject(Router, Service)
+@inject(Router, Service,ServiceCore, AuthService)
 export class Create {
     hasCancel = true;
     hasSave = true;
     hasCreate = true;
 
-    constructor(router, service) {
+    constructor(router, service,serviceCore, authService) {
         this.router = router;
         this.service = service;
         this.isView=false;
+        this.serviceCore=serviceCore;
+        this.authService=authService;
     }
 
     activate(params) {
-
+        
     }
     
-    bind() {
+    async bind() {
         this.data = { items: [] };
         this.error = {};
+
+        this.username = null;
+        if (this.authService.authenticated) {
+            const me = this.authService.getTokenPayload();
+            this.username = me.username;
+        }
+        var filterS = {
+            Name: this.username
+        };
+
+        var argS = {
+            filter: JSON.stringify(filterS)
+        };
+
+        var section= await this.serviceCore.searchSection(argS);
+                console.log(section);
+
+        this.data.ApprovedKasieBy=section.data[0].Manager1;
+        this.data.ApprovedKabagBy=section.data[0].Manager2;
     }
 
     cancel(event) {
@@ -35,7 +57,7 @@ export class Create {
         // or activationStrategy.noChange to explicitly use the default behavior
     }
 
-    save() {
+    async save() {
         if(this.data.Items){
             this.data.Amount=0;
             this.data.IncomeTaxValue=0;
@@ -92,10 +114,10 @@ export class Create {
             
         }
         
+                console.log(this.data);
         this.service.create(this.data)
             .then(result => {
                 alert("Data berhasil dibuat");
-                console.log(this.data);
                 this.router.navigateToRoute('create',{}, { replace: true, trigger: true });
             })
             .catch(e => {

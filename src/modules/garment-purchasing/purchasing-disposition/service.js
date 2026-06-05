@@ -63,9 +63,20 @@ export class Service extends RestService {
     }
 
     getEPOById(param){
-        // var endpoint = `${serviceEPOUri}/${epoId}`
         var endpoint = `${serviceUri}/po-external-id/${param.Id}?supplierId=${param.supplierId}&currencyCode=${param.currencyCode}`
         
         return super.get(endpoint)
     }
-} 
+}
+
+const servicePurchSectionUri = 'master/purchasing-sections';
+export class ServiceCore extends RestService {
+    constructor(http, aggregator, config, endpoint) {
+        super(http, aggregator, config, "core");
+    }
+
+    searchSection(info) {
+        var endpoint = `${servicePurchSectionUri}`;
+        return super.list(endpoint, info);
+    }
+}
