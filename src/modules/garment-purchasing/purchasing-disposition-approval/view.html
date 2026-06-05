@@ -1,5 +1,5 @@
 <template>
-    <style>
+  <style>
 /* Resizable Modal Styles */
     #pdfPreviewModal .modal-dialog {
       position: relative;
@@ -95,179 +95,108 @@
     }
 
 </style>
+  <require from="../../../lib/number-format-value-converter.js"></require>
+  <require from="../../../lib/date-format-value-converter.js"></require>
 
-    <au-input-form 
-        title.bind="title" 
-        with.bind="context">
-
-        <div slot="actions" class="btn-group">
-            <button class="btn btn-default" click.delegate="context.cancel($event)"     if.one-way="context.hasCancel">Kembali</button>
-            <button class="btn btn-primary" click.delegate="context.edit($event)"       if.one-way="context.hasEdit">Ubah</button>
-            <button class="btn btn-success" click.delegate="context.save($event)"       if.one-way="context.hasSave">Simpan</button>
-            <button class="btn btn-danger"  click.delegate="context.delete($event)"     if.one-way="context.hasDelete">Hapus</button>
-        </div>
+  <au-input-form 
+      title.bind="title" 
+      with.bind="context" 
+      options.bind="formOptions" 
+      edit.call="editCallback($event)" 
+      delete.call="deleteCallback($event)">
+    
+    <div class="row">
+      <div class="col-md-6">
         <au-textbox 
-            label="ID" 
-            value.bind="data.Id" 
-            error.bind="error.Id" 
-            read-only.bind="true"
-            if.bind="false"
-            options.bind="controlOptions">
-        </au-textbox>
-
-        <au-textbox 
-            label="No" 
+            label="No Disposisi" 
             value.bind="data.DispositionNo" 
-            error.bind="error.DispositionNo" 
             read-only.bind="true"
-            if.bind="(readOnly || isEdit)"
+            options.bind="controlOptions">
+        </au-textbox>
+        
+        <au-textbox 
+            label="Kategori" 
+            value.bind="data.Category" 
+            read-only.bind="true"
             options.bind="controlOptions">
         </au-textbox>
 
-        <!-- <au-autocomplete 
-            value.bind="selectedCategory" 
-            error.bind="error.Category"
-            read-only.bind="(readOnly || isEdit)"
-            label="Kategori" 
-            loader.bind="categoryLoader"
-            text.bind = "categoryView"
-            placeholder="cari kategori" 
-            key="code"
+        <au-textbox 
+            label="Kode Supplier" 
+            value.bind="data.SupplierCode" 
+            read-only.bind="true"
             options.bind="controlOptions">
-        </au-autocomplete> -->
+        </au-textbox>
 
-        <au-dropdown 
-        label="Kategori" 
-        value.bind="data.Category" 
-        error.bind="error.Category"
-        read-only.bind="readOnly" 
-        items.bind="itemCategory" 
-        options.bind="controlOptions">
-        </au-dropdown>
-
-        <au-autocomplete 
-            value.bind="selectedSupplier" 
-            error.bind="error.Supplier"
-            label="Supplier" 
-            loader.bind="supplierLoader"
-            text.bind = "supplierView"
-            placeholder="cari supplier" 
-            key="code" 
-            read-only.bind="(readOnly || isEdit)"
+        <au-textbox 
+            label="Nama Supplier" 
+            value.bind="data.SupplierName" 
+            read-only.bind="true"
             options.bind="controlOptions">
-        </au-autocomplete>
-
-        <au-autocomplete 
-            value.bind="selectedCurrency" 
-            error.bind="error.Currency"
-            label="Mata Uang" 
-            loader.bind="currencyLoader"
-            text.bind = "currencyView"
-            placeholder="cari mata uang" 
-            key="code" 
-            read-only.bind="(readOnly || isEdit)"
+        </au-textbox>
+        
+        <au-textbox 
+            label="Mata Uang"
+            value.bind="data.CurrencyCode"
+            read-only.bind="true"
             options.bind="controlOptions">
-        </au-autocomplete>
+        </au-textbox>
 
         <au-multiline
             value.bind="data.Bank"
-            error.bind="error.Bank"
-            placeholder="bank"
             label="Bank Tujuan" 
-            read-only.bind="readOnly"
+            read-only.bind="true"
             options.bind="controlOptions">
         </au-multiline>
 
         <au-textbox
             value.bind="data.ConfirmationOrderNo"
-            error.bind="error.ConfirmationOrderNo"
-            placeholder="no order confirmation"
             label="No Order Confirmation" 
-            read-only.bind="readOnly"
+            read-only.bind="true"
             options.bind="controlOptions">
         </au-textbox>
 
-        <au-dropdown 
+        <au-textbox 
             label="Tipe Pembayaran" 
             value.bind="data.PaymentType" 
-            error.bind="error.PaymentType"
-            read-only.bind="readOnly" 
-            items.bind="itemPaymentType" 
+            read-only.bind="true"
             options.bind="controlOptions">
-        </au-dropdown>
+        </au-textbox>
 
-        <au-datepicker 
+        <au-textbox 
             label="Tanggal Jatuh Tempo" 
-            value.bind="data.PaymentDueDate" 
-            error.bind="error.PaymentDueDate" 
-            read-only.bind="(readOnly)"
+            value.bind="data.PaymentDueDate | dateFormat:'DD MMMM YYYY'" 
+            read-only.bind="true"
             options.bind="controlOptions">
-        </au-datepicker>
+        </au-textbox>
                 
         <au-multiline 
             label="Keterangan" 
             value.bind="data.Remark"
-            placeholder="tambah keterangan" 
-            read-only.bind="readOnly"
+            read-only.bind="true"
             options.bind="controlOptions">
         </au-multiline>
 
         <au-textbox
             value.bind="data.ProformaNo"
-            error.bind="error.ProformaNo"
             label="No Proforma / Invoice" 
-            placeholder="no proforma"
-            read-only.bind="readOnly"
+            read-only.bind="true"
             options.bind="controlOptions">
         </au-textbox>
-
-        <au-numeric
-            value.bind="dppVal"
-            label="DPP"
-            read-only.bind="true"
-            if.bind="!readOnly"
-            format = "0,0.0000"
-            options.bind="controlOptions">
-        </au-numeric>
-
-        <au-numeric
-            value.bind="vatValView"
-            label="PPN"
-            read-only.bind="true"
-            if.bind="!readOnly"
-            options.bind="controlOptions">
-        </au-numeric>
-
-        <au-numeric
-            value.bind="incomeTaxValView"
-            label="PPH"
-            read-only.bind="true"
-            if.bind="!readOnly"
-            options.bind="controlOptions">
-        </au-numeric>
 
         <au-numeric
             value.bind="data.DPP"
             label="DPP"
             read-only.bind="true"
-            if.bind="readOnly"
-            format = "0,0.0000"
+            format="0,0.00"
             options.bind="controlOptions">
         </au-numeric>
-
-        <!-- <au-numeric
-            value.bind="data.VatValue"
-            label="PPN"
-            read-only.bind="true"
-            if.bind="false"
-            options.bind="controlOptions">
-        </au-numeric> -->
 
         <au-numeric
             value.bind="data.VatValueView"
             label="PPN"
             read-only.bind="true"
-            if.bind="readOnly"
+            format="0,0.00"
             options.bind="controlOptions">
         </au-numeric>
 
@@ -275,40 +204,44 @@
             value.bind="data.IncomeTaxValueView"
             label="PPH"
             read-only.bind="true"
-            if.bind="readOnly"
+            format="0,0.00"
             options.bind="controlOptions">
         </au-numeric>
 
         <au-numeric
-        value.bind="data.MiscAmount"
-        label="Biaya Lain-Lain"
-        read-only.bind="readOnly"
-        format = "0,0.00"
-        options.bind="controlOptions">
+            value.bind="data.MiscAmount"
+            label="Biaya Lain-Lain"
+            read-only.bind="true"
+            format="0,0.00"
+            options.bind="controlOptions">
         </au-numeric>
 
         <au-numeric
             value.bind="data.Amount"
-            label="Amount"
+            label="Total Amount"
             read-only.bind="true"
+            format="0,0.00"
             options.bind="controlOptions">
         </au-numeric>
 
-        <au-textbox
-            show.bind="error.itemscount"
-            error.bind="error.itemscount"
-            read-only="true">
+        <au-textbox 
+            label="Manager Approval" 
+            value.bind="data.ApprovedManagerBy" 
+            read-only.bind="true"
+            options.bind="controlOptions">
         </au-textbox>
 
-        <div class="row">
-      <div class="col-md-6">
+      </div>
+    </div>
+
+    <br>
+
+    <div class="panel panel-default" style="margin-left:20px; margin-top:10px;">
+      <div class="panel-body">
         <h4>File Dokumen</h4>
         <table class="table table-hover table-bordered">
           <thead>
             <th class="col-md-11">File</th>
-            <th if.bind="!readOnly" class="col-md-1">
-              <button click.delegate="onAddDocument()" class="btn btn-success pull-right">+</button>
-            </th>
           </thead>
           <tbody>
             <tr if.bind="!data.DocumentsFileName || data.DocumentsFileName.length < 1">
@@ -330,10 +263,6 @@
                 <button if.bind="documentsPathTemp[$index]" class="btn btn-primary justify-content-center"
                   click.delegate="downloadDocument($index)">${doc}</button>
                 <span class="text-danger" if.bind="error.DocumentsFile[$index]">${error.DocumentsFile[$index]}</span>
-              </td>
-              <td if.bind="!readOnly">
-                <button class="btn btn-danger pull-right" click.delegate="onRemoveDocument($index)">-</button>
-                
               </td>
             </tr>
           </tbody>
@@ -376,18 +305,88 @@
       </div>
     </div>
 
-        <au-collection 
-            items.bind="data.Items" 
-            errors.bind="error.Items" 
-            columns.bind="itemsColumns" 
-            add.bind="addItems" 
-            remove.bind="removeItems"
-            options.one-way="filter"
-            read-only.bind="readOnly"
-            change.delegate="itemsChanged($event)"
-            if.bind="selectedSupplier && selectedCurrency && data.Category && data.PaymentType"
-            item-template="modules/garment-purchasing/purchasing-disposition/template/item"
-            >
-        </au-collection>
+    <br>
+
+<div class="panel panel-default" style="margin-left:20px; margin-top:5px;">
+  <div class="panel-body">
+    <h4>Detail</h4>
+    <table class="table table-bordered table-sm">
+      <thead>
+        <tr>
+          <th>No External PO</th>
+          <th>Invoice</th>
+          <th>Kena PPN</th>
+          <th>Nominal PPN</th>
+          <th>Kena PPH</th>
+          <th>PPH</th>
+          <th>Nominal PPH</th>
+          <th>Disposisi yang<br>
+            sudah dibuat</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <template repeat.for="item of data.Items">
+          <tr>
+            <td>${item.EPONo}</td>
+            <td>${item.Invoice || '-'}</td>
+            <td>${item.IsUseVat ? 'Ya' : 'Tidak'}</td>
+            <td>${item.VatValue | numberFormat:'0,0.00'}</td>
+            <td>${item.IsUseIncomeTax ? 'Ya' : 'Tidak'}</td>
+            <td>${item.IncomeTaxName} (${item.IncomeTaxRate}%)</td>
+            <td>${item.IncomeTaxValue | numberFormat:'0,0.00'}</td>
+            <td>${item.DispositionAmountCreated | numberFormat:'0,0.00'}</td>
+          </tr>
+          <tr>
+            <td colspan="8">
+              <div class="panel panel-default" style="margin-top:10px;">
+                <div class="panel-heading">
+                  <strong>Detail Items</strong>
+                </div>
+                <div class="panel-body">
+                  <table class="table table-bordered table-sm">
+                    <thead>
+                      <tr>
+                        <th>No Ro</th>
+                        <th>PO Internal</th>
+                        <th>Barang</th>
+                        <th>Unit</th>
+                        <th>Qty Dipesan</th>
+                        <th>Satuan</th>
+                        <th>Qty Sisa</th>
+                        <th>Harga Satuan</th>
+                        <th>Harga Total</th>
+                        <th>QTY Dibayar</th>
+                        <th>Harga Dibayar</th>
+                        <th>% Over QTY</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr repeat.for="detail of item.Details">
+                        <td>${detail.RONo}</td>
+                        <td>${detail.IPONo}</td>
+                        <td>${detail.ProductName}</td>
+                        <td>${detail.UnitName}</td>
+                        <td>${detail.QTYOrder | numberFormat:'0,0.00'}</td>
+                        <td>${detail.QTYUnit}</td>
+                        <td>${detail.QTYRemains | numberFormat:'0,0.00'}</td>
+                        <td>${detail.PricePerQTY | numberFormat:'0,0.00'}</td>
+                        <td>${detail.PriceTotal | numberFormat:'0,0.00'}</td>
+                        <td>${detail.QTYPaid | numberFormat:'0,0.00'}</td>
+                        <td>${detail.PaidPrice | numberFormat:'0,0.00'}</td>
+                        <td>${detail.PercentageOverQTY | numberFormat:'0,0.00'}%</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </template>
+      </tbody>
+    </table>
+  </div>
+</div>
+    
   </au-input-form>
 </template>

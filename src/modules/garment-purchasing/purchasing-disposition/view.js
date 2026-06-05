@@ -105,9 +105,11 @@ export class View {
                 return mappingItem;
             });
         }
-        console.log("view by id", this.data);
-        // this.data.Items
-        // console.log("view",this.data);
+        
+        if (this.data.IsPosted) {
+            this.hasDelete = false;
+            this.hasEdit = false;
+        }
     }
 
     // cancelCallback(event) {
