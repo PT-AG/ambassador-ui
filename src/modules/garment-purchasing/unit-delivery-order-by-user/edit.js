@@ -78,6 +78,11 @@ export class Edit {
             {
                 this.unitDOType = this.data.UnitDOType;
             }
+
+            if(this.data.UnitDOFor)
+            {
+                this.unitDOFrom = this.data.UnitDOFor;
+            }
         }
     }
 
