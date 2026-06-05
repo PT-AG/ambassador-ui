@@ -115,7 +115,9 @@ export class List {
         this.dateFrom= "",
         this.dateTo="",
         this.KtgrItem="",
-        this.UnitItem=""
+        this.UnitItem="",
+        this.buyer=null,
+        this.article=""
     }
 
     ExportToExcel() {
@@ -125,7 +127,9 @@ export class List {
             unitcode : this.unit ? this.unit : "",
             unitname : this.unitname ? this.unitname : "",
             category : this.category ? this.category : "",
-            categoryname : this.categoryname ? this.categoryname : ""
+            categoryname : this.categoryname ? this.categoryname : "",
+            buyercode : this.buyer ? this.buyer.Code : "",
+            article : this.article ? this.article : ""
         };
         
         this.service.generateExcel(args);
