@@ -1,18 +1,19 @@
 import { inject, bindable } from 'aurelia-framework';
 import { Service } from "./service";
 import { Router } from 'aurelia-router';
+var BuyerLoader = require("../../../../loader/garment-buyer-brands-loader");
+
 var moment = require('moment');
 
 @inject(Router, Service)
 export class List {
-
     constructor(router, service) {
         this.service = service;
         this.router = router;
         this.today = new Date();
     }
 
-    info = { page: 1,size:50};
+    info = { page: 1, size: 50 };
 
     controlOptions = {
         label: {
@@ -23,6 +24,10 @@ export class List {
         }
     };
 
+    get buyerLoader(){
+        return BuyerLoader;
+    }
+
     @bindable UnitItem;
     @bindable KtgrItem;
     
@@ -30,14 +35,16 @@ export class List {
     // UnitItems = ['','AMBASSADOR GARMINDO 1','AMBASSADOR GARMINDO 2']
     UnitItems = ['','AMBASSADOR GARMINDO'];
 
-    search(){
-            this.info.page = 1;
-            this.info.total=0;
-            this.searching();        
+    search() {
+        this.info.page = 1;
+        this.info.total=0;
+        this.searching();        
     }
+
     activate() {
        
     }
+
     tableData = []
     searching() {
         var args = {
@@ -47,8 +54,11 @@ export class List {
             dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : "",
             unitcode : this.unit ? this.unit : "",
             category : this.category ? this.category : "",
+            buyercode : this.buyer ? this.buyer.Code : "",
+            article : this.article ? this.article : ""
             //suppliertype : this.Tipe
         };
+
         this.service.search(args)
             .then(result=>{
                 this.data=[];
@@ -65,9 +75,8 @@ export class List {
                     // this.AmountTotal3 += _data.ReceiptCorrectionQty;
                     // this.AmountTotal4 += _data.ExpendQty;
                     // this.AmountTotal5 += _data.EndingBalanceQty;
-
-
                     // _data.PaymentMethod = _data.PaymentMethod == "FREE FROM BUYER" || _data.PaymentMethod == "CMT" || _data.PaymentMethod == "CMT/IMPORT"? "BY":"BL" 
+
                     _data.BeginningBalanceQty = _data.BeginningBalanceQty.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
                     _data.ReceiptQty = _data.ReceiptQty.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
                     _data.ReceiptCorrectionQty = _data.ReceiptCorrectionQty.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
@@ -91,24 +100,24 @@ export class List {
                     //     _data.ReceiptPurchasePrice = _data.ReceiptPurchasePrice + _data.ReceiptKon2DPrice
                     // }
                     this.data.push(_data);
-                    
                 }
+
                 // this.AmountTotal1 = this.AmountTotal1.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                 // this.AmountTotal2 = this.AmountTotal2.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
                 // this.AmountTotal3 = this.AmountTotal3.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
                 // this.AmountTotal4 = this.AmountTotal4.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
                 // this.AmountTotal5 = this.AmountTotal5.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-                console.log(this.data)
                 this.info.total=result.info.total
-            })
+            });
     }
 
     reset() {
         this.dateFrom= "",
         this.dateTo="",
         this.KtgrItem="",
-        this.UnitItem=""
-        
+        this.UnitItem="",
+        this.buyer=null,
+        this.article=""
     }
 
     ExportToExcel() {
@@ -118,7 +127,9 @@ export class List {
             unitcode : this.unit ? this.unit : "",
             unitname : this.unitname ? this.unitname : "",
             category : this.category ? this.category : "",
-            categoryname : this.categoryname ? this.categoryname : ""
+            categoryname : this.categoryname ? this.categoryname : "",
+            buyercode : this.buyer ? this.buyer.Code : "",
+            article : this.article ? this.article : ""
         };
         
         this.service.generateExcel(args);
@@ -134,8 +145,7 @@ export class List {
         }
     }
 
-    UnitItemChanged(newvalue){
-        
+    UnitItemChanged(newvalue) {
         if (newvalue) {
             console.log(newvalue)
             if (newvalue === "AMBASSADOR GARMINDO 1") {
@@ -181,11 +191,12 @@ export class List {
             else if (newvalue === "BAHAN EMBALANCE") {
                 this.category = "BE"; 
                 this.categoryname = "BAHAN EMBALANCE";
-            }else{
+            }
+            else{
                 this.category = "";
                 this.categoryname = "";
             }
-        }else{
+        } else {
             this.unit = "";
             this.unitname = "";
         }
@@ -195,6 +206,5 @@ export class List {
         var page = e.detail;
         this.info.page = page;
         this.searching();
-    }
-    
+    }   
 }
