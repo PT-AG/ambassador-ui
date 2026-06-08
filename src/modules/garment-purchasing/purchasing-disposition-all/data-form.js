@@ -34,7 +34,7 @@ export class DataForm {
         }
     }
 
-    itemPaymentType = ["T/T AFTER", "FREE", "T/T BEFORE"];
+    itemPaymentType = ["T/T AFTER", "FREE", "T/T BEFORE",'DP (DOWN PAYMENT) + BP (BALANCE PAYMENT)'];
     itemCategory = ["FABRIC", "ACCESSORIES"];
     itemsColumns = [{ header: "Nomor External PO" },
     { header: "Kena PPN" },

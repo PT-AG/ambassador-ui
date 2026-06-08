@@ -39,6 +39,7 @@ export class DataForm {
   @bindable isSubcon = false;
   @bindable isSTransfer = false;
   @bindable RONoJob;
+  @bindable unitDOFrom;
 
   typeUnitDeliveryOrderOptions = [
     "PROSES",
@@ -47,6 +48,8 @@ export class DataForm {
     "SUBCON",
     "TRANSFER SAMPLE",
   ]; //, 'SAMPLE'
+
+  unitDOFromOptions = ["CUTTING", "SEWING", "FINISHING"];
 
   //itemToException = ["SUBCON", "WASH", "EMBROIDERY", "PROCCES"];
 
@@ -213,6 +216,14 @@ export class DataForm {
       }
       //this.context.error.Items = [];
       this.context.error = [];
+    }
+  }
+
+  unitDOFromChanged(newValue) {
+    if (newValue) {
+      this.data.UnitDOFor = newValue;
+    } else {
+      this.data.UnitDOFor = null;
     }
   }
 
