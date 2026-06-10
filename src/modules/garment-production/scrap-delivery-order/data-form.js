@@ -57,6 +57,7 @@ export class DataForm {
     }
 
     itemsColumns = [""];
+    tujuanItems = ["", "RETUR", "JUAL"];
     controlOptions = {
         label: {
             length: 2
