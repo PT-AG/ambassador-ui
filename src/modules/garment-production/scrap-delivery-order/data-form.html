@@ -23,6 +23,11 @@
             text.bind="destinationView" placeholder="Asal Barang">
         </au-autocomplete>
 
+        <au-dropdown label="Tujuan" value.bind="data.TransactionType" error.bind="error.TransactionType"
+            read-only.bind="readOnly || isEdit" items.bind="tujuanItems" options.bind="controlOptions"
+            placeholder="Pilih Tujuan">
+        </au-dropdown>
+
         <div class="form-group has-error">
             <p if.bind="error.ItemsCount" class="help-block text-center">${error.ItemsCount}</p>
         </div>
