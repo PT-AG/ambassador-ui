@@ -24,52 +24,50 @@ export class List {
         }
     };
 
-    get buyerLoader(){
+    get buyerLoader() {
         return BuyerLoader;
     }
 
     @bindable UnitItem;
     @bindable KtgrItem;
-    
-    KategoriItems= ['','BAHAN BAKU','BAHAN EMBALANCE','BAHAN PENDUKUNG']
+
+    KategoriItems = ['', 'BAHAN BAKU', 'BAHAN EMBALANCE', 'BAHAN PENDUKUNG']
     // UnitItems = ['','AMBASSADOR GARMINDO 1','AMBASSADOR GARMINDO 2']
-    UnitItems = ['','AMBASSADOR GARMINDO'];
+    UnitItems = ['', 'AMBASSADOR GARMINDO'];
 
     search() {
         this.info.page = 1;
-        this.info.total=0;
-        this.searching();        
+        this.info.total = 0;
+        this.searching();
     }
 
     activate() {
-       
+
     }
 
-    tableData = []
+    tableData = [];
     searching() {
         var args = {
             page: this.info.page,
             size: this.info.size,
-            dateFrom : this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
-            dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : "",
-            unitcode : this.unit ? this.unit : "",
-            category : this.category ? this.category : "",
-            buyercode : this.buyer ? this.buyer.Code : "",
-            article : this.article ? this.article : ""
+            dateFrom: this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
+            dateTo: this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : "",
+            unitcode: this.unit ? this.unit : "",
+            category: this.category ? this.category : "",
+            buyercode: this.buyer ? this.buyer.Code : "",
+            article: this.article ? this.article : ""
             //suppliertype : this.Tipe
         };
 
         this.service.search(args)
-            .then(result=>{
-                this.data=[];
+            .then(result => {
+                this.data = [];
                 // this.AmountTotal1 = 0;
                 // this.AmountTotal2 = 0;
                 // this.AmountTotal3 = 0;
                 // this.AmountTotal4 = 0;
                 // this.AmountTotal5 = 0;
-                for(var _data of result.data){
-                    // console.log(_data)
-
+                for (var _data of result.data) {
                     // this.AmountTotal1 += _data.BeginningBalanceQty;
                     // this.AmountTotal2 += _data.ReceiptQty;
                     // this.AmountTotal3 += _data.ReceiptCorrectionQty;
@@ -107,31 +105,33 @@ export class List {
                 // this.AmountTotal3 = this.AmountTotal3.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
                 // this.AmountTotal4 = this.AmountTotal4.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
                 // this.AmountTotal5 = this.AmountTotal5.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-                this.info.total=result.info.total
+                this.info.total = result.info.total
             });
     }
 
     reset() {
-        this.dateFrom= "",
-        this.dateTo="",
-        this.KtgrItem="",
-        this.UnitItem="",
-        this.buyer=null,
-        this.article=""
+        this.dateFrom = "";
+        this.dateTo = "";
+        this.KtgrItem = "";
+        this.UnitItem = "";
+        this.buyer = null;
+        this.article = "";
+        this.info.page = 1;
+        this.info.total = 0;
     }
 
     ExportToExcel() {
-        let args = {            
-            dateFrom : this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
-            dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : "",
-            unitcode : this.unit ? this.unit : "",
-            unitname : this.unitname ? this.unitname : "",
-            category : this.category ? this.category : "",
-            categoryname : this.categoryname ? this.categoryname : "",
-            buyercode : this.buyer ? this.buyer.Code : "",
-            article : this.article ? this.article : ""
+        let args = {
+            dateFrom: this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
+            dateTo: this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : "",
+            unitcode: this.unit ? this.unit : "",
+            unitname: this.unitname ? this.unitname : "",
+            category: this.category ? this.category : "",
+            categoryname: this.categoryname ? this.categoryname : "",
+            buyercode: this.buyer ? this.buyer.Code : "",
+            article: this.article ? this.article : ""
         };
-        
+
         this.service.generateExcel(args);
     }
 
@@ -151,10 +151,10 @@ export class List {
             if (newvalue === "AMBASSADOR GARMINDO 1") {
                 this.unit = "AG1";
                 this.unitname = "AMBASSADOR GARMINDO 1";
-            } else if (newvalue === "AMBASSADOR GARMINDO 2") { 
+            } else if (newvalue === "AMBASSADOR GARMINDO 2") {
                 this.unit = "AG2";
                 this.unitname = "AMBASSADOR GARMINDO 2";
-            } else if(newvalue === "AMBASSADOR GARMINDO") {
+            } else if (newvalue === "AMBASSADOR GARMINDO") {
                 this.unit = "AG";
                 this.unitname = "AMBASSADOR GARMINDO";
             }
@@ -178,21 +178,21 @@ export class List {
         // }
     }
 
-    KtgrItemChanged(newvalue){
+    KtgrItemChanged(newvalue) {
         if (newvalue) {
             if (newvalue === "BAHAN BAKU") {
                 this.category = "BB";
                 this.categoryname = "BAHAN BAKU";
             }
-            else if (newvalue === "BAHAN PENDUKUNG") { 
-                this.category = "BP"; 
+            else if (newvalue === "BAHAN PENDUKUNG") {
+                this.category = "BP";
                 this.categoryname = "BAHAN PENDUKUNG";
             }
             else if (newvalue === "BAHAN EMBALANCE") {
-                this.category = "BE"; 
+                this.category = "BE";
                 this.categoryname = "BAHAN EMBALANCE";
             }
-            else{
+            else {
                 this.category = "";
                 this.categoryname = "";
             }
@@ -206,5 +206,5 @@ export class List {
         var page = e.detail;
         this.info.page = page;
         this.searching();
-    }   
+    }
 }
