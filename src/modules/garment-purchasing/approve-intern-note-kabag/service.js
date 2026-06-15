@@ -58,6 +58,12 @@ export class Service extends RestService {
         var endpoint = `${serviceUri}/approve-kabag/${id}`;
         return super.post(endpoint, null);
     }
+
+    Rejected(id, reason) {
+        let endpoint = `${serviceUri}/rejected/${id}`;
+        let body = { Reason: reason };
+        return super.put(endpoint, body);
+    }
 }
 
 const servicePurchSectionUri = 'master/purchasing-sections';

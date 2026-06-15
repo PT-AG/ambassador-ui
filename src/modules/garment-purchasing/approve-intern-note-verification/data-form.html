@@ -1,7 +1,7 @@
 <template>
     <au-input-form title.bind="title" with.bind="context">
         <div slot="actions" class="btn-group">
-            <button class="btn btn-default" click.delegate="context.cancel($event)" if.one-way="context.hasCancel">Kembali</button>
+            <button class="btn btn-default" click.delegate="context.cancelling($event)" if.one-way="context.hasCancel">Kembali</button>
             <button class="btn btn-primary" click.delegate="context.approve($event)" if.one-way="context.hasApprove">Approve</button>
             <button class="btn btn-danger" click.delegate="context.reject($event)" if.one-way="context.hasReject">Reject</button>
         </div>
@@ -32,8 +32,84 @@
                     error.bind="error.CreatedBy" 
                     read-only.bind="true"
                     if.bind="(readOnly || isEdit)"
-                    options.bind="controlOptions">
+                    options.bind="auInputOptions">
         </au-textbox>
+
+        <div class="row">
+      <div class="col-md-6">
+        <h4>File Dokumen</h4>
+        <table class="table table-hover table-bordered">
+          <thead>
+            <th class="col-md-11">File</th>
+            <th if.bind="!readOnly" class="col-md-1">
+              <button click.delegate="onAddDocument()" class="btn btn-success pull-right">+</button>
+            </th>
+          </thead>
+          <tbody>
+            <tr if.bind="!data.DocumentsFileName || data.DocumentsFileName.length < 1">
+              <td colspan="2">
+                Tidak ada file
+              </td>
+            </tr>
+            <tr if.bind="data.DocumentsFileName" repeat.for="doc of data.DocumentsFileName">
+              <td if.bind="readOnly">
+                <button class="btn btn-primary justify-content-center"
+                  click.delegate="downloadDocument($index)">${doc}</button>
+                  <button type="button" class="btn btn-info ml-2"
+                click.delegate="previewDocument($index)">Preview</button>
+              </td>
+              <td if.bind="!readOnly">
+                <input if.bind="!documentsPathTemp[$index]" type="file" id="documentInput${$index}"
+                  value.bind="documentUpload" change.delegate="documentInputChanged($index)"
+                  accept=".pdf, .xls, .xlsx, .doc, .docx">
+                <button if.bind="documentsPathTemp[$index]" class="btn btn-primary justify-content-center"
+                  click.delegate="downloadDocument($index)">${doc}</button>
+                <span class="text-danger" if.bind="error.DocumentsFile[$index]">${error.DocumentsFile[$index]}</span>
+              </td>
+              <td if.bind="!readOnly">
+                <button class="btn btn-danger pull-right" click.delegate="onRemoveDocument($index)">-</button>
+                
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PDF Preview Modal -->
+      <div class="modal fade" id="pdfPreviewModal" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+          
+            <div class="resize-handle resize-n" data-direction="n"></div>
+            <div class="resize-handle resize-s" data-direction="s"></div>
+            <div class="resize-handle resize-e" data-direction="e"></div>
+            <div class="resize-handle resize-w" data-direction="w"></div>
+            <div class="resize-handle resize-ne" data-direction="ne"></div>
+            <div class="resize-handle resize-nw" data-direction="nw"></div>
+            <div class="resize-handle resize-se" data-direction="se"></div>
+            <div class="resize-handle resize-sw" data-direction="sw"></div>
+            
+            <div class="modal-header">
+              <h5 class="modal-title" id="previewModalLabel">Preview</h5>
+              <span class="preview-size-indicator">
+                Lebar: ${previewWidth}% | Tinggi: ${previewHeight}px
+              </span>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <embed id="pdfEmbed" width="100%" type="application/pdf" style="display: none;" css="height: ${previewHeight}px">
+              <div id="excelTable" style="display: none; overflow-y: auto;" css="max-height: ${previewHeight}px"></div>
+              <img id="imagePreview" style="display: none; max-width: 100%;" css="max-height: ${previewHeight}px">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
         <au-textbox
             show.bind="error.itemscount"
