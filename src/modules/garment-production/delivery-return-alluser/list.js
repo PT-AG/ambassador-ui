@@ -38,6 +38,13 @@ export class List {
 
     filter={};
 
+    tableOptions = {
+        pagination: true,
+        search: true,
+        showToggle: true,
+        showColumns: true
+    };
+
     loader = (info) => {
         var order = {};
         if (info.sort)
@@ -53,9 +60,10 @@ export class List {
 
         return this.service.search(arg)
             .then(result => {
+                console.log("API RESULT:", result);
                 this.totalQuantity=result.info.totalQty;
                 return {
-                    total: result.info.count,
+                    total: result.info.total || result.info.count || result.info.totalCount || result.total || 0,
                     data: result.data
                 }
             });
