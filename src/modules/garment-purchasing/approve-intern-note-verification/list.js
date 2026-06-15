@@ -41,8 +41,7 @@ export class List {
             order[info.sort] = info.order;
         this.filterSection={};
 
-        this.filterSection["IsApprovedKasie==true"]=true;
-        this.filterSection["IsApprovedKabag==true"]=true;
+        this.filterSection["verification"]=true;
         this.filterSection["IsApprovedVerification==false"]=true;
         this.filterSection["IsPosted==true"]=true;
         this.filterSection["Position==3"]=true;
