@@ -7,7 +7,7 @@ import { AuthService } from "aurelia-authentication";
 import moment from 'moment';
 @inject(Router, Service, AuthService)
 export class List {
-    context = ["Rincian", "Cetak PDF"];
+    context = ["Rincian", "Cetak PDF", "Cetak PDF dengan RO"];
     columns = [
         { field: "SalesContractNo", title: "No Sales Contract" },
         { field: "CreatedUtc", title: "Tanggal", formatter: function (value, data, index) {
@@ -87,10 +87,14 @@ export class List {
                 this.router.navigateToRoute('view', { id: data.Id });
                 break;
             case "Cetak PDF":
-                this.service.getPdfById(data.Id);
+                this.service.getPdfById(data.Id, false);
+                break;
+            case "Cetak PDF dengan RO":
+                this.service.getPdfById(data.Id, true);
                 break;
         }
     }
+    
     // contextShowCallback(index, name, data) {
     //     switch (name) {
     //         case "Cetak PDF":
