@@ -29,6 +29,14 @@ export class List {
     { field: "UnitDO", title: "Pending" }
   ];
 
+  category = [
+    { key: null, value: '' },
+    { key: "BB", value: 'BAHAN BAKU' },
+    { key: "BE", value: 'BAHAN EMBALANCE' },
+    { key: "BP", value: 'BAHAN PENDUKUNG' }
+  ];
+  //KategoriItems= ['','BAHAN BAKU','BAHAN EMBALANCE','BAHAN PENDUKUNG']
+
   @bindable UnitItem;
   //UnitItems = ['', 'AMBASSADOR GARMINDO 1', 'AMBASSADOR GARMINDO 2']
   UnitItems = ['','AMBASSADOR GARMINDO'];
@@ -50,8 +58,8 @@ export class List {
       po: this.po ? this.po : "",
       unitcode: this.unit ? this.unit : "",
       productcode: this.code ? this.code : "",
+      ctg:this.categoryKey?this.categoryKey.key:null
     };
-
     return this.flag ? this.service.search(params)
       .then((result) => {
         for (var _data of result.data) {
@@ -127,6 +135,7 @@ export class List {
       po: this.po ? this.po : "",
       unitcode: this.unit ? this.unit : "",
       productcode: this.code ? this.code : "",
+      ctg: this.category?this.category.key:null
     };
 
     this.service.generateExcel(args);
@@ -137,6 +146,7 @@ export class List {
     this.unit = null;
     this.productcode = null;
     this.data = [];
+    this.categoryKey=null;
     this.flag = false;
     this.tableList.refresh();
   }
