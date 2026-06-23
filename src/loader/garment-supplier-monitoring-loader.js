@@ -1,14 +1,14 @@
 import { Container } from 'aurelia-dependency-injection';
 import { Config } from "aurelia-api";
 
-const resource = 'master/suppliers';
+const resource = 'master/garment-suppliers';
 
-module.exports = function (keyword, filter, select) {
+module.exports = function (keyword, filter) {
 
     var config = Container.instance.get(Config);
     var endpoint = config.getEndpoint("core");
 
-    return endpoint.find(resource, { keyword: keyword, filter: JSON.stringify(Object.assign({}, filter, { Active: true })), select: select, size: 10 })
+    return endpoint.find(resource, { keyword: keyword, filter: JSON.stringify(filter), size: 10 })
         .then(results => {
             return results.data.map(supplier => {
                 supplier.toString = function () {
@@ -17,6 +17,7 @@ module.exports = function (keyword, filter, select) {
                             return item && item.toString().trim().length > 0;
                         }).join(" - ");
                 }
+                supplier.rate = supplier.rate? supplier.rate:0;
                 return supplier;
             })
         });
