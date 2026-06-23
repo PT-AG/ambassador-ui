@@ -4,6 +4,8 @@
     <div class="form-group">
       <div class="col-sm-3"></div>
       <div class="col-sm-6">
+        <au-dropdown label="Kategori" value.bind="categoryKey" items.bind="category" text="value" options.bind="controlOptions">
+        </au-dropdown>
         <au-textbox value.bind="code" label="Kode Barang" placeholder="Masukan Kode Barang">
         </au-textbox>
 

@@ -28,7 +28,7 @@ class Service extends RestService {
     }
 
     generateExcel(args) {
-        var endpoint = `${serviceUri}/by-po/download?productcode=${args.productcode}&po=${args.po}&unitcode=${args.unitcode}`;
+        var endpoint = `${serviceUri}/by-po/download?productcode=${args.productcode}&po=${args.po}&unitcode=${args.unitcode}&ctg=${args.ctg}`;
         return super.getXls(endpoint);
     }
 
