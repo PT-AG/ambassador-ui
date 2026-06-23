@@ -1,17 +1,16 @@
 <template>
     <au-input-form title.bind="title" with.bind="context">
         <div slot="actions" class="btn-group">
-            <button class="btn btn-default" click.delegate="context.cancel($event)" if.one-way="context.hasCancel">Kembali</button>
-            <!-- <button class="btn btn-primary" click.delegate="context.edit($event)" if.one-way="context.hasEdit">Ubah</button> -->
-            <button class="btn btn-success" click.delegate="context.save($event)" if.one-way="context.hasSave">Simpan</button>
-            <!-- <button class="btn btn-danger" click.delegate="context.delete($event)" if.one-way="context.hasDelete">Hapus</button> -->
+            <button class="btn btn-default" click.delegate="context.cancelling($event)" if.one-way="context.hasCancel">Kembali</button>
+            <button class="btn btn-primary" click.delegate="context.approve($event)" if.one-way="context.hasApprove">Approve</button>
+            <button class="btn btn-danger" click.delegate="context.reject($event)" if.one-way="context.hasReject">Reject</button>
         </div>
 
         <au-textbox label="No. Nota Intern" value.bind="data.inNo" error.bind="error.no" read-only.bind="true" if.bind="readOnly || isEdit"
             options.bind="auInputOptions">
         </au-textbox>
 
-        <au-datepicker label="Tgl. Nota Intern" value.bind="data.inDate" error.bind="error.inDate" read-only.bind="readOnly" 
+        <au-datepicker label="Tgl. Nota Intern" value.bind="data.inDate" error.bind="error.date" read-only.bind="true" if.bind="(readOnly || isEdit)"
             options.bind="auInputOptions">
         </au-datepicker>
 
@@ -27,20 +26,6 @@
             options.bind="auInputOptions">
         </au-multiline>
 
-        <div class="row" if.bind="data.lateReason">
-            <div class="col-md-6">
-                <div class="alert alert-warning" style="padding: 5px 10px; margin-bottom: 5px;">
-                    <i class="fa fa-exclamation-circle"></i> <strong>Keterlambatan</strong>
-                </div>
-                <au-multiline 
-                    label="Alasan Keterlambatan" 
-                    value.bind="data.lateReason" 
-                    read-only="true" 
-                    options.bind="auInputOptions">
-                </au-multiline>
-            </div>
-        </div>
-        
         <au-textbox 
                     label="Admin Pembelian" 
                     value.bind="data.CreatedBy" 
@@ -50,7 +35,7 @@
                     options.bind="auInputOptions">
         </au-textbox>
 
-    <div class="row">
+        <div class="row">
       <div class="col-md-6">
         <h4>File Dokumen</h4>
         <table class="table table-hover table-bordered">
@@ -134,8 +119,7 @@
 
         <au-collection items.bind="data.items" show.bind="data.supplier.Id" options.bind="options" columns.bind="invoiceNoteItem.columns"
             errors.bind="error.items" read-only.bind="readOnly" add.bind="invoiceNoteItem.onAdd" view-model.ref="ItemsCollection"
-            item-template="modules/garment-purchasing/intern-note/template/intern-note-item"
-            footer-template = "modules/garment-purchasing/intern-note/template/intern-note-item-footer">
+            item-template="modules/garment-purchasing/intern-note/template/intern-note-item">
         </au-collection>
     </au-input-form>
 </template>

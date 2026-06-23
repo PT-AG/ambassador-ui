@@ -36,7 +36,8 @@ export class Stelling {
     var id = params.id;
     this.Id = id;
     this.data = await this.service.getStelling(id);
-
+    this.uom=this.data[0].Uom;
+    console.log(this.uom)
     this.receipt = this.data.slice(0, 1);
 
   }

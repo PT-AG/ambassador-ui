@@ -1236,11 +1236,11 @@ module.exports = [
     },
   },
   {
-    route: "/garments/approve-intern-note-external-manager1",
-    name: "approve-intern-note-external-manager1",
+    route: "/garments/approve-intern-note-manager1",
+    name: "approve-intern-note-manager1",
     moduleId: "./modules/garment-purchasing/approve-intern-note-kasie/index",
     nav: true,
-    title: "Approve Nota Internal Manager 1",
+    title: "Approve Nota Internal - Manager 1",
     auth: true,
     settings: {
       group: "g-purchasing",
@@ -1250,11 +1250,25 @@ module.exports = [
     },
   },
   {
-    route: "/garments/approve-intern-note-external-manager2",
-    name: "approve-intern-note-external-manager2",
+    route: "/garments/approve-intern-note-manager2",
+    name: "approve-intern-note-manager2",
     moduleId: "./modules/garment-purchasing/approve-intern-note-kabag/index",
     nav: true,
-    title: "Approve Nota Internal Manager 2",
+    title: "Approve Nota Internal - Manager 2",
+    auth: true,
+    settings: {
+      group: "g-purchasing",
+      subGroup: "approval",
+      permission: { H63: 1 },
+      iconClass: "fa fa-dashboard",
+    },
+  },
+  {
+    route: "/garments/approve-intern-note-verification",
+    name: "approve-intern-note-verification",
+    moduleId: "./modules/garment-purchasing/approve-intern-note-verification/index",
+    nav: true,
+    title: "Approve Nota Internal - Verifikasi",
     auth: true,
     settings: {
       group: "g-purchasing",

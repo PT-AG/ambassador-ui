@@ -55,7 +55,7 @@ export class Service extends RestService {
     }
 
     approve(id) {
-        var endpoint = `${serviceUri}/approve-kasie/${id}`;
+        var endpoint = `${serviceUri}/approve/${id}`;
         return super.post(endpoint, null);
     }
 
@@ -65,6 +65,7 @@ export class Service extends RestService {
         return super.put(endpoint, body);
     }
 }
+
 const servicePurchSectionUri = 'master/purchasing-sections';
 export class ServiceCore extends RestService {
     constructor(http, aggregator, config, endpoint) {
