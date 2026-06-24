@@ -51,12 +51,19 @@ export class List {
         var order = {};
         if (info.sort)
             order[info.sort] = info.order;
+
+        var filterSection={
+            "unlock": true,
+            "isApprovedKasie": false
+        };
+
         var arg = {
             page: parseInt(info.offset / info.limit, 10) + 1,
             size: info.limit,
             keyword: info.search,
             select: ["date", "no", "supplier.name", "division.name", "items.unitReceiptNote.no", "items.unitReceiptNote.deliveryOrder.no", "isPosted", "items.unitReceiptNote.items.PriceTotal"],
-            order: order
+            order: order,
+            filter: JSON.stringify(filterSection),
         }
 
         return this.service.search(arg)

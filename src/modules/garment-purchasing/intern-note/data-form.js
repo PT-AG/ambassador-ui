@@ -146,7 +146,8 @@ export class DataForm {
         var name=supplier.name? supplier.name : supplier.Name;
         return `${code} - ${name}`
     }
-
+    
+// Document handling
     onAddDocument() {
         this.data.DocumentsFile.push("");
         this.data.DocumentsFileName.push("");
