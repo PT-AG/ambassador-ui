@@ -30,7 +30,7 @@ export class List {
         }
     }    
 
-    unit = null;
+    unit = { Code: "AG", Name: "AMBASSADOR GARMINDO" };
     dateFrom = null;
     dateTo = null;
     invoices = [];
@@ -164,7 +164,7 @@ export class List {
     reset() {
         this.dateFrom = null;
         this.dateTo = null;
-        this.unit = null;
+        this.unit = { Code: "AG", Name: "AMBASSADOR GARMINDO" };
         this.QtyTotal = null;     
         this.QtyTotal1 = null;     
         this.AmountTtlUSD = null;

@@ -12,6 +12,8 @@ export class List {
     reprosesOption = ['', 'Bahan Baku', 'Bahan Embalase', 'Bahan Pendukung', 'Subkon'];
     //unitOption = ['', 'AMBASSADOR GARMINDO 1', 'AMBASSADOR GARMINDO 2'];
     unitOption = ['', 'AMBASSADOR GARMINDO'];
+    unit = "AG";
+    unitname = "AMBASSADOR GARMINDO";
 
     constructor(router, service) {
         this.service = service;
@@ -195,7 +197,8 @@ export class List {
     }
 
     reset() {
-        this.unit = "";
+        this.unit = "AG";
+        this.unitname = "AMBASSADOR GARMINDO";
         this.dateFrom = "";
         this.dateTo = "";
         this.category = "";

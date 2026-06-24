@@ -34,6 +34,8 @@ export class List {
     KategoriItems = ['', 'BAHAN BAKU', 'BAHAN EMBALANCE', 'BAHAN PENDUKUNG']
     // UnitItems = ['','AMBASSADOR GARMINDO 1','AMBASSADOR GARMINDO 2']
     UnitItems = ['', 'AMBASSADOR GARMINDO'];
+    unit = "AG";
+    unitname = "AMBASSADOR GARMINDO";
 
     search() {
         this.info.page = 1;
