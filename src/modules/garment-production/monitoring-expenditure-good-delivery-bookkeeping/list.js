@@ -95,6 +95,7 @@ export class List {
     }
   }
     
+    reset() {
         this.dateFrom = null;
         this.dateTo = null;
         this.unit = 0;
