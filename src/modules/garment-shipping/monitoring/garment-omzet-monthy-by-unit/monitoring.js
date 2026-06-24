@@ -32,7 +32,7 @@ export class List {
         }
     }    
 
-    unit = null;
+    unit = { Code: "AG", Name: "AMBASSADOR GARMINDO" };
     dateFrom = null;
     dateTo = null;
     tableData = [];
@@ -108,7 +108,7 @@ export class List {
     reset() {
         this.dateFrom = null;
         this.dateTo = null;
-        this.unit = null;
+        this.unit = { Code: "AG", Name: "AMBASSADOR GARMINDO" };
         this.tableData = [];
     }
 

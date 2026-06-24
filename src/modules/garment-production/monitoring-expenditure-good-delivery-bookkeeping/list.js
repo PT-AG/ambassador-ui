@@ -18,6 +18,8 @@ export class List {
     @bindable UnitItem;
 
     UnitItems = ['','AMBASSADOR GARMINDO'];
+    unit = 0;
+    unitname = "KONFEKSI AG";
     isExports=['','EXPORT','LOKAL'];
 
     UnitItemChanged(newvalue){
@@ -96,7 +98,7 @@ export class List {
     reset() {
         this.dateFrom = null;
         this.dateTo = null;
-        this.unit = null;
+        this.unit = 0;
     }
     get sumQty()
     {
