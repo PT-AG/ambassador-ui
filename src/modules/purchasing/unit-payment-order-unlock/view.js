@@ -5,11 +5,7 @@ import { Service, AzureService } from './service';
 
 @inject(Router, Service, AzureService)
 export class View {
-    hasCancel = true;
-    hasEdit = true;
-    hasDelete = true;
-    hasCreate = false;
-    isUnlock = false;
+    hasCancel = true;isUnlock = true;
 
     constructor(router, service, azureService) {
         this.router = router;
@@ -50,45 +46,6 @@ export class View {
                 }
             }
         }
-
-        this.hasEdit = true;
-        this.hasDelete = true;
-
-        const today = new Date();
-        const firstDayOfCurrentMonth = new Date(
-            today.getFullYear(),
-            today.getMonth(),
-            1
-        );
-        const date = new Date(this.data.date);
-        if(this.data.Unlocked && (date < firstDayOfCurrentMonth)){
-            this.hasDelete = true;
-            this.hasEdit = true;
-        }
-        else{
-            this.hasDelete = false;
-            this.hasEdit = false;
-        }
-
-        if (this.data.isPosted) {
-            if (totalAmount <= 3000000) {
-                if (this.data.IsApprovedKasie) {
-                    this.hasEdit = false;
-                    this.hasDelete = false;
-                }
-            } else {
-                if (this.data.IsApprovedKasie || this.data.IsApprovedKabag) {
-                    this.hasEdit = false;
-                    this.hasDelete = false;
-                }
-            }
-        }
-        
-        if (this.data.IsCorrection) {
-            this.hasEdit = false;
-            this.hasDelete = false;
-        }
-
     }
 
     cancel(event) {
@@ -104,5 +61,11 @@ export class View {
             .then(result => {
                 this.cancel();
             });
+    }
+
+    unlock(event) {
+        this.service.unlock(this.data.Id).then(result => {
+            this.cancel();
+        });
     }
 }

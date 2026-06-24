@@ -14,6 +14,9 @@
             read-only.bind="readOnly" query.bind="scrapDOFilter" options.bind="controlOptions"
             loader.bind="scrapDoLoader" text.bind="scrapDoView" placeholder="nomor DO Aval">
         </au-autocomplete>
+        <au-textbox label="Tujuan" value.bind="selectedScrapDo.TransactionType"
+            read-only.bind="true" options.bind="controlOptions">
+        </au-textbox>
         <au-datepicker label="Tgl. Keluar" value.bind="data.TransactionDate" error.bind="error.TransactionDate"
             read-only.bind="readOnly" options.bind="controlOptions">
         </au-datepicker>

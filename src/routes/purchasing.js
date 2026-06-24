@@ -342,6 +342,20 @@ module.exports = [
         }
     },
     {
+        route: 'unit-payment-order/unlock',
+        name: 'unit-payment-order-unlock',
+        moduleId: './modules/purchasing/unit-payment-order-unlock/index',
+        nav: true,
+        title: 'Buka Kunci Surat Perintah Bayar',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "transaksi",
+            permission: { "E8": 1},
+            iconClass: 'fa fa-dashboard'
+        }
+    },
+    {
         route: 'po/monitoring/spb',
         name: 'surat-perintah-bayar-monitoring',
         moduleId: './modules/purchasing/monitoring-surat-perintah-bayar-new/index',

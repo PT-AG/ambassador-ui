@@ -140,7 +140,7 @@ export class InternNoteItem {
 	  }
 
 	removeItems = function () {
-	this.bind();
+		this.bind();
 	}
 
 	controlOptions = {
