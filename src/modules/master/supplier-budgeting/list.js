@@ -4,8 +4,14 @@ import { Router } from 'aurelia-router';
 
 @inject(Router, Service)
 export class List {
-  context = ["detail"];
+  context = ["detail","nonaktif"];
   columns = [
+    {
+      field: "Activated", title: "Activate", checkbox: true, sortable: false,
+      formatter: function (value, data, index) {
+        this.checkboxEnabled = !data._active;
+        return "" }
+    },
     { field: "code", title: "Kode" },
     { field: "name", title: "Nama" },
     { field: "address", title: "Alamat" },
@@ -17,6 +23,14 @@ export class List {
       }
     }
   ];
+  dataToBePosted = [];
+  rowFormatter(data, index) {
+
+    if (data._active)
+      return { classes: "success" }
+    else
+      return {}
+  }
 
   loader = (info) => {
     var order = {};
@@ -52,8 +66,49 @@ export class List {
       case "detail":
         this.router.navigateToRoute('view', { id: data._id });
         break;
+      case "nonaktif":
+        this.service.nonActived(data._id).then(result => {
+          this.table.refresh();
+        }).catch(e => {
+          this.error = e;
+        });
+        break;
     }
   }
+  contextShowCallback(index, name, data) {
+      switch (name) {
+          case "nonaktif":
+              return data._active;
+          default:
+              return true;
+      }
+    }
+
+    posting() {
+      if (this.dataToBePosted.length > 0) {
+        this.service.post(this.dataToBePosted)
+          .then(result => {
+            if (result && result.error) {
+              alert(result.error);
+              return;
+            }
+            this.table.refresh();
+          })
+          .catch(e => {
+            var message = "Terjadi error";
+            if (e) {
+              if (e.error) {
+                message = e.error;
+              } else if (e.message) {
+                message = e.message;
+              }
+            }
+            alert(message);
+          });
+      } else {
+        alert("Tidak ada data dipilih");
+      }
+    }
 
   create() {
     this.router.navigateToRoute('create');
