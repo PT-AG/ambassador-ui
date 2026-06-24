@@ -97,7 +97,7 @@ export class CostCalculationMaterial {
             }
         }
     }
-
+    materialForList = ["CUTTING", "SEWING", "FINISHING"];
     bind() {
 
     }
