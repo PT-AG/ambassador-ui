@@ -10,13 +10,14 @@ export class View {
         this.router = router;
         this.service = service;
         this.hasCancel = true;
-        this.hasDelete = true;
-        this.isUnlock = false;
+        this.hasDelete = false;
+        this.isUnlock = true;
     }
 
     async activate(params) {
         var id = params.id;
-        this.hasDelete = true;
+        this.hasDelete = false;
+        this.isUnlock = true;
         this.data = await this.service.getById(id);
         this.currency = this.data.currency;
         this.supplier = this.data.supplier;
@@ -27,19 +28,6 @@ export class View {
         }
         if(this.data.IsApprovedKasie){
             this.hasDelete = false;
-        }
-
-        const today = new Date();
-        const firstDayOfCurrentMonth = new Date(
-            today.getFullYear(),
-            today.getMonth(),
-            1
-        );
-        const inDate = new Date(this.data.inDate);
-        this.hasDelete = !(inDate < firstDayOfCurrentMonth);
-
-        if(this.data.Unlocked){
-            this.hasDelete = true;
         }
     }
 
@@ -53,6 +41,11 @@ export class View {
 
     delete(event) {
         this.service.delete(this.data).then(result => {
+            this.cancel();
+        });
+    }
+    unlock(event) {
+        this.service.unlock(this.data.Id).then(result => {
             this.cancel();
         });
     }
