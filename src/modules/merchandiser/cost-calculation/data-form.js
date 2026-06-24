@@ -90,6 +90,7 @@ export class DataForm {
       { header: "Ongkir (%)", value: "ShippingFeePortion" },
       { header: "Jumlah Ongkir", value: "TotalShippingFee" },
       { header: "Kuantitas Budget", value: "BudgetQuantity" },
+      { header: "Tujuan", value: "MaterialFor" },
     ],
     onAdd: function () {
       this.data.CostCalculationGarment_Materials.push({

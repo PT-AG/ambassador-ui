@@ -245,6 +245,13 @@
                 <span class="tooltiptext">Kuantitas Budget</span>
             </div>
         </td>
+        <td>
+            <div style="width: 100px;" class="tooltip-material-field">
+                <au-dropdown value.bind="data.MaterialFor" error.bind="error.MaterialFor" read-only.bind="readOnly"
+                    items.bind="materialForList"></au-dropdown>
+                <span class="tooltiptext">Kuantitas Budget</span>
+            </div>
+        </td>
         <td if.bind="!readOnly">
             <button class="btn btn-danger pull-right" click.delegate="onremove(data, $event)">-</button>
         </td>
