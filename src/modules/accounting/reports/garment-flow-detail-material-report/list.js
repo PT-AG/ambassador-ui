@@ -13,6 +13,8 @@ export class List {
     KategoriItem = ['','BAHAN BAKU','BAHAN PENDUKUNG', 'BAHAN EMBALACE'];
     //unitOption =  ['','AMBASSADOR GARMINDO 1','AMBASSADOR GARMINDO 2'];
     unitOption =  ['','AMBASSADOR GARMINDO'];
+    unit = "AG";
+    unitname = "AMBASSADOR GARMINDO";
 
     KtgrItemChanged(newvalue){
         if (newvalue) {
