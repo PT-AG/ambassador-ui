@@ -11,6 +11,13 @@ export class List {
     columns = [
         { field: "ReceiptNoteNo", title: "No Bon Penerimaan" },
         { field: "UnitFromName", title: "Unit Asal" },
+        { field: "ReceiptType", title: "Jenis Penerimaan" },
+        // { 
+        //     field: "DRNo", title: "No Bon Retur Proses", formatter: function (value, data, index) {
+        //         return value ? value : "-"
+        //     }
+        // },
+        { field: "DRNo", title: "No Bon Retur Proses" },
         { field: "UENNo", title: "No Bon Pengeluaran Unit" },
         { field: "StorageFromName", title: "Gudang Asal" },
         {
