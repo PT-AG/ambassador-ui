@@ -1382,6 +1382,20 @@ module.exports = [
             type: "director"
         }
     },
+    {
+        route: '/garment/receipt-before-note-monitoring',
+        name: 'receipt-before-note-monitoring',
+        moduleId: './modules/garment-purchasing/reports/receipt-before-note-monitoring/index',
+        nav: true,
+        title: 'Monitoring Bon Belum Buat NI',
+        auth: true,
+        settings: {
+            group: "g-purchasing",
+            subGroup: "monitoring",
+            permission: { "H59" :1 },
+            iconClass: 'fa fa-dashboard'
+        }
+    },
   // {
   //   route: "/garment/po-external/over-budget/approval/kasie",
   //   name: "approve-po-external-over-budget-kasie",
