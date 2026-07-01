@@ -10,10 +10,29 @@
             read-only.bind="readOnly || isEdit" options.bind="controlOptions">
         </au-autocomplete>
 
+        <au-dropdown label="Jenis Penerimaan" value.bind="data.ReceiptType" error.bind="error.ReceiptType"
+            items.bind="ReceiptOptions" read-only.bind="readOnly || isEdit" options.bind="controlOptions">
+        </au-dropdown>
+
         <au-autocomplete label="No Bon Pengeluaran Unit" placeholder="Pilih No Bon Pengeluaran Unit"
             value.bind="selectedUnitExpenditureNote" error.bind="error.UENNo" loader.bind="unitExpenditureNoteLoader"
             text="UENNo" read-only.bind="readOnly || isEdit" query.bind="unitExpenditureNoteFilter"
-            options.bind="controlOptions" view-model.ref="UnitExpenditureNoteViewModel">
+            if.bind="data.ReceiptType == 'GUDANG'" options.bind="controlOptions"
+            view-model.ref="UnitExpenditureNoteViewModel">
+        </au-autocomplete>
+
+        <au-autocomplete label="No Bon Retur Proses" placeholder="Pilih No Bon Retur Proses"
+            value.bind="selectedUnitDeliveryReturn" error.bind="error.DRNo" loader.bind="unitDeliveryReturnLoader"
+            text="DRNo" read-only.bind="readOnly || isEdit" query.bind="unitDeliveryReturnFilter"
+            if.bind="data.ReceiptType == 'SISA PRODUKSI' && selectedUnitFrom && selectedUnitFrom.Code != 'SMP1'" options.bind="controlOptions"
+            >
+        </au-autocomplete>
+
+        <au-autocomplete label="No Bon Retur Proses" placeholder="Pilih No Bon Retur Proses"
+            value.bind="selectedUnitDeliveryReturn" error.bind="error.DRNo" loader.bind="sampleDeliveryReturnLoader"
+            text="DRNo" read-only.bind="readOnly || isEdit" query.bind="unitDeliveryReturnFilter"
+            if.bind="data.ReceiptType == 'SISA PRODUKSI' && selectedUnitFrom && selectedUnitFrom.Code == 'SMP1'" options.bind="controlOptions"
+            >
         </au-autocomplete>
 
         <au-textbox label="Gudang Asal" value.bind="data.StorageFromName" error.bind="error.StorageFromName"
@@ -24,7 +43,7 @@
         </au-textbox>
 
         <au-datepicker label="Tgl Pengeluaran Unit" value.bind="data.ExpenditureDate" error.bind="error.ExpenditureDate"
-            read-only="true" options.bind="controlOptions">
+            if.bind="data.ReceiptType == 'GUDANG'" read-only="true" options.bind="controlOptions">
         </au-datepicker>
 
         <au-datepicker label="Tgl Penerimaan Gudang" value.bind="data.ReceiptDate" error.bind="error.ReceiptDate"
@@ -38,6 +57,5 @@
         <au-collection columns.bind="itemsColumns" items.bind="data.Items" errors.bind="error.Items"
             read-only.bind="true">
         </au-collection>
-
     </au-input-form>
 </template>

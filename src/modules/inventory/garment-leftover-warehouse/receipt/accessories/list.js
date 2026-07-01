@@ -11,6 +11,8 @@ export class List {
     columns = [
         { field: "InvoiceNoReceive", title: "No Bon Penerimaan" },
         { field: "RequestUnitName", title: "Unit Asal" },
+        { field: "ReceiptType", title: "Jenis Penerimaan" },
+        { field: "DRNo", title: "No Bon Retur Proses" },
         { field: "UENNo", title: "No Bon Pengeluaran Unit" },
         { field: "StorageFromName", title: "Gudang Asal" },
         {
