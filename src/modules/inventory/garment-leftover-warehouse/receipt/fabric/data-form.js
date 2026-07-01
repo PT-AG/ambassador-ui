@@ -105,14 +105,6 @@ export class DataForm {
             }
 
             if (this.data && this.data.DRId) {
-                this.garmentPurchasingService.getUnitExpenditureNoteById(this.data.UENId)
-                    .then(dataUnitExpenditureNote => {
-                        this.garmentPurchasingService.getUnitDeliveryOrderById(dataUnitExpenditureNote.UnitDOId)
-                            .then(dataUnitDeliveryOrder => {
-                                this.data.ROJob = dataUnitDeliveryOrder.RONo;
-                            });
-                    });
-
                 this.selectedUnitDeliveryReturn = {
                     Id : this.data.DRId,
                     DRNo : this.data.DRNo
@@ -137,6 +129,7 @@ export class DataForm {
         this.data.UnitFrom = newValue;
 
         this.selectedUnitExpenditureNote = null;
+        this.selectedUnitDeliveryReturn = null;
     }
 
     selectedUnitExpenditureNoteChanged(newValue) {
