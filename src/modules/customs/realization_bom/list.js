@@ -25,9 +25,7 @@ export class List {
 
     @bindable UnitItem;
     //UnitItems = ['','KONFEKSI AG1','KONFEKSI AG2']
-    UnitItems = ['', 'KONFEKSI AG'];
-    unit = "KONFEKSI AG";
-    unitname = "AG";
+    UnitItems = ['', 'KONFEKSI AG']
 
     search() {
         this.info.page = 1;

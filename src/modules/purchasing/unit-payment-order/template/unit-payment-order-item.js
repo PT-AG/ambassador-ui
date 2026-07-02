@@ -27,7 +27,6 @@ export class UnitPaymentOrderItem {
       }
     }
     this.filter = {
-            DivisionId: this.filterUPO.DivisionId,
             SupplierId: this.filterUPO.SupplierId ,
             CategoryId: this.filterUPO.CategoryId,
             PaymentMethod: this.filterUPO.PaymentMethod,
