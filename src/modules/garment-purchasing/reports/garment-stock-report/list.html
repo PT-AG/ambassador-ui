@@ -4,8 +4,8 @@
     <h1 if.bind="KtgrItem == 'BAHAN EMBALANCE'" class="page-header">LAPORAN STOCK BAHAN EMBALANCE</h1>
     <h1 if.bind="KtgrItem == 'BAHAN PENDUKUNG'" class="page-header">LAPORAN STOCK BAHAN PENDUKUNG</h1>
     <form class="form-horizontal">
-        <!-- <au-dropdown label="Unit" value.bind="UnitItem" items.bind="UnitItems" options.bind="controlOptions">
-        </au-dropdown> -->
+        <au-dropdown label="Unit" value.bind="UnitItem" items.bind="UnitItems" options.bind="controlOptions">
+        </au-dropdown>
         <au-dropdown label="Kategori" value.bind="KtgrItem" items.bind="KategoriItems" options.bind="controlOptions">
         </au-dropdown>
         <au-datepicker label="Tanggal Awal" value.bind="dateFrom" options.bind="controlOptions"></au-datepicker>
