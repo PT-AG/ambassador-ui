@@ -41,17 +41,6 @@
             options.bind="controlOptions">
         </au-autocomplete> -->
 
-    <au-autocomplete value.bind="selectedUnit"
-                     error.bind="error.unit"
-                     label="Unit"
-                     loader.bind="unitLoader"
-                     text.bind="unitView"
-                     placeholder="cari unit"
-                     key="code"
-                     read-only.bind="(readOnly || isEdit)"
-                     options.bind="controlOptions">
-    </au-autocomplete>
-
     <au-datepicker label="Tgl. Order"
                    value.bind="data.orderDate"
                    error.bind="error.orderDate"
@@ -211,7 +200,7 @@
                    options.bind="options"
                    read-only.bind="readOnly"
                    item-template="modules/purchasing/purchase-order-external/template/purchase-order-external-item"
-                   if.bind="selectedUnit">
+                    if.bind="true">
     </au-collection>
   </au-input-form>
 </template>

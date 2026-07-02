@@ -3,7 +3,6 @@ import { Service } from "./service";
 var SupplierLoader = require('../../../loader/supplier-loader');
 var CurrencyLoader = require('../../../loader/currency-in-garment-currency-loader');
 var IncomeTaxLoader = require('../../../loader/income-tax-loader');
-var DivisionLoader = require('../../../loader/division-loader');
 var CategoryLoader = require('../../../loader/category-loader');
 var VatTaxLoader = require('../../../loader/vat-tax-loader');
 
@@ -18,7 +17,6 @@ export class DataForm {
     @bindable selectedCurrency;
     @bindable selectedIncomeTax;
     @bindable selectedVatTax;
-    @bindable selectedDivision;
     @bindable selectedCategory;
     @bindable isImport = false;
 
@@ -67,10 +65,9 @@ export class DataForm {
         return (this.data._id || '').toString() != '';
     }
 
-    @computedFrom("data.division", "data.supplier", "data.category", "data.paymentMethod", "data.currency", "data.useIncomeTax", "data.incomeTax", "data.useVat", "data.incomeTaxBy")
+    @computedFrom("data.supplier", "data.category", "data.paymentMethod", "data.currency", "data.useIncomeTax", "data.incomeTax", "data.useVat", "data.incomeTaxBy")
     get filter() {
         var filter = {
-            DivisionId: this.data.division ? this.data.division._id : this.data.division,
             SupplierId: this.data.supplier ? this.data.supplier._id : this.data.supplier,
             CategoryId: this.data.category ? this.data.category._id : this.data.category,
             PaymentMethod: this.data.paymentMethod,
@@ -82,16 +79,6 @@ export class DataForm {
             CategoryCode: this.data.category ? this.data.category.code : this.data.category,
         }
         return filter;
-    }
-
-    selectedDivisionChanged(newValue) {
-        var _selectedDivision = newValue;
-        if (_selectedDivision.Id || _selectedDivision._id) {
-            this.data.division = _selectedDivision;
-            this.data.divisionId = _selectedDivision.Id || _selectedDivision._id || "";
-            this.data.division._id = this.data.divisionId;
-        }
-        this.resetErrorItems();
     }
 
     selectedSupplierChanged(newValue) {
@@ -227,10 +214,6 @@ export class DataForm {
         }
     }
 
-    divisionView = (division) => {
-        return division.name || division.Name
-    }
-
     supplierView = (supplier) => {
         return `${supplier.code} - ${supplier.name}`
     }
@@ -250,10 +233,6 @@ export class DataForm {
     vatTaxView = (vatTax) => {
         return vatTax.rate ? `${vatTax.rate}` : `${vatTax.Rate}`;
       }
-
-    get divisionLoader() {
-        return DivisionLoader;
-    }
 
     get supplierLoader() {
         return SupplierLoader;

@@ -48,7 +48,6 @@ export class Create {
                             delete detail.Id;
                         }
                     }
-                item.unit=this.data.unit;
             }
         }
 

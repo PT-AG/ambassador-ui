@@ -19,9 +19,6 @@ export class View {
     async activate(params) {
         var id = params.id;
         this.data = await this.service.getById(id);
-        if (this.data.division) {
-            this.selectedDivision = this.data.division;
-        }
         if (this.data.supplier) {
             this.selectedSupplier = this.data.supplier;
         }
