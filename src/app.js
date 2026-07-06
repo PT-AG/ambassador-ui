@@ -22,7 +22,8 @@ export class App {
   }
 
   attached() {
-    document.addEventListener("contextmenu", e => e.preventDefault());
+    //prevent right click
+    //document.addEventListener("contextmenu", e => e.preventDefault());
     document.addEventListener("keydown", (e) => {
       if (e.key === "F12") e.preventDefault();
 
@@ -33,6 +34,12 @@ export class App {
       if (e.ctrlKey && e.key.toUpperCase() === "U") {
         e.preventDefault();
       }
+    });
+
+    history.pushState(null, "", location.href);
+
+    window.addEventListener("popstate", function () {
+        history.pushState(null, "", location.href);
     });
   }
 }

@@ -9,6 +9,7 @@ const serviceUri = 'garment-unit-delivery-orders';
 const doItemsUri = 'garment-do-items/unit-delivery-order';
 const doItemsMoreUri = 'garment-do-items/unit-delivery-order/more';
 const garmentEPOServiceUri = 'garment-external-purchase-orders/by-ro';
+const garmentUEN = "garment-unit-expenditure-notes";
 
 export class Service extends RestService {
 
@@ -68,6 +69,11 @@ export class Service extends RestService {
 
     getGarmentEPOByRONo(info) {
         var endpoint = `${garmentEPOServiceUri}`;
+        return super.list(endpoint, info);
+    }
+    
+    getGarmentUEN(info) {
+        var endpoint = `${garmentUEN}`;
         return super.list(endpoint, info);
     }
 }

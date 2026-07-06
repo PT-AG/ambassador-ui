@@ -10,6 +10,7 @@ const doItemsUri = "garment-do-items";
 const doItemsMoreUri = "garment-do-items/unit-delivery-order/more";
 const garmentEPOServiceUri = "garment-external-purchase-orders/unit-do/by-ro";
 const garmentURNforUnitDO = "garment-unit-receipt-notes/unit-delivery-order";
+const garmentUEN = "garment-unit-expenditure-notes";
 
 export class Service extends RestService {
   constructor(http, aggregator, config, endpoint) {
@@ -74,6 +75,11 @@ export class Service extends RestService {
 
   getgarmentURNforUnitDO(info) {
     var endpoint = `${garmentURNforUnitDO}`;
+    return super.list(endpoint, info);
+  }
+
+  getGarmentUEN(info) {
+    var endpoint = `${garmentUEN}`;
     return super.list(endpoint, info);
   }
 }
