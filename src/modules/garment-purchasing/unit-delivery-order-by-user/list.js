@@ -6,6 +6,13 @@ import moment from 'moment';
 @inject(Router, Service)
 export class List {
 
+    rowFormatter(data, index) {
+        if (data.Status == "Sudah")
+            return { classes: "success" }
+        else
+            return {}
+    }
+
     context = ["Rincian","Cetak PDF"]
 
     columns = [
@@ -22,10 +29,11 @@ export class List {
         { field: "UnitDOFor", title: "Unit" },
         { field: "UnitRequestName", title: "Unit Yang Meminta" },
         { field: "StorageName", title: "Gudang Yang Mengirim" },
-        { field: "CreatedBy", title: "Yang Membuat" }
+        { field: "CreatedBy", title: "Yang Membuat" },
+        { field: "Status", title: "Status BUK" }
     ];
 
-    loader = (info) => {
+    loader = async (info) => {
         var order = {};
         if (info.sort)
             order[info.sort] = info.order;
@@ -38,20 +46,12 @@ export class List {
         }
 
         return this.service.search(arg)
-            .then(result => {
+            .then(async result => {
                 var data = {};
                 data.total = result.info.total;
                 data.data = result.data;
-                data.data.forEach(s => {
-                    s.toString = function () {
-                        var str = "<ul>";
-                        for (var item of s.Items) {
-                            str += `<li>${item.RONo}</li>`;
-                        }
-                        str += "</ul>";
-                        return str;
-                    }
-                });
+                
+                
                 return {
                     total: result.info.total,
                     data: result.data
