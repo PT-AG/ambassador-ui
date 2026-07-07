@@ -73,7 +73,7 @@ export class List {
         { field: "EPONo", title: "Nomor PO External" , sortable: false},
         { field: "POSerialNumber", title: "No Ref PO" , sortable: false},
         { field: "UnitName", title: "Unit" , sortable: false},
-        { field: "createdBy", title: "Staff", sortable: false },
+        { field: "CreatedBy", title: "Staff", sortable: false },
         
     ];
     
