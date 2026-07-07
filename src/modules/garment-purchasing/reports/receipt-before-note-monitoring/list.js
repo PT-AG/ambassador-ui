@@ -73,7 +73,7 @@ export class List {
         { field: "EPONo", title: "Nomor PO External" , sortable: false},
         { field: "POSerialNumber", title: "No Ref PO" , sortable: false},
         { field: "UnitName", title: "Unit" , sortable: false},
-        { field: "createdBy", title: "Staff", sortable: false },
+        { field: "Staff", title: "Staff", sortable: false },
         
     ];
     
@@ -105,7 +105,6 @@ export class List {
 
     loader = (info) => {
         var order = {};
-console.log(info, this.page);
         if (info.sort)
             order[info.sort] = info.order;
 
