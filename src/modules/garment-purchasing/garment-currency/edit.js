@@ -1,51 +1,52 @@
-import {inject, Lazy} from 'aurelia-framework';
-import {Router} from 'aurelia-router';
-import {Service} from './service';
-
+import { inject, Lazy } from "aurelia-framework";
+import { Router } from "aurelia-router";
+import { Service } from "./service";
+import { Base64Helper } from "../../../utils/base-64-coded-helper";
 
 @inject(Router, Service)
 export class Edit {
-    constructor(router, service) {
-        this.router = router;
-        this.service = service;
-    }
+  constructor(router, service) {
+    this.router = router;
+    this.service = service;
+  }
 
-    async activate(params) {
-        var id = params.id;
-        this.data = await this.service.getById(id);
-    }
+  async activate(params) {
+    const decoded = Base64Helper.decode(params.id);
+    var id = decoded;
 
-    bind(context) {
-        this.context = context;
-        this.data = this.context.data;
-        this.error = this.context.error;
+    this.data = await this.service.getById(id);
+  }
 
-        this.cancelCallback = this.context.cancelCallback;
-        this.deleteCallback = this.context.deleteCallback;
-        this.editCallback = this.context.editCallback;
-        this.saveCallback = this.context.saveCallback;
-    }
+  bind(context) {
+    this.context = context;
+    this.data = this.context.data;
+    this.error = this.context.error;
 
-    list() {
-        this.router.navigateToRoute('list');
-    }
+    this.cancelCallback = this.context.cancelCallback;
+    this.deleteCallback = this.context.deleteCallback;
+    this.editCallback = this.context.editCallback;
+    this.saveCallback = this.context.saveCallback;
+  }
 
-    cancelCallback(event) {
-        this.list();
-    }
+  list() {
+    this.router.navigateToRoute("list");
+  }
 
-    saveCallback(event) {
-        // this.data.deliverySchedule = moment(this.data.deliverySchedule).format("YYYY-MM-DD");
+  cancelCallback(event) {
+    this.list();
+  }
 
-        this.data.rate = Number(this.data.rate).toFixed(4);
-        this.service.update(this.data)
-            .then(result => {
-                this.cancelCallback();
-            })
-            .catch(e => {
-                this.error = e;
-            })
-    }
+  saveCallback(event) {
+    // this.data.deliverySchedule = moment(this.data.deliverySchedule).format("YYYY-MM-DD");
 
+    this.data.rate = Number(this.data.rate).toFixed(4);
+    this.service
+      .update(this.data)
+      .then((result) => {
+        this.cancelCallback();
+      })
+      .catch((e) => {
+        this.error = e;
+      });
+  }
 }
-

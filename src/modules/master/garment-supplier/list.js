@@ -1,35 +1,39 @@
-import {inject} from 'aurelia-framework';
-import {Service} from "./service";
-import {Router} from 'aurelia-router';
+import { inject } from "aurelia-framework";
+import { Service } from "./service";
+import { Router } from "aurelia-router";
+import { Base64Helper } from "../../../utils/base-64-coded-helper";
 
 @inject(Router, Service)
 export class List {
-    // data = [];
-    // info = { page: 1, keyword: '' };
-    context = ["detail"];
-    columns = [
+  // data = [];
+  // info = { page: 1, keyword: '' };
+  context = ["detail"];
+  columns = [
     { field: "code", title: "Kode" },
     { field: "name", title: "Nama" },
     { field: "address", title: "Alamat" },
     { field: "NPWP", title: "NPWP" },
     {
-      field: "import", title: "Import",
+      field: "import",
+      title: "Import",
       formatter: function (value, row, index) {
         return value ? "YA" : "TIDAK";
-      }
+      },
     },
     {
-      field: "usevat", title: "Kena PPN",
+      field: "usevat",
+      title: "Kena PPN",
       formatter: function (value, row, index) {
         return value ? "YA" : "TIDAK";
-      }
+      },
     },
     {
-      field: "usetax", title: "Kena PPH",
+      field: "usetax",
+      title: "Kena PPH",
       formatter: function (value, row, index) {
         return value ? "YA" : "TIDAK";
-      }
-    },    
+      },
+    },
     // { field: "IncomeTaxes", title: "PPH", formatter: function (value, data, index) {
     //   if(data.IncomeTaxes.name == "" || data.IncomeTaxes.name == null && data.IncomeTaxes.rate == 0){
     //     return "-"
@@ -41,37 +45,37 @@ export class List {
 
   loader = (info) => {
     var order = {};
-    if (info.sort)
-      order[info.sort] = info.order;
+    if (info.sort) order[info.sort] = info.order;
 
     var arg = {
       page: parseInt(info.offset / info.limit, 10) + 1,
       size: info.limit,
       keyword: info.search,
-      select:["code","name","address","import","NPWP","usevat"],
-      order: order
-    }
+      select: ["code", "name", "address", "import", "NPWP", "usevat"],
+      order: order,
+    };
 
-    return this.service.search(arg)
-      .then(result => {
-        return {
-          total: result.info.total,
-          data: result.data
-        }
-      });
+    return this.service.search(arg).then((result) => {
+      return {
+        total: result.info.total,
+        data: result.data,
+      };
+    });
+  };
+
+  constructor(router, service) {
+    this.service = service;
+    this.router = router;
   }
 
-    constructor(router, service) {
-        this.service = service;
-        this.router = router;
-    }
-
-    contextCallback(event) {
+  contextCallback(event) {
     var arg = event.detail;
     var data = arg.data;
     switch (arg.name) {
       case "detail":
-        this.router.navigateToRoute('view', { id: data.Id });
+        const encoded = Base64Helper.encode(data.Id);
+        this.router.navigateToRoute("view", { id: encoded });
+        //this.router.navigateToRoute('view', { id: data.Id });
         break;
     }
   }
