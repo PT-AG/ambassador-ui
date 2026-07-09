@@ -2,7 +2,7 @@ import { inject, bindable, containerless, computedFrom, BindingEngine } from 'au
 import { Service } from "./service";
 var SupplierLoader = require('../../../loader/supplier-loader');
 var CurrencyLoader = require('../../../loader/currency-loader');
-var UnitLoader = require('../../../loader/unit-loader');
+
 var IncomeTaxLoader = require('../../../loader/income-tax-loader');
 var VatTaxLoader = require('../../../loader/vat-tax-loader');
 
@@ -17,7 +17,6 @@ export class DataForm {
   @bindable selectedCurrency;
   @bindable selectedIncomeTax;
   @bindable selectedVatTax;
-  @bindable selectedUnit;
   @bindable options = { useVat: false };
 
   IncomeTaxByOptions = ["Supplier", "AG"];
@@ -49,8 +48,7 @@ export class DataForm {
       this.selectedSupplier = this.data.supplier;
     }
     if (this.data.unit) {
-      this.selectedUnit = this.data.unit;
-      this.options.unitCode = this.selectedUnit.name;
+      this.options.unitCode = this.data.unit.name || this.data.unit.Name;
     }
     if (this.data.currency) {
       this.selectedCurrency = this.data.currency;
@@ -79,31 +77,6 @@ export class DataForm {
     if (_selectedSupplier._id) {
       this.data.supplier = _selectedSupplier;
       this.data.supplierId = _selectedSupplier._id ? _selectedSupplier._id : "";
-    }
-  }
-
-  selectedUnitChanged(newValue) {
-    var _selectedUnit = newValue;
-    if (this.data.unit && this.data.unit != newValue) {
-      if (this.data && this.data.items && this.data.items.length > 0) {
-        var count = this.data.items.length;
-        for (var a = count; a >= 0; a--) {
-          this.data.items.splice((a - 1), 1);
-        }
-      }
-    }
-    if (_selectedUnit.Id) {
-      this.data.unit = _selectedUnit;
-      this.data.unit._id = _selectedUnit.Id;
-      this.data.unit.name = _selectedUnit.Name;
-      this.data.unit.code = _selectedUnit.Code;
-      this.data.unitId = _selectedUnit.Id ? _selectedUnit.Id : "";
-      this.data.division = _selectedUnit.Division;
-      this.options.unitCode = _selectedUnit.Name;
-      this.data.unit.division = _selectedUnit.Division;
-      this.data.unit.division._id = _selectedUnit.Division.Id;
-      this.data.unit.division.name = _selectedUnit.Division.Name;
-      this.data.unit.division.code = _selectedUnit.Division.Code;
     }
   }
 
@@ -267,11 +240,6 @@ export class DataForm {
     return SupplierLoader;
   }
 
-  get unitLoader() {
-    return UnitLoader;
-  }
-
-
   get currencyLoader() {
     return CurrencyLoader;
   }
@@ -293,10 +261,6 @@ export class DataForm {
 
   supplierView = (supplier) => {
     return `${supplier.code} - ${supplier.name}`
-  }
-
-  unitView = (unit) => {
-    return unit.division ? `${unit.division.name} - ${unit.name}` : `${unit.Division.Name} - ${unit.Name}`;
   }
 
   currencyView = (currency) => {

@@ -28,9 +28,7 @@ export class List {
 
     KategoriItems = ['', 'BAHAN BAKU', 'BAHAN EMBALANCE', 'BAHAN PENDUKUNG']
     //UnitItems = ['','KONFEKSI AG1','KONFEKSI AG2']
-    UnitItems = ['', 'KONFEKSI AG'];
-    unit = "AG";
-    unitname = "KONFEKSI AG";
+    UnitItems = ['', 'KONFEKSI AG']
 
     search() {
         this.info.page = 1;

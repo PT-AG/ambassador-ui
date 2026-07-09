@@ -40,7 +40,6 @@ export class List {
   @bindable UnitItem;
   //UnitItems = ['', 'AMBASSADOR GARMINDO 1', 'AMBASSADOR GARMINDO 2']
   UnitItems = ['','AMBASSADOR GARMINDO'];
-  unit = "AG";
 
   constructor(router, service) {
     this.service = service;
@@ -155,7 +154,7 @@ export class List {
 
   reset() {
     this.po = null;
-    this.unit = "AG";
+    this.unit = null;
     this.code = null;
     this.data = [];
     this.categoryKey=null;

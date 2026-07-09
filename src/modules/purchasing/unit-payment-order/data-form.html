@@ -31,18 +31,6 @@
                 </au-datepicker>
 
                 <au-autocomplete 
-                    value.bind="selectedDivision" 
-                    error.bind="error.division"
-                    read-only.bind="(readOnly || isEdit)"
-                    label="Divisi" 
-                    loader.bind="divisionLoader"
-                    text.bind = "divisionView"
-                    placeholder="cari divisi" 
-                    key="code" 
-                    options.bind="controlOptions">
-                </au-autocomplete>
-
-                <au-autocomplete 
                     value.bind="selectedSupplier" 
                     error.bind="error.supplier"
                     read-only.bind="(readOnly || isEdit)"
@@ -260,14 +248,14 @@
         </div>
 
         <au-textbox
-            if.bind = "filter.DivisionId && filter.SupplierId && filter.CategoryId && filter.PaymentMethod && filter.CurrencyCode"
+            if.bind = "filter.SupplierId && filter.CategoryId && filter.PaymentMethod && filter.CurrencyCode"
             show.bind="error.itemscount"
             error.bind="error.itemscount"
             read-only="true">
         </au-textbox>
 
         <au-collection 
-            if.bind = "filter.DivisionId && filter.SupplierId && filter.CategoryId && filter.PaymentMethod && filter.CurrencyCode"
+            if.bind = "filter.SupplierId && filter.CategoryId && filter.PaymentMethod && filter.CurrencyCode"
             items.bind="data.items" 
             errors.bind="error.items" 
             columns.bind="itemsInfo.columns" 
