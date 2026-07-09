@@ -13,7 +13,7 @@ export class List {
       checkbox: true,
       sortable: false,
       formatter: function (value, data, index) {
-        this.checkboxEnabled = !data.Active;
+        this.checkboxEnabled = !data._active;
         return "";
       },
     },
@@ -31,7 +31,7 @@ export class List {
   ];
   dataToBePosted = [];
   rowFormatter(data, index) {
-    if (data.Active) return { classes: "success" };
+    if (data._active) return { classes: "success" };
     else return {};
   }
 
@@ -84,7 +84,7 @@ export class List {
   contextShowCallback(index, name, data) {
     switch (name) {
       case "nonaktif":
-        return data.Active;
+        return data._active;
       default:
         return true;
     }
