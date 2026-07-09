@@ -1,7 +1,7 @@
-import { inject, Lazy } from 'aurelia-framework';
-import { Router } from 'aurelia-router';
-import { Service } from './service';
-
+import { inject, Lazy } from "aurelia-framework";
+import { Router } from "aurelia-router";
+import { Service } from "./service";
+import { Base64Helper } from "../../../utils/base-64-coded-helper";
 
 @inject(Router, Service)
 export class View {
@@ -14,21 +14,27 @@ export class View {
   }
 
   async activate(params) {
-      var id = params.id;
-      this.data = await this.service.getById(id);
-      
-      this.selectedComodity = { Code:this.data.ComodityCode, Name:this.data.ComodityName,};
-      this.selectedBuyer = { Code:this.data.BuyerCode, Name:this.data.BuyerName,};
+    const decoded = Base64Helper.decode(params.id);
+    var id = decoded;
+    this.data = await this.service.getById(id);
+
+    this.selectedComodity = {
+      Code: this.data.ComodityCode,
+      Name: this.data.ComodityName,
+    };
+    this.selectedBuyer = {
+      Code: this.data.BuyerCode,
+      Name: this.data.BuyerName,
+    };
   }
 
   cancel(event) {
-    this.router.navigateToRoute('list');
+    this.router.navigateToRoute("list");
   }
-   
+
   delete(event) {
-    this.service.delete(this.data)
-        .then(result => {
-          this.cancel();
-        });
-  }  
+    this.service.delete(this.data).then((result) => {
+      this.cancel();
+    });
+  }
 }
