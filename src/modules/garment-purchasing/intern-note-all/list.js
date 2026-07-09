@@ -5,12 +5,6 @@ var moment = require("moment");
 
 @inject(Router, Service)
 export class List {
-    rowFormatter(data, index) {
-        if (data.IsApprovedKasie && data.IsApprovedKabag)
-            return { classes: "success" }
-        else
-            return {}
-    }
 
     columns = [
         { field: "inNo", title: "No. Nota Intern" },
@@ -29,6 +23,7 @@ export class List {
         { field: "CreatedBy", title: "Admin Pembelian" },
         { 
             field: "IsPosted", title: "Status", formatter: function(value, data, index) {
+                if(data.IsApprovedVerification) return "SUDAH DISETUJUI VERIFIKASI";
                 if(data.IsApprovedKabag) return "SUDAH DISETUJUI MANAGER 2";
                 if(data.IsApprovedKasie) return "SUDAH DISETUJUI MANAGER 1";
                 if(data.isPosted) return "SUDAH DIPOSTING";
@@ -161,8 +156,11 @@ export class List {
     }
 
     rowFormatter(data, index) {
-        if (data.IsApprovedKasie && data.IsApprovedKabag)
+        if (data.IsApprovedKasie && data.TotalAmount > 25000000 && data.IsApprovedKabag) {
             return { classes: "success" }
+        } else if (data.IsApprovedKasie && data.TotalAmount <= 25000000) {
+            return { classes: "success" }
+        }
         else if (data.IsPosted)
             return { classes: "error" }
         else

@@ -56,7 +56,7 @@ export class List {
         { field: "CreatedBy", title: "Admin Pembelian" }
     ];
     
-    context = ["Rincian"];
+    context = ["Rincian", "Cetak PDF"];
 
     loader = (info) => {
         var order = {};
@@ -116,6 +116,9 @@ export class List {
         switch (arg.name) {
             case "Rincian":
                 this.router.navigateToRoute('view', { id: data.Id });
+                break;
+            case "Cetak PDF":
+                this.service.getPdfById(data.Id);
                 break;
         }
     }

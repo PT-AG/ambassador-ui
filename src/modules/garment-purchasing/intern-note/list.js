@@ -8,8 +8,11 @@ export class List {
     dataToBePosted = [];
 
     rowFormatter(data, index) {
-        if (data.IsApprovedKasie && data.IsApprovedKabag)
+        if (data.IsApprovedKasie && data.TotalAmount > 25000000 && data.IsApprovedKabag) {
             return { classes: "success" }
+        } else if (data.IsApprovedKasie && data.TotalAmount <= 25000000) {
+            return { classes: "success" }
+        }
         else if (data.isPosted)
             return { classes: "error" }
         else
