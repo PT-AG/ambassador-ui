@@ -89,73 +89,73 @@ export class Item {
         };
     }
 
-    selectedUnitChanged(newValue) {
-        this.data.Unit = newValue;
-        this.selectedStockViewModel.editorValue = "";
-        this.selectedProductViewModel.editorValue = "";
-        this.selectedStock = null;
-    }
+    // selectedUnitChanged(newValue) {
+    //     this.data.Unit = newValue;
+    //     this.selectedStockViewModel.editorValue = "";
+    //     this.selectedProductViewModel.editorValue = "";
+    //     this.selectedStock = null;
+    // }
 
-    selectedProductChanged(newValue, oldValue) {
-        this.data.PONo = null;
-        this.data.Stocks = null;
-        this.uomItems = [""];
-        this.selectedUom = null;
-        this.Product=null;
-        this.selectedStockViewModel.editorValue = "";
-        if (newValue) {
-            this.data.Product = {
-                Id:newValue.ProductId,
-                Name:newValue.ProductName,
-                Code:newValue.ProductCode
-            };
+    // selectedProductChanged(newValue, oldValue) {
+    //     this.data.PONo = null;
+    //     this.data.Stocks = null;
+    //     this.uomItems = [""];
+    //     this.selectedUom = null;
+    //     this.Product=null;
+    //     this.selectedStockViewModel.editorValue = "";
+    //     if (newValue) {
+    //         this.data.Product = {
+    //             Id:newValue.ProductId,
+    //             Name:newValue.ProductName,
+    //             Code:newValue.ProductCode
+    //         };
 
-        }
-    }
+    //     }
+    // }
 
-    selectedStockChanged(newValue, oldValue) {
-        this.data.PONo = null;
-        this.data.Stocks = null;
-        this.uomItems = [""];
-        this.selectedUom = null;
+    // selectedStockChanged(newValue, oldValue) {
+    //     this.data.PONo = null;
+    //     this.data.Stocks = null;
+    //     this.uomItems = [""];
+    //     this.selectedUom = null;
 
-        if (newValue) {
-            this.data.PONo = newValue.PONo;
+    //     if (newValue) {
+    //         this.data.PONo = newValue.PONo;
 
-            this.service.searchStock({ filter: JSON.stringify({ PONo: this.data.PONo || "-" , ProductId: (this.data.Product|| {}).Id || 0 ,  ReferenceType: "ACCESSORIES", UnitId: (this.data.Unit || {}).Id || 0, "Quantity > 0": true}) })
-                .then(result => {
-                    if (result.statusCode == 200) {
-                        const uomUnits= result.data.filter((value, index, self) => self.map(x => x.Uom.Unit).indexOf(value.Uom.Unit) == index);
+    //         this.service.searchStock({ filter: JSON.stringify({ PONo: this.data.PONo || "-" , ProductId: (this.data.Product|| {}).Id || 0 ,  ReferenceType: "ACCESSORIES", UnitId: (this.data.Unit || {}).Id || 0, "Quantity > 0": true}) })
+    //             .then(result => {
+    //                 if (result.statusCode == 200) {
+    //                     const uomUnits= result.data.filter((value, index, self) => self.map(x => x.Uom.Unit).indexOf(value.Uom.Unit) == index);
                         
-                        // const uomUnits = this.context.context.items.filter(i => (i.data.Unit || {}).Id == this.data.Unit.Id && i.data.PONo == this.data.PONo && i.data.Uom != null && (i.data.Product || {}).Id==this.data.Product.Id).map(i => i.data.Uom.Unit);
-                        // console.log(uomUnits)
-                         this.data.Stocks = result.data.filter(d => uomUnits.findIndex(u => u == (d.Uom || {}).Unit) < 0);
-                        // console.log(this.data.Stocks)
-                         this.uomItems = [""].concat(this.data.Stocks.map(d => (d.Uom || {}).Unit));
-                        // this.uomItems = this.uomItems.filter((value, index, self) => self.map(x => x.Unit).indexOf(value.Unit) == index)
-                    }
-                });
-        }
-    }
+    //                     // const uomUnits = this.context.context.items.filter(i => (i.data.Unit || {}).Id == this.data.Unit.Id && i.data.PONo == this.data.PONo && i.data.Uom != null && (i.data.Product || {}).Id==this.data.Product.Id).map(i => i.data.Uom.Unit);
+    //                     // console.log(uomUnits)
+    //                      this.data.Stocks = result.data.filter(d => uomUnits.findIndex(u => u == (d.Uom || {}).Unit) < 0);
+    //                     // console.log(this.data.Stocks)
+    //                      this.uomItems = [""].concat(this.data.Stocks.map(d => (d.Uom || {}).Unit));
+    //                     // this.uomItems = this.uomItems.filter((value, index, self) => self.map(x => x.Unit).indexOf(value.Unit) == index)
+    //                 }
+    //             });
+    //     }
+    // }
 
-    selectedUomChanged(newValue) {
-        if (newValue) {
-            this.data.Stock = this.data.Stocks.find(d => d.Uom.Unit == newValue);
+    // selectedUomChanged(newValue) {
+    //     if (newValue) {
+    //         this.data.Stock = this.data.Stocks.find(d => d.Uom.Unit == newValue);
 
-            if (this.data.Stock) {
-                const existingItem = (this.context.context.options.existingItems || []).find(i => i.StockId == this.data.Stock.Id) || { Quantity: 0 };
-                this.data.Stock.Quantity += existingItem.Quantity;
+    //         if (this.data.Stock) {
+    //             const existingItem = (this.context.context.options.existingItems || []).find(i => i.StockId == this.data.Stock.Id) || { Quantity: 0 };
+    //             this.data.Stock.Quantity += existingItem.Quantity;
 
-                this.data.StockId = this.data.Stock.Id;
-                this.data.Quantity = this.data.Stock.Quantity;
-                this.data.Uom = this.data.Stock.Uom;
-                this.data.BasicPrice=this.data.Stock.BasicPrice;
-            }
-        } else {
-            this.data.Stock = null;
-            this.data.StockId = 0;
-            this.data.Quantity = 0;
-            this.data.Uom = null;
-        }
-    }
+    //             this.data.StockId = this.data.Stock.Id;
+    //             this.data.Quantity = this.data.Stock.Quantity;
+    //             this.data.Uom = this.data.Stock.Uom;
+    //             this.data.BasicPrice=this.data.Stock.BasicPrice;
+    //         }
+    //     } else {
+    //         this.data.Stock = null;
+    //         this.data.StockId = 0;
+    //         this.data.Quantity = 0;
+    //         this.data.Uom = null;
+    //     }
+    // }
 }
