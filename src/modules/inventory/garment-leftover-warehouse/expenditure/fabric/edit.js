@@ -5,6 +5,7 @@ import { Service } from './service';
 @inject(Router, Service)
 export class Edit {
     isEdit = true;
+    
     hasCancel = true;
     hasSave = true;
     hasEdit = false;

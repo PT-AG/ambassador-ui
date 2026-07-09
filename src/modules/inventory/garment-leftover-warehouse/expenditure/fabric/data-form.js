@@ -93,6 +93,10 @@ export class DataForm {
         return `${data.Code} - ${data.Name}`;
     }
 
+    buyerView = (data) => {
+        return `${data.Code} - ${data.Name}`;
+    }
+
     get gldoFilter() {
         return {
             ExpenditureType: "FABRIC",

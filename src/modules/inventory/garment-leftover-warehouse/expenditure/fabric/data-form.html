@@ -33,10 +33,10 @@
             view-model.ref="selectedUnitViewModel">
         </au-autocomplete>
 
-        <au-textbox label="Buyer" value.bind="selectedBuyer" text.bind="buyerView" read-only.bind="true"
+        <au-autocomplete label="Buyer" value.bind="selectedBuyer" text.bind="buyerView" read-only.bind="true"
             options.bind="controlOptions" show.bind="data.ExpenditureDestination == 'JUAL LOKAL'"
             view-model.ref="selectedBuyerViewModel">
-        </au-textbox>
+        </au-autocomplete>
 
         <au-autocomplete label="No Nota Penjualan Lokal" value.bind="selectedSalesNote" text="noteNo"
             if.bind="data.ExpenditureDestination == 'JUAL LOKAL'" read-only.bind="true" options.bind="controlOptions">
