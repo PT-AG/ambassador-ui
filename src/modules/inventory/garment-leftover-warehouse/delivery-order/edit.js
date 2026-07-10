@@ -6,11 +6,6 @@ import { Service } from './service';
 export class Edit {
     isEdit = true;
 
-    hasCancel = true;
-    hasSave = true;
-    hasEdit = false;
-    hasDelete = false;
-
     constructor(router, service) {
         this.router = router;
         this.service = service;
@@ -19,6 +14,20 @@ export class Edit {
     async activate(params) {
         var id = params.id;
         this.data = await this.service.getById(id);
+
+        const stockIds = this.data.Items.map(i => `Id==${i.StockId}`).join("||");
+        let filter = {};
+        filter[stockIds] = true;
+        const stocksResult = await this.service.searchStock({ filter: JSON.stringify(filter) });
+
+        for (const item of this.data.Items) {
+            item.Stock = stocksResult.data.find(i => i.Id == item.StockId) || {};
+
+            if (this.data.ExpenditureType == "FABRIC" || this.data.ExpenditureType == "ACCESSORIES") {
+                item.Stock.Quantity += item.Quantity;
+            }
+        }
+
         this.error = {};
     }
 

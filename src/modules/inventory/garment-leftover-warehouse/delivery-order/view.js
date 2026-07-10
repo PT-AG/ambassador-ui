@@ -5,11 +5,6 @@ import { Service } from './service';
 @inject(Router, Service)
 export class View {
 
-    hasCancel = true;
-    hasEdit = true;
-    hasDelete = true;
-
-
     constructor(router, service) {
         this.router = router;
         this.service = service;
@@ -35,5 +30,4 @@ export class View {
             });
         }
     }
-
 }

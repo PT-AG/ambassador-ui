@@ -1,5 +1,5 @@
 import { inject, bindable, computedFrom } from 'aurelia-framework'
-import { Service } from "../service";
+import { Service } from "../../service";
 
 const UnitLoader = require('../../../../../../loader/garment-units-loader');
 var StockLoader = require('../../../../../../loader/garment-leftover-warehouse-stock-loader');
@@ -66,7 +66,7 @@ export class items {
         // }
         return filter;
     }
-    
+
     constructor(service) {
         this.service = service;
     }
@@ -76,12 +76,11 @@ export class items {
         this.data = context.data;
         this.error = context.error;
         this.options = context.options;
-
         if (this.data) {
             this.selectedUnit = this.data.Unit;
             this.selectedStock = { RONo: this.data.RONo || "" };
             this.selectedComodity = this.data.LeftoverComodity;
-        };
+        }
 
         this.readOnly = this.options.readOnly;
         this.isCreate = context.context.options.isCreate;
@@ -91,48 +90,49 @@ export class items {
             isCreate: this.isCreate,
             readOnly: this.readOnly,
             isEdit: this.isEdit,
-        };
+        }
 
         if (this.data.Id) {
-            var stock = await this.service.getStock({ size: 1, filter: JSON.stringify({ RONo: this.data.RONo, UnitId: this.data.Unit.Id, ReferenceType: "FINISHED_GOOD", LeftoverComodityId: this.data.LeftoverComodity.Id }) });
+            var stock = await this.service.searchStock({ size: 1, filter: JSON.stringify({ RONo: this.data.RONo, UnitId: this.data.Unit.Id, ReferenceType: "FINISHED_GOOD", LeftoverComodityId: this.data.LeftoverComodity.Id }) });
             if (!this.error)
-                this.data.StockQuantity = stock.data[0].Quantity + this.data.ExpenditureQuantity;
+                this.data.StockQuantity = stock.data[0].Quantity + this.data.Quantity;
         }
     }
 
-    // selectedStockChanged(newValue) {
-    //     this.data.StockId = 0;
-    //     this.data.RONo = "";
-    //     this.data.StockQuantity = 0;
-    //     if (newValue) {
-    //         this.data.StockId = newValue.Id;
-    //         this.data.RONo = newValue.RONo;
-    //         this.data.StockQuantity = newValue.Quantity;
-    //         this.data.BasicPrice = newValue.BasicPrice;
-    //         const existingItem = (this.context.context.options.existingItems || []).find(i => i.StockId == this.data.StockId) || { Quantity: 0 };
-    //         this.data.StockQuantity += existingItem.Quantity;
-    //     } else {
-    //         this.data.StockId = 0;
-    //         this.data.RONo = "";
-    //         this.data.StockQuantity = 0;
-    //         this.selectedStockViewModel.editorValue = "";
-    //     }
-    // }
+    selectedStockChanged(newValue) {
+        this.data.StockId = 0;
+        this.data.RONo = "";
+        this.data.StockQuantity = 0;
+        if (newValue) {
+            this.data.StockId = newValue.Id;
+            this.data.RONo = newValue.RONo;
+            this.data.StockQuantity = newValue.Quantity;
+            this.data.BasicPrice = newValue.BasicPrice;
+            const existingItem = (this.context.context.options.existingItems || []).find(i => i.StockId == this.data.StockId) || { Quantity: 0 };
 
-    // selectedUnitChanged(newValue) {
-    //     this.data.StockId = 0;
-    //     this.data.RONo = "";
-    //     this.data.StockQuantity = 0;
-    //     this.selectedStock = null;
-    //     if (newValue)
-    //         this.data.Unit = newValue;
-    //     else {
-    //         this.data.StockId = 0;
-    //         this.data.RONo = "";
-    //         this.data.StockQuantity = 0;
-    //         this.data.Unit = null;
-    //         this.selectedStock = null;
-    //         this.selectedStockViewModel.editorValue = "";
-    //     }
-    // }
+            this.data.StockQuantity += existingItem.Quantity;
+        } else {
+            this.data.StockId = 0;
+            this.data.RONo = "";
+            this.data.StockQuantity = 0;
+            this.selectedStockViewModel.editorValue = "";
+        }
+    }
+
+    selectedUnitChanged(newValue) {
+        this.data.StockId = 0;
+        this.data.RONo = "";
+        this.data.StockQuantity = 0;
+        this.selectedStock = null;
+        if (newValue)
+            this.data.Unit = newValue;
+        else {
+            this.data.StockId = 0;
+            this.data.RONo = "";
+            this.data.StockQuantity = 0;
+            this.data.Unit = null;
+            this.selectedStock = null;
+            this.selectedStockViewModel.editorValue = "";
+        }
+    }
 }

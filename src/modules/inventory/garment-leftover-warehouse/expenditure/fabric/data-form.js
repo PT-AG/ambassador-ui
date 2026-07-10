@@ -1,26 +1,42 @@
-import { inject, bindable, containerless, computedFrom, BindingEngine } from 'aurelia-framework'
-import { GarmentPurchasingService } from "./service";
+import { inject, bindable, containerless, BindingEngine, computedFrom } from 'aurelia-framework'
+import { Service as GLDOService } from "../../delivery-order/service"
 
-// const UnitLoader = require('../../../../../loader/garment-units-loader');
-const UnitLoader = require('../../../../../loader/garment-unitsAndsample-loader');
-const BuyerLoader = require('../../../../../loader/garment-leftover-warehouse-buyer-loader');
-const SalesNoteLoader = require('../../../../../loader/garment-shipping-local-sales-note-loader');
+// const UnitLoader = require('../../../../../loader/garment-unitsAndsample-loader');
+// const BuyerLoader = require('../../../../../loader/garment-leftover-warehouse-buyer-loader');
+// const SalesNoteLoader = require('../../../../../loader/garment-shipping-local-sales-note-loader');
+const GLDeliveryOrderLoader = require('../../../../../loader/garment-leftover-warehouse-delivery-order-loader');
 
-@inject(GarmentPurchasingService)
+@containerless()
+@inject(BindingEngine, GLDOService)
 export class DataForm {
 
-    constructor(garmentPurchasingService) {
-        this.garmentPurchasingService = garmentPurchasingService;
+    constructor(bindingEngine, GLDOService) {
+        this.bindingEngine = bindingEngine;
+        this.gldoService = GLDOService;
     }
+
+    identityProperties = [
+        "Id",
+        "_Active",
+        "_CreatedUtc",
+        "_CreatedBy",
+        "_CreatedAgent",
+        "_LastModifiedUtc",
+        "_LastModifiedBy",
+        "_LastModifiedAgent",
+        "_IsDeleted",
+    ];
 
     @bindable readOnly = false;
     @bindable isEdit = false;
     @bindable isCreate = false;
-    @bindable title;
     @bindable selectedUnit;
+    @bindable title;
+    @bindable data = {};
     @bindable selectedBuyer;
     @bindable selectedSalesNote;
-    @bindable manual;
+    @bindable selectedType;
+    @bindable selectedGLDO;
 
     controlOptions = {
         label: {
@@ -31,26 +47,29 @@ export class DataForm {
         }
     };
 
+    formOptions = {
+        builtInActions: false
+    };
+
     @computedFrom("readOnly")
     get items() {
         return {
-            columns: this.readOnly ? [
+            columns: 
+            //this.readOnly ? 
+            [
                 "Unit Asal",
                 "PO No",
                 "Satuan",
-                "Jumlah Keluar"
-            ] : [
-                "Unit Asal",
-                "PO No",
-                "Satuan",
-                "Jumlah Stock",
                 "Jumlah Keluar"
             ],
-            onAdd: function () {
-                this.data.Items.push({});
-            }.bind(this),
+            // ] : [
+            //     "Unit Asal",
+            //     "PO No",
+            //     "Satuan",
+            //     "Jumlah Stock",
+            //     "Jumlah Keluar"
+            // ],
             options: {
-                isEdit: this.isEdit,
                 existingItems: this.existingItems
             }
         };
@@ -59,16 +78,15 @@ export class DataForm {
     expenditureDestinations = [
         "UNIT",
         "JUAL LOKAL",
-        "SAMPLE",
         "LAIN-LAIN"
     ];
 
-    get unitLoader() {
-        return UnitLoader;
+    get garmentLeftoverWarehouseDeliveryOrderLoader() {
+        return GLDeliveryOrderLoader;
     }
 
-    get buyerLoader() {
-        return BuyerLoader;
+    gldoView = (data) => {
+        return `${data.DONo}`;
     }
 
     unitView = (data) => {
@@ -79,10 +97,12 @@ export class DataForm {
         return `${data.Code} - ${data.Name}`;
     }
 
-    get localSalesNoteLoader() {
-        return SalesNoteLoader;
+    get gldoFilter() {
+        return {
+            ExpenditureType: "FABRIC",
+            IsUsed: false
+        };
     }
-
 
     bind(context) {
         this.context = context;
@@ -90,6 +110,7 @@ export class DataForm {
         this.error = context.error;
 
         if (this.data && this.data.Id) {
+            this.data.ExpenditureType = "FABRIC";
             this.selectedUnit = {
                 Code: this.data.UnitExpenditure.Code,
                 Name: this.data.UnitExpenditure.Name
@@ -102,60 +123,84 @@ export class DataForm {
                 };
             });
 
+            this.selectedGLDO = {
+                DONo: this.data.DONo
+            };
+
             this.selectedSalesNote = {
                 noteNo: this.data.LocalSalesNoteNo
             };
 
             this.selectedBuyer = this.data.Buyer;
         }
-
-        // if (this.readOnly) {
-        //     this.items.columns = [
-        //         "Unit",
-        //         "PO No",
-        //         "Jumlah Keluar",
-        //         "Satuan"
-        //     ];
-        // }
     }
 
-    expenditureDestinationsChanged() {
-        this.context.selectedUnitViewModel.editorValue = "";
+    clearDataProperties(data) {
+        data.DOId = data.Id;
+        data.ExpenditureDestination = data.ExpenditureTo;
+        data.ExpenditureDate = data.DODate;
+
+        data.Items.forEach(x => {
+            x.DOId = data.Id;
+            x.DOItemId = x.Id;
+        });
+
+        this.identityProperties.forEach(prop => delete data[prop]);
+        data.Items.forEach(item => {
+            this.identityProperties.forEach(prop => delete item[prop]);
+        });
+
+        return data;
+    }
+
+    async selectedGLDOChanged(newValue) {
+        if (this.data && this.data.Id) 
+            return;
+
+        this.selectedSalesNote = null;
         this.selectedUnit = null;
-        this.context.selectedBuyerViewModel.editorValue = "";
         this.selectedBuyer = null;
-        this.data.RemarkEtc = null;
-    }
+        this.existingItems = [];
 
-    selectedUnitChanged(newValue) {
-        if (this.data.Id) return;
+        if (newValue && newValue.Id) {
+            await this.gldoService.getById(newValue.Id).then(data => {
+                var mapped = this.clearDataProperties(data);
+                Object.assign(this.data, mapped);
 
-        this.data.UnitExpenditure = newValue;
-    }
+                this.selectedSalesNote = {
+                    noteNo : this.data.LocalSalesNoteNo
+                };
 
-    selectedBuyerChanged(newValue) {
-        if (this.data.Id) return;
+                this.selectedUnit = {
+                    Code: this.data.UnitExpenditure.Code,
+                    Name: this.data.UnitExpenditure.Name
+                };
 
-        this.data.Buyer = newValue;
-    }
-
-    selectedSalesNoteChanged(newValue) {
-        if (this.data.Id) return;
-
-        this.data.LocalSalesNoteNo = null;
-        this.data.LocalSalesNoteId = 0;
-        if (newValue) {
-            this.data.LocalSalesNoteNo = newValue.noteNo;
-            this.data.LocalSalesNoteId = newValue.id;
-        }
-    }
-
-    manualChanged(newValue) {
-        if (!this.readOnly) {
-            if (this.context.selectedSalesNoteViewModel)
-                this.context.selectedSalesNoteViewModel.editorValue = "";
-            this.selectedSalesNote = null;
+                this.selectedBuyer = this.data.Buyer;
+                this.existingItems = this.data.Items.map(i => {
+                    return {
+                        StockId: i.StockId,
+                        Quantity: i.Quantity
+                    };
+                });
+            }).catch(e => {
+                alert(e.Message || 'DO Sisa Tidak Ditemukan');
+            });
+        } else {
+            this.data.DOId = null;
+            delete this.data.ExpenditureDate;
+            this.data.ExpenditureDestination = null;
             this.data.LocalSalesNoteNo = null;
+            this.data.UnitExpenditure = null;
+            this.data.EtcRemark = "";
+            this.data.Remark = "";
+            this.data.Buyer = null;
+            this.data.QtyKG = 0;
+            this.data.Items = [];
         }
+    }
+
+    get isUsed() {
+        return (this.data.IsUsed || this.data.IsBC || !this.data.DOId);
     }
 }

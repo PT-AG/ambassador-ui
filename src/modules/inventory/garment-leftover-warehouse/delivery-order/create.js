@@ -5,11 +5,7 @@ import { activationStrategy } from 'aurelia-router';
 
 @inject(Router, Service)
 export class Create {
-
-    hasCancel = true;
-    hasSave = true;
-    hasCreate = true;
-    hasEdit = false;
+    isCreate = true;
 
     constructor(router, service) {
         this.router = router;
