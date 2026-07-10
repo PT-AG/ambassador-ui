@@ -55,7 +55,8 @@ export class List {
             unitcode: this.unit ? this.unit : "",
             category: this.category ? this.category : "",
             buyercode: this.buyer ? this.buyer.Code : "",
-            article: this.article ? this.article : ""
+            article: this.article ? this.article : "",
+            color: this.color ? this.color : ""
             //suppliertype : this.Tipe
         };
 
@@ -116,6 +117,7 @@ export class List {
         this.UnitItem = "";
         this.buyer = null;
         this.article = "";
+        this.color = "";
         this.info.page = 1;
         this.info.total = 0;
     }
@@ -129,7 +131,8 @@ export class List {
             category: this.category ? this.category : "",
             categoryname: this.categoryname ? this.categoryname : "",
             buyercode: this.buyer ? this.buyer.Code : "",
-            article: this.article ? this.article : ""
+            article: this.article ? this.article : "",
+            color: this.color ? this.color : ""
         };
 
         this.service.generateExcel(args);
