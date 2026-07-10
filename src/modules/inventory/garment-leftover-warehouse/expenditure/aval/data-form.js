@@ -1,23 +1,40 @@
 import { inject, bindable, containerless, computedFrom, BindingEngine } from 'aurelia-framework'
-import { Service } from "./service";
+import { Service as GLDOService } from "../../delivery-order/service"
 
-const UnitLoader = require('../../../../../loader/garment-unitsAndsample-loader');
-const BuyerLoader = require('../../../../../loader/garment-leftover-warehouse-buyer-loader');
-const SalesNoteLoader = require('../../../../../loader/garment-shipping-local-sales-note-loader');
+// const UnitLoader = require('../../../../../loader/garment-unitsAndsample-loader');
+// const BuyerLoader = require('../../../../../loader/garment-leftover-warehouse-buyer-loader');
+// const SalesNoteLoader = require('../../../../../loader/garment-shipping-local-sales-note-loader');
+const GLDeliveryOrderLoader = require('../../../../../loader/garment-leftover-warehouse-delivery-order-loader');
 
-@inject(Service)
+@containerless()
+@inject(BindingEngine, GLDOService)
 export class DataForm {
 
-    constructor(service) {
-        this.service = service;
+    constructor(bindingEngine, GLDOService) {
+        this.bindingEngine = bindingEngine;
+        this.gldoService = GLDOService;
     }
+
+    identityProperties = [
+        "Id",
+        "_Active",
+        "_CreatedUtc",
+        "_CreatedBy",
+        "_CreatedAgent",
+        "_LastModifiedUtc",
+        "_LastModifiedBy",
+        "_LastModifiedAgent",
+        "_IsDeleted",
+    ];
 
     @bindable readOnly = false;
     @bindable title;
-    @bindable selectedType;
     @bindable selectedSalesNote;
+    @bindable selectedBuyer;
+    @bindable selectedType;
     @bindable selectedUnit;
-    @bindable manual;
+    @bindable data = {};
+    @bindable selectedGLDO;
 
     controlOptions = {
         label: {
@@ -26,6 +43,10 @@ export class DataForm {
         control: {
             length: 5
         }
+    };
+
+    formOptions = {
+        builtInActions: false
     };
 
     footerOptions = {
@@ -37,13 +58,13 @@ export class DataForm {
         }
     };
 
-    itemsColumnsFabric = [
-        { header: "Unit Asal", value: "UnitCode" },
-        { header: "Bon No", value: "AvalReceiptNo" },
-        { header: "Jumlah Awal", value: "Quantity" },
-        { header: "Jumlah Aktual ", value: "Quantity" },
-        { header: "Satuan", value: "UomUnit" },
-    ];
+    // itemsColumnsFabric = [
+    //     { header: "Unit Asal", value: "UnitCode" },
+    //     { header: "Bon No", value: "AvalReceiptNo" },
+    //     { header: "Jumlah Awal", value: "Quantity" },
+    //     { header: "Jumlah Aktual ", value: "Quantity" },
+    //     { header: "Satuan", value: "UomUnit" },
+    // ];
 
     viewItemsColumnsFabric = [
         { header: "Unit Asal", value: "UnitCode" },
@@ -52,23 +73,23 @@ export class DataForm {
         { header: "Satuan", value: "UomUnit" },
     ];
 
-    itemsColumnsAcc= [
-        { header: "Unit Asal" },
-        { header: "Kode - Nama Barang" },
-        { header: "Satuan" },
-        { header: "Jumlah Stock" },
-        { header: "Jumlah Keluar" },
-    ];
+    // itemsColumnsAcc= [
+    //     { header: "Unit Asal" },
+    //     { header: "Kode - Nama Barang" },
+    //     { header: "Satuan" },
+    //     { header: "Jumlah Stock" },
+    //     { header: "Jumlah Keluar" },
+    // ];
 
-    viewItemsColumnsAcc=[
+    viewItemsColumnsAcc = [
         { header: "Unit Asal" },
         { header: "Kode - Nama Barang" },
         { header: "Satuan" },
         { header: "Jumlah Keluar" },
     ]
 
-    expenditureToOptions=["JUAL LOKAL", "UNIT", "LAIN-LAIN"];
-    avalTypes=["AVAL FABRIC", "AVAL BAHAN PENOLONG", "AVAL KOMPONEN"];
+    expenditureToOptions = ["JUAL LOKAL", "LAIN-LAIN"];
+    avalTypes = ["AVAL FABRIC", "AVAL BAHAN PENOLONG", "AVAL KOMPONEN"];
 
     get buyerLoader() {
         return BuyerLoader;
@@ -76,6 +97,14 @@ export class DataForm {
 
     get unitLoader() {
         return UnitLoader;
+    }
+
+    get garmentLeftoverWarehouseDeliveryOrderLoader() {
+        return GLDeliveryOrderLoader;
+    }
+
+    gldoView = (data) => {
+        return `${data.DONo}`;
     }
 
     // unitView = (data) => {
@@ -86,8 +115,12 @@ export class DataForm {
         return `${buyer.Code} - ${buyer.Name}`;
     }
 
-    get localSalesNoteLoader() {
-        return SalesNoteLoader;
+    get gldoFilter() {
+        return {
+            ExpenditureType: "AVAL",
+            AvalType: this.data.AvalType ? this.data.AvalType : this.selectedType,
+            IsUsed: false
+        };
     }
 
     bind(context) {
@@ -99,95 +132,137 @@ export class DataForm {
             isView: this.context.isView,
             isEdit: this.context.isEdit,
         }
-        for(var item of this.data.Items){
-            item.type=this.data.AvalType;
+
+        for (var item of this.data.Items) {
+            item.type = this.data.AvalType;
         }
-        this.selectedType=this.data.AvalType;
-        if(this.data.Id){
+
+        if (this.data.Id) {
+            this.data.ExpenditureType = "AVAL";
+            this.selectedType = this.data.AvalType;
             this.existingItems = this.data.Items.map(i => {
                 return {
                     StockId: i.StockId,
                     Quantity: i.Quantity
                 };
             });
-            this.Options.existingItems=this.existingItems;
-            if(this.data.LocalSalesNoteId){
+
+            this.selectedGLDO = {
+                DONo: this.data.DONo
+            };
+
+            this.Options.existingItems = this.existingItems;
+            if (this.data.LocalSalesNoteId) {
                 this.selectedSalesNote = {
                     noteNo: this.data.LocalSalesNoteNo,
-                    id:this.data.LocalSalesNoteId
+                    id: this.data.LocalSalesNoteId
                 };
+
                 // this.selectedUnit = {
                 //     Code: this.data.UnitExpenditure.Code,
                 //     Name: this.data.UnitExpenditure.Name
                 // };
-                this.manual=false;
+
+                this.selectedBuyer = this.data.Buyer;
             }
-            else{
-                this.manual=true;
-            }
-            
-
         }
     }
 
-    // expenditureToOptionsChanged(){
-    //     this.context.selectedUnitViewModel.editorValue = "";
-    //     this.selectedUnit = null;
-    //     this.context.selectedBuyerViewModel.editorValue = "";
-    //     this.selectedBuyer = null;
-    //     this.data.remarkEtc = null;
-    // }
+    clearDataProperties(data) {
+        data.DOId = data.Id;
+        data.ExpenditureTo = data.ExpenditureTo;
+        data.ExpenditureDate = data.DODate;
+        data.OtherDescription = data.EtcRemark;
+        data.Description = data.Remark;
 
-    selectedUnitChanged(newValue) {
-        if (this.data.Id) return;
+        data.Items.forEach(x => {
+            x.type = data.AvalType;
+            x.DOId = data.Id;
+            x.DOItemId = x.Id;
+        });
 
-        this.data.UnitExpenditure = newValue;
+        this.identityProperties.forEach(prop => delete data[prop]);
+        data.Items.forEach(item => {
+            this.identityProperties.forEach(prop => delete item[prop]);
+        });
+
+        return data;
     }
 
-    get addItems() {
-        return (event) => {
-            this.data.Items.push({
-                type: this.data.AvalType
-            })
-        };
-    }
+    async selectedGLDOChanged(newValue) {
+        if (this.data && this.data.Id) 
+            return;
 
-    get removeItems() {
-        return (event) => {
-            this.error = null;
-            //this.Options.error = null;
-     };
-    }
+        this.selectedSalesNote = null;
+        // this.selectedUnit = null;
+        this.selectedBuyer = null;
+        this.existingItems = [];
 
-    selectedTypeChanged(newValue){
-        if(newValue){
-            this.data.AvalType=newValue;
+        if (newValue && newValue.Id) {
+            await this.gldoService.getById(newValue.Id).then(data => {
+                var mapped = this.clearDataProperties(data);
+                Object.assign(this.data, mapped);
 
+                this.selectedSalesNote = {
+                    noteNo : this.data.LocalSalesNoteNo
+                };
+
+                // this.selectedUnit = {
+                //     Code: this.data.UnitExpenditure.Code,
+                //     Name: this.data.UnitExpenditure.Name
+                // };
+
+                this.selectedBuyer = this.data.Buyer;
+                this.existingItems = this.data.Items.map(i => {
+                    return {
+                        StockId: i.StockId,
+                        Quantity: i.Quantity
+                    };
+                });
+            }).catch(e => {
+                alert(e.Message || 'DO Sisa Tidak Ditemukan');
+            });
+        } else {
+            this.data.DOId = null;
+            delete this.data.ExpenditureDate;
+            this.data.ExpenditureTo = null;
+            this.data.LocalSalesNoteNo = null;
+            this.data.UnitExpenditure = null;
+            this.data.OtherDescription = "";
+            this.data.Description = "";
+            this.data.Buyer = null;
+            this.data.QtyKG = 0;
+            this.data.Items = [];
         }
-        if(!this.data.Id){
-            this.data.Items.splice(0);
-        }
     }
 
-    selectedSalesNoteChanged(newValue) {
-        if (this.data.Id) return;
+    selectedTypeChanged(newValue) {
+        if (this.data && this.data.Id)
+            return;
 
-        this.data.LocalSalesNoteNo = null;
-        this.data.LocalSalesNoteId = 0;
+        this.selectedSalesNote = null;
+        this.selectedGLDO = null;
+        this.selectedUnit = null;
+        this.selectedBuyer = null;
+        this.existingItems = [];
+
         if (newValue) {
-            this.data.LocalSalesNoteNo = newValue.noteNo;
-            this.data.LocalSalesNoteId = newValue.id;
+            this.data.AvalType = newValue;
+            this.selectedType = newValue;
+            
+            // this.data.DOId = null;
+            // delete this.data.ExpenditureDate;
+            // this.data.LocalSalesNoteNo = null;
+            // this.data.UnitExpenditure = null;
+            // this.data.EtcRemark = "";
+            // this.data.Remark = "";
+            // this.data.Buyer = null;
+            // this.data.QtyKG = 0;
+            // this.data.Items = [];
         }
     }
 
-    manualChanged(newValue){
-        if(!this.data.Id){
-            if(this.context.selectedSalesNote)
-                this.context.selectedSalesNote.editorValue = "";
-            this.selectedSalesNote=null;
-            this.data.LocalSalesNoteNo= "";
-            this.data.LocalSalesNoteId=0;
-        }
+    get isUsed() {
+        return (this.data.IsUsed || this.data.IsBC || !this.data.DOId);
     }
-
 }
