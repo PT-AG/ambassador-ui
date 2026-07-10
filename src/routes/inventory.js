@@ -91,6 +91,21 @@ module.exports = [
   //     }
   // },
   {
+    route: "inventory/garment/leftover-warehouse/delivery-order",
+    name: "inventory/garment/leftover-warehouse/delivery-order",
+    moduleId: "modules/inventory/garment-leftover-warehouse/delivery-order/index",
+    nav: true,
+    title: "DO Gudang Sisa",
+    auth: true,
+    settings: {
+      group: "Inventory",
+      // permission: { "C9": 1, "PG": 1, "PDU":1 },
+      permission: { G5: 1 },
+      subGroup: "gudang sisa garment",
+      iconClass: "fa fa-dashboard",
+    },
+  },
+  {
     route: "inventory/garment/leftover-warehouse/expenditure/fabric",
     name: "inventory/garment/leftover-warehouse/expenditure/fabric",
     moduleId:
