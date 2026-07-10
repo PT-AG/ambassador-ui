@@ -20,6 +20,7 @@
         </au-datepicker>
 
         <au-autocomplete label="No Bon DO Sisa" value.bind="selectedGLDO" read-only.bind="readOnly || isEdit"
+            error.bind="error.DONo"
             loader.bind="garmentLeftoverWarehouseDeliveryOrderLoader" query.bind="gldoFilter" text.bind="gldoView"
             options.bind="controlOptions">
         </au-autocomplete>
