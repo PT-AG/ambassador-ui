@@ -6,7 +6,7 @@ var DeliveryOrderBySupplierLoader = require('../../../loader/delivery-order-by-s
 var StorageLoader = require('../../../loader/storage-loader');
 var moment = require('moment');
 
-@inject(BindingEngine, Element,Service)
+@inject(BindingEngine, Element, Service)
 export class DataForm {
     @bindable readOnly = false;
     @bindable data = {};
@@ -18,11 +18,11 @@ export class DataForm {
 
     constructor(bindingEngine, element, service) {
         this.bindingEngine = bindingEngine;
-        this.element = element; 
+        this.element = element;
         this.service = service;
-        
-        
-        
+
+
+
         this.auInputOptions = {
             label: {
                 length: 4,
@@ -39,20 +39,20 @@ export class DataForm {
                 { header: "Barang" },
                 { header: "Jumlah" },
                 { header: "Satuan" },
-                { header: "Keterangan" }   
+                { header: "Keterangan" }
             ],
             // onRemove: function() {
             //     this.bind();
             // }
         };
     }
-    @computedFrom("data.deliveryOrder" , "data.unit")
-    get storageFilter(){
-         var storageFilter={};
-        if(this.data.unit){
-            storageFilter={
+    @computedFrom("data.deliveryOrder", "data.unit")
+    get storageFilter() {
+        var storageFilter = {};
+        if (this.data.unit) {
+            storageFilter = {
                 "UnitName": this.data.unit.name,
-                "DivisionName" : this.data.unit.division.name
+                "DivisionName": this.data.unit.division.name
             };
         }
         console.log(storageFilter);
@@ -68,15 +68,13 @@ export class DataForm {
     @computedFrom("data.supplier", "data.unit")
     get filter() {
         var filter = {
-            //"Items.SelectMany(item=>item.Details.Where(detail => detail.unitId ))":this.data.unitId,
-            //"Items.Contains(p=>p.EPONo)": "PE-A4-18-06-001",
-            "unitId" :this.data.unitId,
-            "supplierId": this.data.supplierId
+            "supplierId": this.data.supplierId,
+            "unitId": this.data.unitId
         };
         return filter;
     }
 
-    storageFields=["name","code"];
+    storageFields = ["name", "code"];
 
     async bind(context) {
         this.context = context;
@@ -86,9 +84,9 @@ export class DataForm {
             this.data.supplier.toString = function () {
                 return this.code + " - " + this.name;
             };
-        if(this.data.isStorage && this.data.unit){
-            this.data.storage.unit=this.data.unit;
-            this.storage=this.data.storage;
+        if (this.data.isStorage && this.data.unit) {
+            this.data.storage.unit = this.data.unit;
+            this.storage = this.data.storage;
         }
 
         // if (this.data.isInventory) {
@@ -111,11 +109,11 @@ export class DataForm {
         else {
             this.data.supplierId = undefined;
         }
-        
+
         this.deliveryOrderAU.editorValue = "";
         this.data.deliveryOrderId = undefined;
-        this.storage=null;
-        this.data.isInventory=false;
+        this.storage = null;
+        this.data.isInventory = false;
     }
 
     unitChanged(newValue, oldValue) {
@@ -127,10 +125,10 @@ export class DataForm {
             this.data.unit.name = _selectedUnit.Name;
             this.data.unit.code = _selectedUnit.Code;
             this.data.unitId = _selectedUnit.Id ? _selectedUnit.Id : "";
-            this.data.unit.division=_selectedUnit.Division;
-            this.data.unit.division._id=_selectedUnit.Division.Id;
-            this.data.unit.division.name=_selectedUnit.Division.Name;
-            this.data.unit.division.code=_selectedUnit.Division.Code;
+            this.data.unit.division = _selectedUnit.Division;
+            this.data.unit.division._id = _selectedUnit.Division.Id;
+            this.data.unit.division.name = _selectedUnit.Division.Name;
+            this.data.unit.division.code = _selectedUnit.Division.Code;
         }
         else {
             this.data.unitId = null;
@@ -138,91 +136,71 @@ export class DataForm {
 
         this.deliveryOrderAU.editorValue = "";
         this.data.deliveryOrderId = undefined;
-        this.data.storageId=undefined;
-        this.storage=null;
-        this.data.isInventory=false;
+        this.data.storageId = undefined;
+        this.storage = null;
+        this.data.isInventory = false;
     }
 
     async deliveryOrderChanged(newValue, oldValue) {
         var selectedDo = newValue;
-        
+
         if (selectedDo) {
             this.data.deliveryOrder = selectedDo;
             this.data.doId = selectedDo._id;
-            this.data.doNo=selectedDo.no;
+            this.data.doNo = selectedDo.no;
             var selectedItem = selectedDo.items || [];
-            
+
             var _items = [];
-            var getEPO=[];
+            var getEPO = [];
             for (var item of selectedItem) {
                 getEPO.push(this.service.getEPOById(item.purchaseOrderExternal._id));
                 for (var fulfillment of item.fulfillments) {
                     var _item = {};
-                    if (fulfillment.purchaseOrder.purchaseRequest.unit._id == this.data.unitId) {
-                        _item.product = fulfillment.product;
-                        _item.deliveredUom = fulfillment.purchaseOrderUom;
-                        _item.product.uom=_item.deliveredUom;
-                        _item.purchaseOrder = fulfillment.purchaseOrder;
-                        _item.purchaseOrderId = fulfillment.purchaseOrderId;
-                        _item.purchaseOrderQuantity = fulfillment.purchaseOrderQuantity;
-                        _item.epoDetailId=fulfillment.EPODetailId;
-                        _item.prItemlId=fulfillment.PRItemId;
-                        _item.poItemlId=fulfillment.POItemId;
-                        _item.doDetailId=fulfillment._id;
-                        _item.prId=fulfillment.purchaseOrder.purchaseRequest._id;
-                        _item.prNo=fulfillment.purchaseOrder.purchaseRequest.no;
-                        _item.epoId=item.purchaseOrderExternal._id;
-                        //_item.pricePerDealUnit=
-                        // _item.currency = fulfillment.purchaseOrder.currency;
-                        // _item.currencyRate = fulfillment.purchaseOrder.currencyRate;
 
-                        // var total = fulfillment.realizationQuantity
-                        //     .map(qty => qty.deliveredQuantity)
-                        //     .reduce((prev, curr, index) => {
-                        //         return prev + curr;
-                        //     }, 0);
+                    _item.product = fulfillment.product;
+                    _item.deliveredUom = fulfillment.purchaseOrderUom;
+                    _item.product.uom = _item.deliveredUom;
+                    _item.purchaseOrder = fulfillment.purchaseOrder;
+                    _item.purchaseOrderId = fulfillment.purchaseOrderId;
+                    _item.purchaseOrderQuantity = fulfillment.purchaseOrderQuantity;
+                    _item.epoDetailId = fulfillment.EPODetailId;
+                    _item.prItemId = fulfillment.PRItemId;
+                    _item.poItemId = fulfillment.POItemId;
+                    _item.doDetailId = fulfillment._id;
+                    _item.prId = fulfillment.purchaseOrder.purchaseRequest._id;
+                    _item.prNo = fulfillment.purchaseOrder.purchaseRequest.no;
+                    _item.epoId = item.purchaseOrderExternal._id;
+                    _item.deliveredQuantity = fulfillment.deliveredQuantity - fulfillment.receiptQuantity;
 
-                        //_item.deliveredQuantity = fulfillment.deliveredQuantity - total;
-
-                        _item.deliveredQuantity = fulfillment.deliveredQuantity - fulfillment.receiptQuantity;
-
-                        // for (var _poItem of fulfillment.purchaseOrder.items) {
-                        //     if (_poItem.product._id == fulfillment.product._id) {
-                        //         _item.pricePerDealUnit = _poItem.pricePerDealUnit;
-                        //         break;
-                        //     }
-                        // }
-                        //_item.deliveredQuantity=fulfillment.deliveredQuantity;
-                        if (_item.deliveredQuantity > 0)
-                            _items.push(_item);
-                    }
+                    if (_item.deliveredQuantity > 0)
+                        _items.push(_item);
                 }
             }
-            await Promise.all(getEPO).then(result=>{
-                for(var item of _items){
-                    var same= result.find(a=>a.Id==item.epoId);
-                    if(same){
-                        item.epoNo= same.no;
-                        item.incomeTaxBy=same.incomeTaxBy;
+            await Promise.all(getEPO).then(result => {
+                for (var item of _items) {
+                    var same = result.find(a => a.Id == item.epoId);
+                    if (same) {
+                        item.epoNo = same.no;
+                        item.incomeTaxBy = same.incomeTaxBy;
                     }
                 }
                 this.data.items = _items;
                 console.log(this.data.items);
             });
-            
+
         }
         else {
             this.data.items = [];
         }
         this.resetErrorItems();
-        this.storage=null;
-        this.data.isInventory=false;
+        this.storage = null;
+        this.data.isInventory = false;
     }
 
-    isStorageChanged(e){
-        if(!this.data.isStorage){
-            this.storage=null;
-            this.data.storage =null;
+    isStorageChanged(e) {
+        if (!this.data.isStorage) {
+            this.storage = null;
+            this.data.storage = null;
             this.data.storageId = null;
             console.log(this.data.storage)
         }
@@ -266,7 +244,7 @@ export class DataForm {
     }
 
     unitView = (unit) => {
-        return unit.division ?`${unit.division.name} - ${unit.name}` : `${unit.Division.Name} - ${unit.Name}`;
+        return unit.division ? `${unit.division.name} - ${unit.name}` : `${unit.Division.Name} - ${unit.Name}`;
     }
 
     supplierView = (supplier) => {
