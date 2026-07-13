@@ -2,6 +2,7 @@ import { inject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import Loader from "../../../../loader/garment-sales-contracts-loader";
 
+
 @inject(Router)
 export class List {
     controlOptions = {

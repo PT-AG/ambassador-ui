@@ -1,43 +1,48 @@
-import { inject, Lazy } from 'aurelia-framework';
-import { Router } from 'aurelia-router';
-import { Service } from './service';
-
+import { inject, Lazy } from "aurelia-framework";
+import { Router } from "aurelia-router";
+import { Service } from "./service";
+import { Base64Helper } from "../../../utils/base-64-coded-helper";
 
 @inject(Router, Service)
 export class Edit {
-    isEdit = true;
-    isCreate = false;
+  isEdit = true;
+  isCreate = false;
 
+  constructor(router, service) {
+    this.router = router;
+    this.service = service;
+  }
 
-    constructor(router, service) {
-        this.router = router;
-        this.service = service;
+  bind() {
+    this.error = {};
+  }
+
+  async activate(params) {
+    const decoded = Base64Helper.decode(params.id);
+    var id = decoded;
+
+    this.data = await this.service.getById(id);
+    if (this.data.isUsed == true) {
+      this.isUsed = true;
+    } else {
+      this.isUsed = false;
     }
+  }
 
-    bind() {
-        this.error = {};
-    }
+  cancelCallback(event) {
+    const encoded = Base64Helper.encode(this.data.id);
+    this.router.navigateToRoute('view', { id: encoded });
+    //this.router.navigateToRoute('view', { id: this.data.Id });
+  }
 
-    async activate(params) {
-        var id = params.id;
-        this.data = await this.service.getById(id);
-        if (this.data.isUsed == true) {
-            this.isUsed = true;
-        } else {
-            this.isUsed = false;
-        }
-
-    }
-
-    cancelCallback(event) {
-        this.router.navigateToRoute('view', { id: this.data.id });
-    }
-
-    saveCallback(event) {
-        this.service.update(this.data).then(result => {
-            this.cancelCallback();
-        }).catch(e => {
-            this.error = e;
-        })
-    }
+  saveCallback(event) {
+    this.service
+      .update(this.data)
+      .then((result) => {
+        this.cancelCallback();
+      })
+      .catch((e) => {
+        this.error = e;
+      });
+  }
 }

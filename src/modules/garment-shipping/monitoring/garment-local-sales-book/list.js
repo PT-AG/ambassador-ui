@@ -3,6 +3,7 @@ import { Service } from "./service";
 import { Router } from 'aurelia-router';
 var moment = require("moment");
 
+
 @inject(Router, Service)
 export class List {
     
