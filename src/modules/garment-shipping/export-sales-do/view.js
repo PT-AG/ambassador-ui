@@ -11,7 +11,9 @@ export class View {
     }
 
     async activate(params) {
-        var id = params.id;
+        const decoded = Base64Helper.decode(params.id);
+        var id = decoded;
+
         this.data = await this.service.getById(id);
         this.selectedPackingList = await this.service.getPackingListById(this.data.packingListId);
         this.selectedBuyerAgent = this.data.buyerAgent;
@@ -22,7 +24,8 @@ export class View {
     }
 
     editCallback(event) {
-        this.router.navigateToRoute('edit', { id: this.data.id });
+        const encoded = Base64Helper.encode(this.data.id);
+        this.router.navigateToRoute('edit', { id: encoded });
     }
 
     deleteCallback(event) {

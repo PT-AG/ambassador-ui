@@ -1,58 +1,66 @@
-import { inject } from 'aurelia-framework';
-import { Router } from 'aurelia-router';
-import { Service } from './service';
+import { inject } from "aurelia-framework";
+import { Router } from "aurelia-router";
+import { Service } from "./service";
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service)
 export class View {
-    constructor(router, service) {
-        this.router = router;
-        this.service = service;
+  constructor(router, service) {
+    this.router = router;
+    this.service = service;
+  }
+
+  isView = true;
+  isEdit = false;
+  isUpdated = false;
+  partial = false;
+
+  async activate(params) {
+      const decoded = Base64Helper.decode(params.id);
+      var id = decoded;
+
+      this.data = await this.service.getById(id);
+    this.hasEdit = true;
+    this.hasUpdated = !this.data.isPartial;
+    this.partial = this.data.isPartial;
+    this.hasCancel = true;
+
+    if (this.data.isUsed == true) {
+      this.hasDelete = false;
+    } else {
+      this.hasDelete = true;
     }
 
-    isView = true;
-    isEdit = false;
-    isUpdated = false;
-    partial = false;
-
-    async activate(params) {
-        let id = params.id;
-        this.data = await this.service.getById(id);
-        this.hasEdit = true;
-        this.hasUpdated = !this.data.isPartial;
-        this.partial = this.data.isPartial;
-        this.hasCancel = true;
-
-        if (this.data.isUsed == true) {
-            this.hasDelete = false;
-        } else {
-            this.hasDelete = true;
-        }
-
-        if (this.data.isPartial) {
-            this.data.items = [];
-        }
+    if (this.data.isPartial) {
+      this.data.items = [];
     }
+  }
 
-    cancel(event) {
-        this.router.navigateToRoute('list');
-    }
+  cancel(event) {
+    this.router.navigateToRoute("list");
+  }
 
-    edit(event) {
-        this.router.navigateToRoute('edit', { id: this.data.id });
-    }
+  edit(event) {
+    const encoded = Base64Helper.encode(this.data.id);
+    this.router.navigateToRoute("edit", { id: encoded });
+    this.router.navigateToRoute("edit", { id: encoded });
+    this.router.navigateToRoute("edit", { id: encoded });
+    this.router.navigateToRoute("edit", { id: encoded });
+  }
 
-    delete(event) {
-        if (confirm(`Hapus ${this.data.invoiceNo}?`))
-            this.service.delete(this.data)
-                .then(result => {
-                    this.cancel();
-                })
-                .catch(e => {
-                    this.error = e;
-                })
-    }
+  delete(event) {
+    if (confirm(`Hapus ${this.data.invoiceNo}?`))
+      this.service
+        .delete(this.data)
+        .then((result) => {
+          this.cancel();
+        })
+        .catch((e) => {
+          this.error = e;
+        });
+  }
 
-    update(event) {
-        this.router.navigateToRoute('update', { id: this.data.id });
-    }
+  update(event) {
+    this.router.navigateToRoute("update", { id: this.data.id });
+  }
 }
