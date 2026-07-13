@@ -10,7 +10,7 @@ export class List {
         this.router = router;
     }
 
-    context = ["Rincian"];
+    // context = ["Rincian"];
    
     columns = [
         { field: "UnitCode", title: "Unit" },
@@ -45,15 +45,15 @@ export class List {
             });
     }
 
-    contextClickCallback(event) {
-        var arg = event.detail;
-        var data = arg.data;
-        switch (arg.name) {
-            case "Rincian":
-                this.router.navigateToRoute('view', { id: data.Id });
-                break;
-        }
-    }
+    // contextClickCallback(event) {
+    //     var arg = event.detail;
+    //     var data = arg.data;
+    //     switch (arg.name) {
+    //         case "Rincian":
+    //             this.router.navigateToRoute('view', { id: data.Id });
+    //             break;
+    //     }
+    // }
 
     create() {
         this.router.navigateToRoute('create');
