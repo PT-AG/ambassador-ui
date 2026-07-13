@@ -13,9 +13,8 @@ export class List {
       checkbox: true,
       sortable: false,
       formatter: function (value, data, index) {
-        this.checkboxEnabled = !data._active;
-        return "";
-      },
+        this.checkboxEnabled = !data.Active;
+        return "" }
     },
     { field: "code", title: "Kode" },
     { field: "name", title: "Nama" },
@@ -31,8 +30,11 @@ export class List {
   ];
   dataToBePosted = [];
   rowFormatter(data, index) {
-    if (data._active) return { classes: "success" };
-    else return {};
+
+    if (data.Active)
+      return { classes: "success" }
+    else
+      return {}
   }
 
   loader = (info) => {
@@ -43,9 +45,9 @@ export class List {
       page: parseInt(info.offset / info.limit, 10) + 1,
       size: info.limit,
       keyword: info.search,
-      select: ["code", "name", "address", "import", "NPWP"],
-      order: order,
-    };
+      select:["code","name","address","import","NPWP"],
+      order: order
+    }
 
     return this.service.search(arg).then((result) => {
       return {
@@ -82,46 +84,45 @@ export class List {
     }
   }
   contextShowCallback(index, name, data) {
-    switch (name) {
-      case "nonaktif":
-        return data._active;
-      default:
-        return true;
+      switch (name) {
+          case "nonaktif":
+              return data.Active;
+          default:
+              return true;
+      }
     }
-  }
 
-  posting() {
-    if (this.dataToBePosted.length > 0) {
-      this.service
-        .post(this.dataToBePosted)
-        .then((result) => {
-          if (result && result.error) {
-            alert(result.error);
-            return;
-          }
-          this.table.refresh();
-        })
-        .catch((e) => {
-          var message = "Terjadi error";
-          if (e) {
-            if (e.error) {
-              message = e.error;
-            } else if (e.message) {
-              message = e.message;
+    posting() {
+      if (this.dataToBePosted.length > 0) {
+        this.service.post(this.dataToBePosted)
+          .then(result => {
+            if (result && result.error) {
+              alert(result.error);
+              return;
             }
-          }
-          alert(message);
-        });
-    } else {
-      alert("Tidak ada data dipilih");
+            this.table.refresh();
+          })
+          .catch(e => {
+            var message = "Terjadi error";
+            if (e) {
+              if (e.error) {
+                message = e.error;
+              } else if (e.message) {
+                message = e.message;
+              }
+            }
+            alert(message);
+          });
+      } else {
+        alert("Tidak ada data dipilih");
+      }
     }
-  }
 
   create() {
     this.router.navigateToRoute("create");
   }
 
   upload() {
-    this.router.navigateToRoute("upload");
-  }
-}
+    this.router.navigateToRoute('upload');
+  } 
+} 

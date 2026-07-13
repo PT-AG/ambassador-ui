@@ -47,9 +47,6 @@ export class DataForm {
     if (this.data.supplier) {
       this.selectedSupplier = this.data.supplier;
     }
-    if (this.data.unit) {
-      this.options.unitCode = this.data.unit.name || this.data.unit.Name;
-    }
     if (this.data.currency) {
       this.selectedCurrency = this.data.currency;
       this.data.currencyRate = this.data.currency.rate;

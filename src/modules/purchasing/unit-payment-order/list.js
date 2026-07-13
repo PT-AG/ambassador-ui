@@ -75,7 +75,7 @@ export class List {
                     });
                     _data.unitReceiptNoteNo = `<ul>${btuNo.join()}</ul>`;
                     _data.UPONo = _data.no;
-                    _data.DivisionName = _data.division.name;
+                    _data.DivisionName = _data.division ? _data.division.name : "-";
                     _data.SupplierName = _data.supplier.name;
                 }
                 return {

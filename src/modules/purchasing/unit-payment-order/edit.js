@@ -44,6 +44,13 @@ export class Edit {
     }
 
     save() {
+        this.data.division = {
+            _id: "0",
+            code: "-",
+            name: "-",
+            Name: "-"
+        };
+
         this.service.update(this.data).then(result => {
             this.cancel();
         }).catch(e => {

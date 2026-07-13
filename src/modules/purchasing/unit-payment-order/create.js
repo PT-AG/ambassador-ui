@@ -40,6 +40,13 @@ export class Create {
         var date = moment(this.data.date);
         var dueDate = moment(this.data.dueDate);
 
+        this.data.division = {
+            _id: "0",
+            code: "-",
+            name: "-",
+            Name: "-"
+        };
+
         if (this.data.date && this.data.dueDate && dueDate.isBefore(date, 'day')) {
             this.showLateReasonDialog = true; 
         } else {
