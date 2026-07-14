@@ -43,9 +43,7 @@ export class View {
   edit(event) {
     const encoded = Base64Helper.encode(this.data.id);
     this.router.navigateToRoute("edit", { id: encoded });
-    this.router.navigateToRoute("edit", { id: encoded });
-    this.router.navigateToRoute("edit", { id: encoded });
-    this.router.navigateToRoute("edit", { id: encoded });
+   
   }
 
   delete(event) {
@@ -61,6 +59,7 @@ export class View {
   }
 
   update(event) {
-    this.router.navigateToRoute("update", { id: this.data.id });
+      const encoded = Base64Helper.encode(this.data.id);
+      this.router.navigateToRoute('update', { id: encoded });
   }
 }

@@ -2,6 +2,7 @@ import { inject, Lazy } from "aurelia-framework";
 import { Router } from "aurelia-router";
 import { Service } from "./service";
 import { CoreService } from "./service";
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service, CoreService)
 export class Update {
@@ -35,11 +36,7 @@ export class Update {
   }
 
   cancel(event) {
-    const encoded = Base64Helper.encode(this.data.Id);
-    this.router.navigateToRoute("view", { id: encoded });
-    //this.router.navigateToRoute('view', { id: this.data.Id });
-    this.router.navigateToRoute("view", { id: encoded });
-    //this.router.navigateToRoute('view', { id: this.data.Id });
+    const encoded = Base64Helper.encode(this.data.id);
     this.router.navigateToRoute("view", { id: encoded });
     //this.router.navigateToRoute('view', { id: this.data.Id });
   }

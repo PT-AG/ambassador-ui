@@ -22,11 +22,9 @@ export class Edit {
         const decoded = Base64Helper.decode(params.id);
         var id = decoded;
 
-      this.data = await this.service.getById(id);
+        this.data = await this.service.getById(id);
 
-      this.data = await this.service.getById(id);
-
-      this.data = await this.service.getById(id);
+   
         this.error = {};
         var idx=0;
         if(this.data.measurements){
@@ -47,7 +45,7 @@ export class Edit {
     }
 
     cancelCallback(event) {
-    	const encoded = Base64Helper.encode(this.data.Id);
+    	const encoded = Base64Helper.encode(this.data.id);
     	this.router.navigateToRoute('view', { id: encoded });
     	//this.router.navigateToRoute('view', { id: this.data.Id });
     }
