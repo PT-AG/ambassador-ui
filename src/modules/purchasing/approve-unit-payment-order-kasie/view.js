@@ -14,7 +14,8 @@ export class View {
     }
 
     async activate(params) {
-        this.id = params.id;
+        const decoded = Base64Helper.decode(params.id);
+        this.id = decoded;
         this.data = await this.service.getById(this.id);
         if (this.data.division) {
             this.selectedDivision = this.data.division;
