@@ -1,6 +1,7 @@
 import { inject, Lazy } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Service, CoreService } from './service';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service, CoreService)
 export class View {

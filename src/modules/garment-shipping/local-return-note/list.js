@@ -77,7 +77,7 @@ export class List {
     switch (arg.name) {
       case "detail":
         const encoded = Base64Helper.encode(data.id);
-        this.router.navigaceToRoute("view", { id: encoded });
+        this.router.navigateToRoute("view", { id: encoded });
         //this.router.navigateToRoute('view', { id: data.Id });
         break;
       case "Cetak PDF":
