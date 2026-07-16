@@ -35,8 +35,9 @@ export class Stelling {
   async activate(params) {
     var id = params.id;
     this.Id = id;
+    this.savedFilters = params.filter;
     this.data = await this.service.getStelling(id);
-
+    this.uom=this.data[0].Uom;
     this.receipt = this.data.slice(0, 1);
 
   }
@@ -54,29 +55,7 @@ export class Stelling {
   }
 
   cancel(event) {
-    this.router.navigateToRoute('list');
+    this.router.navigateToRoute('list', { filter: this.savedFilters });
   }
-
-  cancel(event) {
-    this.router.navigateToRoute('list');
-  }
-
-
-  //   bind(context) {
-  //     this.context = context;
-  //     this.data = {
-  //         items: []
-  //       };
-  //       this.error = {};
-
-  //     this.cancelCallback = this.context.cancelCallback;
-  //     // this.deleteCallback = this.context.deleteCallback;
-  //     // this.editCallback = this.context.editCallback;
-  //     this.saveCallback = this.context.saveCallback;
-  //   }
-
-
-
-
 
 }
