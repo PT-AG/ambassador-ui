@@ -106,7 +106,9 @@ export class List {
         var data = arg.data;
         switch (arg.name) {
             case "Rincian":
-                this.router.navigateToRoute('view', { id: data._id });
+                const encoded = Base64Helper.encode(data._id);
+                this.router.navigateToRoute('view', { id: encoded });
+                //this.router.navigateToRoute('view', { id: data.Id });
                 break;
         }
     }

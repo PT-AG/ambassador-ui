@@ -6,6 +6,7 @@ import { AuthService } from "aurelia-authentication";
 import { RejectReason } from "./dialog-template/reject-reason";
 import moment from 'moment';
 import numeral from 'numeral';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 numeral.defaultFormat("0,0.00");
 
@@ -99,7 +100,8 @@ export class View {
             this.me = null;
         }
 
-        var id = params.id;
+        const decoded = Base64Helper.decode(params.id);
+        var id = decoded;
         this.data = await this.service.getById(id);
         this.error = {};
 

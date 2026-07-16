@@ -1,46 +1,59 @@
-import { inject, Lazy } from 'aurelia-framework';
-import { Router } from 'aurelia-router';
-import { Service } from './service';
+import {inject, Lazy} from 'aurelia-framework';
+import {Router} from 'aurelia-router';
+import {Service} from './service';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 
 @inject(Router, Service)
-export class Edit {
+export class View {
+    hasEdit = true;
+    hasDelete = true;
+
     constructor(router, service) {
         this.router = router;
         this.service = service;
     }
-isEdit=true;
-    async activate(params) {
-        var id = params.id;
+
+    async activate(params, routeConfig, navigationInstruction) {
+        const instruction = navigationInstruction.getAllInstructions()[0];
+        const parentInstruction = instruction.parentInstruction;
+        const byUser = parentInstruction.config.settings.byUser;
+
+        const decoded = Base64Helper.decode(params.id);
+        var id = decoded;
+
         this.data = await this.service.getById(id);
-        // this.hasItems=false;
-        // if(this.data.Items)
-        //     if(this.data.Items.length>0){
-        //         for(var item of this.data.Items){
-        //             item.Uom=this.data.Uom.Unit;
-        //             item.PricePerUnit=this.data.Uom.Unit;
-        //         }
-        //         this.hasItems=true;
-        //     }
-    }
-
-    view(data) {
-        this.router.navigateToRoute('view', { id: this.data.Id });
-    }
-
-    save() {
-        if(this.data.SalesContractROs){
-            for(var item of this.data.SalesContractROs){
-                if(item.Items.length===0){
-                    item.Price=item.Price?item.Price:0;
-                }
+        if (this.data && this.data.CostCalculationId) {
+            let costCal = await this.service.getCostCalById(this.data.CostCalculationId);
+            if (costCal.RO_GarmentId) {
+                this.hasEdit = false;
+                this.hasDelete = false;
             }
         }
-        
-        this.service.update(this.data).then(result => {
-            this.view();
-        }).catch(e => {
-            this.error = e;
-        })
+        this.hasItems=true;
+
+        if (!byUser) {
+            this.hasEdit = false;
+            this.hasDelete = false;
+        }
+    }
+
+    list() {
+        this.router.navigateToRoute('list');
+    }
+
+    edit(data) {
+      const encoded = Base64Helper.encode(this.data.Id);
+      this.router.navigateToRoute('view', { id: encoded });
+      //this.router.navigateToRoute('view', { id: this.data.Id });
+    }
+
+    delete() {
+        if (confirm("Delete?")) {
+            this.service.delete(this.data)
+                .then(result => {
+                    this.list();
+                });
+        }
     }
 }

@@ -1,6 +1,7 @@
 import { inject, Lazy } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Service } from './service';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 import { RejectDialog } from "../packing-list-approval/template/dialog/reject";
 import { Dialog } from "../../../au-components/dialog/dialog";
 
@@ -14,8 +15,11 @@ export class View {
     }
 
     async activate(params) {
-        var id = params.id;
-        this.data = await this.service.getById(id);
+        const decoded = Base64Helper.decode(params.id);
+        var id = decoded;
+
+      this.data = await this.service.getById(id);
+
         this.selectedTransactionType = this.data.transactionType;
         
     }

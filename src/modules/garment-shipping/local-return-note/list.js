@@ -1,87 +1,92 @@
-import { inject } from 'aurelia-framework';
+import { inject } from "aurelia-framework";
 import { Service } from "./service";
-import { Router } from 'aurelia-router';
-import moment from 'moment';
+import { Router } from "aurelia-router";
+import moment from "moment";
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service)
 export class List {
+  context = ["detail", "Cetak PDF"];
 
-    context = ["detail","Cetak PDF"]
+  columns = [
+    { field: "returnNoteNo", title: "No Nota Retur" },
+    { field: "salesNote.noteNo", title: "No Nota Penjualan" },
+    {
+      field: "returnDate",
+      title: "Tgl Retur",
+      formatter: function (value) {
+        return moment(value).format("DD MMM YYYY");
+      },
+    },
+    { field: "salesNote.buyerCode", title: "Buyer" },
+    {
+      field: "dueDate",
+      title: "Tgl Jatuh Tempo",
+      formatter: function (value) {
+        return moment(value).format("DD MMM YYYY");
+      },
+      sortable: false,
+    },
+    { field: "salesNote.dispositionNo", title: "No Disposisi" },
+  ];
 
-    columns = [
-        { field: "returnNoteNo", title: "No Nota Retur" },
-        { field: "salesNote.noteNo", title: "No Nota Penjualan" },
-        {
-            field: "returnDate", title: "Tgl Retur", formatter: function (value) {
-                return moment(value).format("DD MMM YYYY");
-            }
-        },
-        { field: "salesNote.buyerCode", title: "Buyer" },
-        {
-            field: "dueDate", title: "Tgl Jatuh Tempo", formatter: function (value) {
-                return moment(value).format("DD MMM YYYY");
-            }, sortable: false
-        },
-        { field: "salesNote.dispositionNo", title: "No Disposisi" },
-    ];
+  loader = (info) => {
+    var order = {};
+    if (info.sort) order[info.sort] = info.order;
 
-    loader = (info) => {
-        var order = {};
-        if (info.sort)
-            order[info.sort] = info.order;
+    var arg = {
+      page: parseInt(info.offset / info.limit, 10) + 1,
+      size: info.limit,
+      keyword: info.search,
+      order: order,
+    };
 
-        var arg = {
-            page: parseInt(info.offset / info.limit, 10) + 1,
-            size: info.limit,
-            keyword: info.search,
-            order: order
-        }
+    return this.service.search(arg).then((result) => {
+      for (const data of result.data) {
+        data.salesNote.buyer = data.salesNote.buyer || {};
+        data.salesNote.buyerCode = `${data.salesNote.buyer.code} - ${data.salesNote.buyer.name}`;
+        data.dueDate = this.dueDate(data.salesNote.date, data.salesNote.tempo);
+      }
 
-        return this.service.search(arg)
-            .then(result => {
-                for (const data of result.data) {
-                    data.salesNote.buyer = data.salesNote.buyer || {};
-                    data.salesNote.buyerCode = `${data.salesNote.buyer.code} - ${data.salesNote.buyer.name}`;
-                    data.dueDate = this.dueDate(data.salesNote.date, data.salesNote.tempo);
-                }
+      return {
+        total: result.info.total,
+        data: result.data,
+      };
+    });
+  };
 
-                return {
-                    total: result.info.total,
-                    data: result.data
-                }
-            });
+  dueDate(date, tempo) {
+    if (!date) {
+      return null;
     }
 
-    dueDate(date, tempo) {
-        if (!date) {
-            return null;
-        }
+    let dueDate = new Date(date || new Date());
+    dueDate.setDate(dueDate.getDate() + tempo);
 
-        let dueDate = new Date(date || new Date());
-        dueDate.setDate(dueDate.getDate() + tempo);
-        
-        return dueDate;
-    }
+    return dueDate;
+  }
 
-    constructor(router, service) {
-        this.service = service;
-        this.router = router;
-    }
+  constructor(router, service) {
+    this.service = service;
+    this.router = router;
+  }
 
-    contextClickCallback(event) {
-        var arg = event.detail;
-        var data = arg.data;
-        switch (arg.name) {
-            case "detail":
-                this.router.navigateToRoute('view', { id: data.id });
-                break;
-            case "Cetak PDF": 
-                this.service.getPdfById(data.id); 
-                break;
-        }
+  contextClickCallback(event) {
+    var arg = event.detail;
+    var data = arg.data;
+    switch (arg.name) {
+      case "detail":
+        const encoded = Base64Helper.encode(data.id);
+        this.router.navigateToRoute("view", { id: encoded });
+        //this.router.navigateToRoute('view', { id: data.Id });
+        break;
+      case "Cetak PDF":
+        this.service.getPdfById(data.id);
+        break;
     }
+  }
 
-    create() {
-        this.router.navigateToRoute('create');
-    }
+  create() {
+    this.router.navigateToRoute("create");
+  }
 }
