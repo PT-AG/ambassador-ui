@@ -4,6 +4,7 @@ import { Service } from './service';
 import { VBRealizationService } from './vb-realization-service';
 import { Dialog } from '../../../au-components/dialog/dialog';
 import { AlertView } from './custom-dialog-view/alert-view';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service, Dialog, VBRealizationService)
 export class View {
@@ -16,7 +17,8 @@ export class View {
     }
 
     async activate(params) {
-        let id = params.id;
+        const decoded = Base64Helper.decode(params.id);
+        let id = decoded;
         this.data.vbRealization = await this.vbRealizationService.getById(id);
 
 

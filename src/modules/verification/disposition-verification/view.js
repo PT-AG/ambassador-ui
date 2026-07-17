@@ -3,7 +3,8 @@ import { Router } from 'aurelia-router';
 import { Service, PurchasingDispositionService } from './service';
 import { activationStrategy } from 'aurelia-router';
 import { Dialog } from '../../../components/dialog/dialog';
-import { AlertView } from './custom-dialog-view/alert-view';
+import { AlertView } from './custom-dialog-view/alert-view';    
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 var moment = require("moment");
 
@@ -51,7 +52,8 @@ export class View {
     
     //context = ["Rincian Purchase Request"];
     async activate(params) {
-        var id = params.id;
+        const decoded = Base64Helper.decode(params.id);
+        var id = decoded;
         this.dataExpedition = await this.service.getById(id);
         let info = {
             page: 1,
@@ -97,7 +99,8 @@ export class View {
     }
 
     edit(event) {
-        this.router.navigateToRoute('edit', { id: this.dataExpedition.Id });
+    	const encoded = Base64Helper.encode(this.selectedExpedition.Id);
+    	this.router.navigateToRoute("edit", { id: encoded });
     }
 
     async contextCallback(event) {
