@@ -5,7 +5,8 @@ import moment from "moment";
 import numeral from "numeral";
 import { Dialog } from "../../../au-components/dialog/dialog";
 import { CreateView } from "./custom-dialog-view/create-view";
-
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
+  
 @inject(Router, Service, Dialog)
 export class List {
   dataToBePosted = [];
