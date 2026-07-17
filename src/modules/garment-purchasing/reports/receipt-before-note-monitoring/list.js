@@ -111,7 +111,7 @@ export class List {
         let args = {
             page: this.page==0? parseInt(info.offset / info.limit, 10) + 1 : this.page,
             size: info.limit,
-            UrnNo:this.unitReceiptNote? this.unitReceiptNote.no:"",
+            UrnNo:this.unitReceiptNote? this.unitReceiptNote.URNNo:"",
             SupplierName: this.supplier? this.supplier.name : "",
             DONo: this.doNo? this.doNo.doNo: "",
             dateTo: this.dateTo? moment(this.dateTo).format("MM/DD/YYYY"):"",
