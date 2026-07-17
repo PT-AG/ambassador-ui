@@ -68,8 +68,10 @@ export class DataForm {
     @computedFrom("data.supplier", "data.unit")
     get filter() {
         var filter = {
-            "supplierId": this.data.supplierId,
-            "unitId": this.data.unitId
+            // "supplierId": this.data.supplierId,
+            // "unitId": this.data.unitId
+            supplierId: this.data.supplierId,
+            unitId: "" // <-- paksa kosong biar bypass filter unit di backend
         };
         return filter;
     }
@@ -104,7 +106,7 @@ export class DataForm {
 
         if (selectedSupplier) {
             this.data.supplier = selectedSupplier;
-            this.data.supplierId = selectedSupplier._id;
+            this.data.supplierId = selectedSupplier._id || selectedSupplier.Id;
         }
         else {
             this.data.supplierId = undefined;
@@ -146,7 +148,7 @@ export class DataForm {
 
         if (selectedDo) {
             this.data.deliveryOrder = selectedDo;
-            this.data.doId = selectedDo._id;
+            this.data.doId = selectedDo._id || selectedDo.Id;
             this.data.doNo = selectedDo.no;
             var selectedItem = selectedDo.items || [];
 

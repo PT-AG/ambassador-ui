@@ -35,9 +35,15 @@ export class Create {
     save(event) {
         this.data.unit = {
             _id: "0",
-            code: "",
-            name: "",
-            Name: ""
+            code: "-",
+            name: "-",
+            Name: "-"
+        };
+        this.data.division = {
+            _id: "0",
+            code: "-",
+            name: "-",
+            Name: "-"
         };
 
         if(this.data.items){
