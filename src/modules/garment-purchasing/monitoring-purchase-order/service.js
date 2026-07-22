@@ -17,8 +17,8 @@ export class Service extends RestService {
         return super.list(endpoint, args);
     }
 
-    generateExcel(epono, unit, roNo, article, poSerialNumber, doNo, ipoStatus, supplier, status, dateFrom, dateTo, dateFromEx, dateToEx, shipmentDateFrom, shipmentDateTo) {
-        var endpoint = `${serviceUri}/download?unit=${unit}&article=${article}&poSerialNumber=${poSerialNumber}&ipoStatus=${ipoStatus}&epono=${epono}&roNo=${roNo}&doNo=${doNo}&supplier=${supplier}&dateFrom=${dateFrom}&dateTo=${dateTo}&dateFromEx=${dateFromEx}&dateToEx=${dateToEx}&status=${status}&shipmentDateFrom=${shipmentDateFrom}&shipmentDateTo=${shipmentDateTo}`;
+    generateExcel(epono, unit, roNo, article, poSerialNumber, doNo, ipoStatus, supplier, buyer, status, dateFrom, dateTo, dateFromEx, dateToEx, shipmentDateFrom, shipmentDateTo) {
+        var endpoint = `${serviceUri}/download?unit=${unit}&article=${article}&poSerialNumber=${poSerialNumber}&ipoStatus=${ipoStatus}&epono=${epono}&roNo=${roNo}&doNo=${doNo}&supplier=${supplier}&buyer=${buyer}&dateFrom=${dateFrom}&dateTo=${dateTo}&dateFromEx=${dateFromEx}&dateToEx=${dateToEx}&status=${status}&shipmentDateFrom=${shipmentDateFrom}&shipmentDateTo=${shipmentDateTo}`;
         console.log(doNo);
         console.log(endpoint);
         return super.getXls(endpoint);
