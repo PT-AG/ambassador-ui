@@ -2,6 +2,7 @@ import { inject } from "aurelia-framework";
 import { Service } from "./service";
 import { Router } from "aurelia-router";
 import moment from "moment";
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service)
 export class List {
@@ -115,8 +116,9 @@ export class List {
       activeTab === "Realisasi VB Cash" ? "view" : "view-inklaring";
     switch (arg.name) {
       case "Detail":
+        const encoded = Base64Helper.encode(data.Id);
         this.router.navigateToRoute(viewRoute, {
-          id: data.Id,
+          id: encoded,
           search: this.ressearch,
         });
         break;

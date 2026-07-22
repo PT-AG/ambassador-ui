@@ -2,6 +2,7 @@ import { inject, Lazy } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import PurchasingDocumentExpeditionService from '../shared/purchasing-document-expedition-service';
 import { Dialog } from '../../../au-components/dialog/dialog';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, PurchasingDocumentExpeditionService, Dialog)
 export class View {
@@ -23,7 +24,8 @@ export class View {
     }
 
     async activate(params) {
-        let id = params.id;
+        const decoded = Base64Helper.decode(params.id);
+        let id = decoded;
         this.data = await this.service.getById(id);
 
         this.items = [];
