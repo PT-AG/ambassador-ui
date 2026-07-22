@@ -1,6 +1,6 @@
-import {inject} from 'aurelia-framework';
-import {Service} from "./service";
-import {Router} from 'aurelia-router';
+import { inject } from 'aurelia-framework';
+import { Service } from "./service";
+import { Router } from 'aurelia-router';
 import moment from 'moment';
 import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
@@ -10,7 +10,7 @@ export class List {
     info = { page: 1, keyword: '' };
 
     rowFormatter(data, index) {
-        if (data.isPosted && data.IsApprovedKasie && data.IsApprovedKabag )
+        if (data.isPosted && data.IsApprovedKasie && data.IsApprovedKabag)
             return { classes: "success" }
         else
             return {}
@@ -19,7 +19,7 @@ export class List {
     context = ["Rincian", "Cetak PDF"]
 
     columns = [
-        { field: "DivisionName", title: "Divisi" },
+        // { field: "DivisionName", title: "Divisi" },
         { field: "SupplierName", title: "Supplier" },
         {
             field: "date", title: "Tanggal Surat Perintah Bayar", formatter: function (value, data, index) {
@@ -34,17 +34,17 @@ export class List {
                 return value ? "SUDAH" : "BELUM";
             }
         },
-        { 
-            field: "IsApprovedKasie", 
-            title: "Approve Manager 1", 
+        {
+            field: "IsApprovedKasie",
+            title: "Approve Manager 1",
             formatter: function (value, row, index) {
-                return value ? "SUDAH" : "BELUM" 
+                return value ? "SUDAH" : "BELUM"
             }
         },
-        { 
-            field: "IsApprovedKabag", 
-            title: "Approve Manager 2", 
-            formatter: (value) => value ? "SUDAH" : "BELUM" 
+        {
+            field: "IsApprovedKabag",
+            title: "Approve Manager 2",
+            formatter: (value) => value ? "SUDAH" : "BELUM"
         }
     ];
 
@@ -101,25 +101,25 @@ export class List {
     contextShowCallback(index, name, data) {
         switch (name) {
             case "Cetak PDF":
-            let totalAmount = 0;
-            if (data.items) {
-                data.items.forEach(item => {
-                    if (item.unitReceiptNote && item.unitReceiptNote.items) {
-                        item.unitReceiptNote.items.forEach(urnItem => {
-                            totalAmount += (urnItem.PriceTotal || 0);
-                        });
-                    }
-                });
-            }
+                let totalAmount = 0;
+                if (data.items) {
+                    data.items.forEach(item => {
+                        if (item.unitReceiptNote && item.unitReceiptNote.items) {
+                            item.unitReceiptNote.items.forEach(urnItem => {
+                                totalAmount += (urnItem.PriceTotal || 0);
+                            });
+                        }
+                    });
+                }
 
-            if (totalAmount <= 3000000) {
-                return data.isPosted && data.IsApprovedKasie;
-            } else {
-                return data.isPosted && data.IsApprovedKasie && data.IsApprovedKabag;
-            }
+                if (totalAmount <= 3000000) {
+                    return data.isPosted && data.IsApprovedKasie;
+                } else {
+                    return data.isPosted && data.IsApprovedKasie && data.IsApprovedKabag;
+                }
 
-        default:
-            return true;
+            default:
+                return true;
         }
     }
 

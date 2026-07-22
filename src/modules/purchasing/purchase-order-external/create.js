@@ -39,6 +39,12 @@ export class Create {
             name: "-",
             Name: "-"
         };
+        this.data.division = {
+            _id: "0",
+            code: "-",
+            name: "-",
+            Name: "-"
+        };
 
         if(this.data.items){
             for(var item of this.data.items){

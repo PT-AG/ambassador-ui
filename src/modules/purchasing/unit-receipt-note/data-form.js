@@ -68,8 +68,10 @@ export class DataForm {
     @computedFrom("data.supplier", "data.unit")
     get filter() {
         var filter = {
-            "supplierId": this.data.supplierId,
-            "unitId": this.data.unitId
+            // "supplierId": this.data.supplierId,
+            // "unitId": this.data.unitId
+            supplierId: this.data.supplierId,
+            unitId: "" // <-- paksa kosong biar bypass filter unit di backend
         };
         return filter;
     }
@@ -104,7 +106,7 @@ export class DataForm {
 
         if (selectedSupplier) {
             this.data.supplier = selectedSupplier;
-            this.data.supplierId = selectedSupplier._id;
+            this.data.supplierId = selectedSupplier._id || selectedSupplier.Id;
         }
         else {
             this.data.supplierId = undefined;
@@ -121,14 +123,14 @@ export class DataForm {
 
         if (_selectedUnit) {
             this.data.unit = _selectedUnit;
-            this.data.unit._id = _selectedUnit.Id;
-            this.data.unit.name = _selectedUnit.Name;
-            this.data.unit.code = _selectedUnit.Code;
-            this.data.unitId = _selectedUnit.Id ? _selectedUnit.Id : "";
-            this.data.unit.division = _selectedUnit.Division;
-            this.data.unit.division._id = _selectedUnit.Division.Id;
-            this.data.unit.division.name = _selectedUnit.Division.Name;
-            this.data.unit.division.code = _selectedUnit.Division.Code;
+            this.data.unit._id = _selectedUnit.Id || _selectedUnit._id;
+            this.data.unit.name = _selectedUnit.Name || _selectedUnit.name;
+            this.data.unit.code = _selectedUnit.Code || _selectedUnit.code;
+            this.data.unitId = _selectedUnit.Id || _selectedUnit._id || "";
+            this.data.unit.division = _selectedUnit.Division || _selectedUnit.division;
+            this.data.unit.division._id = this.data.unit.division.Id || this.data.unit.division._id;
+            this.data.unit.division.name = this.data.unit.division.Name || this.data.unit.division.name;
+            this.data.unit.division.code = this.data.unit.division.Code || this.data.unit.division.code;
         }
         else {
             this.data.unitId = null;
@@ -146,14 +148,15 @@ export class DataForm {
 
         if (selectedDo) {
             this.data.deliveryOrder = selectedDo;
-            this.data.doId = selectedDo._id;
+            this.data.doId = selectedDo._id || selectedDo.Id;
             this.data.doNo = selectedDo.no;
             var selectedItem = selectedDo.items || [];
 
             var _items = [];
             var getEPO = [];
             for (var item of selectedItem) {
-                getEPO.push(this.service.getEPOById(item.purchaseOrderExternal._id));
+                var epoId = item.purchaseOrderExternal.Id || item.purchaseOrderExternal._id;
+                getEPO.push(this.service.getEPOById(epoId));
                 for (var fulfillment of item.fulfillments) {
                     var _item = {};
 
@@ -161,15 +164,15 @@ export class DataForm {
                     _item.deliveredUom = fulfillment.purchaseOrderUom;
                     _item.product.uom = _item.deliveredUom;
                     _item.purchaseOrder = fulfillment.purchaseOrder;
-                    _item.purchaseOrderId = fulfillment.purchaseOrderId;
-                    _item.purchaseOrderQuantity = fulfillment.purchaseOrderQuantity;
-                    _item.epoDetailId = fulfillment.EPODetailId;
-                    _item.prItemId = fulfillment.PRItemId;
-                    _item.poItemId = fulfillment.POItemId;
-                    _item.doDetailId = fulfillment._id;
-                    _item.prId = fulfillment.purchaseOrder.purchaseRequest._id;
-                    _item.prNo = fulfillment.purchaseOrder.purchaseRequest.no;
-                    _item.epoId = item.purchaseOrderExternal._id;
+                    _item.purchaseOrderId = fulfillment.purchaseOrderId || fulfillment.PurchaseOrderId;
+                    _item.purchaseOrderQuantity = fulfillment.purchaseOrderQuantity || fulfillment.PurchaseOrderQuantity;
+                    _item.epoDetailId = fulfillment.EPODetailId || fulfillment.epoDetailId;
+                    _item.prItemId = fulfillment.PRItemId || fulfillment.prItemId;
+                    _item.poItemId = fulfillment.POItemId || fulfillment.poItemId;
+                    _item.doDetailId = fulfillment.Id || fulfillment._id;
+                    _item.prId = fulfillment.purchaseOrder.purchaseRequest.Id || fulfillment.purchaseOrder.purchaseRequest._id;
+                    _item.prNo = fulfillment.purchaseOrder.purchaseRequest.No || fulfillment.purchaseOrder.purchaseRequest.no;
+                    _item.epoId = epoId;
                     _item.deliveredQuantity = fulfillment.deliveredQuantity - fulfillment.receiptQuantity;
 
                     if (_item.deliveredQuantity > 0)
