@@ -1,7 +1,7 @@
 <template>
 
     <style>
-        table > tbody > tr > td {
+        table>tbody>tr>td {
             white-space: pre;
         }
     </style>
@@ -11,17 +11,11 @@
         <div class="form-group">
             <div class="col-sm-3"></div>
             <div class="col-sm-6">
-                <au-autocomplete 
-                    value.bind="unit" 
-                    label="Unit Yang Mengajukan" 
-                    loader.bind="unitLoader"
-                    placeholder="Cari Unit"
-                    text.bind="unitView"
-                    read-only.bind="readOnly" 
-                     
+                <au-autocomplete value.bind="unit" label="Unit Yang Mengajukan" loader.bind="unitLoader"
+                    placeholder="Cari Unit" text.bind="unitView" read-only.bind="readOnly"
                     options.bind="controlOptions">
                 </au-autocomplete>
-              
+
                 <au-textbox value.bind="epoNo" label="Nomor External PO" placeholder="No PO External">
                 </au-textbox>
 
@@ -32,23 +26,22 @@
                 </au-textbox>
                 <au-textbox value.bind="article" label="Artikel" placeholder="Nomor Artikel">
                 </au-textbox>
-                
+
                 <au-textbox value.bind="doNo" label="Nomor Surat Jalan" placeholder="Nomor Surat Jalan">
                 </au-textbox>
 
-                <au-autocomplete 
-                    value.bind="supplier" 
-                    label="Supplier" 
-                    loader.bind="supplierLoader"
-                    placeholder="Cari Supplier"
-                    read-only.bind="readOnly" 
-                    text.bind = "supplierView"                    
+                <au-autocomplete value.bind="supplier" label="Supplier" loader.bind="supplierLoader"
+                    placeholder="Cari Supplier" read-only.bind="readOnly" text.bind="supplierView"
                     options.bind="controlOptions">
                 </au-autocomplete>
-            
+
+                <au-autocomplete value.bind="buyer" label="Buyer" loader.bind="garmentBuyerLoader" placeholder="Cari Buyer"
+                    read-only.bind="readOnly" text.bind="buyerView" options.bind="controlOptions">
+                </au-autocomplete>
+
                 <au-datepicker label="Tanggal Awal PR" value.bind="dateFrom"></au-datepicker>
                 <au-datepicker label="Tanggal Akhir PR" value.bind="dateTo"></au-datepicker>
-                
+
                 <au-datepicker label="Tanggal Awal PO EX." value.bind="dateFromEx"></au-datepicker>
                 <au-datepicker label="Tanggal Akhir PO EX" value.bind="dateToEx"></au-datepicker>
 
@@ -93,14 +86,14 @@
                         <td rowspan="3">YARN</td>
                         <td rowspan="3">WIDTH</td>
                         <td rowspan="3">COMPOSITION</td>
-                        <td rowspan="3">KETERANGAN BARANG(PR)</td> 
-                        <td rowspan="3">KETERANGAN BARANG(POEKS)</td>                        
+                        <td rowspan="3">KETERANGAN BARANG(PR)</td>
+                        <td rowspan="3">KETERANGAN BARANG(POEKS)</td>
                         <td colspan="2">JUMLAH</td>
                         <td rowspan="3">SATUAN</td>
                         <td colspan="7">HARGA</td>
-                       
+
                         <td rowspan="3">TANGGAL TERIMA PO INTERN</td>
-                       
+
                         <td colspan="7">SURAT JALAN</td>
                         <td colspan="2">BEA CUKAI</td>
                         <td colspan="4">BON PENERIMAAN</td>
@@ -113,7 +106,7 @@
                     <tr>
                         <td rowspan="2">NOMOR</td>
                         <td rowspan="2">TGL</td>
-                      
+
                         <td rowspan="2">KODE</td>
                         <td rowspan="2">NAMA</td>
 
@@ -130,10 +123,10 @@
                         <td rowspan="2">KODE</td>
                         <td rowspan="2">NAMA</td>
                         <td rowspan="2">JENIS SUPPLIER</td>
-                        
+
                         <td rowspan="2">BUDGET</td>
                         <td rowspan="2">BELI</td>
-                        
+
                         <td rowspan="2">BUDGET</td>
                         <td rowspan="2">BELI</td>
                         <td rowspan="2">TOTAL BELI</td>
@@ -141,7 +134,7 @@
                         <td rowspan="2">MT UANG</td>
                         <td rowspan="2">KURS</td>
                         <td rowspan="2">TOTAL RP</td>
-                        
+
                         <td rowspan="2">NOMOR</td>
                         <td rowspan="2">TGL</td>
                         <td rowspan="2">DATANG BARANG</td>
@@ -157,8 +150,8 @@
                         <td rowspan="2">TGL</td>
                         <td rowspan="2">QTY</td>
                         <td rowspan="2">SATUAN</td>
-                        
-                        <td rowspan="2">NOMOR</td>                       
+
+                        <td rowspan="2">NOMOR</td>
                         <td rowspan="2">TANGGAL</td>
                         <td rowspan="2">NO PPN</td>
                         <td rowspan="2">TGL PPN</td>
@@ -170,7 +163,7 @@
                         <td rowspan="2">NILAI PPH</td>
 
                         <td rowspan="2">NOMOR</td>
-                        <td rowspan="2">TANGGAL</td>                        
+                        <td rowspan="2">TANGGAL</td>
                         <td rowspan="2">NILAI</td>
                         <td rowspan="2">JATUH TEMPO</td>
 
@@ -178,7 +171,7 @@
                         <td rowspan="2">TANGGAL</td>
                         <td rowspan="2">NILAI</td>
                         <td rowspan="2">KETERANGAN</td>
-                         
+
                     </tr>
                 </thead>
                 <tbody>
@@ -195,7 +188,7 @@
                         <td>${item.buyerCode}</td>
                         <td>${item.buyerName}</td>
                         <td>${item.shipmentDate}</td>
-                       
+
                         <td>${item.poextNo}</td>
                         <td>${item.poExtDate}</td>
                         <td>${item.deliveryDate}</td>
@@ -217,7 +210,7 @@
                         <td>${item.composition}</td>
                         <td>${item.prProductRemark}</td>
                         <td>${item.poProductRemark}</td>
-                        
+
                         <td align="right">${item.poDefaultQty}</td>
                         <td align="right">${item.poDealQty}</td>
                         <td>${item.poDealUomUnit}</td>
@@ -225,12 +218,12 @@
                         <td align="right">${item.prBudgetPrice}</td>
                         <td align="right">${item.poPricePerDealUnit}</td>
                         <td align="right">${item.totalNominalPO}</td>
-                        <td align="right">${item.totalBudget}</td>  
+                        <td align="right">${item.totalBudget}</td>
                         <td>${item.poCurrencyCode}</td>
                         <td align="right">${item.poCurrencyRate}</td>
-                        <td align="right">${item.totalNominalRp}</td>   
-                      
-                                   
+                        <td align="right">${item.totalNominalRp}</td>
+
+
                         <td>${item.ipoDate}</td>
                         <td>${item.doNo}</td>
                         <td>${item.doDate}</td>
@@ -250,14 +243,14 @@
                         <td>${item.vatNo}</td>
                         <td>${item.vatDate}</td>
                         <td align="right">${item.vatValue}</td>
-                       
+
                         <td>${item.incomeTaxType}</td>
                         <td>${item.incomeTaxtRate}</td>
                         <td>${item.incomeTaxNo}</td>
                         <td>${item.incomeTaxDate}</td>
                         <td align="right">${item.incomeTaxtValue}</td>
-						 
-					
+
+
                         <td>${item.internNo}</td>
                         <td>${item.internDate}</td>
                         <td align="right">${item.internTotal}</td>
@@ -274,7 +267,8 @@
         <div class="alert alert-info text-center" role="alert" if.bind="data.length == 0">
             Tidak ada data ditemukan.
         </div>
-        <pagination if.bind="info.total>info.size" info.bind="info" change.delegate="changePage($event)" id="pager"></pagination>
-        <hr/>
+        <pagination if.bind="info.total>info.size" info.bind="info" change.delegate="changePage($event)" id="pager">
+        </pagination>
+        <hr />
     </form>
 </template>
