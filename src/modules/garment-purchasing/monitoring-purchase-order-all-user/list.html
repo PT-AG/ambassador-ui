@@ -54,6 +54,15 @@
                     text.bind = "supplierView"                    
                     options.bind="controlOptions">
                 </au-autocomplete>
+                <au-autocomplete 
+                    value.bind="buyer" 
+                    label="Buyer" 
+                    loader.bind="garmentBuyerLoader"
+                    placeholder="Cari Buyer"
+                    read-only.bind="readOnly" 
+                    text.bind="buyerView"                    
+                    options.bind="controlOptions">
+                </au-autocomplete>
                 <au-autocomplete  
                     label="Nama Staff Pembelian"
                     loader.bind="accountLoader"
