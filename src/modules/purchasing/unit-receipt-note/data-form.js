@@ -154,6 +154,7 @@ export class DataForm {
 
             var _items = [];
             var getEPO = [];
+            var selectedUnitId = this.data.unit ? (this.data.unit.Id || this.data.unit._id || this.data.unit.code || this.data.unit.Code) : (this.data.unitId || "");
             for (var item of selectedItem) {
                 var epoId = item.purchaseOrderExternal.Id || item.purchaseOrderExternal._id;
                 getEPO.push(this.service.getEPOById(epoId));
@@ -175,7 +176,15 @@ export class DataForm {
                     _item.epoId = epoId;
                     _item.deliveredQuantity = fulfillment.deliveredQuantity - fulfillment.receiptQuantity;
 
-                    if (_item.deliveredQuantity > 0)
+                    var poUnit = fulfillment.purchaseOrder ? (fulfillment.purchaseOrder.unit || fulfillment.purchaseOrder.Unit) : null;
+                    var poUnitId = poUnit ? (poUnit.Id || poUnit._id || poUnit.code || poUnit.Code || fulfillment.purchaseOrder.unitId || fulfillment.purchaseOrder.UnitId) : (fulfillment.unitId || fulfillment.UnitId);
+
+                    var isSameUnit = true;
+                    if (selectedUnitId && poUnitId) {
+                        isSameUnit = selectedUnitId.toString() === poUnitId.toString();
+                    }
+
+                    if (_item.deliveredQuantity > 0 && isSameUnit)
                         _items.push(_item);
                 }
             }
