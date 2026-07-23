@@ -387,6 +387,7 @@ export class DataForm {
             var selectedItem = selectedDo.items || [];
 
             var _items = [];
+            var selectedUnitId = this.data.Unit ? (this.data.Unit.Id || this.data.Unit._id || this.data.Unit.code || this.data.Unit.Code) : null;
             for (var item of selectedItem) {
                 this.data.PaymentType = item.paymentType;
                 this.data.PaymentMethod = item.paymentMethod;
@@ -424,7 +425,16 @@ export class DataForm {
 
                     _item.Buyer = { Name: fulfillment.buyer.name };
                     _item.DesignColor= fulfillment.productRemark;
-                    if (_item.ReceiptQuantity > 0)
+
+                    var fulUnit = fulfillment.unit || fulfillment.Unit || (fulfillment.purchaseOrder ? (fulfillment.purchaseOrder.unit || fulfillment.purchaseOrder.Unit) : null);
+                    var fulUnitId = fulUnit ? (fulUnit.Id || fulUnit._id || fulUnit.code || fulUnit.Code) : (fulfillment.unitId || fulfillment.UnitId || fulfillment.unitCode || fulfillment.UnitCode);
+
+                    var isSameUnit = true;
+                    if (selectedUnitId && fulUnitId) {
+                        isSameUnit = selectedUnitId.toString() === fulUnitId.toString();
+                    }
+
+                    if (_item.ReceiptQuantity > 0 && isSameUnit)
                         _items.push(_item);
                 }
             }
