@@ -63,15 +63,16 @@ export class DataForm {
             isCreate: this.context.isCreate,
             isEdit: this.context.isEdit,
             checkedAll: this.data.Items.reduce((acc, curr) => acc && cur.IsSave, false),
-            returnType: this.isEdit ? this.data.ReturnType : this.returnTypes[0]
+            returnType: this.isEdit ? this.data.ReturnType : this.returnTypes[0],
+            readOnly: !this.context.isCreate && !this.context.isEdit,
         }
+        console.log(this.itemOptions);
         if (this.data.DRNo && this.data.Items) {
             this.Storages = {};
             this.Storages._id = this.data.Storage.Id;
             this.Storages.name = this.data.Storage.Name;
             this.Storages.code = this.data.Storage.Code;
             this.Unit = this.data.Unit;
-
 
             this.selectedUnitDO = {
                 UnitDONo: this.data.UnitDONo

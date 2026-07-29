@@ -20,6 +20,8 @@ export class DataForm {
     @bindable selectedColor;
     @bindable selectedInvoice;
     @bindable manual;
+    @bindable selectedExpenditureType;
+    @bindable isArsip = false;
 
     constructor(service, coreService) {
         this.service = service;
@@ -63,7 +65,7 @@ export class DataForm {
                     item.IsSave = true;
                 }
             );
-
+            this.selectedExpenditureType = this.data.ExpenditureType;
         }
         if (this.data.PackingListId) {
             this.selectedInvoice = {
@@ -364,5 +366,21 @@ export class DataForm {
             this.data.PackingListId = 0;
         }
 
+    }
+
+    selectedExpenditureTypeChanged(newValue) {
+        console.log(newValue);
+        if (newValue) {
+            this.data.ExpenditureType = newValue;
+            if(newValue=="ARSIP MD" || newValue=="ARSIP SAMPLE" || newValue=="SISA" ){
+                this.isArsip=true;
+            }
+            else{
+                this.isArsip=false;
+            }
+        }
+        else {
+            this.data.ExpenditureType = "";
+        }
     }
 }
