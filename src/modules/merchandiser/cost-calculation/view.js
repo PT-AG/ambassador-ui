@@ -3,7 +3,9 @@ import { Router } from "aurelia-router";
 import { Service } from "./service";
 import { Dialog } from "../../../au-components/dialog/dialog";
 import { UnpostDialog } from "./template/dialog/unpost";
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 import numeral from "numeral";
+
 numeral.defaultFormat("0,0.00");
 const US = "US$. ";
 const RP = "Rp. ";
@@ -73,7 +75,8 @@ export class View {
     const parentInstruction = instruction.parentInstruction;
     const byUser = parentInstruction.config.settings.byUser;
 
-    var id = params.id;
+    const decoded = Base64Helper.decode(params.id);
+    var id = decoded;
     this.data = await this.service.getById(id);
     if(this.data.ApprovalMD.IsApproved || this.data.SCGarmentId)
     {
@@ -221,7 +224,8 @@ export class View {
   }
 
   editCallback(event) {
-    this.router.navigateToRoute("edit", { id: this.data.Id });
+        const encoded = Base64Helper.encode(this.data.Id);
+        this.router.navigateToRoute('edit', { id: encoded });
   }
 
   deleteCallback(event) {
