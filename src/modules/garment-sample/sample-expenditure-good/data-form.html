@@ -26,7 +26,7 @@
 
                 <au-dropdown
                     label="Tipe Pengeluaran"
-                    value.bind="data.ExpenditureType"
+                    value.bind="selectedExpenditureType"
                     error.bind="error.ExpenditureType"
                     read-only.bind="readOnly || isEdit"
                     items.bind="expenditureTypes"
@@ -77,7 +77,7 @@
                     options.bind="controlOptions">
                 </au-datepicker> 
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6" if.bind="isArsip==false">
                 <au-checkbox
                     label="Manual?"
                     value.bind="manual"
