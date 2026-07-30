@@ -44,13 +44,44 @@ export class Create {
                 this.router.navigateToRoute('create', {}, { replace: true, trigger: true });
             })
             .catch(e => {
-                this.error = e;
-                // this.error.Items[1]=this.error.Items[0];
+                const errors = this.normalizeValidationErrors(e)
+                this.error = errors;
                 if (typeof (this.error) == "string") {
                     alert(this.error);
                 } else {
                     alert("Missing Some Data");
                 }
             })
+    }
+
+    normalizeValidationErrors(errors) {
+        const result = {
+            ...errors,
+            Items: Array.isArray(errors.Items)
+            ? errors.Items.map(item => ({ ...item }))
+            : []
+        };
+
+        Object.entries(errors).forEach(([key, message]) => {
+            const match = key.match(/^Items\[(\d+)\]\.(.+)$/);
+
+            if (!match) return;
+
+            const index = Number(match[1]);
+            const field = match[2];
+
+            // Buat object pada index tersebut jika belum ada
+            if (!result.Items[index]) {
+        result.Items[index] = {};
+        }
+
+            // Masukkan pesan error ke field terkait
+            result.Items[index][field] = message;
+
+            // Hapus property lama: "Items[2].Quantity"
+            delete result[key];
+        });
+
+        return result;
     }
 }
