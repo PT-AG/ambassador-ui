@@ -7,7 +7,7 @@ var UnitLoader = require('../../../loader/unit-loader');
 var CategoryLoader = require('../../../loader/garment-category-loader');
 var SupplierLoader = require('../../../loader/garment-supplier-loader');
 var AccountLoader = require('../../../loader/account-loader');
-var GarmentBuyerLoader = require('../../../loader/garment-buyers-loader');
+var GarmentBuyerLoader = require('../../../loader/garment-buyer-brands-loader');
 
 @inject(Router, Service)
 export class List {
