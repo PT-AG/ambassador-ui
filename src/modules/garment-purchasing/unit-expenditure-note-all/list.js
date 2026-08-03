@@ -21,6 +21,7 @@ export class List {
         { field: "ExpenditureType", title: "Jenis Pengeluaran" },
         { field: "ExpenditureTo", title: "Tujuan Barang" },
         { field: "CreatedBy", title: "User" },
+        { field: "RONo", title: "RO" }
     ];
 
     loader = (info) => {
