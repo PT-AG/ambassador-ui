@@ -72,6 +72,7 @@ export class DataForm {
       isView: this.context.isView,
       checkedAll: this.context.isCreate == true ? false : true,
       isEdit: this.data.isEdit,
+      colour: this.data.DesignColor
     };
 
     // console.log("option",this.itemOptions);

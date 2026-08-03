@@ -7,6 +7,7 @@ var UnitLoader = require('../../../loader/garment-units-loader');
 var CategoryLoader = require('../../../loader/garment-category-loader');
 var SupplierLoader = require('../../../loader/garment-supplier-loader');
 var AccountLoader = require('../../../loader/garment-internal-purchase-orders-name-loader');
+var GarmentBuyerLoader = require('../../../loader/garment-buyers-loader');
 
 @inject(Router, Service)
 export class List {
@@ -44,6 +45,7 @@ export class List {
             poSerialNumber : this.poSerialNumber ? this.poSerialNumber : "",
             doNo : this.doNo ? this.doNo : "",
             supplier : this.supplier ? this.supplier.Id : "",
+            buyer : this.buyer ? this.buyer.Code : "",
             username: this.account ? this.account.CreatedBy : "",
             status: this.poState?this.poState:"",
             ipoStatus:this.poIntState ?this.poIntState :"",
@@ -73,20 +75,21 @@ export class List {
     }
 
     reset() {
-        this.unit = "",
-        this.epoNo = "",
-        this.article = "",
-        this.roNo = "",
-        this.poSerialNumber = "",
-        this.doNo = "",
-        this.supplier = "",
-        this.account = "",
-        this.poState="",
-        this.poIntState="",
-        this.dateFrom= "",
-        this.dateTo="",
-        this.dateFromEx= "",
-        this.dateToEx="",
+        this.unit = "";
+        this.epoNo = "";
+        this.article = "";
+        this.roNo = "";
+        this.poSerialNumber = "";
+        this.doNo = "";
+        this.supplier = "";
+        this.buyer = "";
+        this.account = "";
+        this.poState="";
+        this.poIntState="";
+        this.dateFrom= "";
+        this.dateTo="";
+        this.dateFromEx= "";
+        this.dateToEx="";
         this.dateFromShipment = "";
         this.dateToShipment = "";
         this.data = [];
@@ -104,6 +107,7 @@ export class List {
             poSerialNumber : this.poSerialNumber ? this.poSerialNumber : "",
             doNo : this.doNo ? this.doNo : "",
             supplier : this.supplier ? this.supplier.Id : "",
+            buyer : this.buyer ? this.buyer.Code : "",
             username: this.account ? this.account.CreatedBy : "",
             status: this.poState,
             ipoStatus:this.poIntState,
@@ -115,7 +119,7 @@ export class List {
             shipmentDateTo : this.dateToShipment ? moment(this.dateToShipment).format("YYYY-MM-DD") : ""
         };
         
-        this.service.generateExcel(args.epono, args.unit, args.roNo, args.article, args.poSerialNumber, args.username, args.doNo, args.ipoStatus, args.supplier, args.status, args.dateFrom, args.dateTo, args.dateFromEx, args.dateToEx, args.shipmentDateFrom, args.shipmentDateTo);
+        this.service.generateExcel(args.epono, args.unit, args.roNo, args.article, args.poSerialNumber, args.username, args.doNo, args.ipoStatus, args.supplier, args.buyer, args.status, args.dateFrom, args.dateTo, args.dateFromEx, args.dateToEx, args.shipmentDateFrom, args.shipmentDateTo);
     }
 
     dateFromChanged(e) {
@@ -157,6 +161,14 @@ export class List {
     
     supplierView = (supplier) => {
         return `${supplier.code}-${supplier.name}`
+    }
+
+    get garmentBuyerLoader() {
+        return GarmentBuyerLoader;
+    }
+
+    buyerView = (buyer) => {
+        return `${buyer.Code} - ${buyer.Name}`
     }
 
     get accountLoader() {

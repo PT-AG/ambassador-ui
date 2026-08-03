@@ -238,7 +238,7 @@ module.exports = [
             group: "g-purchasing",
             subGroup: "transaksi",
             // permission: { "C9": 1, "PG": 1 },
-            permission: { "H68": 1 },
+            permission: { "H61": 1 },
             iconClass: 'fa fa-dashboard'
         }
     },{
@@ -1228,5 +1228,19 @@ module.exports = [
             permission: { "H67" :1 },
             iconClass: 'fa fa-dashboard'
         }
-    }
+    },
+    {
+        route: '/garment/receipt-before-note-monitoring',
+        name: 'receipt-before-note-monitoring',
+        moduleId: './modules/garment-purchasing/reports/receipt-before-note-monitoring/index',
+        nav: true,
+        title: 'Monitoring Bon Belum Buat NI',
+        auth: true,
+        settings: {
+            group: "g-purchasing",
+            subGroup: "monitoring",
+            permission: { "H62" :1 },
+            iconClass: 'fa fa-dashboard'
+        }
+    },
 ]

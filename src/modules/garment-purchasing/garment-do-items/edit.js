@@ -25,11 +25,12 @@ export class Edit {
         var id = params.id;
         this.data = await this.service.getById(id);
         this.data.isEdit = true;
+        this.savedFilters = params.filter;
 
     }
 
     cancel(event) {
-        this.router.navigateToRoute('list');
+        this.router.navigateToRoute('list', { filter: this.savedFilters });
     }
 
     save(event) {
@@ -47,7 +48,7 @@ export class Edit {
         } else {
             this.service.update(this.data).then(result => {
                 alert("Data berhasil diubah");
-                this.router.navigateToRoute('list');
+                this.router.navigateToRoute('list', { filter: this.savedFilters });
             }).catch(e => {
                 this.error = e;
             })

@@ -29,6 +29,7 @@ export class Item {
         this.error = context.error;
 
         this.options = context.context.options;
+        console.log("dataitem", this.options);
 
         this.isShowing = true;
 
@@ -46,7 +47,7 @@ export class Item {
         //     ContractNo:this.options.selectedContract
         //     } 
         // } 
-
+        this.data.Colour=this.data.Colour ? this.data.Colour : this.options.colour;
 
 
     }

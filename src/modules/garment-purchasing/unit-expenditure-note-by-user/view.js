@@ -94,6 +94,15 @@ export class View {
             }
         }
 
+        if(this.data.ExpenditureType==="PROSES"){
+            let DRResult= await this.productionService.getGarmentDR({ size: 1, filter: JSON.stringify({ UnitDOId: this.data.UnitDOId }) });
+            let DR=DRResult.data[0];
+            if(DR){
+                this.hasEdit = false;
+                this.hasDelete = false;
+            }
+        }
+
         if(this.data.IsReceived){
             this.hasEdit = false;
             this.hasDelete = false;
