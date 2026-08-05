@@ -3,114 +3,82 @@ import { Service } from "./service";
 import { Router } from 'aurelia-router';
 import moment from 'moment';
 
-var PurchasePriceCorrectionLoader = require('../../../loader/garment-purchase-correction-loader');
+var PurchasePriceCorrectionLoader = require('../../../loader/garment-correction-price-note-loader');
 var SupplierLoader = require('../../../loader/garment-supplier-loader');
 
 @inject(Router, Service)
 export class List {
-  constructor(router, service) {
+    constructor(router, service) {
         this.service = service;
         this.router = router;
-
     }
-    get purchasePriceCorrectionLoader(){
+    get purchasePriceCorrectionLoader() {
         return PurchasePriceCorrectionLoader;
     }
-    get supplierLoader(){
+    get supplierLoader() {
         return SupplierLoader;
     }
-  searching() {
+    searching() {
         var info = {
-            no : this.no ? this.no : "",
-            supplier : this.supplier ? this.supplier.code : "",
-            dateFrom : this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
-            dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : ""
+            no: this.no ? this.no : "",
+            supplier: this.supplier ? this.supplier.code : "",
+            dateFrom: this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
+            dateTo: this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : ""
         }
-        this.service.search(info.no,info.supplier,info.dateFrom,info.dateTo)
+        this.service.search(info.no, info.supplier, info.dateFrom, info.dateTo)
             .then(result => {
-             this.data = result;
-            
-              this.data = [];
-                 var counter = 1;
+                this.data = [];
+                var counter = 1;
                 for (var pr of result) {
-              
-                 if(pr.itemsProdId === pr.fulProdId  )
-                 {
-                       var _data = {};
-                       _data.no=  pr.no;
-                        _data.date =pr.date;
-                        _data.index = counter;
-                        _data.noPOEks = pr.noPOEks;
-                        _data.correctionType=  pr.correctionType;
-                        _data.currrencyCode =pr.currrencyCode;
-                        _data.deliveryorderNo = pr.deliveryorderNo;
-                        _data.supplier = pr.supplier;
-                        _data.noPR = pr.noPR;
-                        _data.noRefPR = pr.noRefPR;
-                        _data.noRO = pr.noRO;
-                        _data.itemCode = pr.itemCode;
-                        _data.supplier = pr.supplier;
-                        _data.itemName = pr.itemName;
-                        _data.qty = pr.qty;
-                        _data.unitCode = pr.unitCode;
-                        _data.pricePerUnit = pr.pricePerUnit;
-                        _data.priceTotal = pr.priceTotal;
-                        _data.itemName = pr.itemName;
-                        _data.currencyCode =pr.currencyCode;
+                    var _data = {};
+                    _data.no = pr.pr.no;
+                    _data.date = pr.pr.date;
+                    _data.index = counter;
+                    _data.correctionType = pr.pr.correctionType;
+                    _data.supplierCode = pr.pr.supplierCode;
+                    _data.supplier = pr.pr.supplierCode + " - " + pr.pr.supplier;
+                    _data.deliveryorderNo = pr.pr.deliveryorderNo;
+                    _data.deliveryorderDate = pr.pr.deliveryorderDate;
+                    _data.noPOEks = pr.pr.noPOEks;
+                    _data.noPR = pr.pr.noPR;
+                    _data.noRefPR = pr.pr.noRefPR;
+                    _data.noRO = pr.pr.noRO;
+                    _data.itemName = pr.pr.itemName;
+                    _data.unitCode = pr.pr.uomUnit;
+                    
+                    var corrections = pr.pr.fulfillments.corrections;
 
-                        var correction=pr.fulfillments.corrections ? pr.fulfillments.corrections :pr.fulfillments.correction;
+                    // Data Surat Jalan
+                    _data.qty_surat_jalan = pr.pr.fulfillments.deliveredQuantity;
+                    _data.harga_satuan_surat_jalan = pr.pr.pricePerUnit;
+                    _data.harga_total_surat_jalan = _data.qty_surat_jalan * _data.harga_satuan_surat_jalan;
+                    
+                    // Data Koreksi
+                    _data.qty = corrections.Quantity;
+                    _data.pricePerUnit = corrections.PricePerDealUnitAfter - corrections.PricePerDealUnitBefore;
+                    _data.priceTotal = corrections.PriceTotalAfter - corrections.PriceTotalBefore;
 
-                        if(!correction.length)
-                        {
-                            _data.qtyBegin = pr.fulfillments.deliveredQuantity;
-                        }else 
-                        {
-                            _data.qtyBegin = correction[correction.length -1].correctionQuantity;
-
-                        }
-
-
-                        if(!correction.length)
-                        {
-                            _data.correctionPricePerUnit = pr.fulfillments.pricePerDealUnit;
-                        }else 
-                        {
-                            _data.correctionPricePerUnit = correction[correction.length -1].correctionPricePerUnit;
-
-                        }
-                         if(!correction.length)
-                        {
-                            _data.correctionPriceTotal = pr.fulfillments.pricePerDealUnit *  pr.fulfillments.deliveredQuantity;
-                        }else 
-                        {
-                            _data.correctionPriceTotal = correction[correction.length -1].correctionPriceTotal;
-
-                        }
-                        this.data.push(_data);
-                   counter ++;
-                   }
+                    this.data.push(_data);
+                    counter++;
                 }
             });
     }
-    
-     ExportToExcel() {
-        var info = {
-            no : this.no ? this.no : "",
-            supplier : this.supplier ? this.supplier.code : "",
-            dateFrom : this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
-            dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : ""
-       }
-        this.service.generateXls(info.no,info.supplier,info.dateFrom,info.dateTo)
-    }
-  
 
     reset() {
-       
         this.no = "";
         this.supplier = "";
         this.dateFrom = "";
         this.dateTo = "";
-       
-       
+        this.data = [];
+    }
+
+    ExportToExcel() {
+        var info = {
+            no: this.no ? this.no : "",
+            supplier: this.supplier ? this.supplier.code : "",
+            dateFrom: this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
+            dateTo: this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : ""
+        };
+        this.service.generateExcel(info.no, info.supplier, info.dateFrom, info.dateTo);
     }
 }

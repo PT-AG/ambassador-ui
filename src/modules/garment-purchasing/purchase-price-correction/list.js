@@ -29,6 +29,10 @@ export class List {
         this.router.navigateToRoute("create");
     }
 
+    monitoring() {
+        this.router.navigateToRoute("monitoring-purchase-price-correction");
+    }
+
     contextClickCallback(event) {
         var arg = event.detail;
         var data = arg.data;
