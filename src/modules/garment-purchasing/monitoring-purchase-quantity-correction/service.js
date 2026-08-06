@@ -3,11 +3,11 @@ import {HttpClient} from 'aurelia-fetch-client';
 import {RestService} from '../../../utils/rest-service';
 
 
-const serviceUri = 'purchase-quantity-correction/monitoring';
+const serviceUri = 'garment-correction-quantity-notes/monitoring';
 export class Service extends RestService {
 
     constructor(http, aggregator, config, endpoint) {
-        super(http, aggregator, config, "garment-purchasing");
+        super(http, aggregator, config, "purchasing-azure");
     }
 
 search(no,supplier, dateFrom, dateTo) { 
@@ -15,10 +15,5 @@ search(no,supplier, dateFrom, dateTo) {
          var endpoint = `${serviceUri}?no=${no}&supplier=${supplier}&dateFrom=${dateFrom}&dateTo=${dateTo}`;
        
         return super.get(endpoint);
-    }
-
-generateXls(no,supplier, dateFrom, dateTo) { 
-       var endpoint = `${serviceUri}?no=${no}&supplier=${supplier}&dateFrom=${dateFrom}&dateTo=${dateTo}`;
-        return super.getXls(endpoint);
     }
 }
