@@ -1,24 +1,14 @@
 <template>
     <require from="../../../lib/number-format-value-converter"></require>
-    <au-input-form title="Monitoring Koreksi Harga Pembelian Garment">
+    <h1 class="page-header">Monitoring Koreksi Harga Pembelian Garment</h1>
+    <au-input-form>
         <form class="form-horizontal">
-            <au-autocomplete 
-                value.bind="no" 
-                label="No Koreksi Harga" 
-                loader.bind="purchasePriceCorrectionLoader"
-                placeholder="Cari No Koreksi Harga"
-                read-only.bind="readOnly" 
-                options.bind="controlOptions">
+            <au-autocomplete value.bind="no" label="No Koreksi Harga" loader.bind="purchasePriceCorrectionLoader"
+                placeholder="Cari No Koreksi Harga" read-only.bind="readOnly" options.bind="controlOptions">
             </au-autocomplete>
 
-            <au-autocomplete 
-                value.bind="supplier" 
-                label="Supplier" 
-                loader.bind="supplierLoader"
-                placeholder="Cari Supplier" 
-                read-only.bind="readOnly" 
-                key="name" 
-                text="name"
+            <au-autocomplete value.bind="supplier" label="Supplier" loader.bind="supplierLoader"
+                placeholder="Cari Supplier" read-only.bind="readOnly" key="name" text="name"
                 options.bind="controlOptions">
             </au-autocomplete>
 
@@ -30,6 +20,7 @@
                 <div class="col-sm-4">
                     <button type="button" click.delegate="searching()" class="btn btn-success">Cari</button>
                     <button type="button" click.delegate="reset()" class="btn btn-success">Reset</button>
+                    <button type="button" click.delegate="ExportToExcel()" class="btn btn-primary">Cetak Excel</button>
                 </div>
             </div>
         </form>
@@ -91,6 +82,6 @@
         <div class="alert alert-info text-center" role="alert" if.bind="data.length === 0">
             Tidak ada data.
         </div>
-        <hr/>
+        <hr />
     </au-input-form>
 </template>
