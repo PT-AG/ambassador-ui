@@ -71,4 +71,14 @@ export class List {
         this.dateTo = "";
         this.data = [];
     }
+
+    ExportToExcel() {
+        var info = {
+            no: this.no ? this.no : "",
+            supplier: this.supplier ? this.supplier.code : "",
+            dateFrom: this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
+            dateTo: this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : ""
+        };
+        this.service.generateExcel(info.no, info.supplier, info.dateFrom, info.dateTo);
+    }
 }

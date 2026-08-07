@@ -112,6 +112,16 @@ export class List {
         this.dateFrom = "";
         this.dateTo = "";
        
-       
+        
+    }
+
+    ExportToExcel() {
+        var info = {
+            no: this.no ? this.no : "",
+            supplier: this.supplier ? (this.supplier.name || this.supplier.code || this.supplier) : "",
+            dateFrom: this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
+            dateTo: this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : ""
+        };
+        this.service.generateExcel(info.no, info.supplier, info.dateFrom, info.dateTo);
     }
 }

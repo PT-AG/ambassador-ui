@@ -1,31 +1,18 @@
 <template>
+    <require from="../../../lib/number-format-value-converter"></require>
     <h1 class="page-header">Monitoring Koreksi Jumlah Pembelian Garment</h1>
 
     <form class="form-horizontal">
-        <au-autocomplete
-            value.bind="no"
-            label="Nomor Koreksi Jumlah"
-            loader.bind="purchaseQuantityCorrectionLoader"
-            placeholder="Cari Nomor Koreksi Jumlah"
-            read-only.bind="readOnly"
-            options.bind="controlOptions">
+        <hr>
+        <au-autocomplete value.bind="no" label="Nomor Koreksi Jumlah" loader.bind="purchaseQuantityCorrectionLoader"
+            placeholder="Cari Nomor Koreksi Jumlah" read-only.bind="readOnly" options.bind="controlOptions">
         </au-autocomplete>
 
-        <au-autocomplete
-            value.bind="supplier"
-            label="Supplier"
-            loader.bind="supplierLoader"
-            placeholder="Cari Supplier"
-            read-only.bind="readOnly"
-            key="code"
-            text="name"
-            options.bind="controlOptions">
+        <au-autocomplete value.bind="supplier" label="Supplier" loader.bind="supplierLoader" placeholder="Cari Supplier"
+            read-only.bind="readOnly" key="code" text="name" options.bind="controlOptions">
         </au-autocomplete>
 
-        <au-textbox
-            label="Nomor Surat Jalan"
-            value.bind="deliveryOrderNo"
-            read-only.bind="readOnly"
+        <au-textbox label="Nomor Surat Jalan" value.bind="deliveryOrderNo" read-only.bind="readOnly"
             options.bind="controlOptions">
         </au-textbox>
 
@@ -37,6 +24,7 @@
             <div class="col-sm-4">
                 <button type="button" click.delegate="searching()" class="btn btn-success">Cari</button>
                 <button type="button" click.delegate="reset()" class="btn btn-success">Reset</button>
+                <button type="button" click.delegate="ExportToExcel()" class="btn btn-primary">Cetak Excel</button>
             </div>
         </div>
 
@@ -44,68 +32,68 @@
 
     <br>
 
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover" border="1" id="myTable">
-                <thead align="center">
-                    <tr>
-                        <td rowspan="2">Nomor Koreksi</td>
-                        <td rowspan="2">Tanggal Koreksi</td>
-                        <td colspan="2">Supplier</td>
-                        <td rowspan="2">No Surat Jalan</td>
-                        <td rowspan="2">No PO Eksternal</td>
-                        <td rowspan="2">No Ref PR</td>
-                        <td rowspan="2">Nomor RO</td>
-                        <td rowspan="2">Nama Barang</td>
-                        <td colspan="4">Data Surat Jalan</td>
-                        <td colspan="4">Data Koreksi</td>
-                    </tr>
-                    <tr>
-                        <td>Kode</td>
-                        <td>Nama</td>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover" border="1" id="myTable">
+            <thead align="center">
+                <tr>
+                    <td rowspan="2">Nomor Koreksi</td>
+                    <td rowspan="2">Tanggal Koreksi</td>
+                    <td colspan="2">Supplier</td>
+                    <td rowspan="2">No Surat Jalan</td>
+                    <td rowspan="2">No PO Eksternal</td>
+                    <td rowspan="2">No Ref PR</td>
+                    <td rowspan="2">Nomor RO</td>
+                    <td rowspan="2">Nama Barang</td>
+                    <td colspan="4">Data Surat Jalan</td>
+                    <td colspan="4">Data Koreksi</td>
+                </tr>
+                <tr>
+                    <td>Kode</td>
+                    <td>Nama</td>
 
-                        <td>Jumlah</td>
-                        <td>Satuan</td>
-                        <td>Harga Satuan</td>
-                        <td>Harga Total</td>
-                        
-                        <td>Jumlah</td>
-                        <td>Satuan</td>
-                        <td>Harga Satuan</td>
-                        <td>Harga Total</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr if.bind="loading">
-                        <td colspan="18" align="center">
-                            <i class="fa fa-spinner fa-spin"></i> Loading...
-                        </td>
-                    </tr>
-                    <tr repeat.for="item of data">
-                        <td class="text-left">${item.no}</td>
-                        <td class="text-left">${item.date | dateFormat:'DD MMMM YYYY'}</td>
-                        
-                        <td class="text-left">${item.supplierCode}</td>
-                        <td class="text-left">${item.supplier}</td>
-                        
-                        <td class="text-left">${item.deliveryorderNo}</td>
-                        <td class="text-left">${item.noPOEks}</td>
-                        <td class="text-left">${item.noRefPR}</td>
-                        <td class="text-left">${item.noRO}</td>
-                        <td class="text-left">${item.itemName}</td>
+                    <td>Jumlah</td>
+                    <td>Satuan</td>
+                    <td>Harga Satuan</td>
+                    <td>Harga Total</td>
 
-                        <td class="text-right">${item.qtyBegin}</td>
-                        <td class="text-left">${item.unitCode}</td>
-                        <td class="text-right">${item.correctionPricePerUnit}</td>
-                        <td class="text-right">${item.correctionPriceTotal}</td>
-                        
-                        <td class="text-right">${item.qty}</td>
-                        <td class="text-left">${item.unitCode}</td>
-                        <td class="text-right">${item.pricePerUnit}</td>
-                        <td class="text-right">${item.priceTotal}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                    <td>Jumlah</td>
+                    <td>Satuan</td>
+                    <td>Harga Satuan</td>
+                    <td>Harga Total</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr if.bind="loading">
+                    <td colspan="18" align="center">
+                        <i class="fa fa-spinner fa-spin"></i> Loading...
+                    </td>
+                </tr>
+                <tr repeat.for="item of data">
+                    <td class="text-left">${item.no}</td>
+                    <td class="text-left">${item.date | dateFormat:'DD MMMM YYYY'}</td>
+
+                    <td class="text-left">${item.supplierCode}</td>
+                    <td class="text-left">${item.supplier}</td>
+
+                    <td class="text-left">${item.deliveryorderNo}</td>
+                    <td class="text-left">${item.noPOEks}</td>
+                    <td class="text-left">${item.noRefPR}</td>
+                    <td class="text-left">${item.noRO}</td>
+                    <td class="text-left">${item.itemName}</td>
+
+                    <td class="text-right">${item.qtyBegin | numberFormat:'0,0.00'}</td>
+                    <td class="text-left">${item.unitCode}</td>
+                    <td class="text-right">${item.correctionPricePerUnit | numberFormat:'0,0.00'}</td>
+                    <td class="text-right">${item.correctionPriceTotal | numberFormat:'0,0.00'}</td>
+
+                    <td class="text-right">${item.qty | numberFormat:'0,0.00'}</td>
+                    <td class="text-left">${item.unitCode}</td>
+                    <td class="text-right">${item.pricePerUnit | numberFormat:'0,0.00'}</td>
+                    <td class="text-right">${item.priceTotal | numberFormat:'0,0.00'}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
     <div class="alert alert-info text-center" role="alert" if.bind="data.length === 0">
         Tidak ada data.
