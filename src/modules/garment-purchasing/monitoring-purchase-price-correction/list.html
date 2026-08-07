@@ -1,25 +1,14 @@
 <template>
-  
-        <h1 class="page-header">Monitoring Koreksi Harga Pembelian Garment</h1>
+    <require from="../../../lib/number-format-value-converter"></require>
+    <h1 class="page-header">Monitoring Koreksi Harga Pembelian Garment</h1>
+    <au-input-form>
         <form class="form-horizontal">
-
-            <au-autocomplete 
-                value.bind="no" 
-                label="No Koreksi Harga" 
-                loader.bind="purchasePriceCorrectionLoader"
-                placeholder="Cari No Koreksi Harga"
-                read-only.bind="readOnly" 
-                options.bind="controlOptions">
+            <au-autocomplete value.bind="no" label="No Koreksi Harga" loader.bind="purchasePriceCorrectionLoader"
+                placeholder="Cari No Koreksi Harga" read-only.bind="readOnly" options.bind="controlOptions">
             </au-autocomplete>
 
-            <au-autocomplete 
-                value.bind="supplier" 
-                label="Supplier" 
-                loader.bind="supplierLoader"
-                placeholder="Cari Supplier" 
-                read-only.bind="readOnly" 
-                key="name" 
-                text="name"
+            <au-autocomplete value.bind="supplier" label="Supplier" loader.bind="supplierLoader"
+                placeholder="Cari Supplier" read-only.bind="readOnly" key="name" text="name"
                 options.bind="controlOptions">
             </au-autocomplete>
 
@@ -27,70 +16,65 @@
             <au-datepicker label="Tanggal Akhir" value.bind="dateTo"></au-datepicker>
 
             <div class="form-group">
-                <label for="contact" class="col-sm-6 control-label"></label>
-                <div class="col-sm-3">
-                    <button click.delegate="searching()" class='btn btn-success'>Cari</button>
-                    <button click.delegate="reset()" class='btn btn-success'>Reset</button>
+                <label for="contact" class="col-sm-5 control-label"></label>
+                <div class="col-sm-4">
+                    <button type="button" click.delegate="searching()" class="btn btn-success">Cari</button>
+                    <button type="button" click.delegate="reset()" class="btn btn-success">Reset</button>
+                    <button type="button" click.delegate="ExportToExcel()" class="btn btn-primary">Cetak Excel</button>
                 </div>
-            </div>
-
-            <div class="btn-group pull-left">
-                <a click.delegate="ExportToExcel()" class='btn btn-primary'>Excel</a>
             </div>
         </form>
 
         <br>
-        </br>
 
         <div class="table-responsive">
             <table class="table table-bordered table-hover" border="1" id="myTable">
                 <thead align="center">
                     <tr>
-                        <td>No</td>
-                        <td>Nomor Koreksi Harga</td>
-                        <td>Tanggal Koreksi Harga</td>
-                        <td>Jenis Koreksi</td>
-                        <td>No Surat Jalan</td>
-                        <td>Supplier</td>
-                        <td>No PO Eksternal</td>
-                        <td>No PR</td>
-                        <td>Nomor Ref PR</td>
-                        <td>Nomor RO</td>
-                        <td>Kode Barang</td>
-                        <td>Nama Barang</td>
-                        <td>Jumlah Awal</td>
-                        <td>Harga Satuan Awal</td>
-                        <td>Harga Total Awal</td>
-                        <td>Jumlah Akhir</td>
+                        <td rowspan="2">Nomor Koreksi</td>
+                        <td rowspan="2">Jenis Koreksi</td>
+                        <td rowspan="2">Tanggal Koreksi</td>
+                        <td rowspan="2">Supplier</td>
+                        <td rowspan="2">No Surat Jalan</td>
+                        <td rowspan="2">No PO Eksternal</td>
+                        <td rowspan="2">No Ref PR</td>
+                        <td rowspan="2">Nomor RO</td>
+                        <td rowspan="2">Nama Barang</td>
+                        <td colspan="4">Data Surat Jalan</td>
+                        <td colspan="4">Data Koreksi</td>
+                    </tr>
+                    <tr>
+                        <td>Jumlah</td>
                         <td>Satuan</td>
-                        <td>Harga Satuan Akhir</td>
-                        <td>Harga Total Akhir</td>
-                        <td>Mata Uang</td>
+                        <td>Harga Satuan</td>
+                        <td>Harga Total</td>
+                        <td>Jumlah</td>
+                        <td>Satuan</td>
+                        <td>Harga Satuan</td>
+                        <td>Harga Total</td>
                     </tr>
                 </thead>
                 <tbody>
                     <tr repeat.for="item of data">
-                        <td class="text-left">${item.index}</td>
-                        <td class="text-left">${item.no}</td>
-                        <td class="text-left">${item.date | dateFormat:'DD MMMM YYYY'}</td>
-                        <td class="text-left">${item.correctionType}</td>
-                         <td class="text-left">${item.deliveryorderNo}</td>
-                        <td class="text-left">${item.supplier}</td>
-                        <td class="text-left">${item.noPOEks}</td>
-                        <td class="text-left">${item.noPR}</td>
-                        <td class="text-left">${item.noRefPR}</td>
-                        <td class="text-left">${item.noRO}</td>
-                        <td class="text-left">${item.itemCode}</td>
-                        <td class="text-left">${item.itemName}</td>
-                        <td class="text-right">${item.qtyBegin}</td>
-                        <td class="text-right">${item.correctionPricePerUnit}</td>
-                        <td class="text-right">${item.correctionPriceTotal}</td>
-                        <td class="text-right">${item.qty}</td>
-                        <td class="text-left">${item.unitCode}</td>
-                        <td class="text-lerightft">${item.pricePerUnit}</td>
-                        <td class="text-right">${item.priceTotal}</td>
-                        <td class="text-left">${item.currencyCode}</td>
-                       
+                        <td class="text-center">${item.no}</td>
+                        <td class="text-center">${item.correctionType}</td>
+                        <td class="text-center">${item.date | dateFormat:'DD-MMM-YYYY'}</td>
+                        <td class="text-center">${item.supplier}</td>
+                        <td class="text-center">${item.deliveryorderNo}</td>
+                        <td class="text-center">${item.noPOEks}</td>
+                        <td class="text-center">${item.noRefPR}</td>
+                        <td class="text-center">${item.noRO}</td>
+                        <td class="text-center">${item.itemName}</td>
+
+                        <td class="text-right">${item.qty_surat_jalan | numberFormat:'0,0.00'}</td>
+                        <td class="text-center">${item.unitCode}</td>
+                        <td class="text-right">${item.harga_satuan_surat_jalan | numberFormat:'0,0.00'}</td>
+                        <td class="text-right">${item.harga_total_surat_jalan | numberFormat:'0,0.00'}</td>
+
+                        <td class="text-right">${item.qty | numberFormat:'0,0.00'}</td>
+                        <td class="text-center">${item.unitCode}</td>
+                        <td class="text-right">${item.pricePerUnit | numberFormat:'0,0.00'}</td>
+                        <td class="text-right">${item.priceTotal | numberFormat:'0,0.00'}</td>
                     </tr>
                 </tbody>
             </table>
@@ -98,7 +82,6 @@
         <div class="alert alert-info text-center" role="alert" if.bind="data.length === 0">
             Tidak ada data.
         </div>
-        <hr/>
-        </form>
+        <hr />
     </au-input-form>
 </template>
