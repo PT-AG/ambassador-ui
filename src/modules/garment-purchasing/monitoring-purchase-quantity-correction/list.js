@@ -111,6 +111,7 @@ export class List {
         this.supplier = "";
         this.dateFrom = "";
         this.dateTo = "";
+        this.data = [];
        
         
     }
