@@ -1062,6 +1062,7 @@ module.exports = [
         route: 'garment-cmt-report',
         name: 'garment-cmt-report',
         moduleId: './modules/garment-purchasing/reports/garment-realization-cmt-report/index',
+    },
   {
     route: "/garment/etl/garment-purchase-requests",
     name: "etl-garment-purchase-requests",
