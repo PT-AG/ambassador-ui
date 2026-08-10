@@ -1,36 +1,37 @@
 import { Aurelia, inject } from 'aurelia-framework';
 import { AuthService } from "aurelia-authentication";
-import {Service} from './modules/auth/account/service';
+import { Service } from './modules/auth/account/service';
 import '../styles/signin.css';
+import { PasswordValidator } from './utils/password-validator';
 
-@inject(AuthService,Service)
+@inject(AuthService, Service)
 export class ChangePass {
     // username = "dev";
     // password = "Standar123";
 
-    username="";
+    username = "";
     // password="";
     error = false;
     disabledButton = false;
     statusMessage = null;
 
-    constructor(authService,service) {
+    constructor(authService, service) {
         this.authService = authService;
         this.service = service;
     }
 
     async activate(params) {
-        console.log("param",params);
+        console.log("param", params);
         this.username = params.Username;
-      }
+    }
 
     save() {
         this.error = false;
         this.disabledButton = true;
-        this.data ={};
+        this.data = {};
         if (this.password1 == this.password2) {
 
-             this.statusMessage = PasswordValidator.validate(this.password1);
+            this.statusMessage = PasswordValidator.validate(this.password1);
 
             if (this.statusMessage) {
                 alert(this.statusMessage);
