@@ -578,7 +578,7 @@ module.exports = [
   },
   {
     route: "/garment/monitoring-purchase-quantity-correction",
-    name: "purchase-quantity-correction",
+    name: "monitoring-purchase-quantity-correction",
     moduleId:
       "./modules/garment-purchasing/monitoring-purchase-quantity-correction/index",
     nav: true,
