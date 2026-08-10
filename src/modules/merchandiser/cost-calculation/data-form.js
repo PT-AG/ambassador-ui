@@ -155,11 +155,13 @@ export class DataForm {
     this.data.ConfirmPrice = this.data.ConfirmPrice ? this.data.ConfirmPrice : 0;
     this.selectedComodity = this.data.Comodity ? this.data.Comodity : "";
     this.data.BuyerCode = this.data.Buyer ? this.data.Buyer.Code : "";
-    this.buyerlocal=true;
+    
+    this.buyerlocal=false;
     if(this.data.Buyer){
       const buyer = await this.serviceCore.getBuyerId(this.data.Buyer.Id);
       this.buyerlocal=buyer.Type=="Lokal"? true:false;
     }
+    this.data.IsCommissionPortion= this.data.IsCommissionPortion ==null ? this.buyerlocal : this.data.IsCommissionPortion;
     this.create = this.context.create;
     if (!this.create) {
       this.selectedBookingOrder = {
@@ -619,7 +621,7 @@ export class DataForm {
   }
 
   //**2 Okt 23 switch input from CommissionPortion to CommissionRate*/
-  @computedFrom('data.CommissionRate', 'data.ConfirmPrice', 'data.Freight', 'data.Insurance', 'data.Rate','data.Buyer')
+  @computedFrom('data.CommissionRate', 'data.ConfirmPrice', 'data.Freight', 'data.Insurance', 'data.Rate','data.Buyer','data.IsCommissionPortion')
   get commissionPortion() {
     let CommissionPortion = this.data.CommissionRate/ (this.data.ConfirmPrice - this.data.Insurance - this.data.Freight) * this.data.Rate.Value * 100;
     CommissionPortion = numeral(CommissionPortion).format();
@@ -627,7 +629,7 @@ export class DataForm {
     return CommissionPortion;
   }
   //**19 Dec 23 differentiate input between local and export*/
-  @computedFrom('data.CommissionPortion', 'data.ConfirmPrice', 'data.Freight', 'data.Insurance', 'data.Rate','data.Buyer')
+  @computedFrom('data.CommissionPortion', 'data.ConfirmPrice', 'data.Freight', 'data.Insurance', 'data.Rate','data.Buyer','data.IsCommissionPortion')
   get commissionRate() {
     let CommissionRate = this.data.CommissionPortion / 100 * (this.data.ConfirmPrice - this.data.Insurance - this.data.Freight) * this.data.Rate.Value;
     CommissionRate = numeral(CommissionRate).format();
