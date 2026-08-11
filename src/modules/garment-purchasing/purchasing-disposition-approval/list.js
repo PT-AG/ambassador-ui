@@ -9,7 +9,7 @@ import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service,ServiceCore, AuthService)
 export class List {
-    context = ["Detail"];
+    context = ["Detail", "Cetak PDF"];
     columns = [
             { field: "DispositionNo", title: "Nomor Disposisi Pembayaran" },
             
@@ -160,6 +160,9 @@ export class List {
                 const encoded = Base64Helper.encode(data.Id);
                 this.router.navigateToRoute('view', { id: encoded });
                 //this.router.navigateToRoute('view', { id: data.Id });
+                break;
+            case "Cetak PDF":
+                this.service.getPdfById(data.Id);
                 break;
         }
     }

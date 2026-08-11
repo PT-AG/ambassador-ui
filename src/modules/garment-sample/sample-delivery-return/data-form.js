@@ -66,7 +66,7 @@ export class DataForm {
             returnType: this.isEdit ? this.data.ReturnType : this.returnTypes[0],
             readOnly: !this.context.isCreate && !this.context.isEdit,
         }
-        console.log(this.itemOptions);
+        
         if (this.data.DRNo && this.data.Items) {
             this.Storages = {};
             this.Storages._id = this.data.Storage.Id;
