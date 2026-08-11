@@ -6,7 +6,7 @@ import { Base64Helper } from '../../../utils/base-64-coded-helper';
 @inject(Router, Service)
 export class List {
     data = [];
-    info = { page: 1, keyword: '' };
+    info = { page: 1, keyword: '', order: { isLocked: "desc" } };
 
     constructor(router, service) {
         this.service = service;
@@ -17,18 +17,22 @@ export class List {
 
     async activate() {
         this.info.keyword = '';
+        this.info.order = { isLocked: "desc" };
         var result = await this.service.search(this.info);
         this.data = result.data.sort((a, b) => b.isLocked - a.isLocked);
         this.info = result.info;
+        this.info.order = { isLocked: "desc" };
     }
 
     loadPage() {
         var keyword = this.info.keyword;
+        this.info.order = { isLocked: "desc" };
         this.service.search(this.info)
             .then(result => {
                 this.data = result.data.sort((a, b) => b.isLocked - a.isLocked);
                 this.info = result.info;
                 this.info.keyword = keyword;
+                this.info.order = { isLocked: "desc" };
             })
     }
 
