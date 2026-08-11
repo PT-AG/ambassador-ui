@@ -1,0 +1,41 @@
+<template>
+    <h1 class="page-header">Failed Login Attempt</h1>
+    <form class="form-horizontal">
+        <au-datepicker label="Tanggal Awal" value.bind="dateFrom" error.bind="error.dateFrom" options.bind="controlOptions"></au-datepicker>
+        <au-datepicker label="Tanggal Akhir" value.bind="dateTo" error.bind="error.dateTo" options.bind="controlOptions"></au-datepicker>
+        <div class="form-group">
+            <label for="contact" class="col-sm-6 control-label"></label>
+            <div class="col-sm-3">
+                <button click.delegate="search()" class='btn btn-success' >Cari Data</button>
+                <button click.delegate="reset()" class='btn btn-danger'>Reset Data</button>
+            </div>
+        </div>  
+        <div slot="toolbar" class="btn-group">
+            <button class='btn btn-primary' click.delegate="ExportToExcel()">Export To Excel</button>
+          </div>
+        <br>
+        <table class="table table-bordered table-hover" id="myTable">
+            <thead>
+                 <tr>
+                    <th class="text-center">Username</th>
+                    <th class="text-center">Password Attempt</th>
+                    <th class="text-center">Date</th>
+                                     
+                 </tr>
+            </thead>
+            <tbody>
+                    <tr repeat.for="item of data">
+                        <td>${item.Username}</td>
+                        <td>${item.PasswordAttempt}</td>
+                        <td>${formatDate(item.Date)}</td>
+                    </tr>
+            </tbody>
+        </table>
+        <div class="alert alert-info text-center" role="alert" if.bind="data.length == 0">
+            Tidak Ada Data Yang Ditemukan.
+        </div>
+        <pagination if.bind="info.total>info.size"  info.bind="info" change.delegate="changePage($event)"></pagination>
+        <hr/>
+    </form>
+
+</template>

@@ -54,4 +54,17 @@ module.exports = [
       iconClass: "fa fa-dashboard",
     },
   },
+  {
+    route: "auth/failed-login-attempt",
+    name: "failed-login-attempt",
+    moduleId: "./modules/auth/failed-login-attempt/index",
+    nav: true,
+    title: "Failed Login Attempt",
+    auth: true,
+    settings: {
+      group: "Auth",
+      permission: { A5: 1 },
+      iconClass: "fa fa-dashboard",
+    },
+  },
 ];
