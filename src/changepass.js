@@ -25,6 +25,15 @@ export class ChangePass {
         this.username = params.Username;
     }
 
+    attached() {
+        // Disable sidebar saat halaman changepass dibuka (class)
+        const sidebars = document.getElementsByClassName('side-nav-bar');
+        for (let sidebar of sidebars) {
+            sidebar.style.pointerEvents = 'none';
+            //sidebar.style.opacity = '0.5'; // efek visual agar terlihat disabled
+        }
+    }
+
     save() {
         this.error = false;
         this.disabledButton = true;
@@ -44,6 +53,7 @@ export class ChangePass {
                     .then(result => {
                         alert("Kata Sandi Berhasil DiUbah");
                         this.authService.logout("#/login");
+                        window.location.reload();
                     })
                     .catch(e => {
                         this.error = e;
@@ -55,4 +65,4 @@ export class ChangePass {
             this.disabledButton = false;
         }
     }
-} 
+}
