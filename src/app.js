@@ -20,4 +20,19 @@ export class App {
   get isAuthenticated() {
     return this.authService.authenticated;
   }
+
+  attached() {
+    document.addEventListener("contextmenu", e => e.preventDefault());
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "F12") e.preventDefault();
+
+      if (e.ctrlKey && e.shiftKey && ["I", "J", "C"].includes(e.key.toUpperCase())) {
+        e.preventDefault();
+      }
+
+      if (e.ctrlKey && e.key.toUpperCase() === "U") {
+        e.preventDefault();
+      }
+    });
+  }
 }

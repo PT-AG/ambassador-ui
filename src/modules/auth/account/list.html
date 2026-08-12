@@ -22,13 +22,15 @@
         <thead>
             <tr>
                 <th>Username</th>
-                <th>Name</th> 
+                <th>Name</th>
+                <th>Status Account</th>
             </tr>
         </thead>
         <tbody>
-            <tr repeat.for="item of data" click.delegate="view(item)">
+            <tr repeat.for="item of data" click.delegate="view(item)" style.bind="item.isLocked ? 'background-color: #ffcccc;' : ''">
                 <td>${item.username}</td>
-                <td>${[item.profile.firstname,item.profile.lastname].join(' ')}</td> 
+                <td>${[item.profile.firstname,item.profile.lastname].join(' ')}</td>
+                <td>${item.isLocked ? 'Locked' : 'Active'}</td>
             </tr>
         </tbody>
     </table>
