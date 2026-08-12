@@ -18,41 +18,49 @@
             options.bind="controlOptions">
         </au-textbox>
 
-        <au-textbox   
+        <au-autocomplete   
             label="Nama Seksi"
-            placeholder="Nama Seksi" 
-            value.bind="data.Name"
+            placeholder="Cari Nama Seksi" 
+            value.bind="selectedName"
             error.bind="error.Name"
             read-only.bind="readOnly"
+            loader.bind="accountLoader"
+            text.bind="accountView"
             options.bind="controlOptions">
-        </au-textbox>
+        </au-autocomplete>
 
-        <au-textbox   
+        <au-autocomplete   
             label="Approval PR Oleh"
-            placeholder="Approval PR Oleh" 
-            value.bind="data.ApprovalPR"
+            placeholder="Cari Approval PR Oleh" 
+            value.bind="selectedApprovalPR"
             error.bind="error.ApprovalPR"
             read-only.bind="readOnly"
+            loader.bind="accountLoader"
+            text.bind="accountView"
             options.bind="controlOptions">
-        </au-textbox>
+        </au-autocomplete>
         
-        <au-textbox   
+        <au-autocomplete   
             label="Approval CC Oleh"
-            placeholder="Approval CC Oleh" 
-            value.bind="data.ApprovalCC"
+            placeholder="Cari Approval CC Oleh" 
+            value.bind="selectedApprovalCC"
             error.bind="error.ApprovalCC"
             read-only.bind="readOnly"
+            loader.bind="accountLoader"
+            text.bind="accountView"
             options.bind="controlOptions">
-        </au-textbox>
+        </au-autocomplete>
 
-        <au-textbox   
+        <au-autocomplete   
             label="Approval RO Garment Oleh"
-            placeholder="Approval RO Garment Oleh" 
-            value.bind="data.ApprovalRO"
+            placeholder="Cari Approval RO Garment Oleh" 
+            value.bind="selectedApprovalRO"
             error.bind="error.ApprovalRO"
             read-only.bind="readOnly"
+            loader.bind="accountLoader"
+            text.bind="accountView"
             options.bind="controlOptions">
-        </au-textbox>
+        </au-autocomplete>
 
         <au-multiline 
             label="Keterangan" 
