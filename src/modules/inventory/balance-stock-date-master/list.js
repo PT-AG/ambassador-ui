@@ -6,7 +6,6 @@ var moment = require("moment");
 
 @inject(Router, Service)
 export class List {
-  context = ["detail"];
   columns = [
   {
     field: "BalanceStockDate", title: "Tanggal",
