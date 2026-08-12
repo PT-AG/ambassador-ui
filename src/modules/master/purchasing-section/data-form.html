@@ -18,32 +18,38 @@
             options.bind="controlOptions">
         </au-textbox>
 
-        <au-textbox   
+        <au-autocomplete   
             label="Nama Staff"
-            placeholder="Nama Staff" 
-            value.bind="data.Name"
+            placeholder="Cari Nama Staff" 
+            value.bind="selectedStaff"
             error.bind="error.Name"
             read-only.bind="readOnly"
+            loader.bind="accountLoader"
+            text.bind="accountView"
             options.bind="controlOptions">
-        </au-textbox>
+        </au-autocomplete>
 
-        <au-textbox   
+        <au-autocomplete   
             label="Manager 1"
-            placeholder="Nama Manager 1" 
-            value.bind="data.Manager1"
+            placeholder="Cari Manager 1" 
+            value.bind="selectedManager1"
             error.bind="error.Manager1"
             read-only.bind="readOnly"
+            loader.bind="accountLoader"
+            text.bind="accountView"
             options.bind="controlOptions">
-        </au-textbox>
+        </au-autocomplete>
         
-        <au-textbox   
+        <au-autocomplete   
             label="Manager 2"
-            placeholder="Nama Manager 2" 
-            value.bind="data.Manager2"
+            placeholder="Cari Manager 2" 
+            value.bind="selectedManager2"
             error.bind="error.Manager2"
             read-only.bind="readOnly"
+            loader.bind="accountLoader"
+            text.bind="accountView"
             options.bind="controlOptions">
-        </au-textbox>
+        </au-autocomplete>
 
         <au-multiline 
             label="Keterangan" 
