@@ -10,8 +10,8 @@ export class Login {
     // username = "dev";
     // password = "Standar123";
 
-    username="";
-    password="";
+    username = "";
+    password = "";
 
     usernameError = "";
     passwordError = "";
@@ -19,7 +19,7 @@ export class Login {
 
     error = false;
     disabledButton = false;
-    
+
     constructor(authService, config) {
         this.authService = authService;
         this.authEndpoint = config.getEndpoint('auth');
@@ -45,8 +45,8 @@ export class Login {
         }
 
         this.disabledButton = true;
-        const PUBLIC_KEY =`-----BEGIN PUBLIC KEY-----MIIBCgKCAQEAyUDO910BLcBrwdscKorajZKQJdR9TNnR/oqNcTpL10C4Ts9JQq4djGlcxdIG09rm23x5r54/eFmthu4lpeSBEPsS9O4ai0SF0mA39n5lvfNzWJ/JNBYswXU0S2BoTKdClbme+Z1hhqwksej+y2r+AzxiUay23Tn/AvIRxmPQg/66lD6zNyTWHOHAowhdOLUF8GagwdNOeCC0BZDdjP7Iyrk0d5XYeffMAcNR2vLTDpreMcjda7fGHbDTu8khsFTpFDwub0Pg96lxbFV9i//dZ7sPl+RpIrrLV9alCuDyz4+86Sl1jVqbwyh4j4XjgYck1CcmDg5cWN5iB9MnHJZaAQIDAQAB-----END PUBLIC KEY-----`;
-        
+        const PUBLIC_KEY = `-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwwfgorwpe5myOFzKe33h+2f+QFty3rV8rJQShzU4cg4lZy0pEAoDKbMzeGujL4rm6Nb/ICEHxh3EN1FpR1asfBHN/tIOUnDF81fbHERxF+7iBRRqxUjrPDOAKL4nBJ3xItGyadAjJpOc9ZP2Wv5PR0Yhe62cXF/y66PBdDHA8lPZSkYif6/tOdAmFDyBtVJwdFpBrEXt5rhLRX4Y3Z6+HS9A/NsZe40s4e8Di1w/IbLBrE0N/Dch1KoZpHaNkq22nKFpRmwcJIPAIK1Y+hq7hxWjyTo7P2dQ6QazTEVAUFkD2NWWzNuZafs8JCdxgRS1i1PvZ9VpCdzBQeSMx/7K9QIDAQAB-----END PUBLIC KEY-----`;
+
         const credentials = {
             username: this.username,
             password: this.password,
@@ -68,7 +68,7 @@ export class Login {
                 //     .catch(err => console.error('Error updating last login on sign in:', err));
 
                 this.statusMessage = PasswordValidator.validate(this.password);
-                
+
                 if (this.statusMessage) {
                     alert(this.statusMessage);
                     this.disabledButton = false;
@@ -115,7 +115,7 @@ export class Login {
                             msg = err.statusText;
                         }
                     }
-                } catch (e) {}
+                } catch (e) { }
 
                 this.generalError = msg;
             });

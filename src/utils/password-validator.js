@@ -48,3 +48,4 @@ export const PasswordValidator = {
 
     return validationMessage === "" ? null : validationMessage; // Password valid
   }
+}
