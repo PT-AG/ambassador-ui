@@ -17,7 +17,7 @@ export class List {
     async activate() {
         this.info.keyword = '';
         var result = await this.service.search(this.info);
-        this.data = result.data;
+        this.data = result.data.sort((a, b) => b.isLocked - a.isLocked);
         this.info = result.info;
     }
 
@@ -25,7 +25,7 @@ export class List {
         var keyword = this.info.keyword;
         this.service.search(this.info)
             .then(result => {
-                this.data = result.data;
+                this.data = result.data.sort((a, b) => b.isLocked - a.isLocked);
                 this.info = result.info;
                 this.info.keyword = keyword;
             })
