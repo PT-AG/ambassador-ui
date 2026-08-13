@@ -48,7 +48,6 @@ export class List {
     }
 
     columns = [
-        { field: "DivisionName", title: "Divisi" },
         { field: "SupplierName", title: "Supplier" },
         {
             field: "date", title: "Tanggal Surat Perintah Bayar", formatter: function (value, data, index) {
@@ -106,9 +105,7 @@ export class List {
         var data = arg.data;
         switch (arg.name) {
             case "Rincian":
-                const encoded = Base64Helper.encode(data._id);
-                this.router.navigateToRoute('view', { id: encoded });
-                //this.router.navigateToRoute('view', { id: data.Id });
+                this.router.navigateToRoute('view', { id: data.Id || data._id });
                 break;
         }
     }
