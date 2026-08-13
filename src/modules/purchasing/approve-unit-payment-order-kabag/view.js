@@ -2,7 +2,6 @@ import { inject, Lazy } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Service } from './service';
 
-
 @inject(Router, Service)
 export class View {
     hasCancel = true;
@@ -14,8 +13,7 @@ export class View {
     }
 
     async activate(params) {
-        const decoded = Base64Helper.decode(params.id);
-        this.id = decoded;
+        this.id = params.id;
         this.data = await this.service.getById(this.id);
         if (this.data.division) {
             this.selectedDivision = this.data.division;
