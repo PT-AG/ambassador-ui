@@ -9,6 +9,7 @@ export class List {
     context = ["detail","Cetak PDF"]
 
     columns = [
+        { field: "coverLetterNo", title: "No Surat Pengantar" },
         { field: "invoiceNo", title: "Invoice No" },
         {
             field: "date", title: "Tgl Surat Pengantar", formatter: function (value) {

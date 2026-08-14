@@ -9,8 +9,8 @@ export class Edit {
     hasSave = true;
     isEdit = true;
     isUpdated = false;
-    isCreate =false;
-
+    isCreate = false;
+    partial = false;
 
     constructor(router, service) {
         this.router = router;
@@ -24,14 +24,17 @@ export class Edit {
     async activate(params) {
         var id = params.id;
         this.data = await this.service.getById(id);
-        if(this.data.isUsed == true)
-        {
-           this.isUsed = true;
-        }else
-        {
+        this.partial = this.data.isPartial;
+
+        if (this.data.isUsed == true) {
+            this.isUsed = true;
+        } else {
             this.isUsed = false;
         }
-       
+
+        if (this.data.isPartial) {
+            this.data.items = [];
+        }
     }
 
     cancel(event) {
@@ -40,7 +43,11 @@ export class Edit {
 
     save(event) {
         this.service.update(this.data).then(result => {
-            this.cancel();
+            if (result.statusCode == 200 || result.statusCode == 201) {
+                this.cancel();
+            } else {
+                this.error = result.error;
+            }
         }).catch(e => {
             this.error = e;
         })

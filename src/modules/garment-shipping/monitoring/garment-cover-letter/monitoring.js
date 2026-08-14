@@ -4,6 +4,7 @@ import { Router } from 'aurelia-router';
 var moment = require("moment");
 const GarmentBuyerLoader = require('../../../../loader/garment-buyers-loader');
 const GarmentEMKLLoader = require('../../../../loader/garment-emkl-loader');
+const CLLoader = require('../../../../loader/garment-shipping-cover-letters-loader');
 
 
 @inject(Router, Service)
@@ -19,9 +20,23 @@ export class List {
     emkl = null;
     dateFrom = null;
     dateTo = null;
+    cl=null;
    
+    controlOptions = {
+        label: {
+            length: 3
+        },
+        control: {
+            length: 5
+        }
+    };
+
     get garmentbuyerLoader() {
         return GarmentBuyerLoader;
+    }
+
+    get clLoader() {
+        return CLLoader;
     }
 
     buyerAgentView = (buyerAgent) => {
@@ -39,14 +54,14 @@ export class List {
     activate() {
        
     }
-
     searching() {
         {
         var info = {
             buyerAgent : this.buyerAgent ? this.buyerAgent.Code : "",
             emkl : this.emkl ? this.emkl.Code : "",            
             dateFrom : this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
-            dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : ""
+            dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : "",
+            clNo : this.cl ? this.cl.coverLetterNo : "",            
         }
 
          this.service.search(info)
@@ -65,6 +80,7 @@ export class List {
                             dataByBuyer[Buyer].push({      
                          
                             invoiceNo : data.invoiceNo,
+                            coverLetterNo : data.coverLetterNo,
                             clDate : moment(data.clDate).format("DD MMM YYYY")=="01 Jan 1970"? "-" : moment(data.clDate).format("DD MMM YYYY"),
                             bookingDate : moment(data.bookingDate).format("DD MMM YYYY")=="01 Jan 1970"? "-" : moment(data.bookingDate).format("DD MMM YYYY"),
                             exportDate : moment(data.exportDate).format("DD MMM YYYY")=="01 Jan 1970"? "-" : moment(data.exportDate).format("DD MMM YYYY"),                            
@@ -86,32 +102,29 @@ export class List {
                             contaainerNo : data.containerNo,
                             shippingSeal : data.shippingSeal,
                             dlSeal : data.dlSeal,                            
-                            pcsQuantity : data.pcsQuantity.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
-                            setsQuantity : data.setsQuantity.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
-                            packQuantity : data.packQuantity.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
-                            totalCarton : data.totalCarton.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
-    
+                            quantity : data.quantity.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+                            uom : data.uom
                         });
                         
                         if (!subTotalBuyer1[Buyer]) {
                            subTotalBuyer1[Buyer] = 0;
                            } 
-                           subTotalBuyer1[Buyer] += data.pcsQuantity;
+                           subTotalBuyer1[Buyer] += data.quantity;
 
-                        if (!subTotalBuyer2[Buyer]) {
-                            subTotalBuyer2[Buyer] = 0;
-                            } 
-                            subTotalBuyer2[Buyer] += data.setsQuantity;
+                        // if (!subTotalBuyer2[Buyer]) {
+                        //     subTotalBuyer2[Buyer] = 0;
+                        //     } 
+                        //     subTotalBuyer2[Buyer] += data.setsQuantity;
 
-                        if (!subTotalBuyer3[Buyer]) {
-                            subTotalBuyer3[Buyer] = 0;
-                                } 
-                            subTotalBuyer3[Buyer] += data.packQuantity;
+                        // if (!subTotalBuyer3[Buyer]) {
+                        //     subTotalBuyer3[Buyer] = 0;
+                        //         } 
+                        //     subTotalBuyer3[Buyer] += data.packQuantity;
 
-                        if (!subTotalBuyer4[Buyer]) {
-                            subTotalBuyer4[Buyer] = 0;
-                                } 
-                            subTotalBuyer4[Buyer] += data.totalCarton;
+                        // if (!subTotalBuyer4[Buyer]) {
+                        //     subTotalBuyer4[Buyer] = 0;
+                        //         } 
+                        //     subTotalBuyer4[Buyer] += data.totalCarton;
          
                 }
      
@@ -126,19 +139,19 @@ export class List {
                    data: dataByBuyer[data],
                    buyer: dataByBuyer[data][0].buyerAgentName,
                    subTotal1: (subTotalBuyer1[data]).toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
-                   subTotal2: (subTotalBuyer2[data]).toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
-                   subTotal3: (subTotalBuyer3[data]).toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
-                   subTotal4: (subTotalBuyer4[data]).toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+                //    subTotal2: (subTotalBuyer2[data]).toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+                //    subTotal3: (subTotalBuyer3[data]).toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+                //    subTotal4: (subTotalBuyer4[data]).toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
                  });
                    this.TotPcs += subTotalBuyer1[data];   
-                   this.TotSets += subTotalBuyer2[data];
-                   this.TotPack += subTotalBuyer3[data];   
-                   this.TotCtns += subTotalBuyer4[data];
+                //    this.TotSets += subTotalBuyer2[data];
+                //    this.TotPack += subTotalBuyer3[data];   
+                //    this.TotCtns += subTotalBuyer4[data];
                }
                this.TotPcs = this.TotPcs.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-               this.TotSets = this.TotSets.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-               this.TotPack = this.TotPack.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-               this.TotCtns = this.TotCtns.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            //    this.TotSets = this.TotSets.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            //    this.TotPack = this.TotPack.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            //    this.TotCtns = this.TotCtns.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                this.buyers = buyers;
              });   
         }   
@@ -150,7 +163,8 @@ export class List {
                 buyerAgent : this.buyerAgent ? this.buyerAgent.Code : "",
                 emkl : this.emkl ? this.emkl.Code : "", 
                 dateFrom : this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD") : "",
-                dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : ""
+                dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD") : "",
+                clNo : this.cl ? this.cl.coverLetterNo : "",            
             }
 
         this.service.generateExcel(info)
@@ -165,6 +179,7 @@ export class List {
         this.dateTo = null;
         this.buyerAgent = null;
         this.emkl = null;
+        this.cl = null;
         this.buyers = [];
         this.TotPcs = null;
         this.TotSets = null;

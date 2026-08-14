@@ -35,7 +35,6 @@ export class Edit {
         this.sumSubTotal(item);
       }
 
-
       this.data.mode = "UPDATE";
     } else {
       this.data.mode = "CREATE";
@@ -71,6 +70,7 @@ export class Edit {
           }
         }
       }
+
       if (!cartonExist) {
         item.subGrossWeight += detail.grossWeight * detail.cartonQuantity;
         item.subNetWeight += detail.netWeight * detail.cartonQuantity;
@@ -78,8 +78,6 @@ export class Edit {
       }
     }
   }
-
-
 
   cancelCallback(event) {
     this.dialog.prompt('Apakah anda yakin untuk keluar dari form ini ?', 'Edit Packing List Items')
@@ -122,29 +120,28 @@ export class Edit {
 
     // Lakukan update
     try {
-        await this.service.update(this.data);  // Pastikan update menggunakan await jika metode ini asinkron
-        this.router.navigateToRoute('view', { id: this.data.id });
+      await this.service.update(this.data);  // Pastikan update menggunakan await jika metode ini asinkron
+      this.router.navigateToRoute('view', { id: this.data.id });
     } catch (error) {
-        this.error = error;
+      this.error = error;
 
-        let errorNotif = "";
-        if (error.InvoiceType || error.Type || error.Date ) {
-            errorNotif += "Tab DESCRIPTION ada kesalahan pengisian.\n"
-        }
-        if (error.Items) {
-          errorNotif += "Item tidak boleh kosong.\n"
-        }
-        if (error.GrossWeight || error.NettWeight || error.totalCartons || error.SayUnit || error.MeasurementsCount || error.Measurements) {
-            errorNotif += "Tab DETAIL MEASUREMENT ada kesalahan pengisian.\n"
-        }
-        if (error.ShippingMark || error.SideMark || error.Remark) {
-            errorNotif += "Tab SHIPPING MARK - SIDE MARK - REMARK ada kesalahan pengisian."
-        }
+      let errorNotif = "";
+      if (error.InvoiceType || error.Type || error.Date) {
+        errorNotif += "Tab DESCRIPTION ada kesalahan pengisian.\n"
+      }
+      if (error.Items) {
+        errorNotif += "Item tidak boleh kosong.\n"
+      }
+      if (error.GrossWeight || error.NettWeight || error.totalCartons || error.SayUnit || error.MeasurementsCount || error.Measurements) {
+        errorNotif += "Tab DETAIL MEASUREMENT ada kesalahan pengisian.\n"
+      }
+      if (error.ShippingMark || error.SideMark || error.Remark) {
+        errorNotif += "Tab SHIPPING MARK - SIDE MARK - REMARK ada kesalahan pengisian."
+      }
 
-        if (errorNotif) {
-            alert(errorNotif);
-        }
+      if (errorNotif) {
+        alert(errorNotif);
+      }
     }
   }
-
 }
