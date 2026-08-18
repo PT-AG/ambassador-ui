@@ -14,6 +14,12 @@ export class List {
     { field: "CurrencyCode", title: "Mata Uang" },
     { field: "Price", title: "Harga Barang" },
     { field: "Tags", title: "Tags" },
+    {
+      field: "Active", title: "Active",
+      formatter: function (value, row, index) {
+        return value ? "SUDAH" : "BELUM";
+      }
+    },
   ];
 
   loader = (info) => {
@@ -39,6 +45,13 @@ export class List {
           data: result.data
         }
       });
+  }
+
+  rowFormatter(data, index) {
+    if (data.Active)
+      return { classes: "success" }
+    else
+      return {}
   }
 
     constructor(router, service) {
