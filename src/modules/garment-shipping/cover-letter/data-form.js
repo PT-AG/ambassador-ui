@@ -4,6 +4,7 @@ import { Service } from "./service";
 var ShippingInvoiceLoader = require('../../../loader/garment-shipping-invoice-loader');
 var ForwarderLoader = require('../../../loader/garment-forwarders-loader');
 var EMKLLoader= require('../../../loader/garment-emkl-loader');
+var UomLoader = require("../../../loader/uom-loader");
 
 @inject(Service)
 export class DataForm {
@@ -26,7 +27,13 @@ export class DataForm {
             length: 6
         }
     };
-
+    
+    get uomLoader() {
+        return UomLoader;
+    }
+    uomView = (uom) => {
+            return `${uom.Unit || uom.unit}`
+        }
     // filter= {      
     //     "PEBNo!=null":true
     // }

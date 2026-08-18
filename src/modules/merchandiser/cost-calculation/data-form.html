@@ -320,12 +320,17 @@
                     error.bind="error.Insurance"
                     options.bind="length4">
                 </au-numeric>
+                <au-checkbox
+                    label="Persentase?"
+                    value.bind="data.IsCommissionPortion"
+                    options.bind="length4"> 
+                </au-checkbox>
                 <au-numeric
                     label="Other Expense"
                     value.bind="data.CommissionRate"
                     error.bind="error.CommissionRate"
                     options.bind="length4"
-                    if.bind="buyerlocal">
+                    if.bind="!data.IsCommissionPortion">
                 </au-numeric>
                 <au-numeric
                     label="Other Expense(%)"
@@ -333,7 +338,7 @@
                     options.bind="length4"
                     read-only="disabled"
                     style="display:none"
-                    if.bind="buyerlocal">
+                    if.bind="!data.IsCommissionPortion">
                 </au-numeric>
                 <au-numeric
                     label="Other Expense"
@@ -341,14 +346,14 @@
                     read-only="disabled"
                     style="display:none"
                     options.bind="length4"
-                    if.bind="!buyerlocal">
+                    if.bind="data.IsCommissionPortion">
                 </au-numeric>
                 <au-numeric
                     label="Other Expense(%)"
                     value.bind="data.CommissionPortion"
                     error.bind="error.CommissionPortion"
                     options.bind="length4"
-                    if.bind="!buyerlocal">
+                    if.bind="data.IsCommissionPortion">
                 </au-numeric>
             </div>
             <div class="col-md-2">

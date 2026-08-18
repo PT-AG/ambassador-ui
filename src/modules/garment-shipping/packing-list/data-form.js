@@ -136,7 +136,7 @@ export class DataForm {
     PackingTypeOptions = ["EXPORT", "RE EXPORT", "LOKAL"];
     InvoiceTypeOptions = ["AG", "DS", "SM"];
     InvoiceTypeOptionsR = ["AGR", "SMR"];
-    PaymentTermOptions = ["LC", "TT/OA", "NON COMMERCIAL"];
+    PaymentTermOptions = ["LC", "TT/OA", "NON COMMERCIAL", "CBD", "DN"];
     roTypes = ["RO JOB", "RO MASTER"]
     sectionTypes = ["MD01 – VERA FATIMAH", "MD02 – WAHYU PAMUNGKAS"]
 

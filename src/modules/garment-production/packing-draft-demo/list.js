@@ -54,6 +54,7 @@ export class List {
                 for (const data of result.data) {
                     data.buyerAgentName = (data.buyerAgent || {}).name;
                     data.shippingStaffName = (data.shippingStaff || {}).name;
+                    data.invoiceNo= data.increment ? data.invoiceNo + " - " + data.increment : data.invoiceNo
                 }
 
                 return {

@@ -1,5 +1,4 @@
 <template>
-
     <au-input-form title.bind="title" title.bind="title" with.bind="context">
         <div slot="actions" class="btn-group">
             <button class="btn btn-default" click.delegate="context.cancel($event)"
@@ -13,14 +12,36 @@
             <button class="btn btn-danger" click.delegate="context.delete($event)"
                 if.one-way="context.hasDelete">Hapus</button>
         </div>
-        <div class="col-md-4">
 
-            <au-autocomplete label="InvoiceNo" value.bind="packinglists" error.bind="error.InvoiceNo"
-                read-only.bind="readOnly || isEdit || isUpdated" loader.bind="invoiceLoader" text.bind="invoiceView"
-                placeholder="Cari Invoice" options.bind="length4" view-model.ref="invoiceViewModel" query.bind="filter">
+        <div class="col-md-4">
+            <au-checkbox label="Parsial?" value.bind="partial" read-only.bind="readOnly" options.bind="controlOptions"
+                change.delegate="changeCheckBox()" if.bind="!readOnly && !isEdit">>
+            </au-checkbox>
+
+            <au-autocomplete if.bind="partial" label="Buyer Agent" value.bind="buyer" error.bind="error.BuyerAgent.name"
+                loader.bind="buyerLoader" text.bind="buyerView" placeholder="Cari Buyer"
+                read-only.bind="readOnly || data.id" options.bind="length4">
             </au-autocomplete>
-            <au-textbox label="Jenis Invoice" value.bind="data.packingListType" error.bind="error.PackingListType" read-only.bind="true" if.bind="packinglists"
-                options.bind="length4">
+
+            <au-autocomplete if.bind="partial" label="Seksi" value.bind="section" error.bind="error.section.code"
+                read-only.bind="readOnly || data.id" loader.bind="sectionLoader" text.bind="sectionView"
+                placeholder="Cari Seksi" options.bind="length4" view-model.ref="sectionViewModel">
+            </au-autocomplete>
+
+            <au-autocomplete if.bind="partial" label="Shipping Staff" value.bind="shippingStaff"
+                error.bind="error.ShippingStaff" read-only.bind="readOnly || data.id" loader.bind="shippingStaffLoader"
+                text.bind="shippingStaffView" placeholder="Cari Shipping Staff" options.bind="length4"
+                view-model.ref="shippingStaffViewModel">
+            </au-autocomplete>
+
+            <au-autocomplete if.bind="!partial" label="InvoiceNo" value.bind="packinglists" error.bind="error.InvoiceNo"
+                read-only.bind="readOnly || isEdit || isUpdated" loader.bind="invoiceLoader"
+                text.bind="invoiceView" placeholder="Cari Invoice" options.bind="length4"
+                view-model.ref="invoiceViewModel" query.bind="filter">
+            </au-autocomplete>
+
+            <au-textbox if.bind="packinglists || data.invoiceNo" label="Jenis Invoice" value.bind="data.packingListType" error.bind="error.PackingListType"
+                read-only.bind="true" options.bind="length4">
             </au-textbox>
 
             <au-datepicker label="TGL" value.bind="data.invoiceDate" error.bind="error.InvoiceDate"
@@ -31,13 +52,12 @@
                 options.bind="length4">
             </au-textbox>
 
-
             <au-textbox label="To" value.bind="data.to" error.bind="error.To" read-only.bind="readOnly"
                 options.bind="length4">
             </au-textbox>
 
-            <au-textbox label="BuyerAgent" value.bind="data.buyerAgent.name" error.bind="error.BuyerAgent.name"
-                read-only.bind="true" options.bind="length4">
+            <au-textbox label="Buyer Agent" value.bind="data.buyerAgent.name" error.bind="error.BuyerAgent.name"
+                read-only.bind="true" show.bind="!partial" options.bind="length4">
             </au-textbox>
 
             <au-multiline label="Consignee" value.bind="data.consignee" error.bind="error.Consignee"
@@ -47,30 +67,47 @@
             <au-multiline label="Alamat Consignee" value.bind="data.consigneeAddress"
                 error.bind="error.ConsigneeAddress" read-only.bind="readOnly" options.bind="length4">
             </au-multiline>
+
             <au-textbox label="LC No" value.bind="data.lcNo" error.bind="error.LcNo" read-only.bind="true"
                 if.bind="data.lcNo && isPackinglistType" options.bind="length4">
             </au-textbox>
+
             <au-textbox label="Issued By" value.bind="data.issuedBy" error.bind="error.IssuedBy" read-only.bind="true"
                 if.bind="data.issuedBy" options.bind="length4">
             </au-textbox>
-            <au-textbox label="Seksi" value.bind="data.section.code" error.bind="error.Section.code"
-                read-only.bind="true" options.bind="length4">
+
+            <au-textbox if.bind="!partial" label="Seksi" value.bind="data.section.code"
+                error.bind="error.Section.code" read-only.bind="true" options.bind="length4">
             </au-textbox>
+
+            <au-autocomplete if.bind="!partial" label="Shipping Staff" value.bind="shippingStaff"
+                error.bind="error.ShippingStaff" read-only="true" loader.bind="shippingStaffLoader"
+                text.bind="shippingStaffView" placeholder="Cari Shipping Staff" options.bind="length4"
+                view-model.ref="shippingStaffViewModel">
+            </au-autocomplete>
+
             <au-multiline label="Deliver To" value.bind="data.deliverTo" error.bind="error.deliverTo"
                 read-only.bind="readOnly" options.bind="length4">
             </au-multiline>
-            <au-textbox label="Attn" value.bind="data.attn" error.bind="error.Attn"
-                read-only.bind="readOnly" options.bind="length4">
+
+            <au-textbox label="Attn" value.bind="data.attn" error.bind="error.Attn" read-only.bind="readOnly"
+                options.bind="length4">
             </au-textbox>
-            <au-textbox label="Telepon" value.bind="data.phone" error.bind="error.Phone"
+
+            <au-textbox label="Telepon" value.bind="data.phone" error.bind="error.Phone" read-only.bind="readOnly"
+                options.bind="length4">
+            </au-textbox>
+
+            <au-textbox label="InvoiceNo" value.bind="data.invoiceNo" error.bind="error.InvoiceNo" read-only.bind="true"
+                if.bind="partial" options.bind="length4">
+            </au-textbox>
+        </div>
+
+        <div class="col-sm-4">
+            <au-textbox label="Shipping Per" value.bind="data.shippingPer" error.bind="error.ShippingPer"
                 read-only.bind="readOnly" options.bind="length4">
             </au-textbox>
 
-        </div>
-        <div class="col-sm-4">
-            <au-textbox label="Shipping Per" value.bind="data.shippingPer" error.bind="error.ShippingPer"
-                read-only.bind="readOnly " options.bind="length4">
-            </au-textbox>
             <au-datepicker label="SailingDate" value.bind="data.sailingDate" error.bind="error.SailingDate"
                 read-only.bind="readOnly " options.bind="length4">
             </au-datepicker>
@@ -78,48 +115,43 @@
             <au-textbox label="Confirmation Of Order No" value.bind="data.confirmationOfOrderNo"
                 error.bind="error.ConfirmationOfOrderNo" read-only.bind="readOnly" options.bind="length4">
             </au-textbox>
-            <au-autocomplete label="Shipping Staff" value.bind="data.shippingStaff" error.bind="error.ShippingStaff"
-                read-only="true" loader.bind="shippingStaffLoader" text.bind="shippingStaffView"
-                placeholder="Cari Shipping Staff" options.bind="length4" view-model.ref="shippingStaffViewModel">
-            </au-autocomplete>
-            <au-autocomplete label="Jenis Fabric" value.bind="fabricType" error.bind="error.FabricType"
-                read-only.bind="readOnly " loader.bind="fabricTypeLoader" text.bind="fabricTypeView"
-                placeholder="Cari Jenis Fabric" options.bind="length4" view-model.ref="fabricTypeViewModel" if.bind = "isPackinglistType">
+
+            <au-autocomplete if.bind="data.packingListType == 'EXPORT'" label="Jenis Fabric" value.bind="fabricType" error.bind="error.FabricType"
+                read-only.bind="readOnly" loader.bind="fabricTypeLoader" text.bind="fabricTypeView"
+                placeholder="Cari Jenis Fabric" options.bind="length4" view-model.ref="fabricTypeViewModel">
             </au-autocomplete>
 
-            <au-textbox label="Jenis Fabric" value.bind="fabricType"
-                error.bind="error.FabricType" read-only.bind="readOnly" options.bind="length4" if.bind = "!isPackinglistType">
+            <au-textbox if.bind="data.packingListType == 'LOKAL'" label="Jenis Fabric" value.bind="fabricType" error.bind="error.FabricType"
+                read-only.bind="readOnly" options.bind="length4">
             </au-textbox>
-
 
             <au-autocomplete label="Bank Detail" value.bind="bankAccount" error.bind="error.BankAccount"
                 read-only.bind="readOnly" loader.bind="accountBankLoader" text.bind="accountBankView"
                 placeholder="Cari Bank" query.bind="bankFilter" options.bind="length4">
             </au-autocomplete>
-            <!-- || options.isUsed -->
+
             <au-numeric label="Tempo Pembayaran (HARI)" value.bind="data.paymentDue" error.bind="error.PaymentDue"
                 read-only.bind="readOnly " options.bind="length4" format="0">
             </au-numeric>
+
             <au-textbox label="No PEB" value.bind="data.pebNo" error.bind="error.pEBNo" read-only.bind="readOnly "
                 options.bind="length4">
             </au-textbox>
+
             <au-datepicker label="Tgl PEB" value.bind="data.pebDate" error.bind="error.pEBDate"
                 read-only.bind="readOnly " options.bind="length4">
             </au-datepicker>
 
-            <au-textbox
-                label="Authorized By"
-                value.bind="data.userAuthorizedName"
-                error.bind="error.UserAuthorizedName"
-                read-only.bind="readOnly" 
-                options.bind="length4">
+            <au-textbox label="Authorized By" value.bind="data.userAuthorizedName" error.bind="error.UserAuthorizedName"
+                read-only.bind="readOnly" options.bind="length4">
             </au-textbox>
         </div>
-        <div class="col-sm-3">
 
+        <div class="col-sm-3">
             <au-textbox label="No NPE" value.bind="data.npeNo" error.bind="error.npeNo" read-only.bind="readOnly "
                 options.bind="length4">
             </au-textbox>
+
             <au-datepicker label="Tgl NPE" value.bind="data.npeDate" error.bind="error.npeDate"
                 read-only.bind="readOnly" options.bind="length4">
             </au-datepicker>
@@ -127,41 +159,111 @@
             <au-textbox label="No B/L" value.bind="data.bl" error.bind="error.bl" read-only.bind="readOnly"
                 options.bind="length4">
             </au-textbox>
+
             <au-datepicker label="Tgl B/L" value.bind="data.blDate" error.bind="error.blDate" read-only.bind="readOnly"
                 options.bind="length4">
             </au-datepicker>
+
             <au-textbox label="No CO" value.bind="data.co" error.bind="error.co" read-only.bind="readOnly "
                 options.bind="length4">
             </au-textbox>
+
             <au-datepicker label="Tgl CO" value.bind="data.coDate" error.bind="error.coDate" read-only.bind="readOnly"
                 options.bind="length4">
             </au-datepicker>
+
             <au-textbox label="No COTP" value.bind="data.cotp" error.bind="error.cotp" read-only.bind="readOnly"
                 options.bind="length4">
             </au-textbox>
+
             <au-datepicker label="Tgl COTP" value.bind="data.cotpDate" error.bind="error.cotpDate"
                 read-only.bind="readOnly" options.bind="length4">
             </au-datepicker>
+
             <au-multiline label="Description" value.bind="data.description" error.bind="error.description"
                 read-only.bind="readOnly" options.bind="length4">
             </au-multiline>
+
             <au-multiline label="Keterangan" value.bind="data.remark" error.bind="error.remark"
                 read-only.bind="readOnly" options.bind="length4">
             </au-multiline>
         </div>
-        <div class="row">
+
+        <div class="row" if.bind="!partial">
             <div class="col-md-12">
                 <div class="form-group has-error">
                     <p if.bind="error.ItemsCount" class="help-block text-center">${error.ItemsCount}</p>
                 </div>
-                <au-collection view-model.ref="itemsCollection" items.bind="data.items" errors.bind="error.Items"
-                    columns.bind="packinglistColumns.columns" add.bind="packinglistColumns.onAdd"
-                    remove.bind="packinglistColumns.onRemove" options.bind="options" read-only.bind="readOnly"
-                    show.bind="packinglists" responsive.bind="true" change.delegate="itemChanged($event)"
-                    item-template="modules/garment-shipping/invoice/template/garment-shipping-invoice-item">
-                </au-collection>
+                <div style="overflow-x: auto; overflow-y: auto; max-height: 400px; width: 100%;">
+                    <div style="min-width: max-content; width: 100%;">
+                        <au-collection view-model.ref="itemsCollection" items.bind="data.items"
+                            errors.bind="error.Items" columns.bind="packinglistColumns.columns"
+                            add.bind="packinglistColumns.onAdd" remove.bind="packinglistColumns.onRemove"
+                            options.bind="options" read-only.bind="readOnly" if.bind="packinglists"
+                            responsive.bind="true"
+                            item-template="modules/garment-shipping/invoice/template/garment-shipping-invoice-item">
+                        </au-collection>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <div class="row" if.bind="partial">
+            <div class="col-md-12">
+                <div class="form-group has-error">
+                    <p if.bind="error.ItemsByPackingInvoiceCount" class="help-block text-center">${error.ItemsByPackingInvoiceCount}</p>
+                </div>
+                <div style="overflow-x: auto; overflow-y: auto; width: 100%;">
+                    <div style="min-width: max-content; width: 100%;">
+                        <au-collection view-model.ref="itemsCollection" items.bind="data.itemsByPackingInvoice"
+                            errors.bind="error.ItemsByPackingInvoice" columns.bind="packinglistColumnsPartial.columns"
+                            options.bind="options" if.bind="partial && buyer && section && shippingStaff"
+                            responsive.bind="true"
+                            item-template="modules/garment-shipping/invoice/template/garment-shipping-partial-invoice-item">
+                        </au-collection>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <!-- <div class="row" if.bind="partial">
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    checked.bind="checkedAll"
+                                    change.delegate="changeCheckedAll()"
+                                    disabled.bind="readOnly || isEdit" />
+                            </label>
+                        </th>
+                        <template repeat.for="column of packinglistColumnsPartial.columnsItems">
+                            <th><label>${column}</label></th>
+                        </template>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr if.bind="!data.itemsByPackingInvoice || data.itemsByPackingInvoice.length < 1">
+                        <td colspan="${packinglistColumnsPartial.columnsItems.length + 1}">
+                            <div class="alert alert-info"> No data.</div>
+                        </td>
+                    </tr>
+                    <template repeat.for="i of data.itemsByPackingInvoice.length" if.bind="data.itemsByPackingInvoice && data.itemsByPackingInvoice.length > 0">
+                        <tr
+                            repeat.for="detail of data.itemsByPackingInvoice"
+                            as-element="compose"
+                            view="modules/garment-shipping/invoice/template/garment-shipping-partial-invoice-item.html"
+                            view-model="modules/garment-shipping/invoice/template/garment-shipping-partial-invoice-item"
+                            model.bind="{ isEdit: isEdit, header: data, data: detail, error: error.ItemsByPackingInvoice[i], context: context }"
+                            containerless>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div> -->
 
         <div class="row">
             <div class="col-md-6">
@@ -173,9 +275,9 @@
                 </au-collection>
             </div>
         </div>
+
         <div class="row">
             <div class="col-md-6">
-
                 <au-multiline label="MEMO" value.bind="data.memo" error.bind="error.memo"
                     read-only.bind="readOnly || isEdit || isUpdated" options.bind="length4">
                 </au-multiline>
@@ -187,26 +289,25 @@
                 <au-numeric label="TOTAL AMOUNT" value.bind="totalAmounts" error.bind="error.totalAmount"
                     read-only.bind="true" options.bind="length4">
                 </au-numeric>
+
                 <au-numeric label="LESS FABRIC COST" value.bind="lessFabricCosts" error.bind="error.lessFabricCosts"
                     read-only.bind="true" options.bind="length4">
                 </au-numeric>
+
                 <au-numeric label="AMOUNT TO BE PAID" value.bind="amountToBePaid" error.bind="error.amountToBePaid"
                     read-only.bind="true" options.bind="length4">
                 </au-numeric>
-
-                </au-numeric>
             </div>
         </div>
 
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-md-6">
                 <au-collection view-model.ref="percentageCollection" items.bind="data.garmentShippingInvoiceUnits"
                     columns.bind="unitColumns.columns" errors.bind="error.garmentShippingInvoiceUnits"
-                    options.bind="options" responsive.bind="true" if.bind="packinglists"
+                    options.bind="options" responsive.bind="true" if.bind="packinglists || partial"
                     item-template="modules/garment-shipping/invoice/template/unit-percentage" read-only.bind="readOnly">
                 </au-collection>
             </div>
-        </div>
-        </div>
+        </div> -->
     </au-input-form>
 </template>

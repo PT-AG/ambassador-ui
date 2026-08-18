@@ -127,7 +127,7 @@ export class PRMasterDialog {
                             const othersQuantity = selectedCCMaterials.reduce((acc, cur) => acc += cur.BudgetQuantity, 0);
                             d.AvailableQuantity = d.Quantity - othersQuantity;
                         });
-
+                        data = data.filter(d => d.AvailableQuantity > 0);
                         let fabricItemsProductIds = data
                             .filter(i => i.Category.name === "FABRIC")
                             .map(i => i.Product.Id);
