@@ -1,6 +1,7 @@
 import { inject } from 'aurelia-framework';
 import { Service } from "./service";
 import { Router } from 'aurelia-router';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 var moment = require("moment");
 
 @inject(Router, Service)
@@ -33,7 +34,11 @@ export class List {
         var arg = event.detail;
         var data = arg.data;
         switch (arg.name) {
-            case "Rincian": this.router.navigateToRoute('view', { id: data.Id }); break;
+            case "Rincian":         
+                const encoded = Base64Helper.encode(data.Id);
+                this.router.navigateToRoute('view', { id: encoded });
+                //this.router.navigateToRoute('view', { id: data.Id }); 
+            break;
             case "Cetak PDF": this.service.getPdfById(data.Id); break;
             case "Cetak PDF Return Note PPn": this.service.getPdfReturnNotePpn(data.Id); break;
             case "Cetak PDF Return Note PPh": this.service.getPdfReturnNotePph(data.Id); break;

@@ -1,6 +1,7 @@
 import {inject} from 'aurelia-framework';
 import {Service} from "./service";
 import {Router} from 'aurelia-router';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service)
 export class List {
@@ -43,7 +44,8 @@ export class List {
 
     edit(data) {
         // console.log(data);
-        this.router.navigateToRoute('edit', { id: data._id });
+        const encoded = Base64Helper.encode(data._id);
+        this.router.navigateToRoute('edit', { id: encoded });
     }
 
     create() {

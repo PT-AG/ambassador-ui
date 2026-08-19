@@ -1,53 +1,53 @@
-import {inject} from 'aurelia-framework';
-import {Service} from "./service";
-import {Router} from 'aurelia-router';
-import moment from 'moment';
+import { inject } from "aurelia-framework";
+import { Service } from "./service";
+import { Router } from "aurelia-router";
+import { Base64Helper } from "../../../utils/base-64-coded-helper";
+import moment from "moment";
 
 @inject(Router, Service)
 export class List {
-    context = ["detail"];
-    columns = [
-        { field: "Code", title: "Kode Komoditas", width: "25%" },
-        { field: "Name", title: "Nama Komoditas", }
-    ];
+  context = ["detail"];
+  columns = [
+    { field: "Code", title: "Kode Komoditas", width: "25%" },
+    { field: "Name", title: "Nama Komoditas" },
+  ];
 
-    loader = (info) => {
-        var order = {};
-    if (info.sort)
-      order[info.sort] = info.order;
+  loader = (info) => {
+    var order = {};
+    if (info.sort) order[info.sort] = info.order;
 
     var arg = {
       page: parseInt(info.offset / info.limit, 10) + 1,
       size: info.limit,
       keyword: info.search,
-      order: order
-    }
+      order: order,
+    };
 
-    return this.service.search(arg)
-      .then(result => {
-        return {
-          total: result.info.total,
-          data: result.data
-        }
-      });
-    }
+    return this.service.search(arg).then((result) => {
+      return {
+        total: result.info.total,
+        data: result.data,
+      };
+    });
+  };
 
-    constructor(router, service) {
-        this.service = service;
-        this.router = router;
-    }
+  constructor(router, service) {
+    this.service = service;
+    this.router = router;
+  }
 
-    contextClickCallback(event) {
-        var arg = event.detail;
-        var data = arg.data;
-        switch (arg.name) {
-            case "detail":
-                this.router.navigateToRoute('view', { id: data.Id });
-                break;
-        }
+  contextClickCallback(event) {
+    var arg = event.detail;
+    var data = arg.data;
+    switch (arg.name) {
+      case "detail":
+        const encoded = Base64Helper.encode(data.Id);
+        this.router.navigateToRoute("view", { id: encoded });
+        break;
     }
+  }
 
-    create() {
-        this.router.navigateToRoute('create');
-    }
+  create() {
+    this.router.navigateToRoute("create");
+  }
 }

@@ -3,6 +3,7 @@ import { Service } from "./service";
 import { Router } from 'aurelia-router';
 import { AuthService } from "aurelia-authentication";
 import { activationStrategy } from 'aurelia-router';
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 var moment = require("moment");
 
@@ -67,7 +68,10 @@ export class List {
         var arg = event.detail;
         var data = arg.data;
         switch (arg.name) {
-            case "Rincian": this.router.navigateToRoute('view', { id: data.Id }); break;
+            case "Rincian": 
+                const encoded = Base64Helper.encode(data.Id);
+                this.router.navigateToRoute('view', { id: encoded });
+                break;
         }
     }
 

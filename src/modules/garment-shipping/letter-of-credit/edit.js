@@ -1,41 +1,54 @@
-import { inject, Lazy } from 'aurelia-framework';
-import { Router } from 'aurelia-router';
-import { Service } from './service';
+import { inject, Lazy } from "aurelia-framework";
+import { Router } from "aurelia-router";
+import { Service } from "./service";
+import { Base64Helper } from "../../../utils/base-64-coded-helper";
 
 @inject(Router, Service)
 export class Edit {
-    isEdit = true;
+  isEdit = true;
 
-    constructor(router, service) {
-        this.router = router;
-        this.service = service;
-    }
+  constructor(router, service) {
+    this.router = router;
+    this.service = service;
+  }
 
-    async activate(params) {
-        var id = params.id;
-        this.data = await this.service.getById(id);
-        
-        this.tempDocNo=this.data.documentCreditNo;
-        this.error = {};
-    }
+  async activate(params) {
+    const decoded = Base64Helper.decode(params.id);
+    var id = decoded;
 
-    cancelCallback(event) {
-        this.router.navigateToRoute('view', { id: this.data.id });
-    }
+    this.data = await this.service.getById(id);
 
-    async saveCallback(event) {
-        this.data.available=false;
-        if(this.data.documentCreditNo!= this.tempDocNo){
-            var available = await this.service.search({size: 1, filter: JSON.stringify({ DocumentCreditNo: this.data.documentCreditNo })});
-        
-            this.data.available= available.data.length>0;
-        }
-        this.service.update(this.data)
-            .then(result => {
-                this.router.navigateToRoute('view', { id: this.data.id });
-            })
-            .catch(e => {
-                this.error = e;
-            })
+    this.tempDocNo = this.data.documentCreditNo;
+    this.error = {};
+  }
+
+  cancelCallback(event) {
+    const encoded = Base64Helper.encode(this.data.id);
+    this.router.navigateToRoute("view", { id: encoded });
+    //this.router.navigateToRoute('view', { id: this.data.id });
+  }
+
+  async saveCallback(event) {
+    this.data.available = false;
+    if (this.data.documentCreditNo != this.tempDocNo) {
+      var available = await this.service.search({
+        size: 1,
+        filter: JSON.stringify({
+          DocumentCreditNo: this.data.documentCreditNo,
+        }),
+      });
+
+      this.data.available = available.data.length > 0;
     }
+    this.service
+      .update(this.data)
+      .then((result) => {
+        const encoded = Base64Helper.encode(this.data.id);
+        this.router.navigateToRoute("view", { id: encoded });
+        //this.router.navigateToRoute('view', { id: this.data.Id });
+      })
+      .catch((e) => {
+        this.error = e;
+      });
+  }
 }

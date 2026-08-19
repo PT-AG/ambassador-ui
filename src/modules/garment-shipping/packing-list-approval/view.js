@@ -3,6 +3,7 @@ import { Router } from 'aurelia-router';
 import { Service, CoreService } from './service';
 import { Dialog } from "../../../au-components/dialog/dialog";
 import { RejectDialog } from "./template/dialog/reject";
+import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service, CoreService, Dialog)
 export class View {
@@ -22,7 +23,9 @@ export class View {
     }
 
     async activate(params) {
-        var id = params.id;
+        const decoded = Base64Helper.decode(params.id);
+        var id = decoded;
+
         this.data = await this.service.getById(id);
         var idx = 0;
         if (this.data.measurements) {
