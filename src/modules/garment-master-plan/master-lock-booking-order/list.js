@@ -2,7 +2,7 @@ import { inject } from 'aurelia-framework';
 import { Service } from "./service";
 import { Router } from 'aurelia-router';
 import moment from 'moment';
-import { Base64Helper } from '../../../../utils/base-64-coded-helper';
+import { Base64Helper } from "../../../utils/base-64-coded-helper";
 
 @inject(Router, Service)
 export class List {
