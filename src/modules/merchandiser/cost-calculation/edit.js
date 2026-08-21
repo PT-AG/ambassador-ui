@@ -18,6 +18,7 @@ export class Edit {
         const decoded = Base64Helper.decode(params.id);
         var id = decoded;
         this.data = await this.service.getById(id);    
+      console.log("this.data.Rate", this.data.Rate);
         if (this.data) {
             this.selectedPreSalesContract = {
                 SCNo: this.data.PreSCNo
