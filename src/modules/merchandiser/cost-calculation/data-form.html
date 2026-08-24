@@ -334,7 +334,7 @@
                 </au-numeric>
                 <au-numeric
                     label="Other Expense(%)"
-                    value.bind="commissionPortion"
+                    value.one-way="commissionPortion"
                     options.bind="length4"
                     read-only="disabled"
                     style="display:none"
@@ -342,7 +342,7 @@
                 </au-numeric>
                 <au-numeric
                     label="Other Expense"
-                    value.bind="commissionRate"
+                    value.one-way="commissionRate"
                     read-only="disabled"
                     style="display:none"
                     options.bind="length4"
