@@ -155,13 +155,13 @@ export class DataForm {
     this.data.ConfirmPrice = this.data.ConfirmPrice ? this.data.ConfirmPrice : 0;
     this.selectedComodity = this.data.Comodity ? this.data.Comodity : "";
     this.data.BuyerCode = this.data.Buyer ? this.data.Buyer.Code : "";
-    
-    this.buyerlocal=false;
-    if(this.data.Buyer){
+
+    this.buyerlocal = false;
+    if (this.data.Buyer) {
       const buyer = await this.serviceCore.getBuyerId(this.data.Buyer.Id);
-      this.buyerlocal=buyer.Type=="Lokal"? true:false;
+      this.buyerlocal = buyer.Type == "Lokal" ? true : false;
     }
-    this.data.IsCommissionPortion= this.data.IsCommissionPortion ==null ? this.buyerlocal : this.data.IsCommissionPortion;
+    this.data.IsCommissionPortion = this.data.IsCommissionPortion == null ? this.buyerlocal : this.data.IsCommissionPortion;
     this.create = this.context.create;
     if (!this.create) {
       this.selectedBookingOrder = {
@@ -340,8 +340,8 @@ export class DataForm {
   @bindable selectedPreSalesContract;
   async selectedPreSalesContractChanged(newValue, oldValue) {
     if (newValue) {
-      this.data.CommissionPortion=0;
-      this.data.CommissionRate=0;
+      this.data.CommissionPortion = 0;
+      this.data.CommissionRate = 0;
       this.data.PreSCId = newValue.Id;
       this.data.CCType = newValue.SCType;
       this.data.PreSCNo = newValue.SCNo;
@@ -357,7 +357,7 @@ export class DataForm {
       };
       this.data.BuyerCode = this.data.Buyer.Code;
       const buyer = await this.serviceCore.getBuyerId(newValue.BuyerAgentId);
-      this.buyerlocal=buyer.Type=="Lokal"? true:false;
+      this.buyerlocal = buyer.Type == "Lokal" ? true : false;
       this.data.BuyerBrand = {
         Id: newValue.BuyerBrandId,
         Code: newValue.BuyerBrandCode,
@@ -464,18 +464,27 @@ export class DataForm {
 
   @bindable selectedRate;
   selectedRateChanged(newValue, oldValue) { //condition rule option changed
-    this.rateService.search({ filter: "{Name:\"" + newValue + "\"}" }) // get USD rate value from master.rate
-      .then(results => {
-        let result = results.data[0] ? results.data[0] : this.defaultRate;
-        result.Value = numeral(numeral(result.Value).format(rateNumberFormat)).value();
-        this.data.Rate = result;
+    if (newValue === "IDR") {
+      this.data.Rate = { Id: 0, Value: 1, Name: "IDR", Code: "IDR" };
+      if (this.data.CostCalculationGarment_Materials) {
+        this.data.CostCalculationGarment_Materials.forEach(item => {
+          item.Rate = this.data.Rate;
+        });
+      }
+    } else if (newValue === "USD") {
+      this.rateService.search({ filter: "{Name:\"USD\"}" }) // get USD rate value from master.rate
+        .then(results => {
+          let result = results.data[0] ? results.data[0] : this.defaultRate;
+          result.Value = numeral(numeral(result.Value).format(rateNumberFormat)).value();
+          this.data.Rate = result;
 
-        if (this.data.CostCalculationGarment_Materials) {
-          this.data.CostCalculationGarment_Materials.forEach(item => {
-            item.Rate = this.data.Rate;
-          })
-        }
-      });
+          if (this.data.CostCalculationGarment_Materials) {
+            this.data.CostCalculationGarment_Materials.forEach(item => {
+              item.Rate = this.data.Rate;
+            });
+          }
+        });
+    }
   }
 
   @computedFrom("data.Id")
@@ -621,23 +630,27 @@ export class DataForm {
   }
 
   //**2 Okt 23 switch input from CommissionPortion to CommissionRate*/
-  @computedFrom('data.CommissionRate', 'data.ConfirmPrice', 'data.Freight', 'data.Insurance', 'data.Rate','data.Buyer','data.IsCommissionPortion')
+  @computedFrom('data.CommissionRate', 'data.ConfirmPrice', 'data.Freight', 'data.Insurance', 'data.Rate', 'data.Buyer', 'data.IsCommissionPortion')
   get commissionPortion() {
-    let CommissionPortion = this.data.CommissionRate/ (this.data.ConfirmPrice - this.data.Insurance - this.data.Freight) * this.data.Rate.Value * 100;
+    let netPrice = (this.data.ConfirmPrice || 0) - (this.data.Insurance || 0) - (this.data.Freight || 0);
+    let rateValue = this.data.Rate ? (this.data.Rate.Value || 1) : 1;
+    let CommissionPortion = (netPrice > 0 && rateValue > 0) ? (this.data.CommissionRate / (netPrice * rateValue)) * 100 : 0;
     CommissionPortion = numeral(CommissionPortion).format();
-    this.data.CommissionPortion=numeral(CommissionPortion).value();
+    this.data.CommissionPortion = numeral(CommissionPortion).value();
     return CommissionPortion;
   }
   //**19 Dec 23 differentiate input between local and export*/
-  @computedFrom('data.CommissionPortion', 'data.ConfirmPrice', 'data.Freight', 'data.Insurance', 'data.Rate','data.Buyer','data.IsCommissionPortion')
+  @computedFrom('data.CommissionPortion', 'data.ConfirmPrice', 'data.Freight', 'data.Insurance', 'data.Rate', 'data.Buyer', 'data.IsCommissionPortion')
   get commissionRate() {
-    let CommissionRate = this.data.CommissionPortion / 100 * (this.data.ConfirmPrice - this.data.Insurance - this.data.Freight) * this.data.Rate.Value;
+    let netPrice = (this.data.ConfirmPrice || 0) - (this.data.Insurance || 0) - (this.data.Freight || 0);
+    let rateValue = this.data.Rate ? (this.data.Rate.Value || 1) : 1;
+    let CommissionRate = ((this.data.CommissionPortion || 0) / 100) * netPrice * rateValue;
     CommissionRate = numeral(CommissionRate).format();
-    this.data.CommissionRate=numeral(CommissionRate).value();
+    this.data.CommissionRate = numeral(CommissionRate).value();
     return CommissionRate;
   }
 
-  @computedFrom('data.OTL1', 'data.SMV_Total','data.SubconType')
+  @computedFrom('data.OTL1', 'data.SMV_Total', 'data.SubconType')
   get calculatedRateOTL1() {
     // let calculatedRateOTL1 = this.data.SMV_Total ? this.data.OTL1.Value * this.data.SMV_Total * 60 : 0;
     let calculatedRateOTL1 = 0;
@@ -646,7 +659,7 @@ export class DataForm {
         case "SUBCON SEWING":
           calculatedRateOTL1 = this.data.SMV_Total
             ? this.data.OTL1.Value *
-              (this.data.SMV_Cutting + this.data.SMV_Finishing)
+            (this.data.SMV_Cutting + this.data.SMV_Finishing)
             : 0;
           break;
         case "SUBCON CUTTING SEWING":
@@ -671,7 +684,7 @@ export class DataForm {
     return calculatedRateOTL1;
   }
 
-  @computedFrom('data.OTL2', 'data.SMV_Total','data.SubconType')
+  @computedFrom('data.OTL2', 'data.SMV_Total', 'data.SubconType')
   get calculatedRateOTL2() {
     // let calculatedRateOTL2 = this.data.SMV_Total ? this.data.OTL2.Value * this.data.SMV_Total * 60 : 0;
     let calculatedRateOTL2 = 0;
@@ -681,7 +694,7 @@ export class DataForm {
         case "SUBCON SEWING":
           calculatedRateOTL2 = this.data.SMV_Total
             ? this.data.OTL2.Value *
-              (this.data.SMV_Cutting + this.data.SMV_Finishing)
+            (this.data.SMV_Cutting + this.data.SMV_Finishing)
             : 0;
           break;
         case "SUBCON CUTTING SEWING":
