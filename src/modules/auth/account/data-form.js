@@ -44,11 +44,15 @@ export class DataForm {
         var selectedEmployee = newValue;
         if (selectedEmployee) {
             this.data.DigitalId = selectedEmployee.DigitalId;
+            this.data.digitalId = selectedEmployee.DigitalId;
             const fullName = (selectedEmployee ? selectedEmployee.Name : "").trim();
             const parts = fullName.trim().split(/\s+/);
 
             this.data.profile.firstname = parts[0] || "";
             this.data.profile.lastname = parts.length > 1 ? parts.slice(1).join(" ") : "";
+        } else {
+            this.data.DigitalId = null;
+            this.data.digitalId = null;
         }
     }
     
