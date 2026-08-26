@@ -16,6 +16,7 @@ export class Create {
             date: new Date(),
             createdUtc: new Date()
         };
+        
         this.error = {};
     }
 

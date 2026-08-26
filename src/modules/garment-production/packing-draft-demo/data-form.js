@@ -18,7 +18,7 @@ export class DataForm {
     constructor(service) {
         this.service = service;
     }
-    typeOptions=["EXPORT","LOKAL"];
+    typeOptions = ["EXPORT", "LOKAL"];
     formOptions = {
         cancelText: "Back"
     }
@@ -46,7 +46,7 @@ export class DataForm {
         }
     };
 
-    newPL=true;
+    newPL = true;
 
     itemsColumns = [
         { header: "RO No" },
@@ -121,6 +121,7 @@ export class DataForm {
     get shippingStaffLoader() {
         return ShippingStaffLoader;
     }
+
     shippingStaffView = (data) => {
         return `${data.Name || data.name}`
     }
@@ -137,7 +138,8 @@ export class DataForm {
             checkedAll: this.context.isCreate == true ? false : true,
             header: this.data
         }
-        this.data.Isfile = true,
+
+        this.data.Isfile = true;
         this.data.documentsFile = this.data.documentsFile || [];
         this.data.documentsFileName = this.data.documentsFileName || [];
         this.documentsPathTemp = [].concat(this.data.documentsPath);
@@ -150,10 +152,10 @@ export class DataForm {
         this.sideMarkImageSrc = this.data.sideMarkImageFile || this.noImage;
         this.remarkImageSrc = this.data.remarkImageFile || this.noImage;
 
-        if(this.data.invoiceNo){
-            this.data.invoiceNo= this.data.increment ? this.data.invoiceNo + " - " + this.data.increment : this.data.invoiceNo
-            this.selectedInvoiceNo={
-                invoiceNo:this.data.invoiceNo
+        if (this.data.invoiceNo) {
+            this.data.invoiceNo = this.data.increment ? this.data.invoiceNo + " - " + this.data.increment : this.data.invoiceNo
+            this.selectedInvoiceNo = {
+                invoiceNo: this.data.invoiceNo
             }
         }
     }
@@ -163,7 +165,6 @@ export class DataForm {
             this.data.items.push({});
         };
     }
-    
 
     noImage = "images/no-image.jpg";
 
@@ -208,98 +209,103 @@ export class DataForm {
 
     //FITUR EXCEL
     onAddDocument() {
-      this.data.documentsFile.push("");
-      this.data.documentsFileName.push("");
-      this.documentsPathTemp.push("");
-  }
-
-  onRemoveDocument(index) {
-      this.data.documentsFile.splice(index, 1);
-      this.data.documentsFileName.splice(index, 1);
-      this.documentsPathTemp.splice(index, 1);
-  }
-  downloadDocument(index) {
-    // this.service.getFile((this.documentsPathTemp[index] || '').replace('/sales/', ''), this.data.DocumentsFileName[index]);
-    const linkSource = this.data.documentsFile[index];
-    const downloadLink = document.createElement("a");
-    const fileName = this.data.documentsFileName[index];
-
-    downloadLink.href = linkSource;
-    downloadLink.download = fileName;
-    downloadLink.click();
-}
-triggerFileInput(index) {
-  const input = document.getElementById('documentInput' + index);
-  if (input) {
-    input.click();
-  }
-}
-
-documentInputChanged(index, event) {
-  const files = event.target.files;
-
-  if (!files || files.length === 0) return;
-
-  for (let i = 0; i < files.length; i++) {
-    const file = files[i];
-    const fileName = file.name;
-    const fileExtension = fileName.split('.').pop().toLowerCase();
-
-    if (fileExtension !== 'pdf' && fileExtension !== 'xls' && fileExtension !== 'xlsx') {
-      alert("Format file harus PDF atau Excel (.pdf/.xls/.xlsx)");
-      continue;
+        this.data.documentsFile.push("");
+        this.data.documentsFileName.push("");
+        this.documentsPathTemp.push("");
     }
 
-    const reader = new FileReader();
+    onRemoveDocument(index) {
+        this.data.documentsFile.splice(index, 1);
+        this.data.documentsFileName.splice(index, 1);
+        this.documentsPathTemp.splice(index, 1);
+    }
 
-    reader.onload = (event) => {
-      const base64Document = event.target.result;
-      const base64Content = base64Document.substring(base64Document.indexOf(',') + 1);
-      const fileSizeInBytes = base64Content.length * 6 / 8;
+    downloadDocument(index) {
+        // this.service.getFile((this.documentsPathTemp[index] || '').replace('/sales/', ''), this.data.DocumentsFileName[index]);
+        const linkSource = this.data.documentsFile[index];
+        const downloadLink = document.createElement("a");
+        const fileName = this.data.documentsFileName[index];
 
-      if (fileSizeInBytes > 52428800) { // 50MB
-        this.error.documentsFile = this.error.documentsFile || [];
-        this.error.documentsFile.push("Maximum Document Size is 50 MB");
-        return;
-      }else{
-        this.data.documentsFile.push(base64Document);
-        this.data.documentsFileName.push(fileName);
-      }
-      
-      this.data.documentsFile = this.data.documentsFile || [];
-      this.data.documentsFileName = this.data.documentsFileName || [];
-      
-    };
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+    }
 
-    reader.readAsDataURL(file);
-  }
-  this.data.documentsFile.splice(index, 1);
-  this.data.documentsFileName.splice(index, 1);
-  this.documentsPathTemp.splice(index, 1);
-  event.target.value = '';
-}
+    triggerFileInput(index) {
+        const input = document.getElementById('documentInput' + index);
+        if (input) {
+            input.click();
+        }
+    }
+
+    documentInputChanged(index, event) {
+        const files = event.target.files;
+
+        if (!files || files.length === 0) return;
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const fileName = file.name;
+            const fileExtension = fileName.split('.').pop().toLowerCase();
+
+            if (fileExtension !== 'pdf' && fileExtension !== 'xls' && fileExtension !== 'xlsx') {
+                alert("Format file harus PDF atau Excel (.pdf/.xls/.xlsx)");
+                continue;
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = (event) => {
+                const base64Document = event.target.result;
+                const base64Content = base64Document.substring(base64Document.indexOf(',') + 1);
+                const fileSizeInBytes = base64Content.length * 6 / 8;
+
+                if (fileSizeInBytes > 52428800) { // 50MB
+                    this.error.documentsFile = this.error.documentsFile || [];
+                    this.error.documentsFile.push("Maximum Document Size is 50 MB");
+                    return;
+                } else {
+                    this.data.documentsFile.push(base64Document);
+                    this.data.documentsFileName.push(fileName);
+                }
+
+                this.data.documentsFile = this.data.documentsFile || [];
+                this.data.documentsFileName = this.data.documentsFileName || [];
+            };
+
+            reader.readAsDataURL(file);
+        }
+
+        this.data.documentsFile.splice(index, 1);
+        this.data.documentsFileName.splice(index, 1);
+        this.documentsPathTemp.splice(index, 1);
+        event.target.value = '';
+    }
 
     get totalQuantities() {
         let quantities = [];
         let result = [];
         let units = [];
+
         if (this.data.items) {
             var no = 1;
+
             for (var item of this.data.items) {
                 let unit = "";
-                if(item.uom) {
+
+                if (item.uom) {
                     unit = item.uom.unit || item.uom.Unit;
                 }
-                // if (item.quantity && quantities.findIndex(c => c.roNo == item.roNo && c.unit == unit) < 0) {
-                    quantities.push({ no: no, roNo: item.roNo, unit: unit, quantityTotal: item.quantity });
-                    if(units.findIndex(u => u.unit == unit) < 0) {
-                        units.push({ unit: unit });
-                    // }
-                }
-                no++;
                 
+                quantities.push({ no: no, roNo: item.roNo, unit: unit, quantityTotal: item.quantity });
+                if (units.findIndex(u => u.unit == unit) < 0) {
+                    units.push({ unit: unit });
+                }
+
+                no++;
             }
         }
+
         for (var u of units) {
             let countableQuantities = 0;
             for (var q of quantities) {
@@ -307,21 +313,28 @@ documentInputChanged(index, event) {
                     countableQuantities += q.quantityTotal;
                 }
             }
+
             result.push(countableQuantities + " " + u.unit);
         }
+
         return result.join(" / ");
     }
 
-    selectedInvoiceNoChanged(newValue){
-        if(newValue){
-            if(this.data.invoiceNo != newValue.invoiceNo){
-                this.data.invoiceNo= newValue.invoiceNo;
+    selectedInvoiceNoChanged(newValue) {
+        if (newValue) {
+            if (this.data.invoiceNo != newValue.invoiceNo) {
+                this.data.invoiceNo = newValue.invoiceNo;
+
+                this.data.buyerAgent = newValue.buyerAgent;
+                this.data.destination = newValue.destination;
+                this.data.shippingStaff = newValue.shippingStaff;
             }
         }
     }
 
     changeCheckBox() {
-        this.selectedInvoiceNo=null;
-        this.data.invoiceNo=null;
+        this.selectedInvoiceNo = null;
+        this.data.invoiceNo = null;
+        this.data.increment = null;
     }
 }

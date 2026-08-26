@@ -244,6 +244,7 @@ export class DataForm {
 
             reader.readAsDataURL(file);
         }
+
         this.data.documentsFile.splice(index, 1);
         this.data.documentsFileName.splice(index, 1);
         this.documentsPathTemp.splice(index, 1);
@@ -285,7 +286,6 @@ export class DataForm {
     //  }
     // END FITUR EXCEL
 
-
     get totalCBM() {
         var total = 0;
         if (this.data.measurements) {
@@ -295,6 +295,7 @@ export class DataForm {
                 }
             }
         }
+
         return total.toLocaleString('en-EN', { minimumFractionDigits: 3, maximumFractionDigits: 3 });
     }
 
@@ -349,6 +350,7 @@ export class DataForm {
                     }
                 }
             }
+
             this.data.totalCartons = result;
             return this.data.totalCartons;
         }
@@ -365,16 +367,16 @@ export class DataForm {
                 if (item.uom) {
                     unit = item.uom.unit || item.uom.Unit;
                 }
-                // if (item.quantity && quantities.findIndex(c => c.roNo == item.roNo && c.unit == unit) < 0) {
+
                 quantities.push({ no: no, roNo: item.roNo, unit: unit, quantityTotal: item.quantity });
                 if (units.findIndex(u => u.unit == unit) < 0) {
                     units.push({ unit: unit });
-                    // }
                 }
-                no++;
 
+                no++;
             }
         }
+
         for (var u of units) {
             let countableQuantities = 0;
             for (var q of quantities) {
@@ -382,8 +384,10 @@ export class DataForm {
                     countableQuantities += q.quantityTotal;
                 }
             }
+
             result.push(countableQuantities + " " + u.unit);
         }
+        
         return result.join(" / ");
     }
 
