@@ -765,6 +765,7 @@ export class DataForm {
                             isSelected: false,
                             packingInvoiceNo: packingInvoiceNo,
                             packingListType: d.packingListType,
+                            invoiceType: d.invoiceType,
                             date: d.date,
                             packingListId: d.id,
                             details: d.items.length <= 0 ? [] : itemDetails
@@ -929,22 +930,33 @@ export class DataForm {
             if (this.data.itemsByPackingInvoice) {
                 for (var itemGroup of this.data.itemsByPackingInvoice.filter(i => i.isSave)) {
                     for (var item of itemGroup.details) {
-                        if (item.amount > 0) {
+                        // if (item.amount > 0) {
                             totalAmount = totalAmount + (item.price * item.quantity);
-                        } else {
-                            totalAmount = 0;
-                        }
+                        // } else {
+                        //     totalAmount = 0;
+                        // }
                     }
                 }
-            } else {
-                if (this.data.items) {
-                    for (var item of this.data.items) {
-                        if (item.amount > 0) {
-                            totalAmount = totalAmount + (item.price * item.quantity);
-                        } else {
-                            totalAmount = 0;
-                        }
-                    }
+            } 
+            // else {
+            //     if (this.data.items) {
+            //         for (var item of this.data.items) {
+            //             if (item.amount > 0) {
+            //                 totalAmount = totalAmount + (item.price * item.quantity);
+            //             } else {
+            //                 totalAmount = 0;
+            //             }
+            //         }
+            //     }
+            // }
+        } else {
+            if (this.data.items) {
+                for (var item of this.data.items) {
+                    // if (item.amount > 0) {
+                        totalAmount = totalAmount + (item.price * item.quantity);
+                    // } else {
+                        // totalAmount = 0;
+                    // }
                 }
             }
         }
