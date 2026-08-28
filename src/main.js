@@ -42,7 +42,7 @@ export async function configure(aurelia) {
             var garmentProduction = "https://com-ambassador-service-garment-v8.azurewebsites.net/";
             var packingInventory = "https://com-ambassador-service-packing-inventory-v8.azurewebsites.net/v1/";
             var ItInven = "https://it-inventory-etl-service-v8.azurewebsites.net/api/";
-
+            var attendance = "https://ambassador-hr-portal-attendance-service-v8.azurewebsites.net/";
 
             // //dibawah ini utk debuging
             // var core = "https://com-ambassador-service-core-v8.azurewebsites.net/v1/";
@@ -89,6 +89,7 @@ export async function configure(aurelia) {
             config.registerEndpoint('finance', finance, defaultConfig);
             config.registerEndpoint('garment-production', garmentProduction, defaultConfig);
             config.registerEndpoint('packing-inventory', packingInventory, defaultConfig);
+            config.registerEndpoint('attendance', attendance, defaultConfig);
             config.registerEndpoint('ItInven', ItInven, { headers: { Accept: '*/*', 'Sec-Fetch-Site': 'cross-site' }, mode: 'cors' });
         })
         .plugin("aurelia-authentication", baseConfig => {
