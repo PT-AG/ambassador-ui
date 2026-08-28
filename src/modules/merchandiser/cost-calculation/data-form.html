@@ -332,28 +332,15 @@
                     options.bind="length4"
                     if.bind="!data.IsCommissionPortion">
                 </au-numeric>
-                <au-numeric
-                    label="Other Expense(%)"
-                    value.bind="commissionPortion"
-                    options.bind="length4"
-                    read-only="disabled"
-                    style="display:none"
-                    if.bind="!data.IsCommissionPortion">
+                <au-numeric label="Other Expense(%)" value.bind="commissionPortion"
+                    error.bind="error.CommissionPortion" options.bind="length4" show.bind="!data.IsCommissionPortion" read-only.bind="!data.IsCommissionPortion">
                 </au-numeric>
-                <au-numeric
-                    label="Other Expense"
-                    value.bind="commissionRate"
-                    read-only="disabled"
-                    style="display:none"
-                    options.bind="length4"
-                    if.bind="data.IsCommissionPortion">
+
+                <au-numeric label="Other Expense" value.bind="commissionRate" error.bind="error.CommissionRate"
+                    options.bind="length4" show.bind="data.IsCommissionPortion" read-only.bind="data.IsCommissionPortion">
                 </au-numeric>
-                <au-numeric
-                    label="Other Expense(%)"
-                    value.bind="data.CommissionPortion"
-                    error.bind="error.CommissionPortion"
-                    options.bind="length4"
-                    if.bind="data.IsCommissionPortion">
+                <au-numeric label="Other Expense(%)" value.bind="data.CommissionPortion"
+                    error.bind="error.CommissionPortion" options.bind="length4" show.bind="data.IsCommissionPortion">
                 </au-numeric>
             </div>
             <div class="col-md-2">
