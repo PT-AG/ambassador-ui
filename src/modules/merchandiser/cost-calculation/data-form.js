@@ -636,9 +636,12 @@ export class DataForm {
   get commissionPortion() {
     let netPrice = (this.data.ConfirmPrice || 0) - (this.data.Insurance || 0) - (this.data.Freight || 0);
     let rateValue = this.data.Rate ? (this.data.Rate.Value || 1) : 1;
-    let CommissionPortion = (netPrice > 0 && rateValue > 0) ? (this.data.CommissionRate / (netPrice * rateValue)) * 100 : 0;
+    let commissionRateVal = numeral(this.data.CommissionRate).value();
+
+    let CommissionPortion = (netPrice > 0 && rateValue > 0) ? ((commissionRateVal / (netPrice * rateValue)) * 100) : 0;
     CommissionPortion = numeral(CommissionPortion).format();
-    this.data.CommissionPortion = numeral(CommissionPortion).value();
+    this.data.CommissionPortion = numeral(CommissionPortion).value();    
+    
     return CommissionPortion;
   }
   //**19 Dec 23 differentiate input between local and export*/
@@ -646,9 +649,16 @@ export class DataForm {
   get commissionRate() {
     let netPrice = (this.data.ConfirmPrice || 0) - (this.data.Insurance || 0) - (this.data.Freight || 0);
     let rateValue = this.data.Rate ? (this.data.Rate.Value || 1) : 1;
-    let CommissionRate = ((this.data.CommissionPortion || 0) / 100) * netPrice * rateValue;
+    let commissionPortionVal = numeral(this.data.CommissionPortion).value();
+
+    let CommissionRate = 
+      this.data.IsCommissionPortion ? 
+        ((commissionPortionVal || 0) / 100) * netPrice * rateValue :
+        this.data.CommissionRate;
+        
     CommissionRate = numeral(CommissionRate).format();
     this.data.CommissionRate = numeral(CommissionRate).value();
+  
     return CommissionRate;
   }
 
