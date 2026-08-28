@@ -1,9 +1,9 @@
 <template>
     <require from="./profile"></require>
     <au-input-form title.bind="title" class="form-horizontal">
-        <au-autocomplete label="Digital ID" placeholder="cari DigitalID karyawan" value.bind="employee"
-            error.bind="error.digitalId" text.bind="employeeView" key="DigitalId" loader.bind="employeeLoader"
-            read-only.bind="readOnly" options.bind="controlOptions">
+        <au-autocomplete label="Digital ID" value.bind="employee" error.bind="error.digitalId"
+            loader.bind="employeeLoader" text.bind="employeeTextFormatter"
+            read-only.bind="(readOnly || isEdit)" options.bind="controlOptions">
         </au-autocomplete>
         <au-textbox label="Username" value.bind="data.username" error.bind="error.username"
             read-only.bind="(readOnly || isEdit)" options.bind="controlOptions">
