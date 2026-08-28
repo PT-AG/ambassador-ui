@@ -14,49 +14,53 @@ export class DataForm {
         this.element = element;
     }
     
-    get employeeLoader() {
-        return EmployeeLoader;
-    }
-
     async bind(context) {
         this.context = context;
         this.data = context.data;
         this.error = context.error;
 
-        // Only initialize employee if data already exists (edit mode)
-        if (this.data && this.data.digitalId) {
+        if (this.data && (this.data.digitalId || this.data.DigitalId)) {
+            const digId = this.data.digitalId || this.data.DigitalId;
+            const firstName = (this.data.profile && this.data.profile.firstname) || '';
+            const lastName = (this.data.profile && this.data.profile.lastname) || '';
+            const fullName = `${firstName} ${lastName}`.trim();
             this.employee = {
-                DigitalId: this.data.digitalId,
-                Name: `${this.data.profile.firstname || ""} ${this.data.profile.lastname || ""}`.trim()
+                DigitalId: digId,
+                Name: fullName
             };
-        } else {
-            this.employee = null;
         }
     }
 
-    employeeChanged(newValue) {
-        var selectedEmployee = newValue;
-        if (selectedEmployee) {
-            this.data.DigitalId = selectedEmployee.DigitalId;
-            this.data.digitalId = selectedEmployee.DigitalId;
-            const fullName = (selectedEmployee ? selectedEmployee.Name : "").trim();
-            const parts = fullName.trim().split(/\s+/);
-
-            this.data.profile.firstname = parts[0] || "";
-            this.data.profile.lastname = parts.length > 1 ? parts.slice(1).join(" ") : "";
-        } else {
-            this.data.DigitalId = null;
-            this.data.digitalId = null;
-        }
+    get employeeLoader() {
+        return EmployeeLoader;
     }
-    
-    employeeView = (item) => {    
-        if (!item) return "";
-        
-        const name = item.Name || "";
-        const did = item.DigitalId || "";
 
-        return `${name} ${did ? ('- ' + did) : ''}`.trim();
+    employeeTextFormatter = (employee) => {
+        if (!employee) return '';
+        if (typeof employee === 'string') return employee;
+        const id = employee.DigitalId || employee.digitalId || '';
+        const name = employee.Name || employee.name || '';
+        return name ? `${id} - ${name}` : id;
+    }
+
+    employeeChanged(newValue, oldValue) {
+        if (newValue) {
+            const digId = newValue.DigitalId || newValue.digitalId || newValue;
+            this.data.digitalId = digId;
+            if (typeof newValue === 'object') {
+                if (!this.data.profile) {
+                    this.data.profile = {};
+                }
+                if (newValue.Name || newValue.name) {
+                    const name = newValue.Name || newValue.name;
+                    const nameParts = name.trim().split(' ');
+                    this.data.profile.firstname = nameParts[0] || '';
+                    this.data.profile.lastname = nameParts.slice(1).join(' ') || '';
+                }
+            }
+        } else {
+            this.data.digitalId = '';
+        }
     }
 
     @computedFrom("data._id")
