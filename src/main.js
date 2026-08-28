@@ -42,7 +42,7 @@ export async function configure(aurelia) {
             var garmentProduction = "https://com-ambassador-service-garment-v8.azurewebsites.net/";
             var packingInventory = "https://com-ambassador-service-packing-inventory-v8.azurewebsites.net/v1/";
             var ItInven = "https://it-inventory-etl-service-v8.azurewebsites.net/api/";
-            var attendance = "https://ambassador-hr-portal-attendance-service-v8.azurewebsites.net/";
+            var attendance = "https://ambassador-hr-portal-attendance-service-v8.azurewebsites.net/v1/";
 
             // //dibawah ini utk debuging
             // var core = "https://com-ambassador-service-core-v8.azurewebsites.net/v1/";
