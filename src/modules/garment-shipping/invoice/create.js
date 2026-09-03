@@ -55,22 +55,16 @@ export class Create {
 
         this.service.create(this.data)
             .then(result => {
-                if (result.statusCode == 200 || result.statusCode == 201) {
-                    alert("Data berhasil dibuat");
-                    this.router.navigateToRoute('create', {}, { replace: true, trigger: true });
-                } else {
-                    alert("Data gagal dibuat");
-                    
-                    this.data.shippingStaff = {
-                        id: this.data.shippingStaffId || this.data.shippingStaff.Id,
-                        name: this.data.shippingStaff || this.data.shippingStaff.Name
-                    }
-
-                    this.error = result.error;
-                }
+                alert("Data berhasil dibuat");
+                this.router.navigateToRoute('create', {}, { replace: true, trigger: true });
             })
             .catch(error => {
-                console.log(error);
+                alert("Data gagal dibuat");    
+                this.data.shippingStaff = {
+                    id: this.data.shippingStaffId || this.data.shippingStaff.Id,
+                    name: this.data.shippingStaff || this.data.shippingStaff.Name
+                }
+
                 this.error = error;
             });
     }
