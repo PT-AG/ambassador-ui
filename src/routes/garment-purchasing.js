@@ -1246,5 +1246,21 @@ module.exports = [
             },
             "iconClass": "fa fa-dashboard"
         }
+    },
+    {
+        "route": "/garment/garment-do-items-monitoring",
+        "name": "garment-do-items-monitoring",
+        "moduleId": "./modules/garment-purchasing/garment-do-items-monitoring/index",
+        "nav": true,
+        "title": "Monitoring Inventory Racking",
+        "auth": true,
+        "settings": {
+            "group": "g-purchasing",
+            "subGroup": "monitoring",
+            "permission": {
+                "H63": 1
+            },
+            "iconClass": "fa fa-dashboard"
+        }
     }
 ];
