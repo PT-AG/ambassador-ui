@@ -106,7 +106,7 @@ export class List {
     switch (arg.name) {
       case "Detail":
         const encoded = Base64Helper.encode(data.Id);
-        this.router.navigateToRoute(viewRoute, {
+        this.router.navigateToRoute('view', {
           id: encoded,
           search: this.ressearch,
         });
