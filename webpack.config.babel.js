@@ -25,7 +25,7 @@ process.env.BABEL_ENV = 'webpack'
 const ENV = process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase() || (process.env.NODE_ENV = 'development')
 
 // basic configuration:
-const title = 'Ambassador Garmindo Management System'
+const title = 'Ambassador Garmindo Information System'
 const baseUrl = '/'
 const rootDir = path.resolve()
 const srcDir = path.resolve('src')
@@ -66,7 +66,7 @@ const coreBundles = {
         'aurelia-templating-router',
         'aurelia-templating-resources'
     ],
-    underscore:[
+    underscore: [
         'underscore'
     ]
 }
@@ -80,7 +80,7 @@ let config = generateConfig(
             'app': ['./src/main' /* this is filled by the aurelia-webpack-plugin */],
             'aurelia-bootstrap': coreBundles.bootstrap,
             'aurelia': coreBundles.aurelia.filter(pkg => coreBundles.bootstrap.indexOf(pkg) === -1),
-            'underscore':coreBundles.underscore
+            'underscore': coreBundles.underscore
         },
         output: {
             path: outDir
@@ -114,9 +114,9 @@ let config = generateConfig(
         commonChunksOptimize({ appChunkName: 'app', firstChunk: 'aurelia-bootstrap' }),
         copyFiles({ patterns: [{ from: 'favicon.ico', to: 'favicon.ico' }] })
     ] : [
-            /* ENV === 'test' */
-            generateCoverage({ options: { 'force-sourcemap': true, esModules: true } })
-        ]),
+        /* ENV === 'test' */
+        generateCoverage({ options: { 'force-sourcemap': true, esModules: true } })
+    ]),
 
     // ENV === 'production' ?
     //     uglify({ debug: false, mangle: { except: ['cb', '__webpack_require__'] } }) : {}
