@@ -260,7 +260,7 @@ export class DataForm {
     }
 
     this.costCalculationGarment_MaterialsInfo.options.CCId = this.data.Id;
-    this.costCalculationGarment_MaterialsInfo.options.SCId = this.data.PreSCId;
+    this.costCalculationGarment_MaterialsInfo.options.BuyerId = this.data.Buyer.Id;
 
     if (this.data.Rate) {
       if (this.data.Rate.Value > 1) {
@@ -391,7 +391,7 @@ export class DataForm {
         materialFromPRmaster.POMaster = null;
       }
     }
-    this.costCalculationGarment_MaterialsInfo.options.SCId = this.data.PreSCId;
+    this.costCalculationGarment_MaterialsInfo.options.BuyerId = this.data.Buyer.Id;
   }
 
 
