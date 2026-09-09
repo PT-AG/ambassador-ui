@@ -74,6 +74,13 @@
                     options.bind="controlOptions">
         </au-textbox>
 
+        <au-numeric label="Biaya Lain-lain"
+                    value.bind="data.OtherExpense"
+                    error.bind="error.OtherExpense"
+                    read-only.bind="true"
+                    options.bind="controlOptions">
+        </au-numeric>
+
         <au-collection items.bind="data.Items"
                        columns.bind="collection.columns"
                        item-template="modules/garment-finance/payment-disposition-note/templates/item-view"
