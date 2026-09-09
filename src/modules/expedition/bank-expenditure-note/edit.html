@@ -57,8 +57,15 @@
         <au-datepicker label="Tanggal"
                        value.bind="data.Date"
                        error.bind="error.Date"
-                       options.bind="controlOptions1">
+                       options.bind="controlOptions">
         </au-datepicker>
+
+        <au-numeric label="Biaya Lain-lain"
+                    value.bind="data.OtherExpense"
+                    error.bind="error.OtherExpense"
+                    options.bind="controlOptions"
+                    format="0.00">
+        </au-numeric>
 
         <div class="row">
             <div class="col-sm-8"></div>
@@ -85,6 +92,6 @@
                        options.bind="collectionOptions">
         </au-collection>
 
-        TOTAL BAYAR DPP + PPN ${grandTotal | numberFormat: '0,000.0000'} ${data.Bank.Currency.Code}
+        TOTAL BAYAR DPP + PPN ${grandTotal | numberFormat: '0,000.0000'} ${data.Bank.Currency.Code} ${data.OtherExpense}
     </au-input-form>
 </template>

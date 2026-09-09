@@ -78,8 +78,15 @@
                        value.bind="data.Date"
                        error.bind="error.Date"
                        show.bind="isExistBankAndSupplier"
-                       options.bind="controlOptions1">
+                       options.bind="controlOptions">
         </au-datepicker>
+
+        <au-numeric label="Biaya Lain-lain"
+                    value.bind="data.OtherExpense"
+                    error.bind="error.OtherExpense"
+                    read-only.bind="readOnly"
+                    options.bind="controlOptions">
+        </au-numeric>
 
         <au-textbox error.bind="error.Details"
                     show.bind="error.Details"
@@ -109,7 +116,8 @@
                        items.bind="UPOResults"
                        columns.bind="collection.columns"
                        checkall.delegate="onCheckAll($event)"
-                       item-template="modules/expedition/bank-expenditure-note/templates/item">
+                       item-template="modules/expedition/bank-expenditure-note/templates/item"
+                       options.bind="itemOptions">
         </au-collection>
 
         <au-collection show.bind="isExistBankAndSupplier && selectedCurrency && data.CurrencyRate"

@@ -75,6 +75,13 @@
                     options.bind="controlOptions">
         </au-textbox>
 
+        <au-numeric label="Biaya Lain-lain"
+                    value.bind="data.OtherExpense"
+                    error.bind="error.OtherExpense"
+                    read-only.bind="readOnly"
+                    options.bind="controlOptions">
+        </au-numeric>
+
         <!-- <au-collection show.bind="readOnly"
                        items.bind="data.Items"
                        columns.bind="collection.columns"

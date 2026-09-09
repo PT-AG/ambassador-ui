@@ -61,7 +61,7 @@ export class Edit {
             detail.Select = true;
             return detail;
         });
-
+this.data.OtherExpense=parseFloat(this.data.OtherExpense)
         let arg = {
             page: 1,
             size: Number.MAX_SAFE_INTEGER,
@@ -110,6 +110,7 @@ export class Edit {
             rate: this.data.CurrencyRate,
             SameCurrency: this.sameCurrency
         };
+        console.log(this.data.OtherExpense)
     }
 
     cancelCallback(event) {
