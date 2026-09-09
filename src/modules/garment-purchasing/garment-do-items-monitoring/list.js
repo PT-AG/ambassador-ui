@@ -11,7 +11,7 @@ import moment from 'moment';
 
 @inject(Router, Service)
 export class List {
-  //context = ["Cetak Barcode"];
+  context = ["Kartu Stelling"];
 
   columns = [
     { field: "ProductCode", title: "Kode Barang" },
@@ -112,14 +112,14 @@ export class List {
       //   } else {
       //     alert("Maaf, Quantity 0 hanya bisa melihat Kartu Stelling");
       //   } break;
-      // case "Kartu Stelling":
-      //   this.router.navigateToRoute('stelling', { id: data.Id , filter: this.savedFilters });
-      //   break;
-      case "Cetak Barcode":
-        this.service.getBarcodeById(data.Id)
-          .then((result) => { })
-          .catch((e) => { });
+      case "Kartu Stelling":
+        this.router.navigateToRoute('stelling', { id: data.Id , filter: this.savedFilters });
         break;
+      // case "Cetak Barcode":
+      //   this.service.getBarcodeById(data.Id)
+      //     .then((result) => { })
+      //     .catch((e) => { });
+      //   break;
     }
   }
 
