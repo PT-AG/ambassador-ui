@@ -9,6 +9,8 @@ import {
 } from 'aurelia-router';
 import moment from 'moment';
 
+var URNLoader = require("../../../loader/garment-unit-receipt-note-loader");
+
 @inject(Router, Service)
 export class List {
   context = ["Update Racking", "Kartu Stelling", "Cetak Barcode"];
@@ -17,6 +19,7 @@ export class List {
     { field: "ProductCode", title: "Kode Barang" },
     { field: "POSerialNumber", title: "Nomor PO" },
     { field: "RO", title: "Nomor RO" },
+    { field: "URNNo", title: "No Bon Terima" },
     { field: "UnitName", title: "Nama Unit" },
     { field: "ProductName", title: "Nama Barang" },
     { field: "RemainingQuantity", title: "Quantity", align: "right" },
@@ -40,7 +43,10 @@ export class List {
   @bindable UnitItem;
   //UnitItems = ['', 'AMBASSADOR GARMINDO 1', 'AMBASSADOR GARMINDO 2']
   UnitItems = ['','AMBASSADOR GARMINDO'];
-
+  
+  get urnLoader() {
+    return URNLoader;
+  }
   constructor(router, service) {
     this.service = service;
     this.router = router;
@@ -68,7 +74,8 @@ export class List {
       po: this.po ? this.po :this.savedFilters.po ? this.savedFilters.po : "",
       unitcode: this.unit ? this.unit :this.savedFilters.unitcode ? this.savedFilters.unitcode : "",
       productcode: this.code ? this.code :this.savedFilters.productcode ? this.savedFilters.productcode : "",
-      ctg:this.categoryKey?this.categoryKey.key:this.savedFilters.ctg?this.savedFilters.ctg:null
+      ctg:this.categoryKey?this.categoryKey.key:this.savedFilters.ctg?this.savedFilters.ctg:null,
+      urn: this.urn? this.urn.URNNo : this.savedFilters.urn ? this.savedFilters.urn:null
     };
     this.savedFilters = params;
     return this.flag ? this.service.search(params)
@@ -146,7 +153,8 @@ export class List {
       po: this.po ? this.po :this.savedFilters.po ? this.savedFilters.po : "",
       unitcode: this.unit ? this.unit :this.savedFilters.unitcode ? this.savedFilters.unitcode : "",
       productcode: this.code ? this.code :this.savedFilters.productcode ? this.savedFilters.productcode : "",
-      ctg:this.categoryKey?this.categoryKey.key:this.savedFilters.ctg?this.savedFilters.ctg:null
+      ctg:this.categoryKey?this.categoryKey.key:this.savedFilters.ctg?this.savedFilters.ctg:null,
+      urn: this.urn? this.urn.URNNo : this.savedFilters.urn ? this.savedFilters.urn:null
     };
 
     this.service.generateExcel(params);
@@ -156,6 +164,7 @@ export class List {
     this.po = null;
     this.unit = null;
     this.code = null;
+    this.urn = null;
     this.data = [];
     this.categoryKey=null;
     this.flag = false;

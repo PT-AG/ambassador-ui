@@ -3,6 +3,7 @@ import { Router } from 'aurelia-router';
 import Service from './service';
 import { Dialog } from '../../../au-components/dialog/dialog'
 import { Base64Helper } from '../../../utils/base-64-coded-helper';
+import numeral from 'numeral';
 
 @inject(Router, Service, Dialog)
 export class View {
@@ -90,8 +91,8 @@ export class View {
             rate: this.data.CurrencyRate,
             SameCurrency: this.sameCurrency
         };
-        console.log(this.IDR)
         this.bankView = this.data.Bank.AccountName ? `${this.data.Bank.AccountName} - A/C : ${this.data.Bank.AccountNumber}` : '';
+        this.data.OtherExpense=numeral(this.data.OtherExpense).format("0,000.00");
     }
 
     cancelCallback(event) {
