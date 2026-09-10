@@ -7,7 +7,7 @@ import { Config } from "aurelia-api";
 const serviceUri = "garment/leftover-customs-out";
 const serviceUriBon = "garment/leftover-warehouse-expenditures/avals";
 
-export class Service extends RestService {
+class Service extends RestService {
   constructor(http, aggregator, config, endpoint) {
     super(http, aggregator, config, "inventory-azure");
   }
@@ -42,3 +42,17 @@ export class Service extends RestService {
     return super.list(endpoint, info);
   }
 }
+
+
+const getScrapServiceUri = 'scrap-transactions/out-facilities';
+class GarmentService extends RestService {
+    constructor(http, aggregator, config, endpoint) {
+        super(http, aggregator, config, "garment-production");
+    }
+
+    getBonNo(info) {
+        var endpoint = `${getScrapServiceUri}`;
+        return super.list(endpoint, info);
+    }
+}
+export { Service, GarmentService }

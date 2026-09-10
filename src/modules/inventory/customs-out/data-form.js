@@ -58,4 +58,8 @@ export class DataForm {
       };
     }.bind(this),
   };
+
+  async isScrapChanged(e) {
+      this.data.Items.splice(0);
+  }
 }
