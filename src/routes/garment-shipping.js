@@ -213,7 +213,7 @@ module.exports = [
     {
         route: "garment-shipping/invoice",
         name: "garment-shipping/invoice",
-        moduleId: "modules/garment-shipping/invoice/index",
+        moduleId: "modules/garment-shipping/invoice-merged/index",
         nav: true,
         title: "Invoice Garment",
         auth: true,
@@ -228,7 +228,7 @@ module.exports = [
     {
         route: "garment-shipping/invoice-all-user",
         name: "garment-shipping/invoice-all-user",
-        moduleId: "modules/garment-shipping/invoice-all-user/index",
+        moduleId: "modules/garment-shipping/invoice-merged-all-user/index",
         nav: true,
         title: "Invoice Garment - (All User)",
         auth: true,
@@ -973,81 +973,81 @@ module.exports = [
             iconClass: "fa fa-dashboard"
         }
     },
-    {
-        route: "garment-production/packing-list-draft-list",
-        name: "garment-production/packing-list-draft-list",
-        moduleId: "modules/garment-shipping/packing-list-draft-list/index",
-        nav: true,
-        title: "LIST | Draft Packing List",
-        auth: true,
-        settings: {
-            group: "g-shipping",
-            subGroup: "monitoring",
-            // permission: { "C9": 1, "SG": 1 },
-            permission: { "P44": 1 },
-            iconClass: "fa fa-dashboard"
-        }
-    },
-    {
-        route: "garment-shipping/packing-list-draft-approval",
-        name: "garment-shipping/packing-list-draft-approval",
-        moduleId: "modules/garment-shipping/packing-list-draft-approval/index",
-        nav: true,
-        title: "Approval Draft Packing List",
-        auth: true,
-        settings: {
-            group: "g-shipping",
-            subGroup: "approval",
-            // permission: { "C9": 1, "SG": 1 },
-            permission: { "P68": 1 },
-            iconClass: "fa fa-dashboard"
-        }
-    },
-    {
-        route: "garment-shipping/packing-list-approval",
-        name: "garment-shipping/packing-list-approval",
-        moduleId: "modules/garment-shipping/packing-list-approval/index",
-        nav: true,
-        title: "Approval Packing List",
-        auth: true,
-        settings: {
-            group: "g-shipping",
-            subGroup: "approval",
-            // permission: { "C9": 1, "SG": 1 },
-            permission: { "P69": 1 },
-            iconClass: "fa fa-dashboard"
-        }
-    },
-    {
-        route: "garment-shipping/packing-list-approved",
-        name: "garment-shipping/packing-list-approved",
-        moduleId: "modules/garment-shipping/packing-list-approved/index",
-        nav: true,
-        title: "Approved Packing List",
-        auth: true,
-        settings: {
-            group: "g-shipping",
-            subGroup: "approval",
-            // permission: { "C9": 1, "SG": 1 },
-            permission: { "P70": 1 },
-            iconClass: "fa fa-dashboard"
-        }
-    },
-    {
-        route: "garment-shipping/packing-list-approved-all-user",
-        name: "garment-shipping/packing-list-approved-all-user",
-        moduleId: "modules/garment-shipping/packing-list-approved-all-user/index",
-        nav: true,
-        title: "Approved Packing List ( All User )",
-        auth: true,
-        settings: {
-            group: "g-shipping",
-            subGroup: "approval",
-            // permission: { "C9": 1, "SG": 1 },
-            permission: { "P71": 1 },
-            iconClass: "fa fa-dashboard"
-        }
-    },
+    // {
+    //     route: "garment-production/packing-list-draft-list",
+    //     name: "garment-production/packing-list-draft-list",
+    //     moduleId: "modules/garment-shipping/packing-list-draft-list/index",
+    //     nav: true,
+    //     title: "LIST | Draft Packing List",
+    //     auth: true,
+    //     settings: {
+    //         group: "g-shipping",
+    //         subGroup: "monitoring",
+    //         // permission: { "C9": 1, "SG": 1 },
+    //         permission: { "P44": 1 },
+    //         iconClass: "fa fa-dashboard"
+    //     }
+    // },
+    // {
+    //     route: "garment-shipping/packing-list-draft-approval",
+    //     name: "garment-shipping/packing-list-draft-approval",
+    //     moduleId: "modules/garment-shipping/packing-list-draft-approval/index",
+    //     nav: true,
+    //     title: "Approval Draft Packing List",
+    //     auth: true,
+    //     settings: {
+    //         group: "g-shipping",
+    //         subGroup: "approval",
+    //         // permission: { "C9": 1, "SG": 1 },
+    //         permission: { "P68": 1 },
+    //         iconClass: "fa fa-dashboard"
+    //     }
+    // },
+    // {
+    //     route: "garment-shipping/packing-list-approval",
+    //     name: "garment-shipping/packing-list-approval",
+    //     moduleId: "modules/garment-shipping/packing-list-approval/index",
+    //     nav: true,
+    //     title: "Approval Packing List",
+    //     auth: true,
+    //     settings: {
+    //         group: "g-shipping",
+    //         subGroup: "approval",
+    //         // permission: { "C9": 1, "SG": 1 },
+    //         permission: { "P69": 1 },
+    //         iconClass: "fa fa-dashboard"
+    //     }
+    // },
+    // {
+    //     route: "garment-shipping/packing-list-approved",
+    //     name: "garment-shipping/packing-list-approved",
+    //     moduleId: "modules/garment-shipping/packing-list-approved/index",
+    //     nav: true,
+    //     title: "Approved Packing List",
+    //     auth: true,
+    //     settings: {
+    //         group: "g-shipping",
+    //         subGroup: "approval",
+    //         // permission: { "C9": 1, "SG": 1 },
+    //         permission: { "P70": 1 },
+    //         iconClass: "fa fa-dashboard"
+    //     }
+    // },
+    // {
+    //     route: "garment-shipping/packing-list-approved-all-user",
+    //     name: "garment-shipping/packing-list-approved-all-user",
+    //     moduleId: "modules/garment-shipping/packing-list-approved-all-user/index",
+    //     nav: true,
+    //     title: "Approved Packing List ( All User )",
+    //     auth: true,
+    //     settings: {
+    //         group: "g-shipping",
+    //         subGroup: "approval",
+    //         // permission: { "C9": 1, "SG": 1 },
+    //         permission: { "P71": 1 },
+    //         iconClass: "fa fa-dashboard"
+    //     }
+    // },
     {
         route: "garment-shipping/payment-disposition",
         name: "garment-shipping/payment-disposition",
@@ -1138,70 +1138,66 @@ module.exports = [
             iconClass: "fa fa-dashboard"
         }
     },
-
     // ENHANCE DEMO PACKING LIST 
-  {
-    route: "garment-shipping/packing-list-draft-approval-demo",
-    name: "garment-shipping/packing-list-draft-approval-demo",
-    moduleId: "modules/garment-shipping/packing-list-draft-approval-demo/index",
-    nav: true,
-    title: "Approval Draft Packing",
-    auth: true,
-    settings: {
-      group: "g-shipping",
-      subGroup: "approval",
-      // permission: { "C9": 1, "SG": 1 },
-      permission: { "P73": 1 },
-      iconClass: "fa fa-dashboard",
+    // {
+    //     route: "garment-shipping/packing-list-draft-approval-demo",
+    //     name: "garment-shipping/packing-list-draft-approval-demo",
+    //     moduleId: "modules/garment-shipping/packing-list-draft-approval-demo/index",
+    //     nav: true,
+    //     title: "Approval Draft Packing",
+    //     auth: true,
+    //     settings: {
+    //         group: "g-shipping",
+    //         subGroup: "approval",
+    //         // permission: { "C9": 1, "SG": 1 },
+    //         permission: { "P73": 1 },
+    //         iconClass: "fa fa-dashboard",
+    //     },
+    // },
+    {
+        route: "garment-shipping/packing-list-approval-demo",
+        name: "garment-shipping/packing-list-approval-demo",
+        moduleId: "modules/garment-shipping/packing-list-approval-demo/index",
+        nav: true,
+        title: "Approval Packing",
+        auth: true,
+        settings: {
+            group: "g-shipping",
+            subGroup: "approval",
+            // permission: { "C9": 1, "SG": 1 },
+            permission: { "P74": 1 },
+            iconClass: "fa fa-dashboard",
+        },
     },
-  },
-
-  {
-    route: "garment-shipping/packing-list-approval-demo",
-    name: "garment-shipping/packing-list-approval-demo",
-    moduleId: "modules/garment-shipping/packing-list-approval-demo/index",
-    nav: true,
-    title: "Approval Packing",
-    auth: true,
-    settings: {
-      group: "g-shipping",
-      subGroup: "approval",
-      // permission: { "C9": 1, "SG": 1 },
-      permission: { "P74": 1 },
-      iconClass: "fa fa-dashboard",
+    {
+        route: "garment-shipping/packing-list-approved-demo",
+        name: "garment-shipping/packing-list-approved-demo",
+        moduleId: "modules/garment-shipping/packing-list-approved-demo/index",
+        nav: true,
+        title: "Approved Packing",
+        auth: true,
+        settings: {
+            group: "g-shipping",
+            subGroup: "approval",
+            // permission: { "C9": 1, "SG": 1 },
+            permission: { "P75": 1 },
+            iconClass: "fa fa-dashboard",
+        },
     },
-  },
-
-  {
-    route: "garment-shipping/packing-list-approved-demo",
-    name: "garment-shipping/packing-list-approved-demo",
-    moduleId: "modules/garment-shipping/packing-list-approved-demo/index",
-    nav: true,
-    title: "Approved Packing",
-    auth: true,
-    settings: {
-      group: "g-shipping",
-      subGroup: "approval",
-      // permission: { "C9": 1, "SG": 1 },
-      permission: { "P75": 1 },
-      iconClass: "fa fa-dashboard",
+    {
+        route: "garment-shipping/packing-list-approved-all-user-demo",
+        name: "garment-shipping/packing-list-approved-all-user-demo",
+        moduleId: "modules/garment-shipping/packing-list-approved-all-user-demo/index",
+        nav: true,
+        title: "Approved Packing (All User)",
+        auth: true,
+        settings: {
+            group: "g-shipping",
+            subGroup: "approval",
+            // permission: { "C9": 1, "SG": 1 },
+            permission: { "P76": 1 },
+            iconClass: "fa fa-dashboard",
+        },
     },
-  },
-
-  {
-    route: "garment-shipping/packing-list-approved-all-user-demo",
-    name: "garment-shipping/packing-list-approved-all-user-demo",
-    moduleId: "modules/garment-shipping/packing-list-approved-all-user-demo/index",
-    nav: true,
-    title: "Approved Packing ( All User )",
-    auth: true,
-    settings: {
-      group: "g-shipping",
-      subGroup: "approval",
-      // permission: { "C9": 1, "SG": 1 },
-      permission: { "P76": 1 },
-      iconClass: "fa fa-dashboard",
-    },
-  },
-  // END
+    // END
 ]
