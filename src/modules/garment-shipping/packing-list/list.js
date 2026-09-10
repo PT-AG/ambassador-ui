@@ -21,12 +21,12 @@ export class List {
                 return '';
             }
         },
-        { field: "invoiceNo", title: "No Invoice" },
+        { field: "packingListNo", title: "No Packing List" },
         { field: "SectionCode", title: "Seksi" },
         { field: "BuyerAgentName", title: "Buyer Agent" },
         { field: "packingListType", title: "Jenis Packing List" },
         {
-            field: "date", title: "Tgl Invoice", formatter: function (value, data, index) {
+            field: "date", title: "Tgl Packing List", formatter: function (value, data, index) {
                 return moment(value).format("DD MMM YYYY");
             }
         },

@@ -38,7 +38,7 @@ export class List {
         { field: "SentDate", title: "Tgl Kirim", formatter: value => moment(value).format("DD MMM YYYY") },
         { field: "POBuyer", title: "PO Buyer" },
         { field: "Remark", title: "Keterangan" },
-        { field: "Status", title: "Status" },
+        { field: "IsReceived", title: "Status", formatter: value => value ? "SUDAH TERIMA" : "BELUM DI TERIMA" },
     ]
 
     loader = (info) => {
