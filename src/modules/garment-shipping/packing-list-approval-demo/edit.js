@@ -58,9 +58,8 @@ export class Edit {
   }
 
   cancelCallback(event) {
-    const encoded = Base64Helper.encode(this.data.Id);
+    const encoded = Base64Helper.encode(this.data.Id || this.data.id);
     this.router.navigateToRoute("view", { id: encoded });
-    //this.router.navigateToRoute('view', { id: this.data.Id });
   }
 
   saveCallback(event) {

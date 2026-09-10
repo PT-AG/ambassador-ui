@@ -58,7 +58,7 @@
                         loader.bind="invoiceLoader"
                         text = "invoiceNo"
                         placeholder="Cari Invoice"
-                        read-only.bind="readOnly"
+                        read-only.bind="readOnly || isEdit"
                         if.bind="!newPL || data.invoiceNo"
                         options.bind="controlOptions">
                     </au-autocomplete>

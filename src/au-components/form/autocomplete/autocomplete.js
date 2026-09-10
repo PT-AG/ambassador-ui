@@ -85,6 +85,9 @@ export class Autocomplete {
     } else if (typeof this.loader === 'function') {
       promise = this.loader(keyword, this.query, this.select);
     }
+    if (!promise) {
+      promise = Promise.resolve([]);
+    }
     return promise.then(suggestions => {
       this._isLoading = false;
       this._noSuggestions = !suggestions || !suggestions.length;

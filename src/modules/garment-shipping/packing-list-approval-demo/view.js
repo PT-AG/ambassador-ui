@@ -50,7 +50,9 @@ export class View {
 
     editCallback(event) {
         if (confirm("Isi form untuk Approve")) {
-            this.router.navigateToRoute('approve', { id: this.data.id });
+            const encoded = Base64Helper.encode(this.data.Id || this.data.id);
+            console.log(encoded);
+            this.router.navigateToRoute('approve', { id: encoded });
         }
     }
 

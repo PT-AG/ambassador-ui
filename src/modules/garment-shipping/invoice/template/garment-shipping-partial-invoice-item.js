@@ -63,7 +63,14 @@ export class GarmentShippingPartialInvoiceItem {
             this.header.invoiceDate = this.data.date;
 
             if (this.data.packingInvoiceNo) {
-                this.header.invoiceNo = this.data.packingInvoiceNo.trim().split('-')[0];
+                var invoiceType = this.data.packingInvoiceNo.trim().split('-');
+                if (!invoiceType[0].includes('AG')) {
+                    this.header.invoiceNo = invoiceType[0].includes('DS') ? 
+                        invoiceType[0] + '-' + invoiceType[1] :
+                        invoiceType[0] + '-' + invoiceType[1] + '-' + invoiceType[2];
+                } else {
+                    this.header.invoiceNo = invoiceType[0];
+                }
             }
         }
     }

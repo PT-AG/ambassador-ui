@@ -765,6 +765,7 @@ export class DataForm {
                             isSelected: false,
                             packingInvoiceNo: packingInvoiceNo,
                             packingListType: d.packingListType,
+                            invoiceType: d.invoiceType,
                             date: d.date,
                             packingListId: d.id,
                             details: d.items.length <= 0 ? [] : itemDetails
@@ -861,65 +862,47 @@ export class DataForm {
     };
 
     get amountToBePaid() {
-        var totalAmount = 0;
         var amountisCmt = 0;
         var amountAll = 0;
         var amountCMT = 0;
-        var adjustmentValue = 0;
-        var total = 0;
 
-        if (this.partial) {
-            if (this.data.itemsByPackingInvoice) {
-                for (var itemGroup of this.data.itemsByPackingInvoice.filter(i => i.isSave)) {
-                    if (this.data.totalAmount > 0) { total = this.data.totalAmount };
-                    for (var item of itemGroup.details) {
-                        if (item.quantity) {
-                            amountAll = amountAll + item.amount;
-                            if (item.cmtPrice > 0) {
-                                amountisCmt += item.quantity * item.price;
-                                amountCMT += item.quantity * item.cmtPrice;
-                            }
+        // 1. Tentukan sumber items berdasarkan status partial
+        let itemsToProcess = [];
+        if (this.partial && this.data.itemsByPackingInvoice) {
+            const savedGroups = this.data.itemsByPackingInvoice.filter(i => i.isSave);
+            itemsToProcess = savedGroups.flatMap(group => group.details || []);
+        } else if (!this.partial && this.data.items) {
+            itemsToProcess = this.data.items;
+        }
 
-                            totalAmount = amountAll - amountisCmt + amountCMT;
-                        }
-                    }
-                }
-            }
+        // 2. Hitung total dari items
+        for (const item of itemsToProcess) {
+            if (item.quantity) {
+                amountAll += item.quantity * (item.price || 0) || 0;
 
-            if (this.data.garmentShippingInvoiceAdjustments) {
-                for (var item of this.data.garmentShippingInvoiceAdjustments) {
-                    if (item.adjustmentValue) {
-                        adjustmentValue = adjustmentValue + item.adjustmentValue;
-                    }
-                }
-            }
-        } else {
-            if (this.data.items) {
-                for (var item of this.data.items) {
-                    if (this.data.totalAmount > 0) { total = this.data.totalAmount };
-                    if (item.quantity) {
-                        amountAll = amountAll + item.amount;
-                        if (item.cmtPrice > 0) {
-                            amountisCmt += item.quantity * item.price;
-                            amountCMT += item.quantity * item.cmtPrice;
-                        }
-
-                        totalAmount = amountAll - amountisCmt + amountCMT;
-                    }
-                }
-            }
-
-            if (this.data.garmentShippingInvoiceAdjustments) {
-                for (var item of this.data.garmentShippingInvoiceAdjustments) {
-                    if (item.adjustmentValue) {
-                        adjustmentValue = adjustmentValue + item.adjustmentValue;
-                    }
+                // Evaluasi cmtPrice secara tegas
+                if (item.cmtPrice && item.cmtPrice > 0) {
+                    amountisCmt += item.quantity * (item.price || 0);
+                    amountCMT += item.quantity * item.cmtPrice;
                 }
             }
         }
 
-        this.data.amountToBePaid = totalAmount + adjustmentValue;
-        return totalAmount + adjustmentValue;
+        // 3. Hitung total adjustment
+        let adjustmentValue = 0;
+        if (this.data.garmentShippingInvoiceAdjustments) {
+            adjustmentValue = this.data.garmentShippingInvoiceAdjustments.reduce(
+                (acc, curr) => acc + (curr.adjustmentValue || 0),
+                0
+            );
+        }
+
+        // 4. Hitung total akhir
+        const totalAmount = amountAll - amountisCmt + amountCMT;
+        const finalAmount = totalAmount + adjustmentValue;
+
+        this.data.amountToBePaid = finalAmount;
+        return finalAmount;
     };
 
     get totalAmounts() {
@@ -929,22 +912,33 @@ export class DataForm {
             if (this.data.itemsByPackingInvoice) {
                 for (var itemGroup of this.data.itemsByPackingInvoice.filter(i => i.isSave)) {
                     for (var item of itemGroup.details) {
-                        if (item.amount > 0) {
+                        // if (item.amount > 0) {
                             totalAmount = totalAmount + (item.price * item.quantity);
-                        } else {
-                            totalAmount = 0;
-                        }
+                        // } else {
+                        //     totalAmount = 0;
+                        // }
                     }
                 }
-            } else {
-                if (this.data.items) {
-                    for (var item of this.data.items) {
-                        if (item.amount > 0) {
-                            totalAmount = totalAmount + (item.price * item.quantity);
-                        } else {
-                            totalAmount = 0;
-                        }
-                    }
+            } 
+            // else {
+            //     if (this.data.items) {
+            //         for (var item of this.data.items) {
+            //             if (item.amount > 0) {
+            //                 totalAmount = totalAmount + (item.price * item.quantity);
+            //             } else {
+            //                 totalAmount = 0;
+            //             }
+            //         }
+            //     }
+            // }
+        } else {
+            if (this.data.items) {
+                for (var item of this.data.items) {
+                    // if (item.amount > 0) {
+                        totalAmount = totalAmount + (item.price * item.quantity);
+                    // } else {
+                        // totalAmount = 0;
+                    // }
                 }
             }
         }
