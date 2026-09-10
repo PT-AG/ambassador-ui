@@ -1095,7 +1095,6 @@ module.exports = [
             group: "g-production",
             subGroup: "laporan",
             // permission: {"C9": 1, "B1":1},
-
             iconClass: 'fa fa-dashboard'
         }
     },
@@ -1129,20 +1128,6 @@ module.exports = [
             iconClass: 'fa fa-dashboard'
         }
     },
-    // {
-    //     route: "garment-production/packing-list",
-    //     name: "garment-production/packing-list",
-    //     moduleId: "modules/garment-production/packing-list/index",
-    //     nav: true,
-    //     title: "Packing List",
-    //     auth: true,
-    //     settings: {
-    //         group: "g-production",
-    //         permission: { "C9": 1 },
-    //         iconClass: "fa fa-dashboard"
-    //     }
-    // },
-
     {
         route: "garment-production/stock-opname",
         name: "garment-production/stock-opname",
@@ -1158,126 +1143,126 @@ module.exports = [
             iconClass: "fa fa-dashboard"
         }
     },
-    {
-        route: "garment-production/packing-list-draft",
-        name: "garment-production/packing-list-draft",
-        moduleId: "modules/garment-production/packing-list-draft/index",
-        nav: true,
-        title: "Draft Packing List",
-        auth: true,
-        settings: {
-            group: "g-production",
-            subGroup: "packing list",
-            permission:{"O67":1},
-            // permission: { "C9": 1, "AG2": 1, "SP": 1, "PDU":1 },
-            iconClass: "fa fa-dashboard"
-        }
-    },
-    {
-        route: "garment-production/packing-list-items",
-        name: "garment-production/packing-list-items",
-        moduleId: "modules/garment-production/packing-list-items/index",
-        nav: true,
-        title: "Item Packing List",
-        auth: true,
-        settings: {
-            group: "g-production",
-            subGroup: "packing list",
-            permission:{"O68":1},
-            // permission: { "C9": 1, "AG2": 1, "SP": 1, "PDU":1 },
-            iconClass: "fa fa-dashboard"
-        }
-    },
-    {
-        route: 'garment-production/packing-list-draft-copy',
-        name: 'packing-list-draft-copy',
-        moduleId: './modules/garment-production/packing-list-draft/copy/index',
-        nav: true,
-        title: 'Copy Draft Packing List',
-        auth: true,
-        settings: {
-            group: "g-production",
-            subGroup: "packing list",
-            permission:{"O69":1},
-            // permission: { "C9": 1, "AG2": 1, "SP": 1, "PDU":1 },
-            iconClass: 'fa fa-dashboard'
-        }
-    },
-    {
-        route: "garment-production/packing-list-item-draft",
-        name: "garment-production/packing-list-item-draft",
-        moduleId: "modules/garment-production/packing-list-item-draft/index",
-        nav: true,
-        title: "Draft RO Packing List",
-        auth: true,
-        settings: {
-            group: "g-production",
-            subGroup: "packing list",
-            permission:{"O70":1},
-            // permission: { "C9": 1, "AG2": 1, "SP": 1, "PDU":1 },
-            iconClass: "fa fa-dashboard"
-        }
-    },
-    /*{
-        route: "garment-production/packing-list-items-enhanced",
-        name: "garment-production/packing-list-items-enhanced",
-        moduleId: "modules/garment-production/packing-list-items-enhanced/index",
-        nav: true,
-        title: "Item Draft Packing List Enhanced",
-        auth: true,
-        settings: {
-            group: "g-production",
-            subGroup: "packing list",
-            permission: { "C9": 1, "FP": 1 },
-            iconClass: "fa fa-dashboard"
-        }
-    },*/
-    {
-        route: 'garment-production/packing-list-items-draft-enhanced',
-        name: 'packing-list-draft-items-enhanced',
-        moduleId: './modules/garment-production/packing-list-items-draft-enhanced/index',
-        nav: true,
-        title: 'Item Draft Packing List Enhanced 2',
-        auth: true,
-        settings: {
-            group: "g-production",
-            subGroup: "packing list",
-            permission:{"O71":1},
-            // permission: { "C9": 1, "AG2": 1, "SP": 1,"PDU":1 },
-            iconClass: 'fa fa-dashboard'
-        }
-    },
-
+    // {
+    //     route: "garment-production/packing-list-draft",
+    //     name: "garment-production/packing-list-draft",
+    //     moduleId: "modules/garment-production/packing-list-draft/index",
+    //     nav: true,
+    //     title: "Draft Packing List",
+    //     auth: true,
+    //     settings: {
+    //         group: "g-production",
+    //         subGroup: "packing list",
+    //         permission:{"O67":1},
+    //         // permission: { "C9": 1, "AG2": 1, "SP": 1, "PDU":1 },
+    //         iconClass: "fa fa-dashboard"
+    //     }
+    // },
+    // {
+    //     route: "garment-production/packing-list-items",
+    //     name: "garment-production/packing-list-items",
+    //     moduleId: "modules/garment-production/packing-list-items/index",
+    //     nav: true,
+    //     title: "Item Packing List",
+    //     auth: true,
+    //     settings: {
+    //         group: "g-production",
+    //         subGroup: "packing list",
+    //         permission:{"O68":1},
+    //         // permission: { "C9": 1, "AG2": 1, "SP": 1, "PDU":1 },
+    //         iconClass: "fa fa-dashboard"
+    //     }
+    // },
+    // {
+    //     route: 'garment-production/packing-list-draft-copy',
+    //     name: 'packing-list-draft-copy',
+    //     moduleId: './modules/garment-production/packing-list-draft/copy/index',
+    //     nav: true,
+    //     title: 'Copy Draft Packing List',
+    //     auth: true,
+    //     settings: {
+    //         group: "g-production",
+    //         subGroup: "packing list",
+    //         permission:{"O69":1},
+    //         // permission: { "C9": 1, "AG2": 1, "SP": 1, "PDU":1 },
+    //         iconClass: 'fa fa-dashboard'
+    //     }
+    // },
+    // {
+    //     route: "garment-production/packing-list-item-draft",
+    //     name: "garment-production/packing-list-item-draft",
+    //     moduleId: "modules/garment-production/packing-list-item-draft/index",
+    //     nav: true,
+    //     title: "Draft RO Packing List",
+    //     auth: true,
+    //     settings: {
+    //         group: "g-production",
+    //         subGroup: "packing list",
+    //         permission:{"O70":1},
+    //         // permission: { "C9": 1, "AG2": 1, "SP": 1, "PDU":1 },
+    //         iconClass: "fa fa-dashboard"
+    //     }
+    // },
+    // {
+    //     route: 'garment-production/packing-list-items-draft-enhanced',
+    //     name: 'packing-list-draft-items-enhanced',
+    //     moduleId: './modules/garment-production/packing-list-items-draft-enhanced/index',
+    //     nav: true,
+    //     title: 'Item Draft Packing List Enhanced 2',
+    //     auth: true,
+    //     settings: {
+    //         group: "g-production",
+    //         subGroup: "packing list",
+    //         permission:{"O71":1},
+    //         // permission: { "C9": 1, "AG2": 1, "SP": 1,"PDU":1 },
+    //         iconClass: 'fa fa-dashboard'
+    //     }
+    // },
     // ENHANCE PACKING LIST DEMO
+    //     {
+    //       route: "garment-production/packing-draft-demo",
+    //       name: "garment-production/packing-draft-demo",
+    //       moduleId: "modules/garment-production/packing-draft-demo/index",
+    //       nav: true,
+    //       title: "Draft Packing",
+    //       auth: true,
+    //       settings: {
+    //           group: "g-production",
+    //           subGroup: "packing list",
+    //           // permission: { "C9": 1, "FP": 1 },
+    //           permission: { "O72": 1 },
+    //           iconClass: "fa fa-dashboard"
+    //       }
+    //   },
+    //   {
+    //       route: "garment-production/packing-items-demo",
+    //       name: "garment-production/packing-items-demo",
+    //       moduleId: "modules/garment-production/packing-items-demo/index",
+    //       nav: true,
+    //       title: "Item Packing",
+    //       auth: true,
+    //       settings: {
+    //           group: "g-production",
+    //           subGroup: "packing list",
+    //           // permission: { "C9": 1, "FP": 1 },
+    //           permission: { "O73": 1 },
+    //           iconClass: "fa fa-dashboard"
+    //       }
+    //   },
+    // END
     {
-      route: "garment-production/packing-draft-demo",
-      name: "garment-production/packing-draft-demo",
-      moduleId: "modules/garment-production/packing-draft-demo/index",
-      nav: true,
-      title: "Draft Packing",
-      auth: true,
-      settings: {
-          group: "g-production",
-          subGroup: "packing list",
-          // permission: { "C9": 1, "FP": 1 },
-          permission: { "O72": 1 },
-          iconClass: "fa fa-dashboard"
-      }
-  },
-  {
-      route: "garment-production/packing-items-demo",
-      name: "garment-production/packing-items-demo",
-      moduleId: "modules/garment-production/packing-items-demo/index",
-      nav: true,
-      title: "Item Packing",
-      auth: true,
-      settings: {
-          group: "g-production",
-          subGroup: "packing list",
-          // permission: { "C9": 1, "FP": 1 },
-          permission: { "O73": 1 },
-          iconClass: "fa fa-dashboard"
-      }
-  },
-  // END
+        route: "garment-production/packing-list-merged",
+        name: "garment-production/packing-list-merged",
+        moduleId: "modules/garment-production/packing-list-merged/index",
+        nav: true,
+        title: "Packing List",
+        auth: true,
+        settings: {
+            group: "g-production",
+            subGroup: "packing list",
+            // permission: { "C9": 1, "FP": 1 },
+            permission: { "O72": 1 },
+            iconClass: "fa fa-dashboard"
+        }
+    },
 ];

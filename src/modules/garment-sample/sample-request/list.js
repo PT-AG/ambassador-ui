@@ -48,7 +48,7 @@ export class List {
 
     loader = (info) => {
         var order = {};
-        if (info.sort)
+        if (info.sort && info.sort !== "Status")
             order[info.sort] = info.order;
 
         var arg = {
@@ -77,6 +77,18 @@ export class List {
                         s.Status = "REVISED";
                     }
                 });
+
+                // Tambahkan logika sorting frontend jika user klik kolom Status
+                // if (info.sort === "Status") {
+                //     result.data.sort((a, b) => {
+                //         let valA = a.Status.toUpperCase();
+                //         let valB = b.Status.toUpperCase();
+                //         if (valA < valB) return info.order === "asc" ? -1 : 1;
+                //         if (valA > valB) return info.order === "asc" ? 1 : -1;
+                //         return 0;
+                //     });
+                // }
+
                 return {
                     total: result.info.total,
                     data: result.data,
