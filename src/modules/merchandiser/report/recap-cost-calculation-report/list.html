@@ -23,6 +23,8 @@
                     <tr>
                         <td align="center" >NO</td>
                         <td align="center" >RO</td>
+                        <td align="center" >BUYER</td>
+                        <td align="center" >COMMODITY</td>
                         <td align="center" >ARTIKEL</td>
                         <td align="center" >QUANTITY</td>
                         <td align="center" >TARIF OL</td>
@@ -56,6 +58,8 @@
                     <tr repeat.for="item of data">
                         <td>${$index + 1}</td>
                         <td>${item.RO_Number}</td>
+                        <td>${item.BuyerName}</td>
+                        <td>${item.Commodity}</td>
                         <td>${item.Article}</td>
                         <td align="right">${item.Quantity}</td>
                         <td align="right">${item.OL}</td>
