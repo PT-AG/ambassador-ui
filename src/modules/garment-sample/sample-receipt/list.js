@@ -61,6 +61,9 @@ export class List {
                     s.BuyerName = s.Buyer.Name;
                     s.Status = s.IsReceived ? "SUDAH TERIMA" : "BELUM DI TERIMA";
                 });
+                result.data = result.data.sort((a, b) => {
+                    return a.IsReceived - b.IsReceived;
+                });
                 return {
                     total: result.info.total,
                     data: result.data,
