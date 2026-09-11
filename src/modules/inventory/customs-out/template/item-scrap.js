@@ -34,13 +34,12 @@ export class Item {
     return (keyword) => {
       var info = {
         keyword: keyword,
-        filter:{
-            "Items.Any(ScrapClassificationName.Contains('FASILITAS'))":true
-        }
+        filter: JSON.stringify({
+          IsBC: false,
+        }),
       };
       return this.garmentService.getBonNo(info).then((result) => {
         var noList = [];
-        console.log(result.data)
         for (var a of result.data) {
             if (noList.length == 0) {
                 var same = this.context.context.items.find(
@@ -81,7 +80,8 @@ export class Item {
       newValue.Items.forEach((element) => {
             this.data.ProductName = "FAS-AVAL";
             quantity += element.Quantity;
-            Uom = element.Uom;
+            Uom.Unit = "KG";
+            Uom.Id = 0;
       });
 
       this.data.Quantity = quantity;
