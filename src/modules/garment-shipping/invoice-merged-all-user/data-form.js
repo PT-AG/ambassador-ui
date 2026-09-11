@@ -100,6 +100,10 @@ export class DataForm {
                 }
             }
 
+            if (this.data.invoiceType) {
+                this.invoiceType = this.data.invoiceType;
+            }
+
             if (this.data.section) {
                 this.section = {
                     id: this.data.section.id,

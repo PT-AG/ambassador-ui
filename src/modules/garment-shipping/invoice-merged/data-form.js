@@ -93,6 +93,10 @@ export class DataForm {
                 }
             }
 
+            if (this.data.invoiceType) {
+                this.invoiceType = this.data.invoiceType;
+            }
+
             if (this.data.shippingStaffId > 0) {
                 this.shippingStaff = {
                     id: this.data.shippingStaffId,

@@ -20,14 +20,22 @@ export class View {
         editText: "Edit",
         deleteText: "Cancel",
         saveText: "Revisi",
-        
     }
 
     async activate(params) {
         const decoded = Base64Helper.decode(params.id);
         var id = decoded;
 
-        this.data = await this.service.getById(id);;
+        this.data = await this.service.getById(id);
+
+        if (this.data.isUsed) {
+            // menyembunyikan tombol dengan menghilangkan callback-nya, bukan hanya teksnya
+            this.editCallback = null;
+            this.deleteCallback = null;
+            this.revisiUnit = null;
+            this.revisiMD = null;
+        }
+
         var idx = 0;
         if (this.data.measurements) {
             for (var i of this.data.measurements) {
@@ -51,7 +59,6 @@ export class View {
     editCallback(event) {
         const encoded = Base64Helper.encode(this.data.id);
         this.router.navigateToRoute('edit', { id: encoded });
-
     }
 
     deleteCallback(event) {
@@ -93,6 +100,7 @@ export class View {
                 }
             });
     }
+
     revisiMD(event) {
         this.dialogService.open({ viewModel: Dialog, model: { title: "Alasan Revisi" } })
             .then(response => {
