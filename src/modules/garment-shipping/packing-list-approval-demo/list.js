@@ -11,10 +11,10 @@ export class List {
     context = ["Detail"]
 
     columns = [
-        { field: "invoiceNo", title: "No Invoice" },
+        { field: "packingListNo", title: "No Packing List" },
         { field: "invoiceType", title: "Jenis Invoice" },
         {
-            field: "date", title: "Tgl Invoice", formatter: function (value, data, index) {
+            field: "date", title: "Tgl Packing List", formatter: function (value, data, index) {
                 return moment(value).format("DD MMM YYYY");
             }
         },

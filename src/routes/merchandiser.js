@@ -856,66 +856,66 @@ module.exports = [
             iconClass: 'fa fa-calculator'
         }
     },
-    {
-        route: "garment-production/packing-list-draft-list",
-        name: "garment-production/packing-list-draft-list",
-        moduleId: "modules/garment-shipping/packing-list-draft-list/index",
-        nav: true,
-        title: "LIST | Draft Packing List",
-        auth: true,
-        settings: {
-            group: "merchandiser",
-            subGroup: "approval shipping",
-            permission:{"L53":1},
-            // permission: { "PGA": 2, "PDU": 1, "C9": 1 },
-            iconClass: "fa fa-dashboard"
-        }
-    },
-    {
-        route: '/merchandiser/packing-list-draft-approval',
-        name: 'packing-list-draft-approval',
-        moduleId: './modules/merchandiser/packing-list-draft-approval/index',
-        nav: true,
-        title: 'Approval Draft Packing List - Md',
-        auth: true,
-        settings: {
-            group: "merchandiser",
-            subGroup: "approval shipping",
-            permission:{"L54":1},
-            // permission: { "PGA": 2, "PDU": 1, "C9": 1 },
-            iconClass: 'fa fa-calculator'
-        }
-    },
-    {
-        route: '/merchandiser/packing-list-approval',
-        name: 'packing-list-approval',
-        moduleId: './modules/merchandiser/packing-list-approval/index',
-        nav: true,
-        title: 'Approval Packing List - Md',
-        auth: true,
-        settings: {
-            group: "merchandiser",
-            subGroup: "approval shipping",
-            permission:{"L55":1},
-            // permission: { "PGA": 2, "PDU": 1, "C9": 1 },
-            iconClass: 'fa fa-calculator'
-        }
-    },
-    {
-        route: '/merchandiser/packing-list',
-        name: 'packing-list',
-        moduleId: './modules/merchandiser/packing-list/index',
-        nav: true,
-        title: 'Approved Packing List - Md',
-        auth: true,
-        settings: {
-            group: "merchandiser",
-            subGroup: "approval shipping",
-            permission:{"L56":1},
-            // permission: { "PGA": 2, "PDU": 1, "C9": 1 },
-            iconClass: 'fa fa-calculator'
-        }
-    },
+    // {
+    //     route: "garment-production/packing-list-draft-list",
+    //     name: "garment-production/packing-list-draft-list",
+    //     moduleId: "modules/garment-shipping/packing-list-draft-list/index",
+    //     nav: true,
+    //     title: "LIST | Draft Packing List",
+    //     auth: true,
+    //     settings: {
+    //         group: "merchandiser",
+    //         subGroup: "approval shipping",
+    //         permission:{"L53":1},
+    //         // permission: { "PGA": 2, "PDU": 1, "C9": 1 },
+    //         iconClass: "fa fa-dashboard"
+    //     }
+    // },
+    // {
+    //     route: '/merchandiser/packing-list-draft-approval',
+    //     name: 'packing-list-draft-approval',
+    //     moduleId: './modules/merchandiser/packing-list-draft-approval/index',
+    //     nav: true,
+    //     title: 'Approval Draft Packing List - Md',
+    //     auth: true,
+    //     settings: {
+    //         group: "merchandiser",
+    //         subGroup: "approval shipping",
+    //         permission:{"L54":1},
+    //         // permission: { "PGA": 2, "PDU": 1, "C9": 1 },
+    //         iconClass: 'fa fa-calculator'
+    //     }
+    // },
+    // {
+    //     route: '/merchandiser/packing-list-approval',
+    //     name: 'packing-list-approval',
+    //     moduleId: './modules/merchandiser/packing-list-approval/index',
+    //     nav: true,
+    //     title: 'Approval Packing List - Md',
+    //     auth: true,
+    //     settings: {
+    //         group: "merchandiser",
+    //         subGroup: "approval shipping",
+    //         permission:{"L55":1},
+    //         // permission: { "PGA": 2, "PDU": 1, "C9": 1 },
+    //         iconClass: 'fa fa-calculator'
+    //     }
+    // },
+    // {
+    //     route: '/merchandiser/packing-list',
+    //     name: 'packing-list',
+    //     moduleId: './modules/merchandiser/packing-list/index',
+    //     nav: true,
+    //     title: 'Approved Packing List - Md',
+    //     auth: true,
+    //     settings: {
+    //         group: "merchandiser",
+    //         subGroup: "approval shipping",
+    //         permission:{"L56":1},
+    //         // permission: { "PGA": 2, "PDU": 1, "C9": 1 },
+    //         iconClass: 'fa fa-calculator'
+    //     }
+    // },
     {
         route: '/merchandiser/cost-calculation-cancel-approval',
         name: 'cost-calculation-cancel-approval',
@@ -961,21 +961,21 @@ module.exports = [
     },
 
     // ENHANCE DEMO PACKING LIST
-    {
-        route: '/merchandiser/packing-list-draft-approval-demo',
-        name: 'packing-list-draft-approval-demo',
-        moduleId: './modules/merchandiser/packing-list-draft-approval-demo/index',
-        nav: true,
-        title: 'Approval Draft Packing MD',
-        auth: true,
-        settings: {
-            group: "merchandiser",
-            subGroup: "approval shipping",
-            // permission: { "PGA": 1, "C9": 1 },
-            permission: { "L61": 1 },
-            iconClass: 'fa fa-calculator'
-        }
-    },
+    // {
+    //     route: '/merchandiser/packing-list-draft-approval-demo',
+    //     name: 'packing-list-draft-approval-demo',
+    //     moduleId: './modules/merchandiser/packing-list-draft-approval-demo/index',
+    //     nav: true,
+    //     title: 'Approval Draft Packing MD',
+    //     auth: true,
+    //     settings: {
+    //         group: "merchandiser",
+    //         subGroup: "approval shipping",
+    //         // permission: { "PGA": 1, "C9": 1 },
+    //         permission: { "L61": 1 },
+    //         iconClass: 'fa fa-calculator'
+    //     }
+    // },
     {
         route: '/merchandiser/packing-list-approval-demo',
         name: 'packing-list-approval-demo',

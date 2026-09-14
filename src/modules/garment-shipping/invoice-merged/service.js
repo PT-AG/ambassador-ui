@@ -1,0 +1,120 @@
+import { RestService } from '../../../utils/rest-service';
+import { Config } from "aurelia-api";
+const serviceUri = 'garment-shipping/invoices';
+const resourceStockUri = 'garment-shipping/packing-lists';
+
+class Service extends RestService {
+    constructor(http, aggregator, config, endpoint) {
+        super(http, aggregator, config, "packing-inventory");
+    }
+
+    search(info) {
+        var endpoint = `${serviceUri}`;
+        return super.list(endpoint, info);
+    }
+
+    getById(id) {
+        var endpoint = `${serviceUri}/${id}`;
+        return super.get(endpoint);
+    }
+
+    create(data) {
+        var endpoint = `${serviceUri}`;
+        return super.post(endpoint, data);
+    }
+
+    update(data) {
+        var endpoint = `${serviceUri}/${data.id}`;
+        return super.put(endpoint, data);
+    }
+
+    delete(data) {
+        var endpoint = `${serviceUri}/${data.id}`;
+        return super.delete(endpoint, data);
+    }
+
+    getPackingListById(id) {
+        var endpoint = `${resourceStockUri}/${id}`;
+        return super.get(endpoint);
+    }
+
+    getPdfById(id, type) {
+        var endpoint = `${serviceUri}/pdf/${id}/${type}`;
+        return super.getPdf(endpoint);
+    }
+
+    getPdfWHById(id, type) {
+        var endpoint = `${serviceUri}/whpdf/${id}/${type}`;
+        return super.getPdf(endpoint);
+    }
+
+    getInvoiceNo(info) {
+        var endpoint = `${resourceStockUri}`;
+        return super.list(endpoint, info);
+    }
+
+    getXlsById(id, type) {
+        var endpoint = `${serviceUri}/xls/${id}/${type}`;
+        return super.getXls(endpoint);
+    }
+
+    getWHXlsById(id, type) {
+        var endpoint = `${serviceUri}/whxls/${id}/${type}`;
+        return super.getXls(endpoint);
+    }
+
+    getInvoicePartial(filter) {
+        var endpoint = `${resourceStockUri}/partial?filter=` + JSON.stringify(filter);
+        return super.get(endpoint);
+    }
+}
+
+const costCalculationServiceUri = 'cost-calculation-garments';
+const SalesContractserviceUri = "merchandiser/garment-sales-contracts";
+
+class SalesService extends RestService {
+    constructor(http, aggregator, config, api) {
+        super(http, aggregator, config, "sales");
+    }
+
+    getCostCalculationById(id) {
+        var endpoint = `${costCalculationServiceUri}/${id}`;
+        return super.get(endpoint);
+    }
+
+    getSalesContractById(id) {
+        var endpoint = `${SalesContractserviceUri}/${id}`;
+        return super.get(endpoint);
+    }
+    getSalesContractByRO(ro) {
+        var endpoint = `${SalesContractserviceUri}/by-ro/${ro}`;
+        return super.get(endpoint);
+    }
+}
+
+const coreserviceUri = "master/account-banks";
+const serviceUriBuyer = "master/garment-buyers";
+const serviceUriShippingStaff = "master/garment-shipping-staffs";
+
+class CoreService extends RestService {
+    constructor(http, aggregator, config, api) {
+        super(http, aggregator, config, "core");
+    }
+
+    getBankAccountById(id) {
+        var endpoint = `${coreserviceUri}/${id}`;
+        return super.get(endpoint);
+    }
+
+    getBuyerById(id) {
+        var endpoint = `${serviceUriBuyer}/${id}`;
+        return super.get(endpoint);
+    }
+
+    getShippingStaff(keyword) {
+        var endpoint = `${serviceUriShippingStaff}?keyword=${keyword}`
+        return super.get(endpoint);
+    }
+}
+
+export { Service, SalesService, CoreService }
