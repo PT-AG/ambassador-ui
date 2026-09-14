@@ -43,7 +43,8 @@ export class List {
 
     loader = (info) => {
         var order = {
-            IsReceived: "asc"
+            Date: "desc",
+            IsReceived: "asc",
         };
         //var order = { "IsReceived": "asc", "Date": "desc" };
         if (info.sort)
