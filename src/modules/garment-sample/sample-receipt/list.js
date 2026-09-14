@@ -42,7 +42,9 @@ export class List {
     ]
 
     loader = (info) => {
-        var order = {};
+        var order = {
+            IsReceived: "asc"
+        };
         //var order = { "IsReceived": "asc", "Date": "desc" };
         if (info.sort)
             order[info.sort] = info.order;
@@ -54,7 +56,7 @@ export class List {
             order: order,
             filter: JSON.stringify(this.filter)
         }
-
+        
         return this.service.search(arg)
             .then(result => {
                 result.data.map(s => {
