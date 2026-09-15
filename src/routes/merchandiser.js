@@ -143,7 +143,7 @@ module.exports = [
     {
         route: '/merchandiser/cost-calculation-by-user',
         name: 'cost-calculation-by-user',
-        moduleId: './modules/merchandiser/cost-calculation/index',
+        moduleId: './modules/merchandiser/cost-calculation-upload/index',
         nav: true,
         title: 'Cost Calculation Garment',
         auth: true,
@@ -421,7 +421,7 @@ module.exports = [
     {
         route: '/merchandiser/cost-calculation-copy',
         name: 'cost-calculation-copy',
-        moduleId: './modules/merchandiser/cost-calculation/copy/index',
+        moduleId: './modules/merchandiser/cost-calculation-upload/copy/index',
         nav: true,
         title: 'Copy Cost Calculation',
         auth: true,

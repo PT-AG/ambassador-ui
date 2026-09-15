@@ -1,0 +1,221 @@
+<template>
+    <style>
+        .tooltip-material-field {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip-material-field .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+
+            /* Position the tooltip */
+            position: absolute;
+            z-index: 1;
+        }
+
+        .tooltip-material-field:hover .tooltiptext {
+            visibility: visible;
+        }
+    </style>
+
+    <tr>
+        <td>
+            <au-textbox value.bind="data.MaterialIndex + 1" options.bind="controlOptions" read-only="true"></au-textbox>
+        </td>
+        <!-- prmaster -->
+        <td if.bind="data.IsAddPRMaster">
+            <button class="btn btn-primary" click.delegate="clickPRMaster()">+</button>
+        </td>
+        <td if.bind="!data.IsAddPRMaster">
+        </td>
+        <!-- doitems -->
+        <td if.bind="data.IsAddPOWarehouse">
+            <button class="btn btn-primary" click.delegate="clickPOSerialNumber()">+</button>
+        </td>
+        <td if.bind="!data.IsAddPOWarehouse">
+        </td>
+        <!-- cmt -->
+        <td>
+            <div style="width: 100px;" class="tooltip-material-field">
+                <au-checkbox value.bind="data.isFabricCM" read-only.bind="true"
+                    options.bind="controlOptions2"></au-checkbox>
+                <span class="tooltiptext">CMT</span>
+            </div>
+        </td>
+        <!-- poserialNumber -->
+        <td>
+            <div style="min-width: 50px;" class="tooltip-material-field">
+                <au-textbox value.bind="data.POMaster || data.PO_SerialNumber" options.bind="controlOptions"
+                    read-only.bind="true" error.bind="error.PO_SerialNumber">
+                </au-textbox>
+                <span class="tooltiptext">No. PO</span>
+            </div>
+        </td>
+        <!-- kategori -->
+        <td>
+            <div style="width: 100px;" class="tooltip-material-field">
+                <au-textbox value.bind="data.Category.Name" error.bind="error.Category" options.bind="controlOptions"
+                    read-only.bind="true">
+                </au-textbox>
+                <span class="tooltiptext">Kategori Barang</span>
+                <div if.bind="data.Product.IsError && !error.Category" class="form-group has-error">
+                    <span if.bind="data.Product.IsError" class="help-block">
+                        ${data.Product.ErrorMessage}
+                    </span>
+                </div>
+            </div>
+        </td>
+        <!-- kode barang -->
+        <td>
+            <div style="width: 100px;" class="tooltip-material-field">
+                <au-textbox value.bind="productCode" options.bind="controlOptions" read-only.bind="true">
+                </au-textbox>
+                <span class="tooltiptext">Kode Barang</span>
+            </div>
+        </td>
+        <!-- komposisi -->
+        <td>
+            <div style="width: 200px;" class="tooltip-material-field">
+                <au-textbox value.bind="data.Product.Composition" error.bind="error.Composition"
+                    options.bind="controlOptions" read-only.bind="true">
+                </au-textbox>
+                <span class="tooltiptext">Komposisi</span>
+            </div>
+        </td>
+        <!-- konstruksi -->
+        <td>
+            <div style="width: 100px;" class="tooltip-material-field">
+                <au-textbox value.bind="data.Product.Const" error.bind="error.Const" options.bind="controlOptions"
+                    read-only.bind="true">
+                </au-textbox>
+                <span class="tooltiptext">Konstruksi</span>
+            </div>
+        </td>
+        <!-- yarn -->
+        <td>
+            <div style="width: 100px;" class="tooltip-material-field">
+                <au-textbox value.bind="data.Product.Yarn" error.bind="error.Yarn" options.bind="controlOptions"
+                    read-only.bind="true">
+                </au-textbox>
+                <span class="tooltiptext">Yarn</span>
+            </div>
+        </td>
+        <!-- width -->
+        <td>
+            <div style="width: 100px;" class="tooltip-material-field">
+                <au-textbox value.bind="data.Product.Width" error.bind="error.Width" options.bind="controlOptions"
+                    read-only.bind="true">
+                </au-textbox>
+                <span class="tooltiptext">Width</span>
+            </div>
+        </td>
+        <!-- deskripsi -->
+        <td>
+            <div style="width: 200px;" class="tooltip-material-field">
+                <au-multiline placeholder="Deskripsi" value.bind="data.Description" error.bind="error.Description"
+                    options.bind="controlOptions" read-only.bind="true"></au-multiline>
+                <span class="tooltiptext">Deskripsi</span>
+            </div>
+        </td>
+        <!-- detail barang -->
+        <td>
+            <div style="min-width: 200px;" class="tooltip-material-field">
+                <au-multiline placeholder="Detail Barang" value.bind="data.ProductRemark"
+                    error.bind="error.ProductRemark" options.bind="controlOptions" read-only.bind="true"></au-multiline>
+                <span class="tooltiptext">Detail Barang</span>
+            </div>
+        </td>
+        <!-- kuantitas -->
+        <td>
+            <div style="width: 100px;" class="tooltip-material-field">
+                <au-numeric value.bind="data.Quantity" error.bind="error.Quantity" format="0,0.000"
+                    options.bind="controlOptions" read-only.bind="true"></au-numeric>
+                <span class="tooltiptext">Quantity</span>
+            </div>
+        </td>
+        <!-- satuan -->
+        <td>
+            <div style="width: 100px;" class="tooltip-material-field">
+                <au-textbox value.bind="selectedUOMQuantity" error.bind="error.UOMQuantity"
+                    options.bind="controlOptions" read-only.bind="true"></au-textbox>
+                <span class="tooltiptext">Satuan</span>
+            </div>
+        </td>
+        <!-- price -->
+        <td>
+            <div style="width: 100px;" class="tooltip-material-field">
+                <au-numeric value.bind="data.Price" error.bind="error.Price" format="0,0.00"
+                    options.bind="controlOptions" read-only.bind="true"></au-numeric>
+                <span class="tooltiptext">Price</span>
+            </div>
+        </td>
+        <!-- satuan harga -->
+        <td>
+            <div style="width: 100px;" class="tooltip-material-field">
+                <au-textbox value.bind="selectedUOMPrice" options.bind="controlOptions"
+                    read-only.bind="true"></au-textbox>
+                <span class="tooltiptext">Satuan Harga</span>
+            </div>
+        </td>
+        <!-- konversi -->
+        <td>
+            <div style="width: 100px;" class="tooltip-material-field">
+                <au-numeric value.bind="data.Conversion" error.bind="error.Conversion" options.bind="controlOptions"
+                    read-only.bind="true" format="0,0.[00000000000000000000]"></au-numeric>
+                <span class="tooltiptext">Konversi</span>
+            </div>
+        </td>
+        <!-- total -->
+        <td>
+            <div style="width: 100px;" class="tooltip-material-field">
+                <au-numeric value.one-way="total" read-only.bind="true" format="0,0.00"></au-numeric>
+                <span class="tooltiptext">Total</span>
+            </div>
+        </td>
+        <!-- allowance -->
+        <td>
+            <div style="width: 100px;" class="tooltip-material-field">
+                <au-numeric value.bind="data.Allowance" error.bind="error.Allowance" options.bind="controlOptions"
+                    read-only.bind="true"></au-numeric>
+                <span class="tooltiptext">Allowance (%)</span>
+            </div>
+        </td>
+        <!-- ongkir -->
+        <td>
+            <div style="width: 100px;" class="tooltip-material-field">
+                <au-numeric value.bind="data.ShippingFeePortion" error.bind="error.ShippingFeePortion"
+                    options.bind="controlOptions" read-only.bind="true"></au-numeric>
+                <span class="tooltiptext">Ongkir (%)</span>
+            </div>
+        </td>
+        <!-- jumlah ongkir -->
+        <td>
+            <div style="width: 100px;" class="tooltip-material-field">
+                <au-numeric value.one-way="totalShippingFee" read-only.bind="true"></au-numeric>
+                <span class="tooltiptext">Jumlah Ongkir</span>
+            </div>
+        </td>
+        <!-- kuantitas budget -->
+        <td>
+            <div style="width: 100px;" class="tooltip-material-field">
+                <au-numeric value.one-way="budgetQuantity" error.bind="error.BudgetQuantity"
+                    read-only.bind="true"></au-numeric>
+                <span class="tooltiptext">Budget Quantity</span>
+            </div>
+        </td>
+        <!-- Material Designation -->
+        <td>
+            <div style="width: 100px;" class="tooltip-material-field">
+                <au-dropdown value.bind="data.MaterialFor" error.bind="error.MaterialFor" read-only.bind="readOnly"
+                    items.bind="materialForList"></au-dropdown>
+                <span class="tooltiptext">Tujuan Material</span>
+            </div>
+        </td>
+    </tr>
+</template>

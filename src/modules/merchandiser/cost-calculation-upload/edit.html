@@ -1,0 +1,11 @@
+<template>
+    <require from="./data-form"></require>
+    <data-form title="Edit Cost Calculation Garment" 
+        data.bind="data" 
+        data-material-upload.two-way="dataMaterialUpload"
+        data-material.two-way="dataMaterial"
+        error-upload.two-way="errorUpload"
+        error-manual.two-way="errorManual"
+        error.bind="error">
+    </data-form>
+</template>
