@@ -20,6 +20,7 @@ export class List {
     { field: "Country", title: "Negara" },
     { field: "Contact", title: "Kontak" },
     { field: "Tempo", title: "Tempo" },
+    { field: "partnerType", title: "Tipe Partner" },
     {
       field: "Active", title: "Active",
       formatter: function (value, row, index) {
@@ -46,7 +47,7 @@ export class List {
       page: parseInt(info.offset / info.limit, 10) + 1,
       size: info.limit,
       keyword: info.search,
-      select: ["Code", "Name", "Address", "City", "Country", "Contact", "Tempo"],
+      select: ["Code", "Name", "Address", "City", "Country", "Contact", "Tempo", "partnerType"],
       order: order
     }
 

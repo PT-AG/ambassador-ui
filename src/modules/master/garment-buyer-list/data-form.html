@@ -74,6 +74,13 @@
           items.bind="types"
         ></au-dropdown>
 
+        <au-textbox 
+          label="Tipe Partner"
+          value.bind="data.partnerType"
+          error.bind="error.partnerType"
+          read-only.bind="readOnly"
+        ></au-textbox>
+
         <template replaceable part="actions"></template>
         </au-input-form>
       </div>
