@@ -1,0 +1,25 @@
+<template>
+    <tr>
+        <td colspan.bind="18" class="text-right" style="padding-right:10%">
+            Total Harga
+        </td>
+        <td class="text-right">
+            <require from="../../../../../lib/number-format-value-converter"></require>
+            ${totalMaterial | numberFormat:"0,000.00"}
+        </td>
+        <td colspan.bind="5"></td>
+    </tr>
+    <tr>
+        <td colspan.bind="18" class="text-right" style="padding-right:10%">
+            Total Ongkir
+        </td>
+        <td colspan.bind="4" class="text-right">
+            <require from="../../../../../lib/number-format-value-converter"></require>
+            ${totalOngkir | numberFormat:"0,000.00"}
+        </td>
+        <td>
+        </td>
+        <td>            
+        </td>
+    </tr>
+</template>
