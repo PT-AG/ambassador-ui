@@ -42,7 +42,10 @@ export class List {
     ]
 
     loader = (info) => {
-        var order = {};
+        var order = {
+            Date: "desc",
+            IsReceived: "asc",
+        };
         //var order = { "IsReceived": "asc", "Date": "desc" };
         if (info.sort)
             order[info.sort] = info.order;
@@ -60,6 +63,9 @@ export class List {
                 result.data.map(s => {
                     s.BuyerName = s.Buyer.Name;
                     s.Status = s.IsReceived ? "SUDAH TERIMA" : "BELUM DI TERIMA";
+                });
+                result.data = result.data.sort((a, b) => {
+                    return a.IsReceived - b.IsReceived;
                 });
                 return {
                     total: result.info.total,

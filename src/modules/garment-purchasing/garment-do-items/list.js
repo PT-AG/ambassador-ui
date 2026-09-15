@@ -16,6 +16,7 @@ export class List {
   context = ["Update Racking", "Kartu Stelling", "Cetak Barcode"];
 
   columns = [
+    { field: "PackageNo", title: "No Package" },
     { field: "ProductCode", title: "Kode Barang" },
     { field: "POSerialNumber", title: "Nomor PO" },
     { field: "RO", title: "Nomor RO" },
@@ -25,6 +26,14 @@ export class List {
     { field: "RemainingQuantity", title: "Quantity", align: "right" },
     { field: "SmallUomUnit", title: "Satuan" },
     { field: "Colour", title: "Warna" },
+    { field: "Lot", title: "Lot" },
+    { field: "Batch",title: "Batch",
+      formatter: value =>
+        value
+          ? moment.parseZone(value).utcOffset(7).format("YYYY-MM-DD")
+          : "-"
+    },
+    { field: "HandlingUnit", title: "Handling Unit" },
     { field: "Rack", title: "Rak" },
     { field: "Level", title: "Level" },
     { field: "Box", title: "Box" },

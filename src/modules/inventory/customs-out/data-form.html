@@ -20,7 +20,8 @@
                     read-only.bind="readOnly || isEdit" items.bind="bcTypeOptions" options.bind="controlOptions">
                 </au-dropdown>
 
-                <au-checkbox label="Scrap?" value.bind="data.IsScrap" options.bind="controlOptions" change.delegate="isScrapChanged($event)">
+                <au-checkbox label="Scrap?" value.bind="data.IsScrap" options.bind="controlOptions" 
+                    read-only.bind="readOnly" change.delegate="isScrapChanged($event)">
                 </au-checkbox>
 
                 <au-multiline label="Keterangan" value.bind="data.Remarkerdr" placeholder="Keterangan"

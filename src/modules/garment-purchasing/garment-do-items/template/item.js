@@ -1,7 +1,7 @@
 import { inject, bindable, computedFrom } from "aurelia-framework";
 import { concat, forEach } from "../../../../routes/general";
 import { Service } from "../service";
-
+var UomLoader = require('../../../../loader/uom-loader');
 
 
 @inject(Service)
@@ -49,7 +49,26 @@ export class Item {
         // } 
         this.data.Colour=this.data.Colour ? this.data.Colour : this.options.colour;
 
+        const isFabric =
+        this.data.ProductName &&
+        this.data.ProductName.trim().toUpperCase() === "FABRIC";
 
+        if (this.data.HandlingUnit) {
+
+            this.dataUom = {
+                Id: this.data.HandlingUnitId,
+                Unit: this.data.HandlingUnit
+            };
+
+        }
+        else if (isFabric) {
+            this.setFabricHandlingUnit();
+        }
+        else {
+
+            this.dataUom = null;
+
+        }
     }
 
     toggle() {
@@ -57,5 +76,28 @@ export class Item {
         else this.isShowing = !this.isShowing;
     }
 
+    get uomLoader() {
+        return UomLoader;
+      }
 
+
+    setFabricHandlingUnit() {
+        UomLoader("ROLL", {})
+                .then(results => {
+                    const roll = results.filter(x => x.Unit === "ROLL")[0];
+
+                    if (roll) {
+                        this.dataUom = {
+                            Id: roll.Id,
+                            Unit: roll.Unit
+                        };
+                        this.data.HandlingUnit = roll.Unit;
+                        this.data.HandlingUnitId = roll.Id;
+                    }
+                });
+
+        if (this.error) {
+            this.error.HandlingUnit = null;
+        }
+    }
 }
