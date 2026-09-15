@@ -15,6 +15,40 @@
                 options.bind="controlOptions">
 			</au-numeric>
 		</td>
+		<td if.bind="data.ProductName && data.ProductName.trim().toUpperCase() === 'FABRIC'">
+			<au-textbox
+				value.bind="data.Lot"
+				error.bind="error.Lot"
+				read-only.bind="readOnly || (isEdit && data.Id)"
+				options.bind="controlOptions">
+			</au-textbox>
+		</td>
+		<td>
+			<au-textbox 
+                value.bind="data.Batch" 
+				error.bind="error.Batch"
+                read-only.bind="true"
+                options.bind="controlOptions">
+			</au-textbox>
+		</td>
+		<td>
+			<au-textbox 
+                value.bind="data.PackageNo"
+                read-only.bind="true"
+                options.bind="controlOptions">
+			</au-textbox>
+		</td>
+		<td>
+		<au-autocomplete 
+			value.bind="dataUom" 
+			error.bind="error.HandlingUnit"
+			loader.bind="uomLoader"
+			placeholder="cari satuan" 
+			text="Unit"
+			key="Id"
+			read-only.bind="readOnly || (isEdit && data.Id) || (data.ProductName && data.ProductName.toUpperCase() === 'FABRIC')">
+		</au-autocomplete>
+		</td>	
 		<td>
 			<au-dropdown 
                 value.bind="data.Rack" 
