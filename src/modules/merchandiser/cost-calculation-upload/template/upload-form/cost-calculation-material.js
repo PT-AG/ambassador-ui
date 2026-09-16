@@ -203,7 +203,7 @@ export class CostCalculationMaterial {
             }
         } else if (this.data.CCType == "SUBCON KELUAR" && this.data.Category) {
             if (this.categoryNames === "PROCESS SUBCON") {
-                total =  this.data.Price ?  parseFloat(this.data.Price) : 0;
+                total = this.data.Price ?  parseFloat(this.data.Price) : 0;
                 this.data.Total = numeral(total).value();
                 this.data.TotalTemp = numeral(total).value();;
                 this.data.CM_Price = null;
@@ -257,8 +257,7 @@ export class CostCalculationMaterial {
         this.dialog.show(PRMasterDialog,
             {
                 CCId: this.context.context.options.CCId || 0,
-                SCId: this.context.context.options.SCId || 0,
-                BuyerCode: this.context.context.options.BuyerCode || null,
+                BuyerId: this.context.context.options.BuyerId || 0,
                 CategoryName: productCategory,
                 ProductCode: productCode
             })
@@ -284,7 +283,7 @@ export class CostCalculationMaterial {
         this.dialog.show(DOItemsDialog, 
             { 
                 CCId: this.context.context.options.CCId || 0, 
-                SCId: this.context.context.options.SCId || 0,
+                BuyerId: this.context.context.options.BuyerId || 0,
                 CategoryName: productCategory,
                 ProductCode: productCode
             })
@@ -295,6 +294,7 @@ export class CostCalculationMaterial {
                     const result = response.output;
 
                     this.data.DOItemId = result.DOItemId;
+                    this.data.IsWarehouseMaterial = true;
                     this.data.PO_SerialNumber = result.POSerialNumber;
                     this.data.AvailableQuantity = result.AvailableQuantity;
                     this.data.showDialog = false;
