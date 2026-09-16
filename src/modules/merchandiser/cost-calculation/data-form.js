@@ -258,8 +258,9 @@ export class DataForm {
     }
 
     this.costCalculationGarment_MaterialsInfo.options.CCId = this.data.Id;
-    this.costCalculationGarment_MaterialsInfo.options.BuyerId = this.data.Buyer.Id;
+    this.costCalculationGarment_MaterialsInfo.options.BuyerId = this.data.BuyerBrand ? this.data.BuyerBrand.Id : 0;
 
+    
     if (this.data.Rate) {
       if (this.data.Rate.Value > 1) {
         this.selectedRate = "USD";
@@ -389,7 +390,7 @@ export class DataForm {
         materialFromPRmaster.POMaster = null;
       }
     }
-    this.costCalculationGarment_MaterialsInfo.options.BuyerId = this.data.Buyer.Id;
+    this.costCalculationGarment_MaterialsInfo.options.BuyerId = this.data.BuyerBrand.Id;
   }
 
 
