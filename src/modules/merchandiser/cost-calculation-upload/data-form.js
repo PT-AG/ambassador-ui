@@ -245,7 +245,7 @@ export class DataForm {
     }
 
     this.costCalculationGarment_MaterialsInfoUploads.options.CCId = this.data.Id;
-    this.costCalculationGarment_MaterialsInfoUploads.options.BuyerCode = this.data.BuyerBrand ? this.data.BuyerBrand.Code : "";
+    this.costCalculationGarment_MaterialsInfoUploads.options.BuyerId = this.data.BuyerBrand ? this.data.BuyerBrand.Id : "";
     this.costCalculationGarment_MaterialsInfoUploads.options.IsEditMaterial = this.isEdit;
     this.costCalculationGarment_MaterialsInfoUploads.options.IsCopyCC =  this.isCopy;
     this.costCalculationGarment_MaterialsInfoUploads.options.CCId = this.data.Id;
@@ -375,7 +375,7 @@ export class DataForm {
         materialFromPRmaster.POMaster = null;
       }
     }
-    this.costCalculationGarment_MaterialsInfoUploads.options.BuyerCode = this.data.BuyerBrand ? this.data.BuyerBrand.Code : "";
+    this.costCalculationGarment_MaterialsInfoUploads.options.BuyerId = this.data.BuyerBrand ? this.data.BuyerBrand.Id : "";
     this.costCalculationGarment_MaterialsInfoUploads.options.SCId = this.data.PreSCId;
   }
 

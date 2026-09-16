@@ -131,13 +131,15 @@ export class DOItemsDialog {
     activate(params) {
         this.CCId = params.CCId;
         this.filter = {
+            BuyerId : params.BuyerId || "0",
             ProductCode : params.ProductCode || ""
         };
     }
 
     select() {
+        console.log(this.selectedData);
         if (this.selectedData && this.selectedData.length > 0) {
-            if ((this.selectedData.SplitQuantity == null || this.selectedData.SplitQuantity <= 0)) {
+            if ((this.selectedData[0].SplitQuantity == null || this.selectedData[0].SplitQuantity <= 0)) {
                 alert("Data yang dipilih belum di Racking.")
             } else {
                 this.controller.ok(this.selectedData[0]);
