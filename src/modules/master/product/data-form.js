@@ -10,6 +10,8 @@ export class DataForm {
         editText: "Ubah",
     }
 
+    ItemTypesD365 = ['FIXED ASSET', 'ITEMS', 'NON INVENTORY'];
+
     @computedFrom("data.Id")
     get isEdit() {
         return (this.data.Id || '').toString() != '';
