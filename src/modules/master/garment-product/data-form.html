@@ -7,13 +7,21 @@
           options.bind="formOptions"> 
 
           <au-dropdown
+            label="Type Item D365"
+            value.bind="data.ItemTypeD365"
+            error.bind="error.itemTypeD365"
+            read-only.bind="readOnly"
+            items.bind="ItemTypesD365"
+          ></au-dropdown> 
+
+          <au-dropdown
             label="Jenis Produk"
             value.bind="data.ProductType"
             error.bind="error.ProductType"
             read-only.bind="readOnly"
             items.bind="ProductTypes"
             change.delegate="ProductTypeChanged($event)"
-          ></au-dropdown>  
+          ></au-dropdown> 
           
           <au-dropdown
             label="Tipe Fabric"

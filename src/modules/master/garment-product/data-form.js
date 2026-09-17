@@ -8,7 +8,8 @@ export class DataForm {
     @bindable width;
     @bindable UOM;
 
-    ProductTypes = ['FABRIC', 'NON FABRIC']
+    ProductTypes = ['FABRIC', 'NON FABRIC'];
+    ItemTypesD365 = ['ITEMS', 'NON INVENTORY'];
 
     formOptions = {
         cancelText: "Kembali",
@@ -23,32 +24,27 @@ export class DataForm {
     }
 
     bind(context) {
-    this.context = context;
-    this.data = this.context.data;
-    
-    this.UOM = this.data.UOM;
-    // if (this.data && this.data.UOM)
-    //         this.data.UOM.toString = function () {
-    //             return this.unit;
-    //         };
-    this.error = this.context.error;
+        this.context = context;
+        this.data = this.context.data;
 
-    this.cancelCallback = this.context.cancelCallback;
-    this.deleteCallback = this.context.deleteCallback;
-    this.editCallback = this.context.editCallback;
-    this.saveCallback = this.context.saveCallback;
+        this.UOM = this.data.UOM;
+        this.error = this.context.error;
+
+        this.cancelCallback = this.context.cancelCallback;
+        this.deleteCallback = this.context.deleteCallback;
+        this.editCallback = this.context.editCallback;
+        this.saveCallback = this.context.saveCallback;
     }
-
 
     uomChanged(e) {
         var selectedUom = e.detail;
         if (selectedUom)
             this.data.UOM = selectedUom.Id;
     }
+
     ProductTypeChanged(e) {
         var selectedProductType = e.srcElement.value;
-        if(selectedProductType="FABRIC")
-            data.Name="FABRIC";
+        if (selectedProductType = "FABRIC")
+            data.Name = "FABRIC";
     }
-
 }

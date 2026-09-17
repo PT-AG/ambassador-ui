@@ -6,6 +6,14 @@
           with.bind="context"
           options.bind="formOptions"> 
 
+          <au-dropdown
+            label="Type Item D365"
+            value.bind="data.ItemTypeD365"
+            error.bind="error.itemTypeD365"
+            read-only.bind="readOnly"
+            items.bind="ItemTypesD365"
+          ></au-dropdown> 
+
           <au-textbox
             label="Kode"
             value.bind="data.Code"
@@ -56,9 +64,7 @@
           ></au-multiline>
 
           <au-checkbox label="Asset" value.bind="data.IsAsset" error.bind="error.IsAsset" read-only.bind="readOnly"></au-checkbox>
-
           <template replaceable part="actions"></template>
-
         </au-input-form>
       </div>
   </div>
