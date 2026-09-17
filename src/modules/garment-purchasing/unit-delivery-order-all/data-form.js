@@ -34,14 +34,138 @@ export class DataForm {
 
     typeUnitDeliveryOrderOptions = ['PROSES', 'TRANSFER', 'SAMPLE','SISA', 'SUBCON','TRANSFER SAMPLE'];
 
-    controlOptions = {
-        label: {
-            align: "left",
-            length: 4
-        },
-        control: {
-            length: 5,
-            align: "right"
+  unitDOFromOptions = ["CUTTING", "SEWING", "FINISHING"];
+
+  //itemToException = ["SUBCON", "WASH", "EMBROIDERY", "PROCCES"];
+
+  controlOptions = {
+    label: {
+      align: "left",
+      length: 4,
+    },
+    control: {
+      length: 5,
+      align: "right",
+    },
+  };
+
+  constructor(service, coreService, salesService, bindingEngine) {
+    this.service = service;
+    this.bindingEngine = bindingEngine;
+    this.coreService = coreService;
+    this.salesService = salesService;
+  }
+
+  bind(context) {
+    this.context = context;
+    this.data = this.context.data;
+    this.error = this.context.error;
+
+    this.options = {
+      readOnly: this.readOnly,
+      isEdit: this.isEdit,
+    };
+
+
+    if (this.data) {
+      if (this.data.Items) {
+        this.options.checkedAll = this.data.Items.filter(
+          (item) => item.IsDisabled === false
+        ).reduce((acc, curr) => acc && curr.IsSave, true);
+
+      }
+
+      this.isProses = this.data.UnitDOType === "PROSES";
+      this.isTransfer = this.data.UnitDOType === "TRANSFER";
+      this.isSample = this.data.UnitDOType === "SAMPLE";
+      this.isRemain = this.data.UnitDOType === "SISA";
+      this.isSubcon = this.data.UnitDOType === "SUBCON";
+      this.isSTransfer = this.data.UnitDOType === "TRANSFER SAMPLE";
+    }
+  }
+
+  @computedFrom("data.Id")
+  get isEdit() {
+    return (this.data.Id || "").toString() != "";
+  }
+
+  @computedFrom("data.UnitRequest")
+  get filterUnitRequest() {
+    var storageFilter = {};
+    if (this.data.UnitRequest) {
+      storageFilter.UnitId = this.data.UnitRequest.Id;
+    }
+
+    return storageFilter;
+  }
+
+  @computedFrom("data.UnitSender")
+  get filterUnit() {
+    var storageFilter = {};
+    if (this.data.UnitSender) {
+      storageFilter.UnitId = this.data.UnitSender.Id;
+    }
+
+    return storageFilter;
+  }
+
+  @computedFrom("data.UnitSender", "data.UnitDOType", "data.Storage")
+  get filterRONoByUnit() {
+    var rONoFilter = {};
+    if (this.data.UnitSender && this.data.Storage) {
+      rONoFilter.UnitId = this.data.UnitSender.Id;
+      rONoFilter.Type = this.data.UnitDOType;
+      rONoFilter.StorageId = this.data.Storage._id;
+    }
+    return rONoFilter;
+  }
+
+  @computedFrom(
+    "data.UnitSender",
+    "data.UnitDOType",
+    "data.RONo",
+    "data.Storage"
+  )
+  get filterRONoAddProductByUnit() {
+    var rONoFilter = {};
+    if (this.data.UnitSender && this.data.Storage) {
+      rONoFilter.UnitId = this.data.UnitSender.Id;
+      rONoFilter.Type = this.data.UnitDOType;
+      rONoFilter.RONo = this.data.RONo;
+      rONoFilter.StorageId = this.data.Storage._id;
+    }
+    return rONoFilter;
+  }
+
+  async unitDOTypeChanged(newValue) {
+    var selectedCategory = newValue;
+    if (selectedCategory) {
+      this.data.UnitDOType = selectedCategory;
+
+      this.isProses = this.data.UnitDOType === "PROSES";
+      this.isTransfer = this.data.UnitDOType === "TRANSFER";
+      this.isSample = this.data.UnitDOType === "SAMPLE";
+      this.isRemain = this.data.UnitDOType === "SISA";
+      this.isSubcon = this.data.UnitDOType === "SUBCON";
+      this.isSTransfer = this.data.UnitDOType === "TRANSFER SAMPLE";
+
+      this.unitRequest = null;
+      this.unitSender = null;
+      this.storage = null;
+      this.storageRequest = null;
+      this.RONo = null;
+      this.RONoHeader = null;
+      this.data.Article = null;
+
+      if (this.isSTransfer) {
+        if (!this.unitRequest) {
+          var units = await this.coreService.getSampleUnit({
+            size: 1,
+            keyword: "SMP1",
+            filter: JSON.stringify({ Code: "SMP1" }),
+          });
+          this.unitRequest = units.data[0];
+          this.data.UnitRequest = this.unitRequest;
         }
     }
 
@@ -481,13 +605,49 @@ export class DataForm {
         return UnitRequestLoader;
     }
 
-    get unitSenderLoader() {
-        return UnitSenderLoader;
-    }
+  items = {
+    columns: [
+      "Kode Barang",
+      "Nama Barang",
+      "Keterangan Barang",
+      "RO Asal",
+      "Jumlah DO Awal",
+      "Jumlah DO",
+      "Satuan",
+      "Tipe Fabric",
+      "Batch",
+      "No Package",
+      "Handling Unit",
+      "Rak",
+      "Box",
+      "Level",
+      "Area",
+      "Keterangan"
+    ],
+  };
 
-    roNoView = (rono) => {
-        return `${rono.RONo} - ${rono.ProductCode} - ${rono.ProductName} - ${rono.POSerialNumber}`;
-    }
+  itemsFabric = {
+    columns: [
+      "Kode Barang",
+      "Nama Barang",
+      "Keterangan Barang",
+      "RO Asal",
+      "Jumlah DO Awal",
+      "Jumlah DO",
+      "Satuan",
+      "Tipe Fabric",
+      "Warna",
+      "Lot",
+      "Batch",
+      "No Package",
+      "Handling Unit",
+      "Rak",
+      "Box",
+      "Level",
+      "Area",
+      "Keterangan"
+    ],
+  };
 
     unitRequestView = (unitRequest) => {
         return `${unitRequest.Code} - ${unitRequest.Name}`

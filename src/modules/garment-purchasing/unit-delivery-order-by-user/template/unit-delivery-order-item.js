@@ -1,6 +1,7 @@
 import { inject, BindingEngine, computedFrom } from 'aurelia-framework'
 import { Service } from "../service";
 var UomLoader = require('../../../../loader/uom-loader');
+import moment from "moment";
 @inject(BindingEngine,Service)
 export class UnitDeliveryOrderItem {
 
@@ -12,8 +13,8 @@ export class UnitDeliveryOrderItem {
     this.options = context.options;
 
     this.readOnly = this.options.readOnly || this.data.IsDisabled;
-    this.isEdit = context.context && context.context.options && context.context.options.isEdit;
-    this.isCreateByUser = Boolean(context.context && context.context.options && context.context.options.isCreateByUser);
+    this.isEdit = context.context.options.isEdit;
+    this.data.Batch=moment.parseZone(this.data.Batch).utcOffset(7).format("YYYY-MM-DD");
 
     // if( this.data.Id){
     //   var filter= JSON.stringify({RONo:this.data.RONo});

@@ -258,7 +258,7 @@ export class DataForm {
     }
 
     this.costCalculationGarment_MaterialsInfo.options.CCId = this.data.Id;
-    this.costCalculationGarment_MaterialsInfo.options.BuyerId = this.data.BuyerBrand ? this.data.BuyerBrand.Id : 0;
+    this.costCalculationGarment_MaterialsInfo.options.BuyerId = this.data.BuyerBrand.Id;
 
     
     if (this.data.Rate) {
