@@ -11,6 +11,7 @@ export class DataForm {
     @bindable Currency;
     @bindable UOM;
 
+    ItemTypesD365 = ['FIXED ASSET', 'ITEMS', 'NON INVENTORY'];
     formOptions = {
         cancelText: "Kembali",
         saveText: "Simpan",
@@ -40,7 +41,6 @@ export class DataForm {
     get isEdit() {
         return (this.data.Id || '').toString() != '';
     }
-
 
     bind(context) {
         this.context = context;
