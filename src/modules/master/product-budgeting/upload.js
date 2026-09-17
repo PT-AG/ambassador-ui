@@ -52,7 +52,7 @@ export class Create {
                         alert("Upload gagal!\n Ada beberapa data yang harus diperbaiki. Silahkan lihat Error Log untuk melihat detil dari error tersebut.");
                         this.list();
                     } else if (response.status == 404) {
-                        alert("Urutan format kolom CSV tidak sesuai.\n Format Kolom: Kode Barang, Nama Barang, Satuan, Mata Uang, Harga, Tags, Keterangan");
+                        alert("Urutan format kolom CSV tidak sesuai.\n Format Kolom: Kode Barang, Nama Barang, Satuan, Mata Uang, Harga, Tags, Keterangan, Item Type D365");
                     } else if (response.status == 201) {
                         alert("Data Berhasil Diupload");
                         this.list();
