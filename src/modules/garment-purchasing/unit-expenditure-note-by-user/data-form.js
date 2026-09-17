@@ -273,6 +273,11 @@ export class DataForm {
                     Items.Box = item.Box;
                     Items.Colour = item.Colour;
                     Items.Area = item.Area;
+                    
+                    Items.Lot = item.Lot;
+                    Items.Batch = item.Batch;
+                    Items.PackageNo = item.PackageNo;
+                    Items.HandlingUnit = item.HandlingUnit;
 
                     this.data.Items.push(Items);
                 }
@@ -304,7 +309,15 @@ export class DataForm {
             "Design / Color",
             "Jumlah Keluar",
             "Satuan",
-            "Tipe Fabric"],
+            "Tipe Fabric",
+            "Warna",
+            "Batch",
+            "No Package",
+            "Handling Unit",
+            "Rak",
+            "Box",
+            "Level",
+            "Area",],
     };
 
     itemsFabric = {
@@ -318,6 +331,10 @@ export class DataForm {
             "Satuan",
             "Tipe Fabric",
             "Warna",
+            "Lot",
+            "Batch",
+            "No Package",
+            "Handling Unit",
             "Rak",
             "Box",
             "Level",

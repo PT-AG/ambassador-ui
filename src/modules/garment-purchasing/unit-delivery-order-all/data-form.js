@@ -81,37 +81,6 @@ export class DataForm {
       isEdit: this.isEdit,
     };
 
-    if (this.readOnly || this.isEdit) {
-      // this.RONo = this.data.RONo;
-      this.items.columns = [
-        "Kode Barang",
-        "Nama Barang",
-        "Keterangan Barang",
-        "RO Asal",
-        "Jumlah DO Awal",
-        "Jumlah DO",
-        "Satuan",
-        "Tipe Fabric",
-        "Keterangan",
-      ];
-
-      this.itemsFabric.columns = [
-        "Kode Barang",
-        "Nama Barang",
-        "Keterangan Barang",
-        "RO Asal",
-        "Jumlah DO Awal",
-        "Jumlah DO",
-        "Satuan",
-        "Tipe Fabric",
-        "Warna",
-        "Rak",
-        "Box",
-        "Level",
-        "Area",
-        "Keterangan",
-      ];
-    }
 
     if (this.data) {
       if (this.data.Items) {
@@ -948,8 +917,16 @@ export class DataForm {
       "Keterangan Barang",
       "RO Asal",
       "Jumlah DO Awal",
+      "Jumlah DO",
       "Satuan",
       "Tipe Fabric",
+      "Batch",
+      "No Package",
+      "Handling Unit",
+      "Rak",
+      "Box",
+      "Level",
+      "Area",
       "Keterangan"
     ],
   };
@@ -961,9 +938,14 @@ export class DataForm {
       "Keterangan Barang",
       "RO Asal",
       "Jumlah DO Awal",
+      "Jumlah DO",
       "Satuan",
       "Tipe Fabric",
       "Warna",
+      "Lot",
+      "Batch",
+      "No Package",
+      "Handling Unit",
       "Rak",
       "Box",
       "Level",

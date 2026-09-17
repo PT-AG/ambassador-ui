@@ -7,6 +7,7 @@ var UomLoader = require('../../../../loader/uom-loader');
 @inject(Service)
 export class Item {
     @bindable selectedDL;
+    @bindable dataUom;
 
     constructor(service) {
         this.service = service;
@@ -98,6 +99,17 @@ export class Item {
 
         if (this.error) {
             this.error.HandlingUnit = null;
+        }
+    }
+
+    
+    dataUomChanged(newValue, oldValue) {
+        if (newValue) {
+            this.data.HandlingUnit = newValue.Unit;
+            this.data.HandlingUnitId = newValue.Id;
+        } else {
+            this.data.HandlingUnit = null;
+            this.data.HandlingUnitId = null;
         }
     }
 }

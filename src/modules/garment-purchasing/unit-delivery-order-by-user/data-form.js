@@ -92,6 +92,14 @@ export class DataForm {
         "Jumlah DO",
         "Satuan",
         "Tipe Fabric",
+        "Warna",
+        "Batch",
+        "No Package",
+        "Handling Unit",
+        "Rak",
+        "Box",
+        "Level",
+        "Area",
         "Keterangan",
       ];
 
@@ -105,6 +113,10 @@ export class DataForm {
         "Satuan",
         "Tipe Fabric",
         "Warna",
+        "Lot",
+        "Batch",
+        "No Package",
+        "Handling Unit",
         "Rak",
         "Box",
         "Level",
@@ -483,6 +495,11 @@ export class DataForm {
                 Items.Colour = item.Colour;
                 Items.Area = item.Area;
                 Items.Remark= item.Remark;
+                
+                Items.Lot = item.Lot;
+                Items.Batch = item.Batch;
+                Items.PackageNo = item.PackageNo;
+                Items.HandlingUnit = item.HandlingUnit;
                 //if (!this.itemToException.includes(Items.ProductName)) {
                   this.dataItems.push(Items);
                 //}
@@ -564,6 +581,11 @@ export class DataForm {
                 Items.Area = item.Area;
                 Items.Remark= item.Remark;
 
+                Items.Lot = item.Lot;
+                Items.Batch = item.Batch;
+                Items.PackageNo = item.PackageNo;
+                Items.HandlingUnit = item.HandlingUnit;
+
                 //if (!this.itemToException.includes(Items.ProductName)) {
                   this.dataItems.push(Items);
                 //}
@@ -631,6 +653,11 @@ export class DataForm {
                     Items.Remark= ccData.Description;
                     Items.CCMaterialId=ccData.Id;
 
+                    Items.Lot = doitem.Lot;
+                    Items.Batch = doitem.Batch;
+                    Items.PackageNo = doitem.PackageNo;
+                    Items.HandlingUnit = doitem.HandlingUnit;
+
                     this.dataItems.push(Items);
                   }
                 })
@@ -684,6 +711,11 @@ export class DataForm {
                 Items.Colour = item.Colour;
                 Items.Area = item.Area;
                 Items.Remark= item.Remark;
+                
+                Items.Lot = item.Lot;
+                Items.Batch = item.Batch;
+                Items.PackageNo = item.PackageNo;
+                Items.HandlingUnit = item.HandlingUnit;
 
                 this.dataItems.push(Items);
               }
@@ -889,6 +921,11 @@ export class DataForm {
             this.newProduct.Colour = selectedROHeader.Colour;
             this.newProduct.Area = selectedROHeader.Area;
             this.newProduct.Remark= selectedROHeader.Remark;
+            
+            this.newProduct.Lot = selectedROHeader.Lot;
+            this.newProduct.Batch = selectedROHeader.Batch;
+            this.newProduct.PackageNo = selectedROHeader.PackageNo;
+            this.newProduct.HandlingUnit = selectedROHeader.HandlingUnit;
           // } else {
           //   this.newProduct.IsDisabled = true;
           // }
@@ -950,6 +987,13 @@ export class DataForm {
       "Jumlah DO Awal",
       "Satuan",
       "Tipe Fabric",
+      "Batch",
+      "No Package",
+      "Handling Unit",
+      "Rak",
+      "Box",
+      "Level",
+      "Area",
       "Keterangan"
     ],
   };
@@ -964,6 +1008,10 @@ export class DataForm {
       "Satuan",
       "Tipe Fabric",
       "Warna",
+      "Lot",
+      "Batch",
+      "No Package",
+      "Handling Unit",
       "Rak",
       "Box",
       "Level",
