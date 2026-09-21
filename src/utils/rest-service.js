@@ -67,8 +67,13 @@ export class RestService {
     return promise
       .catch(e => {
         return e.json().then(result => {
+          if (typeof result === 'string')
+            return Promise.resolve({ error: result });
+
           if (result.error)
             return Promise.resolve(result);
+
+          return Promise.resolve(result);
         });
       })
       .then(result => {
@@ -86,8 +91,13 @@ export class RestService {
     return promise
       .catch(e => {
         return e.json().then(result => {
+          if (typeof result === 'string')
+            return Promise.resolve({ error: result });
+
           if (result.error)
             return Promise.resolve(result);
+
+          return Promise.resolve(result);
         });
       })
       .then(result => {
@@ -105,8 +115,13 @@ export class RestService {
     return promise
       .catch(e => {
         return e.json().then(result => {
+          if (typeof result === 'string')
+            return Promise.resolve({ error: result });
+
           if (result.error)
             return Promise.resolve(result);
+
+          return Promise.resolve(result);
         });
       })
       .then(result => {
@@ -124,8 +139,13 @@ export class RestService {
     return promise
       .catch(e => {
         return e.json().then(result => {
+          if (typeof result === 'string')
+            return Promise.resolve({ error: result });
+
           if (result.error)
             return Promise.resolve(result);
+
+          return Promise.resolve(result);
         });
       })
       .then(result => {
