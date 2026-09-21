@@ -2,7 +2,7 @@
     <tr>
         <td>
             <au-checkbox
-                checked.bind="data.isSave"
+                value.bind="data.isSave"
                 disabled.bind="isEdit || readOnly"
                 change.delegate="selectedInvoiceChanged($event)">
             </au-checkbox>

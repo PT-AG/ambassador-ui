@@ -45,12 +45,6 @@ export class Create {
             if (item.price == "") { item.price = 0; }
         }
 
-        if (!this.data.shippingStaffId) {
-            const selectedShippingStaff = this.data.shippingStaff;
-            this.data.shippingStaffId = selectedShippingStaff.Id || selectedShippingStaff.id;
-            this.data.shippingStaff = selectedShippingStaff.Name || selectedShippingStaff.name;
-        }
-
         // if (this.data.isPartial) {
         //     this.data.itemsByPackingInvoice;
         // }
@@ -61,13 +55,12 @@ export class Create {
                 this.router.navigateToRoute('create', {}, { replace: true, trigger: true });
             })
             .catch(error => {
-                alert("Data gagal dibuat");    
-                this.data.shippingStaff = {
-                    id: this.data.shippingStaffId || this.data.shippingStaff.Id,
-                    name: this.data.shippingStaff || this.data.shippingStaff.Name
-                }
-
                 this.error = error;
+                if (typeof (this.error) == "string") {
+                    alert(this.error);
+                } else {
+                    alert("Data gagal dibuat");
+                }
             });
     }
 

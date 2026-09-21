@@ -37,10 +37,10 @@ export class GarmentShippingPartialInvoiceItem {
         this.options = this.context.context.options;
         this.header = this.options.header;
 
-        this.isShowing = false;
-        // this.isSave = this.data.isSave;
-        // this.isSelected = this.data.isSelected;
+        if (this.data.id || this.data.Id) 
+            this.data.isSave = true;
 
+        this.isShowing = false;
         this.readOnly = this.options.isView;
         this.readOnlyDesc1 = this.options.isAdd;
         this.isEdit = this.options.isEdit;
@@ -56,32 +56,7 @@ export class GarmentShippingPartialInvoiceItem {
         this.isShowing = !this.isShowing;
     }
 
-    // setPackingListAndInvoiceNo() {
-    //     if (this.data && this.data.packingListId) {
-    //         this.header.packingListId = this.data.packingListId;
-    //         this.header.packingListType = this.data.packingListType;
-    //         this.header.invoiceDate = this.data.date;
-
-    //         if (this.data.packingInvoiceNo) {
-    //             var invoiceType = this.data.packingInvoiceNo.trim().split('-');
-    //             if (!invoiceType[0].includes('AG')) {
-    //                 this.header.invoiceNo = invoiceType[0].includes('DS') ? 
-    //                     invoiceType[0] + '-' + invoiceType[1] :
-    //                     invoiceType[0] + '-' + invoiceType[1] + '-' + invoiceType[2];
-    //             } else {
-    //                 this.header.invoiceNo = invoiceType[0];
-    //             }
-    //         }
-    //     }
-    // }
-
     selectedInvoiceChanged(e) {
         this.data.isSave = e.target.checked;
-        // if (!this.data.isSave && this.header.packingListId === this.data.packingListId) {
-        //     this.header.packingListId = 0;
-        //     this.header.invoiceNo = null;
-        //     this.header.packingListType = null;
-        //     this.header.invoiceDate = new Date();
-        // }
     }
 }

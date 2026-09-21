@@ -14,10 +14,6 @@
         </div>
 
         <div class="col-md-4">
-            <!-- <au-checkbox label="Parsial?" value.bind="partial" read-only.bind="readOnly" options.bind="controlOptions"
-                change.delegate="changeCheckBox()" if.bind="!readOnly && !isEdit">>
-            </au-checkbox> -->
-
             <au-textbox if.bind="data.invoiceNo" label="InvoiceNo" value.bind="data.invoiceNo" error.bind="error.InvoiceNo" read-only.bind="true"
                 options.bind="length4">
             </au-textbox>
@@ -36,10 +32,8 @@
                 placeholder="Cari Seksi" options.bind="length4" view-model.ref="sectionViewModel">
             </au-autocomplete>
 
-            <au-autocomplete label="Shipping Staff" value.bind="shippingStaff"
-                error.bind="error.ShippingStaff" read-only.bind="readOnly || data.id" loader.bind="shippingStaffLoader"
-                text.bind="shippingStaffView" placeholder="Cari Shipping Staff" options.bind="length4"
-                view-model.ref="shippingStaffViewModel">
+            <au-autocomplete if.bind="partial" label="Shipping Staff" value.bind="shippingStaff" read-only.bind="true"
+                text.bind="shippingStaffView" options.bind="length4" view-model.ref="shippingStaffViewModel">
             </au-autocomplete>
 
             <au-textbox label="Jenis Packing List" value.bind="data.packingListType" error.bind="error.PackingListType"
