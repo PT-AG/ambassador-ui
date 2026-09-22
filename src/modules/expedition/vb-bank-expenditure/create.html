@@ -1,0 +1,45 @@
+<template>
+    <au-input-form
+        title="Buat Pengeluaran Bank VB"
+        options.bind="formOptions">
+    <div class="row">
+        <au-autocomplete 
+            label="Bank"
+            placeholder="pilih bank"
+            value.bind="selectedBank"
+            error.bind="error.Bank"
+            loader.one-time="bankLoader"
+            text.bind="bankView"
+            read-only.bind="readOnly"
+            options.bind="controlOptions">
+        </au-autocomplete>
+
+        <au-textbox 
+            label="No. Rekening"
+            value.bind="selectedBank.AccountNumber"
+            read-only.bind="true"
+            options.bind="controlOptions"
+            show.bind="selectedBank">
+        </au-textbox>
+
+        <au-textbox 
+            label="Mata Uang"
+            value.bind="selectedBank.Currency.Code"
+            read-only.bind="true"
+            options.bind="controlOptions"
+            show.bind="selectedBank">
+        </au-textbox>
+    </div>
+
+    <au-table
+        view-model.ref="documentTable"
+        data.bind="loader"
+        columns.bind="columns2"
+        sortable.bind="true"
+        selections.bind="selectedItems"
+        page-size="25"
+        context.bind="context">
+    </au-table>
+    <br />
+  </au-input-form>
+</template>
