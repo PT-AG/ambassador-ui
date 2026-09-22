@@ -281,31 +281,37 @@ export class Create {
           });
       } else if (this.activeRole.positionAutocomplete == 4) {
         // console.log("to cashier");
-        this.dialog
-          .show(CreateView)
-          .then((response) => {
-            const args = {
-              ListIds: this.selectedItems.map((d) => {
-                // console.log(d);
-                return {
-                  VBRequestId: d.VBId,
-                  VBRealizationId: d.VBRealizationId,
-                };
-              }),
-              Bank: response.output.Bank,
+        // this.dialog
+        //   .show(CreateView)
+        //   .then((response) => {
+        //     const args = {
+        //       ListIds: this.selectedItems.map((d) => {
+        //         // console.log(d);
+        //         return {
+        //           VBRequestId: d.VBId,
+        //           VBRealizationId: d.VBRealizationId,
+        //         };
+        //       }),
+        //       Bank: response.output.Bank,
+        //     };
+        const args = {
+          ListIds: this.selectedItems.map((d) => {
+            // console.log(d);
+            return {
+              VBRequestId: d.VBId,
+              VBRealizationId: d.VBRealizationId,
             };
+          }),
+          //Bank: "Bank Default", // Replace with actual bank information if needed
+        };
+        this.service
+          .post(args)
+          .then(() => {
             this.service
-              .post(args)
+              .acceptForCashier({ VBRealizationIds: vbIds })
               .then(() => {
-                this.service
-                  .acceptForCashier({ VBRealizationIds: vbIds })
-                  .then(() => {
-                    alert("Data berhasil dibuat");
-                    this.documentTable.refresh();
-                  })
-                  .catch((e) => {
-                    this.error = e;
-                  });
+                alert("Data berhasil dibuat");
+                this.documentTable.refresh();
               })
               .catch((e) => {
                 this.error = e;
