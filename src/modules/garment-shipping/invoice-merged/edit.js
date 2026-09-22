@@ -48,11 +48,7 @@ export class Edit {
     this.service
       .update(this.data)
       .then((result) => {
-        if (result.statusCode == 200 || result.statusCode == 201) {
-          this.cancel();
-        } else {
-          this.error = result.error;
-        }
+        this.cancel();
       })
       .catch((e) => {
         this.error = e;

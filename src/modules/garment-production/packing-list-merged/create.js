@@ -41,7 +41,7 @@ export class Create {
                 
         this.service.create(this.data)
             .then(result => {
-                alert("Data berhasil dibuat, No Invoice: " + result);
+                alert("Data berhasil dibuat, No Packing List: " + result);
                 this.router.navigateToRoute('create', {}, { replace: true, trigger: true });
             })
             .catch(error => {

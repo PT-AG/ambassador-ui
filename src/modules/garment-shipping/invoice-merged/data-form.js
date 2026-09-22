@@ -124,6 +124,19 @@ export class DataForm {
             this.data.coDate = moment(this.data.coDate).format("DD-MMM-YYYY") == "01-Jan-0001" ? null : this.data.coDate;
             this.data.pebDate = moment(this.data.pebDate).format("DD-MMM-YYYY") == "01-Jan-0001" ? null : this.data.pebDate;
             this.data.cotpDate = moment(this.data.cotpDate).format("DD-MMM-YYYY") == "01-Jan-0001" ? null : this.data.cotpDate;
+        } else {
+            this.coreService.getShippingStaff(this.username)
+                .then(result => {
+                    if (result && result.length > 0) {
+                        const staff = result[0];
+                        const staffId = staff.Id || staff.id;
+                        const staffName = staff.Name || staff.name
+
+                        this.shippingStaff = { id : staffId, name : staffName };
+                        this.data.shippingStaffId = staffId
+                        this.data.shippingStaff = staffName
+                    }
+                });
         }
     };
 
@@ -214,48 +227,11 @@ export class DataForm {
 
         this.data.items = [];
         this.data.itemsByPackingInvoice = [];
-
         this.data.invoiceType = this.invoiceType;
 
         this.loadPackingList();
     }
     
-    async shippingStaffChanged(newValue, oldValue) {
-        if (this.data.id) return;
-
-        if (!newValue) {
-            this.data.shippingStaff = null;
-            this.shippingStaff = null;
-        } else {
-            // Cegah loop: hanya update jika value benar-benar berbeda
-            const id = newValue.Id || newValue.id;
-            const name = newValue.Name || newValue.name;
-
-            if (
-                this.shippingStaff &&
-                this.shippingStaff.id === id &&
-                this.shippingStaff.name === name
-            ) {
-                return; // Sudah sama, tidak perlu update
-            }
-
-            if (newValue != this.data.shippingStaff) {
-                if (this.data.items && this.data.items.length > 0) {
-                    this.data.items.splice(0);
-                }
-                
-                if (this.data.itemsByPackingInvoice && this.data.itemsByPackingInvoice.length > 0) {
-                    this.data.itemsByPackingInvoice.splice(0);
-                }
-
-                this.shippingStaff = { id, name };
-                this.data.shippingStaff = this.shippingStaff;
-            }
-
-            this.loadPackingList();
-        }
-    };
-
     async sectionChanged(newValue, oldValue) {
         if (this.data.id) return;
 
@@ -374,9 +350,9 @@ export class DataForm {
     async loadPackingList() {
         if (this.data.id) return;
 
-        if (this.data.invoiceType != null && (this.data.buyerAgent.id || this.data.buyerAgent.Id) && (this.data.section.id || this.data.section.Id) && (this.data.shippingStaff.name || this.data.shippingStaff.Name)) {
+        if (this.data.invoiceType != null && (this.data.buyerAgent.id || this.data.buyerAgent.Id) && (this.data.section.id || this.data.section.Id)) {
             var filter = {
-                ShippingStaffName: this.data.shippingStaff.name || this.data.shippingStaff.Name,
+                ShippingStaffName: this.data.shippingStaff || "",
                 'status=="CREATED" || status=="APPROVED_SHIPPING"': true,
                 BuyerAgentId: this.data.buyerAgent.id || this.data.buyerAgent.Id,
                 SectionId: this.data.section.id || this.data.section.Id,
