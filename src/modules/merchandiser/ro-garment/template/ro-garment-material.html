@@ -2,7 +2,9 @@
     <tr if.bind="data.Category.name === 'FABRIC'">
         <td class="col-sm-1">
             <au-textbox value.bind="data.PO_SerialNumber" options.bind="controlOptions"
-                read-only.bind="disabled"></au-textbox>
+                read-only.bind="disabled" show.bind="!data.IsPRMaster"></au-textbox>
+            <au-textbox value.bind="data.POMaster" options.bind="controlOptions"
+                read-only.bind="disabled" show.bind="data.IsPRMaster"></au-textbox>
         </td>
         <td class="col-sm-1">
             <au-textbox value.bind="data.Product.Code" options.bind="controlOptions"
@@ -43,7 +45,9 @@
     <tr else>
         <td class="col-sm-1">
             <au-textbox value.bind="data.PO_SerialNumber" options.bind="controlOptions"
-                read-only.bind="disabled"></au-textbox>
+                read-only.bind="disabled" show.bind="!data.IsPRMaster"></au-textbox>
+            <au-textbox value.bind="data.POMaster" options.bind="controlOptions"
+                read-only.bind="disabled" show.bind="data.IsPRMaster"></au-textbox>
         </td>
         <td class="col-sm-2">
             <au-textbox value.bind="data.Category.name" options.bind="controlOptions"
