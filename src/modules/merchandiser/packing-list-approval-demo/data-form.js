@@ -20,18 +20,6 @@ export class DataForm {
     activeTab = 0;
     changeRole(tab) {
         this.activeTab = tab;
-        // if (tab != 2) {
-        //     this.context.saveCallback=null;
-        //     this.context.cancelCallback=null;
-        //     this.context.deleteCallback=null;
-        //     this.context.editCallback=null;
-        // }
-        // else{
-        //     this.context.saveCallback=this.save;
-        //     this.context.cancelCallback=this.cancel;
-        //     this.context.deleteCallback=this.delete;
-        //     this.context.editCallback=this.edit;
-        // }
     }
 
     controlOptions = {
@@ -67,7 +55,6 @@ export class DataForm {
         { header: "Mata Uang" },
         { header: "Amount" },
         { header: "Unit" },
-        // { header: "" },
     ]
 
     viewItemsColumns = [
@@ -123,7 +110,8 @@ export class DataForm {
             if (Math.floor(tempNumber / (100 * Math.pow(1000, i))) !== 0)
                 word = first[Math.floor(tempNumber / (100 * Math.pow(1000, i)))] + 'hundred ' + word;
         }
-        this.say= word.toUpperCase();
+
+        this.say = word.toUpperCase();
     }
 
     shippingStaffView = (data) => {
@@ -146,57 +134,51 @@ export class DataForm {
             checkedAll: this.context.isCreate == true ? false : true,
             header: this.data
         }
+
         this.isEdit = this.context.isEdit;
 
         this.data.items = this.Items;
         if (this.isEdit) {
-            // var ROs=this.data.items.map(item => item.roNo)
-            //     .filter((value, index, self) => self.indexOf(value) === index);
-            // console.log(ROs);
             let itemPromises = this.data.items.map((item) => {
                 if (item.roNo.indexOf("M") != -1 || item.roNo.indexOf("S") != -1) {
-                   
+
                 } else {
                     return this.salesService.getCostCalculationByRO(item.roNo)
-                    .then((ccg) => {
-                        if (ccg) {
-                            var isFabricCM = false;
+                        .then((ccg) => {
+                            if (ccg) {
+                                var isFabricCM = false;
 
-                            for (var material of ccg.CostCalculationGarment_Materials) {
-                                if (material.isFabricCM) {
-                                    isFabricCM = true;
-                                    break;
+                                for (var material of ccg.CostCalculationGarment_Materials) {
+                                    if (material.isFabricCM) {
+                                        isFabricCM = true;
+                                        break;
+                                    }
                                 }
-                            }
-                            var fob = 0;
-                            ccg.CostCalculationGarment_Materials.map((material)=>{
-                                if (material.isFabricCM) {
-                                    fob += parseFloat((material.CM_Price * 1.05 / ccg.Rate.Value).toFixed(2));
-                                }
-                            })
-                            // for (var material of ccg.CostCalculationGarment_Materials) {
+
+                                var fob = 0;
+                                ccg.CostCalculationGarment_Materials.map((material) => {
+                                    if (material.isFabricCM) {
+                                        fob += parseFloat((material.CM_Price * 1.05 / ccg.Rate.Value).toFixed(2));
+                                    }
+                                })
                                 
-                            // }
-                            if (item.priceFOB == 0 && item.priceCMT == 0) {
-                                if (isFabricCM) {
-                                    item.priceCMT = parseFloat(ccg.ConfirmPrice.toFixed(2));
-                                    item.priceFOB = parseFloat((ccg.ConfirmPrice + fob).toFixed(2));
+                                if (item.priceFOB == 0 && item.priceCMT == 0) {
+                                    if (isFabricCM) {
+                                        item.priceCMT = parseFloat(ccg.ConfirmPrice.toFixed(2));
+                                        item.priceFOB = parseFloat((ccg.ConfirmPrice + fob).toFixed(2));
+                                    } else {
+                                        item.priceCMT = 0;
+                                        item.priceFOB = parseFloat(ccg.ConfirmPrice.toFixed(2));
+                                    }
                                 }
-                                else {
-                                    item.priceCMT = 0;
-                                    item.priceFOB = parseFloat(ccg.ConfirmPrice.toFixed(2));
-                                }
+                                return Promise.resolve(item);
+                            } else {
+                                return Promise.resolve(item);
                             }
- 
-                            return Promise.resolve(item);
-                        }
-                        else {
-                            return Promise.resolve(item);
-                        }
-                    })
+                        })
                 }
             });
-            
+
             let items = await Promise.all(itemPromises);
             this.data.items = items;
         }
@@ -205,27 +187,27 @@ export class DataForm {
         this.shippingMarkImageSrc = this.data.shippingMarkImageFile || this.noImage;
         this.sideMarkImageSrc = this.data.sideMarkImageFile || this.noImage;
         this.remarkImageSrc = this.data.remarkImageFile || this.noImage;
-       
+
         this.data.documentsFile = this.data.documentsFile || [];
         this.data.documentsFileName = this.data.documentsFileName || [];
         this.documentsPathTemp = [].concat(this.data.documentsPath);
 
-        this.totalCBM="";
+        this.totalCBM = "";
         var total = 0;
         if (this.data.measurements) {
-            this.data.measurements.map((m)=>{
+            this.data.measurements.map((m) => {
                 if (m.length && m.width && m.height && m.cartonsQuantity) {
                     total += (m.length * m.width * m.height * m.cartonsQuantity / 1000000);
                 }
             })
-            this.totalCBM=total.toLocaleString('en-EN', { minimumFractionDigits: 3, maximumFractionDigits: 3 });
+            this.totalCBM = total.toLocaleString('en-EN', { minimumFractionDigits: 3, maximumFractionDigits: 3 });
         }
 
         this.terbilang(this.data.totalCartons);
         this.totalQty();
-        this.data.items.map((item)=>{
+        this.data.items.map((item) => {
             this.sumSubTotal(item);
-          });
+        });
     }
 
     sumSubTotal(item) {
@@ -233,96 +215,48 @@ export class DataForm {
         item.subNetWeight = 0;
         item.subNetNetWeight = 0;
         const newDetails = item.details.map(d => {
-          return {
-            carton1: d.carton1,
-            carton2: d.carton2,
-            cartonQuantity: d.cartonQuantity,
-            grossWeight: d.grossWeight,
-            netWeight: d.netWeight,
-            netNetWeight: d.netNetWeight
-          };
+            return {
+                carton1: d.carton1,
+                carton2: d.carton2,
+                cartonQuantity: d.cartonQuantity,
+                grossWeight: d.grossWeight,
+                netWeight: d.netWeight,
+                netNetWeight: d.netNetWeight
+            };
         }).filter((value, index, self) => self.findIndex(f => value.carton1 == f.carton1 && value.carton2 == f.carton2) === index);
+
         for (const detail of newDetails) {
-          const cartonExist = false;
-          const indexItem = this.data.items.indexOf(item);
-          if (indexItem > 0) {
-            for (let i = 0; i < indexItem; i++) {
-              const item = this.data.items[i];
-              for (const prevDetail of item.details) {
-                if (detail.carton1 == prevDetail.carton1 && detail.carton2 == prevDetail.carton2) {
-                  cartonExist = true;
-                  break;
+            const cartonExist = false;
+            const indexItem = this.data.items.indexOf(item);
+            if (indexItem > 0) {
+                for (let i = 0; i < indexItem; i++) {
+                    const item = this.data.items[i];
+                    for (const prevDetail of item.details) {
+                        if (detail.carton1 == prevDetail.carton1 && detail.carton2 == prevDetail.carton2) {
+                            cartonExist = true;
+                            break;
+                        }
+                    }
                 }
-              }
             }
-          }
-          if (!cartonExist) {
+
+            if (!cartonExist) {
                 item.subGrossWeight += detail.grossWeight * detail.cartonQuantity;
                 item.subNetWeight += detail.netWeight * detail.cartonQuantity;
                 item.subNetNetWeight += detail.netNetWeight * detail.cartonQuantity;
-          }
+            }
         }
-      }
-    // get totalCBM() {
-    //     var total = 0;
-    //     if (this.data.measurements) {
-    //         this.data.measurements.map((m)=>{
-    //             if (m.length && m.width && m.height && m.cartonsQuantity) {
-    //                 total += (m.length * m.width * m.height * m.cartonsQuantity / 1000000);
-    //             }
-    //         })
-    //     }
-    //     return total.toLocaleString('en-EN', { minimumFractionDigits: 3, maximumFractionDigits: 3 });
-    // }
-
-    // get totalCartons() {
-    //     let result = 0;
-    //     if (this.data.items) {
-    //         for (var item of this.data.items) {
-    //             if (item.details) {
-    //                 const newDetails = item.details.map(d => {
-    //                     return {
-    //                         carton1: d.carton1,
-    //                         carton2: d.carton2,
-    //                         cartonQuantity: d.cartonQuantity,
-    //                         index: d.index
-    //                     };
-    //                 }).filter((value, i, self) => self.findIndex(f => value.carton1 == f.carton1 && value.carton2 == f.carton2 && value.index == f.index) === i);
-                    
-    //                 for (var detail of newDetails) {
-    //                     const cartonExist = false;
-    //                     const indexItem = this.data.items.indexOf(item);
-    //                     if (indexItem > 0) {
-    //                         for (let i = 0; i < indexItem; i++) {
-    //                             const item = this.data.items[i];
-    //                             for (const prevDetail of item.details) {
-    //                                 if (detail.carton1 == prevDetail.carton1 && detail.carton2 == prevDetail.carton2 && detail.index == prevDetail.index) {
-    //                                     cartonExist = true;
-    //                                     break;
-    //                                 }
-    //                             }
-    //                         }
-    //                     }
-    //                     if (!cartonExist) {
-    //                         result += detail.cartonQuantity;
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //         this.data.totalCartons = result;
-    //         return this.data.totalCartons;
-    //     }
-    // }
+    }
+    
     downloadDocument(index) {
-      // this.service.getFile((this.documentsPathTemp[index] || '').replace('/sales/', ''), this.data.DocumentsFileName[index]);
-      const linkSource = this.data.documentsFile[index];
-      const downloadLink = document.createElement("a");
-      const fileName = this.data.documentsFileName[index];
-  
-      downloadLink.href = linkSource;
-      downloadLink.download = fileName;
-      downloadLink.click();
-  }
+        const linkSource = this.data.documentsFile[index];
+        const downloadLink = document.createElement("a");
+        const fileName = this.data.documentsFileName[index];
+
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+    }
 
     totalQty() {
         let quantities = [];
@@ -335,16 +269,16 @@ export class DataForm {
                 if (item.uom) {
                     unit = item.uom.unit || item.uom.Unit;
                 }
-                // if (item.quantity && quantities.findIndex(c => c.roNo == item.roNo && c.unit == unit) < 0) {
+
                 quantities.push({ no: no, roNo: item.roNo, unit: unit, quantityTotal: item.quantity });
                 if (units.findIndex(u => u.unit == unit) < 0) {
                     units.push({ unit: unit });
-                    // }
                 }
+
                 no++;
             }
         }
-        
+
         for (var u of units) {
             let countableQuantities = 0;
             for (var q of quantities) {
@@ -352,9 +286,14 @@ export class DataForm {
                     countableQuantities += q.quantityTotal;
                 }
             }
+
             result.push(countableQuantities + " " + u.unit);
         }
-        this.totalQuantities= result.join(" / ");
 
+        this.totalQuantities = result.join(" / ");
     }
+
+    get isPackinglistType() {
+        return this.data.packingListType && this.data.packingListType.includes("EXPORT");
+    };
 }
