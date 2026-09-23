@@ -41,14 +41,14 @@ export class View {
         }
 
         switch (this.data.status) {
-            case "MERGED":
+            case "DRAFT_SHIPPING":
                 if (!this.data.items || this.data.items.length <= 0 || !this.data.documentsFile || this.data.documentsFile.length <= 0)
                     this.saveCallback = null
                 break;
             case "POSTED":
             case "APPROVED_MD":
-                this.saveCallback = null;
-                break;
+                // this.saveCallback = null;
+                // break;
             case "CANCELED":
             case "APPROVED_SHIPPING":
                 this.deleteCallback = null;
@@ -64,7 +64,7 @@ export class View {
         }
 
         switch (this.data.status) {
-            case "MERGED":
+            case "DRAFT_SHIPPING":
                 this.formOptions.saveText = "Post Packing List";
                 break;
             case "POSTED":
@@ -129,7 +129,7 @@ export class View {
 
         if (confirm(this.formOptions.saveText + "?")) {
             switch (this.data.status) {
-                case "MERGED":
+                case "DRAFT_SHIPPING":
                     this.service.postPackingList(this.data.id)
                         .then(result => {
                             this.cancelCallback();

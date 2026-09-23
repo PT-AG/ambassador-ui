@@ -44,7 +44,7 @@ export class List {
             keyword: info.search,
             order: order,
             filter: JSON.stringify({ 
-              "(Status != \"CREATED\" and Status != \"DRAFT_SHIPPING\" and Status != \"DRAFT\" and Status != \"DRAFT_POSTED\" and Status != \"DRAFT_APPROVED_MD\" and Status != \"DRAFT_REJECTED_MD\" and Status != \"DRAFT_APPROVED_SHIPPING\" and Status != \"DRAFT_REJECTED_SHIPPING\" and Status != \"DRAFT_CANCELED\" and Status != \"DELIVERED\")": true,
+              "(Status != \"CREATED\" and Status != \"MERGED\" and Status != \"DRAFT\" and Status != \"DRAFT_POSTED\" and Status != \"DRAFT_APPROVED_MD\" and Status != \"DRAFT_REJECTED_MD\" and Status != \"DRAFT_APPROVED_SHIPPING\" and Status != \"DRAFT_REJECTED_SHIPPING\" and Status != \"DRAFT_CANCELED\" and Status != \"DELIVERED\")": true,
               "(IsFile != \"false\")": true
             })
         }
