@@ -1006,6 +1006,33 @@ module.exports = [
       iconClass: "fa fa-dashboard",
     },
   },
+  // {
+  //   route: "master/garment-shipping-staff",
+  //   name: "garment-shipping-staff",
+  //   moduleId: "modules/master/garment-shipping-staff/index",
+  //   nav: true,
+  //   title: "Staff Shipping",
+  //   auth: true,
+  //   settings: {
+  //     group: "master",
+  //     // permission: { "C9": 1, "SG": 1 },
+  //     permission: { "P1": 1 },
+  //     iconClass: "fa fa-dashboard"
+  //   }
+  // },
+  {
+    route: "master/garment-md-staff",
+    name: "garment-md-staff",
+    moduleId: "modules/master/garment-md-staff/index",
+    nav: true,
+    title: "Staff MD",
+    auth: true,
+    settings: {
+      group: "master",
+      permission: { "B45": 1 },
+      iconClass: "fa fa-dashboard"
+    }
+  },
   {
     route: "purchasing-section",
     name: "purchasing-section",
