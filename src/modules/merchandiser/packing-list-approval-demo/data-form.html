@@ -107,7 +107,7 @@
                         options.bind="controlOptions">
                     </au-multiline>
                 </div>
-                <div class="col-sm-6" show.bind="isEdit && isPackinglistType">
+                <div class="col-sm-6" if.bind="isEdit && isPackinglistType">
                     <au-dropdown
                         label="Shipment Mode"
                         value.bind="data.shipmentMode"
