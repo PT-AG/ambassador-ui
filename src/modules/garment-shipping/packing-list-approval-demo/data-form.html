@@ -66,7 +66,7 @@
                         options.bind="controlOptions">
                     </au-datepicker>
                 </div>
-                <div class="col-sm-6" show.bind="isPackinglistType">
+                <div class="col-sm-6" if.bind="isPackinglistType">
                     <au-dropdown label="Shipment Mode" value.bind="data.shipmentMode" error.bind="error.ShipmentMode" read-only="true"
                         items.bind="ShipmentModeOptions" options.bind="controlOptions">
                     </au-dropdown>
@@ -115,9 +115,9 @@
                     </au-dropdown>
                 
                     <au-datepicker label="TGL Trucking Actual" value.bind="data.truckingDate" error.bind="error.TruckingDate"
-                        read-only.bind="readOnly" options.bind="controlOptions">
+                        if.bind="isPackinglistType" read-only.bind="readOnly" options.bind="controlOptions">
                     </au-datepicker>
-                
+                    
                     <au-datepicker label="TGL Perkiraan Export" value.bind="data.exportEstimationDate"
                         error.bind="error.ExportEstimationDate" read-only.bind="readOnly" if.bind="isPackinglistType"
                         options.bind="controlOptions">
