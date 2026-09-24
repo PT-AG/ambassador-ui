@@ -22,18 +22,6 @@ export class DataForm {
     activeTab = 0;
     changeRole(tab) {
         this.activeTab = tab;
-        // if (tab != 2) {
-        //     this.context.saveCallback=null;
-        //     this.context.cancelCallback=null;
-        //     this.context.deleteCallback=null;
-        //     this.context.editCallback=null;
-        // }
-        // else{
-        //     this.context.saveCallback=this.save;
-        //     this.context.cancelCallback=this.cancel;
-        //     this.context.deleteCallback=this.delete;
-        //     this.context.editCallback=this.edit;
-        // }
     }
 
     controlOptions = {
@@ -69,7 +57,6 @@ export class DataForm {
         { header: "Mata Uang" },
         { header: "Amount" },
         { header: "Unit" },
-        // { header: "" },
     ]
 
     viewItemsColumns = [
@@ -103,7 +90,7 @@ export class DataForm {
     InvoiceTypeOptions = ["DL", "SM"];
     ShipmentModeOptions = ["Air", "Sea", "Courier", "Sea-Air"];
     PaymentTermOptions = ["LC", "TT/OA", "NON COMMERCIAL"];
-    countries =  ["", "AFGHANISTAN", "ALBANIA", "ALGERIA", "ANDORRA", "ANGOLA", "ANGUILLA", "ANTIGUA AND BARBUDA", "ARGENTINA", "ARMENIA", "ARUBA", "AUSTRALIA", "AUSTRIA", "AZERBAIJAN", "BAHAMAS", "BAHRAIN", "BANGLADESH", "BARBADOS", "BELARUS", "BELGIUM", "BELIZE", "BENIN", "BERMUDA", "BHUTAN", "BOLIVIA", "BOSNIA AND HERZEGOVINA", "BOTSWANA", "BRAZIL", "BRITISH VIRGIN ISLANDS", "BRUNEI", "BULGARIA", "BURKINA FASO", "BURUNDI", "CAMBODIA", "CAMEROON", "CANADA", "CAPE VERDE", "CAYMAN ISLANDS", "CHAD", "CHILE", "CHINA", "COLOMBIA", "CONGO", "COOK ISLANDS", "COSTA RICA", "COTE D IVOIRE", "CROATIA", "CRUISE SHIP", "CUBA", "CYPRUS", "CZECH REPUBLIC", "DENMARK", "DJIBOUTI", "DOMINICA", "DOMINICAN REPUBLIC", "ECUADOR", "EGYPT", "EL SALVADOR", "EQUATORIAL GUINEA", "ESTONIA", "ETHIOPIA", "FALKLAND ISLANDS", "FAROE ISLANDS", "FIJI", "FINLAND", "FRANCE", "FRENCH POLYNESIA", "FRENCH WEST INDIES", "GABON", "GAMBIA", "GEORGIA", "GERMANY", "GHANA", "GIBRALTAR", "GREECE", "GREENLAND", "GRENADA", "GUAM", "GUATEMALA", "GUERNSEY", "GUINEA", "GUINEA BISSAU", "GUYANA", "HAITI", "HONDURAS", "HONG KONG", "HUNGARY", "ICELAND", "INDIA", "INDONESIA", "IRAN", "IRAQ", "IRELAND", "ISLE OF MAN", "ISRAEL", "ITALY", "JAMAICA", "JAPAN", "JERSEY", "JORDAN", "KAZAKHSTAN", "KENYA", "KUWAIT", "KYRGYZ REPUBLIC", "LAOS", "LATVIA", "LEBANON", "LESOTHO", "LIBERIA", "LIBYA", "LIECHTENSTEIN", "LITHUANIA", "LUXEMBOURG", "MACAU", "MACEDONIA", "MADAGASCAR", "MALAWI", "MALAYSIA", "MALDIVES", "MALI", "MALTA", "MAURITANIA", "MAURITIUS", "MEXICO", "MOLDOVA", "MONACO", "MONGOLIA", "MONTENEGRO", "MONTSERRAT", "MOROCCO", "MOZAMBIQUE", "NAMIBIA", "NEPAL", "NETHERLANDS", "NETHERLANDS ANTILLES", "NEW CALEDONIA", "NEW ZEALAND", "NICARAGUA", "NIGER", "NIGERIA", "NORTH KOREA", "NORWAY", "OMAN", "PAKISTAN", "PALESTINE", "PANAMA", "PAPUA NEW GUINEA", "PARAGUAY", "PERU", "PHILIPPINES", "POLAND", "PORTUGAL", "PUERTO RICO", "QATAR", "REUNION", "ROMANIA", "RUSSIA", "RWANDA", "SAINT PIERRE AND MIQUELON", "SAMOA", "SAN MARINO", "SATELLITE", "SAUDI ARABIA", "SENEGAL", "SERBIA", "SEYCHELLES", "SIERRA LEONE", "SINGAPORE", "SLOVAKIA", "SLOVENIA", "SOUTH AFRICA", "SOUTH KOREA", "SPAIN", "SRI LANKA", "ST KITTS AND NEVIS", "ST LUCIA", "ST VINCENT", "ST. LUCIA", "SUDAN", "SURINAME", "SWAZILAND", "SWEDEN", "SWITZERLAND", "SYRIA", "TAIWAN", "TAJIKISTAN", "TANZANIA", "THAILAND", "TIMOR L'ESTE", "TOGO", "TONGA", "TRINIDAD AND TOBAGO", "TUNISIA", "TURKEY", "TURKMENISTAN", "TURKS AND CAICOS", "UGANDA", "UKRAINE", "UNITED ARAB EMIRATES", "UNITED KINGDOM", "UNITED STATES OF AMERICA", "URUGUAY", "UZBEKISTAN", "VENEZUELA", "VIETNAM", "VIRGIN ISLANDS (US)", "YEMEN", "ZAMBIA", "ZIMBABWE"];
+    countries = ["", "AFGHANISTAN", "ALBANIA", "ALGERIA", "ANDORRA", "ANGOLA", "ANGUILLA", "ANTIGUA AND BARBUDA", "ARGENTINA", "ARMENIA", "ARUBA", "AUSTRALIA", "AUSTRIA", "AZERBAIJAN", "BAHAMAS", "BAHRAIN", "BANGLADESH", "BARBADOS", "BELARUS", "BELGIUM", "BELIZE", "BENIN", "BERMUDA", "BHUTAN", "BOLIVIA", "BOSNIA AND HERZEGOVINA", "BOTSWANA", "BRAZIL", "BRITISH VIRGIN ISLANDS", "BRUNEI", "BULGARIA", "BURKINA FASO", "BURUNDI", "CAMBODIA", "CAMEROON", "CANADA", "CAPE VERDE", "CAYMAN ISLANDS", "CHAD", "CHILE", "CHINA", "COLOMBIA", "CONGO", "COOK ISLANDS", "COSTA RICA", "COTE D IVOIRE", "CROATIA", "CRUISE SHIP", "CUBA", "CYPRUS", "CZECH REPUBLIC", "DENMARK", "DJIBOUTI", "DOMINICA", "DOMINICAN REPUBLIC", "ECUADOR", "EGYPT", "EL SALVADOR", "EQUATORIAL GUINEA", "ESTONIA", "ETHIOPIA", "FALKLAND ISLANDS", "FAROE ISLANDS", "FIJI", "FINLAND", "FRANCE", "FRENCH POLYNESIA", "FRENCH WEST INDIES", "GABON", "GAMBIA", "GEORGIA", "GERMANY", "GHANA", "GIBRALTAR", "GREECE", "GREENLAND", "GRENADA", "GUAM", "GUATEMALA", "GUERNSEY", "GUINEA", "GUINEA BISSAU", "GUYANA", "HAITI", "HONDURAS", "HONG KONG", "HUNGARY", "ICELAND", "INDIA", "INDONESIA", "IRAN", "IRAQ", "IRELAND", "ISLE OF MAN", "ISRAEL", "ITALY", "JAMAICA", "JAPAN", "JERSEY", "JORDAN", "KAZAKHSTAN", "KENYA", "KUWAIT", "KYRGYZ REPUBLIC", "LAOS", "LATVIA", "LEBANON", "LESOTHO", "LIBERIA", "LIBYA", "LIECHTENSTEIN", "LITHUANIA", "LUXEMBOURG", "MACAU", "MACEDONIA", "MADAGASCAR", "MALAWI", "MALAYSIA", "MALDIVES", "MALI", "MALTA", "MAURITANIA", "MAURITIUS", "MEXICO", "MOLDOVA", "MONACO", "MONGOLIA", "MONTENEGRO", "MONTSERRAT", "MOROCCO", "MOZAMBIQUE", "NAMIBIA", "NEPAL", "NETHERLANDS", "NETHERLANDS ANTILLES", "NEW CALEDONIA", "NEW ZEALAND", "NICARAGUA", "NIGER", "NIGERIA", "NORTH KOREA", "NORWAY", "OMAN", "PAKISTAN", "PALESTINE", "PANAMA", "PAPUA NEW GUINEA", "PARAGUAY", "PERU", "PHILIPPINES", "POLAND", "PORTUGAL", "PUERTO RICO", "QATAR", "REUNION", "ROMANIA", "RUSSIA", "RWANDA", "SAINT PIERRE AND MIQUELON", "SAMOA", "SAN MARINO", "SATELLITE", "SAUDI ARABIA", "SENEGAL", "SERBIA", "SEYCHELLES", "SIERRA LEONE", "SINGAPORE", "SLOVAKIA", "SLOVENIA", "SOUTH AFRICA", "SOUTH KOREA", "SPAIN", "SRI LANKA", "ST KITTS AND NEVIS", "ST LUCIA", "ST VINCENT", "ST. LUCIA", "SUDAN", "SURINAME", "SWAZILAND", "SWEDEN", "SWITZERLAND", "SYRIA", "TAIWAN", "TAJIKISTAN", "TANZANIA", "THAILAND", "TIMOR L'ESTE", "TOGO", "TONGA", "TRINIDAD AND TOBAGO", "TUNISIA", "TURKEY", "TURKMENISTAN", "TURKS AND CAICOS", "UGANDA", "UKRAINE", "UNITED ARAB EMIRATES", "UNITED KINGDOM", "UNITED STATES OF AMERICA", "URUGUAY", "UZBEKISTAN", "VENEZUELA", "VIETNAM", "VIRGIN ISLANDS (US)", "YEMEN", "ZAMBIA", "ZIMBABWE"];
 
     terbilang(numeric) {
         var number = numeric;
@@ -127,7 +114,8 @@ export class DataForm {
             if (Math.floor(tempNumber / (100 * Math.pow(1000, i))) !== 0)
                 word = first[Math.floor(tempNumber / (100 * Math.pow(1000, i)))] + 'hundred ' + word;
         }
-        this.say= word.toUpperCase();
+
+        this.say = word.toUpperCase();
     }
 
     get lcLoader() {
@@ -156,19 +144,19 @@ export class DataForm {
             };
         }
 
-        this.totalCBM="";
+        this.totalCBM = "";
         var total = 0;
         if (this.data.measurements) {
-            this.data.measurements.map((m)=>{
+            this.data.measurements.map((m) => {
                 if (m.length && m.width && m.height && m.cartonsQuantity) {
                     total += (m.length * m.width * m.height * m.cartonsQuantity / 1000000);
                 }
-            })
-            this.totalCBM=total.toLocaleString('en-EN', { minimumFractionDigits: 3, maximumFractionDigits: 3 });
+            });
+
+            this.totalCBM = total.toLocaleString('en-EN', { minimumFractionDigits: 3, maximumFractionDigits: 3 });
         }
 
         this.data.sayUnit = this.data.sayUnit || "CARTON";
-
         this.shippingMarkImageSrc = this.data.shippingMarkImageFile || this.noImage;
         this.sideMarkImageSrc = this.data.sideMarkImageFile || this.noImage;
         this.remarkImageSrc = this.data.remarkImageFile || this.noImage;
@@ -192,59 +180,48 @@ export class DataForm {
         }
     }
 
-    // get totalCBM() {
-    //     var total = 0;
-    //     if (this.data.measurements) {
-    //         for (var m of this.data.measurements) {
-    //             if (m.length && m.width && m.height && m.cartonsQuantity) {
-    //                 total += (m.length * m.width * m.height * m.cartonsQuantity / 1000000);
-    //             }
-    //         }
-    //     }
-    //     return total.toLocaleString('en-EN', { minimumFractionDigits: 3, maximumFractionDigits: 3 });
-    // }
-
     get totalCartons() {
-      let result = 0;
-      if (this.data.items) {
-        for (var item of this.data.items) {
-          if (item.details) {
-            const newDetails = item.details.map(d => {
-              return {
-                carton1: d.carton1,
-                carton2: d.carton2,
-                cartonQuantity: d.cartonQuantity,
-                index: d.index
-              };
-            }).filter((value, i, self) => self.findIndex(f => value.carton1 == f.carton1 && value.carton2 == f.carton2 && value.index == f.index) === i);
+        let result = 0;
+        if (this.data.items) {
+            for (var item of this.data.items) {
+                if (item.details) {
+                    const newDetails = item.details.map(d => {
+                        return {
+                            carton1: d.carton1,
+                            carton2: d.carton2,
+                            cartonQuantity: d.cartonQuantity,
+                            index: d.index
+                        };
+                    }).filter((value, i, self) => self.findIndex(f => value.carton1 == f.carton1 && value.carton2 == f.carton2 && value.index == f.index) === i);
 
-            for (var detail of newDetails) {
-              const cartonExist = false;
-              const indexItem = this.data.items.indexOf(item);
-              if (indexItem > 0) {
-                for (let i = 0; i < indexItem; i++) {
-                  const item =  this.data.items[i];
-                  for (const prevDetail of item.details) {
-                    if (detail.carton1 == prevDetail.carton1 && detail.carton2 == prevDetail.carton2 && detail.index == prevDetail.index) {
-                      cartonExist = true;
-                      break;
+                    for (var detail of newDetails) {
+                        const cartonExist = false;
+                        const indexItem = this.data.items.indexOf(item);
+                        if (indexItem > 0) {
+                            for (let i = 0; i < indexItem; i++) {
+                                const item = this.data.items[i];
+                                for (const prevDetail of item.details) {
+                                    if (detail.carton1 == prevDetail.carton1 && detail.carton2 == prevDetail.carton2 && detail.index == prevDetail.index) {
+                                        cartonExist = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        if (!cartonExist) {
+                            result += detail.cartonQuantity;
+                        }
                     }
-                  }
                 }
-              }
-              if (!cartonExist) {
-                result += detail.cartonQuantity;
-              }
             }
-          }
+
+            this.data.totalCartons = result;
+            return this.data.totalCartons;
         }
-        this.data.totalCartons = result;
-        return this.data.totalCartons;
-      }
     }
 
     downloadDocument(index) {
-        // this.service.getFile((this.documentsPathTemp[index] || '').replace('/sales/', ''), this.data.DocumentsFileName[index]);
         const linkSource = this.data.documentsFile[index];
         const downloadLink = document.createElement("a");
         const fileName = this.data.documentsFileName[index];
@@ -253,7 +230,7 @@ export class DataForm {
         downloadLink.download = fileName;
         downloadLink.click();
     }
-    
+
     totalQty() {
         let quantities = [];
         let result = [];
@@ -265,15 +242,16 @@ export class DataForm {
                 if (item.uom) {
                     unit = item.uom.unit || item.uom.Unit;
                 }
-                // if (item.quantity && quantities.findIndex(c => c.roNo == item.roNo && c.unit == unit) < 0) {
+              
                 quantities.push({ no: no, roNo: item.roNo, unit: unit, quantityTotal: item.quantity });
                 if (units.findIndex(u => u.unit == unit) < 0) {
                     units.push({ unit: unit });
-                    // }
                 }
+                
                 no++;
             }
         }
+
         for (var u of units) {
             let countableQuantities = 0;
             for (var q of quantities) {
@@ -281,8 +259,14 @@ export class DataForm {
                     countableQuantities += q.quantityTotal;
                 }
             }
+
             result.push(countableQuantities + " " + u.unit);
         }
-        this.totalQuantities= result.join(" / ");
+
+        this.totalQuantities = result.join(" / ");
     }
+
+    get isPackinglistType() {
+        return this.data.packingListType && this.data.packingListType.includes("EXPORT");
+    };
 }

@@ -47,13 +47,6 @@
           <div class="row" if.bind="activeTab==0">
             <div class="row">
                 <div class="col-sm-6">
-                    <!-- <au-textbox 
-                        label="No Invoice" 
-                        value.bind="data.invoiceNo" 
-                        read-only="true"
-                        options.bind="controlOptions" >
-                    </au-textbox> -->
-
                     <au-textbox 
                         label="No Packing List" 
                         value.bind="data.packingListNo" 
@@ -114,7 +107,7 @@
                         options.bind="controlOptions">
                     </au-multiline>
                 </div>
-                <div class="col-sm-6" show.bind="isEdit">
+                <div class="col-sm-6" if.bind="isEdit && isPackinglistType">
                     <au-dropdown
                         label="Shipment Mode"
                         value.bind="data.shipmentMode"
@@ -225,53 +218,42 @@
           </div>
 
         <!-- MARK -->
-          <div class="row" if.bind="activeTab==1">
+        <div class="row" if.bind="activeTab == 1">
             <div class="row">
                 <label class="col-sm-3 text-right">SHIPPING MARK</label>
                 <div class="col-sm-7">
                     <div class="thumbnail">
                         <img src.bind="shippingMarkImageSrc">
-                        <au-multiline
-                            placeholder="Tambah Keterangan"
-                            value.bind="data.shippingMark"
-                            error.bind="error.ShippingMark" 
-                            read-only="true">
+                        <au-multiline placeholder="Tambah Keterangan" value.bind="data.shippingMark"
+                            error.bind="error.ShippingMark" read-only="true">
                         </au-multiline>
                     </div>
                 </div>
             </div>
-
+        
             <div class="row">
                 <label class="col-sm-3 text-right">SIDE MARK</label>
                 <div class="col-sm-7">
                     <div class="thumbnail">
                         <img src.bind="sideMarkImageSrc">
-                        <au-multiline
-                            placeholder="Tambah Keterangan"
-                            value.bind="data.sideMark"
-                            error.bind="error.SideMark"
+                        <au-multiline placeholder="Tambah Keterangan" value.bind="data.sideMark" error.bind="error.SideMark"
                             read-only="true">
                         </au-multiline>
                     </div>
                 </div>
             </div>
-
+        
             <div class="row">
                 <label class="col-sm-3 text-right">REMARK</label>
                 <div class="col-sm-7">
                     <div class="thumbnail">
                         <img src.bind="remarkImageSrc">
-                        <au-multiline
-                            placeholder="Tambah Keterangan"
-                            value.bind="data.remark"
-                            error.bind="error.Remark" 
+                        <au-multiline placeholder="Tambah Keterangan" value.bind="data.remark" error.bind="error.Remark"
                             read-only="true">
                         </au-multiline>
                     </div>
                 </div>
             </div>
-
         </div>
-            
     </au-input-form >
 </template>

@@ -3,6 +3,7 @@ import { Service } from "./service";
 
 var BuyerLoader = require('../../../loader/garment-buyers-loader');
 var ShippingStaffLoader = require('../../../loader/garment-shipping-staff-loader');
+var MDStaffLoader = require('../../../loader/garment-md-staff-loader');
 
 @inject(Service)
 export class DataForm {
@@ -112,6 +113,14 @@ export class DataForm {
     }
 
     shippingStaffView = (data) => {
+        return `${data.Name || data.name}`
+    }
+
+    get mdStaffLoader() {
+        return MDStaffLoader;
+    }
+
+    mdStaffView = (data) => {
         return `${data.Name || data.name}`
     }
 

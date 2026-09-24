@@ -75,6 +75,11 @@
                         placeholder="Cari Shipping Staff" read-only.bind="readOnly" options.bind="controlOptions">
                     </au-autocomplete>
 
+                    <au-autocomplete value.bind="data.mdStaff" error.bind="error.MdStaff"
+                        label="MD Staff" loader.bind="mdStaffLoader" text.bind="mdStaffView"
+                        placeholder="Cari MD Staff" read-only.bind="readOnly" options.bind="controlOptions">
+                    </au-autocomplete>
+
                     <au-multiline value.bind="data.description" error.bind="error.description" label="Keterangan"
                         read-only.bind="readOnly" placeholder="Masukkan Keterangan" options.bind="controlOptions">
                     </au-multiline>
