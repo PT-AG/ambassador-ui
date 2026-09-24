@@ -9,6 +9,7 @@ var FabricTypeLoader = require('../../../loader/fabric-type-loader');
 var SectionLoader = require('../../../loader/garment-sections-loader');
 var BuyerLoader = require('../../../loader/garment-buyers-loader');
 var ShippingStaffLoader = require('../../../loader/garment-shipping-staff-loader');
+var VatTaxLoader = require('../../../loader/vat-tax-loader');
 
 @inject(Service, CoreService, AuthService)
 export class DataForm {
@@ -19,6 +20,7 @@ export class DataForm {
     @bindable buyer;
     @bindable fabricType;
     @bindable invoiceType;
+    @bindable vatTax;
     @bindable data = {};
     @bindable items = {};
     @bindable readOnly = false;
@@ -113,6 +115,10 @@ export class DataForm {
 
             if (this.data.buyerAgent) {
                 this.buyer = this.data.buyerAgent;
+            }
+
+            if (this.data.isUseVat) {
+                this.selectedVatTax = this.data.vat;
             }
 
             this.data.bankAccountId = this.data.bankAccountId;
@@ -221,6 +227,15 @@ export class DataForm {
     fabricTypeView = (acc) => {
         return `${acc.Name}`;
     };
+
+    get vatTaxLoader() {
+        return VatTaxLoader;
+    }
+
+    vatTaxView = (vatTax) => {
+        var rate = vatTax.rate ? vatTax.rate : vatTax.Rate;
+        return `${rate}`
+    }
 
     async invoiceTypeChanged(newValue, oldValue) {
         if (this.data.id) return;
@@ -346,6 +361,15 @@ export class DataForm {
             this.data.fabricType = selectedfabric.Name;
         }
     };
+
+    vatTaxChanged(newValue, oldValue) {
+        var selectedVatTax = newValue;
+        if (selectedVatTax) {
+            this.data.vat = { id: selectedVatTax.id || selectedVatTax.Id, rate: selectedVatTax.rate || selectedVatTax.Rate };
+        } else {
+            this.data.vat = {};
+        }
+    }
 
     async loadPackingList() {
         if (this.data.id) return;
@@ -530,7 +554,8 @@ export class DataForm {
 
         // 4. Hitung total akhir
         const totalAmount = amountAll - amountisCmt + amountCMT;
-        const finalAmount = totalAmount + adjustmentValue;
+        const vat = this.data.isUseVat && this.data.vat.rate ? (this.data.vat.rate / 100) * totalAmount : 0
+        const finalAmount = totalAmount + vat + adjustmentValue;
 
         this.data.amountToBePaid = finalAmount;
         return finalAmount;
@@ -578,6 +603,33 @@ export class DataForm {
 
     bankFilter = {
         DivisionName: "AMBASSADOR GARMINDO"
+    };
+
+    get vatCosts() {
+        var vatCost = 0;
+        var amountisCmt = 0;
+        var amountAll = 0;
+        var amountCMT = 0;
+
+        if (this.data.isPartial && this.data.isUseVat) {
+            if (this.data.itemsByPackingInvoice) {
+                for (var itemGroup of this.data.itemsByPackingInvoice.filter(i => i.isSave)) {
+                    for (var item of itemGroup.details) {
+                        amountAll += item.quantity * (item.price || 0) || 0;
+                        if (item.cmtPrice && item.cmtPrice > 0) {
+                            amountisCmt += item.quantity * (item.price || 0);
+                            amountCMT += item.quantity * item.cmtPrice;
+                        }
+                    }
+                }
+
+                var totalAmount = amountAll - amountisCmt + amountCMT;
+                vatCost += totalAmount * ((this.data.vat.rate || 0) / 100);
+            }
+        }
+
+        this.vatCost = vatCost;
+        return vatCost;
     };
 
     get isPackinglistType() {

@@ -108,6 +108,15 @@
                 placeholder="Cari Bank" query.bind="bankFilter" options.bind="length4">
             </au-autocomplete>
 
+            <au-checkbox label="Apakah kena Ppn?" value.bind="data.isUseVat" error.bind="error.IsUseVat"
+                read-only.bind="readOnly" options.bind="controlOptions">
+            </au-checkbox>
+
+            <au-autocomplete value.bind="vatTax" error.bind="error.Vat" label="Ppn" show.bind="data.isUseVat"
+                loader.bind="vatTaxLoader" text.bind="vatTaxView" placeholder="cari ppn" key="rate" read-only.bind="readOnly"
+                post-fix="%" options.bind="length4">
+            </au-autocomplete>
+
             <au-numeric label="Tempo Pembayaran (HARI)" value.bind="data.paymentDue" error.bind="error.PaymentDue"
                 read-only.bind="readOnly " options.bind="length4" format="0">
             </au-numeric>
@@ -213,6 +222,10 @@
                 </au-numeric>
 
                 <au-numeric label="LESS FABRIC COST" value.bind="lessFabricCosts" error.bind="error.lessFabricCosts"
+                    read-only.bind="true" options.bind="length4">
+                </au-numeric>
+
+                <au-numeric label="PPN" value.bind="vatCosts" show.bind="data.isUseVat" error.bind="error.vatCosts"
                     read-only.bind="true" options.bind="length4">
                 </au-numeric>
 
