@@ -4,7 +4,7 @@ import { Service, CoreService } from './service';
 import AccountBankLoader from "../../../loader/account-banks-loader";
 import BuyerBrandLoader from "../../../loader/garment-buyer-brands-loader";
 
-@inject(BindingEngine, Service,CoreService, Element)
+@inject(BindingEngine, Service, CoreService, Element)
 export class DataForm {
   @bindable isCreate = false;
   @bindable itemOptions = {};
@@ -18,16 +18,16 @@ export class DataForm {
   lampHeader = [{ header: "Standar Lampu" }];
 
   DeliveryOptions = ["BY LAND", "BY SEA", "BY AIR", "BY SEA-AIR"];
-  
+
   countries =
     ["", "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Anguilla", "Antigua and Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bermuda", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "British Virgin Islands", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde", "Cayman Islands", "Chad", "Chile", "China", "Colombia", "Congo", "Cook Islands", "Costa Rica", "Cote D Ivoire", "Croatia", "Cruise Ship", "Cuba", "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Estonia", "Ethiopia", "Falkland Islands", "Faroe Islands", "Fiji", "Finland", "France", "French Polynesia", "French West Indies", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Gibraltar", "Greece", "Greenland", "Grenada", "Guam", "Guatemala", "Guernsey", "Guinea", "Guinea Bissau", "Guyana", "Haiti", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Isle of Man", "Israel", "Italy", "Jamaica", "Japan", "Jersey", "Jordan", "Kazakhstan", "Kenya", "Kuwait", "Kyrgyz Republic", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macau", "Macedonia", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Mauritania", "Mauritius", "Mexico", "Moldova", "Monaco", "Mongolia", "Montenegro", "Montserrat", "Morocco", "Mozambique", "Namibia", "Nepal", "Netherlands", "Netherlands Antilles", "New Caledonia", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "Norway", "Oman", "Pakistan", "Palestine", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Puerto Rico", "Qatar", "Reunion", "Romania", "Russia", "Rwanda", "Saint Pierre and Miquelon", "Samoa", "San Marino", "Satellite", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "South Africa", "South Korea", "Spain", "Sri Lanka", "St Kitts and Nevis", "St Lucia", "St Vincent", "St. Lucia", "Sudan", "Suriname", "Swaziland", "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Timor L'Este", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Turks and Caicos", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States of America", "Uruguay", "Uzbekistan", "Venezuela", "Vietnam", "Virgin Islands (US)", "Yemen", "Zambia", "Zimbabwe"];
 
   filterBank = {
     //"DivisionName.toUpper()":"AMBASSADOR GARMINDO 2"
-    "DivisionName.toUpper()":"AMBASSADOR GARMINDO"
+    "DivisionName.toUpper()": "AMBASSADOR GARMINDO"
   };
 
-  constructor(bindingEngine, service,coreService, element) {
+  constructor(bindingEngine, service, coreService, element) {
     this.bindingEngine = bindingEngine;
     this.element = element;
     this.service = service;
@@ -42,11 +42,11 @@ export class DataForm {
 
     this.itemOptions = {
       ROList: []
-    }    
+    }
 
     if (this.data.SalesContractNo) {
       this.selectedRO = {
-        RO_Number : this.data.RONumber
+        RO_Number: this.data.RONumber
       }
 
       this.data.comodity = this.data.ComodityCode + " - " + this.data.ComodityName;
@@ -56,10 +56,10 @@ export class DataForm {
         this.selectedAccountBank = await this.service.getAccountBankById(accId);
       }
 
-      this.data.buyer = this.data.BuyerBrandCode + " - " +this.data.BuyerBrandName;
+      this.data.buyer = this.data.BuyerBrandCode + " - " + this.data.BuyerBrandName;
       var buyerBrand = await this.coreService.getBuyerBrandById(this.data.BuyerBrandId);
       var buyer = await this.coreService.getBuyerById(buyerBrand.Buyers.Id);
-      
+
       this.type = buyer.Type;
       this.buyerType = buyer.BuyerType;
       this.data.SCType = this.type;
@@ -82,18 +82,18 @@ export class DataForm {
   @bindable selectedAccountBank;
   selectedAccountBankChanged(newValue, oldValue) {
     if (newValue) {
-      this.data.AccountBank =newValue;
+      this.data.AccountBank = newValue;
     } else {
       this.data.AccountBank = null;
     }
   }
 
   get detailHeader() {
-      return [{ header: "RO" },{ header: "Article" }, 
-              { header: "Komoditi" },{ header: "Material" },
-              { header: "Quantity" }, { header: "Satuan" }, 
-              { header: "Harga" }, { header: "Amount" },
-              { header: "Tanggal Pengiriman" }];
+    return [{ header: "RO" }, { header: "Article" },
+    { header: "Komoditi" }, { header: "Material" },
+    { header: "Quantity" }, { header: "Satuan" },
+    { header: "Harga" }, { header: "Amount" },
+    { header: "Tanggal Pengiriman" }];
   }
 
   get addItems() {
@@ -128,36 +128,35 @@ export class DataForm {
   }
 
   buyerView(buyer) {
-    return `${buyer.Code} - ${buyer.Name}` ;
+    return `${buyer.Code} - ${buyer.Name}`;
   }
-  
+
   get removeItems() {
-    return async (event) =>
-    {
-        var _ro = event.detail.RONumber;
+    return async (event) => {
+      var _ro = event.detail.RONumber;
 
-        if (this.itemOptions.ROList.includes(_ro)) {
-          this.itemOptions.ROList.splice(this.itemOptions.ROList.indexOf(_ro), 1);
-        }
+      if (this.itemOptions.ROList.includes(_ro)) {
+        this.itemOptions.ROList.splice(this.itemOptions.ROList.indexOf(_ro), 1);
+      }
 
-        if(this.data.Items){
-          this.data.Amount = 0;
-          for(var item of this.data.Items){
-            if(item.Amount){
-              this.data.Amount += parseFloat(item.Amount);
-            }
+      if (this.data.Items) {
+        this.data.Amount = 0;
+        for (var item of this.data.Items) {
+          if (item.Amount) {
+            this.data.Amount += parseFloat(item.Amount);
           }
         }
+      }
 
-        this.data.Amount=parseFloat(this.data.Amount).toLocaleString('en-EN', { minimumFractionDigits: 2});
+      this.data.Amount = parseFloat(this.data.Amount).toLocaleString('en-EN', { minimumFractionDigits: 2 });
     }
   }
-  
+
   @bindable selectedBuyer;
-  async selectedBuyerChanged(newValue){
+  async selectedBuyerChanged(newValue) {
     if (!this.data.Id && this.data.SalesContractROs) {
-      this.data.SalesContractROs.splice(0);
       //menghilangkan exception list ro yang sudah masuk
+      this.data.SalesContractROs.splice(0);
       this.itemOptions.ROList.splice(0);
     }
 
@@ -165,13 +164,16 @@ export class DataForm {
       this.data.BuyerBrandName = newValue.Name;
       this.data.BuyerBrandCode = newValue.Code;
       this.data.BuyerBrandId = newValue.Id;
+
       var buyerBrand = await this.coreService.getBuyerBrandById(this.data.BuyerBrandId);
       var buyer = await this.coreService.getBuyerById(buyerBrand.Buyers.Id);
+
       this.type = buyer.Type;
       this.buyerType = buyer.BuyerType;
       this.data.BuyerType = buyer.BuyerType;
       this.data.SCType = buyer.Type;
-      if (this.type == "Ekspor") {
+
+      if (this.type != "Ekspor") {
         this.data.SalesContractROs.push({
           buyer: this.data.BuyerBrandId,
           type: this.data.SCType
@@ -179,14 +181,14 @@ export class DataForm {
       }
     }
   }
-  
-  get amount(){
-    this.data.Amount=0;
+
+  get amount() {
+    this.data.Amount = 0;
     if (this.data.SalesContractROs) {
       for (var item of this.data.SalesContractROs)
         //if (this.data.SalesContractROs) {
-          this.data.Amount += parseFloat(item.Amount);
-        //}
+        this.data.Amount += parseFloat(item.Amount);
+      //}
     }
 
     return this.data.Amount;
