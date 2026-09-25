@@ -68,7 +68,7 @@ export class Edit {
     }
 
     cancel(event) {
-    	const encoded = Base64Helper.encode(this.selectedExpedition.Id);
+    	const encoded = Base64Helper.encode(this.dataExpedition.Id);
     	this.router.navigateToRoute("view", { id: encoded });
     }
 
