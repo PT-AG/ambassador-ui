@@ -18,18 +18,6 @@ export class DataForm {
     activeTab = 0;
     changeRole(tab) {
         this.activeTab = tab;
-        // if (tab != 2) {
-        //     this.context.saveCallback=null;
-        //     this.context.cancelCallback=null;
-        //     this.context.deleteCallback=null;
-        //     this.context.editCallback=null;
-        // }
-        // else{
-        //     this.context.saveCallback=this.save;
-        //     this.context.cancelCallback=this.cancel;
-        //     this.context.deleteCallback=this.delete;
-        //     this.context.editCallback=this.edit;
-        // }
     }
 
     controlOptions = {
@@ -103,6 +91,7 @@ export class DataForm {
             if (Math.floor(tempNumber / (100 * Math.pow(1000, i))) !== 0)
                 word = first[Math.floor(tempNumber / (100 * Math.pow(1000, i)))] + 'hundred ' + word;
         }
+
         return word.toUpperCase();
     }
 
@@ -124,13 +113,12 @@ export class DataForm {
         }
 
         this.data.items = this.Items;
-
         this.data.sayUnit = this.data.sayUnit || "CARTON";
 
         this.shippingMarkImageSrc = this.data.shippingMarkImageFile || this.noImage;
         this.sideMarkImageSrc = this.data.sideMarkImageFile || this.noImage;
         this.remarkImageSrc = this.data.remarkImageFile || this.noImage;
-        
+
         this.data.documentsFile = this.data.documentsFile || [];
         this.data.documentsFileName = this.data.documentsFileName || [];
         this.documentsPathTemp = [].concat(this.data.documentsPath);
@@ -145,87 +133,97 @@ export class DataForm {
                 }
             }
         }
+
         return total.toLocaleString('en-EN', { minimumFractionDigits: 3, maximumFractionDigits: 3 });
     }
 
     get totalCartons() {
-      let result = 0;
-      if (this.data.items) {
-        for (var item of this.data.items) {
-          if (item.details) {
-            const newDetails = item.details.map(d => {
-              return {
-                carton1: d.carton1,
-                carton2: d.carton2,
-                cartonQuantity: d.cartonQuantity,
-                index: d.index
-              };
-            }).filter((value, i, self) => self.findIndex(f => value.carton1 == f.carton1 && value.carton2 == f.carton2 && value.index == f.index) === i);
+        let result = 0;
+        if (this.data.items) {
+            for (var item of this.data.items) {
+                if (item.details) {
+                    const newDetails = item.details.map(d => {
+                        return {
+                            carton1: d.carton1,
+                            carton2: d.carton2,
+                            cartonQuantity: d.cartonQuantity,
+                            index: d.index
+                        };
+                    }).filter((value, i, self) => self.findIndex(f => value.carton1 == f.carton1 && value.carton2 == f.carton2 && value.index == f.index) === i);
 
-            for (var detail of newDetails) {
-              const cartonExist = false;
-              const indexItem = this.data.items.indexOf(item);
-              if (indexItem > 0) {
-                for (let i = 0; i < indexItem; i++) {
-                  const item =  this.data.items[i];
-                  for (const prevDetail of item.details) {
-                    if (detail.carton1 == prevDetail.carton1 && detail.carton2 == prevDetail.carton2 && detail.index == prevDetail.index) {
-                      cartonExist = true;
-                      break;
+                    for (var detail of newDetails) {
+                        const cartonExist = false;
+                        const indexItem = this.data.items.indexOf(item);
+                        if (indexItem > 0) {
+                            for (let i = 0; i < indexItem; i++) {
+                                const item = this.data.items[i];
+                                for (const prevDetail of item.details) {
+                                    if (detail.carton1 == prevDetail.carton1 && detail.carton2 == prevDetail.carton2 && detail.index == prevDetail.index) {
+                                        cartonExist = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        if (!cartonExist) {
+                            result += detail.cartonQuantity;
+                        }
                     }
-                  }
                 }
-              }
-              if (!cartonExist) {
-                result += detail.cartonQuantity;
-              }
             }
-          }
+
+            this.data.totalCartons = result;
+            return this.data.totalCartons;
         }
-        this.data.totalCartons = result;
-        return this.data.totalCartons;
-      }
     }
+
     downloadDocument(index) {
-      // this.service.getFile((this.documentsPathTemp[index] || '').replace('/sales/', ''), this.data.DocumentsFileName[index]);
-      const linkSource = this.data.documentsFile[index];
-      const downloadLink = document.createElement("a");
-      const fileName = this.data.documentsFileName[index];
-  
-      downloadLink.href = linkSource;
-      downloadLink.download = fileName;
-      downloadLink.click();
-  }
+        const linkSource = this.data.documentsFile[index];
+        const downloadLink = document.createElement("a");
+        const fileName = this.data.documentsFileName[index];
+
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+    }
+
     get totalQuantities() {
-      let quantities = [];
-      let result = [];
-      let units = [];
-      if (this.data.items) {
-          var no = 1;
-          for (var item of this.data.items) {
-              let unit = "";
-              if(item.uom) {
-                  unit = item.uom.unit || item.uom.Unit;
-              }
-              // if (item.quantity && quantities.findIndex(c => c.roNo == item.roNo && c.unit == unit) < 0) {
-                  quantities.push({ no: no, roNo: item.roNo, unit: unit, quantityTotal: item.quantity });
-                  if(units.findIndex(u => u.unit == unit) < 0) {
-                      units.push({ unit: unit });
-                  // }
-              }
-              no++;
-              
-          }
-      }
-      for (var u of units) {
-          let countableQuantities = 0;
-          for (var q of quantities) {
-              if (q.unit == u.unit) {
-                  countableQuantities += q.quantityTotal;
-              }
-          }
-          result.push(countableQuantities + " " + u.unit);
-      }
-      return result.join(" / ");
-  }
+        let quantities = [];
+        let result = [];
+        let units = [];
+        if (this.data.items) {
+            var no = 1;
+            for (var item of this.data.items) {
+                let unit = "";
+                if (item.uom) {
+                    unit = item.uom.unit || item.uom.Unit;
+                }
+
+                quantities.push({ no: no, roNo: item.roNo, unit: unit, quantityTotal: item.quantity });
+                if (units.findIndex(u => u.unit == unit) < 0) {
+                    units.push({ unit: unit });
+                }
+
+                no++;
+            }
+        }
+
+        for (var u of units) {
+            let countableQuantities = 0;
+            for (var q of quantities) {
+                if (q.unit == u.unit) {
+                    countableQuantities += q.quantityTotal;
+                }
+            }
+
+            result.push(countableQuantities + " " + u.unit);
+        }
+
+        return result.join(" / ");
+    }
+
+    get isPackinglistType() {
+        return this.data.packingListType && this.data.packingListType.includes("EXPORT");
+    };
 }

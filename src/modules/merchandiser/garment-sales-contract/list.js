@@ -72,11 +72,11 @@ export class List {
         }
 
         if (this.byUser) {
-                this.filter = {
-                    CreatedBy: username
-                };
+            this.filter = {
+                CreatedBy: username
+            };
         } else {
-                this.filter = {};
+            this.filter = {};
         }
     }
 

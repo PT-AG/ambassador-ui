@@ -118,7 +118,7 @@ export class DataForm {
             }
 
             if (this.data.isUseVat) {
-                this.selectedVatTax = this.data.vat;
+                this.vatTax = this.data.vat;
             }
 
             this.data.bankAccountId = this.data.bankAccountId;
@@ -367,7 +367,7 @@ export class DataForm {
         if (selectedVatTax) {
             this.data.vat = { id: selectedVatTax.id || selectedVatTax.Id, rate: selectedVatTax.rate || selectedVatTax.Rate };
         } else {
-            this.data.vat = {};
+            this.data.vat = { id: 0, rate: 0 };
         }
     }
 
@@ -554,7 +554,7 @@ export class DataForm {
 
         // 4. Hitung total akhir
         const totalAmount = amountAll - amountisCmt + amountCMT;
-        const vat = this.data.isUseVat && this.data.vat.rate ? (this.data.vat.rate / 100) * totalAmount : 0
+        const vat = this.data.isUseVat ? ((this.data.vat ? this.data.vat.rate : 0 ) / 100) * totalAmount : 0
         const finalAmount = totalAmount + vat + adjustmentValue;
 
         this.data.amountToBePaid = finalAmount;
@@ -624,7 +624,7 @@ export class DataForm {
                 }
 
                 var totalAmount = amountAll - amountisCmt + amountCMT;
-                vatCost += totalAmount * ((this.data.vat.rate || 0) / 100);
+                vatCost += totalAmount * ((this.data.vat ? this.data.vat.rate : 0) / 100);
             }
         }
 
