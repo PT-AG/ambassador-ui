@@ -39,24 +39,20 @@ export class DataForm {
     this.data = context.data;
     this.error = context.error;
     this.data.CreatedUtc = this.data.CreatedUtc ? this.data.CreatedUtc : new Date();
-    
-    // this.itemsInfo.options = {
-    //   ROList: []
-    // }
 
     this.itemOptions = {
       ROList: []
     }    
 
-    if(this.data.SalesContractNo) {
+    if (this.data.SalesContractNo) {
       this.selectedRO = {
         RO_Number : this.data.RONumber
       }
 
       this.data.comodity = this.data.ComodityCode + " - " + this.data.ComodityName;
 
-      if(this.data.AccountBankId || this.data.AccountBank.Id){
-        var accId = this.data.AccountBankId ? this.data.AccountBankId: this.data.AccountBank.Id;
+      if (this.data.AccountBankId || this.data.AccountBank.Id) {
+        var accId = this.data.AccountBankId ? this.data.AccountBankId : this.data.AccountBank.Id;
         this.selectedAccountBank = await this.service.getAccountBankById(accId);
       }
 
@@ -69,7 +65,7 @@ export class DataForm {
       this.data.SCType = this.type;
       this.selectedBuyer = buyerBrand;
 
-      if(this.data.SalesContractROs) {
+      if (this.data.SalesContractROs) {
         this.data.SalesContractROs.forEach(
           item => {
             this.itemOptions.ROList.push(item.RONumber);
@@ -78,25 +74,8 @@ export class DataForm {
       }
     }
 
-    // this.hasItems=false;
-    // if(this.data.Items)
-    //   if(this.data.Items.length>0){
-    //     this.data.Amount=0;
-    //     for(var item of this.data.Items){
-    //       item.Uom=this.data.Uom.Unit;
-    //       item.PricePerUnit=this.data.Uom.Unit;
-    //       this.data.Amount+=item.Price*item.Quantity;
-    //     }
-    //     this.hasItems=true;
-    //   }
-    //   if(this.data.Amount)
-    //     this.data.Amount=this.data.Amount.toLocaleString('en-EN', { minimumFractionDigits: 2})
-    //   if(this.data.Price){
-    //     this.data.Price=this.data.Price.toLocaleString('en-EN', { minimumFractionDigits: 2})
-    //   }
-
-    if(!this.data.DocPresented || this.data.DocPresented==""){
-      this.data.DocPresented="INVOICE OF COMMERCIAL VALUE \nPACKING LIST \nEXPORT LICENSE \nCERTIFICATE OF ORIGIN / G.S.P FORM A \nINSPECTION CERTIFICATE ";
+    if (!this.data.DocPresented || this.data.DocPresented == "") {
+      this.data.DocPresented = "INVOICE OF COMMERCIAL VALUE \nPACKING LIST \nEXPORT LICENSE \nCERTIFICATE OF ORIGIN / G.S.P FORM A \nINSPECTION CERTIFICATE ";
     }
   }
 
@@ -157,7 +136,7 @@ export class DataForm {
     {
         var _ro = event.detail.RONumber;
 
-        if(this.itemOptions.ROList.includes(_ro)){
+        if (this.itemOptions.ROList.includes(_ro)) {
           this.itemOptions.ROList.splice(this.itemOptions.ROList.indexOf(_ro), 1);
         }
 
@@ -178,6 +157,8 @@ export class DataForm {
   async selectedBuyerChanged(newValue){
     if (!this.data.Id && this.data.SalesContractROs) {
       this.data.SalesContractROs.splice(0);
+      //menghilangkan exception list ro yang sudah masuk
+      this.itemOptions.ROList.splice(0);
     }
 
     if (newValue) {
@@ -201,26 +182,25 @@ export class DataForm {
   
   get amount(){
     this.data.Amount=0;
-    if (this.data.SalesContractROs)
+    if (this.data.SalesContractROs) {
       for (var item of this.data.SalesContractROs)
-        if (this.data.SalesContractROs) {
-          this.data.Amount+=parseFloat(item.Amount);
-        }
+        //if (this.data.SalesContractROs) {
+          this.data.Amount += parseFloat(item.Amount);
+        //}
+    }
+
     return this.data.Amount;
   }
 
   async itemsChanged(e) {
-    this.hasItems=true;
-    this.data.Amount=0;
+    this.hasItems = true;
+    this.data.Amount = 0;
     if (this.data.SalesContractROs) {
-        for (var item of this.data.SalesContractROs) {
-            if (item.Amount) {
-                this.data.Amount+=parseFloat(item.Amount);
-            }
+      for (var item of this.data.SalesContractROs) {
+        if (item.Amount) {
+          this.data.Amount += parseFloat(item.Amount);
         }
-
-       // this.data.Amount=parseFloat(this.data.Amount).toLocaleString('en-EN', { minimumFractionDigits: 2});
-       // console.log(this.data.Amount)
+      }
     }
   }
 }
