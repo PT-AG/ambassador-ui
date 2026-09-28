@@ -60,14 +60,6 @@
                 error.bind="error.ConsigneeAddress" read-only.bind="readOnly" options.bind="length4">
             </au-multiline>
 
-            <au-textbox label="LC No" value.bind="data.lcNo" error.bind="error.LcNo" read-only.bind="true"
-                if.bind="data.lcNo && isPackinglistType" options.bind="length4">
-            </au-textbox>
-
-            <au-textbox label="Issued By" value.bind="data.issuedBy" error.bind="error.IssuedBy" read-only.bind="true"
-                if.bind="data.issuedBy" options.bind="length4">
-            </au-textbox>
-
             <au-multiline label="Deliver To" value.bind="data.deliverTo" error.bind="error.deliverTo"
                 read-only.bind="readOnly" options.bind="length4">
             </au-multiline>
@@ -82,6 +74,23 @@
         </div>
 
         <div class="col-sm-4">
+            <au-dropdown label="Payment Term" value.bind="data.paymentTerm" error.bind="error.PaymentTerm" read-only.bind="readOnly"
+                items.bind="PaymentTermOptions" change.delegate="paymentTermChanged()" options.bind="length4">
+            </au-dropdown>
+
+            <au-autocomplete label="LC No" value.bind="selectedLC" error.bind="error.LCNo" loader.bind="lcLoader"
+                text="documentCreditNo" read-only.bind="readOnly" show.bind="data.paymentTerm == 'LC'"
+                options.bind="length4">
+            </au-autocomplete>
+            
+            <au-datepicker label="Tgl. LC" value.bind="data.lcDate" error.bind="error.LCDate" read-only.bind="readOnly"
+                show.bind="data.paymentTerm == 'LC'" options.bind="length4">
+            </au-datepicker>
+            
+            <au-multiline label="Issued By" value.bind="data.issuedBy" error.bind="error.IssuedBy" read-only.bind="readOnly"
+                show.bind="data.paymentTerm == 'LC'" options.bind="length4">
+            </au-multiline>
+
             <au-textbox label="Shipping Per" value.bind="data.shippingPer" error.bind="error.ShippingPer"
                 read-only.bind="readOnly" options.bind="length4">
             </au-textbox>

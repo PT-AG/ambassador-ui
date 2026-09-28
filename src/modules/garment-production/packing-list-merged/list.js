@@ -20,6 +20,7 @@ export class List {
         { field: "buyerAgentName", title: "Buyer Agent" },
         { field: "destination", title: "Destination" },
         { field: "shippingStaffName", title: "Shipping Staff" },
+        { field: "mdStaffName", title: "MD Staff" },
         {
             field: "status", title: "Status", formatter: value => {
                 if (value == "REJECTED_SHIPPING_MD") {
@@ -54,6 +55,7 @@ export class List {
                 for (const data of result.data) {
                     data.buyerAgentName = (data.buyerAgent || {}).name;
                     data.shippingStaffName = (data.shippingStaff || {}).name;
+                    data.mdStaffName = (data.mdStaff || {}).name;
                     //data.invoiceNo = data.increment ? data.invoiceNo + " - " + data.increment : data.invoiceNo
                 }
 

@@ -10,6 +10,7 @@ var SectionLoader = require('../../../loader/garment-sections-loader');
 var BuyerLoader = require('../../../loader/garment-buyers-loader');
 var ShippingStaffLoader = require('../../../loader/garment-shipping-staff-loader');
 var VatTaxLoader = require('../../../loader/vat-tax-loader');
+var LCLoader = require('../../../loader/garment-shipping-letter-of-credit');
 
 @inject(Service, CoreService, AuthService)
 export class DataForm {
@@ -21,6 +22,7 @@ export class DataForm {
     @bindable fabricType;
     @bindable invoiceType;
     @bindable vatTax;
+    @bindable selectedLC;
     @bindable data = {};
     @bindable items = {};
     @bindable readOnly = false;
@@ -40,6 +42,7 @@ export class DataForm {
     };
 
     INCOTERMSOptions = ["FOB", "FAS", "CFR", "CIF", "EXW", "FCA", "CPT", "CIP", "DAT", "DAP", "DDP"];
+    PaymentTermOptions = ["LC", "TT/OA", "NON COMMERCIAL"];
     fabricTypeOptions = ["POLYESTER/COTTON ( T/C )", "COTTON/POLYESTER ( CVC )", "COTTON", "VISCOSE", "VISCOSE POLYESTER", "VISCOSE FUJIETTE", "POLYESTER"];
     countries = ["", "AFGHANISTAN", "ALBANIA", "ALGERIA", "ANDORRA", "ANGOLA", "ANGUILLA", "ANTIGUA AND BARBUDA", "ARGENTINA", "ARMENIA", "ARUBA", "AUSTRALIA", "AUSTRIA", "AZERBAIJAN", "BAHAMAS", "BAHRAIN", "BANGLADESH", "BARBADOS", "BELARUS", "BELGIUM", "BELIZE", "BENIN", "BERMUDA", "BHUTAN", "BOLIVIA", "BOSNIA AND HERZEGOVINA", "BOTSWANA", "BRAZIL", "BRITISH VIRGIN ISLANDS", "BRUNEI", "BULGARIA", "BURKINA FASO", "BURUNDI", "CAMBODIA", "CAMEROON", "CANADA", "CAPE VERDE", "CAYMAN ISLANDS", "CHAD", "CHILE", "CHINA", "COLOMBIA", "CONGO", "COOK ISLANDS", "COSTA RICA", "COTE D IVOIRE", "CROATIA", "CRUISE SHIP", "CUBA", "CYPRUS", "CZECH REPUBLIC", "DENMARK", "DJIBOUTI", "DOMINICA", "DOMINICAN REPUBLIC", "ECUADOR", "EGYPT", "EL SALVADOR", "EQUATORIAL GUINEA", "ESTONIA", "ETHIOPIA", "FALKLAND ISLANDS", "FAROE ISLANDS", "FIJI", "FINLAND", "FRANCE", "FRENCH POLYNESIA", "FRENCH WEST INDIES", "GABON", "GAMBIA", "GEORGIA", "GERMANY", "GHANA", "GIBRALTAR", "GREECE", "GREENLAND", "GRENADA", "GUAM", "GUATEMALA", "GUERNSEY", "GUINEA", "GUINEA BISSAU", "GUYANA", "HAITI", "HONDURAS", "HONG KONG", "HUNGARY", "ICELAND", "INDIA", "INDONESIA", "IRAN", "IRAQ", "IRELAND", "ISLE OF MAN", "ISRAEL", "ITALY", "JAMAICA", "JAPAN", "JERSEY", "JORDAN", "KAZAKHSTAN", "KENYA", "KUWAIT", "KYRGYZ REPUBLIC", "LAOS", "LATVIA", "LEBANON", "LESOTHO", "LIBERIA", "LIBYA", "LIECHTENSTEIN", "LITHUANIA", "LUXEMBOURG", "MACAU", "MACEDONIA", "MADAGASCAR", "MALAWI", "MALAYSIA", "MALDIVES", "MALI", "MALTA", "MAURITANIA", "MAURITIUS", "MEXICO", "MOLDOVA", "MONACO", "MONGOLIA", "MONTENEGRO", "MONTSERRAT", "MOROCCO", "MOZAMBIQUE", "NAMIBIA", "NEPAL", "NETHERLANDS", "NETHERLANDS ANTILLES", "NEW CALEDONIA", "NEW ZEALAND", "NICARAGUA", "NIGER", "NIGERIA", "NORTH KOREA", "NORWAY", "OMAN", "PAKISTAN", "PALESTINE", "PANAMA", "PAPUA NEW GUINEA", "PARAGUAY", "PERU", "PHILIPPINES", "POLAND", "PORTUGAL", "PUERTO RICO", "QATAR", "REUNION", "ROMANIA", "RUSSIA", "RWANDA", "SAINT PIERRE AND MIQUELON", "SAMOA", "SAN MARINO", "SATELLITE", "SAUDI ARABIA", "SENEGAL", "SERBIA", "SEYCHELLES", "SIERRA LEONE", "SINGAPORE", "SLOVAKIA", "SLOVENIA", "SOUTH AFRICA", "SOUTH KOREA", "SPAIN", "SRI LANKA", "ST KITTS AND NEVIS", "ST LUCIA", "ST VINCENT", "ST. LUCIA", "SUDAN", "SURINAME", "SWAZILAND", "SWEDEN", "SWITZERLAND", "SYRIA", "TAIWAN", "TAJIKISTAN", "TANZANIA", "THAILAND", "TIMOR L'ESTE", "TOGO", "TONGA", "TRINIDAD AND TOBAGO", "TUNISIA", "TURKEY", "TURKMENISTAN", "TURKS AND CAICOS", "UGANDA", "UKRAINE", "UNITED ARAB EMIRATES", "UNITED KINGDOM", "UNITED STATES OF AMERICA", "URUGUAY", "UZBEKISTAN", "VENEZUELA", "VIETNAM", "VIRGIN ISLANDS (US)", "YEMEN", "ZAMBIA", "ZIMBABWE"];
     invoiceTypes = ["AG", "DS-Commercial", "DS", "SM-Non-Commercial"];
@@ -118,7 +121,14 @@ export class DataForm {
             }
 
             if (this.data.isUseVat) {
-                this.selectedVatTax = this.data.vat;
+                this.vatTax = this.data.vat;
+            }
+
+            if (this.data.paymentTerm == 'LC') {
+                this.selectedLC = {
+                    documentCreditNo : this.data.lcNo,
+                    date : this.data.lcDate
+                }
             }
 
             this.data.bankAccountId = this.data.bankAccountId;
@@ -235,6 +245,10 @@ export class DataForm {
     vatTaxView = (vatTax) => {
         var rate = vatTax.rate ? vatTax.rate : vatTax.Rate;
         return `${rate}`
+    }
+
+    get lcLoader() {
+        return LCLoader;
     }
 
     async invoiceTypeChanged(newValue, oldValue) {
@@ -367,9 +381,24 @@ export class DataForm {
         if (selectedVatTax) {
             this.data.vat = { id: selectedVatTax.id || selectedVatTax.Id, rate: selectedVatTax.rate || selectedVatTax.Rate };
         } else {
-            this.data.vat = {};
+            this.data.vat = { id: 0, rate: 0 };
         }
-    }
+    };
+
+    selectedLCChanged(newValue) {
+        if (newValue) {
+            this.data.lcNo = newValue.documentCreditNo;
+            this.data.lcDate = newValue.date;
+        } else {
+            this.data.lcNo = null;
+            this.data.lcDate = null;
+        }
+    };
+
+    paymentTermChanged() {
+        this.data.lcNo = null;
+        this.data.issuedBy = null;
+    };
 
     async loadPackingList() {
         if (this.data.id) return;
@@ -554,7 +583,7 @@ export class DataForm {
 
         // 4. Hitung total akhir
         const totalAmount = amountAll - amountisCmt + amountCMT;
-        const vat = this.data.isUseVat && this.data.vat.rate ? (this.data.vat.rate / 100) * totalAmount : 0
+        const vat = this.data.isUseVat ? ((this.data.vat ? this.data.vat.rate : 0 ) / 100) * totalAmount : 0
         const finalAmount = totalAmount + vat + adjustmentValue;
 
         this.data.amountToBePaid = finalAmount;
@@ -624,7 +653,7 @@ export class DataForm {
                 }
 
                 var totalAmount = amountAll - amountisCmt + amountCMT;
-                vatCost += totalAmount * ((this.data.vat.rate || 0) / 100);
+                vatCost += totalAmount * ((this.data.vat ? this.data.vat.rate : 0) / 100);
             }
         }
 

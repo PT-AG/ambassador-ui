@@ -271,7 +271,7 @@
         </div>
       </div>
     </div>
-    <!--<au-textbox error.bind="error.Details" read-only.bind="true"></au-textbox>-->
+    
     <au-collection
       items.bind="data.SalesContractROs"
       errors.bind="error.SalesContractROs"
@@ -285,7 +285,7 @@
       change.delegate="itemsChanged($event)"
       if.bind="selectedBuyer && type !='Ekspor'">
     </au-collection>
-    <!-- options.bind="itemsInfo.options" -->
+    
     <au-collection
       items.bind="data.SalesContractROs"
       errors.bind="error.SalesContractROs"
@@ -297,8 +297,7 @@
       change.delegate="itemsChanged($event)"
       if.bind="selectedBuyer && type =='Ekspor'">
     </au-collection>
-    <!-- options.bind="itemsInfo.options" -->
+    
     <au-textbox error.bind="error.TotalQuantity" read-only.bind="true"></au-textbox>
-
   </form>
 </template>

@@ -21,18 +21,6 @@ export class DataForm {
     activeTab = 0;
     changeRole(tab) {
         this.activeTab = tab;
-        // if (tab != 2) {
-        //     this.context.saveCallback=null;
-        //     this.context.cancelCallback=null;
-        //     this.context.deleteCallback=null;
-        //     this.context.editCallback=null;
-        // }
-        // else{
-        //     this.context.saveCallback=this.save;
-        //     this.context.cancelCallback=this.cancel;
-        //     this.context.deleteCallback=this.delete;
-        //     this.context.editCallback=this.edit;
-        // }
     }
 
     controlOptions = {
@@ -124,6 +112,7 @@ export class DataForm {
             if (Math.floor(tempNumber / (100 * Math.pow(1000, i))) !== 0)
                 word = first[Math.floor(tempNumber / (100 * Math.pow(1000, i)))] + 'hundred ' + word;
         }
+
         return word.toUpperCase();
     }
 
@@ -154,7 +143,6 @@ export class DataForm {
         }
 
         this.data.sayUnit = this.data.sayUnit || "CARTON";
-
         this.shippingMarkImageSrc = this.data.shippingMarkImageFile || this.noImage;
         this.sideMarkImageSrc = this.data.sideMarkImageFile || this.noImage;
         this.remarkImageSrc = this.data.remarkImageFile || this.noImage;
@@ -182,6 +170,7 @@ export class DataForm {
                 }
             }
         }
+
         return total.toLocaleString('en-EN', { minimumFractionDigits: 3, maximumFractionDigits: 3 });
     }
 
@@ -213,26 +202,29 @@ export class DataForm {
                   }
                 }
               }
+
               if (!cartonExist) {
                 result += detail.cartonQuantity;
               }
             }
           }
         }
+
         this.data.totalCartons = result;
         return this.data.totalCartons;
       }
     }
-downloadDocument(index) {
-      // this.service.getFile((this.documentsPathTemp[index] || '').replace('/sales/', ''), this.data.DocumentsFileName[index]);
-      const linkSource = this.data.documentsFile[index];
-      const downloadLink = document.createElement("a");
-      const fileName = this.data.documentsFileName[index];
-  
-      downloadLink.href = linkSource;
-      downloadLink.download = fileName;
-      downloadLink.click();
-  }
+
+    downloadDocument(index) {
+        const linkSource = this.data.documentsFile[index];
+        const downloadLink = document.createElement("a");
+        const fileName = this.data.documentsFileName[index];
+
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+    }
+
     get totalQuantities() {
         let quantities = [];
         let result = [];
@@ -241,19 +233,19 @@ downloadDocument(index) {
             var no = 1;
             for (var item of this.data.items) {
                 let unit = "";
-                if(item.uom) {
+                if (item.uom) {
                     unit = item.uom.unit || item.uom.Unit;
                 }
-                // if (item.quantity && quantities.findIndex(c => c.roNo == item.roNo && c.unit == unit) < 0) {
-                    quantities.push({ no: no, roNo: item.roNo, unit: unit, quantityTotal: item.quantity });
-                    if(units.findIndex(u => u.unit == unit) < 0) {
-                        units.push({ unit: unit });
-                    // }
-                }
-                no++;
                 
+                quantities.push({ no: no, roNo: item.roNo, unit: unit, quantityTotal: item.quantity });
+                if (units.findIndex(u => u.unit == unit) < 0) {
+                    units.push({ unit: unit });
+                }
+
+                no++;
             }
         }
+
         for (var u of units) {
             let countableQuantities = 0;
             for (var q of quantities) {
@@ -261,8 +253,14 @@ downloadDocument(index) {
                     countableQuantities += q.quantityTotal;
                 }
             }
+
             result.push(countableQuantities + " " + u.unit);
         }
+
         return result.join(" / ");
     }
+
+    get isPackinglistType() {
+        return this.data.packingListType && this.data.packingListType.includes("EXPORT");
+    };
 }
