@@ -124,6 +124,13 @@ export class DataForm {
                 this.vatTax = this.data.vat;
             }
 
+            if (this.data.paymentTerm == 'LC') {
+                this.selectedLC = {
+                    documentCreditNo : this.data.lcNo,
+                    date : this.data.lcDate
+                }
+            }
+
             this.data.bankAccountId = this.data.bankAccountId;
             this.packinglists = this.data.invoiceNo;
             this.packingListType = this.data.packingListType;
@@ -381,8 +388,10 @@ export class DataForm {
     selectedLCChanged(newValue) {
         if (newValue) {
             this.data.lcNo = newValue.documentCreditNo;
+            this.data.lcDate = newValue.date;
         } else {
             this.data.lcNo = null;
+            this.data.lcDate = null;
         }
     };
 
