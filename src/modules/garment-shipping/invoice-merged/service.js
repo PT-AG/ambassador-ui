@@ -38,15 +38,15 @@ class Service extends RestService {
         return super.get(endpoint);
     }
 
-    getPdfById(id, type) {
-        var endpoint = `${serviceUri}/pdf/${id}/${type}`;
+    getPdfById(id, type, wh) {
+        var endpoint = `${serviceUri}/pdf/${id}/${type}?wh=${wh}`;
         return super.getPdf(endpoint);
     }
 
-    getPdfWHById(id, type) {
-        var endpoint = `${serviceUri}/whpdf/${id}/${type}`;
-        return super.getPdf(endpoint);
-    }
+    // getPdfWHById(id, type) {
+    //     var endpoint = `${serviceUri}/whpdf/${id}/${type}`;
+    //     return super.getPdf(endpoint);
+    // }
 
     getInvoiceNo(info) {
         var endpoint = `${resourceStockUri}`;
@@ -58,10 +58,10 @@ class Service extends RestService {
         return super.getXls(endpoint);
     }
 
-    getWHXlsById(id, type) {
-        var endpoint = `${serviceUri}/whxls/${id}/${type}`;
-        return super.getXls(endpoint);
-    }
+    // getWHXlsById(id, type) {
+    //     var endpoint = `${serviceUri}/whxls/${id}/${type}`;
+    //     return super.getXls(endpoint);
+    // }
 
     getInvoicePartial(filter) {
         var endpoint = `${resourceStockUri}/partial?filter=` + JSON.stringify(filter);
@@ -86,6 +86,7 @@ class SalesService extends RestService {
         var endpoint = `${SalesContractserviceUri}/${id}`;
         return super.get(endpoint);
     }
+    
     getSalesContractByRO(ro) {
         var endpoint = `${SalesContractserviceUri}/by-ro/${ro}`;
         return super.get(endpoint);
