@@ -2,25 +2,23 @@ import { inject } from "aurelia-framework";
 import { Router } from "aurelia-router";
 import moment from "moment";
 import numeral from "numeral";
-import { Dialog } from "../../../au-components/dialog/dialog";
 import { Service } from "./service";
-import { PermissionHelper } from "../../../utils/permission-helper";
+import { Base64Helper } from "../../../utils/base-64-coded-helper";
 
-@inject(Router, Service, Dialog, PermissionHelper)
+@inject(Router, Service)
 export class List {
-  context = ["Hapus"];
+  context = ["Detail","Cetak PDF"];
 
   columns = [
-    { field: "ReferenceNo", title: "No Referensi" },
-    // {
-    //   field: "SendToVerificationDate",
-    //   title: "Tanggal Penerimaan Verifikasi",
-    //   formatter: function (value, data, index) {
-    //     return moment(value).format("DD MMM YYYY");
-    //   },
-    // },
-    //{ field: "VBRequestDocumentNo", title: "No VB" },
-    { field: "DocumentNo", title: "Nomor Realisasi VB" },
+    { field: "DocumentNo", title: "No Dokumen" },
+    {
+      field: "Date",
+      title: "Tanggal Pengeluaran Bank",
+      formatter: function (value, data, index) {
+        return moment(value).format("DD MMM YYYY");
+      },
+    },
+    { field: "VBRealizationDocumentNo", title: "Nomor Realisasi VB" },
     {
       field: "Amount",
       title: "Nominal Realisasi",
@@ -31,11 +29,9 @@ export class List {
     },
   ];
 
-  constructor(router, service, dialog, permissionHelper) {
+  constructor(router, service) {
     this.service = service;
-    // this.purchasingDocumentExpeditionService = purchasingDocumentExpeditionService;
     this.router = router;
-    this.dialog = dialog;
 
   }
 
@@ -54,8 +50,7 @@ export class List {
       page: parseInt(info.offset / info.limit, 10) + 1,
       size: info.limit,
       keyword: info.search,
-      order: order,
-      position: 5,
+      order: order
     };
 
     return this.service.search(arg).then((result) => {
@@ -68,13 +63,13 @@ export class List {
           return index == self.indexOf(elem);
         });
         var vbReq = _data.VBRealizations.map(function (item) {
-          return `<li>${item.VBRequestDocumentNo}</li>`;
+          return `<li>${item.DocumentNo}</li>`;
         });
         vbReq = vbReq.filter(function (elem, index, self) {
           return index == self.indexOf(elem);
         });
-        _data.DocumentNo = `<ul>${docNo.join()}</ul>`;
-        _data.VBRequestDocumentNo = `<ul>${vbReq.join()}</ul>`;
+        //_data.DocumentNo = `<ul>${docNo.join()}</ul>`;
+        _data.VBRealizationDocumentNo = `<ul>${vbReq.join()}</ul>`;
       }
       return Promise.all(result.data).then((data) => {
         return {
@@ -90,22 +85,13 @@ export class List {
     let data = arg.data;
 
     switch (arg.name) {
-      case "Hapus":
-        this.dialog
-          .prompt("Apakah anda yakin ingin mengembalikan data ke verifikasi?")
-          .then((response) => {
-            if (response.ok) {
-              this.service
-                .cashierDelete(data.VBRealizationId, data)
-                .then((result) => {
-                  this.tableList.refresh();
-                });
-            }
-          })
-          .catch((e) => {
-            this.error = e;
-          });
-        break;
+        case "Detail":
+            const encoded = Base64Helper.encode(data.Id);
+            this.router.navigateToRoute('view', { id: encoded });
+            break;
+        case "Cetak PDF":
+            this.service.getPdfById(data.Id);
+            break;
     }
   }
 
