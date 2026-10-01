@@ -893,21 +893,6 @@ module.exports = [
     },
   },
   {
-    route: "vb-realization-acceptance",
-    name: "vb-realization-acceptance",
-    moduleId: "./modules/expedition/vb-realization-acceptance/index",
-    nav: true,
-    title: "Penerimaan VB Realisasi",
-    auth: true,
-    settings: {
-      group: "finance",
-      subGroup: "vb",
-      permission: {"K35":1},
-      // permission: {B4: 1, B9: 1, PDU: 1, C9: 1},
-      iconClass: "fa fa-dashboard",
-    },
-  },
-  {
     route: "vb-bank-expenditure",
     name: "vb-bank-expenditure",
     moduleId: "./modules/expedition/vb-bank-expenditure/index",
