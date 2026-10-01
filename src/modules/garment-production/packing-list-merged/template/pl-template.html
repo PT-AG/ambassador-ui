@@ -1,0 +1,89 @@
+<template>
+    <tr>
+        <td >
+            <au-textbox
+                value.bind="data.color"
+                read-only.bind="data.number=='RO' || readOnly">
+            </au-textbox>
+        </td>
+        <td >
+            <au-textbox
+                value.bind="data.number"
+                read-only.bind="true">
+            </au-textbox>
+        </td>
+        <td repeat.for="sz of data.sizes">
+            <au-numeric
+                value.bind="sz.quantity"
+                read-only.bind="data.number=='RO' || readOnly"
+                format="0">
+            </au-numeric>
+        </td>
+        <td>
+            <au-numeric
+                value.bind="data.qtyCtn"
+                format="0"
+                read-only.bind="data.number=='RO' || readOnly">
+            </au-numeric>
+        </td>
+        <td>
+            <au-numeric
+                value.bind="data.cartons"
+                format="0"
+                read-only.bind="data.number=='RO' || readOnly">
+            </au-numeric>
+        </td>
+        <td>
+            <au-numeric
+                value.bind="data.qtyCtn"
+                format="0"
+                read-only.bind="data.number=='RO' || readOnly">
+            </au-numeric>
+        </td>
+        <td>
+            <au-numeric
+                value.bind="data.grossWeight"
+                format="0.00"
+                read-only.bind="data.number=='RO' || readOnly">
+            </au-numeric>
+        </td>
+        <td>
+            <au-numeric
+                value.bind="data.netWeight"
+                format="0.00"
+                read-only.bind="data.number=='RO' || readOnly">
+            </au-numeric>
+        </td>
+        <td>
+            <au-numeric
+                value.bind="data.netNetWeight"
+                format="0.00"
+                read-only.bind="data.number=='RO' || readOnly">
+            </au-numeric>
+        </td>
+                <td>
+            <au-numeric
+                value.bind="data.height"
+                format="0.00"
+                read-only.bind="data.number=='RO' || readOnly">
+            </au-numeric>
+        </td>
+        <td>
+            <au-numeric
+                value.bind="data.width"
+                format="0.00"
+                read-only.bind="data.number=='RO' || readOnly">
+            </au-numeric>
+        </td>
+        <td>
+            <au-numeric
+                value.bind="data.length"
+                format="0.00"
+                read-only.bind="data.number=='RO' || readOnly">
+            </au-numeric>
+        </td>
+        <td if.bind="!readOnly" class="bg-light">
+            <button class="btn btn-danger pull-right" click.delegate="onremove(data, $event)">-</button>
+        </td>
+    </tr>
+</template>

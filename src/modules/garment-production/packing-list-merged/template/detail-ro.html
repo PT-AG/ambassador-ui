@@ -1,126 +1,105 @@
 <template>
     <tr>
         <td class="bg-primary col-md-1">
-            <au-dropdown 
-                value.bind="data.roType" 
-                items.bind="roTypeOptions" 
-                error.bind="error.roType"
-                read-only.bind="true"
-                options.bind="controlOptions" 
-                change.delegate="roTypeChanged($event)">
+            <au-dropdown value.bind="data.roType" items.bind="roTypeOptions" error.bind="error.roType"
+                read-only.bind="true" options.bind="controlOptions" change.delegate="roTypeChanged($event)">
             </au-dropdown>
         </td>
         <td class="bg-primary col-md-1">
-            <au-autocomplete
-                value.bind="selectedRO"
-                error.bind="error.RONo"
-                loader.bind="roLoader"
-                text.bind="roView"
-                placeholder="cari RO"
-                query.bind="filter"
+            <au-autocomplete value.bind="selectedRO" error.bind="error.RONo" loader.bind="roLoader" text.bind="roView"
+                placeholder="cari RO" query.bind="filter"
                 read-only.bind="readOnly || (isEdit && data.id) || data.isCopy">
             </au-autocomplete>
         </td>
         <td class="bg-primary">
-            <au-textbox
-                value.bind="data.scNo"
-                read-only.bind="true">
+            <au-textbox value.bind="data.scNo" read-only.bind="true">
             </au-textbox>
         </td>
         <td class="bg-primary">
-            <au-textbox
-                value.bind="data.buyerBrand.Name || data.buyerBrand.name ||''"
-                read-only.bind="true">
+            <au-textbox value.bind="data.buyerBrand.Name || data.buyerBrand.name ||''" read-only.bind="true">
             </au-textbox>
         </td>
         <td class="bg-primary">
-            <au-textbox
-                value.bind="data.section.code || data.section.Code || ''"
-                error.bind="error.Section"
+            <au-textbox value.bind="data.section.code || data.section.Code || ''" error.bind="error.Section"
                 read-only.bind="true">
             </au-textbox>
         </td>
         <td class="bg-primary col-md-2">
-            <au-textbox
-                value.bind="data.comodityDescription"
-                error.bind="error.comodityDescription"
+            <au-textbox value.bind="data.comodityDescription" error.bind="error.comodityDescription"
                 read-only.bind="readOnly">
             </au-textbox>
         </td>
         <td class="bg-primary col-md-1">
-            <au-numeric
-                value.bind="data.quantity"
-                error.bind="error.Quantity"
-                read-only.bind="readOnly">
+            <au-numeric value.bind="data.quantity" error.bind="error.Quantity" read-only.bind="readOnly">
             </au-numeric>
         </td>
         <td class="bg-primary col-md-1">
-            <au-autocomplete
-                value.bind="uom"
-                error.bind="error.Uom"
-                loader.bind="uomLoader"
-                text.bind="uomView"
-                placeholder="cari satuan"
-                read-only.bind="readOnly">
+            <au-autocomplete value.bind="uom" error.bind="error.Uom" loader.bind="uomLoader" text.bind="uomView"
+                placeholder="cari satuan" read-only.bind="readOnly">
             </au-autocomplete>
         </td>
         <td class="bg-primary">
-            <au-numeric
-                value.bind="data.priceRO"
-                read-only.bind="true">
+            <au-numeric value.bind="data.priceRO" read-only.bind="true">
             </au-numeric>
         </td>
         <td class="bg-primary">
-            <au-textbox
-                value.bind="data.valas"
-                read-only.bind="true">
+            <au-textbox value.bind="data.valas" read-only.bind="true">
             </au-textbox>
         </td>
         <td class="bg-primary">
-            <au-numeric
-                value.bind="amount"
-                read-only.bind="true"
-                format="0.00">
+            <au-numeric value.bind="amount" read-only.bind="true" format="0.00">
             </au-numeric>
         </td>
         <td class="bg-primary col-md-1">
-            <au-autocomplete
-                show.bind="data.roNo"
-                value.bind="data.unit"
-                error.bind="error.unit"
-                loader.bind="unitLoader"
-                text.bind="unitView"
-                placeholder="cari unit"
-                read-only.bind="readOnly">
+            <au-autocomplete show.bind="data.roNo" value.bind="data.unit" error.bind="error.unit"
+                loader.bind="unitLoader" text.bind="unitView" placeholder="cari unit" read-only.bind="readOnly">
             </au-autocomplete>
+        </td>
+
+        <td class="bg-primary">
+            <au-numeric value.bind="data.ctnQty" format="0" read-only.bind="readOnly">
+            </au-numeric>
         </td>
 
         <td if.bind="!readOnly">
             <button class="btn btn-danger pull-right" click.delegate="onremove(data, $event)">-</button>
         </td>
         <td if.bind="readOnly">
-            <button class="btn btn-info pull-right" if.bind= "data.details" click.delegate="toggle()">i</button>
+            <button class="btn btn-info pull-right" if.bind="data.details" click.delegate="toggle()">i</button>
         </td>
     </tr>
     <tr show.bind="readOnly? isShowing : !isShowing" style="background-color:#C2B5B2;">
         <td colspan="3">
-            <au-textbox
-                label = "Artikel"
-                value.bind="data.article"
-                read-only.bind="true">
+            <au-textbox label="Artikel" value.bind="data.article" read-only.bind="true">
             </au-textbox>
         </td>
-        
+
         <td colspan="4">
-            <au-multiline
-                label = "PO Buyer"
-                error.bind="error.OrderNo"
-                value.bind="data.orderNo"
+            <au-multiline label="PO Buyer" error.bind="error.OrderNo" value.bind="data.orderNo"
                 read-only.bind="readOnly">
             </au-multiline>
         </td>
-        
+
         <td colspan="5">
+            <au-numeric label="Height" value.bind="data.height" show.bind="!readOnly" read-only.bind="readOnly">
+            </au-numeric>
+            <au-numeric label="Width" value.bind="data.width" show.bind="!readOnly" read-only.bind="readOnly">
+            </au-numeric>
+            <au-numeric label="Lenght" value.bind="data.length" show.bind="!readOnly" read-only.bind="readOnly">
+            </au-numeric>
+        </td>
+        <td>
+            <button class="btn btn-info pull-right" show.bind="!readOnly" click.delegate="generateTemplate()">Generate</button>
         </td>
     </tr>
-  </template>
+    <tr>
+        <td colspan="13">
+            <au-collection items.bind="data.detailRows" columns.bind="plColumns" read-only.bind="readOnly"
+                add.bind="addItems" remove.bind="removeDetailRows" options.bind="itemOptions"
+                item-template="modules/garment-production/packing-list-merged/template/pl-template"
+                footer-template="modules/garment-production/packing-list-merged/template/pl-footer"
+                if.bind="data.detailRows">
+            </au-collection>
+        </td>
+    </tr>
+</template>
