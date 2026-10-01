@@ -18,29 +18,14 @@ export class Service extends RestService {
     return super.post(endpoint, data);
   }
 
-  acceptForVerification(data) {
-    let endpoint = `${serviceUri}/accept-for-verification`;
-    return super.put(endpoint, data);
-  }
-
-  acceptForCashier(data) {
-    let endpoint = `${serviceUri}/accept-for-cashier`;
-    return super.put(endpoint, data);
-  }
-
-  reject(id, data) {
-    let endpoint = `${serviceUri}/vb-reject/${id}`;
-    return super.put(endpoint, data);
-  }
-
-  cashierDelete(id, data) {
-    let endpoint = `${serviceUri}/vb-cashier-delete/${id}`;
-    return super.put(endpoint, data);
-  }
-
   delete(data) {
     let endpoint = `${serviceUri}/${data.Id}`;
     return super.delete(endpoint, data);
+  }
+
+  getById(id) {
+      let endpoint = `${serviceUri}/${id}`;
+      return super.get(endpoint);
   }
 
   search(info) {
@@ -60,6 +45,9 @@ export class Service extends RestService {
       .then((data) => data)
       .catch(() => null);
   }
-}
 
-// export class
+  getPdfById(id) {
+      let endpoint = `${serviceUri}/pdf/${id}`;
+      return super.getPdf(endpoint);
+  }
+}

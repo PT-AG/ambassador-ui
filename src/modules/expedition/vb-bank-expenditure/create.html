@@ -3,6 +3,14 @@
         title="Buat Pengeluaran Bank VB"
         options.bind="formOptions">
     <div class="row">
+
+        <au-datepicker value.bind="data.Date"
+                       read-only.bind="readOnly"
+                       error.bind="error.Date"
+                       label="Tanggal"
+                       options.bind="controlOptions">
+        </au-datepicker>
+
         <au-autocomplete 
             label="Bank"
             placeholder="pilih bank"
@@ -22,24 +30,50 @@
             show.bind="selectedBank">
         </au-textbox>
 
-        <au-textbox 
-            label="Mata Uang"
-            value.bind="selectedBank.Currency.Code"
-            read-only.bind="true"
-            options.bind="controlOptions"
-            show.bind="selectedBank">
-        </au-textbox>
-    </div>
+        <au-autocomplete value.bind="currency"
+                         loader.one-time="currencyLoader"
+                         error.bind="error.Currency"
+                         text="Code"
+                         label="Mata Uang"
+                         read-only.bind="readOnly || isNotEditable"
+                         options.bind="controlOptions"
+                         placeholder="pilih mata uang">
+        </au-autocomplete>
 
-    <au-table
-        view-model.ref="documentTable"
-        data.bind="loader"
+        <au-numeric value.bind="data.Currency.Rate"
+                    read-only.bind="sameCurrency"
+                    label="Rate"
+                    options.bind="controlOptions"
+                    format="0,000.0000">
+        </au-numeric>
+
+        <au-textbox label="No. BG/Cek"
+                    value.bind="data.BGCheckNumber"
+                    error.bind="error.BGCheckNumber"
+                    read-only.bind="readOnly"
+                    options.bind="controlOptions"
+                    show.bind="selectedBank">
+        </au-textbox>
+        
+        <au-numeric label="Biaya Lain-lain"
+                    value.bind="data.OtherExpense"
+                    error.bind="error.OtherExpense"
+                    read-only.bind="readOnly"
+                    options.bind="controlOptions">
+        </au-numeric>
+    </div>
+    
+    <au-collection
+        items.bind="data.Items"
+        errors.bind="error.Items"
         columns.bind="columns2"
-        sortable.bind="true"
-        selections.bind="selectedItems"
-        page-size="25"
-        context.bind="context">
-    </au-table>
+        read-only.bind="readOnly"
+        options.bind="itemOptions"
+        item-template="modules/expedition/vb-bank-expenditure/templates/item"
+        add.bind="addItems"
+        options.bind="itemOptions"
+        remove.bind="removeItems">
+    </au-collection>
     <br />
   </au-input-form>
 </template>
