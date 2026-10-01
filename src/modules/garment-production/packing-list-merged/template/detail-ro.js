@@ -9,11 +9,258 @@ var SampleRequestLoader = require("../../../../loader/garment-sample-request-loa
 export class Item {
   @bindable selectedRO;
   @bindable uom;
+  @bindable detail;
+  @bindable masterSize = new Set();
 
   constructor(salesService, garmentProductionService, coreService) {
     this.salesService = salesService;
     this.garmentProductionService = garmentProductionService;
     this.coreService = coreService;
+  }
+
+  getTotalSize(size) {
+    let total = 0;
+    for (let color of this.detail.Colors) {
+      let obj = color.Sizes.find((s) => s.Size.toUpperCase() === size);
+      if (obj) total += obj.Quatity;
+    }
+
+    return total;
+  }
+
+  buildDetailsColumns() {
+    let dynamicSizeColumns = this.data.sizes.map((sz) => ({
+      header: sz,
+      value: sz,
+    }));
+
+    this.plColumns = [
+      { header: "STYLE / COLOR", value: "color" },
+      { header: "NOMOR", value: "nomor" },
+
+      // ======== Dynamic Size Columns ========
+      ...dynamicSizeColumns,
+
+      { header: "TOTAL PCS", value: "qtyCtn" },
+      { header: "CTN", value: "cartons" },
+      { header: "TOTAL", value: "cartons" },
+      { header: "GW", value: "grossWeight" },
+      { header: "NW", value: "netWeight" },
+      { header: "NNW", value: "netNetWeight" },
+      { header: "Height", value: "height" },
+      { header: "Width", value: "width" },
+      { header: "Length", value: "length" },
+    ];
+  }
+
+  createSizesList(activeSizes = {}) {
+    const masterList = Array.from(this.masterSize || []);
+    return (this.data.sizes || []).map(sz => {
+      const name = String(sz).toUpperCase();
+      const meta = masterList.find(m => m.size === name) || {};
+      return {
+        packingListDetailRowId: 0,
+        sizeIdx: meta.sizeIdx || 0,
+        sizeId: meta.sizeId || 0,
+        size: name,
+        quantity: Number(activeSizes[name] || 0)
+      };
+    });
+  }
+
+  addFullCartonRow(colorName, sizeName, fullCtn, start, end, h, w, l) {
+    let row = {
+      color: colorName,
+      start,
+      end,
+      cartons: fullCtn,
+      qtyDisplay: this.data.ctnQty,
+      qtyCtn: this.data.ctnQty * fullCtn,
+      sizes: this.createSizesList({ [sizeName]: this.data.ctnQty }),
+      grossWeight: 0,
+      netWeight: 0,
+      netNetWeight: 0,
+      height: h,
+      width: w,
+      length: l
+    };
+
+    this.data.detailRows.push(row);
+  }
+
+  addRemainderRow(colorName, start, end, sizeMap, qtyTotal, h, w, l) {
+    let row = {
+      color: colorName,
+      start,
+      end,
+      cartons: 1,
+      qtyDisplay: qtyTotal,
+      qtyCtn: qtyTotal,
+      sizes: this.createSizesList(sizeMap),
+      height: h,
+      width: w,
+      length: l,
+      grossWeight: 0,
+      netWeight: 0,
+      netNetWeight: 0,
+    };
+
+    this.data.detailRows.push(row);
+  }
+
+  combineRemainders(startNo) {
+    let buffer = [];
+    let total = 0;
+
+    for (let r of this.remainders) {
+      buffer.push({ ...r });
+      total += r.remainder;
+
+      while (total >= this.data.ctnQty) {
+        let need = this.data.ctnQty;
+        let tmpSize = {};
+
+        while (need > 0 && buffer.length > 0) {
+          let item = buffer[0];
+          let useQty = Math.min(item.remainder, need);
+
+          if (!tmpSize[item.size]) tmpSize[item.size] = 0;
+          tmpSize[item.size] += useQty;
+
+          item.remainder -= useQty;
+          need -= useQty;
+
+          if (item.remainder === 0) buffer.shift();
+        }
+
+        this.addRemainderRow(
+          buffer.length > 1 ? "Gabungan" : r.color,
+          startNo,
+          startNo,
+          tmpSize,
+          this.data.ctnQty,
+          this.data.height,
+          this.data.width,
+          this.data.length
+        );
+
+        total -= this.data.ctnQty;
+        startNo++;
+      }
+    }
+
+    // Sisa terakhir < isiCarton
+    if (total > 0) {
+      let tmpSize = {};
+      buffer.forEach((x) => {
+        tmpSize[x.size] = (tmpSize[x.size] || 0) + x.remainder;
+      });
+
+      this.addRemainderRow(
+        buffer.length > 1 ? "Gabungan" : buffer[0].color,
+        startNo,
+        startNo,
+        tmpSize,
+        total,
+        this.data.height,
+        this.data.width,
+        this.data.length
+      );
+    }
+  }
+
+  generateCartonLayout() {
+    this.data.detailRows = [];
+    this.remainders = [];
+
+    let currentStart = 1;
+
+    for (let color of this.detail.Colors) {
+      for (let s of color.Sizes) {
+        let qty = s.Quatity;
+
+        if (qty < this.data.ctnQty) {
+          this.remainders.push({
+            color: color.Color,
+            size: s.Size.toUpperCase(),
+            remainder: qty,
+          });
+          continue;
+        }
+
+        let fullCtn = Math.floor(qty / this.data.ctnQty);
+        let start = currentStart;
+        let end = currentStart + fullCtn - 1;
+
+        this.addFullCartonRow(
+          color.Color,
+          s.Size.toUpperCase(),
+          fullCtn,
+          start,
+          end,
+          this.data.height,
+          this.data.width,
+          this.data.length
+        );
+
+        currentStart = end + 1;
+
+        let rem = qty % this.data.ctnQty;
+        if (rem > 0) {
+          this.remainders.push({
+            color: color.Color,
+            size: s.Size.toUpperCase(),
+            remainder: rem,
+          });
+        }
+      }
+    }
+
+    this.combineRemainders(currentStart);
+  }
+
+  extractSizes() {
+    const sizes = new Set();
+    for (let color of this.detail.Colors) {
+      for (let s of color.Sizes) {
+        sizes.add(s.Size.toUpperCase());
+        this.masterSize.add({ sizeId: s.Id, size: s.Size.toUpperCase()});
+      }
+    }
+
+    return Array.from(sizes); // Convert ke array
+  }
+
+  async generateTemplate() {
+    if (this.data.roNo && this.data.ctnQty) {
+      let ro = await this.salesService.getROGarment({
+        keyword: this.data.roNo,
+      });
+
+      if (ro.data.length > 0) {
+        this.detail = ro.data[0];
+        this.data.sizes = this.extractSizes();
+        this.itemOptions.sizes = this.data.sizes;
+        this.buildDetailsColumns();
+        this.generateCartonLayout();
+        this.reorderDetailRows();
+      } else {
+        alert('RO belum dibuat Breakdown Size');
+      }
+    } else {
+      alert('RO tidak bisa di Breakdown');
+    }
+  }
+
+  reorderDetailRows() {
+    const options = this.context.context.options;
+    if (options && typeof options.reorderDetailRows === "function") {
+      options.reorderDetailRows();
+    }
+  }
+
+  get removeDetailRows() {
+    return (event) => this.reorderDetailRows();
   }
 
   roTypeOptions = ["RO JOB", "RO SAMPLE"];
@@ -114,6 +361,8 @@ export class Item {
       isEdit: this.isEdit,
       header: context.context.options.header,
       item: this.data,
+      sizes: this.data.sizes,
+      reorderDetailRows: () => this.reorderDetailRows(),
     };
 
     if (this.data.roNo) {
@@ -129,6 +378,10 @@ export class Item {
     if (this.error && this.error.Details && this.error.Details.length > 0) {
       this.isShowing = true;
     }
+
+    if (this.data.detailRows) {
+      this.buildDetailsColumns();
+    }
   }
 
   selectedROChanged(newValue) {
@@ -136,12 +389,18 @@ export class Item {
       if (this.data.roType == 'RO JOB') {
         this.salesService.getCostCalculationById(newValue.Id)
           .then(result => {
+            // this.salesService.getROGarment({ keyword: result.RO_Number })
+            //   .then(ro => {
+            //     for (let color of ro.Colors) {
+            //       for (let s of color.Sizes) {
+            //         this.masterSize.add({ sizeId: s.SizeId, size: s.Size.toUpperCase()});
+            //       }
+            //     }
+            //   });
             this.salesService.getSalesContractByRO(result.RO_Number)
               .then(sc => {
-                console.log(sc);
                 this.salesService.getPreSalesContractById(result.PreSCId)
                   .then(psc => {
-                    console.log(psc);
                     this.data.roNo = result.RO_Number;
                     this.data.article = result.Article;
                     this.data.buyerAgent = result.Buyer;
@@ -176,7 +435,7 @@ export class Item {
 
                     this.context.context.options.header.section = this.data.section;
                   });
-              })
+              });
           });
       } else {
         this.garmentProductionService.getSampleRequestById(newValue.Id)
@@ -293,53 +552,17 @@ export class Item {
   get removeDetails() {
     return (event) => {
       this.error = null;
+      this.reorderDetailRows();
       this.updateTotalSummary();
       this.updateMeasurements();
     };
   }
 
   updateMeasurements() {
-    let measurementCartons = [];
-    for (const item of this.context.context.options.header.items) {
-      for (const detail of (item.details || [])) {
-        let measurement = measurementCartons.find(m => m.length == detail.length && m.width == detail.width && m.height == detail.height && m.carton1 == detail.carton1 && m.carton2 == detail.carton2);
-        if (!measurement) {
-          measurementCartons.push({
-            carton1: detail.carton1,
-            carton2: detail.carton2,
-            length: detail.length,
-            width: detail.width,
-            height: detail.height,
-            cartonsQuantity: detail.cartonQuantity,
-          });
-        }
-      }
+    const options = this.context.context.options;
+    if (options && typeof options.updateMeasurements === "function") {
+      options.updateMeasurements();
     }
-
-    let measurements = [];
-    for (const measurementCarton of measurementCartons) {
-      let measurement = measurements.find(m => m.length == measurementCarton.length && m.width == measurementCarton.width && m.height == measurementCarton.height);
-      if (measurement) {
-        measurement.cartonsQuantity += measurementCarton.cartonsQuantity;
-      } else {
-        measurements.push(Object.assign({}, measurementCarton));
-      }
-    }
-
-    this.context.context.options.header.measurements = this.context.context.options.header.measurements || [];
-    this.context.context.options.header.measurements.splice(0);
-
-    for (const mt of measurements) {
-      let measurement = (this.context.context.options.header.measurementsTemp || []).find(m => m.length == mt.length && m.width == mt.width && m.height == mt.height);
-      if (measurement) {
-        measurement.cartonsQuantity = mt.cartonsQuantity;
-        this.context.context.options.header.measurements.push(measurement);
-      } else {
-        this.context.context.options.header.measurements.push(mt);
-      }
-    }
-
-    this.context.context.options.header.measurements.forEach((m, i) => m.MeasurementIndex = i);
   }
 
   get totalQty() {

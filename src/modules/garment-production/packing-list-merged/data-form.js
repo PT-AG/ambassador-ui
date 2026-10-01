@@ -13,6 +13,7 @@ export class DataForm {
     @bindable isView = false;
     @bindable title;
     @bindable data = {};
+    @bindable lastNumber = 0;
 
     constructor(service) {
         this.service = service;
@@ -59,8 +60,8 @@ export class DataForm {
         { header: "Mata Uang" },
         { header: "Amount" },
         { header: "Unit" },
-        { header: "" },
-    ]
+        { header: "Jml per Carton" },
+    ];
 
     measureColumns = [
         { header: "No", value: "MeasurementIndex" },
@@ -69,7 +70,7 @@ export class DataForm {
         { header: "Height" },
         { header: "Qty Cartons" },
         { header: "CBM" },
-    ]
+    ];
 
     countries = ["", "AFGHANISTAN", "ALBANIA", "ALGERIA", "ANDORRA", "ANGOLA", "ANGUILLA", "ANTIGUA AND BARBUDA", "ARGENTINA", "ARMENIA", "ARUBA", "AUSTRALIA", "AUSTRIA", "AZERBAIJAN", "BAHAMAS", "BAHRAIN", "BANGLADESH", "BARBADOS", "BELARUS", "BELGIUM", "BELIZE", "BENIN", "BERMUDA", "BHUTAN", "BOLIVIA", "BOSNIA AND HERZEGOVINA", "BOTSWANA", "BRAZIL", "BRITISH VIRGIN ISLANDS", "BRUNEI", "BULGARIA", "BURKINA FASO", "BURUNDI", "CAMBODIA", "CAMEROON", "CANADA", "CAPE VERDE", "CAYMAN ISLANDS", "CHAD", "CHILE", "CHINA", "COLOMBIA", "CONGO", "COOK ISLANDS", "COSTA RICA", "COTE D IVOIRE", "CROATIA", "CRUISE SHIP", "CUBA", "CYPRUS", "CZECH REPUBLIC", "DENMARK", "DJIBOUTI", "DOMINICA", "DOMINICAN REPUBLIC", "ECUADOR", "EGYPT", "EL SALVADOR", "EQUATORIAL GUINEA", "ESTONIA", "ETHIOPIA", "FALKLAND ISLANDS", "FAROE ISLANDS", "FIJI", "FINLAND", "FRANCE", "FRENCH POLYNESIA", "FRENCH WEST INDIES", "GABON", "GAMBIA", "GEORGIA", "GERMANY", "GHANA", "GIBRALTAR", "GREECE", "GREENLAND", "GRENADA", "GUAM", "GUATEMALA", "GUERNSEY", "GUINEA", "GUINEA BISSAU", "GUYANA", "HAITI", "HONDURAS", "HONG KONG", "HUNGARY", "ICELAND", "INDIA", "INDONESIA", "IRAN", "IRAQ", "IRELAND", "ISLE OF MAN", "ISRAEL", "ITALY", "JAMAICA", "JAPAN", "JERSEY", "JORDAN", "KAZAKHSTAN", "KENYA", "KUWAIT", "KYRGYZ REPUBLIC", "LAOS", "LATVIA", "LEBANON", "LESOTHO", "LIBERIA", "LIBYA", "LIECHTENSTEIN", "LITHUANIA", "LUXEMBOURG", "MACAU", "MACEDONIA", "MADAGASCAR", "MALAWI", "MALAYSIA", "MALDIVES", "MALI", "MALTA", "MAURITANIA", "MAURITIUS", "MEXICO", "MOLDOVA", "MONACO", "MONGOLIA", "MONTENEGRO", "MONTSERRAT", "MOROCCO", "MOZAMBIQUE", "NAMIBIA", "NEPAL", "NETHERLANDS", "NETHERLANDS ANTILLES", "NEW CALEDONIA", "NEW ZEALAND", "NICARAGUA", "NIGER", "NIGERIA", "NORTH KOREA", "NORWAY", "OMAN", "PAKISTAN", "PALESTINE", "PANAMA", "PAPUA NEW GUINEA", "PARAGUAY", "PERU", "PHILIPPINES", "POLAND", "PORTUGAL", "PUERTO RICO", "QATAR", "REUNION", "ROMANIA", "RUSSIA", "RWANDA", "SAINT PIERRE AND MIQUELON", "SAMOA", "SAN MARINO", "SATELLITE", "SAUDI ARABIA", "SENEGAL", "SERBIA", "SEYCHELLES", "SIERRA LEONE", "SINGAPORE", "SLOVAKIA", "SLOVENIA", "SOUTH AFRICA", "SOUTH KOREA", "SPAIN", "SRI LANKA", "ST KITTS AND NEVIS", "ST LUCIA", "ST VINCENT", "ST. LUCIA", "SUDAN", "SURINAME", "SWAZILAND", "SWEDEN", "SWITZERLAND", "SYRIA", "TAIWAN", "TAJIKISTAN", "TANZANIA", "THAILAND", "TIMOR L'ESTE", "TOGO", "TONGA", "TRINIDAD AND TOBAGO", "TUNISIA", "TURKEY", "TURKMENISTAN", "TURKS AND CAICOS", "UGANDA", "UKRAINE", "UNITED ARAB EMIRATES", "UNITED KINGDOM", "UNITED STATES OF AMERICA", "URUGUAY", "UZBEKISTAN", "VENEZUELA", "VIETNAM", "VIRGIN ISLANDS (US)", "YEMEN", "ZAMBIA", "ZIMBABWE"];
 
@@ -95,6 +96,7 @@ export class DataForm {
             if (Math.floor(tempNumber / (100 * Math.pow(1000, i))) !== 0)
                 word = first[Math.floor(tempNumber / (100 * Math.pow(1000, i)))] + 'hundred ' + word;
         }
+
         return word.toUpperCase();
     }
 
@@ -134,10 +136,16 @@ export class DataForm {
             isView: this.context.isView,
             isEdit: this.context.isEdit,
             checkedAll: this.context.isCreate == true ? false : true,
-            header: this.data
+            header: this.data,
+            lastNumber: this.lastNumber,
+            reorderDetailRows: () => {
+                this.reorderDetailRows();
+                this.updateMeasurements();
+            },
+            updateMeasurements: () => this.updateMeasurements()
         }
 
-        this.data.Isfile = true;
+        this.data.isFile = true;
         this.data.documentsFile = this.data.documentsFile || [];
         this.data.documentsFileName = this.data.documentsFileName || [];
         this.documentsPathTemp = [].concat(this.data.documentsPath);
@@ -156,14 +164,20 @@ export class DataForm {
                 invoiceNo: this.data.invoiceNo
             }
         }
+
+        if (this.data.items && this.data.id) {
+            for (var item of this.data.items) {
+                item.BuyerCode = this.data.buyerAgent.code;
+                item.RoType = this.data.invoiceType == 'AG' ? "RO JOB" : "RO SAMPLE";
+            }
+        }
     }
 
     get addItems() {
         return (event) => {
             this.data.items.push({
                 RoType: this.data.invoiceType == 'AG' ? "RO JOB" : "RO SAMPLE",
-                BuyerCode: this.data.buyerAgent.Code || this.data.buyerAgent.code,
-                details: []
+                BuyerCode: this.data.buyerAgent.Code || this.data.buyerAgent.code
             });
         };
     }
@@ -173,12 +187,28 @@ export class DataForm {
             this.data.grossWeight = this.data.items.reduce((acc, cur) => acc += cur.avG_GW, 0);
             this.data.nettWeight = this.data.items.reduce((acc, cur) => acc += cur.avG_NW, 0);
             this.error = null;
+            this.reorderDetailRows();
             this.updateMeasurements();
-
-            if (this.data.items.length <= 0) {
-                this.data.section = {};
-            }
         };
+    }
+
+    reorderDetailRows() {
+        let currentStart = 1;
+
+        for (const item of (this.data.items || [])) {
+            for (const row of (item.detailRows || [])) {
+                const cartons = Number(row.cartons) || 1;
+                const qtyPerCarton = Number(row.qtyDisplay) || 0;
+
+                row.cartons = cartons;
+                row.start = currentStart;
+                row.end = currentStart + cartons - 1;
+                row.number = row.start + " - " + row.end;
+                row.qtyCtn = qtyPerCarton * cartons;
+
+                currentStart = row.end + 1;
+            }
+        }
     }
 
     noImage = "images/no-image.jpg";
@@ -296,6 +326,18 @@ export class DataForm {
         event.target.value = '';
     }
 
+    get totalCBM() {
+        var total = 0;
+        if (this.data.measurements) {
+            for (var m of this.data.measurements) {
+                if (m.length && m.width && m.height && m.cartonsQuantity) {
+                    total += (m.length * m.width * m.height * m.cartonsQuantity / 1000000);
+                }
+            }
+        }
+        return total.toLocaleString('en-EN', { minimumFractionDigits: 3, maximumFractionDigits: 3 });
+    }
+
     get totalQuantities() {
         let quantities = [];
         let result = [];
@@ -375,31 +417,20 @@ export class DataForm {
     }
 
     updateMeasurements() {
-        let measurementCartons = [];
-        for (const item of this.data.items) {
-            for (const detail of (item.details || [])) {
-                let measurement = measurementCartons.find(m => m.length == detail.length && m.width == detail.width && m.height == detail.height && m.carton1 == detail.carton1 && m.carton2 == detail.carton2 && m.index == detail.index);
-                if (!measurement) {
-                    measurementCartons.push({
-                        carton1: detail.carton1,
-                        carton2: detail.carton2,
-                        length: detail.length,
-                        width: detail.width,
-                        height: detail.height,
-                        cartonsQuantity: detail.cartonQuantity,
-                        index: detail.index
-                    });
-                }
-            }
-        }
-
         let measurements = [];
-        for (const measurementCarton of measurementCartons) {
-            let measurement = measurements.find(m => m.length == measurementCarton.length && m.width == measurementCarton.width && m.height == measurementCarton.height && m.index == measurementCarton.index);
-            if (measurement) {
-                measurement.cartonsQuantity += measurementCarton.cartonsQuantity;
-            } else {
-                measurements.push(Object.assign({}, measurementCarton));
+        for (const item of (this.data.items || [])) {
+            for (const row of (item.detailRows || [])) {
+                const length = Number(row.length) || 0;
+                const width = Number(row.width) || 0;
+                const height = Number(row.height) || 0;
+                const cartons = Number(row.cartons) || 0;
+
+                let measurement = measurements.find(m => m.length == length && m.width == width && m.height == height);
+                if (measurement) {
+                    measurement.cartonsQuantity += cartons;
+                } else {
+                    measurements.push({ length, width, height, cartonsQuantity: cartons });
+                }
             }
         }
 
@@ -407,7 +438,7 @@ export class DataForm {
         this.data.measurements.splice(0);
 
         for (const mt of measurements) {
-            let measurement = (this.data.measurementsTemp || []).find(m => m.length == mt.length && m.width == mt.width && m.height == mt.height && m.index == mt.index);
+            let measurement = (this.data.measurementsTemp || []).find(m => m.length == mt.length && m.width == mt.width && m.height == mt.height);
             if (measurement) {
                 measurement.cartonsQuantity = mt.cartonsQuantity;
                 this.data.measurements.push(measurement);
@@ -417,12 +448,5 @@ export class DataForm {
         }
 
         this.data.measurements.forEach((m, i) => m.MeasurementIndex = i);
-    }
-
-    changeCheckBox() {
-        this.selectedInvoiceNo = null;
-        this.data.invoiceNo = null;
-        this.data.increment = null;
-        this.data.items = [];
     }
 }

@@ -46,14 +46,15 @@ export class View {
                     this.saveCallback = null
                 break;
             case "POSTED":
-            case "APPROVED_MD":
-                // this.saveCallback = null;
-                // break;
-            case "CANCELED":
-            case "APPROVED_SHIPPING":
-                this.deleteCallback = null;
                 this.editCallback = null;
+                this.deleteCallback = null;
+                break;
+            case "CANCELED":
+            case "APPROVED_MD":
+            case "APPROVED_SHIPPING":
                 this.saveCallback = null;
+                this.editCallback = null;
+                this.deleteCallback = null;
                 break;
             case "REJECTED_SHIPPING_MD":
                 this.saveCallback = null;

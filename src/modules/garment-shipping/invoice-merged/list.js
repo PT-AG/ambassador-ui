@@ -13,10 +13,10 @@ export class List {
     "Cetak PDF Invoice CMT",
     "Cetak PDF Invoice W/ Kop",
     "Cetak PDF Invoice CMT W/ Kop",
-    "Cetak Excel Invoice",
-    "Cetak Excel Invoice CMT",
-    "Cetak Excel Invoice W/ Kop",
-    "Cetak Excel Invoice CMT W/ Kop",
+    // "Cetak Excel Invoice",
+    // "Cetak Excel Invoice CMT",
+    // "Cetak Excel Invoice W/ Kop",
+    // "Cetak Excel Invoice CMT W/ Kop",
   ];
 
   columns = [
@@ -40,6 +40,7 @@ export class List {
       },
     },
   ];
+  
   activate(params) {
     let username = null;
     if (this.authService.authenticated) {
@@ -84,32 +85,31 @@ export class List {
       case "detail":
         const encoded = Base64Helper.encode(data.id);
         this.router.navigateToRoute("view", { id: encoded });
-        //this.router.navigateToRoute('view', { id: data.Id });
         break;
       case "Cetak PDF Invoice":
-        this.service.getPdfById(data.id, "fob");
+        this.service.getPdfById(data.id, "fob", false);
         break;
       case "Cetak PDF Invoice CMT":
-        this.service.getPdfById(data.id, "cmt");
+        this.service.getPdfById(data.id, "cmt", false);
         break;
       case "Cetak PDF Invoice W/ Kop":
-        this.service.getPdfWHById(data.id, "fob");
+        this.service.getPdfById(data.id, "fob", true);
         break;
       case "Cetak PDF Invoice CMT W/ Kop":
-        this.service.getPdfWHById(data.id, "cmt");
+        this.service.getPdfById(data.id, "cmt", true);
         break;
-      case "Cetak Excel Invoice":
-        this.service.getXlsById(data.id, "fob");
-        break;
-      case "Cetak Excel Invoice CMT":
-        this.service.getXlsById(data.id, "cmt");
-        break;
-      case "Cetak Excel Invoice W/ Kop":
-        this.service.getWHXlsById(data.id, "fob");
-        break;
-      case "Cetak Excel Invoice CMT W/ Kop":
-        this.service.getWHXlsById(data.id, "cmt");
-        break;
+      // case "Cetak Excel Invoice":
+      //   this.service.getXlsById(data.id, "fob");
+      //   break;
+      // case "Cetak Excel Invoice CMT":
+      //   this.service.getXlsById(data.id, "cmt");
+      //   break;
+      // case "Cetak Excel Invoice W/ Kop":
+      //   this.service.getWHXlsById(data.id, "fob");
+      //   break;
+      // case "Cetak Excel Invoice CMT W/ Kop":
+      //   this.service.getWHXlsById(data.id, "cmt");
+      //   break;
     }
   }
 
