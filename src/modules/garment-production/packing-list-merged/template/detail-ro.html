@@ -30,7 +30,8 @@
             </au-textbox>
         </td>
         <td class="bg-primary col-md-1">
-            <au-numeric value.bind="data.quantity" error.bind="error.Quantity" read-only.bind="readOnly">
+            <au-numeric value.bind="data.quantity" error.bind="error.Quantity || data.detailRowsQuantityError"
+                read-only.bind="readOnly">
             </au-numeric>
         </td>
         <td class="bg-primary col-md-1">
@@ -95,7 +96,7 @@
     <tr>
         <td colspan="13">
             <au-collection items.bind="data.detailRows" columns.bind="plColumns" read-only.bind="readOnly"
-                add.bind="addItems" remove.bind="removeDetailRows" options.bind="itemOptions"
+                add.bind="addDetailRows" remove.bind="removeDetailRows" options.bind="itemOptions"
                 item-template="modules/garment-production/packing-list-merged/template/pl-template"
                 footer-template="modules/garment-production/packing-list-merged/template/pl-footer"
                 if.bind="data.detailRows">

@@ -23,7 +23,7 @@
             <au-numeric
                 value.bind="data.qtyCtn"
                 format="0"
-                read-only.bind="data.number=='RO' || readOnly">
+                read-only.bind="true">
             </au-numeric>
         </td>
         <td>
@@ -37,7 +37,7 @@
             <au-numeric
                 value.bind="data.qtyCtn"
                 format="0"
-                read-only.bind="data.number=='RO' || readOnly">
+                read-only.bind="true">
             </au-numeric>
         </td>
         <td>
@@ -61,7 +61,7 @@
                 read-only.bind="data.number=='RO' || readOnly">
             </au-numeric>
         </td>
-                <td>
+        <td>
             <au-numeric
                 value.bind="data.height"
                 format="0.00"

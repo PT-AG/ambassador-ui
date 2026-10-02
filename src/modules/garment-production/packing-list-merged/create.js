@@ -2,6 +2,7 @@ import { inject, Lazy } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Service } from './service';
 import { activationStrategy } from 'aurelia-router';
+import { validateDetailRowsQuantity } from './detail-rows-quantity';
 
 @inject(Router, Service)
 export class Create {
@@ -33,6 +34,12 @@ export class Create {
     }
 
     saveCallback(event) {
+        const invalidItem = (this.data.items || []).find(item => !validateDetailRowsQuantity(item));
+        if (invalidItem) {
+            alert(invalidItem.detailRowsQuantityError);
+            return;
+        }
+
         this.data.IsFile = true;
         this.data.mode = 
             this.data.items && this.data.items.length > 0 

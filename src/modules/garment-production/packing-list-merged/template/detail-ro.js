@@ -43,7 +43,7 @@ export class Item {
 
       { header: "TOTAL PCS", value: "qtyCtn" },
       { header: "CTN", value: "cartons" },
-      { header: "TOTAL", value: "cartons" },
+      { header: "TOTAL", value: "qtyCtn" },
       { header: "GW", value: "grossWeight" },
       { header: "NW", value: "netWeight" },
       { header: "NNW", value: "netNetWeight" },
@@ -257,6 +257,26 @@ export class Item {
     if (options && typeof options.reorderDetailRows === "function") {
       options.reorderDetailRows();
     }
+  }
+
+  get addDetailRows() {
+    return (event) => {
+      if (!Array.isArray(this.data.detailRows)) {
+        this.data.detailRows = [];
+      }
+
+      this.addRemainderRow(
+        '',
+        0,
+        0,
+        {},
+        0,
+        this.data.height,
+        this.data.width,
+        this.data.length
+      );
+      this.reorderDetailRows();
+    };
   }
 
   get removeDetailRows() {

@@ -1,5 +1,6 @@
 import { inject, bindable, containerless, computedFrom, BindingEngine } from 'aurelia-framework'
 import { Service } from "./service";
+import { validateDetailRowsQuantity } from "./detail-rows-quantity";
 
 var BuyerLoader = require('../../../loader/garment-buyers-loader');
 var ShippingStaffLoader = require('../../../loader/garment-shipping-staff-loader');
@@ -208,6 +209,8 @@ export class DataForm {
 
                 currentStart = row.end + 1;
             }
+
+            validateDetailRowsQuantity(item);
         }
     }
 
