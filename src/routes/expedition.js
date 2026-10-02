@@ -893,6 +893,21 @@ module.exports = [
     },
   },
   {
+    route: "vb-realization-verification",
+    name: "vb-realization-verification",
+    moduleId: "./modules/expedition/vb-realization-verification/index",
+    nav: true,
+    title: "Verifikasi Realisasi VB",
+    auth: true,
+    settings: {
+      group: "finance",
+      subGroup: "vb",
+      permission: {"K35":1},
+      // permission: {"*": 1},
+      iconClass: "fa fa-dashboard",
+    },
+  },
+  {
     route: "vb-bank-expenditure",
     name: "vb-bank-expenditure",
     moduleId: "./modules/expedition/vb-bank-expenditure/index",
