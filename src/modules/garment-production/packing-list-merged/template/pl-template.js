@@ -36,6 +36,28 @@ export class PLTemplate {
                     }
                 })
         );
+
+        for (const size of this.data.sizes || []) {
+            this.subscriptions.push(
+                this.bindingEngine
+                    .propertyObserver(size, "quantity")
+                    .subscribe(() => this.updateQuantityFromSizes())
+            );
+        }
+
+        this.updateQuantityFromSizes();
+    }
+
+    updateQuantityFromSizes() {
+        this.data.qtyDisplay = (this.data.sizes || []).reduce(
+            (total, size) => total + (Number(size.quantity) || 0),
+            0
+        );
+
+        const options = this.context.context.options;
+        if (options && typeof options.reorderDetailRows === "function") {
+            options.reorderDetailRows();
+        }
     }
 
     detached() {

@@ -1,6 +1,7 @@
 import { inject, Lazy } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Service, CoreService } from './service';
+import { validateDetailRowsQuantity } from './detail-rows-quantity';
 
 @inject(Router, Service, CoreService)
 export class Edit {
@@ -41,6 +42,12 @@ export class Edit {
     }
 
     async saveCallback(event) {
+        const invalidItem = (this.data.items || []).find(item => !validateDetailRowsQuantity(item));
+        if (invalidItem) {
+            alert(invalidItem.detailRowsQuantityError);
+            return;
+        }
+
         // Hapus elemen kosong dan string yang hanya berisi spasi
         this.data.documentsFile = this.data.documentsFile.filter(file => file.trim() !== '');
         this.data.documentsFileName = this.data.documentsFileName.filter(file => file.trim() !== '');
