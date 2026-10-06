@@ -221,10 +221,14 @@ export class Item {
 
   extractSizes() {
     const sizes = new Set();
+    var idx = 0;
     for (let color of this.detail.Colors) {
       for (let s of color.Sizes) {
         sizes.add(s.Size.toUpperCase());
-        this.masterSize.add({ sizeId: s.Id, size: s.Size.toUpperCase()});
+        if (!Array.from(this.masterSize).some(x => x.size === s.Size.toUpperCase())) {
+          this.masterSize.add({ sizeIdx: idx, sizeId: s.Id, size: s.Size.toUpperCase()});
+          idx++;
+        }
       }
     }
 
