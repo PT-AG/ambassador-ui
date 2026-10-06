@@ -165,6 +165,14 @@
                      options.bind="controlOptions">
         </au-autocomplete>
 
+    <au-checkbox label="Apakah barang Mewah?"
+                 value.bind="data.IsLuxury"
+                 error.bind="error.IsLuxury"
+                 read-only.bind="readOnly"
+                 if.bind = "data.useVat && data.vatTax.rate=='12'"
+                 options.bind="controlOptions">
+    </au-checkbox>
+
         
             
         <au-dropdown
