@@ -8,8 +8,17 @@ export class List {
 
     dataToBePosted = [];
 
-    //context = ["Detail", "Cetak - By RO", "Cetak - By Carton", "Excel - By RO", "Excel - By Carton"]
-    context = ["Detail"]
+    context = 
+        [
+            "Detail", 
+            "Cetak",
+            //"Cetak - By RO", 
+            //"Cetak - By Carton", 
+            "Excel",
+            //"Excel - By RO", 
+            //"Excel - By Carton"
+        ];
+
     columns = [
         { field: "packingListNo", title: "No Packing" },
         {
@@ -99,19 +108,24 @@ export class List {
             case "Detail":
                 this.router.navigateToRoute('view', { id: data.id });
                 break;
+            case "Cetak":
+                this.service.getPdfById(data.id, null);
+                break;
             case "Cetak - By RO":
-                this.service.getPdfById(data.id);
+                this.service.getPdfById(data.id, "ro");
                 break;
             case "Cetak - By Carton":
-                this.service.getPdfByFilterCarton(data.id);
+                this.service.getPdfById(data.id, "carton");
+                break;
+            case "Excel":
+                this.service.getExcelById(data.id, null);
                 break;
             case "Excel - By RO":
-                this.service.getExcelById(data.id);
+                this.service.getExcelById(data.id, "ro");
                 break;
             case "Excel - By Carton":
-                this.service.getExcelByFilterCarton(data.id);
+                this.service.getExcelById(data.id, "carton");
                 break;
-
         }
     }
 
