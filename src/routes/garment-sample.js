@@ -211,6 +211,21 @@ module.exports = [
 			iconClass: 'fa fa-dashboard'
 		}
 	},
+    {
+        route: '/garment-sample/sample-expenditure-good-return',
+        name: 'garment-sample-expenditure-good-return',
+        moduleId: './modules/garment-sample/sample-expenditure-good-return/index',
+        nav: true,
+        title: 'Retur Barang Jadi',
+        auth: true,
+        settings: {
+            group: "g-sample",
+            subGroup: "transaksi",
+            permission:{"R17":1},
+            // permission: { "C9": 1, "AG2": 1, "PDU":1 },
+            iconClass: 'fa fa-dashboard'
+        }
+    },
 	
 	{
 		route: '/garment-sample/sample-aval-product',
