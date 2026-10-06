@@ -173,7 +173,7 @@ export class DataForm {
       this.data.BuyerType = buyer.BuyerType;
       this.data.SCType = buyer.Type;
 
-      if (this.type != "Ekspor") {
+      if (!this.data.Id && this.type == "Ekspor") {
         this.data.SalesContractROs.push({
           buyer: this.data.BuyerBrandId,
           type: this.data.SCType
