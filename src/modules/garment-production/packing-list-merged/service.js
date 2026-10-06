@@ -1,7 +1,6 @@
 import { RestService } from '../../../utils/rest-service';
 
 const serviceUri = 'garment-shipping/packing-lists';
-
 class Service extends RestService {
     constructor(http, aggregator, config, endpoint) {
         super(http, aggregator, config, "packing-inventory");
@@ -32,25 +31,15 @@ class Service extends RestService {
         return super.delete(endpoint, data);
     }
 
-    // getPdfById(id) {
-    //     var endpoint = `${serviceUri}/${id}`;
-    //     return super.getPdf(endpoint);
-    // }
+    getPdfById(id, type) {
+        var endpoint = type ? `${serviceUri}/${id}/${type}` : `${serviceUri}/${id}`;
+        return super.getPdf(endpoint);
+    }
 
-    // getPdfByFilterCarton(id) {
-    //     var endpoint = `${serviceUri}/${id}/carton`;
-    //     return super.getPdf(endpoint);
-    // }
-
-    // getExcelById(id) {
-    //     var endpoint = `${serviceUri}/${id}`;
-    //     return super.getXls(endpoint);
-    // }
-
-    // getExcelByFilterCarton(id) {
-    //     var endpoint = `${serviceUri}/${id}/carton/xls`;
-    //     return super.getXls(endpoint);
-    // }
+    getExcelById(id, type) {
+        var endpoint = type ? `${serviceUri}/${id}/${type}` : `${serviceUri}/${id}`;
+        return super.getXls(endpoint);
+    }
 
     postPackingList(id) {
         var endpoint = `${serviceUri}/merged/post-packing-list/${id}`;
