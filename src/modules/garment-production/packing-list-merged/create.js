@@ -2,7 +2,7 @@ import { inject, Lazy } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Service } from './service';
 import { activationStrategy } from 'aurelia-router';
-import { validateDetailRowsQuantity } from './detail-rows-quantity';
+import { reindexSizes, validateDetailRowsQuantity } from './helper';
 
 @inject(Router, Service)
 export class Create {
@@ -39,6 +39,8 @@ export class Create {
             alert(invalidItem.detailRowsQuantityError);
             return;
         }
+
+        reindexSizes(this.data);
 
         this.data.IsFile = true;
         this.data.mode = 
