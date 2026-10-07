@@ -1,8 +1,9 @@
 <template>
     <au-input-form
-        title="Buat Pengeluaran Bank VB"
+        title="Edit Pengeluaran Bank VB"
         options.bind="formOptions">
     <div class="row">
+
         <au-autocomplete 
             label="Bank"
             placeholder="pilih bank"
@@ -10,7 +11,7 @@
             error.bind="error.Bank"
             loader.one-time="bankLoader"
             text.bind="bankView"
-            read-only.bind="readOnly"
+            read-only.bind="true"
             options.bind="controlOptions">
         </au-autocomplete>
 
@@ -27,13 +28,13 @@
                          error.bind="error.Currency"
                          text="Code"
                          label="Mata Uang"
-                         read-only.bind="readOnly || isNotEditable"
+                         read-only.bind="true"
                          options.bind="controlOptions"
                          placeholder="pilih mata uang">
         </au-autocomplete>
 
         <au-numeric value.bind="data.Currency.Rate"
-                    read-only.bind="sameCurrency"
+                    read-only.bind="true"
                     label="Rate"
                     options.bind="controlOptions"
                     format="0,000.0000">
