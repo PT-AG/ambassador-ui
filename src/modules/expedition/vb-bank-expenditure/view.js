@@ -33,6 +33,11 @@ export class View {
         this.list();
     }
 
+    editCallback(event) {
+        const encoded = Base64Helper.encode(this.data.Id);
+        this.router.navigateToRoute("edit", { id: encoded });
+    }
+
     deleteCallback(event) {
         this.dialog.prompt('Apakah anda yakin akan menghapus data ini?')
             .then(response => {
@@ -46,7 +51,7 @@ export class View {
     }
 
     columns2 = [
-        "No Realisasi","Tanggal Terima Kasir","Unit Pemohon","Nominal Realisasi","Mata Uang"
+         "No Realisasi","Tanggal Realisasi VB","Tipe VB", "Pemohon VB", "Bagian/Unit","Nominal Realisasi","Mata Uang"
     ];
 
     

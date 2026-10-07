@@ -50,4 +50,9 @@ export class Service extends RestService {
       let endpoint = `${serviceUri}/pdf/${id}`;
       return super.getPdf(endpoint);
   }
+
+  update(data) {
+      var endpoint = `${serviceUri}/${data.Id}`;
+      return super.put(endpoint, data);
+  }
 }

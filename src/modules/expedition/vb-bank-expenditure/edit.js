@@ -1,12 +1,13 @@
 import { inject, Lazy,bindable } from "aurelia-framework";
 import { Router } from "aurelia-router";
 import { Service } from "./service";
+import { Base64Helper } from "../../../utils/base-64-coded-helper";
 
 const BankLoader= require('../../../loader/account-banks-loader');
 const CurrencyLoader = require('../../../loader/garment-currencies-by-latest-date-loader');
 
 @inject( Router, Service )
-export class Create {
+export class Edit {
     
   
     get bankLoader() {
@@ -67,21 +68,16 @@ export class Create {
             }
 
             const args = {
-            ListIds: this.data.Items.map((d) => {
-                return {
-                    VBRequestId: d.VBRequestDocumentId,
-                    VBRealizationId: d.VBId,
-                };
-            }),
-            Items: this.data.Items,
-            Bank: this.selectedBank,
-            Currency: this.currency,
-            Amount: this.data.Amount,
-            OtherExpense: this.data.OtherExpense,
-            Date: this.data.Date,
-            BGCheckNo: this.data.BGCheckNo,
+                Id: this.data.Id,
+                Items: this.data.Items,
+                Bank: this.selectedBank,
+                Currency: this.currency,
+                Amount: this.data.Amount,
+                OtherExpense: this.data.OtherExpense,
+                Date: this.data.Date,
+                BGCheckNo: this.data.BGCheckNo,
             };
-            this.service.post(args)
+            this.service.update(args)
             .then(result => {
                 alert("Data berhasil dibuat");
                 this.router.navigateToRoute("list");
@@ -100,7 +96,6 @@ export class Create {
     }
 
     bind() {
-        this.data = { Items: [] };
         this.error = {};
     }
 
@@ -122,7 +117,21 @@ export class Create {
 
     get addItems() {
         return (event) => {
-            this.data.Items.push({});
+        this.data.Items.push({});
         };
+    }
+
+    async activate(params) {
+        const decoded = Base64Helper.decode(params.id);
+        let id = decoded;
+        this.data = await this.service.getById(id);
+        if(this.data){
+            this.selectedBank = this.data.Bank;
+            this.currency = this.data.Currency;
+
+            if(this.data.Bank.Currency.Code==this.currency.Code){
+                this.sameCurrency = true;
+            }
+        }
     }
 }

@@ -54,21 +54,15 @@ export class List {
     };
 
     return this.service.search(arg).then((result) => {
-      console.log(result.data);
+      
       for (var _data of result.data) {
-        var docNo = _data.VBRealizations.map(function (item) {
-          return `<li>${item.DocumentNo}</li>`;
-        });
-        docNo = docNo.filter(function (elem, index, self) {
-          return index == self.indexOf(elem);
-        });
-        var vbReq = _data.VBRealizations.map(function (item) {
-          return `<li>${item.DocumentNo}</li>`;
+        
+        var vbReq = _data.Items.map(function (item) {
+          return `<li>${item.VBRealizationNo}</li>`;
         });
         vbReq = vbReq.filter(function (elem, index, self) {
           return index == self.indexOf(elem);
         });
-        //_data.DocumentNo = `<ul>${docNo.join()}</ul>`;
         _data.VBRealizationDocumentNo = `<ul>${vbReq.join()}</ul>`;
       }
       return Promise.all(result.data).then((data) => {
