@@ -6,11 +6,7 @@ import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service, AzureService)
 export class View {
-    hasCancel = true;
-    hasEdit = true;
-    hasDelete = true;
-    hasCreate = false;
-    isUnlock = false;
+    hasCancel = true;isUnlock = false;
 
     constructor(router, service, azureService) {
         this.router = router;
@@ -53,54 +49,42 @@ export class View {
             }
         }
 
-        this.hasEdit = false;
-        this.hasDelete = false;
+        const today = new Date();
+        const firstDayOfCurrentMonth = new Date(
+            today.getFullYear(),
+            today.getMonth(),
+            1
+        );
+        const date = new Date(this.data.date);
+        if(this.data.Unlocked && (date < firstDayOfCurrentMonth)){
+            this.hasDelete = true;
+        }
+        else{
+            this.hasDelete = false;
+        }
 
-        // const today = new Date();
-        // const firstDayOfCurrentMonth = new Date(
-        //     today.getFullYear(),
-        //     today.getMonth(),
-        //     1
-        // );
-        // const date = new Date(this.data.date);
-        // if(this.data.Unlocked && (date < firstDayOfCurrentMonth)){
-        //     this.hasDelete = true;
-        //     this.hasEdit = true;
-        // }
-        // else{
-        //     this.hasDelete = false;
-        //     this.hasEdit = false;
-        // }
-
-        // if (this.data.isPosted) {
-        //     if (totalAmount <= 3000000) {
-        //         if (this.data.IsApprovedKasie) {
-        //             this.hasEdit = false;
-        //             this.hasDelete = false;
-        //         }
-        //     } else {
-        //         if (this.data.IsApprovedKasie || this.data.IsApprovedKabag) {
-        //             this.hasEdit = false;
-        //             this.hasDelete = false;
-        //         }
-        //     }
-        // }
+        if (this.data.isPosted) {
+            if (totalAmount <= 3000000) {
+                if (this.data.IsApprovedKasie) {
+                    this.hasDelete = false;
+                }
+            } else {
+                if (this.data.IsApprovedKasie || this.data.IsApprovedKabag) {
+                    this.hasDelete = false;
+                }
+            }
+        }
         
-        // if (this.data.IsCorrection) {
-        //     this.hasEdit = false;
-        //     this.hasDelete = false;
-        // }
-
+        if (this.data.IsCorrection) {
+            this.hasEdit = false;
+            this.hasDelete = false;
+        }
     }
 
     cancel(event) {
         this.router.navigateToRoute('list');
     }
 
-    edit(event) {
-        const encoded = Base64Helper.encode(this.data._id);
-        this.router.navigateToRoute('edit', { id: encoded });
-    }
 
     delete(event) {
         Promise.all([this.service.delete(this.data), this.azureService.delete(this.data)])
@@ -108,4 +92,5 @@ export class View {
                 this.cancel();
             });
     }
+
 }

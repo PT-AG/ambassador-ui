@@ -51,6 +51,18 @@ export class View {
         this.hasEdit = true;
         this.hasDelete = true;
 
+        const today = new Date();
+        const firstDayOfCurrentMonth = new Date(
+            today.getFullYear(),
+            today.getMonth(),
+            1
+        );
+        const date = new Date(this.data.date);
+        if(date < firstDayOfCurrentMonth){
+            this.hasDelete = false;
+            this.hasEdit = false;
+        }
+        
         if (this.data.isPosted) {
             if (totalAmount <= 3000000) {
                 if (this.data.IsApprovedKasie) {

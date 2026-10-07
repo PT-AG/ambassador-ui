@@ -28,24 +28,24 @@ export class List {
         },
         { field: "UPONo", title: "Nomor Surat Perintah Bayar" },
         { field: "unitReceiptNoteNo", title: "List Nomor Bon Unit-Nomor Surat Jalan", sortable: false },
-        // {
-        //     field: "isPosted", title: "Status Post",
-        //     formatter: function (value, data, index) {
-        //         return value ? "SUDAH" : "BELUM";
-        //     }
-        // },
-        // { 
-        //     field: "IsApprovedKasie", 
-        //     title: "Approve Manager 1", 
-        //     formatter: function (value, row, index) {
-        //         return value ? "SUDAH" : "BELUM" 
-        //     }
-        // },
-        // { 
-        //     field: "IsApprovedKabag", 
-        //     title: "Approve Manager 2", 
-        //     formatter: (value) => value ? "SUDAH" : "BELUM" 
-        // }
+        {
+            field: "isPosted", title: "Status Post",
+            formatter: function (value, data, index) {
+                return value ? "SUDAH" : "BELUM";
+            }
+        },
+        { 
+            field: "IsApprovedKasie", 
+            title: "Approve Manager 1", 
+            formatter: function (value, row, index) {
+                return value ? "SUDAH" : "BELUM" 
+            }
+        },
+        { 
+            field: "IsApprovedKabag", 
+            title: "Approve Manager 2", 
+            formatter: (value) => value ? "SUDAH" : "BELUM" 
+        }
     ];
 
     loader = (info) => {
@@ -54,8 +54,7 @@ export class List {
             order[info.sort] = info.order;
 
         var filterSection={
-            "unlock": true,
-            //"isApprovedKasie": false
+            "revision": true,
         };
 
         var arg = {
@@ -129,8 +128,4 @@ export class List {
             return true;
         }
     }
-
-    // create() {
-    //     this.router.navigateToRoute('create');
-    // }
 }

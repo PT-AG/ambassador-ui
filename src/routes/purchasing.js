@@ -356,6 +356,20 @@ module.exports = [
         }
     },
     {
+        route: 'unit-payment-order/revision',
+        name: 'unit-payment-order-revision',
+        moduleId: './modules/purchasing/unit-payment-order-revision/index',
+        nav: true,
+        title: 'Revisi Surat Perintah Bayar',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "transaksi",
+            permission: { "E8": 1},
+            iconClass: 'fa fa-dashboard'
+        }
+    },
+    {
         route: 'po/monitoring/spb',
         name: 'surat-perintah-bayar-monitoring',
         moduleId: './modules/purchasing/monitoring-surat-perintah-bayar-new/index',
