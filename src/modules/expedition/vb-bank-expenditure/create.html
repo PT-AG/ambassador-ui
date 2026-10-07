@@ -3,14 +3,6 @@
         title="Buat Pengeluaran Bank VB"
         options.bind="formOptions">
     <div class="row">
-
-        <au-datepicker value.bind="data.Date"
-                       read-only.bind="readOnly"
-                       error.bind="error.Date"
-                       label="Tanggal"
-                       options.bind="controlOptions">
-        </au-datepicker>
-
         <au-autocomplete 
             label="Bank"
             placeholder="pilih bank"
@@ -48,12 +40,19 @@
         </au-numeric>
 
         <au-textbox label="No. BG/Cek"
-                    value.bind="data.BGCheckNumber"
-                    error.bind="error.BGCheckNumber"
+                    value.bind="data.BGCheckNo"
+                    error.bind="error.BGCheckNo"
                     read-only.bind="readOnly"
                     options.bind="controlOptions"
                     show.bind="selectedBank">
         </au-textbox>
+
+        <au-datepicker value.bind="data.Date"
+                       read-only.bind="readOnly"
+                       error.bind="error.Date"
+                       label="Tanggal"
+                       options.bind="controlOptions">
+        </au-datepicker>
         
         <au-numeric label="Biaya Lain-lain"
                     value.bind="data.OtherExpense"

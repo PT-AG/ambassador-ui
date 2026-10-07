@@ -17,7 +17,7 @@ export class Create {
         return CurrencyLoader;
     }
     columns2 = [
-        "No Realisasi","Tanggal Terima Kasir","Unit Pemohon","Nominal Realisasi","Mata Uang"
+        "No Realisasi","Tanggal Realisasi VB","Tipe VB", "Pemohon VB", "Bagian/Unit","Nominal Realisasi","Mata Uang"
     ];
 
     bankView = (bank) => {
@@ -48,7 +48,7 @@ export class Create {
     constructor( router, service ) {
         this.router = router;
         this.service = service;
-
+        this.data = {};
     }
 
     cancelCallback(event) {
@@ -59,7 +59,7 @@ export class Create {
         if (this.data.Items && this.data.Items.length > 0) {
             this.data.Amount = 0;
             for(var v of this.data.Items){
-                this.data.Amount += v.Amount;
+                this.data.Amount += v.VBRealizationAmount;
             }
             if(!this.selectedBank){
                 alert("harap pilih bank");
@@ -73,29 +73,35 @@ export class Create {
                     VBRealizationId: d.VBId,
                 };
             }),
+            Items: this.data.Items,
             Bank: this.selectedBank,
             Currency: this.currency,
             Amount: this.data.Amount,
             OtherExpense: this.data.OtherExpense,
             Date: this.data.Date,
-            BGCheckNumber: this.data.BGCheckNumber,
+            BGCheckNo: this.data.BGCheckNo,
             };
-            this.service
-            .post(args)
-            .then(() => {
+            this.service.post(args)
+            .then(result => {
                 alert("Data berhasil dibuat");
-                this.router.navigateToRoute(
-                    "create",
-                    {},
-                    { replace: true, trigger: true }
-                );
+                this.router.navigateToRoute("list");
             })
-            .catch((e) => {
+            .catch(e => {
                 this.error = e;
-            });
+                if (typeof (this.error) == "string") {
+                    alert(this.error);
+                } else {
+                    alert("Missing Some Data");
+                }
+            })
         } else {
             alert("harap pilih data");
         }
+    }
+
+    bind() {
+        this.data = { Items: [] };
+        this.error = {};
     }
 
     @bindable currency;
@@ -116,7 +122,7 @@ export class Create {
 
     get addItems() {
         return (event) => {
-        this.data.Items.push({});
+            this.data.Items.push({});
         };
     }
 }

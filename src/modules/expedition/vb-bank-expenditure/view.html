@@ -5,18 +5,11 @@
     <div class="row">
 
         <au-textbox 
-            label="No. Rekening"
+            label="No. Dokumen"
             value.bind="data.DocumentNo"
             read-only.bind="true"
             options.bind="controlOptions">
         </au-textbox>
-        <au-datepicker 
-            value.bind="data.Date"
-            read-only.bind="true"
-            error.bind="error.Date"
-            label="Tanggal"
-            options.bind="controlOptions">
-        </au-datepicker>
 
         <au-autocomplete 
             label="Bank"
@@ -57,12 +50,19 @@
         </au-numeric>
 
         <au-textbox label="No. BG/Cek"
-                    value.bind="data.BGCheckNumber"
-                    error.bind="error.BGCheckNumber"
+                    value.bind="data.BGCheckNo"
+                    error.bind="error.BGCheckNo"
                     read-only.bind="true"
-                    options.bind="controlOptions"
-                    show.bind="selectedBank">
+                    options.bind="controlOptions">
         </au-textbox>
+        
+        <au-datepicker 
+            value.bind="data.Date"
+            read-only.bind="true"
+            error.bind="error.Date"
+            label="Tanggal"
+            options.bind="controlOptions">
+        </au-datepicker>
         
         <au-numeric label="Biaya Lain-lain"
                     value.bind="data.OtherExpense"
@@ -73,7 +73,7 @@
     </div>
     
     <au-collection
-        items.bind="data.VBRealizations"
+        items.bind="data.Items"
         errors.bind="error.Items"
         columns.bind="columns2"
         read-only.bind="true"

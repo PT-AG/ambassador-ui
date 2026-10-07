@@ -4,29 +4,43 @@
             <au-autocomplete
                 placeholder="pilih vb"
                 value.bind="selectedVB"
-                error.bind="error.vbNo"
+                error.bind="error.VBRealization"
                 loader.one-time="vbLoader"
-                text="DocumentNo"
+                text="VBRealizationNo"
                 read-only.bind="options.readOnly">
             </au-autocomplete>
         </td>
         <td>
             <au-datepicker
-                value.bind="data.CompletedDate"
-                error.bind="error.vbNo"
+                value.bind="data.VBRealizationDate"
+                error.bind="error.VBRealizationDate"
                 read-only.bind="true">
             </au-datepicker>
         </td>
         <td>
             <au-textbox
-                value.bind="data.UnitName"
+                value.bind="data.vbtypeVal"
+                error.bind="error.VBType"
+                read-only.bind="true">
+            </au-textbox>
+        </td>
+        <td>
+            <au-textbox
+                value.bind="data.VBRequestName"
+                error.bind="error.VBType"
+                read-only.bind="true">
+            </au-textbox>
+        </td>
+        <td>
+            <au-textbox
+                value.bind="data.Unit.Name"
                 error.bind="error.vbNo"
                 read-only.bind="true">
             </au-textbox>
         </td>
         <td>
             <au-numeric
-                value.bind="data.Amount"
+                value.bind="data.VBRealizationAmount"
                 error.bind="error.vbNo"
                 read-only.bind="true"
                 format="0,0.00">
