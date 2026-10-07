@@ -1,7 +1,7 @@
 import { inject, Lazy } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Service, CoreService } from './service';
-import { validateDetailRowsQuantity } from './detail-rows-quantity';
+import { reindexSizes, validateDetailRowsQuantity } from './helper';
 
 @inject(Router, Service, CoreService)
 export class Edit {
@@ -47,6 +47,8 @@ export class Edit {
             alert(invalidItem.detailRowsQuantityError);
             return;
         }
+
+        reindexSizes(this.data);
 
         // Hapus elemen kosong dan string yang hanya berisi spasi
         this.data.documentsFile = this.data.documentsFile.filter(file => file.trim() !== '');

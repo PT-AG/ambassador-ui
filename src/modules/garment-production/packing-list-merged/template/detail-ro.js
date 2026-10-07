@@ -221,7 +221,7 @@ export class Item {
 
   extractSizes() {
     const sizes = new Set();
-    var idx = 0;
+    var idx = 1;
     for (let color of this.detail.Colors) {
       for (let s of color.Sizes) {
         sizes.add(s.Size.toUpperCase());

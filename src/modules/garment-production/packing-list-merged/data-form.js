@@ -1,6 +1,6 @@
 import { inject, bindable, containerless, computedFrom, BindingEngine } from 'aurelia-framework'
 import { Service } from "./service";
-import { validateDetailRowsQuantity } from "./detail-rows-quantity";
+import { validateDetailRowsQuantity } from "./helper";
 
 var BuyerLoader = require('../../../loader/garment-buyers-loader');
 var ShippingStaffLoader = require('../../../loader/garment-shipping-staff-loader');
