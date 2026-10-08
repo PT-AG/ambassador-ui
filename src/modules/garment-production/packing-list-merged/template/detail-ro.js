@@ -18,6 +18,30 @@ export class Item {
     this.coreService = coreService;
   }
 
+  getROGarmentOnce(roNo) {
+    // Options ini dibagi oleh semua item dalam au-collection.
+    const sharedOptions = this.context.context.options;
+    const cache = sharedOptions.roGarmentCache ||
+      (sharedOptions.roGarmentCache = new Map());
+
+    const key = `${this.data.roType || ''}:${String(roNo).trim().toUpperCase()}`;
+    let request = cache.get(key);
+
+    if (!request) {
+      request = this.salesService.getROGarment({ keyword: roNo });
+      cache.set(key, request);
+
+      // Hapus dari cache kalau gagal, supaya pemanggilan berikutnya bisa mencoba lagi.
+      request.catch(() => {
+        if (cache.get(key) === request) {
+          cache.delete(key);
+        }
+      });
+    }
+
+    return request;
+  }
+
   getTotalSize(size) {
     let total = 0;
     for (let color of this.detail.Colors) {
@@ -236,10 +260,9 @@ export class Item {
   }
 
   async generateTemplate() {
-    if (this.data.roNo && this.data.ctnQty) {
-      let ro = await this.salesService.getROGarment({
-        keyword: this.data.roNo,
-      });
+    if ((this.data.roNo || this.data.RONo) && this.data.ctnQty) {
+      const roNo = this.data.roNo || this.data.RONo;
+      const ro = await this.getROGarmentOnce(roNo);
 
       if (ro.data.length > 0) {
         this.detail = ro.data[0];
@@ -285,6 +308,40 @@ export class Item {
 
   get removeDetailRows() {
     return (event) => this.reorderDetailRows();
+  }
+
+  restoreDetailRowSizes() {
+    console.count('INI');
+    const normalize = value => String(value || '').trim().toUpperCase();
+    const masterSizes = new Map(
+      Array.from(this.masterSize || []).map(size => [
+        normalize(size.size), size
+      ])
+    );
+
+    for (const row of this.data.detailRows || []) {
+      const existingSizes = new Map(
+        (row.sizes || []).map(size => [normalize(size.size), size])
+      );
+
+      row.sizes = (this.data.sizes || []).map((name, index) => {
+        const sizeName = normalize(name);
+
+        if (existingSizes.has(sizeName)) {
+          return existingSizes.get(sizeName);
+        }
+
+        const master = masterSizes.get(sizeName) || {};
+
+        return {
+          packingListDetailRowId: row.id || row.Id || 0,
+          sizeIdx: index + 1,
+          sizeId: master.sizeId || 0,
+          size: sizeName,
+          quantity: 0
+        };
+      });
+    }
   }
 
   roTypeOptions = ["RO JOB", "RO SAMPLE"];
@@ -367,7 +424,7 @@ export class Item {
       this.isShowing = !this.isShowing;
   }
 
-  activate(context) {
+  async activate(context) {
     this.context = context;
 
     this.data = context.data;
@@ -396,16 +453,17 @@ export class Item {
       };
 
       this.uom = this.data.uom;
-      this.salesService.getROGarment({ keyword: this.data.roNo || this.data.RONo })
-        .then(ro => {
-          if (ro.data.length > 0) {
-            for (let color of ro.data[0].Colors) {
-              for (let s of color.Sizes) {
-                this.masterSize.add({ sizeId: s.Id, size: s.Size.toUpperCase() });
-              }
-            }
-          }
-        });
+      const roNo = this.data.roNo || this.data.RONo;
+      const ro = await this.getROGarmentOnce(roNo);
+
+      for (const color of (ro.data[0] || {}).Colors || []) {
+        for (const size of color.Sizes || []) {
+          this.masterSize.add({
+            sizeId: size.Id,
+            size: size.Size.toUpperCase()
+          });
+        }
+      }
     }
 
     this.isShowing = false;
@@ -415,6 +473,10 @@ export class Item {
 
     if (this.data.detailRows) {
       this.buildDetailsColumns();
+    }
+
+    if (this.data.Id || this.data.id) {
+      this.restoreDetailRowSizes();
     }
   }
 
