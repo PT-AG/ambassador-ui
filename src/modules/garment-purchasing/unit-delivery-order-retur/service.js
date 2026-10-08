@@ -1,19 +1,11 @@
-import { inject, Lazy } from 'aurelia-framework';
-import { HttpClient } from 'aurelia-fetch-client';
 import { RestService } from '../../../utils/rest-service';
-import { Container } from 'aurelia-dependency-injection';
-import { Config } from "aurelia-api";
-import moment from 'moment';
 
 const serviceUri = 'garment-unit-delivery-order-returns';
-// const unitReceiptNoteItemUri = 'garment-unit-receipt-notes/items';
 const unitReceiptNoteItemUri = 'garment-unit-receipt-notes/items-with-stock';
 const unitReceiptNoteUri = 'garment-unit-receipt-notes';
 const doitemsUri = 'garment-do-items';
 
-
 export class Service extends RestService {
-
     constructor(http, aggregator, config, endpoint) {
         super(http, aggregator, config, "purchasing-azure");
     }
@@ -22,7 +14,6 @@ export class Service extends RestService {
         var endpoint = `${serviceUri}`;
         return super.list(endpoint, info);
     }
-
 
     searchUnitReceiptNote(info) {
         var endpoint = `${unitReceiptNoteItemUri}`;
@@ -63,5 +54,4 @@ export class Service extends RestService {
         var endpoint = `${doitemsUri}/${id}`;
         return super.get(endpoint);
     }
-    
 }

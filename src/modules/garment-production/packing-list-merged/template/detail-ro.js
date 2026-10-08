@@ -389,13 +389,23 @@ export class Item {
       reorderDetailRows: () => this.reorderDetailRows(),
     };
 
-    if (this.data.roNo) {
+    if (this.data.roNo || this.data.RONo) {
       this.selectedRO = {
         RO_Number: this.data.RONo || this.data.roNo,
         RONoSample: this.data.RONo || this.data.roNo
       };
 
       this.uom = this.data.uom;
+      this.salesService.getROGarment({ keyword: this.data.roNo || this.data.RONo })
+        .then(ro => {
+          if (ro.data.length > 0) {
+            for (let color of ro.data[0].Colors) {
+              for (let s of color.Sizes) {
+                this.masterSize.add({ sizeId: s.Id, size: s.Size.toUpperCase() });
+              }
+            }
+          }
+        });
     }
 
     this.isShowing = false;
