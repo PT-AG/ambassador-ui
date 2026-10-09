@@ -1,22 +1,23 @@
 import { bindable, inject, computedFrom } from "aurelia-framework";
-import { Service, CoreService,SalesService } from "./service";
+import { Service, CoreService, SalesService } from "./service";
+import moment from 'moment';
 
 const UnitLoader = require('../../../loader/garment-units-loader');
 const PreparingLoader = require('../../../loader/garment-preparing-ro-loader');
 
-@inject(Service, CoreService,SalesService)
+@inject(Service, CoreService, SalesService)
 export class DataForm {
     @bindable readOnly = false;
     @bindable isEdit = false;
     @bindable title;
     @bindable data = {};
-    // @bindable error = {};
+    @bindable error = {};
     @bindable selectedPreparing;
 
-    constructor(service, coreService,salesService) {
+    constructor(service, coreService, salesService) {
         this.service = service;
         this.coreService = coreService;
-        this.salesService=salesService;
+        this.salesService = salesService;
     }
 
     formOptions = {
@@ -86,6 +87,23 @@ export class DataForm {
         }
     }
 
+    @computedFrom("data.Items")
+    get preparingMinimumDate() {
+        if (!this.data.Items || this.data.Items.length === 0) {
+            return null;
+        }
+        let minDate = null;
+        for (let item of this.data.Items) {
+            if (item.ProcessDate) {
+                let processDate = new Date(item.ProcessDate);
+                if (!minDate || processDate < minDate) {
+                    minDate = processDate;
+                }
+            }
+        }
+        return moment(minDate).format("DD MMMM YYYY");
+    }
+
     bind(context) {
         this.context = context;
         this.data = this.context.data;
@@ -113,30 +131,30 @@ export class DataForm {
     get preparingLoader() {
         return (keyword) => {
             var info = {
-              keyword: keyword,
-              filter: JSON.stringify({UnitId: this.data.Unit.Id || 0})
+                keyword: keyword,
+                filter: JSON.stringify({ UnitId: this.data.Unit.Id || 0 })
             };
             return this.service.getPreparingByRo(info)
                 .then((result) => {
-                    var roList=[];
-                        for(var a of result.data){
-                            if(roList.length==0){
+                    var roList = [];
+                    for (var a of result.data) {
+                        if (roList.length == 0) {
+                            roList.push(a);
+                        }
+                        else {
+                            var dup = roList.find(d => d.RONo == a.RONo);
+                            if (!dup) {
                                 roList.push(a);
                             }
-                            else{
-                                var dup= roList.find(d=>d.RONo==a.RONo);
-                                if(!dup){
-                                    roList.push(a);
-                                }
-                            }
                         }
-                        return roList;
+                    }
+                    return roList;
                 });
         }
     }
 
-    async selectedPreparingChanged(newValue, oldValue){
-        if(newValue) {
+    async selectedPreparingChanged(newValue, oldValue) {
+        if (newValue) {
             this.context.error.Items = [];
             this.data.RONo = newValue.RONo;
             this.data.Article = newValue.Article;
@@ -145,7 +163,7 @@ export class DataForm {
             let uom = uomResult.data[0];
 
             let noResult = await this.salesService.getCostCalculationByRONo({ size: 1, filter: JSON.stringify({ RO_Number: this.data.RONo }) });
-            if(noResult.data.length>0){
+            if (noResult.data.length > 0) {
                 this.data.Comodity = noResult.data[0].Comodity;
             } else {
                 const comodityCodeResult = await this.salesService.getHOrderKodeByNo({ no: this.data.RONo });
@@ -155,22 +173,23 @@ export class DataForm {
                     this.data.Comodity = comodityResult.data[0];
                 }
             }
-            
-            let priceResult= await this.service.getComodityPrice({ filter: JSON.stringify({ ComodityId: this.data.Comodity.Id, UnitId: this.data.Unit.Id , IsValid:true})});
-            if(priceResult.data.length>0){
-                this.data.Price= priceResult.data[0].Price;
+
+            let priceResult = await this.service.getComodityPrice({ filter: JSON.stringify({ ComodityId: this.data.Comodity.Id, UnitId: this.data.Unit.Id, IsValid: true }) });
+            if (priceResult.data.length > 0) {
+                this.data.Price = priceResult.data[0].Price;
                 //console.log(this.data.Price)
             }
-            else{
-                this.data.Price=0;
+            else {
+                this.data.Price = 0;
             }
-            
-            Promise.resolve(this.service.getPreparing({ filter: JSON.stringify({ RONo: this.data.RONo, UnitId: this.data.Unit.Id }), size:50 }))
+
+            Promise.resolve(this.service.getPreparing({ filter: JSON.stringify({ RONo: this.data.RONo, UnitId: this.data.Unit.Id }), size: 50 }))
                 .then(result => {
                     this.data.Items = result.data
                         .map(data => {
                             return Object.assign(data, {
                                 PreparingId: data.Id,
+                                PreparingDate: data.ProcessDate,
                                 Details: data.Items
                                     .filter(item => {
                                         if (this.data.CuttingType.toUpperCase() == "MAIN FABRIC") {
@@ -178,9 +197,9 @@ export class DataForm {
                                         } else {
                                             return (item.FabricType.toUpperCase() != "MAIN FABRIC");
                                         }
-                                    }).filter(d=>d.RemainingQuantity>0)
+                                    }).filter(d => d.RemainingQuantity > 0)
                                     .map(item => {
-                                        
+
                                         return Object.assign(item, {
                                             PreparingItemId: item.Id,
                                             IsSave: true,
@@ -189,10 +208,10 @@ export class DataForm {
                                             PreparingRemainingQuantity: item.RemainingQuantity,
                                             PreparingBasicPrice: item.BasicPrice,
                                             ComodityPrice: this.data.Price,
-                                            PreparingQuantity:0,
+                                            PreparingQuantity: 0,
                                             FC: 0
                                         });
-                                        
+
                                     })
                             });
                         })
@@ -215,23 +234,23 @@ export class DataForm {
     }
 
     //@computedFrom("data.Items")
-    get dataFC(){
-        this.data.FC=0;
-        var count=0;
-        var fc=0;
-        if(this.data.Items){
-            if(this.data.Items.length > 0){
-                for(var a of this.data.Items){
-                    for(var b of a.Details){
-                        if(b.IsSave){
-                            fc+=b.FC;
+    get dataFC() {
+        this.data.FC = 0;
+        var count = 0;
+        var fc = 0;
+        if (this.data.Items) {
+            if (this.data.Items.length > 0) {
+                for (var a of this.data.Items) {
+                    for (var b of a.Details) {
+                        if (b.IsSave) {
+                            fc += b.FC;
                             count++;
                         }
                     }
                 }
             }
-            if(fc && count){
-                this.data.FC=parseFloat((fc/count).toFixed(2));
+            if (fc && count) {
+                this.data.FC = parseFloat((fc / count).toFixed(2));
             }
         }
         return this.data.FC;
