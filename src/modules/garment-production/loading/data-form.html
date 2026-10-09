@@ -47,6 +47,15 @@
       >
       </au-dropdown>
 
+      <au-textbox 
+            label="Tanggal Sewing DO"
+            value.bind="sewingDODateView"
+            read-only.bind="true"
+            if.bind="!readOnly"
+            show.bind="selectedSewingDO"
+            options.bind="controlOptions">
+        </au-textbox>
+
         <au-autocomplete
             value.bind="data.UnitFrom"
             error.bind="error.UnitFrom"
