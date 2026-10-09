@@ -42,14 +42,6 @@
             show.bind="readOnly || isEdit">
         </au-textbox>
 
-        <au-datepicker 
-            label="Tanggal Cutting In"
-            value.bind="data.CuttingInDate"
-            error.bind="error.CuttingInDate"
-            read-only.bind="readOnly || isEdit"
-            options.bind="controlOptions">
-        </au-datepicker> 
-
         <au-autocomplete
             value.bind="selectedPreparing"
             error.bind="error.RONo"
@@ -62,6 +54,15 @@
             options.bind="controlOptions"
             view-model.ref="selectedPreparingViewModel">
         </au-autocomplete>
+
+        <au-textbox 
+            label="Tanggal Preparing"
+            value.bind="preparingMinimumDate"
+            read-only.bind="true"
+            if.bind="!readOnly"
+            show.bind="selectedPreparing"
+            options.bind="controlOptions">
+        </au-textbox>
 
         <au-textbox
             value.bind="data.Article"
@@ -87,6 +88,14 @@
             options.bind="controlOptions"
             if.bind="!(readOnly)">
         </au-numeric>
+
+        <au-datepicker 
+            label="Tanggal Cutting In"
+            value.bind="data.CuttingInDate"
+            error.bind="error.CuttingInDate"
+            read-only.bind="readOnly || isEdit"
+            options.bind="controlOptions">
+        </au-datepicker>  
 
         <div class="form-group has-error">
             <p if.bind="error.Price" class="help-block text-center">${error.Price}</p>
