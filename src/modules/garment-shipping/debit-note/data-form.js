@@ -3,6 +3,7 @@ import { Service } from "./service";
 
 const BuyerLoader = require('../../../loader/garment-buyers-loader');
 const AccountBankLoader = require('../../../loader/account-banks-loader');
+const CurrencyLoader = require('../../../loader/garment-currencies-by-latest-date-loader');
 
 @inject(Service)
 export class DataForm {
@@ -10,6 +11,10 @@ export class DataForm {
     @bindable readOnly = false;
     @bindable isEdit = false;
     @bindable title;
+
+    get currencyLoader() {
+        return CurrencyLoader;
+    }
 
     controlOptions = {
         label: {
@@ -58,11 +63,25 @@ export class DataForm {
         this.context = context;
         this.data = context.data;
         this.error = context.error;
+
+        if(this.data && this.data.currency){
+            this.currency ={
+                Code: this.data.currency.code || this.data.currency.Code,
+                Rate: this.data.currencyRate || this.data.currency.rate
+            } ;
+
+        }
     }
 
     get totalAmount() {
         this.data.totalAmount = (this.data.items || []).reduce((acc, cum) => acc + cum.amount, 0);
 
         return this.data.totalAmount;
+    }
+
+    @bindable currency;
+    async currencyChanged(newValue, oldValue) {
+        this.data.currency = newValue;
+        this.data.currencyRate = newValue.Rate;
     }
 }
