@@ -1,7 +1,7 @@
 import { inject, Lazy } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Service, CoreService } from './service';
-import { reindexSizes, validateDetailRowsQuantity } from './helper';
+import { createSavePayload, validateDetailRowsQuantity } from './helper';
 
 @inject(Router, Service, CoreService)
 export class Edit {
@@ -48,20 +48,20 @@ export class Edit {
             return;
         }
 
-        reindexSizes(this.data);
+        this.newData = createSavePayload(this.data);
 
         // Hapus elemen kosong dan string yang hanya berisi spasi
-        this.data.documentsFile = this.data.documentsFile.filter(file => file.trim() !== '');
-        this.data.documentsFileName = this.data.documentsFileName.filter(file => file.trim() !== '');
+        this.newData.documentsFile = this.newData.documentsFile.filter(file => file.trim() !== '');
+        this.newData.documentsFileName = this.newData.documentsFileName.filter(file => file.trim() !== '');
 
         // Lakukan update
         try {
-            this.data.mode = 
-            this.data.items && this.data.items.length > 0 
+            this.newData.mode = 
+            this.newData.items && this.newData.items.length > 0 
                 ? "UPDATE" 
                 : "CREATE";
-            await this.service.update(this.data);  // Pastikan update menggunakan await jika metode ini asinkron
-            this.router.navigateToRoute('view', { id: this.data.id });
+            await this.service.update(this.newData);  // Pastikan update menggunakan await jika metode ini asinkron
+            this.router.navigateToRoute('view', { id: this.newData.id });
         } catch (error) {
             this.error = error;
 

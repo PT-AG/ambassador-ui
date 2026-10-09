@@ -2,7 +2,7 @@ import { inject, Lazy } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Service } from './service';
 import { activationStrategy } from 'aurelia-router';
-import { reindexSizes, validateDetailRowsQuantity } from './helper';
+import { createSavePayload, validateDetailRowsQuantity } from './helper';
 
 @inject(Router, Service)
 export class Create {
@@ -40,15 +40,15 @@ export class Create {
             return;
         }
 
-        reindexSizes(this.data);
+        this.newData = createSavePayload(this.data);
 
-        this.data.IsFile = true;
-        this.data.mode = 
-            this.data.items && this.data.items.length > 0 
+        this.newData.IsFile = true;
+        this.newData.mode = 
+            this.newData.items && this.newData.items.length > 0 
                 ? "UPDATE" 
                 : "CREATE";
                 
-        this.service.create(this.data)
+        this.service.create(this.newData)
             .then(result => {
                 alert("Data berhasil dibuat, No Packing List: " + result);
                 this.router.navigateToRoute('create', {}, { replace: true, trigger: true });

@@ -26,39 +26,42 @@ export class View {
         var id = decoded;
         this.poExId = id;
         this.data = await this.service.getById(id);
-        for(var a of this.data.items){
-            for(var b of a.details){
-                if(b.doQuantity && b.doQuantity > 0 ){
+        
+        for (var a of this.data.items) {
+            for (var b of a.details) {
+                if (b.doQuantity && b.doQuantity > 0) {
                     isVoid = true;
                 }
-                if(b.doQuantity < b.dealQuantity){
+
+                if (b.doQuantity < b.dealQuantity) {
                     canClose = true;
                 }
-                if(b.priceBeforeTax){
-                    b.priceBeforeTax=b.priceBeforeTax.toLocaleString('en-EN', { minimumFractionDigits: 4 });
-                  }
+                
+                if (b.priceBeforeTax) {
+                    b.priceBeforeTax = b.priceBeforeTax.toLocaleString('en-EN', { minimumFractionDigits: 4 });
+                }
             }
         }
         
-        if (!this.data.isPosted) {
-            this.hasDelete = true;
-            this.hasEdit = true;
-        }
-        if (this.data.isPosted && !isVoid  && !this.data.isClosed && !this.data.isCanceled) {
-            this.hasUnpost = true;
-            this.hasCancelPo = true;
-        }
-        if (this.data.isPosted && !this.data.isClosed && isVoid && canClose) {
-            this.hasClosePo = true;
-        }
+        // if (!this.data.isPosted) {
+        //     this.hasDelete = true;
+        //     this.hasEdit = true;
+        // }
+        // if (this.data.isPosted && !isVoid  && !this.data.isClosed && !this.data.isCanceled) {
+        //     this.hasUnpost = true;
+        //     this.hasCancelPo = true;
+        // }
+        // if (this.data.isPosted && !this.data.isClosed && isVoid && canClose) {
+        //     this.hasClosePo = true;
+        // }
 
-        if(this.data.isClosed || this.data.isCanceled){
-            this.hasDelete = false;
-            this.hasEdit = false;
-            this.hasUnpost = false;
-            this.hasClosePo = false;
-            this.hasCancelPo = false;
-        }
+        // if(this.data.isClosed || this.data.isCanceled){
+        //     this.hasDelete = false;
+        //     this.hasEdit = false;
+        //     this.hasUnpost = false;
+        //     this.hasClosePo = false;
+        //     this.hasCancelPo = false;
+        // }
     }
 
     cancel(event) {
