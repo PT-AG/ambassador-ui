@@ -49,6 +49,15 @@
                 view-model.ref="selectedEGViewModel">
             </au-autocomplete>
 
+            <au-textbox 
+                label="Tanggal Pengeluaran"
+                value.bind="expenditureMinimumDate"
+                read-only.bind="true"
+                if.bind="!readOnly"
+                show.bind="selectedEG"
+                options.bind="controlOptions">
+            </au-textbox>
+
             <au-textbox
                 value.bind="data.Invoice"
                 error.bind="error.Invoice"
