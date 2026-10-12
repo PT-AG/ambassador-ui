@@ -57,6 +57,15 @@
             view-model.ref="selectedCuttingInViewModel">
         </au-autocomplete>
 
+        <au-textbox 
+            label="Tanggal Cutting In"
+            value.bind="cuttingInMinimumDate"
+            read-only.bind="true"
+            if.bind="!readOnly"
+            show.bind="selectedCuttingIn"
+            options.bind="controlOptions">
+        </au-textbox>  
+
         <au-textbox
             value.bind="data.Article"
             error.bind="error.Article"
