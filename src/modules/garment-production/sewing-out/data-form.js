@@ -1,5 +1,6 @@
 import { bindable, inject, computedFrom } from "aurelia-framework";
 import { Service,PurchasingService } from "./service";
+import moment from "moment";
 
 const UnitLoader = require('../../../loader/garment-units-loader');
 
@@ -62,6 +63,23 @@ export class DataForm {
             "Satuan",
             "Warna"
         ]
+    }
+
+    @computedFrom("data.Items")
+    get sewingInMinimumDate() {
+        if (!this.data.Items || this.data.Items.length === 0) {
+            return null;
+        }
+        let minDate = null;
+        for (let item of this.data.Items) {
+            if (item.SewingInDate) {
+                let sewingInDate = new Date(item.SewingInDate);
+                if (!minDate || sewingInDate < minDate) {
+                    minDate = sewingInDate;
+                }
+            }
+        }
+        return moment(minDate).format("DD MMMM YYYY");
     }
 
     selectedSewingToChanged(newValue){
@@ -175,6 +193,7 @@ export class DataForm {
 
                 Promise.resolve(this.service.searchSewingIn({ filter: JSON.stringify({ RONo: this.data.RONo, UnitId: this.data.Unit.Id, "GarmentSewingInItem.Any(RemainingQuantity>0)" : true }), size:99999}))
                     .then(result => {
+                        var items = [];
                         for(var sewingIn of result.data){
                             for(var sewingInItem of sewingIn.Items){
                                 var item={};
@@ -192,10 +211,11 @@ export class DataForm {
                                     item.BasicPrice=sewingInItem.BasicPrice;
                                     item.ComodityPrice=this.data.Price;
                                     item.SewingInDate= sewingIn.SewingInDate;
-                                    this.data.Items.push(item);
+                                    items.push(item);
                                 }
                             }
                         }
+                        this.data.Items = items;
                         this.data.Items.sort((a, b)=>a.Color.localeCompare( b.Color) || a.SizeName.localeCompare( b.SizeName));
                     });
             }
