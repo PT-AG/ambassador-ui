@@ -1,44 +1,59 @@
-export function reindexSizes(data) {
+export function createSavePayload(data) {
     if (data == null || !Array.isArray(data.items)) {
-        return;
+        return data;
     }
 
-    for (const item of data.items) {
-        if (item == null ||
-            !Array.isArray(item.sizes) ||
-            !Array.isArray(item.detailRows)) {
-            continue;
-        }
-
-        const sizeIndexes = new Map();
-
-        item.sizes.forEach((size, index) => {
-            if (size == null) {
-                return;
+    return {
+        ...data,
+        items: data.items.map(item => {
+            if (item == null || !Array.isArray(item.detailRows)) {
+                return item;
             }
 
-            const sizeName = String(size).trim().toUpperCase();
-            sizeIndexes.set(sizeName, index + 1);
-        });
+            const sizeIndexes = new Map();
 
-        for (const row of item.detailRows) {
-            if (row == null || !Array.isArray(row.sizes)) {
-                continue;
-            }
-
-            for (const size of row.sizes) {
-                if (size == null) {
-                    continue;
+            (item.sizes || []).forEach((size, index) => {
+                if (size != null) {
+                    sizeIndexes.set(String(size).trim().toUpperCase(), index + 1);
                 }
+            });
 
-                const sizeName = String(size.size || '')
-                    .trim()
-                    .toUpperCase();
+            return {
+                ...item,
+                detailRows: item.detailRows.map(row => {
+                    if (row == null || !Array.isArray(row.sizes)) {
+                        return row;
+                    }
 
-                size.sizeIdx = sizeIndexes.get(sizeName) || 0;
-            }
-        }
-    }
+                    return {
+                        ...row,
+                        sizes: row.sizes
+                            .filter(size => {
+                                if (size == null) {
+                                    return false;
+                                }
+
+                                const quantity = size.quantity != null
+                                    ? size.quantity
+                                    : size.Quantity;
+
+                                return Number(quantity) !== 0;
+                            })
+                            .map(size => {
+                                const sizeName = String(size.size || '')
+                                    .trim()
+                                    .toUpperCase();
+
+                                return {
+                                    ...size,
+                                    sizeIdx: sizeIndexes.get(sizeName) || 0
+                                };
+                            })
+                    };
+                })
+            };
+        })
+    };
 }
 
 export function validateDetailRowsQuantity(item) {

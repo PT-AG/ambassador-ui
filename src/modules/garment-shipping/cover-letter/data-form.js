@@ -3,7 +3,7 @@ import { Service } from "./service";
 
 var ShippingInvoiceLoader = require('../../../loader/garment-shipping-invoice-loader');
 var ForwarderLoader = require('../../../loader/garment-forwarders-loader');
-var EMKLLoader= require('../../../loader/garment-emkl-loader');
+var EMKLLoader = require('../../../loader/garment-emkl-loader');
 var UomLoader = require("../../../loader/uom-loader");
 
 @inject(Service)
@@ -27,23 +27,21 @@ export class DataForm {
             length: 6
         }
     };
-    
+
     get uomLoader() {
         return UomLoader;
     }
+    
     uomView = (uom) => {
-            return `${uom.Unit || uom.unit}`
-        }
-    // filter= {      
-    //     "PEBNo!=null":true
-    // }
+        return `${uom.Unit || uom.unit}`
+    }
     
     freightOptions = [
         "COLLECT",
         "PREPAID"
     ];
 
-    get emklLoader(){
+    get emklLoader() {
         return EMKLLoader;
     }
 
@@ -71,15 +69,16 @@ export class DataForm {
         this.context = context;
         this.data = context.data;
         this.error = context.error;
-        if(this.data.shippingStaff)
-            this.selectedShippingInvoice={
-                invoiceNo:this.data.invoiceNo,
+
+        if (this.data.shippingStaff)
+            this.selectedShippingInvoice = {
+                invoiceNo: this.data.invoiceNo,
                 shippingStaff: this.data.shippingStaff.name,
                 shippingStaffId: this.data.shippingStaff.id
             }
-        this.selectedEMKL=this.data.emkl;
+
+        this.selectedEMKL = this.data.emkl;
         if (this.data.unit == null) {
-            //this.data.unit = "AG2";
             this.data.unit = "AG";
         }
     }
@@ -102,41 +101,35 @@ export class DataForm {
                         this.data.exportEstimationDate = packingList.exportEstimationDate;
                     });
             }
-            if(!this.data.id){
-                var si= await this.service.searchShippingInstruction({ filter: JSON.stringify({ InvoiceNo: this.data.invoiceNo})});
+
+            if (!this.data.id) {
+                var si = await this.service.searchShippingInstruction({ filter: JSON.stringify({ InvoiceNo: this.data.invoiceNo }) });
                 console.log(si)
-                if(si.data.length>0){
-                    this.data.forwarder= si.data[0].forwarder;
-                }
-                else{
-                    this.data.forwarder=null;
+                if (si.data.length > 0) {
+                    this.data.forwarder = si.data[0].forwarder;
+                } else {
+                    this.data.forwarder = null;
                 }
             }
-            
         } else {
             this.data.packingListId = 0;
             this.data.invoiceId = 0;
             this.data.invoiceNo = null;
             this.data.shippingStaff = null;
             this.data.order = null;
-            this.data.forwarder=null;
+            this.data.forwarder = null;
             this.data.exportEstimationDate = null;
- 
         }
     }
 
-    selectedEMKLChanged(newValue){
-        this.data.emkl=null;
-        if(newValue){
-            this.data.emkl={
-                id:newValue.Id || newValue.id,
-                name:newValue.Name || newValue.name,
-                //address: newValue.Address || newValue.address,
-                //attn: newValue.Attention || newValue.attn,
-                //phone: newValue.PhoneNumber || newValue.phone,
-                code:newValue.Code || newValue.code,
+    selectedEMKLChanged(newValue) {
+        this.data.emkl = null;
+        if (newValue) {
+            this.data.emkl = {
+                id: newValue.Id || newValue.id,
+                name: newValue.Name || newValue.name,
+                code: newValue.Code || newValue.code,
             };
         }
     }
-
 }

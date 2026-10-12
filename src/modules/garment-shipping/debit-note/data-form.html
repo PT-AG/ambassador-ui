@@ -25,7 +25,21 @@
                     loader.bind="bankLoader" text.bind="bankView" read-only.bind="readOnly || isEdit"
                     options.bind="controlOptions">
                 
-                  </au-autocomplete>
+                </au-autocomplete>
+                  
+                <au-checkbox label="Beda Currency?" value.bind="data.isDiffCurrency" options.bind="controlOptions"
+                    read-only.bind="readOnly">
+                </au-checkbox>
+
+                <au-autocomplete value.bind="currency" loader.one-time="currencyLoader" error.bind="error.currency"
+                    text="Code" label="Mata Uang" read-only.bind="readOnly" options.bind="controlOptions"
+                    placeholder="pilih mata uang" if.bind="data.isDiffCurrency">
+                </au-autocomplete>
+
+                <au-numeric value.bind="data.currencyRate" read-only.bind="readOnly" label="Rate" options.bind="controlOptions"
+                    format="0,000.00" if.bind="data.isDiffCurrency" error.bind="error.currencyRate">
+                </au-numeric>
+
 
                 <au-multiline label="Deskripsi" value.bind="data.description" error.bind="error.description" read-only.bind="readOnly"
                     placeholder="Description" read-only.bind="readOnly || isEdit" options.bind="controlOptions"> 

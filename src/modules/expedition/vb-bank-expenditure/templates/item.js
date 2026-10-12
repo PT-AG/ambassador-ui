@@ -11,6 +11,7 @@ export class Item {
         
         this.options = context.options;
         this.isShowing = false;
+        this.filter = {};
         if(this.data){
             this.data.vbtypeVal=this.data.VBType == 1 ? "Dengan PO" : "Non PO";
             this.data.Unit = {
@@ -30,21 +31,23 @@ export class Item {
                 CurrencyRate: this.data.CurrencyRate,
                 VBType: this.data.VBType,
                 vbtypeVal: this.data.vbtypeVal,
-                Unit:{
-                    Name : this.data.UnitName,
-                    Id : this.data.UnitId,
-                },
+                UnitName : this.data.UnitName,
+                UnitId : this.data.UnitId,
 
-                Division: {
-                    Id: this.data.DivisionId,
-                    Name: this.data.DivisionName,
-                },
+                DivisionId: this.data.DivisionId,
+                DivisionName: this.data.DivisionName,
 
                 VBRequestName: this.data.VBRequestName,
                 VBAmount: this.data.VBAmount,
                 VBRealizationAmount: this.data.VBRealizationAmount,
                 VBRealizationId: this.data.VBRealizationId
             };
+        }
+        if(context.context.items.length>0){
+            for(var item of context.context.items){
+                if(item.data.VBRealizationNo)
+                    this.filter[`VBRealizationNo == "${item.data.VBRealizationNo}"`]=false;
+            }
         }
     }
 
@@ -81,6 +84,10 @@ export class Item {
             this.data.VBAmount = newValue.VBAmount;
             this.data.VBRealizationAmount = newValue.VBRealizationAmount;
             this.data.VBRealizationId = newValue.VBRealizationId;
+            this.data.DivisionId = newValue.DivisionId;
+            this.data.DivisionName = newValue.DivisionName;
+            this.data.UnitId = newValue.UnitId;
+            this.data.UnitName = newValue.UnitName;
         }
         else{
             this.data.VBRealizationNo = null;

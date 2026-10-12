@@ -68,11 +68,10 @@ export class UnitDeliveryOrderItem {
     return this.options.readOnly || this.isEdit;
   }
 
-  qtyChanged(e){
-    var qty= parseFloat(e.target.value);
-    this.data.ReturQuantity=qty/this.data.Conversion;
-    this.data.DefaultDOQuantity=qty;
-
+  qtyChanged(e) {
+    var qty = parseFloat(e.target.value);
+    this.data.ReturQuantity = qty / this.data.CorrectionConversion;
+    this.data.DefaultDOQuantity = qty;
   }
 
   changeCheckBox() {
