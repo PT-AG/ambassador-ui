@@ -651,7 +651,20 @@ module.exports = [
             iconClass: 'fa fa-dashboard'
         }
     },
-    
+    {
+        route: '/purchasing/approve-spb/staff',
+        name: 'approve-unit-payment-order-staff',
+        moduleId: './modules/purchasing/approve-unit-payment-order-staff/index',
+        nav: true,
+        title: 'Approval Surat Perintah Bayar Staff',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "approval",
+            permission: { "E40": 1 },
+            iconClass: 'fa fa-dashboard'
+        }
+    },
     {
         route: '/purchasing/approve-spb/manager1',
         name: 'approve-unit-payment-order-manager1',

@@ -1250,6 +1250,20 @@ module.exports = [
     },
   },
   {
+    route: "/garments/approve-intern-note-staff",
+    name: "approve-intern-note-staff",
+    moduleId: "./modules/garment-purchasing/approve-intern-note-staff/index",
+    nav: true,
+    title: "Approve Nota Internal - Staff",
+    auth: true,
+    settings: {
+      group: "g-purchasing",
+      subGroup: "approval",
+      permission: { H62: 1 },
+      iconClass: "fa fa-dashboard",
+    },
+  },
+  {
     route: "/garments/approve-intern-note-manager1",
     name: "approve-intern-note-manager1",
     moduleId: "./modules/garment-purchasing/approve-intern-note-kasie/index",
@@ -1290,7 +1304,21 @@ module.exports = [
       permission: { H63: 1 },
       iconClass: "fa fa-dashboard",
     },
-  },
+  },{
+        route: '/garment/purchasing-disposition-approval/staff',
+        name: 'purchasing-disposition-approval-staff',
+        moduleId: './modules/garment-purchasing/purchasing-disposition-approval/index',
+        nav: true,
+        title: 'Approve Disposisi Pembayaran - Staff',
+        auth: true,
+        settings: {
+            group: "g-purchasing",
+            subGroup: "approval",
+            permission: { H64 : 1 },
+            iconClass: 'fa fa-calculator',
+            type: "staff"
+        }
+    },
   {
         route: '/garment/purchasing-disposition-approval/manager1',
         name: 'purchasing-disposition-approval-manager1',

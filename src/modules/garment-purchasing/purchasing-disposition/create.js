@@ -41,7 +41,6 @@ export class Create {
         };
 
         var section= await this.serviceCore.searchSection(argS);
-                console.log(section);
 
         this.data.ApprovedKasieBy=section.data[0].Manager1;
         this.data.ApprovedKabagBy=section.data[0].Manager2;
