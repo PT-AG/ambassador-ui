@@ -1,4 +1,5 @@
 <template>
+    <require from="../../../lib/number-format-value-converter"></require>
     <au-input-form
         title="Detail Pengeluaran Bank VB"
         options.bind="formOptions">
@@ -83,5 +84,7 @@
         remove.bind="removeItems">
     </au-collection>
     <br />
+
+    TOTAL BAYAR ${grandTotal | numberFormat: '0,000.0000'} ${data.Currency.Code}
   </au-input-form>
 </template>

@@ -107,7 +107,7 @@ export class Create {
     @bindable currency;
     async currencyChanged(newValue, oldValue) {
         this.data.Currency = newValue;
-        if (this.bankCurrency == "IDR" && this.currencyCodeValue != "IDR" && this.currencyCodeValue != null && !this.readOnly) {
+        if (this.selectedBank.Currency.Code == "IDR" && this.currencyCodeValue != "IDR" && this.currencyCodeValue != null && !this.readOnly) {
             this.sameCurrency = false;
         }
         else {
@@ -124,5 +124,20 @@ export class Create {
         return (event) => {
             this.data.Items.push({});
         };
+    }
+
+    get grandTotal() {
+        let result = 0;
+        if (this.data.Items && this.data.Items.length > 0) {
+            for (let detail of this.data.Items) {
+                if (detail.VBRealizationAmount) {
+                    result += detail.VBRealizationAmount;
+                }
+
+            }
+        }
+        // console.log(result);
+        this.data.GrandTotal = result;
+        return result;
     }
 }

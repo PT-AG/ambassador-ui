@@ -63,5 +63,18 @@ export class View {
             length: 4,
         },
     };
+    get grandTotal() {
+        let result = 0;
+        if (this.data.Items && this.data.Items.length > 0) {
+            for (let detail of this.data.Items) {
+                if (detail.VBRealizationAmount) {
+                    result += detail.VBRealizationAmount;
+                }
 
+            }
+        }
+        // console.log(result);
+        this.data.GrandTotal = result;
+        return result;
+    }
 }

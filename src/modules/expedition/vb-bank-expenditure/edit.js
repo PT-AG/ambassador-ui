@@ -53,7 +53,8 @@ export class Edit {
     }
 
     cancelCallback(event) {
-        this.router.navigateToRoute("list");
+        const encoded = Base64Helper.encode(this.data.Id);
+        this.router.navigateToRoute('view', { id: encoded });
     }
 
     saveCallback(event) {
@@ -133,5 +134,20 @@ export class Edit {
                 this.sameCurrency = true;
             }
         }
+    }
+
+    get grandTotal() {
+        let result = 0;
+        if (this.data.Items && this.data.Items.length > 0) {
+            for (let detail of this.data.Items) {
+                if (detail.VBRealizationAmount) {
+                    result += detail.VBRealizationAmount;
+                }
+
+            }
+        }
+        // console.log(result);
+        this.data.GrandTotal = result;
+        return result;
     }
 }
