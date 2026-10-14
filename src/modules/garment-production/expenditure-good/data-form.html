@@ -55,6 +55,15 @@
                     view-model.ref="selectedROViewModel">
                 </au-autocomplete>
 
+                <au-textbox 
+                    label.bind="beforeProcessLabel"
+                    value.bind="beforeProcessDateView"
+                    read-only.bind="true"
+                    if.bind="!readOnly && !isEdit"
+                    show.bind="selectedRO"
+                    options.bind="controlOptions">
+                </au-textbox>
+
                 <au-textbox
                     value.bind="data.Article"
                     error.bind="error.Article"
@@ -82,7 +91,7 @@
                     label="Tanggal Proses"
                     value.bind="data.ExpenditureDate"
                     error.bind="error.ExpenditureDate"
-                    read-only.bind="readOnly"
+                    read-only.bind="readOnly || isEdit"
                     options.bind="controlOptions">
                 </au-datepicker> 
             </div>
