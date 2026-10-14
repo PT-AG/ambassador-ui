@@ -1,5 +1,6 @@
 import { bindable, inject, computedFrom } from "aurelia-framework";
 import { Service,SalesService,PurchasingService } from "./service";
+import moment from "moment";
 
 const UnitLoader = require('../../../loader/garment-units-loader');
 const PlLoader= require('../../../loader/garment-shipping-invoice-loader');
@@ -21,6 +22,8 @@ export class DataForm {
     @bindable selectedInvoice;
     @bindable manual;
     @bindable selectedExpenditureFrom;
+
+    beforeProcessLabel = "";
 
     constructor(service,salesService,purchasingService) {
         this.service = service;
@@ -127,6 +130,14 @@ export class DataForm {
                     return roList;
                 });
         }
+    }
+
+    @computedFrom("data.BeforeProcessDate")
+    get beforeProcessDateView() {
+        if (this.data.BeforeProcessDate) {
+            return moment(this.data.BeforeProcessDate).format("DD MMM YYYY");
+        }
+        return "";
     }
 
     get unitLoader() {
@@ -259,7 +270,17 @@ export class DataForm {
             //get data finished good stock by RONo and Unit and ExpenditureFrom
             Promise.resolve(this.service.getFinishedGood({ filter: JSON.stringify({ RONo: this.data.RONo, UnitId: this.data.Unit.Id, FinishedFrom: this.data.ExpenditureFrom }) }))
                 .then(result => {
+                    let beforeProcessDate = null;
                     for (var finGood of result.data) {
+                        if (beforeProcessDate == null) {
+                            beforeProcessDate = finGood.BeforeProcessDate;
+                            this.data.BeforeProcessDate = beforeProcessDate;
+                            this.beforeProcessLabel = this.data.ExpenditureFrom === 'FINISHING' ? 'Tanggal Finishing Out' :
+                                this.data.ExpenditureFrom === 'SEWING' ? 'Tanggal Sewing Out' :
+                                   this.data.ExpenditureFrom === 'LOADING' ? 'Tanggal Loading' :
+                                    this.data.ExpenditureFrom === 'CUTTING' ? 'Tanggal Cutting Out' :
+                                    '';
+                        }
                         var item = {};
                         if (finGood.Quantity > 0) {
                             if (this.sizes.length > 0) {
