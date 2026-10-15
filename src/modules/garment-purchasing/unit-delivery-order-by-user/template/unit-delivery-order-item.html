@@ -39,6 +39,20 @@
                 options.bind="controlOptions">
             </au-numeric>                    
         </td>
+        <td if.bind="isCreateByUser">
+            <au-numeric 
+                value.bind="data.KebRO"
+                read-only="true"
+                options.bind="controlOptions">
+            </au-numeric>
+        </td>
+        <td if.bind="isCreateByUser">
+            <au-numeric 
+                value.bind="data.TotalQtyDO"
+                read-only="true"
+                options.bind="controlOptions">
+            </au-numeric>
+        </td>
         <td>
             <au-numeric 
                 value.bind="data.Quantity"
