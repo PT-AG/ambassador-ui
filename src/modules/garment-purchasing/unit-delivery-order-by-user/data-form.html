@@ -264,6 +264,22 @@
                 </au-textbox>
 
                 <au-textbox 
+                    label="KEB RO" 
+                    value.bind="newProduct.KebRO" 
+                    read-only.bind="true"
+                    options.bind="controlOptions"
+                    if.bind="isCreateByUser">
+                </au-textbox>
+
+                <au-textbox 
+                    label="TOTAL QTY DO" 
+                    value.bind="newProduct.TotalQtyDO" 
+                    read-only.bind="true"
+                    options.bind="controlOptions"
+                    if.bind="isCreateByUser">
+                </au-textbox>
+
+                <au-textbox 
                     label="Jumlah Barang" 
                     value.bind="newProduct.Quantity" 
                     read-only.bind="true"
