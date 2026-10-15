@@ -1,5 +1,6 @@
 import { bindable, inject, computedFrom } from "aurelia-framework";
 import { Service,SalesService,PurchasingService } from "./service";
+import moment from "moment";
 
 const UnitLoader = require('../../../loader/garment-units-loader');
 
@@ -58,6 +59,23 @@ export class DataForm {
                 }
             );
         }
+    }
+
+    @computedFrom("data.Items")
+    get expenditureMinimumDate() {
+        if (!this.data.Items || this.data.Items.length === 0) {
+            return null;
+        }
+        let minDate = null;
+        for (let item of this.data.Items) {
+            if (item.ExpenditureDate) {
+                let expenditureDate = new Date(item.ExpenditureDate);
+                if (!minDate || expenditureDate < minDate) {
+                    minDate = expenditureDate;
+                }
+            }
+        }
+        return moment(minDate).format("DD MMMM YYYY");
     }
 
     unitView = (unit) => {
@@ -215,19 +233,20 @@ get GDOLoader() {
             }
             Promise.resolve(this.service.getExpenditureGood({ filter: JSON.stringify({ ExpenditureGoodNo: this.data.ExpenditureNo, UnitId: this.data.Unit.Id, 'ExpenditureType.Contains("LOKAL") || ExpenditureType.Contains("EXPORT")' : "true"}) }))
                     .then(result => {
+                        var items = [];
                         for(var exGood of result.data){
                             for(var exGoodItem of exGood.Items){
                                 let Qty= exGoodItem.Quantity-exGoodItem.ReturQuantity;
                                 if(Qty>0){
                                     var item={};
-                                    if(this.data.Items.length>0){
-                                        var duplicate= this.data.Items.find(a=>a.Size.Id==exGoodItem.Size.Id && a.Uom.Id==exGoodItem.Uom.Id && a.Description==exGoodItem.Description);
+                                    if(items.length>0){
+                                        var duplicate= items.find(a=>a.Size.Id==exGoodItem.Size.Id && a.Uom.Id==exGoodItem.Uom.Id && a.Description==exGoodItem.Description);
                                         
                                         if(duplicate){
-                                            var idx= this.data.Items.indexOf(duplicate);
+                                            var idx= items.indexOf(duplicate);
                                             duplicate.Quantity+=Qty;
                                             duplicate.StockQuantity+=Qty;
-                                            this.data.Items[idx]=duplicate;
+                                            items[idx]=duplicate;
                                         }else{
                                             item.IsSave=true;
                                             item.ExpenditureDate= exGood.ExpenditureDate;
@@ -241,7 +260,7 @@ get GDOLoader() {
                                             item.Uom= exGoodItem.Uom;
                                             item.Description=exGoodItem.Description;
                                             item.BasicPrice=exGoodItem.BasicPrice;
-                                            this.data.Items.push(item);
+                                            items.push(item);
                                         }
                                     }
                                     else{
@@ -257,11 +276,12 @@ get GDOLoader() {
                                         item.Uom= exGoodItem.Uom;
                                         item.Description=exGoodItem.Description;
                                         item.BasicPrice=exGoodItem.BasicPrice;
-                                        this.data.Items.push(item);
+                                        items.push(item);
                                     }
                                 }
                             }
                         }
+                        this.data.Items = items;
                         this.data.Items.sort((a, b)=>a.Description.localeCompare( b.Description) ||a.SizeName.localeCompare( b.SizeName));
                     });
             }

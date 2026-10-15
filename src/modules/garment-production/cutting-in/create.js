@@ -1,10 +1,13 @@
-import { inject } from 'aurelia-framework';
+import { inject, bindable } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Service } from './service';
 import { activationStrategy } from 'aurelia-router';
 
 @inject(Router, Service)
 export class Create {
+
+    @bindable error = {};
+
     constructor(router, service) {
         this.router = router;
         this.service = service;
@@ -28,25 +31,34 @@ export class Create {
     }
 
     saveCallback(event) {
-        this.data.CuttingFrom="PREPARING";
-        this.data.PreparingDate=null;
-        if(this.data.Items){
-            for(var item of this.data.Items){
-                for(var detail of item.Details){
-                    if(detail.IsSave){
-                        if(this.data.PreparingDate==null || this.data.PreparingDate<item.ProcessDate)
-                            this.data.PreparingDate=item.ProcessDate;
-                    }
-                }
-            }
-        }
+        this.data.CuttingFrom = "PREPARING";
         this.service.create(this.data)
             .then(result => {
                 alert("Data berhasil dibuat");
                 this.router.navigateToRoute('create', {}, { replace: true, trigger: true });
             })
             .catch(e => {
-                this.error = e;
+                const normalizedError = Object.assign({}, e);
+
+                Object.keys(e).forEach(key => {
+                    const match = /^Items\[(\d+)\]\.Details\[(\d+)\]\.(.+)$/.exec(key);
+                    if (!match) return;
+
+                    const itemIndex = Number(match[1]);
+                    const detailIndex = Number(match[2]);
+                    const field = match[3];
+
+                    normalizedError.Items = normalizedError.Items || [];
+                    const itemError = normalizedError.Items[itemIndex] ||
+                        (normalizedError.Items[itemIndex] = { Details: [] });
+
+                    const detailError = itemError.Details[detailIndex] ||
+                        (itemError.Details[detailIndex] = {});
+
+                    detailError[field] = e[key];
+                });
+
+                this.error = normalizedError;
             })
     }
 }

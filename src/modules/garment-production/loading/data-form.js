@@ -1,5 +1,6 @@
 import { bindable, inject, computedFrom } from "aurelia-framework";
 import { Service } from "./service";
+import moment from 'moment';
 
 const UnitLoader = require('../../../loader/garment-units-loader');
 const SewingDOLoader = require('../../../loader/garment-sewing-do-loader');
@@ -113,6 +114,11 @@ export class DataForm {
                 UnitId: 0
             };
         }
+    }
+
+    @computedFrom("data.SewingDODate")
+    get sewingDODateView(){
+        return moment(this.data.SewingDODate).format("DD MMMM YYYY");
     }
 
     selectedUnitChanged(newValue){

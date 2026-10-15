@@ -36,6 +36,15 @@
             view-model.ref="selectedROViewModel">
         </au-autocomplete>
 
+        <au-textbox 
+            label="Tanggal Sewing In"
+            value.bind="sewingInMinimumDate"
+            read-only.bind="true"
+            if.bind="!readOnly"
+            show.bind="selectedRO"
+            options.bind="controlOptions">
+        </au-textbox>
+
 
         <au-textbox
             value.bind="data.Article"
