@@ -31,6 +31,7 @@ export class List {
             }},
             { 
                 field: "IsPosted", title: "Status", formatter: function(value, data, index) {
+                    if(data.ReasonRejected) return "DITOLAK dengan alasan: " + data.ReasonRejected;
                     if(data.IsApprovedDirector) return "SUDAH DISETUJUI DIREKSI";
                     if(data.IsApprovedBudget2) return "SUDAH DISETUJUI ANGGARAN2";
                     if(data.IsApprovedBudget1) return "SUDAH DISETUJUI ANGGARAN1";
@@ -98,15 +99,23 @@ export class List {
         }
 
         switch (type) {
+            case "staff":
+                this.filter = {
+                    IsPosted: true,
+                    IsApprovedStaff: false
+                };
+                break;
             case "manager1":
                 this.filter = {
                     IsPosted: true,
+                    IsApprovedStaff: true,
                     IsApprovedKasie: false,
                     ApprovedKasieBy: username 
                 };
                 break;
             case "manager2":
                 this.filter = {
+                    IsApprovedStaff: true,
                     IsApprovedKasie: true,
                     IsApprovedKabag: false,
                     ApprovedKabagBy: username 
@@ -114,6 +123,7 @@ export class List {
                 break;
             case "verification":
                 this.filter = {
+                    IsApprovedStaff: true,
                     IsApprovedKasie: true,
                     IsApprovedKabag: true,
                     IsApprovedVerification: false,
@@ -122,6 +132,7 @@ export class List {
                 break;
             case "budget1":
                 this.filter = {
+                    IsApprovedStaff: true,
                     IsApprovedKasie: true,
                     IsApprovedKabag: true,
                     IsApprovedVerification: true,
@@ -130,6 +141,7 @@ export class List {
                 break;
             case "budget2":
                 this.filter = {
+                    IsApprovedStaff: true,
                     IsApprovedKasie: true,
                     IsApprovedKabag: true,
                     IsApprovedVerification: true,
@@ -139,6 +151,7 @@ export class List {
                 break;
             case "director":
                 this.filter = {
+                    IsApprovedStaff: true,
                     IsApprovedKasie: true,
                     IsApprovedKabag: true,
                     IsApprovedVerification: true,

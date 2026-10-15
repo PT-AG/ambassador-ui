@@ -42,8 +42,6 @@ export class List {
         else{
             this.filterSection[`CreatedBy=="null"`]=true;
         }
-
-        
     }
 
     columns = [
@@ -65,6 +63,7 @@ export class List {
         if (info.sort)
             order[info.sort] = info.order;
         
+        this.filterSection["IsApprovedStaff==true"]=true;
         this.filterSection["IsApprovedKasie==false"]=true;
         this.filterSection["IsPosted==true"]=true;
 

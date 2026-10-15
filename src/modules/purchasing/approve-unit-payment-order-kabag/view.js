@@ -1,15 +1,19 @@
 import { inject, Lazy } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Service } from './service';
+import { Dialog } from "../../../au-components/dialog/dialog";
+import { RejectReason } from "./dialog-template/reject-reason";
 
-@inject(Router, Service)
+@inject(Router, Service,Dialog)
 export class View {
     hasCancel = true;
     hasApprove = true;
+    hasReject = true;
 
-    constructor(router, service) {
+    constructor(router, service,dialog) {
         this.router = router;
         this.service = service;
+        this.dialog = dialog;
     }
 
     async activate(params) {
@@ -82,5 +86,26 @@ export class View {
                 console.error(err);
                 alert("Terjadi kesalahan saat approve.");
             });
+    }
+
+    reject(event) {
+        this.dialog.show(RejectReason, {message: "Silakan masukkan alasan reject:" })
+        .then(response => {
+        if (!response.wasCancelled) {
+            const reason = response.output;
+            if (!reason || String(reason).trim() === "") {
+            alert('Alasan tidak boleh kosong.');
+            return;
+            }
+            this.service
+            .Rejected(this.data.Id, String(reason).trim())
+            .then((result) => {
+                this.cancel();
+            })
+            .catch((e) => {
+                this.error = e;
+            });
+        }
+        });
     }
 }

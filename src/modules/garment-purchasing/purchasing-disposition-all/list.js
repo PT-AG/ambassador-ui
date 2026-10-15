@@ -32,6 +32,7 @@ export class List {
         { field: "CreatedBy", title: "Yang Membuat"},
         { 
             field: "IsPosted", title: "Status", formatter: function(value, data, index) {
+                if(data.ReasonRejected) return "DITOLAK dengan alasan: " + data.ReasonRejected;
                 if(data.IsApprovedDirector) return "SUDAH DISETUJUI DIREKSI";
                 if(data.IsApprovedBudget2) return "SUDAH DISETUJUI ANGGARAN2";
                 if(data.IsApprovedBudget1) return "SUDAH DISETUJUI ANGGARAN1";
@@ -96,7 +97,9 @@ export class List {
     }
 
     rowFormatter(data, index) {
-        if (data.IsApprovedDirector) 
+        if (data.ReasonRejected)
+            return { classes: "danger" }
+        else if (data.IsApprovedDirector) 
             return { classes: "success" }
         else
             return {}

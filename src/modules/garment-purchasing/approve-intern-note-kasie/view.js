@@ -65,7 +65,7 @@ export class View {
             this.service
             .Rejected(this.data.Id, String(reason).trim())
             .then((result) => {
-                this.cancelling();
+                this.cancel();
             })
             .catch((e) => {
                 this.error = e;

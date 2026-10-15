@@ -13,7 +13,10 @@ export class List {
     context = ["Rincian", "Cetak PDF"]
 
     rowFormatter(data, index) {
-        if (data.isPosted && data.IsApprovedKasie && data.IsApprovedKabag)
+        if (data.ReasonRejected){
+            return { classes: "danger" }
+        }
+        else if (data.isPosted && data.IsApprovedKasie && data.IsApprovedKabag)
             return { classes: "success" }
         else
             return {}
@@ -37,22 +40,16 @@ export class List {
         { field: "UPONo", title: "Nomor Surat Perintah Bayar" },
         { field: "unitReceiptNoteNo", title: "List Nomor Bon Unit-Nomor Surat Jalan", sortable: false },
         {
-            field: "isPosted", title: "Status Post",
+            field: "isPosted", title: "Status",
             formatter: function (value, data, index) {
-                return value ? "SUDAH" : "BELUM";
+                if(data.ReasonRejected) return "DITOLAK dengan alasan: " + data.ReasonRejected;
+                if(data.IsApprovedVerification) return "SUDAH DISETUJUI VERIFICATION";
+                if(data.IsApprovedKabag) return "SUDAH DISETUJUI MANAGER 2";
+                if(data.IsApprovedKasie) return "SUDAH DISETUJUI MANAGER 1";
+                if(data.IsApprovedStaff) return "SUDAH DISETUJUI STAFF";
+                if(data.isPosted) return "SUDAH DIPOSTING";
+                return "DRAFT";
             }
-        },
-        {
-            field: "IsApprovedKasie",
-            title: "Approve Manager 1",
-            formatter: function (value, row, index) {
-                return value ? "SUDAH" : "BELUM"
-            }
-        },
-        {
-            field: "IsApprovedKabag",
-            title: "Approve Manager 2",
-            formatter: (value) => value ? "SUDAH" : "BELUM"
         }
     ];
 

@@ -35,6 +35,12 @@ export class Service extends RestService {
             return result.data;
         })
     }
+
+    Rejected(id, reason) {
+        let endpoint = `${serviceUri}/rejected/${id}`;
+        let body = { Reason: reason };
+        return super.put(endpoint, body);
+    }
 }
 
 
