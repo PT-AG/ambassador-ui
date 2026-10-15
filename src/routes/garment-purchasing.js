@@ -1439,7 +1439,21 @@ module.exports = [
             },
             "iconClass": "fa fa-dashboard"
         }
-    }
+    },
+  {
+    route: "garment/monitoring-usage/",
+    name: "garment-monitoring-usage",
+    moduleId: "./modules/garment-purchasing/monitoring-usage/index",
+    nav: true,
+    title: "Monitoring Pemakaian Material",
+    auth: true,
+    settings: {
+      group: "g-purchasing",
+      subGroup: "monitoring",
+      permission: { "H66": 1 },
+      iconClass: "fa fa-dashboard",
+    },
+  },
   // {
   //   route: "/garment/po-external/over-budget/approval/kasie",
   //   name: "approve-po-external-over-budget-kasie",
