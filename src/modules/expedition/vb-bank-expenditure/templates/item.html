@@ -1,0 +1,61 @@
+<template>
+    <tr>
+        <td>
+            <au-autocomplete
+                placeholder="pilih vb"
+                value.bind="selectedVB"
+                error.bind="error.VBRealization"
+                loader.one-time="vbLoader"
+                text="VBRealizationNo"
+                read-only.bind="options.readOnly"
+                query.bind="filter">
+            </au-autocomplete>
+        </td>
+        <td>
+            <au-datepicker
+                value.bind="data.VBRealizationDate"
+                error.bind="error.VBRealizationDate"
+                read-only.bind="true">
+            </au-datepicker>
+        </td>
+        <td>
+            <au-textbox
+                value.bind="data.vbtypeVal"
+                error.bind="error.VBType"
+                read-only.bind="true">
+            </au-textbox>
+        </td>
+        <td>
+            <au-textbox
+                value.bind="data.VBRequestName"
+                error.bind="error.VBType"
+                read-only.bind="true">
+            </au-textbox>
+        </td>
+        <td>
+            <au-textbox
+                value.bind="data.Unit.Name"
+                error.bind="error.vbNo"
+                read-only.bind="true">
+            </au-textbox>
+        </td>
+        <td>
+            <au-numeric
+                value.bind="data.VBRealizationAmount"
+                error.bind="error.vbNo"
+                read-only.bind="true"
+                format="0,0.00">
+            </au-numeric>
+        </td>
+        <td>
+            <au-textbox
+                value.bind="data.CurrencyCode"
+                error.bind="error.vbNo"
+                read-only.bind="true">
+            </au-textbox>
+        </td>
+        <td if.bind="!options.readOnly">
+            <button class="btn btn-danger pull-right" click.delegate="onremove(data, $event)">-</button>
+        </td>
+    </tr>
+</template>

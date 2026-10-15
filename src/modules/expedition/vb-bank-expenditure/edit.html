@@ -1,0 +1,82 @@
+<template>
+    <require from="../../../lib/number-format-value-converter"></require>
+    <au-input-form
+        title="Edit Pengeluaran Bank VB"
+        options.bind="formOptions">
+    <div class="row">
+
+        <au-autocomplete 
+            label="Bank"
+            placeholder="pilih bank"
+            value.bind="selectedBank"
+            error.bind="error.Bank"
+            loader.one-time="bankLoader"
+            text.bind="bankView"
+            read-only.bind="true"
+            options.bind="controlOptions">
+        </au-autocomplete>
+
+        <au-textbox 
+            label="No. Rekening"
+            value.bind="selectedBank.AccountNumber"
+            read-only.bind="true"
+            options.bind="controlOptions"
+            show.bind="selectedBank">
+        </au-textbox>
+
+        <au-autocomplete value.bind="currency"
+                         loader.one-time="currencyLoader"
+                         error.bind="error.Currency"
+                         text="Code"
+                         label="Mata Uang"
+                         read-only.bind="true"
+                         options.bind="controlOptions"
+                         placeholder="pilih mata uang">
+        </au-autocomplete>
+
+        <au-numeric value.bind="data.Currency.Rate"
+                    read-only.bind="true"
+                    label="Rate"
+                    options.bind="controlOptions"
+                    format="0,000.0000">
+        </au-numeric>
+
+        <au-textbox label="No. BG/Cek"
+                    value.bind="data.BGCheckNo"
+                    error.bind="error.BGCheckNo"
+                    read-only.bind="readOnly"
+                    options.bind="controlOptions"
+                    show.bind="selectedBank">
+        </au-textbox>
+
+        <au-datepicker value.bind="data.Date"
+                       read-only.bind="readOnly"
+                       error.bind="error.Date"
+                       label="Tanggal"
+                       options.bind="controlOptions">
+        </au-datepicker>
+        
+        <au-numeric label="Biaya Lain-lain"
+                    value.bind="data.OtherExpense"
+                    error.bind="error.OtherExpense"
+                    read-only.bind="readOnly"
+                    options.bind="controlOptions">
+        </au-numeric>
+    </div>
+    
+    <au-collection
+        items.bind="data.Items"
+        errors.bind="error.Items"
+        columns.bind="columns2"
+        read-only.bind="readOnly"
+        options.bind="itemOptions"
+        item-template="modules/expedition/vb-bank-expenditure/templates/item"
+        add.bind="addItems"
+        options.bind="itemOptions"
+        remove.bind="removeItems">
+    </au-collection>
+    <br />
+
+    TOTAL BAYAR ${grandTotal | numberFormat: '0,000.0000'} ${currency.Code}
+  </au-input-form>
+</template>

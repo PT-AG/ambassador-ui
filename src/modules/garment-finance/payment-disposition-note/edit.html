@@ -67,6 +67,12 @@
                     options.bind="controlOptions">
         </au-textbox>
 
+        <au-numeric label="Biaya Lain-lain"
+                    value.bind="data.OtherExpense"
+                    error.bind="error.OtherExpense"
+                    options.bind="controlOptions">
+        </au-numeric>
+
         <au-textbox
             error.bind="error.Items"
             show.bind="error.Items"
