@@ -1,0 +1,65 @@
+<template>
+    <style>
+        table > tbody > tr > td {
+            white-space: pre;
+        }
+    </style>
+
+    <h1 class="page-header">Monitoring Pemakaian Material</h1>
+    <form class="form-horizontal">
+        <div class="form-group">
+            <div class="col-sm-6 col-sm-offset-2">
+                <au-dropdown
+                    label="Cari Berdasarkan"
+                    value.bind="selectedType"
+                    options.bind="controlOptions"
+                    items.bind="typeOptions">
+                </au-dropdown>
+                <au-textbox
+                    value.bind="roNo"
+                    label="Kata Kunci Pencarian"
+                    options.bind="controlOptions"
+                    placeholder="masukkan kata kunci">
+                </au-textbox>
+            </div>
+            <div class="col-sm-2">
+                <button type="button" class="btn btn-success" click.delegate="searching()">Cari</button>
+                <button type="button" class="btn btn-success" click.delegate="reset()">Reset</button>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover" id="myTable">
+                <thead class="text-center">
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">No RO</th>
+                        <th scope="col">No PA/PM</th>
+                        <th scope="col">Kode Produk</th>
+                        <th scope="col">Nama Produk</th>
+                        <th scope="col">Color</th>
+                        <th scope="col">Qty RO</th>
+                        <th scope="col">Qty Pemakaian</th>
+                        <th scope="col">Satuan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr repeat.for="item of data">
+                        <td class="text-left">${item.index}</td>
+                        <td class="text-left">${item.RO_Number}</td>
+                        <td class="text-left">${item.PO_SerialNumber}</td>
+                        <td class="text-left">${item.ProductCode}</td>
+                        <td class="text-left">${item.ProductName}</td>
+                        <td class="text-left">${item.Color}</td>
+                        <td class="text-left">${item.BudgetQuantity}</td>
+                        <td class="text-left">${item.Quantity}</td>
+                        <td class="text-left">${item.UomUnit}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="alert alert-info text-center" role="alert" if.bind="data.length === 0">
+            Tidak ada data ditemukan.
+        </div>
+        <hr />
+    </form>
+</template>
