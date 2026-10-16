@@ -16,17 +16,21 @@ export class View {
       var id = decoded;
 
       this.data = await this.service.getById(id);
+      if (this.data && (this.data.IsUsed || this.data.isUsed)) {
+          this.editCallback = null;
+          this.deleteCallback = null;
+      }
     }
 
     bind(context) {
         this.context = context;
-        this.data = this.context.data;
-        this.error = this.context.error;
+        this.data = this.data || (this.context && this.context.data);
+        this.error = this.context && this.context.error;
 
-        this.cancelCallback = this.context.cancelCallback;
-        this.deleteCallback = this.context.deleteCallback;
-        this.editCallback = this.context.editCallback;
-        this.saveCallback = this.context.saveCallback;
+        if (this.data && (this.data.IsUsed || this.data.isUsed)) {
+            this.editCallback = null;
+            this.deleteCallback = null;
+        }
     }
 
     list() {
