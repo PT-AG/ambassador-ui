@@ -42,7 +42,8 @@ export class View {
     unlock() {
         this.service.unlock(this.data)
             .then(result => {
-                this.activate({ id: this.data._id });
+                const encoded = Base64Helper.encode(this.data._id);
+                this.activate({ id: encoded });
             });
     }
 }
