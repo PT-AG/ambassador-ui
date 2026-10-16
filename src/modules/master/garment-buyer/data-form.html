@@ -74,6 +74,14 @@
           items.bind="types"
         ></au-dropdown>
 
+        <au-dropdown 
+          label="Tipe Partner"
+          value.bind="data.partnerType"
+          error.bind="error.partnerType"
+          read-only.bind="readOnly"
+          items.bind="partnerTypeTypes"
+        ></au-dropdown>
+
         <au-dropdown
           label="Tipe Badan Hukum"
           value.bind="data.BuyerType"
