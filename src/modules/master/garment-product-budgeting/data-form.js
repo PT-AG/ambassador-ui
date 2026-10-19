@@ -1,6 +1,4 @@
 import {inject, bindable, computedFrom} from 'aurelia-framework';
-
-// var CurrencyLoader = require('../../../loader/currency-loader');
 var UomLoader = require('../../../loader/uom-loader');
 
 export class DataForm {
@@ -12,7 +10,8 @@ export class DataForm {
     @bindable width;
     @bindable nameCheck;
 
-    ProductTypes = ['FABRIC', 'NON FABRIC']
+    ProductTypes = ['FABRIC', 'NON FABRIC'];
+    ItemTypesD365 = ['ITEMS', 'NON INVENTORY'];
 
     formOptions = {
         cancelText: "Kembali",
