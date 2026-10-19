@@ -12,7 +12,8 @@ export class UnitDeliveryOrderItem {
     this.options = context.options;
 
     this.readOnly = this.options.readOnly || this.data.IsDisabled;
-    this.isEdit = context.context.options.isEdit;
+    this.isEdit = context.context && context.context.options && context.context.options.isEdit;
+    this.isCreateByUser = Boolean(context.context && context.context.options && context.context.options.isCreateByUser);
 
     // if( this.data.Id){
     //   var filter= JSON.stringify({RONo:this.data.RONo});
@@ -32,12 +33,16 @@ export class UnitDeliveryOrderItem {
   }
 
   bind() {
-
+    if (this.context && this.context.context && this.context.context.options) {
+      this.isEdit = this.context.context.options.isEdit;
+      this.isCreateByUser = Boolean(this.context.context.options.isCreateByUser);
+    }
   }
 
-  @computedFrom("options.readOnly", "isEdit")
+  @computedFrom("readOnly", "isEdit", "isCreateByUser")
   get isDefaultDOAppear() {
-    return this.options.readOnly || this.isEdit;
+    if (this.isCreateByUser) return false;
+    return this.readOnly || this.isEdit;
   }
 
   fabricChanged(e) {

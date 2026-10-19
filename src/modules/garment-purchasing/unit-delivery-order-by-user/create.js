@@ -33,7 +33,13 @@ export class Create {
     }
 
     save(event) {
-        let dataToBeSaved = Object.assign({}, this.data);
+        let dataToBeSaved = JSON.parse(JSON.stringify(this.data));
+        if (dataToBeSaved.Items && Array.isArray(dataToBeSaved.Items)) {
+            dataToBeSaved.Items.forEach(item => {
+                delete item.KebRO;
+                delete item.TotalQtyDO;
+            });
+        }
         // dataToBeSaved.Items = this.data.Items.filter(item => item.IsSave);
         this.service.create(dataToBeSaved)
             .then(result => {

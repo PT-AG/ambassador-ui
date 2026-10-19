@@ -23,6 +23,16 @@ export class Service extends RestService {
     return super.list(endpoint, info);
   }
 
+  searchAllUnitDO(info) {
+    var endpoint = `${serviceUri}`;
+    return super.list(endpoint, info);
+  }
+
+  getTotalQtyDO(info) {
+    var endpoint = `${serviceUri}/total-qty-do`;
+    return super.list(endpoint, info);
+  }
+
   searchDOItems(info) {
     var endpoint = `${doItemsUri}`;
     return super.list(endpoint, info);
@@ -31,6 +41,11 @@ export class Service extends RestService {
   searchMoreDOItems(info) {
     var endpoint = `${doItemsMoreUri}`;
     return super.list(endpoint, info);
+  }
+
+  searchDOItemById(id) {
+    var endpoint = `garment-do-items/${id}`;
+    return super.get(endpoint);
   }
 
   getById(id) {
@@ -100,5 +115,20 @@ export class SalesService extends RestService {
   searchCCByRO(info) {
     var endpoint = `${serviceUriCC}`;
     return super.list(endpoint, info);
+  }
+
+  searchCCByRONo(ro) {
+    var endpoint = `${serviceUriCC}/by-ro/${ro}`;
+    return super.get(endpoint);
+  }
+
+  getMaterialsByROAndPOSerial(info) {
+    var endpoint = `${serviceUriCC}/materials/by-ro-poserial`;
+    return super.list(endpoint, info);
+  }
+
+  searchCCById(id) {
+    var endpoint = `${serviceUriCC}/${id}`;
+    return super.get(endpoint);
   }
 }
