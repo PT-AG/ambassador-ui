@@ -17,6 +17,13 @@ export class List {
     { field: "Width", title: "Width" },
     { field: "UomUnit", title: "Satuan Default" },
     { field: "FabricType", title: "Jenis Fabric" },
+    {
+      field: "IsCMT",
+      title: "CMT",
+      formatter: function (value, row, index) {
+        return value ? "Ya" : "Tidak";
+      }
+    },
   ];
 
   loader = (info) => {

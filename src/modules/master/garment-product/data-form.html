@@ -98,10 +98,24 @@
             read-only.bind="readOnly"
           ></au-multiline>
 
+          <au-checkbox
+            label="CMT"
+            value.bind="data.IsCMT"
+            error.bind="error.IsCMT"
+            read-only.bind="readOnly"
+          ></au-checkbox>
+
           <au-multiline
             label="Keterangan"
             value.bind="data.Remark"
             error.bind="error.Remark"
+            read-only.bind="readOnly"
+          ></au-multiline>
+
+          <au-multiline
+            label="Deskripsi"
+            value.bind="data.Description"
+            error.bind="error.Description"
             read-only.bind="readOnly"
           ></au-multiline>
 
