@@ -5,6 +5,8 @@
         <au-dropdown label="Kategori" value.bind="category" items.bind="reprosesOption"></au-dropdown>
           <au-datepicker  label="Tgl Datang Awal" value.bind="dateFrom" change.delegate="dateFromChanged($event)" ></au-datepicker>
         <au-datepicker  label="Tgl Datang Akhir" value.bind="dateTo" min.bind="dateFrom"></au-datepicker>
+        <au-dropdown label="Term Pembayaran" value.bind="paymentMethod" items.bind="termPaymentOptions">
+        </au-dropdown>
         <div class="form-group">
             <label for="contact" class="col-sm-6 control-label"></label>
             <div class="col-sm-3">
