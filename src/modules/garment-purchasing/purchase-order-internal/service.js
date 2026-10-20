@@ -38,7 +38,7 @@ export class Service extends RestService {
     }
 
     searchByTags(keyword, shipmentDateFrom, shipmentDateTo) {
-        var endpoint = `${servicePRUri}/by-tags`;
+        var endpoint = `${servicePRUri}/by-tags-with-md-staff`;
         var filter = {};
         if (keyword && shipmentDateFrom && shipmentDateTo) {
             filter = {
