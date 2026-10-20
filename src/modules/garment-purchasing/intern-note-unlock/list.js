@@ -31,6 +31,8 @@ export class List {
         { field: "CreatedBy", title: "Admin Pembelian" },
         { 
             field: "IsPosted", title: "Status", formatter: function(value, data, index) {
+                if(data.ReasonRejected) return "DITOLAK dengan alasan: " + data.ReasonRejected;
+                if(data.IsApprovedVerification) return "SUDAH DISETUJUI VERIFIKASI";
                 if(data.IsApprovedKabag) return "SUDAH DISETUJUI MANAGER 2";
                 if(data.IsApprovedKasie) return "SUDAH DISETUJUI MANAGER 1";
                 if(data.isPosted) return "SUDAH DIPOSTING";
