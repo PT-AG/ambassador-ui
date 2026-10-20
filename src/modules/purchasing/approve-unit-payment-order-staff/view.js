@@ -50,9 +50,9 @@ export class View {
     }
 
     approve(event) {
-        if (!confirm("Yakin ingin menyetujui SPB External ini?")) return;
+        if (!confirm("Yakin ingin menyetujui SPB ini?")) return;
 
-        this.service.approveKasie(this.id)
+        this.service.approveStaff(this.id)
             .then(() => {
                 alert("SPB berhasil di-approve Staff.");
                 this.router.navigateToRoute("list");

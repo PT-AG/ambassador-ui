@@ -64,17 +64,9 @@ export class View {
         }
         
         if (this.data.isPosted) {
-            if (totalAmount <= 3000000) {
-                if (this.data.IsApprovedKasie) {
+            
                     this.hasEdit = false;
                     this.hasDelete = false;
-                }
-            } else {
-                if (this.data.IsApprovedKasie || this.data.IsApprovedKabag) {
-                    this.hasEdit = false;
-                    this.hasDelete = false;
-                }
-            }
         }
 
         // if (this.data.items) {
