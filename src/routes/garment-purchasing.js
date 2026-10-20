@@ -367,6 +367,20 @@ module.exports = [
     },
   },
   {
+    route: "/garment/intern-note-revision",
+    name: "intern-note-revision",
+    moduleId: "./modules/garment-purchasing/intern-note-revision/index",
+    nav: true,
+    title: "Revisi Nota Intern",
+    auth: true,
+    settings: {
+      group: "g-purchasing",
+      subGroup: "transaksi",
+      permission: { H11: 1 },
+      iconClass: "fa fa-dashboard",
+    },
+  },
+  {
     route: "/garment/monitoring-intern-note",
     name: "monitoring-intern-note",
     moduleId: "./modules/garment-purchasing/monitoring-intern-note-new/index",
