@@ -30,10 +30,12 @@ export class List {
             this.dateFrom = params.dateFrom;
             this.dateTo = params.dateTo;
             this.category = params.category;
+            this.paymentMethod = params.paymentMethod;
             var info = {
                 dateFrom : this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD"): "",
                 dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD"): "",
                 category : this.category ? this.category: "",
+                paymentMethod : this.paymentMethod,
             }
             this.tjumcount = 0;
             this.tperOkCount = 0;
@@ -60,6 +62,8 @@ export class List {
             }
     }
 
+    termPaymentOptions = ['', 'T/T PAYMENT', 'CMT', 'FREE FROM BUYER', 'SAMPLE', 'AG'];
+
     get prLoader(){
         return PRLoader;
     }
@@ -79,6 +83,7 @@ export class List {
             dateFrom : this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD"): "",
             dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD"): "",
             category : this.category ? this.category: "",
+            paymentMethod : this.paymentMethod ? this.paymentMethod : "",
         }
         this.tjumcount = 0;
         this.tperOkCount = 0;
@@ -104,6 +109,7 @@ export class List {
         this.dateFrom = "";
         this.dateTo = "";
         this.category = "";
+        this.paymentMethod = "";
         this.data=[];
     }
 
@@ -113,6 +119,7 @@ export class List {
             dateFrom : this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD"): "",
             dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD"): "",
             category : this.category ? this.category: "",
+            paymentMethod : this.paymentMethod ? this.paymentMethod : "",
         }
         this.router.navigateToRoute('view', { id: data.SupplierCode, supplierCode: data.SupplierCode,info: info});
      }
@@ -122,6 +129,7 @@ export class List {
             dateFrom : this.dateFrom ? moment(this.dateFrom).format("YYYY-MM-DD"): "",
             dateTo : this.dateTo ? moment(this.dateTo).format("YYYY-MM-DD"): "",
             category : this.category ? this.category: "",
+            paymentMethod : this.paymentMethod ? this.paymentMethod : ""
         }
         this.service.generateExcel(info)
     }
