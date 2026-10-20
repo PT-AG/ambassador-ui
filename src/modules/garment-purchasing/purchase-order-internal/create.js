@@ -25,6 +25,7 @@ export class Create {
         },
         { title: "Nomor RO", field: "RONo" },
         { title: "Nomor PR", field: "PRNo" },
+        { title: "Staff MD", field: "MDStaff" },
         { title: "Nomor Ref. PO", field: "Items.0.PO_SerialNumber" },
         { title: "Buyer", field: "Buyer.Name" },
         { title: "Unit", field: "Unit.Name" },
