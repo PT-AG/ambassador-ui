@@ -60,6 +60,8 @@ export class List {
             }
     }
 
+    termPaymentOptions = ['', 'T/T PAYMENT', 'AG'];
+
     get prLoader(){
         return PRLoader;
     }
