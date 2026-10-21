@@ -1,6 +1,6 @@
 <template>
     <tr>
-        <td  class="col-sm-3">
+        <td class="col-sm-3">
             <au-autocomplete 
                     value.bind="dataProduct" 
                     error.bind="error.product"
@@ -9,33 +9,63 @@
                     key="code"
                     read-only.bind="options.readOnly"
                     options.bind="controlOptions">
-                </au-autocomplete>
+            </au-autocomplete>
         </td>
         <td class="col-sm-2">
-                <au-numeric 
-                    value.bind="data.quantity" 
-                    error.bind="error.quantity"
-                    read-only.bind="options.readOnly" 
-                    format = "0,0.00"
-                    options.bind="controlOptions">
-                </au-numeric>
+            <au-numeric 
+                value.bind="data.quantity" 
+                error.bind="error.quantity"
+                read-only.bind="options.readOnly" 
+                format = "0,0.00"
+                options.bind="controlOptions">
+            </au-numeric>
         </td>
         <td style="text-align:center;" class="col-sm-2">
-                <au-textbox 
-                    value.bind="data.product.uom.unit" 
-                    read-only.bind="true" 
-                    options.bind="controlOptions">
-                </au-textbox>
+            <au-textbox 
+                value.bind="data.product.uom.unit" 
+                read-only.bind="true" 
+                options.bind="controlOptions">
+            </au-textbox>
         </td>
-        <td class="col-sm-2">
-                <au-textbox 
-                    value.bind="data.remark" 
-                    error.bind="error.remark"
-                    read-only.bind="options.readOnly" 
-                    placeholder="tambah keterangan" 
-                    options.bind="controlOptions">
-                </au-textbox>
+        <td class="${options.readOnly ? 'col-sm-5' : 'col-sm-3'}">
+            <au-textbox 
+                value.bind="data.remark" 
+                error.bind="error.remark"
+                read-only.bind="options.readOnly" 
+                placeholder="tambah keterangan" 
+                options.bind="controlOptions">
+            </au-textbox>
         </td>
         <td class="col-sm-2" if.bind="!options.readOnly"><button class="btn btn-danger pull-right" click.delegate="onremove(data, $event)">-</button></td>
+    </tr>
+    <tr if.bind="options.readOnly && (data.isShowing || collectionOptions.isShowingAll)">
+        <td colspan="4" style="padding: 10px 15px 15px 25px; background-color: #f4f7f9; border-top: none; border-left: 3px solid #3b82b6;">
+            <div style="font-weight: bold; font-size: 12px; color: #23527c; margin-bottom: 6px;">
+                <i class="fa fa-history"></i> Riwayat Status Detail:
+            </div>
+            <table class="table table-bordered table-condensed" style="background-color: #ffffff; margin-bottom: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                <thead>
+                    <tr style="background-color: #3b82b6 !important; color: #ffffff !important;">
+                        <th style="width: 20%; background-color: #3b82b6 !important; color: #ffffff !important; text-align: center; vertical-align: middle; font-weight: 600; padding: 7px;">Tanggal Purchase Request</th>
+                        <th style="width: 20%; background-color: #3b82b6 !important; color: #ffffff !important; text-align: center; vertical-align: middle; font-weight: 600; padding: 7px;">Tanggal PO Intern</th>
+                        <th style="width: 20%; background-color: #3b82b6 !important; color: #ffffff !important; text-align: center; vertical-align: middle; font-weight: 600; padding: 7px;">Tanggal PO Extern</th>
+                        <th style="width: 20%; background-color: #3b82b6 !important; color: #ffffff !important; text-align: center; vertical-align: middle; font-weight: 600; padding: 7px;">Tanggal Surat Jalan</th>
+                        <th style="width: 20%; background-color: #3b82b6 !important; color: #ffffff !important; text-align: center; vertical-align: middle; font-weight: 600; padding: 7px;">Tanggal Bon Penerimaan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr repeat.for="detail of statusDetails" style="background-color: #ffffff;">
+                        <td style="text-align: center; vertical-align: middle; padding: 6px; color: #333333;">${detail.purchaseRequestDate}</td>
+                        <td style="text-align: center; vertical-align: middle; padding: 6px; color: #333333;">${detail.internalPurchaseOrderDate}</td>
+                        <td style="text-align: center; vertical-align: middle; padding: 6px; color: #333333;">${detail.externalPurchaseOrderDate}</td>
+                        <td style="text-align: center; vertical-align: middle; padding: 6px; color: #333333;">${detail.deliveryOrderDate}</td>
+                        <td style="text-align: center; vertical-align: middle; padding: 6px; color: #333333;">${detail.unitReceiptNoteDate}</td>
+                    </tr>
+                    <tr if.bind="statusDetails.length === 0">
+                        <td colspan="5" class="text-center text-muted" style="padding: 8px; font-style: italic;">Belum ada riwayat status untuk barang ini</td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
     </tr>
 </template>

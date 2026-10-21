@@ -1,0 +1,19 @@
+<template>
+    <tr>
+        <th class="col-sm-3" style="text-align: center; vertical-align: middle;">Barang</th>
+        <th class="col-sm-2" style="text-align: center; vertical-align: middle;">Jumlah</th>
+        <th class="col-sm-2" style="text-align: center; vertical-align: middle;">Satuan</th>
+        <th class="${options.readOnly ? 'col-sm-5' : 'col-sm-3'}" style="text-align: center; vertical-align: middle;">
+            <span>Keterangan</span>
+            <button if.bind="options.readOnly" 
+                    class="btn btn-info btn-xs pull-right" 
+                    type="button" 
+                    click.delegate="toggleAll()" 
+                    title="Status Detail" 
+                    style="font-weight: bold; padding: 1px 6px; margin-right: 2px;">
+                <i class="fa fa-info"></i>
+            </button>
+        </th>
+        <th class="col-sm-2" if.bind="!options.readOnly" style="text-align: center; vertical-align: middle;"></th>
+    </tr>
+</template>
