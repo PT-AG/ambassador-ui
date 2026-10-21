@@ -62,7 +62,7 @@ export class List {
             }
     }
 
-    termPaymentOptions = ['', 'T/T PAYMENT', 'CMT', 'FREE FROM BUYER', 'SAMPLE', 'AG'];
+    termPaymentOptions = ['', 'T/T PAYMENT', 'AG'];
 
     get prLoader(){
         return PRLoader;
