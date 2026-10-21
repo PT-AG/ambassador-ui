@@ -6,6 +6,7 @@
         <div slot="actions" class="btn-group">
             <button class="btn btn-default" click.delegate="context.cancel($event)"     if.one-way="context.hasCancel">Kembali</button>
             <button class="btn btn-primary" click.delegate="context.approve($event)"       if.one-way="context.hasApprove">Approve</button>
+            <button class="btn btn-danger" click.delegate="context.reject($event)"         if.one-way="context.hasReject">Reject</button>
         </div>
 
         <div class="row">

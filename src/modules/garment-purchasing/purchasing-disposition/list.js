@@ -47,6 +47,7 @@ export class List {
                 if(data.IsApprovedVerification) return "SUDAH DISETUJUI VERIFICATION";
                 if(data.IsApprovedKabag) return "SUDAH DISETUJUI MANAGER 2";
                 if(data.IsApprovedKasie) return "SUDAH DISETUJUI MANAGER 1";
+                if(data.IsApprovedStaff) return "SUDAH DISETUJUI STAFF";
                 if(data.IsPosted) return "SUDAH DIPOSTING";
                 return "DRAFT";
             }
@@ -56,7 +57,7 @@ export class List {
 
     rowFormatter(data, index) {
         if (data.ReasonRejected)
-            return { classes: "error" }
+            return { classes: "danger" }
         else if (data.IsApprovedDirector) 
             return { classes: "success" }
         else

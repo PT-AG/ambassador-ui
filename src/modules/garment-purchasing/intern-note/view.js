@@ -29,6 +29,11 @@ export class View {
             this.hasEdit = false;
             this.hasDelete = false;
         }
+
+        if(this.data.IsPosted){
+            this.hasEdit = false;
+            this.hasDelete = false;
+        }
     }
 
     cancel(event) {

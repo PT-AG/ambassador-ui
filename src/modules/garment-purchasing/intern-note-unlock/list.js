@@ -35,6 +35,7 @@ export class List {
                 if(data.IsApprovedVerification) return "SUDAH DISETUJUI VERIFIKASI";
                 if(data.IsApprovedKabag) return "SUDAH DISETUJUI MANAGER 2";
                 if(data.IsApprovedKasie) return "SUDAH DISETUJUI MANAGER 1";
+                if(data.IsApprovedStaff) return "SUDAH DISETUJUI STAFF";
                 if(data.isPosted) return "SUDAH DIPOSTING";
                 return "DRAFT";
             }
