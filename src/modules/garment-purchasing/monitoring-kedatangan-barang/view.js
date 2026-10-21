@@ -24,13 +24,14 @@ async activate(params) {
             dateFrom : this.info.dateFrom ? moment(this.info.dateFrom).format("YYYY-MM-DD"): "",
             dateTo : this.info.dateTo ? moment(this.info.dateTo).format("YYYY-MM-DD"): "",
             category : this.info.category ? this.info.category: "",
+            paymentMethod : this.info.paymentMethod ? this.info.paymentMethod : ""
         }
         this.service.generateExcel2(info)
     }
 
     list() {
         this.router.navigateToRoute('list', { dateFrom: this.info.dateFrom, dateTo: this.info.dateTo, 
-            category: this.info.category});
+            category: this.info.category, paymentMethod: this.info.paymentMethod});
     }
 
 }
