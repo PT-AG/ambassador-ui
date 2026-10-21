@@ -30,6 +30,11 @@ export class List {
         return moment(value).format("DD MMM YYYY");
       }
     },
+    {
+      field: "prCreatedDate", title: "Created Status", formatter: function (value, data, index) {
+        return value ? moment(value).format("DD MMM YYYY") : "-";
+      }
+    },
     { field: "no", title: "No. PR" },
     { field: "DivisionName", title: "Divisi" },
     { field: "UnitName", title: "Unit" },
@@ -39,6 +44,18 @@ export class List {
       field: "isPosted", title: "Posted",
       formatter: function (value, row, index) {
         return value ? "SUDAH" : "BELUM";
+      }
+    },
+    {
+      field: "purchaseOrderStaff", title: "Staff Pembelian",
+      formatter: function (value, data, index) {
+        return value ? value : "-";
+      }
+    },
+    {
+      field: "status", title: "Status",
+      formatter: function (value, data, index) {
+        return value ? value : "-";
       }
     }
   ];
@@ -52,7 +69,17 @@ export class List {
       page: parseInt(info.offset / info.limit, 10) + 1,
       size: info.limit,
       keyword: info.search,
-      select:["date", "no", "unit.division.name","unit.name", "category.name", "isPosted"],
+      select: [
+        "date",
+        "no",
+        "unit.division.name",
+        "unit.name",
+        "category.name",
+        "isPosted",
+        "purchaseOrderStaff",
+        "status",
+        "prCreatedDate"
+      ],
       order: order
     }
 
@@ -60,9 +87,12 @@ export class List {
       .then(result => {
         for (var data of result.data) {
             data.Id = data.Id || data._id || 0;
-            data.DivisionName = data.unit.division.name;
-            data.UnitName = data.unit.name;
-            data.CategoryName = data.category.name;
+            data.DivisionName = data.unit ? (data.unit.division ? data.unit.division.name : "-") : "-";
+            data.UnitName = data.unit ? data.unit.name : "-";
+            data.CategoryName = data.category ? data.category.name : "-";
+            data.purchaseOrderStaff = data.purchaseOrderStaff || "-";
+            data.status = data.status || "-";
+            data.prCreatedDate = data.prCreatedDate || null;
         }
         return {
           total: result.info.total,
