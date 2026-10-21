@@ -29,6 +29,15 @@ export class DataForm {
         //     this.prInternal = this.data.internal;
         // }
 
+        this.collectionOptions = { 
+            readOnly: this.readOnly,
+            statusDetails: this.data.statusDetails || [],
+            isShowingAll: false
+        };
+
+        if (this.readOnly) {
+            this.headerTemplate = "modules/purchasing/purchase-request/template/purchase-request-item-header";
+        }
     }
 
     itemsColumns = [
