@@ -30,7 +30,7 @@ export class View {
             this.hasDelete = false;
         }
 
-        if(this.data.IsPosted){
+        if(this.data.isPosted){
             this.hasEdit = false;
             this.hasDelete = false;
         }
