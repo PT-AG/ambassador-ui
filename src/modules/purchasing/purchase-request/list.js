@@ -31,8 +31,16 @@ export class List {
       }
     },
     {
-      field: "prCreatedDate", title: "Created Status", formatter: function (value, data, index) {
-        return value ? moment(value).format("DD MMM YYYY") : "-";
+      field: "prCreatedDate", title: "Tanggal Status", sortable: false,
+      formatter: function (value, data, index) {
+        if (data.items && data.items.length > 0) {
+          var dates = data.items.map(function (item) {
+            var d = item.statusDate || value;
+            return `<li>${d ? moment(d).format("DD MMM YYYY") : "-"}</li>`;
+          });
+          return `<ul>${dates.join("")}</ul>`;
+        }
+        return value ? `<ul><li>${moment(value).format("DD MMM YYYY")}</li></ul>` : "-";
       }
     },
     { field: "no", title: "No. PR" },
@@ -53,9 +61,28 @@ export class List {
       }
     },
     {
-      field: "status", title: "Status",
+      field: "items", title: "Barang", sortable: false,
       formatter: function (value, data, index) {
-        return value ? value : "-";
+        if (data.items && data.items.length > 0) {
+          var products = data.items.map(function (item) {
+            var name = item.product && item.product.name ? item.product.name : (item.productName || "-");
+            return `<li>${name}</li>`;
+          });
+          return `<ul>${products.join("")}</ul>`;
+        }
+        return "-";
+      }
+    },
+    {
+      field: "status", title: "Status", sortable: false,
+      formatter: function (value, data, index) {
+        if (data.items && data.items.length > 0) {
+          var statuses = data.items.map(function (item) {
+            return `<li>${item.status || value || "-"}</li>`;
+          });
+          return `<ul>${statuses.join("")}</ul>`;
+        }
+        return value && value !== "-" ? `<ul><li>${value}</li></ul>` : "-";
       }
     }
   ];
@@ -77,6 +104,7 @@ export class List {
         "category.name",
         "isPosted",
         "purchaseOrderStaff",
+        "items.product.name",
         "status",
         "prCreatedDate"
       ],
@@ -93,6 +121,7 @@ export class List {
             data.purchaseOrderStaff = data.purchaseOrderStaff || "-";
             data.status = data.status || "-";
             data.prCreatedDate = data.prCreatedDate || null;
+            data.items = data.items || [];
         }
         return {
           total: result.info.total,
