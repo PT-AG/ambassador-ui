@@ -19,6 +19,11 @@ export class View {
         this.itemOptions={
             readOnly: true
         }
+
+        if (this.data.IsPosted) {
+            this.editCallback = undefined;
+            this.deleteCallback = undefined;
+        }
     }
 
     bankView = (bank) => {
@@ -51,7 +56,7 @@ export class View {
     }
 
     columns2 = [
-         "No Realisasi","Tanggal Realisasi VB","Tipe VB", "Pemohon VB", "Bagian/Unit","Nominal Realisasi","Mata Uang"
+         "No Realisasi","Tanggal Realisasi VB","Tipe VB", "Pemohon VB", "Bagian/Unit","Nominal Realisasi","Mata Uang","Keterangan"
     ];
 
     

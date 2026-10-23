@@ -54,6 +54,13 @@
                 read-only.bind="true">
             </au-textbox>
         </td>
+        <td>
+            <au-textbox
+                value.bind="data.Remark"
+                error.bind="error.Remark"
+                read-only.bind="true">
+            </au-textbox>
+        </td>
         <td if.bind="!options.readOnly">
             <button class="btn btn-danger pull-right" click.delegate="onremove(data, $event)">-</button>
         </td>
