@@ -38,6 +38,11 @@ export class Service extends RestService {
     return super.put(endpoint, data);
   }
 
+  posting(items) {
+    var endpoint = `${serviceUri}/posting`;
+    return super.put(endpoint, items);
+  }
+
   getVbRealizationById(id) {
     let endpoint = `vb-realization-documents/${id}`;
     return super
