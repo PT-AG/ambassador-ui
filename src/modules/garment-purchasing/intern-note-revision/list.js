@@ -43,7 +43,8 @@ export class List {
             order[info.sort] = info.order;
 
         var filterSection={
-            "revision": true
+            "revision": true,
+            "IsPosted": false
         };
 
         var arg = {
