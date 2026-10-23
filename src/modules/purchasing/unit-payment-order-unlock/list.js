@@ -52,6 +52,7 @@ export class List {
 
         var filterSection={
             "unlock": true,
+            "isPosted": false
             //"isApprovedKasie": false
         };
 

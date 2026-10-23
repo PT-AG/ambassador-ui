@@ -52,6 +52,7 @@ export class List {
 
         var filterSection={
             "revision": true,
+            "isPosted": false
         };
 
         var arg = {
