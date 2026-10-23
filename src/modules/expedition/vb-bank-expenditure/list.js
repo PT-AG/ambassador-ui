@@ -9,7 +9,24 @@ import { Base64Helper } from "../../../utils/base-64-coded-helper";
 export class List {
   context = ["Detail","Cetak PDF"];
 
+  selectedItems = [];
+
+  rowFormatter(data, index) {
+    if (data.IsPosted) return { classes: "success" };
+    else return {};
+  }
+
   columns = [
+    {
+      field: "isPosting",
+      title: "IsPosted Checkbox",
+      checkbox: true,
+      sortable: false,
+      formatter: function (value, data, index) {
+        this.checkboxEnabled = !data.IsPosted;
+        return "";
+      },
+    },
     { field: "DocumentNo", title: "No Dokumen" },
     {
       field: "Date",
@@ -91,5 +108,23 @@ export class List {
 
   create() {
     this.router.navigateToRoute("create");
+  }
+
+  posting() {
+    var items = this.selectedItems.map((s) => s.Id);
+    this.service
+      .posting(items)
+      .then((result) => {
+        alert("Data berhasil disimpan");
+        this.error = {};
+        this.tableList.refresh();
+        this.selectedItems = [];
+      })
+      .catch((e) => {
+        if (e.message) {
+          alert("Terjadi Kesalahan Pada Sistem!\nHarap Simpan Kembali!");
+        }
+        this.error = e;
+      });
   }
 }

@@ -912,7 +912,7 @@ module.exports = [
     name: "vb-bank-expenditure",
     moduleId: "./modules/expedition/vb-bank-expenditure/index",
     nav: true,
-    title: "Pengeluaran Bank VB",
+    title: "Bukti Pengeluaran Bank",
     auth: true,
     settings: {
       group: "finance",

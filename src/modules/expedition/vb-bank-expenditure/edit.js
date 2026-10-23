@@ -18,7 +18,7 @@ export class Edit {
         return CurrencyLoader;
     }
     columns2 = [
-        "No Realisasi","Tanggal Realisasi VB","Tipe VB", "Pemohon VB", "Bagian/Unit","Nominal Realisasi","Mata Uang"
+        "No Realisasi","Tanggal Realisasi VB","Tipe VB", "Pemohon VB", "Bagian/Unit","Nominal Realisasi","Mata Uang","Keterangan"
     ];
 
     bankView = (bank) => {
