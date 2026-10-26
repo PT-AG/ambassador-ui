@@ -58,6 +58,8 @@ export class Edit {
     }
 
     saveCallback(event) {
+        if (this.isSaving) return;
+
         if (this.data.Items && this.data.Items.length > 0) {
             this.data.Amount = 0;
             for(var v of this.data.Items){
@@ -67,6 +69,8 @@ export class Edit {
                 alert("harap pilih bank");
                 return;
             }
+
+            this.isSaving = true;
 
             const args = {
                 Id: this.data.Id,
@@ -80,10 +84,12 @@ export class Edit {
             };
             this.service.update(args)
             .then(result => {
+                this.isSaving = false;
                 alert("Data berhasil dibuat");
                 this.router.navigateToRoute("list");
             })
             .catch(e => {
+                this.isSaving = false;
                 this.error = e;
                 if (typeof (this.error) == "string") {
                     alert(this.error);
