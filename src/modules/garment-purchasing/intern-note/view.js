@@ -34,6 +34,16 @@ export class View {
             this.hasEdit = false;
             this.hasDelete = false;
         }
+
+        const today = new Date();
+        const firstDayOfCurrentMonth = new Date(
+            today.getFullYear(),
+            today.getMonth(),
+            1
+        );
+        const inDate = new Date(this.data.inDate);
+        this.hasDelete = !(inDate < firstDayOfCurrentMonth);
+
     }
 
     cancel(event) {

@@ -174,10 +174,14 @@ export class List {
     }
 
     rowFormatter(data, index) {
-        if (data.IsApprovedKasie && data.IsApprovedKabag)
+        if (data.ReasonRejected){
+            return { classes: "danger" }
+        }
+        else if (data.IsApprovedKasie && data.TotalAmount > 25000000 && data.IsApprovedKabag) {
             return { classes: "success" }
-        else if (data.IsPosted)
-            return { classes: "error" }
+        } else if (data.IsApprovedKasie && data.TotalAmount <= 25000000) {
+            return { classes: "success" }
+        }
         else
             return {}
     }
