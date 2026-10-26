@@ -33,6 +33,11 @@ export class Create {
     }
 
     save(event) {
+        if (this.isSaving) {
+            return;
+        }
+        this.isSaving = true;
+        this.hasSave = false;
         let dataToBeSaved = Object.assign({}, this.data);
         // dataToBeSaved.Items = this.data.Items.filter(item => item.IsSave);
         this.service.create(dataToBeSaved)
@@ -41,6 +46,8 @@ export class Create {
                 this.router.navigateToRoute('create', {}, { replace: true, trigger: true });
             })
             .catch(e => {
+                this.isSaving = false;
+                this.hasSave = true;
                 if (e.statusCode === 500) {
                     alert("Gagal menyimpan, silakan coba lagi!");
                 } else {
