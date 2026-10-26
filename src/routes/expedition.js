@@ -953,6 +953,20 @@ module.exports = [
     },
   },
   {
+    route: "vb-bank-expenditure-report",
+    name: "vb-bank-expenditure-report",
+    moduleId: "./modules/expedition/vb-bank-expenditure-report/index",
+    nav: true,
+    title: "Laporan Bukti Pengeluaran Bank",
+    auth: true,
+    settings: {
+      group: "finance",
+      subGroup: "vb",
+      permission: {"K38":1, "K36":1},
+      iconClass: "fa fa-dashboard",
+    },
+  },
+  {
     route: 'disposition-payment-report',
     name: 'disposition-payment-report',
     moduleId: './modules/expedition/disposition-payment-report/index',
