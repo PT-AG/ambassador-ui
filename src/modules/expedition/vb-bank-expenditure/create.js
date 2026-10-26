@@ -56,6 +56,8 @@ export class Create {
     }
 
     saveCallback(event) {
+        if (this.isSaving) return;
+
         if (this.data.Items && this.data.Items.length > 0) {
             this.data.Amount = 0;
             for(var v of this.data.Items){
@@ -65,6 +67,8 @@ export class Create {
                 alert("harap pilih bank");
                 return;
             }
+
+            this.isSaving = true;
 
             const args = {
             ListIds: this.data.Items.map((d) => {
@@ -83,10 +87,12 @@ export class Create {
             };
             this.service.post(args)
             .then(result => {
+                this.isSaving = false;
                 alert("Data berhasil dibuat");
                 this.router.navigateToRoute("list");
             })
             .catch(e => {
+                this.isSaving = false;
                 this.error = e;
                 if (typeof (this.error) == "string") {
                     alert(this.error);
