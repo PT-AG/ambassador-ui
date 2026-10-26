@@ -64,9 +64,8 @@ export class View {
         }
         
         if (this.data.isPosted) {
-            
-                    this.hasEdit = false;
-                    this.hasDelete = false;
+            this.hasEdit = false;
+            this.hasDelete = false;
         }
 
         // if (this.data.items) {
