@@ -62,7 +62,11 @@ export class List {
   loader = (info) => {
     let order = {};
 
-    if (info.sort) order[info.sort] = info.order;
+    if (info.sort)
+      order[info.sort] = info.order;
+    else
+      order["Date"] = "desc";
+
     let arg = {
       page: parseInt(info.offset / info.limit, 10) + 1,
       size: info.limit,
@@ -90,6 +94,15 @@ export class List {
       });
     });
   };
+
+  contextShowCallback(index, name, data) {
+    switch (name) {
+      case "Cetak PDF":
+        return data && data.IsPosted;
+      default:
+        return true;
+    }
+  }
 
   contextClickCallback(event) {
     let arg = event.detail;
