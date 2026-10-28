@@ -7,6 +7,7 @@ const SupplierLoader = require('../../../../loader/supplier-loader');
 const DivisionLoader = require('../../../../loader/division-loader');
 const PurchasingDocumentExpeditionLoader = require('../../../../loader/bank-expenditure-note-dpp-ppn-loader');
 const BankExpenditureNoteDPPAndPPNLoader = require('../../../../loader/bank-expenditure-note-loader');
+const BankLoader = require('../../../../loader/account-banks-loader');
 
 @inject(Service)
 export class List {
@@ -26,8 +27,16 @@ export class List {
         { field: 'DivisionName', title: 'Divisi' },
         { field: 'PaymentMethod', title: 'Cara Pembayaran' },
         {
+            field: 'OtherExpense',
+            title: 'Biaya Lain-lain',
+            formatter: function (value, data, index) {
+                return value || value == 0 ? numeral(value).format("0,000.00") : "-";
+            },
+            align: 'right'
+        },
+        {
             field: 'TotalDPP', title: 'Total DPP', formatter: function (value, data, index) {
-                return value ? numeral(value).format("0,000.00") : "-";
+                return value || value == 0 ? numeral(value).format("0,000.00") : "-";
             },
             align: 'right'
         },
@@ -58,7 +67,7 @@ export class List {
             field: 'TotalPaid',
             title: 'Total Bayar Ke Supplier',
             formatter: function (value, data, index) {
-                return value ? numeral(value).format("0,000.00") : undefined;
+                return value || value == 0 ? numeral(value).format("0,000.00") : "-";
             },
             align: 'right'
         },
@@ -76,8 +85,7 @@ export class List {
             field: 'DPP',
             title: 'DPP',
             formatter: function (value, data, index) {
-                // return value ? numeral(value).format("0,000.00") : "-";
-                return value ? numeral(value).format("0,000.00") : undefined;
+                return value || value == 0 ? numeral(value).format("0,000.00") : "-";
             },
             align: 'right'
         },
@@ -129,6 +137,8 @@ export class List {
             select: [],
         };
 
+        if (this.info.bank)
+            arg.bankId = this.info.bank.Id;
         if (this.info.bankExpenditureNote)
             arg.documentNo = this.info.bankExpenditureNote.DocumentNo;
         if (this.info.unitPaymentOrder)
@@ -317,14 +327,17 @@ export class List {
                     console.log('dummy', dummy);
 
                     //#region 
+                    before = {};
                     for (let i in result.data) {
                         if (result.data[i].Id != before.Id) {
                             before = result.data[i];
+                            before.TotalPaid = (before.TotalPaid || 0) + (before.OtherExpense || 0);
                             before._DocumentNo_rowspan = 1;
                             before._Date_rowspan = 1;
                             before._CategoryName_rowspan = 1;
                             before._DivisionName_rowspan = 1;
                             before._PaymentMethod_rowspan = 1;
+                            before._OtherExpense_rowspan = 1;
                             // before._DPP_rowspan = 1;
                             // before._VAT_rowspan = 1;
                             before._TotalDPP_rowspan = 1;
@@ -338,6 +351,7 @@ export class List {
                             before._CategoryName_rowspan++;
                             before._DivisionName_rowspan++;
                             before._PaymentMethod_rowspan++;
+                            before._OtherExpense_rowspan++;
                             // before._DPP_rowspan++;
                             // before._VAT_rowspan++;
                             before._TotalDPP_rowspan++;
@@ -359,6 +373,7 @@ export class List {
                             result.data[i].CategoryName = undefined;
                             result.data[i].DivisionName = undefined;
                             result.data[i].PaymentMethod = undefined;
+                            result.data[i].OtherExpense = undefined;
                             // result.data[i].DPP = undefined;
                             // result.data[i].VAT = undefined;
                             result.data[i].TotalDPP = undefined;
@@ -366,16 +381,25 @@ export class List {
                             result.data[i].TotalPaid = undefined;
                             result.data[i].Currency = undefined;
                             result.data[i].BankName = undefined;
+
+                            result.data[i]._DocumentNo_class = 'dpp-ppn-bank-hidden-cell';
+                            result.data[i]._Date_class = 'dpp-ppn-bank-hidden-cell';
+                            result.data[i]._CategoryName_class = 'dpp-ppn-bank-hidden-cell';
+                            result.data[i]._DivisionName_class = 'dpp-ppn-bank-hidden-cell';
+                            result.data[i]._PaymentMethod_class = 'dpp-ppn-bank-hidden-cell';
+                            result.data[i]._OtherExpense_class = 'dpp-ppn-bank-hidden-cell';
+                            result.data[i]._TotalDPP_class = 'dpp-ppn-bank-hidden-cell';
+                            result.data[i]._TotalPPN_class = 'dpp-ppn-bank-hidden-cell';
+                            result.data[i]._TotalPaid_class = 'dpp-ppn-bank-hidden-cell';
+                            result.data[i]._Currency_class = 'dpp-ppn-bank-hidden-cell';
+                            result.data[i]._BankName_class = 'dpp-ppn-bank-hidden-cell';
                         }
                     }
                     console.log("data", result.data);
                     //#endregion
 
                     setTimeout(() => {
-                        $('#dpp-ppn-bank-table td').each(function () {
-                            if ($(this).html() === '-')
-                                $(this).hide();
-                        })
+                        $('#dpp-ppn-bank-table td.dpp-ppn-bank-hidden-cell').hide();
                     }, 10);
 
 
@@ -433,6 +457,7 @@ export class List {
                             'Category': data.CategoryName,
                             'Divisi': data.DivisionName,
                             'Cara Pembayaran': data.PaymentMethod,
+                            'Biaya Lain-lain': data.OtherExpense || data.OtherExpense === 0 ? numeral(data.OtherExpense).format('0,000.00') : '-',
                             'DPP': data.DPP ? numeral(data.DPP).format('0,000.00') : '-',
                             'PPN': data.VAT ? numeral(data.VAT).format('0,000.00') : '-',
                             'TotalPaid': data.TotalPaid ? numeral(data.TotalPaid).format('0,000.00') : '-',
@@ -454,7 +479,30 @@ export class List {
                     };
                     wb.SheetNames.push('Laporan DPP PPN');
 
-                    let ws = XLSX.utils.json_to_sheet(wsData, { origin: "A6" });
+                    let ws;
+                    if (wsData.length === 0) {
+                        ws = XLSX.utils.aoa_to_sheet([
+                            [
+                                'No Bukti Pengeluaran Bank',
+                                'Tanggal Bayar DPP + PPN',
+                                'Category',
+                                'Divisi',
+                                'Cara Pembayaran',
+                                'Biaya Lain-lain',
+                                'DPP',
+                                'PPN',
+                                'TotalPaid',
+                                'Sisa yang Belum Dibayar',
+                                'Mata Uang',
+                                'Bank Bayar PPH',
+                                'Supplier',
+                                'No SPB',
+                                'No Invoice'
+                            ]
+                        ], { origin: "A6" });
+                    } else {
+                        ws = XLSX.utils.json_to_sheet(wsData, { origin: "A6" });
+                    }
                     XLSX.utils.sheet_add_aoa(ws, [
                         ["PT.AG"],
                         ["Laporan Bukti Pengeluaran Bank DPP + PPN"],
@@ -483,6 +531,7 @@ export class List {
 
     reset() {
         this.flag = false;
+        this.info.bank = undefined;
         this.info.bankExpenditureNote = undefined;
         this.info.unitPaymentOrder = undefined;
         this.info.invoice = undefined;
@@ -494,6 +543,10 @@ export class List {
         this.error.dateFrom = undefined;
         this.error.dateTo = undefined;
         this.tableList.refresh();
+    }
+
+    get bankLoader() {
+        return BankLoader;
     }
 
     get supplierLoader() {
