@@ -8,6 +8,7 @@ const DPPVATExpenditureDocumentLoader = require("../shared/dpp-vat-expenditure-l
 const InternalNoteLoader = require("../shared/internal-note-loader");
 const InvoiceLoader = require("../shared/invoice-loader");
 const SupplierLoader = require("../shared/garment-supplier-loader");
+const BankLoader = require("../../../loader/account-banks-loader");
 
 @inject(Service)
 export class List {
@@ -31,6 +32,14 @@ export class List {
     },
     { field: "CategoryName", title: "Category" },
     { field: "PaymentMethod", title: "Cara Pembayaran" },
+    {
+      field: "OtherExpense",
+      title: "Biaya Lain-lain",
+      formatter: function (value, data, index) {
+        return value || value == 0 ? numeral(value).format("0,000.00") : "-";
+      },
+      align: "right",
+    },
     {
       field: "DPP",
       title: "DPP",
@@ -119,6 +128,8 @@ export class List {
       select: [],
     };
 
+    if (this.info.bank)
+      arg.bankId = this.info.bank.Id;
     if (this.info.bankExpenditureNote)
       arg.expenditureId = this.info.bankExpenditureNote.Id;
     if (this.info.unitPaymentOrder)
@@ -170,6 +181,7 @@ export class List {
             before._ExpenditureDate_rowspan = 1;
             before._CategoryName_rowspan = 1;
             before._PaymentMethod_rowspan = 1;
+            before._OtherExpense_rowspan = 1;
             before._DPP_rowspan = 1;
             before._VAT_rowspan = 1;
             before._InternalNoteAmount_rowspan = 1;
@@ -180,6 +192,7 @@ export class List {
             before._ExpenditureDate_rowspan++;
             before._CategoryName_rowspan++;
             before._PaymentMethod_rowspan++;
+            before._OtherExpense_rowspan++;
             before._DPP_rowspan++;
             before._VAT_rowspan++;
             before._InternalNoteAmount_rowspan++;
@@ -193,19 +206,28 @@ export class List {
             result.data[i].ExpenditureDate = undefined;
             result.data[i].CategoryName = undefined;
             result.data[i].PaymentMethod = undefined;
+            result.data[i].OtherExpense = undefined;
             result.data[i].DPP = undefined;
             result.data[i].VAT = undefined;
             result.data[i].InternalNoteAmount = undefined;
             result.data[i].CurrencyCode = undefined;
             result.data[i].BankName = undefined;
+
+            result.data[i]._ExpenditureNoteNo_class = 'dpp-ppn-bank-hidden-cell';
+            result.data[i]._ExpenditureDate_class = 'dpp-ppn-bank-hidden-cell';
+            result.data[i]._CategoryName_class = 'dpp-ppn-bank-hidden-cell';
+            result.data[i]._PaymentMethod_class = 'dpp-ppn-bank-hidden-cell';
+            result.data[i]._OtherExpense_class = 'dpp-ppn-bank-hidden-cell';
+            result.data[i]._DPP_class = 'dpp-ppn-bank-hidden-cell';
+            result.data[i]._VAT_class = 'dpp-ppn-bank-hidden-cell';
+            result.data[i]._InternalNoteAmount_class = 'dpp-ppn-bank-hidden-cell';
+            result.data[i]._CurrencyCode_class = 'dpp-ppn-bank-hidden-cell';
+            result.data[i]._BankName_class = 'dpp-ppn-bank-hidden-cell';
           }
         }
 
         setTimeout(() => {
-          $('#dpp-ppn-bank-table td').each(function () {
-            if ($(this).html() === '-')
-              $(this).hide();
-          })
+          $('#dpp-ppn-bank-table td.dpp-ppn-bank-hidden-cell').hide();
         }, 10);
 
         return {
@@ -255,6 +277,8 @@ export class List {
         size: Number.MAX_SAFE_INTEGER,
       };
 
+      if (this.info.bank)
+        arg.bankId = this.info.bank.Id;
       if (this.info.bankExpenditureNote)
         arg.expenditureId = this.info.bankExpenditureNote.Id;
       if (this.info.unitPaymentOrder)
@@ -306,6 +330,7 @@ export class List {
 
   reset() {
     this.flag = false;
+    this.info.bank = undefined;
     this.info.bankExpenditureNote = undefined;
     this.info.unitPaymentOrder = undefined;
     this.info.invoice = undefined;
@@ -317,6 +342,10 @@ export class List {
     this.error.dateFrom = undefined;
     this.error.dateTo = undefined;
     this.tableList.refresh();
+  }
+
+  get bankLoader() {
+    return BankLoader;
   }
 
   get supplierLoader() {

@@ -1,7 +1,19 @@
 <template>
+  <style>
+    #dpp-ppn-bank-table td.dpp-ppn-bank-hidden-cell {
+      display: none !important;
+    }
+  </style>
   <h1 class="page-header">Laporan Bukti Pengeluaran Bank DPP + PPN</h1>
 
   <form class="form-horizontal">
+    <au-autocomplete value.bind="info.bank"
+                     loader.one-time="bankLoader"
+                     label="Bank"
+                     options.bind="controlOptions"
+                     placeholder="Pilih Bank">
+    </au-autocomplete>
+
     <au-autocomplete value.bind="info.bankExpenditureNote"
                      loader.one-time="dppVATExpenditureDocumentLoader"
                      text="DocumentNo"
