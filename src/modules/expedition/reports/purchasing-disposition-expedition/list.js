@@ -44,7 +44,7 @@ export class List {
                 },
                 align: 'right'
             },
-            { title: 'Jumlah', colspan: 6 },
+            { title: 'Jumlah', colspan: 5 },
             { field: 'DueDateDays', title: 'Tempo', rowspan: 2, sortable: true },
             { field: 'Category', title: 'Kategori', rowspan: 2, sortable: true },
             { field: 'Unit', title: 'Unit', rowspan: 2, sortable: true },
@@ -114,14 +114,6 @@ export class List {
         {
             field: 'PaymentCorrection',
             title: 'Koreksi Pembayaran',
-            formatter: function (value, data, index) {
-                return value ? numeral(value).format('0,000.00') : '-';
-            },
-            align: 'right'
-        },
-        {
-            field: 'OtherExpense',
-            title: 'Biaya Lain-lain',
             formatter: function (value, data, index) {
                 return value ? numeral(value).format('0,000.00') : '-';
             },
