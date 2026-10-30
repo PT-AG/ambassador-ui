@@ -35,6 +35,9 @@ export class Collection {
   errorsChanged() {
     this.buildContext();
   }
+  optionsChanged() {
+    this.buildContext();
+  }
 
   @computedFrom("columns")
   get __columns() {
