@@ -2,7 +2,8 @@
     <tr>
         <td if.bind="!readOnly">
             <au-checkbox value.bind="data.SelectInvoice"
-                         read-only.bind="readOnly">
+                         read-only.bind="readOnly"
+                         change.delegate="onCheckInvoice($event)">
             </au-checkbox>
         </td>
         <td>

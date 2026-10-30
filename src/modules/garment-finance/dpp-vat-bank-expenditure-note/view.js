@@ -16,7 +16,6 @@ export class View {
     	const decoded = Base64Helper.decode(params.id);
     	let id = decoded;
         this.data = await this.service.getById(id);
-        // this.data.IsPosted = true;
 
         if (this.data.IsPosted) {
             this.editCallback = undefined;
