@@ -917,7 +917,7 @@ module.exports = [
     settings: {
       group: "finance",
       subGroup: "vb",
-      permission: {"K47":1},
+      permission: {"K47":1, "K36":1},
       // permission: {B9: 1, PDU: 1, C9: 1},
       iconClass: "fa fa-dashboard",
     },
