@@ -70,20 +70,24 @@ export class Create {
 
             this.isSaving = true;
 
+            const otherExpense = (this.typingOtherExpense !== null && this.typingOtherExpense !== undefined)
+                ? this.typingOtherExpense
+                : (Number(this.data && this.data.OtherExpense) || 0);
+
             const args = {
-            ListIds: this.data.Items.map((d) => {
-                return {
-                    VBRequestId: d.VBRequestDocumentId,
-                    VBRealizationId: d.VBId,
-                };
-            }),
-            Items: this.data.Items,
-            Bank: this.selectedBank,
-            Currency: this.currency,
-            Amount: this.data.Amount,
-            OtherExpense: this.data.OtherExpense,
-            Date: this.data.Date,
-            BGCheckNo: this.data.BGCheckNo,
+                ListIds: this.data.Items.map((d) => {
+                    return {
+                        VBRequestId: d.VBRequestDocumentId,
+                        VBRealizationId: d.VBId,
+                    };
+                }),
+                Items: this.data.Items,
+                Bank: this.selectedBank,
+                Currency: this.currency,
+                Amount: this.data.Amount,
+                OtherExpense: otherExpense,
+                Date: this.data.Date,
+                BGCheckNo: this.data.BGCheckNo,
             };
             this.service.post(args)
             .then(result => {
@@ -106,14 +110,72 @@ export class Create {
     }
 
     bind() {
-        this.data = { Items: [] };
+        this.data = { Items: [], OtherExpense: 0 };
         this.error = {};
+        this.typingOtherExpense = null;
+    }
+
+    parseExpenseInput(val) {
+        if (!val || typeof val !== "string") return 0;
+        let trimmed = val.trim();
+        if (trimmed === "" || trimmed === "-") return 0;
+
+        if (trimmed.includes(",") && trimmed.includes(".")) {
+            let lastComma = trimmed.lastIndexOf(",");
+            let lastDot = trimmed.lastIndexOf(".");
+            if (lastDot > lastComma) {
+                trimmed = trimmed.replace(/,/g, "");
+            } else {
+                trimmed = trimmed.replace(/\./g, "").replace(",", ".");
+            }
+        } else if (trimmed.includes(",")) {
+            let parts = trimmed.split(",");
+            if (parts.length === 2 && parts[1].length !== 3) {
+                trimmed = trimmed.replace(",", ".");
+            } else {
+                trimmed = trimmed.replace(/,/g, "");
+            }
+        } else if (trimmed.includes(".")) {
+            let parts = trimmed.split(".");
+            if (parts.length > 2) {
+                trimmed = trimmed.replace(/\./g, "");
+            }
+        }
+
+        let num = parseFloat(trimmed);
+        return isNaN(num) ? 0 : num;
+    }
+
+    onOtherExpenseFocus(event) {
+        if (event && event.target && typeof event.target.select === "function") {
+            event.target.select();
+        }
+    }
+
+    onOtherExpenseInput(event) {
+        if (event && event.target) {
+            let val = event.target.value;
+            this.typingOtherExpense = this.parseExpenseInput(val);
+        }
+    }
+
+    onOtherExpenseBlur(event) {
+        if (event && event.target) {
+            let val = event.target.value;
+            this.typingOtherExpense = this.parseExpenseInput(val);
+        }
+        let finalVal = (this.typingOtherExpense !== null && this.typingOtherExpense !== undefined)
+            ? this.typingOtherExpense
+            : (Number(this.data && this.data.OtherExpense) || 0);
+
+        this.data.OtherExpense = finalVal;
+        this.typingOtherExpense = null;
     }
 
     @bindable currency;
     async currencyChanged(newValue, oldValue) {
         this.data.Currency = newValue;
-        if (this.selectedBank.Currency.Code == "IDR" && this.currencyCodeValue != "IDR" && this.currencyCodeValue != null && !this.readOnly) {
+        if (this.selectedBank && this.selectedBank.Currency && this.selectedBank.Currency.Code == "IDR" && this.currencyCodeValue != "IDR" && this.currencyCodeValue != null && !this.readOnly) {
             this.sameCurrency = false;
         }
         else {
@@ -134,16 +196,23 @@ export class Create {
 
     get grandTotal() {
         let result = 0;
-        if (this.data.Items && this.data.Items.length > 0) {
+        if (this.data && this.data.Items && this.data.Items.length > 0) {
             for (let detail of this.data.Items) {
                 if (detail.VBRealizationAmount) {
-                    result += detail.VBRealizationAmount;
+                    result += Number(detail.VBRealizationAmount) || 0;
                 }
-
             }
         }
-        // console.log(result);
+        let other = (this.typingOtherExpense !== null && this.typingOtherExpense !== undefined)
+            ? this.typingOtherExpense
+            : (Number(this.data && this.data.OtherExpense) || 0);
+        result += other;
         this.data.GrandTotal = result;
         return result;
+    }
+
+    get currencyCode() {
+        return (this.currency && (this.currency.Code || this.currency.code)) ||
+               (this.selectedBank && this.selectedBank.Currency && this.selectedBank.Currency.Code) || "";
     }
 }
