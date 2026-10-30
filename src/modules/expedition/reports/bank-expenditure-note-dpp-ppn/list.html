@@ -1,7 +1,7 @@
 <template>
     <style>
-        #dpp-ppn-bank-table td.dpp-ppn-bank-hidden-cell {
-            display: none !important;
+        #dpp-ppn-bank-table td[rowspan] {
+            vertical-align: middle !important;
         }
     </style>
     <h1 class="page-header">Laporan Bukti Pengeluaran Bank DPP + PPN</h1>
@@ -98,51 +98,12 @@
             view-model.ref="tableList"
             data.bind="loader"
             columns.bind="columns"
-            sortable="true"
+            sortable="false"
             page-size="25"
             options.bind="tableOptions">
             <div slot="toolbar" class="btn-group">
                 <button class="btn btn-primary" click.delegate="excel()">Excel</button>
             </div>
         </au-table>
-
-        <!-- <table class="table table-bordered"> -->
-            <!--Table head-->
-            <!-- <thead>
-                <tr>
-                    <th>No Bukti Pengeluaran Bank</th>
-                    <th>Tanggal Bayar DPP + PPN</th>
-                    <th>Category</th>
-                    <th>Divisi</th>
-                    <th>Cara Pembayaran</th>
-                    <th>Total Bayar Ke Supplier</th>
-                    <th>Mata Uang</th>
-                    <th>Bank Bayar PPH</th>
-                    <th>Supplier</th>
-                    <th>No SPB</th>
-                    <th>DPP</th>
-                    <th>PPN</th>
-                    <th>No Invoice</th>
-                </tr>
-            </thead> -->
-            <!--Table head-->
-            <!--Table body-->
-            <!-- <tbody>
-                <tr show.bind="isEmpty">
-                    <td colspan="13">
-                        <div class="alert alert-info">Tidak ditemukan data yang cocok</div>
-                    </td>
-                </tr>
-                <tr repeat.for="datum of data">
-                    <td repeat.for="key of datum | keys" style="white-space: pre"
-                        class="${key.toString().toLowerCase() == 'totalcategorybycurrency' || key.toString().toLowerCase() == 'total' ? 'text-right' : ''}"
-                        colspan="${key.toString().toLowerCase() == 'totalcategorybycurrency' ? 8 : 1}">
-                        ${datum[key]}
-                    </td>
-                </tr>
-            </tbody> -->
-            <!--Table body-->
-        <!-- </table> -->
-
     </div>
 </template>
