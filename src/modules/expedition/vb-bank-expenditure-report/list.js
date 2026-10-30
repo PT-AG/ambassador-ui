@@ -93,7 +93,11 @@ export class List {
       field: "TotalAmount",
       title: "Total Bayar",
       formatter: function (value, data, index) {
-        return numeral(value || 0).format("0,000.00");
+        let total = value;
+        if (total === undefined || total === null || total === 0) {
+          total = (data.VBRealizationAmount || 0) + (data.OtherExpense || 0);
+        }
+        return numeral(total || 0).format("0,000.00");
       },
       align: "right",
     },
@@ -115,12 +119,19 @@ export class List {
     },
   };
 
+  postedFilter = {
+    IsPosted: true,
+  };
+
   tableOptions = {
     showColumns: false,
     search: false,
     showToggle: false,
     sortable: false,
     pagination: true,
+    onPostBody: (data) => {
+      this.mergeCells(data);
+    },
   };
 
   constructor(service) {
@@ -128,6 +139,7 @@ export class List {
     this.info = {};
     this.error = {};
     this.data = [];
+    this.currentData = [];
   }
 
   bankView = (bank) => {
@@ -204,13 +216,74 @@ export class List {
 
     return this.flag
       ? this.service.search(arg).then((result) => {
+          let data = result.data || [];
+          data.sort((a, b) => {
+            let dateA = new Date(a.Date || 0).getTime();
+            let dateB = new Date(b.Date || 0).getTime();
+            if (dateA !== dateB) return dateB - dateA;
+            let cmpDoc = (b.DocumentNo || "").localeCompare(a.DocumentNo || "");
+            if (cmpDoc !== 0) return cmpDoc;
+            return (a.VBRealizationNo || "").localeCompare(b.VBRealizationNo || "");
+          });
+
+          this.currentData = data;
+          setTimeout(() => this.mergeCells(), 100);
+
           return {
             total: result.info.total,
-            data: result.data,
+            data: data,
           };
         })
       : { total: 0, data: [] };
   };
+
+  mergeCells(data) {
+    if (!this.tableList || !this.tableList.table) return;
+    let rows = data || this.currentData || [];
+    if (!rows || rows.length === 0) return;
+
+    let docGroups = [];
+    let currentDocNo = null;
+    let currentGroup = null;
+
+    for (let i = 0; i < rows.length; i++) {
+      let item = rows[i];
+      if (!item.DocumentNo) continue;
+      if (item.DocumentNo !== currentDocNo) {
+        currentDocNo = item.DocumentNo;
+        currentGroup = {
+          index: i,
+          rowspan: 1,
+          docNo: item.DocumentNo,
+        };
+        docGroups.push(currentGroup);
+      } else {
+        currentGroup.rowspan++;
+      }
+    }
+
+    let mergeColumns = [
+      "DocumentNo",
+      "Date",
+      "BankName",
+      "BGCheckNo",
+      "OtherExpense",
+      "TotalAmount",
+    ];
+
+    for (let group of docGroups) {
+      if (group.rowspan > 1) {
+        for (let field of mergeColumns) {
+          $(this.tableList.table).bootstrapTable("mergeCells", {
+            index: group.index,
+            field: field,
+            rowspan: group.rowspan,
+            colspan: 1,
+          });
+        }
+      }
+    }
+  }
 
   search() {
     this.error = {};
@@ -296,6 +369,7 @@ export class List {
     this.info.division = undefined;
     this.info.dateFrom = undefined;
     this.info.dateTo = undefined;
+    this.currentData = [];
     this.tableList.refresh();
   }
 
