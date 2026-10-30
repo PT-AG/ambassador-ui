@@ -1,7 +1,7 @@
 <template>
   <style>
-    #dpp-ppn-bank-table td.dpp-ppn-bank-hidden-cell {
-      display: none !important;
+    #dpp-ppn-bank-table td[rowspan] {
+      vertical-align: middle !important;
     }
   </style>
   <h1 class="page-header">Laporan Bukti Pengeluaran Bank DPP + PPN</h1>
@@ -82,7 +82,7 @@
     <au-table view-model.ref="tableList"
               data.bind="loader"
               columns.bind="columns"
-              sortable="true"
+              sortable="false"
               page-size="25"
               options.bind="tableOptions">
       <div slot="toolbar"

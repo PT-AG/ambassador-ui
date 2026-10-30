@@ -64,6 +64,17 @@ export class List {
       },
       align: "right",
     },
+    {
+      field: "TotalPaid",
+      title: "Total Bayar Keseluruhan",
+      formatter: function (value, data, index) {
+        let total = (value !== undefined && value !== null)
+          ? value
+          : (data.Amount || data.InternalNoteAmount || 0) + (data.OtherExpense || 0);
+        return numeral(total).format("0,000.00");
+      },
+      align: "right",
+    },
     { field: "CurrencyCode", title: "Mata Uang" },
     { field: "BankName", title: "Bank Bayar PPH" },
     { field: "SupplierName", title: "Supplier" },
@@ -78,7 +89,7 @@ export class List {
       align: "right",
     },
     {
-      field: "InvoiceAmount",
+      field: "PaidAmount",
       title: "Nilai Dibayar",
       formatter: function (value, data, index) {
         return value ? numeral(value).format("0,000.00") : numeral(0).format("0,000.00");
@@ -109,6 +120,9 @@ export class List {
     search: false,
     showToggle: false,
     sortable: false,
+    onPostBody: (data) => {
+      this.mergeCells(data);
+    }
   };
 
   constructor(service) {
@@ -172,71 +186,139 @@ export class List {
 
     return this.flag
       ? this.service.search(arg).then((result) => {
-        let before = {};
+        let data = result.data.Result || result.data || [];
 
-        for (let i in result.data) {
-          if (result.data[i].ExpenditureNoteNo != before.ExpenditureNoteNo) {
-            before = result.data[i];
-            before._ExpenditureNoteNo_rowspan = 1;
-            before._ExpenditureDate_rowspan = 1;
-            before._CategoryName_rowspan = 1;
-            before._PaymentMethod_rowspan = 1;
-            before._OtherExpense_rowspan = 1;
-            before._DPP_rowspan = 1;
-            before._VAT_rowspan = 1;
-            before._InternalNoteAmount_rowspan = 1;
-            before._CurrencyCode_rowspan = 1;
-            before._BankName_rowspan = 1;
-          } else {
-            before._ExpenditureNoteNo_rowspan++;
-            before._ExpenditureDate_rowspan++;
-            before._CategoryName_rowspan++;
-            before._PaymentMethod_rowspan++;
-            before._OtherExpense_rowspan++;
-            before._DPP_rowspan++;
-            before._VAT_rowspan++;
-            before._InternalNoteAmount_rowspan++;
-            before._CurrencyCode_rowspan++;
-            before._BankName_rowspan++;
-
-            // before.DPP += result.data[i].DPP;
-            // before.IncomeTax += result.data[i].IncomeTax;
-
-            result.data[i].ExpenditureNoteNo = undefined;
-            result.data[i].ExpenditureDate = undefined;
-            result.data[i].CategoryName = undefined;
-            result.data[i].PaymentMethod = undefined;
-            result.data[i].OtherExpense = undefined;
-            result.data[i].DPP = undefined;
-            result.data[i].VAT = undefined;
-            result.data[i].InternalNoteAmount = undefined;
-            result.data[i].CurrencyCode = undefined;
-            result.data[i].BankName = undefined;
-
-            result.data[i]._ExpenditureNoteNo_class = 'dpp-ppn-bank-hidden-cell';
-            result.data[i]._ExpenditureDate_class = 'dpp-ppn-bank-hidden-cell';
-            result.data[i]._CategoryName_class = 'dpp-ppn-bank-hidden-cell';
-            result.data[i]._PaymentMethod_class = 'dpp-ppn-bank-hidden-cell';
-            result.data[i]._OtherExpense_class = 'dpp-ppn-bank-hidden-cell';
-            result.data[i]._DPP_class = 'dpp-ppn-bank-hidden-cell';
-            result.data[i]._VAT_class = 'dpp-ppn-bank-hidden-cell';
-            result.data[i]._InternalNoteAmount_class = 'dpp-ppn-bank-hidden-cell';
-            result.data[i]._CurrencyCode_class = 'dpp-ppn-bank-hidden-cell';
-            result.data[i]._BankName_class = 'dpp-ppn-bank-hidden-cell';
+        // Hitung total per No Bukti Pengeluaran Bank
+        let docTotals = {};
+        for (let item of data) {
+          let docNo = item.ExpenditureNoteNo;
+          if (!docTotals[docNo]) {
+            docTotals[docNo] = {
+              otherExpense: item.OtherExpense || 0,
+              amount: item.Amount || 0,
+              internalNotes: {}
+            };
+          }
+          if (item.InternalNoteNo) {
+            docTotals[docNo].internalNotes[item.InternalNoteNo] = item.InternalNoteAmount || 0;
           }
         }
 
-        setTimeout(() => {
-          $('#dpp-ppn-bank-table td.dpp-ppn-bank-hidden-cell').hide();
-        }, 10);
+        for (let item of data) {
+          let doc = docTotals[item.ExpenditureNoteNo];
+          let sumNI = Object.values(doc.internalNotes).reduce((a, b) => a + b, 0);
+          // doc.amount (Pembayaran Keluar) sudah termasuk biaya lain-lain
+          item.TotalPaid = sumNI > 0 ? sumNI + doc.otherExpense : doc.amount;
+        }
+
+        data.sort((a, b) => {
+          let cmp = (a.ExpenditureNoteNo || "").localeCompare(b.ExpenditureNoteNo || "");
+          if (cmp !== 0) return cmp;
+          cmp = (a.InternalNoteNo || "").localeCompare(b.InternalNoteNo || "");
+          if (cmp !== 0) return cmp;
+          return (a.InvoiceNo || "").localeCompare(b.InvoiceNo || "");
+        });
+        this.currentData = data;
+        setTimeout(() => this.mergeCells(), 100);
 
         return {
-          total: result.data.length,
-          data: result.data,
+          total: data.length,
+          data: data,
         };
       })
       : { total: 0, data: [] };
   };
+
+  mergeCells(data) {
+    if (!this.tableList || !this.tableList.table) return;
+    let rows = data || this.currentData || [];
+    if (!rows || rows.length === 0) return;
+
+    // 1. Group by ExpenditureNoteNo (Document level columns)
+    let docGroups = [];
+    let currentDocNo = null;
+    let currentDocGroup = null;
+
+    for (let i = 0; i < rows.length; i++) {
+      let item = rows[i];
+      if (!item.ExpenditureNoteNo) continue;
+      if (item.ExpenditureNoteNo !== currentDocNo) {
+        currentDocNo = item.ExpenditureNoteNo;
+        currentDocGroup = {
+          index: i,
+          rowspan: 1,
+          docNo: item.ExpenditureNoteNo
+        };
+        docGroups.push(currentDocGroup);
+      } else {
+        currentDocGroup.rowspan++;
+      }
+    }
+
+    let docMergeColumns = [
+      "ExpenditureNoteNo",
+      "ExpenditureDate",
+      "OtherExpense",
+      "TotalPaid",
+      "CurrencyCode",
+      "BankName",
+      "SupplierName"
+    ];
+
+    for (let group of docGroups) {
+      if (group.rowspan > 1) {
+        for (let field of docMergeColumns) {
+          $(this.tableList.table).bootstrapTable("mergeCells", {
+            index: group.index,
+            field: field,
+            rowspan: group.rowspan,
+            colspan: 1
+          });
+        }
+      }
+    }
+
+    // 2. Group by InternalNoteNo within the document (Item level columns)
+    let niGroups = [];
+    let currentNIKey = null;
+    let currentNIGroup = null;
+
+    for (let i = 0; i < rows.length; i++) {
+      let item = rows[i];
+      let niKey = `${item.ExpenditureNoteNo || ""}__${item.InternalNoteNo || ""}`;
+      if (niKey !== currentNIKey) {
+        currentNIKey = niKey;
+        currentNIGroup = {
+          index: i,
+          rowspan: 1,
+          key: niKey
+        };
+        niGroups.push(currentNIGroup);
+      } else {
+        currentNIGroup.rowspan++;
+      }
+    }
+
+    let niMergeColumns = [
+      "InternalNoteNo",
+      "DPP",
+      "VAT",
+      "InternalNoteAmount"
+    ];
+
+    for (let group of niGroups) {
+      if (group.rowspan > 1) {
+        for (let field of niMergeColumns) {
+          $(this.tableList.table).bootstrapTable("mergeCells", {
+            index: group.index,
+            field: field,
+            rowspan: group.rowspan,
+            colspan: 1
+          });
+        }
+      }
+    }
+  }
 
   search() {
     if (this.info.dateFrom == "Invalid Date") this.info.dateFrom = undefined;
@@ -341,6 +423,7 @@ export class List {
     this.info.paymentMethod = "";
     this.error.dateFrom = undefined;
     this.error.dateTo = undefined;
+    this.currentData = [];
     this.tableList.refresh();
   }
 
