@@ -1,4 +1,11 @@
+import { bindable } from 'aurelia-framework';
+
 export class ItemView {
+    @bindable data;
+
+    determineActivationStrategy() {
+        return 'replace';
+    }
 
     constructor() {
         this.columns = ['Unit', 'Nama Barang', 'Jumlah', 'Satuan', 'Harga Total'];
