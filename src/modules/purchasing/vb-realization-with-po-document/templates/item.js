@@ -18,6 +18,7 @@ export class Item {
         this.filter.division = this.options.division;
         this.filter.currencyCode = this.options.currencyCode;
         this.filter.typePurchasing = this.options.typePurchasing;
+        this.filter.IsCreatedVB=false;
     }
 
     filter = {

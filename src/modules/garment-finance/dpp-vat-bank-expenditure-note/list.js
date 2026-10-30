@@ -28,8 +28,16 @@ export class List {
     },
     { field: "BankName", title: "Bank" },
     {
-        field: "TotalAmount", title: "Total DPP + PPN", align: "right", formatter: function (value, data, index) {
-            return value ? numeral(value).format("0,000.00") : numeral(0).format("0,000.00");
+        field: "TotalAmount",
+        title: "Total DPP + PPN",
+        align: "right",
+        formatter: function (value, data, index) {
+            let total = (data.TotalPaid !== undefined && data.TotalPaid !== null)
+                ? data.TotalPaid
+                : (data.TotalDPPVAT !== undefined && data.TotalDPPVAT !== null)
+                    ? data.TotalDPPVAT
+                    : ((value !== undefined && value !== null ? value : data.TotalAmount || 0) + (data.OtherExpense || 0));
+            return numeral(total || 0).format("0,000.00");
         }
     },
     { field: "CurrencyCode", title: "Mata Uang" },
@@ -68,6 +76,16 @@ export class List {
         };
         return this.service.search(arg)
             .then(result => {
+                if (result.data) {
+                    for (let item of result.data) {
+                        let base = (item.TotalPaid !== undefined && item.TotalPaid !== null)
+                            ? item.TotalPaid
+                            : (item.TotalDPPVAT !== undefined && item.TotalDPPVAT !== null)
+                                ? item.TotalDPPVAT
+                                : (item.TotalAmount || 0) + (item.OtherExpense || 0);
+                        item.TotalAmount = base;
+                    }
+                }
                 return {
                     total: result.info.total,
                     data: result.data

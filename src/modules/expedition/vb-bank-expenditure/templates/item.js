@@ -40,7 +40,8 @@ export class Item {
                 VBRequestName: this.data.VBRequestName,
                 VBAmount: this.data.VBAmount,
                 VBRealizationAmount: this.data.VBRealizationAmount,
-                VBRealizationId: this.data.VBRealizationId
+                VBRealizationId: this.data.VBRealizationId,
+                Remark: this.data.Remark
             };
         }
         if(context.context.items.length>0){
@@ -84,6 +85,7 @@ export class Item {
             this.data.VBAmount = newValue.VBAmount;
             this.data.VBRealizationAmount = newValue.VBRealizationAmount;
             this.data.VBRealizationId = newValue.VBRealizationId;
+            this.data.Remark = newValue.Remark;
             this.data.DivisionId = newValue.DivisionId;
             this.data.DivisionName = newValue.DivisionName;
             this.data.UnitId = newValue.UnitId;
@@ -102,6 +104,7 @@ export class Item {
             this.data.VBRealizationAmount = 0;
             this.data.VBType = null;
             this.data.vbtypeVal = null;
+            this.data.Remark = null;
         }
     }
 }

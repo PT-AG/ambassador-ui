@@ -50,7 +50,7 @@ export class View {
     }
 
     approve(event) {
-        if (!confirm("Yakin ingin menyetujui SPB External ini?")) return;
+        if (!confirm("Yakin ingin menyetujui SPB ini?")) return;
 
         this.service.approveKasie(this.id)
             .then(() => {

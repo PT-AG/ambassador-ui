@@ -28,8 +28,30 @@ export class List {
             }
         },
         { field: "UPONo", title: "Nomor Surat Perintah Bayar" },
-        { field: "unitReceiptNoteNo", title: "List Nomor Bon Unit-Nomor Surat Jalan", sortable: false }
+        { field: "unitReceiptNoteNo", title: "List Nomor Bon Unit-Nomor Surat Jalan", sortable: false },
+        {
+            field: "isPosted", title: "Status",
+            formatter: function (value, data, index) {
+                if(data.ReasonRejected) return "DITOLAK dengan alasan: " + data.ReasonRejected;
+                if(data.IsApprovedVerification) return "SUDAH DISETUJUI VERIFICATION";
+                if(data.IsApprovedKabag) return "SUDAH DISETUJUI MANAGER 2";
+                if(data.IsApprovedKasie) return "SUDAH DISETUJUI MANAGER 1";
+                if(data.IsApprovedStaff) return "SUDAH DISETUJUI STAFF";
+                if(data.isPosted) return "SUDAH DIPOSTING";
+                return "DRAFT";
+            }
+        }
     ];
+
+    rowFormatter(data, index) {
+        if (data.ReasonRejected){
+            return { classes: "danger" }
+        }
+        else if (data.isPosted && data.IsApprovedKasie && data.IsApprovedKabag)
+            return { classes: "success" }
+        else
+            return {}
+    }
 
     loader = (info) => {
         var order = {};

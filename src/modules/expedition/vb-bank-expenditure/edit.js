@@ -18,7 +18,7 @@ export class Edit {
         return CurrencyLoader;
     }
     columns2 = [
-        "No Realisasi","Tanggal Realisasi VB","Tipe VB", "Pemohon VB", "Bagian/Unit","Nominal Realisasi","Mata Uang"
+        "No Realisasi","Tanggal Realisasi VB","Tipe VB", "Pemohon VB", "Bagian/Unit","Nominal Realisasi","Mata Uang","Keterangan"
     ];
 
     bankView = (bank) => {
@@ -58,6 +58,8 @@ export class Edit {
     }
 
     saveCallback(event) {
+        if (this.isSaving) return;
+
         if (this.data.Items && this.data.Items.length > 0) {
             this.data.Amount = 0;
             for(var v of this.data.Items){
@@ -68,22 +70,30 @@ export class Edit {
                 return;
             }
 
+            this.isSaving = true;
+
+            const otherExpense = (this.typingOtherExpense !== null && this.typingOtherExpense !== undefined)
+                ? this.typingOtherExpense
+                : (Number(this.data && this.data.OtherExpense) || 0);
+
             const args = {
                 Id: this.data.Id,
                 Items: this.data.Items,
                 Bank: this.selectedBank,
                 Currency: this.currency,
                 Amount: this.data.Amount,
-                OtherExpense: this.data.OtherExpense,
+                OtherExpense: otherExpense,
                 Date: this.data.Date,
                 BGCheckNo: this.data.BGCheckNo,
             };
             this.service.update(args)
             .then(result => {
+                this.isSaving = false;
                 alert("Data berhasil dibuat");
                 this.router.navigateToRoute("list");
             })
             .catch(e => {
+                this.isSaving = false;
                 this.error = e;
                 if (typeof (this.error) == "string") {
                     alert(this.error);
@@ -98,6 +108,64 @@ export class Edit {
 
     bind() {
         this.error = {};
+        this.typingOtherExpense = null;
+    }
+
+    parseExpenseInput(val) {
+        if (!val || typeof val !== "string") return 0;
+        let trimmed = val.trim();
+        if (trimmed === "" || trimmed === "-") return 0;
+
+        if (trimmed.includes(",") && trimmed.includes(".")) {
+            let lastComma = trimmed.lastIndexOf(",");
+            let lastDot = trimmed.lastIndexOf(".");
+            if (lastDot > lastComma) {
+                trimmed = trimmed.replace(/,/g, "");
+            } else {
+                trimmed = trimmed.replace(/\./g, "").replace(",", ".");
+            }
+        } else if (trimmed.includes(",")) {
+            let parts = trimmed.split(",");
+            if (parts.length === 2 && parts[1].length !== 3) {
+                trimmed = trimmed.replace(",", ".");
+            } else {
+                trimmed = trimmed.replace(/,/g, "");
+            }
+        } else if (trimmed.includes(".")) {
+            let parts = trimmed.split(".");
+            if (parts.length > 2) {
+                trimmed = trimmed.replace(/\./g, "");
+            }
+        }
+
+        let num = parseFloat(trimmed);
+        return isNaN(num) ? 0 : num;
+    }
+
+    onOtherExpenseFocus(event) {
+        if (event && event.target && typeof event.target.select === "function") {
+            event.target.select();
+        }
+    }
+
+    onOtherExpenseInput(event) {
+        if (event && event.target) {
+            let val = event.target.value;
+            this.typingOtherExpense = this.parseExpenseInput(val);
+        }
+    }
+
+    onOtherExpenseBlur(event) {
+        if (event && event.target) {
+            let val = event.target.value;
+            this.typingOtherExpense = this.parseExpenseInput(val);
+        }
+        let finalVal = (this.typingOtherExpense !== null && this.typingOtherExpense !== undefined)
+            ? this.typingOtherExpense
+            : (Number(this.data && this.data.OtherExpense) || 0);
+
+        this.data.OtherExpense = finalVal;
+        this.typingOtherExpense = null;
     }
 
     @bindable currency;
@@ -138,16 +206,23 @@ export class Edit {
 
     get grandTotal() {
         let result = 0;
-        if (this.data.Items && this.data.Items.length > 0) {
+        if (this.data && this.data.Items && this.data.Items.length > 0) {
             for (let detail of this.data.Items) {
                 if (detail.VBRealizationAmount) {
-                    result += detail.VBRealizationAmount;
+                    result += Number(detail.VBRealizationAmount) || 0;
                 }
-
             }
         }
-        // console.log(result);
+        let other = (this.typingOtherExpense !== null && this.typingOtherExpense !== undefined)
+            ? this.typingOtherExpense
+            : (Number(this.data && this.data.OtherExpense) || 0);
+        result += other;
         this.data.GrandTotal = result;
         return result;
+    }
+
+    get currencyCode() {
+        return (this.currency && (this.currency.Code || this.currency.code)) ||
+               (this.selectedBank && this.selectedBank.Currency && this.selectedBank.Currency.Code) || "";
     }
 }

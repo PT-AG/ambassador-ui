@@ -31,18 +31,18 @@ export class View {
             this.hasDelete = false;
         }
 
-        const today = new Date();
-        const firstDayOfCurrentMonth = new Date(
-            today.getFullYear(),
-            today.getMonth(),
-            1
-        );
-        const inDate = new Date(this.data.inDate);
-        this.hasDelete = !(inDate < firstDayOfCurrentMonth);
+        // const today = new Date();
+        // const firstDayOfCurrentMonth = new Date(
+        //     today.getFullYear(),
+        //     today.getMonth(),
+        //     1
+        // );
+        // const inDate = new Date(this.data.inDate);
+        // this.hasDelete = !(inDate < firstDayOfCurrentMonth);
 
-        if(this.data.Unlocked){
-            this.hasDelete = true;
-        }
+        // if(this.data.Unlocked){
+        //     this.hasDelete = true;
+        // }
     }
 
     cancel(event) {

@@ -34,6 +34,11 @@ export class Create {
     }
 
     save(event) {
+        if (this.isSaving) {
+            return;
+        }
+        this.isSaving = true;
+        this.hasSave = false;
         if(this.data.Unit && !this.data.Unit.Id){this.data.Unit.Id=0;}
         // this.data.ProcessDate = this.data.ProcessDate ? moment(this.data.ProcessDate).format("DD MMM YYYY") : null;
         this.service.create(this.data)
@@ -42,6 +47,8 @@ export class Create {
                 this.router.navigateToRoute('create',{}, { replace: true, trigger: true });
             })
             .catch(e => {
+                this.isSaving = false;
+                this.hasSave = true;
                 this.error = e;
                 if (typeof (this.error) == "string") {
                     alert(this.error);

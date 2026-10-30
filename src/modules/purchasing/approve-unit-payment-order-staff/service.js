@@ -22,8 +22,8 @@ export class Service extends RestService {
         return super.get(endpoint);
     }
 
-    approveKasie(id) {
-        return super.post(`${serviceUri}/approve-kasie/${id}`, {});
+    approveStaff(id) {
+        return super.post(`${serviceUri}/approve-staff/${id}`, {});
     }
 
     getDefaultVat(info){

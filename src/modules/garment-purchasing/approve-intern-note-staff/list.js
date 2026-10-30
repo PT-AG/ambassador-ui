@@ -55,7 +55,18 @@ export class List {
         },
         { field: "supplier.Name", title: "Supplier" },
         { field: "items", title: "List No. Invoice", sortable: false },
-        { field: "CreatedBy", title: "Admin Pembelian" }
+        { field: "CreatedBy", title: "Admin Pembelian" },
+        { 
+            field: "IsPosted", title: "Status", formatter: function(value, data, index) {
+                if(data.ReasonRejected) return "DITOLAK dengan alasan: " + data.ReasonRejected;
+                if(data.IsApprovedVerification) return "SUDAH DISETUJUI VERIFIKASI";
+                if(data.IsApprovedKabag) return "SUDAH DISETUJUI MANAGER 2";
+                if(data.IsApprovedKasie) return "SUDAH DISETUJUI MANAGER 1";
+                if(data.IsApprovedStaff) return "SUDAH DISETUJUI STAFF";
+                if(data.isPosted) return "SUDAH DIPOSTING";
+                return "DRAFT";
+            }
+        }
     ];
     
     context = ["Rincian", "Cetak PDF"];

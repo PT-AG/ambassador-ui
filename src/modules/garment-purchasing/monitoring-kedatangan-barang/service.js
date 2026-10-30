@@ -14,12 +14,12 @@ export class Service extends RestService {
     }
 
     search(info) { 
-        var endpoint = `${serviceUri}?dateFrom=${info.dateFrom}&dateTo=${info.dateTo}&category=${info.category}&garmentCategory=${info.garmentCategory}&productCode=${info.productCode}`;
+        var endpoint = `${serviceUri}?dateFrom=${info.dateFrom}&dateTo=${info.dateTo}&category=${info.category}&garmentCategory=${info.garmentCategory}&productCode=${info.productCode}&paymentMethod=${info.paymentMethod}`;
         return super.get(endpoint);
     }
 
     getDetail(info) {
-        var endpoint = `${serviceUriDetail}?supplier=${info.supplierCode}&dateFrom=${info.dateFrom}&dateTo=${info.dateTo}&category=${info.category}&garmentCategory=${info.garmentCategory}&productCode=${info.productCode}`;
+        var endpoint = `${serviceUriDetail}?supplier=${info.supplierCode}&dateFrom=${info.dateFrom}&dateTo=${info.dateTo}&category=${info.category}&garmentCategory=${info.garmentCategory}&productCode=${info.productCode}&paymentMethod=${info.paymentMethod}`;
         return super.get(endpoint);
     }
 
@@ -30,12 +30,12 @@ export class Service extends RestService {
     }
     
     generateExcel(info) {
-        var endpoint = `${serviceUri}/download?dateFrom=${info.dateFrom}&dateTo=${info.dateTo}&category=${info.category}&garmentCategory=${info.garmentCategory}&productCode=${info.productCode}`;
+        var endpoint = `${serviceUri}/download?dateFrom=${info.dateFrom}&dateTo=${info.dateTo}&category=${info.category}&garmentCategory=${info.garmentCategory}&productCode=${info.productCode}&paymentMethod=${info.paymentMethod}`;
         return super.getXls(endpoint);
     }
 
     generateExcel2(info) {
-        var endpoint = `${serviceUriDetail}/download?supplier=${info.supplierCode}&dateFrom=${info.dateFrom}&dateTo=${info.dateTo}&category=${info.category}&garmentCategory=${info.garmentCategory}&productCode=${info.productCode}`;
+        var endpoint = `${serviceUriDetail}/download?supplier=${info.supplierCode}&dateFrom=${info.dateFrom}&dateTo=${info.dateTo}&category=${info.category}&garmentCategory=${info.garmentCategory}&productCode=${info.productCode}&paymentMethod=${info.paymentMethod}`;
         return super.getXls(endpoint);
     }
 }
