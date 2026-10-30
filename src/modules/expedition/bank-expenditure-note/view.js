@@ -23,14 +23,21 @@ export class View {
 
     sortingControlOptions = {
         label: {
-            length: 4,
+            length: 5,
+            align: "right"
         },
         control: {
-            length: 4,
+            length: 7,
         }
     };
 
-    sortingOptions = ["", "Tanggal Invoice", "Tanggal Jatuh Tempo"];
+    sortingTypeControlOptions = {
+        control: {
+            length: 8,
+        }
+    };
+
+    sortingOptions = ["", "No. SPB", "Tanggal SPB", "Tanggal Jatuh Tempo", "Nomor Invoice"];
     sortingTypeOptions = ["A - Z", "Z - A"];
 
     formOptions = {
@@ -49,13 +56,19 @@ export class View {
         };
     }
 
+    bind() {
+        this.selectedSortOption = "";
+        this.selectedSortTypeOption = "A - Z";
+    }
+
     bankView = "";
     async activate(params) {
         const decoded = Base64Helper.decode(params.id);
         var id = decoded;
         this.data = await this.service.getById(id);
+        const supplierName = this.data.Supplier ? (this.data.Supplier.name || this.data.Supplier.Name) : "";
         for (var a of this.data.Details) {
-            a.SupplierName = this.data.Supplier.Name;
+            a.SupplierName = a.SupplierName || supplierName;
             a.Currency = this.data.Bank.Currency.Code;
             a.PaymentDifference = a.TotalPaid - (a.AmountPaid + a.SupplierPayment);
         }
@@ -67,13 +80,14 @@ export class View {
 
         this.IDR = false;
         this.sameCurrency = false;
-        this.GrandTotal = this.data.GrandTotal;
+        let baseGrandTotal = (this.data.GrandTotal || 0) + (this.data.OtherExpense || 0);
+        this.GrandTotal = baseGrandTotal;
         if (this.data.Bank.Currency.Code == "IDR") {
             this.IDR = true;
             if (this.data.CurrencyCode == "IDR") {
                 this.sameCurrency = true;
             }
-            this.GrandTotal = this.data.GrandTotal * this.data.CurrencyRate;
+            this.GrandTotal = baseGrandTotal * this.data.CurrencyRate;
 
         }
 
@@ -115,101 +129,75 @@ export class View {
             });
     }
 
-    @bindable selectedSortOption;
-    selectedSortOptionChanged(newValue, oldValue) {
-        if (newValue)
-            this.sortItems();
+    _selectedSortOption = "";
+    get selectedSortOption() {
+        return this._selectedSortOption;
+    }
+    set selectedSortOption(val) {
+        this._selectedSortOption = val;
+        this.sortItems();
     }
 
-    @bindable selectedSortTypeOption
-    selectedSortTypeOptionChanged(newValue, oldValue) {
-        if (newValue)
-            this.sortItems();
+    _selectedSortTypeOption = "A - Z";
+    get selectedSortTypeOption() {
+        return this._selectedSortTypeOption;
+    }
+    set selectedSortTypeOption(val) {
+        this._selectedSortTypeOption = val;
+        this.sortItems();
     }
 
     sortItems() {
-        if (this.UPOResults && this.UPOResults.length > 0) {
-            if (this.selectedSortTypeOption == "A - Z") {
-                switch (this.selectedSortOption) {
-                    case "Tanggal Invoice":
-                        this.UPOResults = this.UPOResults.sort((item1, item2) => {
-                            if (item1.UPODate < item2.UPODate) {
-                                return -1;
-                            }
-                            if (item1.UPODate > item2.UPODate) {
-                                return 1;
-                            }
-                            return 0;
-                        });
-                        break;
-                    case "Tanggal Jatuh Tempo":
-                        this.UPOResults = this.UPOResults.sort((item1, item2) => {
-                            if (item1.DueDate < item2.DueDate) {
-                                return -1;
-                            }
-                            if (item1.DueDate > item2.DueDate) {
-                                return 1;
-                            }
-                            return 0;
-                        });
-                        break;
-                    default:
-                        this.UPOResults = this.UPOResults.sort((item1, item2) => {
-                            if (item1.UnitPaymentOrderNo < item2.UnitPaymentOrderNo) {
-                                return -1;
-                            }
-                            if (item1.UnitPaymentOrderNo > item2.UnitPaymentOrderNo) {
-                                return 1;
-                            }
-                            return 0;
-                        });
-                        break;
-                }
-            } else if (this.selectedSortTypeOption == "Z - A") {
-                switch (this.selectedSortOption) {
-                    case "Tanggal Invoice":
-                        this.UPOResults = this.UPOResults.sort((item1, item2) => {
-                            if (item1.UPODate > item2.UPODate) {
-                                return -1;
-                            }
-                            if (item1.UPODate < item2.UPODate) {
-                                return 1;
-                            }
-                            return 0;
-                        });
-                        break;
-                    case "Tanggal Jatuh Tempo":
-                        this.UPOResults = this.UPOResults.sort((item1, item2) => {
-                            if (item1.DueDate > item2.DueDate) {
-                                return -1;
-                            }
-                            if (item1.DueDate < item2.DueDate) {
-                                return 1;
-                            }
-                            return 0;
-                        });
-                        break;
-                    default:
-                        this.UPOResults = this.UPOResults.sort((item1, item2) => {
-                            if (item1.UnitPaymentOrderNo > item2.UnitPaymentOrderNo) {
-                                return -1;
-                            }
-                            if (item1.UnitPaymentOrderNo < item2.UnitPaymentOrderNo) {
-                                return 1;
-                            }
-                            return 0;
-                        });
-                        break;
-                }
+        if (!this.data || !this.data.Details || this.data.Details.length === 0) return;
+
+        let sortOption = this.selectedSortOption;
+        let isAsc = (this.selectedSortTypeOption || "A - Z") !== "Z - A";
+
+        let sorted = [...this.data.Details].sort((item1, item2) => {
+            let val1, val2;
+            switch (sortOption) {
+                case "Tanggal SPB":
+                case "Tanggal Invoice":
+                    val1 = item1.UPODate ? new Date(item1.UPODate).getTime() : 0;
+                    val2 = item2.UPODate ? new Date(item2.UPODate).getTime() : 0;
+                    break;
+                case "Tanggal Jatuh Tempo":
+                    val1 = item1.DueDate ? new Date(item1.DueDate).getTime() : 0;
+                    val2 = item2.DueDate ? new Date(item2.DueDate).getTime() : 0;
+                    break;
+                case "Nomor Invoice":
+                    val1 = (item1.InvoiceNo || "").toString().toLowerCase();
+                    val2 = (item2.InvoiceNo || "").toString().toLowerCase();
+                    break;
+                case "No. SPB":
+                default:
+                    val1 = (item1.UnitPaymentOrderNo || "").toString().toLowerCase();
+                    val2 = (item2.UnitPaymentOrderNo || "").toString().toLowerCase();
+                    break;
             }
+
+            if (val1 < val2) return isAsc ? -1 : 1;
+            if (val1 > val2) return isAsc ? 1 : -1;
+
+            let no1 = (item1.UnitPaymentOrderNo || "").toString().toLowerCase();
+            let no2 = (item2.UnitPaymentOrderNo || "").toString().toLowerCase();
+            if (no1 < no2) return isAsc ? -1 : 1;
+            if (no1 > no2) return isAsc ? 1 : -1;
+            return 0;
+        });
+
+        const collection = this.ItemsCollection;
+        this.data.Details = [];
+        if (collection) {
+            collection.items = [];
+            collection.buildContext();
         }
-
-        // this.Item
-        // if (this.ItemsCollection) {
-        //     this.ItemsCollection.bind();
-        // }
-
-        if (this.ItemsCollectionRate)
-            this.ItemsCollectionRate.bind();
+        setTimeout(() => {
+            this.data.Details = sorted;
+            if (collection) {
+                collection.items = sorted;
+                collection.buildContext();
+            }
+        }, 10);
     }
 }
