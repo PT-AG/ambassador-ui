@@ -9,7 +9,24 @@ import { Base64Helper } from "../../../utils/base-64-coded-helper";
 export class List {
   context = ["Detail","Cetak PDF"];
 
+  selectedItems = [];
+
+  rowFormatter(data, index) {
+    if (data.IsPosted) return { classes: "success" };
+    else return {};
+  }
+
   columns = [
+    {
+      field: "isPosting",
+      title: "IsPosted Checkbox",
+      checkbox: true,
+      sortable: false,
+      formatter: function (value, data, index) {
+        this.checkboxEnabled = !data.IsPosted;
+        return "";
+      },
+    },
     { field: "DocumentNo", title: "No Dokumen" },
     {
       field: "Date",
@@ -23,7 +40,10 @@ export class List {
       field: "Amount",
       title: "Nominal Realisasi",
       formatter: function (value, data, index) {
-        return numeral(value).format("0,000.00");
+        let total = (data.TotalAmount !== undefined && data.TotalAmount !== null)
+          ? data.TotalAmount
+          : (data.Amount || 0) + (data.OtherExpense || 0);
+        return numeral(total).format("0,000.00");
       },
       align: "right",
     },
@@ -45,7 +65,11 @@ export class List {
   loader = (info) => {
     let order = {};
 
-    if (info.sort) order[info.sort] = info.order;
+    if (info.sort)
+      order[info.sort] = info.order;
+    else
+      order["Date"] = "desc";
+
     let arg = {
       page: parseInt(info.offset / info.limit, 10) + 1,
       size: info.limit,
@@ -54,16 +78,25 @@ export class List {
     };
 
     return this.service.search(arg).then((result) => {
-      
       for (var _data of result.data) {
-        
         var vbReq = _data.Items.map(function (item) {
           return `<li>${item.VBRealizationNo}</li>`;
         });
         vbReq = vbReq.filter(function (elem, index, self) {
           return index == self.indexOf(elem);
         });
-        _data.VBRealizationDocumentNo = `<ul>${vbReq.join()}</ul>`;
+        _data.VBRealizationDocumentNo = `<ul>${vbReq.join("")}</ul>`;
+
+        let itemSum = 0;
+        if (_data.Items && _data.Items.length > 0) {
+          for (let item of _data.Items) {
+            itemSum += (item.VBRealizationAmount || 0);
+          }
+        }
+        let baseAmount = _data.Amount || itemSum;
+        _data.TotalAmount = (_data.TotalAmount !== undefined && _data.TotalAmount !== null)
+          ? _data.TotalAmount
+          : baseAmount + (_data.OtherExpense || 0);
       }
       return Promise.all(result.data).then((data) => {
         return {
@@ -73,6 +106,15 @@ export class List {
       });
     });
   };
+
+  contextShowCallback(index, name, data) {
+    switch (name) {
+      case "Cetak PDF":
+        return data && data.IsPosted;
+      default:
+        return true;
+    }
+  }
 
   contextClickCallback(event) {
     let arg = event.detail;
@@ -91,5 +133,23 @@ export class List {
 
   create() {
     this.router.navigateToRoute("create");
+  }
+
+  posting() {
+    var items = this.selectedItems.map((s) => s.Id);
+    this.service
+      .posting(items)
+      .then((result) => {
+        alert("Data berhasil disimpan");
+        this.error = {};
+        this.tableList.refresh();
+        this.selectedItems = [];
+      })
+      .catch((e) => {
+        if (e.message) {
+          alert("Terjadi Kesalahan Pada Sistem!\nHarap Simpan Kembali!");
+        }
+        this.error = e;
+      });
   }
 }

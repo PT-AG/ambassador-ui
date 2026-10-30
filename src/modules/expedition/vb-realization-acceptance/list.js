@@ -128,6 +128,12 @@ export class List {
 
     }
 
+    if (!this.activeRole) {
+      this.activeRole = this.roles[0];
+      this.activeRole.hasPermission = true;
+      this.changeTable(this.activeRole);
+    }
+
     console.log(this.activeRole);
   }
 
