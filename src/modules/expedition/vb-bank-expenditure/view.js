@@ -70,16 +70,22 @@ export class View {
     };
     get grandTotal() {
         let result = 0;
-        if (this.data.Items && this.data.Items.length > 0) {
+        if (this.data && this.data.Items && this.data.Items.length > 0) {
             for (let detail of this.data.Items) {
                 if (detail.VBRealizationAmount) {
-                    result += detail.VBRealizationAmount;
+                    result += Number(detail.VBRealizationAmount) || 0;
                 }
-
             }
         }
-        // console.log(result);
+        if (this.data && this.data.OtherExpense) {
+            result += Number(this.data.OtherExpense) || 0;
+        }
         this.data.GrandTotal = result;
         return result;
+    }
+
+    get currencyCode() {
+        return (this.data && this.data.Currency && (this.data.Currency.Code || this.data.Currency.code)) ||
+               (this.data && this.data.Bank && this.data.Bank.Currency && this.data.Bank.Currency.Code) || "";
     }
 }
