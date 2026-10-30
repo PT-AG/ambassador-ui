@@ -46,23 +46,6 @@ export class List {
             },
             align: 'right'
         },
-        // {
-        //     field: 'DPP',
-        //     title: 'DPP',
-        //     formatter: function(value, data, index) {
-        //         // return value ? numeral(value).format("0,000.00") : "-";
-        //         return value ? numeral(value).format("0,000.00") : undefined;
-        //     },
-        //     align: 'right'
-        // },
-        // {
-        //     field: 'VAT',
-        //     title: 'PPN',
-        //     formatter: function(value, data, index) {
-        //         return value || value == 0 ? numeral(value).format("0,000.00") : "-";
-        //     },
-        //     align: 'right'
-        // },
         {
             field: 'TotalPaid',
             title: 'Total Bayar Ke Supplier',
@@ -113,7 +96,10 @@ export class List {
         showColumns: false,
         search: false,
         showToggle: false,
-        sortable: false
+        sortable: false,
+        onPostBody: (data) => {
+            this.mergeCells(data);
+        }
     };
 
     constructor(service) {
@@ -122,6 +108,7 @@ export class List {
         this.error = {};
 
         this.data = [];
+        this.currentData = [];
         this.isEmpty = true;
     }
 
@@ -179,239 +166,180 @@ export class List {
         return this.flag ? (
             this.service.search(arg)
                 .then((result) => {
-                    console.log('hasil', result);
-                    // result.data = result.data.map(item=>{ item.TotalDPP =0; item.TotalPPN=0;});
-                    // console.log('after map', result.data);
-                    let before = {};
+                    let data = result.data || [];
 
-                    const dummy = [
-                        {
-                            DocumentNo: "1910K0001",
-                            Date: "2019-10-27T17:00:00+00:00",
-                            SupplierName: "BUKUPEN-A",
-                            CategoryName: "ALAT TULIS",
-                            DivisionName: "Umum",
-                            PaymentMethod: "KREDIT",
-                            DPP: 11500,
-                            VAT: 0,
-                            Currency: "IDR",
-                            BankName: "CIMB NIAGA IDR - CIMB NIAGA - 8001.918.14.600 - IDR",
-                            UnitPaymentOrderNo: "18-07-T-NKL-0002",
-                            InvoiceNumber: "ewr",
-                            TotalPaid: 11500
-                        },
-                        {
-                            DocumentNo: "1910K0003",
-                            Date: "2019-10-27T17:00:00+00:00",
-                            SupplierName: "RAINBOW",
-                            CategoryName: "METERAI",
-                            DivisionName: "Garment",
-                            PaymentMethod: "KREDIT",
-                            DPP: 6.25,
-                            VAT: 0,
-                            Currency: "USD",
-                            BankName: "BCA USD - BCA - 015.29.7344.4 - USD",
-                            UnitPaymentOrderNo: "18-10-G-NKL-0001",
-                            InvoiceNumber: "inv",
-                            TotalPaid: 6.25
-                        },
-                        {
-                            DocumentNo: "1910K0003",
-                            Date: "2019-10-27T17:00:00+00:00",
-                            SupplierName: "RAINBOW CAKE",
-                            CategoryName: "METERAI",
-                            DivisionName: "Garment",
-                            PaymentMethod: "KREDIT",
-                            DPP: 6.25,
-                            VAT: 567,
-                            Currency: "USD",
-                            BankName: "BCA USD - BCA - 015.29.7344.4 - USD",
-                            UnitPaymentOrderNo: "18-10-G-NKL-0002",
-                            InvoiceNumber: "inv4",
-                            TotalPaid: 6.25
-                        },
-                        {
-                            DocumentNo: "1910K00035",
-                            Date: "2019-10-27T17:00:00+00:00",
-                            SupplierName: "MERAPI",
-                            CategoryName: "METERAI",
-                            DivisionName: "Garment",
-                            PaymentMethod: "KREDIT",
-                            DPP: 300,
-                            VAT: 567,
-                            Currency: "USD",
-                            BankName: "BCA USD - BCA - 015.29.7344.4 - USD",
-                            UnitPaymentOrderNo: "18-10-G-JKT-0002",
-                            InvoiceNumber: "inv46",
-                            TotalPaid: 60
-                        },
-                        {
-                            DocumentNo: "1910K00035",
-                            Date: "2019-10-27T17:00:00+00:00",
-                            SupplierName: "MERAPI KOTA",
-                            CategoryName: "METERAI",
-                            DivisionName: "Garment",
-                            PaymentMethod: "KREDIT",
-                            DPP: 6.25,
-                            VAT: 567,
-                            Currency: "USD",
-                            BankName: "BCA USD - BCA - 015.29.7344.4 - USD",
-                            UnitPaymentOrderNo: "18-10-G-JKT-0003",
-                            InvoiceNumber: "inv47",
-                            TotalPaid: 6.25
+                    // Sort data by DocumentNo, UnitPaymentOrderNo, InvoiceNumber
+                    data.sort((a, b) => {
+                        let cmp = (a.DocumentNo || "").localeCompare(b.DocumentNo || "");
+                        if (cmp !== 0) return cmp;
+                        cmp = (a.UnitPaymentOrderNo || "").localeCompare(b.UnitPaymentOrderNo || "");
+                        if (cmp !== 0) return cmp;
+                        return (a.InvoiceNumber || "").localeCompare(b.InvoiceNumber || "");
+                    });
+
+                    // Aggregate document totals
+                    let docMap = new Map();
+                    for (let item of data) {
+                        let docNo = item.DocumentNo || "";
+                        if (!docMap.has(docNo)) {
+                            docMap.set(docNo, {
+                                totalDPP: 0,
+                                totalPPN: 0,
+                                totalPaid: 0,
+                                totalDiff: 0,
+                                otherExpense: item.OtherExpense || 0,
+                                rows: []
+                            });
                         }
-                    ];
+                        let entry = docMap.get(docNo);
+                        entry.totalDPP += (item.DPP || 0);
+                        entry.totalPPN += (item.VAT || 0);
+                        entry.totalPaid += (item.TotalPaid || 0);
+                        entry.totalDiff += (item.DifferenceNominal || 0);
+                        entry.rows.push(item);
+                    }
 
-
-                    // var myNewArrObj = [];
-                    // for (var oldData of dummy) {
-                    //     let existed = myNewArrObj.find(f => f.DocumentNo === oldData.DocumentNo);
-                    //     console.log('adakah', existed);
-                    //     if (!existed) {
-                    //         var myObj = Object.assign({}, oldData);
-                    //         oldData.items = [myObj];
-                    //         myNewArrObj.push(oldData);
-                    //     }
-                    //     else {
-                    //         existed.items.push(oldData);
-                    //     }
-                    // }
-
-                    // console.log('akhir', myNewArrObj);
-
-                    for (let i in dummy) {
-                        if (dummy[i].Id != before.Id) {
-                            before = dummy[i];
-                            before._DocumentNo_rowspan = 1;
-                            before._Date_rowspan = 1;
-                            before._CategoryName_rowspan = 1;
-                            before._DivisionName_rowspan = 1;
-                            before._PaymentMethod_rowspan = 1;
-                            before._DPP_rowspan = 1;
-                            before._VAT_rowspan = 1;
-                            before._TotalPaid_rowspan = 1;
-                            before._BankName_rowspan = 1;
-                            before._Currency_rowspan = 1;
-                        } else {
-                            before._DocumentNo_rowspan++;
-                            before._Date_rowspan++;
-                            before._CategoryName_rowspan++;
-                            before._DivisionName_rowspan++;
-                            before._PaymentMethod_rowspan++;
-                            before._DPP_rowspan++;
-                            before._VAT_rowspan++;
-                            before._TotalPaid_rowspan++;
-                            before._BankName_rowspan++;
-                            before._Currency_rowspan++;
-                            // before._SupplierName_rowspan++;
-
-                            before.DPP += dummy[i].DPP;
-                            before.VAT += dummy[i].VAT;
-                            before.TotalPaid += dummy[i].TotalPaid;
-
-                            dummy[i].DocumentNo = undefined;
-                            dummy[i].Date = undefined;
-                            dummy[i].CategoryName = undefined;
-                            dummy[i].DivisionName = undefined;
-                            dummy[i].PaymentMethod = undefined;
-                            dummy[i].DPP = undefined;
-                            dummy[i].VAT = undefined;
-                            dummy[i].TotalPaid = undefined;
-                            dummy[i].BankName = undefined;
-                            dummy[i].Currency = undefined;
-
-                            // dummy[i].SupplierName = dummy[i].SupplierName;
+                    for (let [docNo, entry] of docMap.entries()) {
+                        if (entry.rows.length > 0) {
+                            let firstRow = entry.rows[0];
+                            firstRow.TotalDPP = entry.totalDPP;
+                            firstRow.TotalPPN = entry.totalPPN;
+                            firstRow.TotalPaid = entry.totalPaid + entry.otherExpense;
+                            firstRow.DifferenceNominal = entry.totalDiff;
                         }
                     }
 
-                    console.log('dummy', dummy);
-
-                    //#region 
-                    before = {};
-                    for (let i in result.data) {
-                        if (result.data[i].Id != before.Id) {
-                            before = result.data[i];
-                            before.TotalPaid = (before.TotalPaid || 0) + (before.OtherExpense || 0);
-                            before._DocumentNo_rowspan = 1;
-                            before._Date_rowspan = 1;
-                            before._CategoryName_rowspan = 1;
-                            before._DivisionName_rowspan = 1;
-                            before._PaymentMethod_rowspan = 1;
-                            before._OtherExpense_rowspan = 1;
-                            // before._DPP_rowspan = 1;
-                            // before._VAT_rowspan = 1;
-                            before._TotalDPP_rowspan = 1;
-                            before._TotalPPN_rowspan = 1;
-                            before._TotalPaid_rowspan = 1;
-                            before._BankName_rowspan = 1;
-                            before._Currency_rowspan = 1;
-                        } else {
-                            before._DocumentNo_rowspan++;
-                            before._Date_rowspan++;
-                            before._CategoryName_rowspan++;
-                            before._DivisionName_rowspan++;
-                            before._PaymentMethod_rowspan++;
-                            before._OtherExpense_rowspan++;
-                            // before._DPP_rowspan++;
-                            // before._VAT_rowspan++;
-                            before._TotalDPP_rowspan++;
-                            before._TotalPPN_rowspan++;
-                            before._TotalPaid_rowspan++;
-                            before._BankName_rowspan++;
-                            before._Currency_rowspan++;
-
-                            // before.DPP += result.data[i].DPP;
-                            // before.VAT += result.data[i].VAT;
-                            // before.TotalDPP += result.data[i].DPP;
-                            // before.TotalPPN += result.data[i].VAT;
-                            before.TotalDPP += result.data[i].TotalDPP;
-                            before.TotalPPN += result.data[i].TotalPPN;
-                            before.TotalPaid += result.data[i].TotalPaid;
-
-                            result.data[i].DocumentNo = undefined;
-                            result.data[i].Date = undefined;
-                            result.data[i].CategoryName = undefined;
-                            result.data[i].DivisionName = undefined;
-                            result.data[i].PaymentMethod = undefined;
-                            result.data[i].OtherExpense = undefined;
-                            // result.data[i].DPP = undefined;
-                            // result.data[i].VAT = undefined;
-                            result.data[i].TotalDPP = undefined;
-                            result.data[i].TotalPPN = undefined;
-                            result.data[i].TotalPaid = undefined;
-                            result.data[i].Currency = undefined;
-                            result.data[i].BankName = undefined;
-
-                            result.data[i]._DocumentNo_class = 'dpp-ppn-bank-hidden-cell';
-                            result.data[i]._Date_class = 'dpp-ppn-bank-hidden-cell';
-                            result.data[i]._CategoryName_class = 'dpp-ppn-bank-hidden-cell';
-                            result.data[i]._DivisionName_class = 'dpp-ppn-bank-hidden-cell';
-                            result.data[i]._PaymentMethod_class = 'dpp-ppn-bank-hidden-cell';
-                            result.data[i]._OtherExpense_class = 'dpp-ppn-bank-hidden-cell';
-                            result.data[i]._TotalDPP_class = 'dpp-ppn-bank-hidden-cell';
-                            result.data[i]._TotalPPN_class = 'dpp-ppn-bank-hidden-cell';
-                            result.data[i]._TotalPaid_class = 'dpp-ppn-bank-hidden-cell';
-                            result.data[i]._Currency_class = 'dpp-ppn-bank-hidden-cell';
-                            result.data[i]._BankName_class = 'dpp-ppn-bank-hidden-cell';
-                        }
-                    }
-                    console.log("data", result.data);
-                    //#endregion
-
-                    setTimeout(() => {
-                        $('#dpp-ppn-bank-table td.dpp-ppn-bank-hidden-cell').hide();
-                    }, 10);
-
+                    this.currentData = data;
+                    setTimeout(() => this.mergeCells(), 100);
 
                     return {
-                        total: result.info.total,
-                        data: result.data
-
-                        // total: dummy.length,
-                        // data: dummy
+                        total: result.info ? result.info.total : data.length,
+                        data: data
                     };
                 })
         ) : { total: 0, data: [] };
+    }
+
+    mergeCells(data) {
+        if (!this.tableList || !this.tableList.table) return;
+        let rows = data || this.currentData || [];
+        if (!rows || rows.length === 0) return;
+
+        // 1. Group by DocumentNo
+        let docGroups = [];
+        let currentDocNo = null;
+        let currentDocGroup = null;
+
+        for (let i = 0; i < rows.length; i++) {
+            let item = rows[i];
+            if (!item.DocumentNo) continue;
+            if (item.DocumentNo !== currentDocNo) {
+                currentDocNo = item.DocumentNo;
+                currentDocGroup = {
+                    index: i,
+                    rowspan: 1,
+                    docNo: item.DocumentNo,
+                    items: [item]
+                };
+                docGroups.push(currentDocGroup);
+            } else {
+                currentDocGroup.rowspan++;
+                currentDocGroup.items.push(item);
+            }
+        }
+
+        let docMergeColumns = [
+            "DocumentNo",
+            "Date",
+            "OtherExpense",
+            "TotalDPP",
+            "TotalPPN",
+            "TotalPaid",
+            "DifferenceNominal",
+            "Currency",
+            "BankName",
+            "SupplierName"
+        ];
+
+        for (let group of docGroups) {
+            if (group.rowspan > 1) {
+                // Merge document-level columns
+                for (let field of docMergeColumns) {
+                    $(this.tableList.table).bootstrapTable("mergeCells", {
+                        index: group.index,
+                        field: field,
+                        rowspan: group.rowspan,
+                        colspan: 1
+                    });
+                }
+
+                // Columns merged if values are identical across the document
+                let checkFields = ["CategoryName", "DivisionName", "PaymentMethod"];
+                for (let field of checkFields) {
+                    let firstVal = group.items[0][field];
+                    let allSame = group.items.every(it => it[field] === firstVal);
+                    if (allSame) {
+                        $(this.tableList.table).bootstrapTable("mergeCells", {
+                            index: group.index,
+                            field: field,
+                            rowspan: group.rowspan,
+                            colspan: 1
+                        });
+                    } else {
+                        // Merge contiguous rows with the same value
+                        let subStart = 0;
+                        while (subStart < group.items.length) {
+                            let subLen = 1;
+                            let val = group.items[subStart][field];
+                            while (subStart + subLen < group.items.length && group.items[subStart + subLen][field] === val) {
+                                subLen++;
+                            }
+                            if (subLen > 1) {
+                                $(this.tableList.table).bootstrapTable("mergeCells", {
+                                    index: group.index + subStart,
+                                    field: field,
+                                    rowspan: subLen,
+                                    colspan: 1
+                                });
+                            }
+                            subStart += subLen;
+                        }
+                    }
+                }
+            }
+        }
+
+        // 2. Group by UnitPaymentOrderNo within Document (if SPB spans multiple rows)
+        let spbGroups = [];
+        let currentSPBKey = null;
+        let currentSPBGroup = null;
+
+        for (let i = 0; i < rows.length; i++) {
+            let item = rows[i];
+            let spbKey = `${item.DocumentNo || ""}__${item.UnitPaymentOrderNo || ""}`;
+            if (spbKey !== currentSPBKey) {
+                currentSPBKey = spbKey;
+                currentSPBGroup = {
+                    index: i,
+                    rowspan: 1,
+                    key: spbKey
+                };
+                spbGroups.push(currentSPBGroup);
+            } else {
+                currentSPBGroup.rowspan++;
+            }
+        }
+
+        for (let group of spbGroups) {
+            if (group.rowspan > 1) {
+                $(this.tableList.table).bootstrapTable("mergeCells", {
+                    index: group.index,
+                    field: "UnitPaymentOrderNo",
+                    rowspan: group.rowspan,
+                    colspan: 1
+                });
+            }
+        }
     }
 
     search() {
@@ -425,8 +353,6 @@ export class List {
             this.flag = true;
             this.tableList.refresh();
         } else {
-            // console.log(this.info.dateFrom);
-            // console.log(this.info.dateTo);
             if (!this.info.dateFrom)
                 this.error.dateFrom = "Tanggal Awal harus diisi";
             if (!this.info.dateTo)
@@ -449,25 +375,30 @@ export class List {
                     this.getExcelData();
                 } else {
                     let wsData = [];
+                    let prevDocNo = null;
 
                     for (let data of this.excelData) {
+                        let isSameDoc = (data.DocumentNo === prevDocNo);
                         wsData.push({
-                            'No Bukti Pengeluaran Bank': data.DocumentNo,
-                            'Tanggal Bayar DPP + PPN': data.Date ? moment(data.Date).format('DD MMM YYYY') : '-',
-                            'Category': data.CategoryName,
-                            'Divisi': data.DivisionName,
-                            'Cara Pembayaran': data.PaymentMethod,
-                            'Biaya Lain-lain': data.OtherExpense || data.OtherExpense === 0 ? numeral(data.OtherExpense).format('0,000.00') : '-',
-                            'DPP': data.DPP ? numeral(data.DPP).format('0,000.00') : '-',
-                            'PPN': data.VAT ? numeral(data.VAT).format('0,000.00') : '-',
-                            'TotalPaid': data.TotalPaid ? numeral(data.TotalPaid).format('0,000.00') : '-',
-                            'Sisa yang Belum Dibayar': data.DifferenceNominal ? numeral(data.DifferenceNominal).format('0,000.00') : '-',
-                            'Mata Uang': data.Currency,
-                            'Bank Bayar PPH': data.BankName,
-                            'Supplier': data.SupplierName,
+                            'No Bukti Pengeluaran Bank': !isSameDoc ? data.DocumentNo : '',
+                            'Tanggal Bayar DPP + PPN': !isSameDoc ? (data.Date ? moment(data.Date).format('DD MMM YYYY') : '-') : '',
+                            'Category': data.CategoryName || '-',
+                            'Divisi': data.DivisionName || '-',
+                            'Cara Pembayaran': data.PaymentMethod || '-',
+                            'Biaya Lain-lain': !isSameDoc ? (data.OtherExpense || data.OtherExpense === 0 ? numeral(data.OtherExpense).format('0,000.00') : '-') : '',
+                            'Total DPP': !isSameDoc ? (data.TotalDPP || data.TotalDPP === 0 ? numeral(data.TotalDPP).format('0,000.00') : '-') : '',
+                            'Total PPN': !isSameDoc ? (data.TotalPPN || data.TotalPPN === 0 ? numeral(data.TotalPPN).format('0,000.00') : '-') : '',
+                            'Total Bayar Ke Supplier': !isSameDoc ? (data.TotalPaid || data.TotalPaid === 0 ? numeral(data.TotalPaid).format('0,000.00') : '-') : '',
+                            'Sisa yang Belum Dibayar': !isSameDoc ? (data.DifferenceNominal || data.DifferenceNominal === 0 ? numeral(data.DifferenceNominal).format('0,000.00') : '-') : '',
+                            'Mata Uang': !isSameDoc ? data.Currency : '',
+                            'Bank Bayar PPH': !isSameDoc ? data.BankName : '',
+                            'Supplier': !isSameDoc ? data.SupplierName : '',
                             'No SPB': data.UnitPaymentOrderNo,
-                            'No Invoice': data.InvoiceNumber,
+                            'DPP': data.DPP || data.DPP === 0 ? numeral(data.DPP).format('0,000.00') : '-',
+                            'PPN': data.VAT || data.VAT === 0 ? numeral(data.VAT).format('0,000.00') : '-',
+                            'No Invoice': data.InvoiceNumber || '-'
                         });
+                        prevDocNo = data.DocumentNo;
                     }
 
                     let wb = XLSX.utils.book_new();
@@ -489,14 +420,16 @@ export class List {
                                 'Divisi',
                                 'Cara Pembayaran',
                                 'Biaya Lain-lain',
-                                'DPP',
-                                'PPN',
-                                'TotalPaid',
+                                'Total DPP',
+                                'Total PPN',
+                                'Total Bayar Ke Supplier',
                                 'Sisa yang Belum Dibayar',
                                 'Mata Uang',
                                 'Bank Bayar PPH',
                                 'Supplier',
                                 'No SPB',
+                                'DPP',
+                                'PPN',
                                 'No Invoice'
                             ]
                         ], { origin: "A6" });
@@ -542,6 +475,7 @@ export class List {
         this.info.paymentMethod = "";
         this.error.dateFrom = undefined;
         this.error.dateTo = undefined;
+        this.currentData = [];
         this.tableList.refresh();
     }
 
