@@ -32,10 +32,21 @@
             <button class="btn btn-danger pull-right" click.delegate="onremove(context.data)">-</button>
         </td>
     </tr>
-    <tr show.bind="isShowing">
+    <tr show.bind="isShowing && !options.useVat">
         <td colspan="5">
-            <au-collection items.bind="data.details" errors.bind="error.details" columns.bind="itemsColumns" remove.bind="removeItems" options.bind="context.context.options"
-                read-only.bind="options.readOnly" item-template="modules/garment-purchasing/invoice-note/template/invoice-note-fulfillment">
+            <au-collection items.bind="data.details" errors.bind="error.details" 
+                columns.bind="itemsColumns" remove.bind="removeItems" options.bind="context.context.options"
+                read-only.bind="options.readOnly" 
+                item-template="modules/garment-purchasing/invoice-note/template/invoice-note-fulfillment">
+            </au-collection>
+        </td>
+    </tr>
+    <tr show.bind="options.useVat">
+        <td colspan="5">
+            <au-collection items.bind="data.details" errors.bind="error.details" 
+                columns.bind="itemVatColumns" remove.bind="removeItems" options.bind="context.context.options"
+                read-only.bind="options.readOnly" 
+                item-template="modules/garment-purchasing/invoice-note/template/invoice-note-fulfillment">
             </au-collection>
         </td>
     </tr>
