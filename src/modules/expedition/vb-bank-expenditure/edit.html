@@ -60,7 +60,18 @@
                     value.bind="data.OtherExpense"
                     error.bind="error.OtherExpense"
                     read-only.bind="readOnly"
-                    options.bind="controlOptions">
+                    options.bind="controlOptions"
+                    focus.delegate="onOtherExpenseFocus($event)"
+                    input.delegate="onOtherExpenseInput($event)"
+                    keyup.delegate="onOtherExpenseInput($event)"
+                    blur.delegate="onOtherExpenseBlur($event)">
+        </au-numeric>
+
+        <au-numeric label="Total Bayar"
+                    value.one-way="grandTotal"
+                    read-only.bind="true"
+                    options.bind="controlOptions"
+                    format="0,000.0000">
         </au-numeric>
     </div>
     
@@ -77,6 +88,10 @@
     </au-collection>
     <br />
 
-    TOTAL BAYAR ${grandTotal | numberFormat: '0,000.0000'} ${currency.Code}
+    <div class="row">
+        <div class="col-sm-5 col-sm-offset-7 text-right" style="font-weight: bold; font-size: 16px; margin-top: 15px; margin-bottom: 15px;">
+            TOTAL BAYAR ${grandTotal | numberFormat: '0,000.0000'} ${currencyCode}
+        </div>
+    </div>
   </au-input-form>
 </template>

@@ -40,7 +40,10 @@ export class List {
       field: "Amount",
       title: "Nominal Realisasi",
       formatter: function (value, data, index) {
-        return numeral(value).format("0,000.00");
+        let total = (data.TotalAmount !== undefined && data.TotalAmount !== null)
+          ? data.TotalAmount
+          : (data.Amount || 0) + (data.OtherExpense || 0);
+        return numeral(total).format("0,000.00");
       },
       align: "right",
     },
@@ -75,16 +78,25 @@ export class List {
     };
 
     return this.service.search(arg).then((result) => {
-      
       for (var _data of result.data) {
-        
         var vbReq = _data.Items.map(function (item) {
           return `<li>${item.VBRealizationNo}</li>`;
         });
         vbReq = vbReq.filter(function (elem, index, self) {
           return index == self.indexOf(elem);
         });
-        _data.VBRealizationDocumentNo = `<ul>${vbReq.join()}</ul>`;
+        _data.VBRealizationDocumentNo = `<ul>${vbReq.join("")}</ul>`;
+
+        let itemSum = 0;
+        if (_data.Items && _data.Items.length > 0) {
+          for (let item of _data.Items) {
+            itemSum += (item.VBRealizationAmount || 0);
+          }
+        }
+        let baseAmount = _data.Amount || itemSum;
+        _data.TotalAmount = (_data.TotalAmount !== undefined && _data.TotalAmount !== null)
+          ? _data.TotalAmount
+          : baseAmount + (_data.OtherExpense || 0);
       }
       return Promise.all(result.data).then((data) => {
         return {
