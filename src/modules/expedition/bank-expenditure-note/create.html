@@ -85,7 +85,20 @@
                     value.bind="data.OtherExpense"
                     error.bind="error.OtherExpense"
                     read-only.bind="readOnly"
-                    options.bind="controlOptions">
+                    options.bind="controlOptions"
+                    focus.delegate="onOtherExpenseFocus($event)"
+                    input.delegate="onOtherExpenseInput($event)"
+                    keyup.delegate="onOtherExpenseInput($event)"
+                    blur.delegate="onOtherExpenseBlur($event)"
+                    show.bind="isExistBankAndSupplier">
+        </au-numeric>
+
+        <au-numeric label="Total Bayar DPP + PPN"
+                    value.bind="grandTotal"
+                    read-only.bind="true"
+                    options.bind="controlOptions"
+                    format="0,000.0000"
+                    show.bind="isExistBankAndSupplier">
         </au-numeric>
 
         <au-textbox error.bind="error.Details"
@@ -93,19 +106,20 @@
                     read-only.bind="true">
         </au-textbox>
 
-        <div class="row">
-            <div class="col-sm-8"></div>
-            <div class="col-sm-4">
+        <div class="row" show.bind="isExistBankAndSupplier">
+            <div class="col-sm-5 col-sm-offset-4">
                 <au-dropdown value.bind="selectedSortOption"
                              label="Urutkan Berdasar :"
-                             show.bind="isExistBankAndSupplier"
                              options.bind="sortingControlOptions"
-                             items.bind="sortingOptions">
+                             items.bind="sortingOptions"
+                             change.delegate="sortItems()">
                 </au-dropdown>
+            </div>
+            <div class="col-sm-3">
                 <au-dropdown value.bind="selectedSortTypeOption"
-                             show.bind="isExistBankAndSupplier"
-                             options.bind="sortingControlOptions"
-                             items.bind="sortingTypeOptions">
+                             options.bind="sortingTypeControlOptions"
+                             items.bind="sortingTypeOptions"
+                             change.delegate="sortItems()">
                 </au-dropdown>
             </div>
         </div>
@@ -116,8 +130,10 @@
                        items.bind="UPOResults"
                        columns.bind="collection.columns"
                        checkall.delegate="onCheckAll($event)"
+                       change.delegate="onTableChange($event)"
+                       item-checkbox-changed.delegate="onTableChange($event)"
                        item-template="modules/expedition/bank-expenditure-note/templates/item"
-                       options.bind="itemOptions">
+                       options.bind="collectionOptions">
         </au-collection>
 
         <au-collection show.bind="isExistBankAndSupplier && selectedCurrency && data.CurrencyRate"
@@ -126,10 +142,16 @@
                        items.bind="UPOResults"
                        columns.bind="collection.columns"
                        checkall.delegate="onCheckAll($event)"
+                       change.delegate="onTableChange($event)"
+                       item-checkbox-changed.delegate="onTableChange($event)"
                        item-template="modules/expedition/bank-expenditure-note/templates/item"
                        options.bind="collectionOptions">
         </au-collection>
 
-        TOTAL BAYAR DPP + PPN ${grandTotal | numberFormat: '0,000.0000'} ${currency}
+        <div class="row">
+            <div class="col-sm-5 col-sm-offset-7 text-right" style="font-weight: bold; font-size: 16px; margin-top: 15px; margin-bottom: 15px;">
+                TOTAL BAYAR DPP + PPN ${grandTotal | numberFormat: '0,000.0000'} ${currency}
+            </div>
+        </div>
     </au-input-form>
 </template>
