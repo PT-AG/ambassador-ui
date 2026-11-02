@@ -68,12 +68,18 @@
                     options.bind="controlOptions">
         </au-textbox>
 
-        <au-numeric label="Biaya Lain-lain"
-                    value.bind="data.OtherExpense"
-                    error.bind="error.OtherExpense"
-                    read-only.bind="readOnly"
-                    options.bind="controlOptions">
-        </au-numeric>
+        <au-layout options.bind="controlOptions"
+                   label="Biaya Lain-lain"
+                   error.bind="error.OtherExpense">
+            <input type="text"
+                   class="form-control text-right"
+                   value.bind="displayOtherExpense"
+                   focus.trigger="OtherExpenseFocus($event)"
+                   mouseup.trigger="OtherExpenseMouseUp($event)"
+                   keydown.delegate="OtherExpenseKeydown($event)"
+                   input.delegate="OtherExpenseInput($event)"
+                   blur.trigger="OtherExpenseBlur($event)">
+        </au-layout>
 
         <au-textbox
             error.bind="error.Items"
@@ -90,6 +96,6 @@
             options.bind="collectionOptions">
         </au-collection>
         
-        TOTAL BAYAR ${grandTotal | numberFormat: '0,000.0000'} ${data.AccountBank.Currency.Code}
+        TOTAL BAYAR ${grandTotal | numberFormat: '0,000.00'} ${data.AccountBank.Currency.Code}
     </au-input-form>
 </template>
