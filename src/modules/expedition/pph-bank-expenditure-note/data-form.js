@@ -168,83 +168,93 @@ export class DataForm {
         return DivisionLoader;
     }
 
-    sortingOptions = ["", "Tanggal SPB"];
+    sortingControlOptions = {
+        label: {
+            length: 5,
+            align: "right"
+        },
+        control: {
+            length: 7,
+        }
+    };
+
+    sortingTypeControlOptions = {
+        control: {
+            length: 8,
+        }
+    };
+
+    sortingOptions = ["", "No. SPB", "Tanggal SPB", "Tanggal Jatuh Tempo", "Nomor Invoice"];
     sortingTypeOptions = ["A - Z", "Z - A"];
 
-    @bindable selectedSortOption;
-    selectedSortOptionChanged(newValue, oldValue) {
-        if (newValue)
-            this.sortItems();
+    _selectedSortOption = "";
+    get selectedSortOption() {
+        return this._selectedSortOption;
+    }
+    set selectedSortOption(val) {
+        this._selectedSortOption = val;
+        this.sortItems();
     }
 
-    @bindable selectedSortTypeOption
-    selectedSortTypeOptionChanged(newValue, oldValue) {
-        if (newValue)
-            this.sortItems();
+    _selectedSortTypeOption = "A - Z";
+    get selectedSortTypeOption() {
+        return this._selectedSortTypeOption;
+    }
+    set selectedSortTypeOption(val) {
+        this._selectedSortTypeOption = val;
+        this.sortItems();
     }
 
     sortItems() {
-        console.log(this);
-        if (this.data.UnitPaymentOrders && this.data.UnitPaymentOrders.length > 0) {
-            if (this.selectedSortTypeOption == "A - Z") {
-                switch (this.selectedSortOption) {
-                    case "Tanggal SPB":
-                        this.data.UnitPaymentOrders = this.data.UnitPaymentOrders.sort((item1, item2) => {
-                            if (item1.UPODate < item2.UPODate) {
-                                return -1;
-                            }
-                            if (item1.UPODate > item2.UPODate) {
-                                return 1;
-                            }
-                            return 0;
-                        });
-                        break;
-                    default:
-                        this.data.UnitPaymentOrders = this.data.UnitPaymentOrders.sort((item1, item2) => {
-                            if (item1.No < item2.No) {
-                                return -1;
-                            }
-                            if (item1.No > item2.No) {
-                                return 1;
-                            }
-                            return 0;
-                        });
-                        break;
-                }
-            } else if (this.selectedSortTypeOption == "Z - A") {
-                switch (this.selectedSortOption) {
-                    case "Tanggal SPB":
-                        this.data.UnitPaymentOrders = this.data.UnitPaymentOrders.sort((item1, item2) => {
-                            if (item1.UPODate > item2.UPODate) {
-                                return -1;
-                            }
-                            if (item1.UPODate < item2.UPODate) {
-                                return 1;
-                            }
-                            return 0;
-                        });
-                        break;
-                    default:
-                        this.data.UnitPaymentOrders = this.data.UnitPaymentOrders.sort((item1, item2) => {
-                            if (item1.No > item2.No) {
-                                return -1;
-                            }
-                            if (item1.No < item2.No) {
-                                return 1;
-                            }
-                            return 0;
-                        });
-                        break;
-                }
-            }
-        }
+        if (!this.data || !this.data.UnitPaymentOrders || this.data.UnitPaymentOrders.length === 0) return;
 
-        // this.Item
-        if (this.ItemsCollection) {
-            this.ItemsCollection.bind();
-        } else if (this.context.ItemsCollection) {
-            this.context.ItemsCollection.bind();
+        let sortOption = this.selectedSortOption;
+        let isAsc = (this.selectedSortTypeOption || "A - Z") !== "Z - A";
+
+        let sorted = [...this.data.UnitPaymentOrders].sort((item1, item2) => {
+            let val1, val2;
+            switch (sortOption) {
+                case "Tanggal SPB":
+                    val1 = item1.UPODate ? new Date(item1.UPODate).getTime() : 0;
+                    val2 = item2.UPODate ? new Date(item2.UPODate).getTime() : 0;
+                    break;
+                case "Tanggal Jatuh Tempo":
+                    val1 = item1.DueDate ? new Date(item1.DueDate).getTime() : 0;
+                    val2 = item2.DueDate ? new Date(item2.DueDate).getTime() : 0;
+                    break;
+                case "Nomor Invoice":
+                    val1 = (item1.InvoiceNo || "").toString().toLowerCase();
+                    val2 = (item2.InvoiceNo || "").toString().toLowerCase();
+                    break;
+                case "No. SPB":
+                default:
+                    val1 = (item1.No || item1.UnitPaymentOrderNo || "").toString().toLowerCase();
+                    val2 = (item2.No || item2.UnitPaymentOrderNo || "").toString().toLowerCase();
+                    break;
+            }
+
+            if (val1 < val2) return isAsc ? -1 : 1;
+            if (val1 > val2) return isAsc ? 1 : -1;
+
+            let no1 = (item1.No || item1.UnitPaymentOrderNo || "").toString().toLowerCase();
+            let no2 = (item2.No || item2.UnitPaymentOrderNo || "").toString().toLowerCase();
+            if (no1 < no2) return isAsc ? -1 : 1;
+            if (no1 > no2) return isAsc ? 1 : -1;
+            return 0;
+        });
+
+        const collection = this.ItemsCollection || (this.context && this.context.ItemsCollection);
+        this.data.UnitPaymentOrders = [];
+        if (collection) {
+            collection.items = [];
+            collection.buildContext();
         }
-        // console.log(this);
+        setTimeout(() => {
+            this.data.UnitPaymentOrders = sorted;
+            if (collection) {
+                collection.items = sorted;
+                collection.buildContext();
+            }
+        }, 10);
     }
 }
