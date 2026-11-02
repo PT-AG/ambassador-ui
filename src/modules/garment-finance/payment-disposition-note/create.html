@@ -96,6 +96,9 @@
         <au-numeric label="Biaya Lain-lain"
                     value.bind="data.OtherExpense"
                     error.bind="error.OtherExpense"
+                    input.delegate="onOtherExpenseInput($event)"
+                    blur.trigger="onOtherExpenseBlur($event)"
+                    change.delegate="onOtherExpenseBlur($event)"
                     read-only.bind="readOnly"
                     options.bind="controlOptions">
         </au-numeric>
@@ -111,8 +114,11 @@
                        items.bind="Items"
                        columns.bind="collection.columns"
                        checkall.delegate="onCheckAll($event)"
+                       input.delegate="onTableInput($event)"
+                       change.delegate="onTableChange($event)"
                        error.bind="error.Items"
-                       item-template="modules/garment-finance/payment-disposition-note/templates/item">
+                       item-template="modules/garment-finance/payment-disposition-note/templates/item"
+                       options.bind="collectionOptions">
         </au-collection>
 
         <au-collection show.bind="selectedBank && selectedSupplier && selectedCurrency && data.CurrencyRate"
@@ -120,6 +126,8 @@
                        items.bind="Items"
                        columns.bind="collection.columns"
                        checkall.delegate="onCheckAll($event)"
+                       input.delegate="onTableInput($event)"
+                       change.delegate="onTableChange($event)"
                        error.bind="error.Items"
                        item-template="modules/garment-finance/payment-disposition-note/templates/item"
                        options.bind="collectionOptions">
