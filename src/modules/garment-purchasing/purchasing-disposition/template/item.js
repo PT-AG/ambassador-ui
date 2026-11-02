@@ -147,6 +147,7 @@ export class PurchasingDispositionItem {
                 this.vatValueView = 0;
                 this.dppValue = 0;
                 this.data.EPOId = this.selectedEPO.Id || this.data.EPOId;
+                this.data.INNo = this.selectedEPO.Id ? this.selectedEPO.INNo : this.data.INNo;
                 this.data.EPONo = this.selectedEPO.Id ? this.selectedEPO.EPONo : this.data.EPONo;
                 this.data.IsUseVat = this.selectedEPO.Id ? this.selectedEPO.IsUseVat : this.data.IsUseVat;
                 this.data.IsPayVAT = this.selectedEPO.Id ? this.selectedEPO.IsPayVAT : this.data.IsPayVAT;

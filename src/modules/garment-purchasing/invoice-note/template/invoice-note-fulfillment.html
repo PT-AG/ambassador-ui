@@ -28,6 +28,15 @@
                 options.bind="controlOptions">
             </au-textbox>
         </td>
+		<td if.bind="options.useVat">
+			<au-textbox
+				value.bind="data.vatNo"
+				read-only.bind="readOnly"
+                options.bind="controlOptions"
+                error.bind="error.vatNo"
+				>
+			</au-textbox>
+		</td>
         <td>
 			<au-textbox
 				value.one-way="product"

@@ -17,6 +17,19 @@ export class DeliveryOrderItem {
     { header: "Satuan" },
     { header: "Harga Satuan" },
     { header: "Harga Total" }
+  ];
+
+  itemVatColumns = [
+    { header: "Nomor PO Eksternal" },
+    { header: "Nomor RO" },
+    { header: "Nomor PR" },
+    { header: "Nomor Ref PR" },
+    { header: "Nomor Faktur Pajak (Ppn)" },
+    { header: "Kode - Nama Barang" },
+    { header: "Jumlah" },
+    { header: "Satuan" },
+    { header: "Harga Satuan" },
+    { header: "Harga Total" }
   ]
 
   constructor(bindingEngine, service) {

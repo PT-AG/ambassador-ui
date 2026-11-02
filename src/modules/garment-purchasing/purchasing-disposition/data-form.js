@@ -36,6 +36,15 @@ export class DataForm {
 
     itemPaymentType = ["T/T AFTER", "FREE", "T/T BEFORE",'DP (DOWN PAYMENT) + BP (BALANCE PAYMENT)'];
     itemCategory = ["FABRIC", "ACCESSORIES"];
+    itemsColumnsNI = [{ header: "Nomor External PO" },{ header: "Nomor NI" },
+    { header: "Kena PPN" },
+    { header: "Nominal PPN" },
+    { header: "Kena PPH" },
+    { header: "PPH" },
+    { header: "Nominal PPH" },
+    { header: "Disposisi yang sudah dibuat" },
+    // { header: "Disposisi yang sudah dibayar"},
+    { header: "" }];
     itemsColumns = [{ header: "Nomor External PO" },
     { header: "Kena PPN" },
     { header: "Nominal PPN" },
@@ -820,4 +829,10 @@ export class DataForm {
         }
     }
 
+    paymentTypeChanged(e) {
+        if (this.data.Items) {
+            this.data.Items.splice(0);
+            this.data.Amount = 0;
+        }
+    }
 }

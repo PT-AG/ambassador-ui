@@ -15,6 +15,11 @@ export class View {
         const decoded = Base64Helper.decode(params.id);
         var id = decoded;
         this.data = await this.service.getById(id);
+        
+        if (this.data.IsUsed) {
+            this.editCallback = null;
+            this.deleteCallback = null;
+        }
     }
 
     cancelCallback(event) {

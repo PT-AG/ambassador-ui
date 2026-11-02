@@ -44,8 +44,6 @@ export class View {
   }
 
   async activate(params) {
-    console.log(params);
-
     const decoded = Base64Helper.decode(params.id);
     const id = decoded;
 
@@ -93,21 +91,18 @@ export class View {
 
   @bindable selectedExpedition;
   async selectedExpeditionChanged(newValue, oldValue) {
-    console.log(this);
-
     if (newValue) {
       var dispositionNote = await this.purchasingService.getDispositionNoteById(
         newValue.DispositionNoteId,
       );
-      console.log(dispositionNote);
       this.items = dispositionNote.items;
     } else {
       this.items = [];
     }
   }
 
-  editCallback(event) {
-    const encoded = Base64Helper.encode(this.selectedExpedition.Id);
-    this.router.navigateToRoute("edit", { id: encoded });
-  }
+  // editCallback(event) {
+  //   const encoded = Base64Helper.encode(this.selectedExpedition.Id);
+  //   this.router.navigateToRoute("edit", { id: encoded });
+  // }
 }

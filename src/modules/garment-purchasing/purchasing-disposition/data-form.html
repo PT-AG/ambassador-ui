@@ -192,6 +192,7 @@
             value.bind="data.PaymentType" 
             error.bind="error.PaymentType"
             read-only.bind="readOnly" 
+            change.delegate="paymentTypeChanged($event)"
             items.bind="itemPaymentType" 
             options.bind="controlOptions">
         </au-dropdown>
@@ -385,8 +386,22 @@
             options.one-way="filter"
             read-only.bind="readOnly"
             change.delegate="itemsChanged($event)"
-            if.bind="selectedSupplier && selectedCurrency && data.Category && data.PaymentType"
+            if.bind="selectedSupplier && selectedCurrency && data.Category && data.PaymentType && data.PaymentType!='T/T AFTER'"
             item-template="modules/garment-purchasing/purchasing-disposition/template/item"
+            >
+        </au-collection>
+
+         <au-collection 
+            items.bind="data.Items" 
+            errors.bind="error.Items" 
+            columns.bind="itemsColumnsNI" 
+            add.bind="addItems" 
+            remove.bind="removeItems"
+            options.one-way="filter"
+            read-only.bind="readOnly"
+            change.delegate="itemsChanged($event)"
+            if.bind="selectedSupplier && selectedCurrency && data.Category && data.PaymentType && data.PaymentType=='T/T AFTER'"
+            item-template="modules/garment-purchasing/purchasing-disposition/template/item-NI"
             >
         </au-collection>
   </au-input-form>
