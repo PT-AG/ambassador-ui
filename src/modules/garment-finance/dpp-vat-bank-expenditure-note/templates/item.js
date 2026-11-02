@@ -1,7 +1,9 @@
 export class Item {
 
     activate(context) {
+        this.context = context;
         this.data = context.data;
+        this.options = context.options;
         this.readOnly = context.options.readOnly;
         this.isShowing = false;
 
@@ -14,55 +16,84 @@ export class Item {
                 columns: ['No. Invoice', 'Tanggal Invoice', 'Nama Barang', 'Kategori', 'Total']
             };
         }
+
+        if (!this.readOnly && this.data) {
+            this.updateOutstanding();
+        }
     }
 
     onCheckInternalNotes(e) {
-        for (var item of this.data.InternalNote.Items) {
-            item.SelectInvoice = e.target.checked;
+        this.data.Select = e.target.checked;
+        if (this.data.InternalNote && this.data.InternalNote.Items) {
+            for (var item of this.data.InternalNote.Items) {
+                item.SelectInvoice = e.target.checked;
+            }
+        }
+        this.updateOutstanding();
+        if (this.options && typeof this.options.calculateTotal === 'function') {
+            this.options.calculateTotal();
+        }
+    }
+
+    updateOutstanding() {
+        if (this.readOnly || !this.data) return;
+
+        var total = (this.data.InternalNote && this.data.InternalNote.TotalAmount) ? this.data.InternalNote.TotalAmount : 0;
+        var invoices = (this.data.InternalNote && this.data.InternalNote.Items) || [];
+        var hasInvoices = invoices.length > 0;
+
+        if (this.data.Select) {
+            if (hasInvoices) {
+                var allChecked = invoices.every(i => i.SelectInvoice);
+                var anyChecked = invoices.some(i => i.SelectInvoice);
+
+                if (allChecked || !anyChecked) {
+                    this.data.OutstandingAmount = 0;
+                } else {
+                    var dppTotal = this.data.InternalNote.DPP || invoices.reduce((acc, i) => acc + ((i.Invoice && i.Invoice.Amount) ? i.Invoice.Amount : 0), 0);
+                    var selectedDpp = invoices.filter(i => i.SelectInvoice).reduce((acc, i) => acc + ((i.Invoice && i.Invoice.Amount) ? i.Invoice.Amount : 0), 0);
+                    var paid = dppTotal > 0 ? Math.round((selectedDpp / dppTotal) * total * 100) / 100 : selectedDpp;
+                    this.data.OutstandingAmount = Math.max(0, Math.round((total - paid) * 100) / 100);
+                }
+            } else {
+                this.data.OutstandingAmount = 0;
+            }
+        } else {
+            if (hasInvoices && invoices.some(i => i.SelectInvoice)) {
+                var dppTotal = this.data.InternalNote.DPP || invoices.reduce((acc, i) => acc + ((i.Invoice && i.Invoice.Amount) ? i.Invoice.Amount : 0), 0);
+                var selectedDpp = invoices.filter(i => i.SelectInvoice).reduce((acc, i) => acc + ((i.Invoice && i.Invoice.Amount) ? i.Invoice.Amount : 0), 0);
+                var paid = dppTotal > 0 ? Math.round((selectedDpp / dppTotal) * total * 100) / 100 : selectedDpp;
+                this.data.OutstandingAmount = Math.max(0, Math.round((total - paid) * 100) / 100);
+            } else {
+                this.data.OutstandingAmount = total;
+            }
         }
     }
 
     get checkedInvoices() {
-        if (this.data.InternalNote.Items) {
+        if (this.data && this.data.InternalNote && this.data.InternalNote.Items) {
+            var anyChecked = false;
             for (var item of this.data.InternalNote.Items) {
-                if (item.SelectInvoice)
-                    this.data.Select = item.SelectInvoice
+                if (item.SelectInvoice) {
+                    anyChecked = true;
+                    break;
+                }
+            }
+            if (!this.readOnly) {
+                this.data.Select = anyChecked;
             }
         }
-
+        this.updateOutstanding();
         return 0;
     }
 
-    // activate(context) {
-    //     this.data = context.data
-    //     this.isShowing = false;
-    //     this.data.TotalPaidIDR = 0;
-    //     if (context.context.options) {
-    //         this.IDR = context.context.options.IDR;
-    //         this.rate = context.context.options.rate;
-    //         this.sameCurrency = context.context.options.SameCurrency;
-    //         if (this.IDR) {
-    //             this.data.TotalPaidIDR = this.data.TotalPaid * this.rate;
-    //             this.data.CurrencyIDR = "IDR";
-    //         }
-    //     }
-
-    //     console.log(context);
-    // }
-
     get outstanding() {
-        var result = 0;
-
-        if (this.data.InternalNote.Items && this.data.InternalNote.Items.length > 0) {
-            for (let item of this.data.InternalNote.Items) {
-                if (item.SelectInvoice)
-                    result += item.Invoice.Amount;
-            }
+        if (this.readOnly) {
+            return (this.data && this.data.OutstandingAmount) || 0;
         }
 
-        this.data.OutstandingAmount = this.data.InternalNote.TotalAmount - result;
-
-        return result;
+        this.updateOutstanding();
+        return (this.data && this.data.OutstandingAmount) || 0;
     }
 
     toggle() {

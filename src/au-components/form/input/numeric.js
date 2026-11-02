@@ -50,8 +50,8 @@ export class Numeric {
   keydownCallback(e) {
     var keyCode = e.keyCode;
 
-    // Allow: backspace, delete, tab, escape, enter and .
-    if ([46, 8, 9, 27, 13, 110, 190].indexOf(keyCode) !== -1 ||
+    // Allow: backspace, delete, tab, escape, enter, . and ,
+    if ([46, 8, 9, 27, 13, 110, 190, 188].indexOf(keyCode) !== -1 ||
       // Allow: Ctrl/cmd+A
       (keyCode == 65 && (e.ctrlKey === true || e.metaKey === true)) ||
       // Allow: Ctrl/cmd+C
@@ -64,7 +64,7 @@ export class Numeric {
       (keyCode == 109 && (e.ctrlKey === true || e.metaKey === true)) ||
       // Allow: home, end, left, right
       (keyCode >= 35 && keyCode <= 39)) {
-      if (keyCode == 190 && this.value.split('.').length === 2) {
+      if ((keyCode == 190 || keyCode == 110) && String(this.value).indexOf('.') !== -1 && this.selectionStart === this.selectionEnd) {
         e.preventDefault();
       }
       // let it happen, don't do anything 

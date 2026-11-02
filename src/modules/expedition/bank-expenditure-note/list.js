@@ -46,7 +46,10 @@ export class List {
             field: 'GrandTotal',
             title: 'Total DPP+PPN',
             formatter: function(value, data, index) {
-                return numeral(value).format('0,000.00');
+                let total = (data && data.TotalDPPAndPPN !== undefined && data.TotalDPPAndPPN !== null)
+                    ? data.TotalDPPAndPPN
+                    : ((data && data.GrandTotal) || 0) + ((data && data.OtherExpense) || 0);
+                return numeral(total).format('0,000.00');
             },
             align: 'right'
         },
@@ -101,6 +104,9 @@ export class List {
                         datum.suppliers = listSupplier.join('\n');
                         datum.unitPaymentOrders = listUnitPaymentOrderNo.join('\n');
                         datum.uRNNo = listURNNo.join('\n');
+                        datum.TotalDPPAndPPN = (datum.TotalDPPAndPPN !== undefined && datum.TotalDPPAndPPN !== null)
+                            ? datum.TotalDPPAndPPN
+                            : ((datum.GrandTotal || 0) + (datum.OtherExpense || 0));
                         return datum;
                     })
                 }

@@ -4,48 +4,56 @@
 	<h1 class="page-header">LAPORAN BUKTI PEMBAYARAN DISPOSISI GARMENT</h1>
   
 	<form class="form-horizontal">
-		<form class="form-horizontal">
-			<au-autocomplete placeholder="pilih nomor bukti pengeluaran"
-			value.bind="selectedInvo"
-			loader.bind="invoiceLoader"
-			options.bind="controlOptions"
-			label="No Bukti Pengeluaran Bank"
-			text.bind="invoiceView" 
-			>
-	</au-autocomplete>
-			<au-autocomplete placeholder="pilih nomor disposisi"
-			value.bind="selectedDispo"
-			loader.bind="dispositionLoader"
-			options.bind="controlOptions"
-			label="No. Diposisi"
-			text.bind="dispositionView" >
-	</au-autocomplete>
-			
-			<au-datepicker label="Tanggal Awal" value.bind="startDate" options.bind="controlOptions"></au-datepicker>
-			<au-datepicker label="Tanggal Akhir" value.bind="endDate" options.bind="controlOptions"></au-datepicker>
-	
-  
-	  <div class="form-group">
-		<label for="contact"
-			   class="col-sm-5 control-label"></label>
-		<div class="col-sm-3">
-		  <button click.delegate="search()"
-				  class="btn btn-success">Cari</button>
-		  <button click.delegate="reset()"
-				  class="btn btn-success">Reset</button>
-		  <button class="btn btn-primary"
-				  click.delegate="excel()">Excel</button>
+		<au-autocomplete placeholder="pilih bank"
+						 value.bind="selectedBank"
+						 loader.bind="bankLoader"
+						 options.bind="controlOptions"
+						 label="Bank"
+						 text.bind="bankView">
+		</au-autocomplete>
+
+		<au-autocomplete placeholder="pilih nomor bukti pengeluaran"
+						 value.bind="selectedInvo"
+						 loader.bind="invoiceLoader"
+						 options.bind="controlOptions"
+						 label="No Bukti Pengeluaran Bank"
+						 text.bind="invoiceView">
+		</au-autocomplete>
+
+		<au-autocomplete placeholder="pilih nomor disposisi"
+						 value.bind="selectedDispo"
+						 loader.bind="dispositionLoader"
+						 options.bind="controlOptions"
+						 label="No. Disposisi"
+						 text.bind="dispositionView">
+		</au-autocomplete>
+		
+		<au-datepicker label="Tanggal Awal" value.bind="startDate" options.bind="controlOptions"></au-datepicker>
+		<au-datepicker label="Tanggal Akhir" value.bind="endDate" options.bind="controlOptions"></au-datepicker>
+
+		<div class="form-group">
+			<label for="contact" class="col-sm-5 control-label"></label>
+			<div class="col-sm-3">
+				<button click.delegate="search()" class="btn btn-success">Cari</button>
+				<button click.delegate="reset()" class="btn btn-success">Reset</button>
+				<button click.delegate="excel()" class="btn btn-primary">Excel</button>
+			</div>
 		</div>
-	  </div>
 	</form>
   
+	<style>
+		#credit-balance-table td[rowspan] {
+			vertical-align: middle !important;
+		}
+	</style>
+  
 	<div id="credit-balance-table">
-	  <au-table view-model.ref="tableList"
-				data.bind="loader"
-				columns.bind="columns"
-				sortable="true"
-				page-size="25"
-				options.bind="tableOptions">
-	  </au-table>
+		<au-table view-model.ref="tableList"
+				  data.bind="loader"
+				  columns.bind="columns"
+				  sortable="false"
+				  page-size="25"
+				  options.bind="tableOptions">
+		</au-table>
 	</div>
-  </template>
+</template>

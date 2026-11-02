@@ -10,13 +10,11 @@ export class Service extends RestService {
 
 	search(info) {
 		let endpoint = `${serviceUri}/monitoring`;
-		console.log(info);
 		return super.list(endpoint, info);
 	}
 
 	getXls(info) {
-		let endpoint = `${serviceUri}/download?invoiceNo=${info.invoiceNo}&dispositionNo=${info.dispositionNo}&startDate=${info.startDate}&endDate=${info.endDate}`;
-		console.log(info);
+		let endpoint = `${serviceUri}/download?invoiceNo=${info.invoiceNo || ""}&dispositionNo=${info.dispositionNo || ""}&startDate=${info.startDate || ""}&endDate=${info.endDate || ""}&bankId=${info.bankId || 0}`;
 		return super.getXls(endpoint);
 	}
 }

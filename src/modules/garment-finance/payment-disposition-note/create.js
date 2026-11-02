@@ -28,20 +28,26 @@ export class Create {
         saveText: 'Simpan',
     };
 
+    @bindable totalPaymentTrigger = 0;
+    typingOtherExpense = null;
+
     constructor(router, service, dialog) {
         this.router = router;
         this.service = service;
         this.dialog = dialog;
         this.data = {};
         this.collection = {
-            columns: ['__check', 'No. Disposisi', 'Tanggal Disposisi', 'Tanggal Jatuh Tempo', 'Nomor Proforma/Invoice', 'Supplier', 'Kategori', 'PPN', 'Total Pembayaran','Total Yang dibayar','Selisih Total Yang Dibayar','Total Yang sudah dibayar', 'Mata Uang', ''],
+            columns: ['__check', 'No. Disposisi', 'Tanggal Disposisi', 'Tanggal Jatuh Tempo', 'Nomor Proforma/Invoice', 'Supplier', 'Kategori', 'PPN', 'Total Pembayaran', 'Total Yang sudah dibayar', 'Total Yang dibayar', 'Selisih Total Yang Dibayar', 'Mata Uang'],
         };
         
 
         this.collectionOptions = {
             IDR: this.IDR,
             rate: this.data.CurrencyRate,
-            SameCurrency: this.sameCurrency
+            SameCurrency: this.sameCurrency,
+            onPaymentChange: () => {
+                this.totalPaymentTrigger++;
+            }
         };
 
         this.sameCurrencyValue = true;
@@ -58,14 +64,75 @@ export class Create {
     }
 
     onCheckAll(event) {
+        var isChecked = event.detail.target.checked;
         for (var item of this.Items) {
-            item.Select = event.detail.target.checked;
+            item.Select = isChecked;
+            var totalPaid = Number(item.TotalPaid) || 0;
+            var before = Number(item.TotalPaidPaymentBefore) || 0;
+            var remaining = Math.max(0, parseFloat((totalPaid - before).toFixed(4)));
+
+            if (isChecked) {
+                if ((Number(item.TotalPaidPayment) || 0) === 0) {
+                    item.TotalPaidPayment = remaining;
+                    var parts = remaining.toFixed(2).split('.');
+                    item.displayTotalPaidPayment = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '.' + parts[1];
+                    item.TotalPaidPaymentAccumulated = parseFloat((before + remaining).toFixed(4));
+                    item.DiffTotalPaidPayment = 0;
+                }
+            } else {
+                item.TotalPaidPayment = 0;
+                item.displayTotalPaidPayment = "0.00";
+                item.TotalPaidPaymentAccumulated = before;
+                item.DiffTotalPaidPayment = remaining;
+            }
         }
+        this.totalPaymentTrigger++;
+    }
+
+    onOtherExpenseInput(e) {
+        let val = e && e.target ? e.target.value : '';
+        let num = parseFloat(String(val).replace(/,/g, ''));
+        this.typingOtherExpense = isNaN(num) ? 0 : num;
+        this.totalPaymentTrigger++;
+    }
+
+    onOtherExpenseBlur(e) {
+        if (this.typingOtherExpense !== null && this.typingOtherExpense !== undefined) {
+            this.data.OtherExpense = this.typingOtherExpense;
+        }
+        this.typingOtherExpense = null;
+        this.totalPaymentTrigger++;
+    }
+
+    onTableInput(e) {
+        this.totalPaymentTrigger++;
+    }
+
+    onTableChange(e) {
+        this.totalPaymentTrigger++;
     }
 
     saveCallback(event) {
+        if (this.typingOtherExpense !== null && this.typingOtherExpense !== undefined) {
+            this.data.OtherExpense = this.typingOtherExpense;
+        }
+        for (let item of this.Items) {
+            if (item.typingPayment !== undefined && item.typingPayment !== null) {
+                item.TotalPaidPayment = item.typingPayment;
+                item.typingPayment = null;
+            }
+        }
         console.log(this.data);
         this.data.Items = this.Items.filter((item) => item.Select);
+        if (this.data.Items.length === 0) {
+            alert("Pilih minimal 1 data disposisi untuk dibayar");
+            return;
+        }
+        var hasOverpaid = this.data.Items.some(item => (Number(item.TotalPaidPaymentAccumulated) || 0) > (Number(item.TotalPaid) || 0));
+        if (hasOverpaid) {
+            alert("Total yang dibayar tidak boleh melebihi Total Pembayaran");
+            return;
+        }
         if (this.data.CurrencyRate == "") {
             this.data.CurrencyRate = 0;
         }
@@ -145,16 +212,20 @@ export class Create {
                 console.log("dispoResult",result);
                 for (var ex of result.data) {
                     ex.purchasingDispositionExpeditionId = ex.Id;
-                    ex.Id =0;
-                    // delete ex.Id;
-                    // for (var exItem of ex.items) {
-                    //     exItem.purchasingDispositionExpeditionItemId = exItem.Id;
-                    //     delete exItem.Id;
-                    // }
-                    // console.log("Total paid",ex.TotalPaid )
-                    // console.log("Total PaidBefore",ex.TotalPaidPaymentBefore)
-                    // ex.DiffTotalPaidPayment=parseFloat(0);
-                    expeditionDatas.push(ex);
+                    ex.Id = 0;
+                    let totalPaid = Number(ex.TotalPaid) || 0;
+                    let totalPaidPayment = Number(ex.TotalPaidPayment) || 0;
+                    let totalPaidPaymentBefore = Number(ex.TotalPaidPaymentBefore) || 0;
+                    let remaining = parseFloat((totalPaid - totalPaidPaymentBefore).toFixed(4));
+                    // Hanya masukkan disposisi yang masih memiliki sisa tagihan yang belum lunas
+                    if (remaining > 0) {
+                        ex.TotalPaidPayment = totalPaidPayment;
+                        ex.TotalPaidPaymentAccumulated = parseFloat((totalPaidPaymentBefore + totalPaidPayment).toFixed(4));
+                        ex.DiffTotalPaidPayment = Math.max(0, parseFloat((totalPaid - ex.TotalPaidPaymentAccumulated).toFixed(4)));
+                        let parts = totalPaidPayment.toFixed(2).split('.');
+                        ex.displayTotalPaidPayment = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '.' + parts[1];
+                        expeditionDatas.push(ex);
+                    }
                 }
                 console.log("expeditionDatas", expeditionDatas);
                 return expeditionDatas;
@@ -292,20 +363,32 @@ export class Create {
     //     }
     // }
 
+    get isIDR() {
+        return (this.data && this.data.AccountBank && this.data.AccountBank.Currency && this.data.AccountBank.Currency.Code === "IDR") || this.data.CurrencyCode === "IDR";
+    }
+
+    @computedFrom('totalPaymentTrigger', 'data.OtherExpense', 'typingOtherExpense', 'data.CurrencyRate', 'data.CurrencyCode', 'data.AccountBank')
     get grandTotal() {
+        const _ = this.totalPaymentTrigger;
         let result = 0;
         let viewResult = 0;
+        let rate = (this.data && (this.data.CurrencyCode === "IDR" || !this.data.CurrencyRate)) ? 1 : (this.data && Number(this.data.CurrencyRate) || 1);
         if (this.Items && this.Items.length > 0) {
             for (let detail of this.Items) {
                 if (detail.Select) {
-                    result += detail.TotalPaidPayment;
-                    viewResult += (detail.TotalPaidPayment * this.data.CurrencyRate);
+                    let payment = detail.typingPayment !== undefined && detail.typingPayment !== null
+                        ? detail.typingPayment
+                        : (Number(detail.TotalPaidPayment) || 0);
+                    result += payment;
+                    viewResult += (payment * rate);
                 }
             }
         }
-        //this.data.Amount = result;
-        if (this.data.CurrencyCode==="IDR")
-            return viewResult
+        let otherExpense = this.typingOtherExpense !== null && this.typingOtherExpense !== undefined ? this.typingOtherExpense : (this.data ? (Number(this.data.OtherExpense) || 0) : 0);
+        result += otherExpense;
+        viewResult += (otherExpense * rate);
+        if (this.isIDR)
+            return viewResult;
         else
             return result;
     }

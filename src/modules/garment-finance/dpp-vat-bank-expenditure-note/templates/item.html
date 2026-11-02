@@ -54,7 +54,7 @@
                         format="0,000.0000"
                         read-only.bind="true">
             </au-numeric>
-            <div show.bind="false">${outstanding}</div>
+            <div if.bind="!readOnly" show.bind="false">${outstanding}</div>
         </td>
         <td class="col-sm-1">
             <button class="btn btn-info"
@@ -71,6 +71,7 @@
             <au-collection items.bind="data.InternalNote.Items"
                            read-only.bind="readOnly"
                            columns.bind="collection.columns"
+                           options.bind="options"
                            item-template="modules/garment-finance/dpp-vat-bank-expenditure-note/templates/detail">
             </au-collection>
         </td>
