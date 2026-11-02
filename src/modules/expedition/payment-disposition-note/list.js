@@ -104,6 +104,9 @@ export class List {
                         datum.dispositions = listDispo.join('\n');
                         datum.paymentDueDates = listDueDate.join('\n');
 
+                        let otherExpense = Number(datum.OtherExpense) || 0;
+                        datum.Amount = (Number(datum.Amount) || 0) + otherExpense;
+
                         return datum;
                     })
                 }
