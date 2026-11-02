@@ -1,7 +1,19 @@
 <template>
+    <style>
+        #disposition-report-table td[rowspan] {
+            vertical-align: middle !important;
+        }
+    </style>
     <h1 class="page-header">Laporan Bukti Pembayaran Disposisi</h1>
 
     <form class="form-horizontal">
+        <au-autocomplete value.bind="info.bank"
+                         loader.one-time="bankLoader"
+                         label="Bank"
+                         options.bind="controlOptions"
+                         placeholder="Pilih Bank">
+        </au-autocomplete>
+
         <au-autocomplete value.bind="info.bankExpenditureNote"
                          loader.one-time="bankExpenditureNoteLoader"
                          text="PaymentDispositionNo"
@@ -59,17 +71,19 @@
         </div>
     </form>
 
-    <au-table view-model.ref="tableList"
-              data.bind="loader"
-              columns.bind="columns"
-              sortable="true"
-              page-size="25"
-              options.bind="tableOptions">
-        <div slot="toolbar"
-             class="btn-group">
-            <button class="btn btn-primary"
-                    click.delegate="excel()">Excel</button>
-        </div>
-    </au-table>
+    <div id="disposition-report-table">
+        <au-table view-model.ref="tableList"
+                  data.bind="loader"
+                  columns.bind="columns"
+                  sortable="false"
+                  page-size="25"
+                  options.bind="tableOptions">
+            <div slot="toolbar"
+                 class="btn-group">
+                <button class="btn btn-primary"
+                        click.delegate="excel()">Excel</button>
+            </div>
+        </au-table>
+    </div>
 
 </template>

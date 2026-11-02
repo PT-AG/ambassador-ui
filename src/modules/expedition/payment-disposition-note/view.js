@@ -38,19 +38,27 @@ export class View {
         for (var a of this.data.Items) {
             a.SupplierName = this.data.Supplier.Name;
             a.Currency = this.data.AccountBank.Currency.Code;
-            a.PaymentDifference = a.payToSupplier - (a.AmountPaid + a.SupplierPayment);
+            let payToSupplier = Number(a.payToSupplier) || 0;
+            let currentAmountPaid = Number(a.AmountPaid) || 0;
+            let supplierPayment = Number(a.SupplierPayment) || 0;
+
+            a.AmountPaid = currentAmountPaid;
+            a.AmountPaidDisplay = supplierPayment;
+            a.PaymentDifference = payToSupplier - (currentAmountPaid + supplierPayment);
         }
         this.IDR = false;
         this.sameCurrency = false;
-        this.Amount = this.data.Amount;
+        let otherExpense = Number(this.data.OtherExpense) || 0;
 
         if (this.data.AccountBank.Currency.Code == "IDR") {
             this.IDR = true;
             if (this.data.CurrencyCode == "IDR") {
                 this.sameCurrency = true;
             }
-            this.Amount = this.data.Amount * this.data.CurrencyRate;
-
+            let rate = (!this.sameCurrency) ? (Number(this.data.CurrencyRate) || 1) : 1;
+            this.Amount = ((Number(this.data.Amount) || 0) * rate) + otherExpense;
+        } else {
+            this.Amount = (Number(this.data.Amount) || 0) + otherExpense;
         }
 
         if (!this.IDR || this.sameCurrency) {
