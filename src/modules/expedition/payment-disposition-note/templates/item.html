@@ -3,6 +3,7 @@
         <td>
             <au-checkbox 
                 value.bind="data.Select"
+                change.delegate="onCheckboxChange($event)"
                 read-only.bind="readOnly">
             </au-checkbox>
         </td>
@@ -83,19 +84,17 @@
             </au-textbox>
         </td>
         <td>
-          <au-numeric
-              value.bind="data.AmountPaid"
-              format="0,000.0000"
-              read-only.bind="true">
-          </au-numeric>
+          <p class="form-control-static text-right">${amountPaidText}</p>
         </td>
-        <td style="width: 10%;">
-          <au-numeric 
-              value.bind="SupplierPayment" 
-              read-only.bind="options.readOnly" 
-              format = "0,0.000"
-              options.bind="controlOptions">
-          </au-numeric>
+        <td style="width: 12%;">
+          <input type="text"
+                 class="form-control text-right"
+                 value.bind="data.displaySupplierPayment"
+                 focus.trigger="SupplierPaymentFocus($event)"
+                 mouseup.trigger="SupplierPaymentMouseUp($event)"
+                 keydown.delegate="SupplierPaymentKeydown($event)"
+                 input.delegate="SupplierPaymentInput($event)"
+                 blur.trigger="SupplierPaymentBlur($event)">
         </td>
         <td>
             <au-numeric
@@ -109,7 +108,7 @@
         </td>
     </tr>
     <tr show.bind="isShowing">
-        <td colspan="11">
+        <td colspan="17">
             <au-collection
                 items.bind="data.Details" 
                 columns.bind="columns"
