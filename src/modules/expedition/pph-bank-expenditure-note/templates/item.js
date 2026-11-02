@@ -2,6 +2,10 @@ import { inject, BindingEngine } from 'aurelia-framework';
 
 @inject(BindingEngine)
 export class Item {
+    determineActivationStrategy() {
+        return 'replace';
+    }
+
     constructor(bindingEngine) {
         this.bindingEngine = bindingEngine;
         this.columns = ['Unit', 'Nama Barang', 'Jumlah', 'Satuan', 'Harga'];
