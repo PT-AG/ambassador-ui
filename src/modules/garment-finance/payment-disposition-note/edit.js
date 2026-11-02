@@ -1,4 +1,4 @@
-import { inject, Lazy } from 'aurelia-framework';
+import { inject, Lazy, bindable, computedFrom } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Dialog } from '../../../components/dialog/dialog'
 import { Base64Helper } from '../../../utils/base-64-coded-helper';
@@ -23,13 +23,16 @@ export class Edit {
         saveText: 'Simpan',
     };
 
+    @bindable totalPaymentTrigger = 0;
+    typingOtherExpense = null;
+
     constructor(router, service, dialog) {
         this.router = router;
         this.service = service;
         this.dialog = dialog;
 
         this.collection = {
-            columns: ['__check', 'No. Disposisi', 'Tanggal Disposisi', 'Tanggal Jatuh Tempo', 'Nomor Proforma/Invoice', 'Supplier', 'Kategori', 'PPN', 'Total Pembayaran','Total Yang dibayar','Selisih Total Yang Dibayar','Total Yang sudah dibayar', 'Mata Uang', ''],
+            columns: ['__check', 'No. Disposisi', 'Tanggal Disposisi', 'Tanggal Jatuh Tempo', 'Nomor Proforma/Invoice', 'Supplier', 'Kategori', 'PPN', 'Total Pembayaran', 'Total Yang sudah dibayar', 'Total Yang dibayar', 'Selisih Total Yang Dibayar', 'Mata Uang'],
         };
     }
 
@@ -48,62 +51,48 @@ export class Edit {
             return item;
         });
         for(var a of this.data.Items){
-            a.SupplierName=this.data.Supplier.Name;
-            a.Currency=this.data.AccountBank.Currency.Code;
+            a.SupplierName=this.data.Supplier ? this.data.Supplier.Name : a.SupplierName;
+            a.Currency=this.data.AccountBank && this.data.AccountBank.Currency ? this.data.AccountBank.Currency.Code : a.CurrencyCode;
+            let totalPaid = Number(a.TotalPaid) || 0;
+            let totalPaidPayment = Number(a.TotalPaidPayment) || 0;
+            let totalPaidPaymentBefore = Number(a.TotalPaidPaymentBefore) || 0;
+            a.TotalPaidPaymentAccumulated = parseFloat((totalPaidPaymentBefore + totalPaidPayment).toFixed(4));
+            a.DiffTotalPaidPayment = Math.max(0, parseFloat((totalPaid - a.TotalPaidPaymentAccumulated).toFixed(4)));
+            let parts = totalPaidPayment.toFixed(2).split('.');
+            a.displayTotalPaidPayment = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '.' + parts[1];
         }
 
-        // this.IDR=false;
-        // this.sameCurrency=false;
-
-        // if(this.data.AccountBank.Currency.Code=="IDR"){
-        //     this.IDR=true;
-        //     if(this.data.CurrencyCode=="IDR"){
-        //         this.sameCurrency=true;
-        //     }
-        // }
-
-        // if(!this.IDR || this.sameCurrency){
-        //     this.collection = {
-        //         columns: ['__check', 'No. Disposisi', 'Tanggal Disposisi', 'Tanggal Jatuh Tempo', 'Nomor Proforma/Invoice', 'Supplier','Kategori','Divisi', 'PPN', 'Jumlah dibayar ke Supplier', 'Mata Uang', ''],
-        //     };
-        // }
-        // else{
-        //     this.collection = {
-        //         columns: ['__check', 'No. Disposisi', 'Tanggal Disposisi', 'Tanggal Jatuh Tempo', 'Nomor Proforma/Invoice', 'Supplier','Kategori','Divisi', 'PPN', 'Jumlah dibayar ke Supplier', 'Mata Uang', 'Jumlah dibayar ke Supplier(IDR)', 'Mata Uang', ''],
-        //     };
-        // }
         this.collectionOptions={
-            IDR:this.IDR,
-            rate:this.data.CurrencyRate,
-            SameCurrency:this.sameCurrency
+            IDR: this.isIDR,
+            rate: this.data.CurrencyRate,
+            SameCurrency: this.sameCurrency,
+            onPaymentChange: () => {
+                this.totalPaymentTrigger++;
+            }
         };
-
-        // let arg = {
-        //     page: 1,
-        //     size: Number.MAX_SAFE_INTEGER,
-        //     filter: this.data.Supplier && this.data.Supplier.code ? JSON.stringify({ "Position": 7, "Currency": this.data.Bank.currency.code, "SupplierCode": this.data.Supplier.code, "IsPaid": false }) : JSON.stringify({ "Position": 7, "Currency": this.data.Bank.currency.code, "IsPaid": false }) //CASHIER DIVISION
-        // };
-
-        // let newData = await this.service.searchAllByPosition(arg)
-        //     .then((result) => {
-        //         let resultData = result.data && result.data.length > 0 ? result.data.filter((datum) => datum.PaymentMethod && datum.PaymentMethod.toLowerCase() != "cash") : [];
-
-        //         return resultData;
-        //     });
-
-        // if (newData.length > 0) {
-        //     this.UPOResults = this.UPOResults.concat(newData);
-        // }
     }
 
     cancelCallback(event) {
             const encoded = Base64Helper.encode(this.data.Id);
             this.router.navigateToRoute('view', { id: encoded });
-            //this.router.navigateToRoute('view', { id: this.data.Id });
     }
 
     saveCallback(event) {
+      if (this.typingOtherExpense !== null && this.typingOtherExpense !== undefined) {
+          this.data.OtherExpense = this.typingOtherExpense;
+      }
+      for (let item of this.Items) {
+          if (item.typingPayment !== undefined && item.typingPayment !== null) {
+              item.TotalPaidPayment = item.typingPayment;
+              item.typingPayment = null;
+          }
+      }
       this.data.Items = this.Items.filter((item) => item.Select);
+      var hasOverpaid = this.data.Items.some(item => (Number(item.TotalPaidPaymentAccumulated) || 0) > (Number(item.TotalPaid) || 0));
+      if (hasOverpaid) {
+          alert("Total yang dibayar tidak boleh melebihi Total Pembayaran");
+          return;
+      }
       var dataPrep = this.data;
       console.log(this.data);
 
@@ -120,27 +109,83 @@ export class Edit {
           });
     }
 
+    get isIDR() {
+        return this.data && this.data.AccountBank && this.data.AccountBank.Currency && this.data.AccountBank.Currency.Code === "IDR";
+    }
+
+    onOtherExpenseInput(e) {
+        let val = e && e.target ? e.target.value : '';
+        let num = parseFloat(String(val).replace(/,/g, ''));
+        this.typingOtherExpense = isNaN(num) ? 0 : num;
+        this.totalPaymentTrigger++;
+    }
+
+    onOtherExpenseBlur(e) {
+        if (this.typingOtherExpense !== null && this.typingOtherExpense !== undefined) {
+            this.data.OtherExpense = this.typingOtherExpense;
+        }
+        this.typingOtherExpense = null;
+        this.totalPaymentTrigger++;
+    }
+
+    onTableInput(e) {
+        this.totalPaymentTrigger++;
+    }
+
+    onTableChange(e) {
+        this.totalPaymentTrigger++;
+    }
+
+    @computedFrom('totalPaymentTrigger', 'data.OtherExpense', 'typingOtherExpense', 'data.CurrencyRate', 'data.CurrencyCode', 'data.AccountBank')
     get grandTotal() {
+      const _ = this.totalPaymentTrigger;
       let result = 0;
       let viewResult = 0;
+      let rate = (this.data && (this.data.CurrencyCode === "IDR" || !this.data.CurrencyRate)) ? 1 : (this.data && Number(this.data.CurrencyRate) || 1);
       if (this.Items && this.Items.length > 0) {
           for (let detail of this.Items) {
               if (detail.Select) {
-                  result += detail.TotalPaidPayment;
-                  viewResult += (detail.TotalPaidPayment);
+                  let payment = detail.typingPayment !== undefined && detail.typingPayment !== null
+                      ? detail.typingPayment
+                      : (Number(detail.TotalPaidPayment) || 0);
+                  result += payment;
+                  viewResult += (payment * rate);
               }
           }
       }
+      let otherExpense = this.typingOtherExpense !== null && this.typingOtherExpense !== undefined ? this.typingOtherExpense : (this.data ? (Number(this.data.OtherExpense) || 0) : 0);
+      result += otherExpense;
+      viewResult += (otherExpense * rate);
       this.data.Amount = result;
-      if (this.IDR)
-          return viewResult
+      if (this.isIDR)
+          return viewResult;
       else
           return result;
   }
 
     onCheckAll(event) {
+        var isChecked = event.detail.target.checked;
         for (var item of this.Items) {
-            item.Select = event.detail.target.checked;
+            item.Select = isChecked;
+            var totalPaid = Number(item.TotalPaid) || 0;
+            var before = Number(item.TotalPaidPaymentBefore) || 0;
+            var remaining = Math.max(0, parseFloat((totalPaid - before).toFixed(4)));
+
+            if (isChecked) {
+                if ((Number(item.TotalPaidPayment) || 0) === 0) {
+                    item.TotalPaidPayment = remaining;
+                    var parts = remaining.toFixed(2).split('.');
+                    item.displayTotalPaidPayment = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '.' + parts[1];
+                    item.TotalPaidPaymentAccumulated = parseFloat((before + remaining).toFixed(4));
+                    item.DiffTotalPaidPayment = 0;
+                }
+            } else {
+                item.TotalPaidPayment = 0;
+                item.displayTotalPaidPayment = "0.00";
+                item.TotalPaidPaymentAccumulated = before;
+                item.DiffTotalPaidPayment = remaining;
+            }
         }
+        this.totalPaymentTrigger++;
     }
 }

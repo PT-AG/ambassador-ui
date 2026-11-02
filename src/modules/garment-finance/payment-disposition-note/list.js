@@ -115,8 +115,10 @@ export class List {
 
                         datum.dispositions = listDispo.join('\n');
                         datum.paymentDueDates = listDueDate.join('\n');
-                        datum.TotalAmount= totalAmount;
-                        datum.TotalAmountIDR= totalAmountIDR;                        
+                        let otherExpense = Number(datum.OtherExpense) || 0;
+                        let rate = (datum.CurrencyCode === "IDR" || !datum.CurrencyRate) ? 1 : Number(datum.CurrencyRate);
+                        datum.TotalAmount = totalAmount + otherExpense;
+                        datum.TotalAmountIDR = totalAmountIDR + (otherExpense * rate);                        
                         return datum;
                     })
                 }
