@@ -70,6 +70,9 @@
         <au-numeric label="Biaya Lain-lain"
                     value.bind="data.OtherExpense"
                     error.bind="error.OtherExpense"
+                    input.delegate="onOtherExpenseInput($event)"
+                    blur.trigger="onOtherExpenseBlur($event)"
+                    change.delegate="onOtherExpenseBlur($event)"
                     options.bind="controlOptions">
         </au-numeric>
 
@@ -84,10 +87,12 @@
             errors.bind="error.Details"
             columns.bind="collection.columns"
             checkall.delegate="onCheckAll($event)"
+            input.delegate="onTableInput($event)"
+            change.delegate="onTableChange($event)"
             item-template="modules/garment-finance/payment-disposition-note/templates/item-edit"
             options.bind="collectionOptions">
         </au-collection>
         
-        TOTAL BAYAR ${grandTotal | numberFormat: '0,000.0000'} ${data.AccountBank.Currency.Code}
+        TOTAL BAYAR ${grandTotal | numberFormat: '0,000.00'} ${data.AccountBank.Currency.Code}
     </au-input-form>
 </template>
