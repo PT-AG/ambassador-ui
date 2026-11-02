@@ -3,6 +3,7 @@
         <td>
             <au-checkbox 
                 value.bind="data.Select"
+                change.delegate="onCheckboxChange($event)"
                 read-only.bind="readOnly">
             </au-checkbox>
         </td>
@@ -51,29 +52,31 @@
         <td>
             <au-numeric
                 value.bind="data.TotalPaid"
-                format="0,000.0000"
+                format="0,000.00"
                 read-only.bind="true">
             </au-numeric>
         </td>
         <td>
             <au-numeric
-                value.bind="data.TotalPaidPayment"
-                format="0,000.0000"
-                change.delegate="TotalPaidPaymentChanged($event)"
-                >
+                value.bind="data.TotalPaidPaymentAccumulated"
+                format="0,000.00"
+                read-only.bind="true">
             </au-numeric>
+        </td>
+        <td>
+            <input type="text"
+                   class="form-control text-right"
+                   value.bind="data.displayTotalPaidPayment"
+                   focus.trigger="TotalPaidPaymentFocus($event)"
+                   mouseup.trigger="TotalPaidPaymentMouseUp($event)"
+                   keydown.delegate="TotalPaidPaymentKeydown($event)"
+                   input.delegate="TotalPaidPaymentInput($event)"
+                   blur.trigger="TotalPaidPaymentBlur($event)">
         </td>
         <td>
             <au-numeric
                 value.bind="data.DiffTotalPaidPayment"
-                format="0,000.0000"
-                read-only.bind="true">
-            </au-numeric>
-        </td>
-        <td>
-            <au-numeric
-                value.bind="data.TotalPaidPaymentBefore"
-                format="0,000.0000"
+                format="0,000.00"
                 read-only.bind="true">
             </au-numeric>
         </td>
