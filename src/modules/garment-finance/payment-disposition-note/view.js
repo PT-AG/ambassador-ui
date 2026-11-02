@@ -27,36 +27,47 @@ export class View {
         this.service = service;
         this.dialog = dialog;
 
-        // this.collection = {
-        //     columns: ['No. Disposisi', 'Tanggal Disposisi', 'Tanggal Jatuh Tempo', 'Nomor Proforma/Invoice', 'Supplier', 'Kategori', 'Divisi', 'PPN', 'Jumlah dibayar ke Supplier', 'Mata Uang', ''],
-        // };
         this.collection = {
-            columns: ['No. Disposisi', 'Tanggal Disposisi', 'Tanggal Jatuh Tempo', 'Nomor Proforma/Invoice', 'Supplier', 'Kategori', 'PPN', 'Total Pembayaran','Total Yang dibayar','Selisih Total Yang Dibayar','Total Yang sudah dibayar', 'Mata Uang', ''],
+            columns: ['No. Disposisi', 'Tanggal Disposisi', 'Tanggal Jatuh Tempo', 'Nomor Proforma/Invoice', 'Supplier', 'Kategori', 'PPN', 'Total Pembayaran', 'Total Yang sudah dibayar', 'Total Yang dibayar', 'Selisih Total Yang Dibayar', 'Mata Uang'],
         };
+    }
+
+    get isIDR() {
+        return this.data && this.data.AccountBank && this.data.AccountBank.Currency && this.data.AccountBank.Currency.Code === "IDR";
+    }
+
+    get Amount() {
+        let totalAmount = 0;
+        let totalAmountIDR = 0;
+        let rate = (this.data && (this.data.CurrencyCode === "IDR" || !this.data.CurrencyRate)) ? 1 : (this.data && Number(this.data.CurrencyRate) || 1);
+        if (this.data && this.data.Items) {
+            for (var a of this.data.Items) {
+                let payment = Number(a.TotalPaidPayment) || 0;
+                totalAmount += payment;
+                totalAmountIDR += payment * rate;
+            }
+        }
+        let otherExpense = this.data ? (Number(this.data.OtherExpense) || 0) : 0;
+        if (this.isIDR) {
+            return totalAmountIDR + (otherExpense * rate);
+        } else {
+            return totalAmount + otherExpense;
+        }
     }
 
     async activate(params) {
         const decoded = Base64Helper.decode(params.id);
         var id = decoded;
         this.data = await this.service.getById(id);
-        let totalAmount =0;
-        let totalAmountIDR =0;
         for (var a of this.data.Items) {
-            a.SupplierName = this.data.Supplier.Name;
-            a.Currency = this.data.AccountBank.Currency.Code;
-            totalAmount += a.TotalPaidPayment;
-            totalAmountIDR += a.TotalPaidPayment * this.data.CurrencyRate;
-            
+            a.SupplierName = this.data.Supplier ? this.data.Supplier.Name : a.SupplierName;
+            a.Currency = this.data.AccountBank && this.data.AccountBank.Currency ? this.data.AccountBank.Currency.Code : a.CurrencyCode;
+            let totalPaid = Number(a.TotalPaid) || 0;
+            let totalPaidPayment = Number(a.TotalPaidPayment) || 0;
+            let totalPaidPaymentBefore = Number(a.TotalPaidPaymentBefore) || 0;
+            a.TotalPaidPaymentAccumulated = parseFloat((totalPaidPaymentBefore + totalPaidPayment).toFixed(4));
+            a.DiffTotalPaidPayment = parseFloat((totalPaid - a.TotalPaidPaymentAccumulated).toFixed(4));
         }
-        //this.IDR = false;
-        //this.sameCurrency = false;
-       console.log(totalAmount)
-       console.log(totalAmountIDR)
-       
-        if (this.data.AccountBank.Currency.Code==="IDR")
-              this.Amount = totalAmountIDR;
-        else
-             this.Amount = totalAmount;
 
         // if (this.data.AccountBank.Currency.Code == "IDR") {
         //     this.IDR = true;

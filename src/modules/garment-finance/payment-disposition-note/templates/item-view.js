@@ -5,25 +5,11 @@ export class ItemView {
     }
 
     activate(context) {
-        console.log(context);
         this.data = context.data;
-        // this.isShowing = false;
-        // if (context.context.options) {
-        //     this.IDR = context.context.options.IDR;
-        //     this.rate = context.context.options.rate;
-        //     this.payToSupplierCurrency = context.context.options.payToSupplierCurrency;
-        //     this.sameCurrency = context.context.options.SameCurrency;
-        //     if (this.IDR) {
-        //         this.data.payToSupplierIDR = this.data.payToSupplier * this.rate;
-        //         this.data.currencyIDR = "IDR";
-        //     }
-        // }
-        // this.data.DiffTotalPaidPayment = this.data.TotalPaid-(this.data.TotalPaidPayment+this.data.TotalPaidPaymentBefore)
-        // this.data.DiffTotalPaidPayment = parseInt(this.data.TotalPaid,10) - (parseInt(this.data.TotalPaidPayment,10)+parseInt(this.data.TotalPaidPaymentBefore,10));
-        
+        let totalPaid = Number(this.data.TotalPaid) || 0;
+        let totalPaidPayment = Number(this.data.TotalPaidPayment) || 0;
+        let totalPaidPaymentBefore = Number(this.data.TotalPaidPaymentBefore) || 0;
+        this.data.TotalPaidPaymentAccumulated = parseFloat((totalPaidPaymentBefore + totalPaidPayment).toFixed(4));
+        this.data.DiffTotalPaidPayment = parseFloat((totalPaid - this.data.TotalPaidPaymentAccumulated).toFixed(4));
     }
-
-    // toggle() {
-    //     this.isShowing = !this.isShowing;
-    // }
 }
