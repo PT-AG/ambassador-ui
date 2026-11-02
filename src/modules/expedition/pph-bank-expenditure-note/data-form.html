@@ -74,16 +74,19 @@
         </au-textbox> -->
 
         <div class="row">
-            <div class="col-sm-8"></div>
-            <div class="col-sm-4">
+            <div class="col-sm-5 col-sm-offset-4">
                 <au-dropdown value.bind="selectedSortOption"
                              label="Urutkan Berdasar :"
                              options.bind="sortingControlOptions"
-                             items.bind="sortingOptions">
+                             items.bind="sortingOptions"
+                             change.delegate="sortItems()">
                 </au-dropdown>
+            </div>
+            <div class="col-sm-3">
                 <au-dropdown value.bind="selectedSortTypeOption"
-                             options.bind="sortingControlOptions"
-                             items.bind="sortingTypeOptions">
+                             options.bind="sortingTypeControlOptions"
+                             items.bind="sortingTypeOptions"
+                             change.delegate="sortItems()">
                 </au-dropdown>
             </div>
         </div>
