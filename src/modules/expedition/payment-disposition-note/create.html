@@ -43,6 +43,7 @@
                     placeholder="masukkan rate"
                     value.bind="data.CurrencyRate"
                     error.bind="error.CurrencyRate"
+                    input.delegate="onRateInput($event)"
                     change.delegate="rateChanged($event)"
                     read-only.bind="readOnly || sameCurrency"
                     options.bind="controlOptions"
@@ -82,12 +83,18 @@
                      options.bind="controlOptions">
         </au-dropdown>
 
-        <au-numeric label="Biaya Lain-lain"
-                    value.bind="data.OtherExpense"
-                    error.bind="error.OtherExpense"
-                    read-only.bind="readOnly"
-                    options.bind="controlOptions">
-        </au-numeric>
+        <au-layout options.bind="controlOptions"
+                   label="Biaya Lain-lain"
+                   error.bind="error.OtherExpense">
+            <input type="text"
+                   class="form-control text-right"
+                   value.bind="displayOtherExpense"
+                   focus.trigger="OtherExpenseFocus($event)"
+                   mouseup.trigger="OtherExpenseMouseUp($event)"
+                   keydown.delegate="OtherExpenseKeydown($event)"
+                   input.delegate="OtherExpenseInput($event)"
+                   blur.trigger="OtherExpenseBlur($event)">
+        </au-layout>
 
         <au-textbox error.bind="error.Items"
                     show.bind="error.Items"
@@ -99,7 +106,10 @@
                        items.bind="Items"
                        columns.bind="collection.columns"
                        checkall.delegate="onCheckAll($event)"
-                       item-template="modules/expedition/payment-disposition-note/templates/item">
+                       input.delegate="onTableInput($event)"
+                       change.delegate="onTableChange($event)"
+                       item-template="modules/expedition/payment-disposition-note/templates/item"
+                       options.bind="collectionOptions">
         </au-collection>
 
         <au-collection show.bind="selectedBank && selectedSupplier && selectedCurrency && data.CurrencyRate"
@@ -107,10 +117,14 @@
                        items.bind="Items"
                        columns.bind="collection.columns"
                        checkall.delegate="onCheckAll($event)"
+                       input.delegate="onTableInput($event)"
+                       change.delegate="onTableChange($event)"
                        item-template="modules/expedition/payment-disposition-note/templates/item"
                        options.bind="collectionOptions">
         </au-collection>
 
-        TOTAL BAYAR ${grandTotal | numberFormat: '0,000.00'} ${data.AccountBank.Currency.Code}
+        <div style="text-align: right; font-size: 18px; font-weight: bold; margin-top: 15px; margin-bottom: 15px;" show.bind="selectedBank && selectedSupplier">
+            TOTAL BAYAR: ${grandTotal | numberFormat: '0,000.00'} ${data.AccountBank.Currency.Code}
+        </div>
     </au-input-form>
 </template>
