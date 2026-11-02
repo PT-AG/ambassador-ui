@@ -14,8 +14,9 @@ export class Service extends RestService {
     }
 
     getXls(info) {
-
-        let endpoint = `${serviceUri}/xls?bankExpenditureId=${info.bankExpenditureId}&dispositionId=${info.dispositionId}&supplierId=${info.supplierId}&divisionId=${info.divisionId}&startDate=${encodeURIComponent(info.startDate)}&endDate=${encodeURIComponent(info.endDate)}`;
+        let startDate = info.startDate && info.startDate !== 'undefined' ? encodeURIComponent(info.startDate) : '';
+        let endDate = info.endDate && info.endDate !== 'undefined' ? encodeURIComponent(info.endDate) : '';
+        let endpoint = `${serviceUri}/xls?bankExpenditureId=${info.bankExpenditureId || 0}&dispositionId=${info.dispositionId || 0}&supplierId=${info.supplierId || 0}&divisionId=${info.divisionId || 0}&startDate=${startDate}&endDate=${endDate}&bankId=${info.bankId || 0}`;
         return super.getXls(endpoint);
     }
 }
