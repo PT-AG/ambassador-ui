@@ -24,8 +24,10 @@ export class Item {
             filter = {
                 UnitId: this.data.unitId,
                 ExpenditureType: "SISA",
-                IsReceived: false
+                IsReceived: false,
+                [`CreatedDate >= "2026-10-12T17:00:00"`]: true
             }
+
             for (var item of this.context.context.items) {
                 if (item)
                     filter[`ExpenditureGoodNo == "${item.data.ExpenditureGoodNo}"`] = false;
