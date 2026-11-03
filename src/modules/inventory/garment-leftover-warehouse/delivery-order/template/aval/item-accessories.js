@@ -18,7 +18,7 @@ export class items {
     unitView = (unit) => {
         return `${unit.Code} - ${unit.Name}`;
     }
-    
+
     selectProduct = ["ProductId", "ProductCode", "ProductName"]
 
     get stockLoader() {
