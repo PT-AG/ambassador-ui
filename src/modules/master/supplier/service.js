@@ -1,6 +1,7 @@
 import {inject, Lazy} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-fetch-client';
 import {RestService} from '../../../utils/rest-service';
+import {MasterDataUsageService} from '../../../utils/master-data-usage-service';
  
 const serviceUri = 'master/suppliers';
 
@@ -15,9 +16,13 @@ export class Service extends RestService {
     return super.list(endpoint, info);
   }
 
-  getById(id) {
+  async getById(id) {
     var endpoint = `${serviceUri}/${id}`;
-    return super.get(endpoint);
+    var data = await super.get(endpoint);
+    if (data) {
+      data.isUsed = await MasterDataUsageService.isUsed('purchasing-azure', 'supplier', id, data.code || data.Code);
+    }
+    return data;
   }
 
   create(data) {
@@ -30,7 +35,14 @@ export class Service extends RestService {
     return super.put(endpoint, data);
   }
 
-  delete(data) {
+  async delete(data) {
+    var id = data.Id || data._id;
+    var code = data.code || data.Code;
+    var isUsed = await MasterDataUsageService.isUsed('purchasing-azure', 'supplier', id, code);
+    if (isUsed) {
+      alert("Data sudah digunakan di transaksi dan tidak dapat dihapus.");
+      return Promise.reject("Data sudah digunakan di transaksi dan tidak dapat dihapus.");
+    }
     var endpoint = `${serviceUri}/${data._id}`;
     return super.delete(endpoint, data);
   }
