@@ -15,10 +15,6 @@ export class View {
       var id = decoded;
 
       this.data = await this.service.getById(id);
-      if (this.data && (this.data.IsUsed || this.data.isUsed)) {
-          this.editCallback = null;
-          this.deleteCallback = null;
-      }
     }
 
     list() {

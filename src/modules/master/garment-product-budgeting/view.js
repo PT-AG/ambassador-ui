@@ -21,10 +21,6 @@ export class View {
         else{
             this.nameCheck=false;
         }
-        if (this.data && (this.data.IsUsed || this.data.isUsed)) {
-            this.editCallback = null;
-            this.deleteCallback = null;
-        }
     }
 
     list() {
