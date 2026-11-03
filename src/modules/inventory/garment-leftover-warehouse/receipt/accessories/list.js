@@ -6,10 +6,25 @@ import { Base64Helper } from '../../../../../utils/base-64-coded-helper';
 
 @inject(Router, Service)
 export class List {
+    dataToBePosted = [];
+
+    rowFormatter(data, index) {
+        if (data.IsPosted) {
+            return { classes: "success" };
+        } else return {};
+    }
 
     context = ["detail","cetak PDF"]
 
     columns = [
+        {
+            title: "Post?",
+            checkbox: true,
+            sortable: false,
+            formatter: function (value, data) {
+                return { disabled: data.IsPosted };
+            },
+        },
         { field: "InvoiceNoReceive", title: "No Bon Penerimaan" },
         { field: "RequestUnitName", title: "Unit Asal" },
         { field: "ReceiptType", title: "Jenis Penerimaan" },
@@ -56,17 +71,29 @@ export class List {
     contextClickCallback(event) {
         var arg = event.detail;
         var data = arg.data;
-        console.log(arg);
-        console.log(arg.name);
+        
         switch (arg.name) {
             case "detail":
                     const encoded = Base64Helper.encode(data.Id);
                     this.router.navigateToRoute('view', { id: encoded });
-                    //this.router.navigateToRoute('view', { id: data.Id });
                 break;
             case "cetak PDF":
                 this.service.getPdfById(data.Id);
                 break;
+        }
+    }
+
+    posting() {
+        if (this.dataToBePosted.length > 0) {
+            const ids = this.dataToBePosted.map(item => item.Id);  // ✅ Extract ID saja
+            this.service
+                .post(ids)
+                .then((result) => {
+                    this.table.refresh();
+                })
+                .catch((e) => {
+                    this.error = e;
+                });
         }
     }
 

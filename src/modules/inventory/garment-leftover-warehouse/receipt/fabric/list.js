@@ -6,18 +6,28 @@ import { Base64Helper } from '../../../../../utils/base-64-coded-helper';
 
 @inject(Router, Service)
 export class List {
+    dataToBePosted = [];
+
+    rowFormatter(data, index) {
+        if (data.IsPosted) {
+            return { classes: "success" };
+        } else return {};
+    }
 
     context = ["detail","cetak PDF"]
 
     columns = [
+        {
+            title: "Post?",
+            checkbox: true,
+            sortable: false,
+            formatter: function (value, data) {
+                return { disabled: data.IsPosted };
+            },
+        },
         { field: "ReceiptNoteNo", title: "No Bon Penerimaan" },
         { field: "UnitFromName", title: "Unit Asal" },
         { field: "ReceiptType", title: "Jenis Penerimaan" },
-        // { 
-        //     field: "DRNo", title: "No Bon Retur Proses", formatter: function (value, data, index) {
-        //         return value ? value : "-"
-        //     }
-        // },
         { field: "DRNo", title: "No Bon Retur Proses" },
         { field: "UENNo", title: "No Bon Pengeluaran Unit" },
         { field: "StorageFromName", title: "Gudang Asal" },
@@ -70,6 +80,20 @@ export class List {
             case "cetak PDF":
                 this.service.getPdfById(data.Id);
                 break;
+        }
+    }
+
+    posting() {
+        if (this.dataToBePosted.length > 0) {
+            const ids = this.dataToBePosted.map(item => item.Id);  // ✅ Extract ID saja
+            this.service
+                .post(ids)
+                .then((result) => {
+                    this.table.refresh();
+                })
+                .catch((e) => {
+                    this.error = e;
+                });
         }
     }
 
