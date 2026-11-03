@@ -22,6 +22,11 @@ class Service extends RestService {
         return super.post(endpoint, data);
     }
 
+    post(data) {
+        var endpoint = `${serviceUri}/post`;  
+        return super.post(endpoint, data);
+    }
+
     update(data) {
         var endpoint = `${serviceUri}/${data.Id}`;
         return super.put(endpoint, data);
