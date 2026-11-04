@@ -463,13 +463,18 @@ export class DataForm {
       this.data.RONo = this.RONoJob;
       var ro = [];
       this.salesService.searchCCByRO(info).then((cc) => {
-        for (var a of cc.data) {
+        for (var a of (cc.data || [])) {
           if (a.RO_Number == this.data.RONo) {
             ro.push(a);
             break;
           }
         }
-        this.data.Article = ro[0].Article;
+        if (ro.length > 0) {
+          this.data.Article = ro[0].Article;
+        } else {
+          alert(`Cost Calculation untuk RO ${this.data.RONo} tidak ditemukan.`);
+          return;
+        }
         this.service
           .searchDOItems({
             filter: JSON.stringify({
@@ -525,6 +530,8 @@ export class DataForm {
             await this.enrichItems(this.dataItems);
             this.data.Items = this.dataItems;
           });
+      }).catch((e) => {
+        alert(`Cost Calculation untuk RO ${this.data.RONo} tidak ditemukan atau gagal dimuat.`);
       });
     } else if (
       !this.isProses &&
@@ -607,6 +614,8 @@ export class DataForm {
             await this.enrichItems(this.dataItems);
             this.data.Items = this.dataItems;
           });
+      }).catch((e) => {
+        alert(`Cost Calculation untuk RO ${this.data.RONo} tidak ditemukan atau gagal dimuat.`);
       });
     } else {
       var filter = JSON.stringify({
@@ -623,15 +632,19 @@ export class DataForm {
       //get data for article if not remain
       if (!this.isRemain) {
         this.salesService.searchCCByRO(info).then((cc) => {
-          for (var a of cc.data) {
+          for (var a of (cc.data || [])) {
             if (a.RO_Number == this.data.RONo) {
               ro.push(a);
               break;
             }
           }
-          this.data.Article = ro[0].Article;
-
-          //data for article if remain
+          if (ro.length > 0) {
+            this.data.Article = ro[0].Article;
+          } else {
+            alert(`Cost Calculation untuk RO ${this.data.RONo} tidak ditemukan.`);
+          }
+        }).catch((e) => {
+          alert(`Cost Calculation untuk RO ${this.data.RONo} tidak ditemukan atau gagal dimuat.`);
         });
       } else {
         var filter = JSON.stringify({ RONo: this.RONo });

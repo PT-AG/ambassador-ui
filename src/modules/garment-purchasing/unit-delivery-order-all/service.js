@@ -11,7 +11,44 @@ const doItemsMoreUri = 'garment-do-items/unit-delivery-order/more';
 const garmentEPOServiceUri = 'garment-external-purchase-orders/by-ro';
 const garmentUEN = "garment-unit-expenditure-notes";
 
-export class Service extends RestService {
+class BaseService extends RestService {
+  list(endpoint, info, header) {
+    var _info = Object.assign({}, info);
+
+    if (_info.order && typeof _info.order === "object")
+      _info.order = JSON.stringify(_info.order);
+    else
+      delete _info.order;
+
+    var promise = this.endpoint.find(endpoint, _info);
+    this.publish(promise);
+    return promise
+      .catch((e) => {
+        this.publish(promise);
+        return Promise.reject(e);
+      })
+      .then((result) => {
+        this.publish(promise);
+        return Promise.resolve(result);
+      });
+  }
+
+  get(endpoint, header, info) {
+    var promise = this.endpoint.find(endpoint, info);
+    this.publish(promise);
+    return promise
+      .catch((e) => {
+        this.publish(promise);
+        return Promise.reject(e);
+      })
+      .then((result) => {
+        this.publish(promise);
+        return this.parseResult(result);
+      });
+  }
+}
+
+export class Service extends BaseService {
 
     constructor(http, aggregator, config, endpoint) {
         super(http, aggregator, config, "purchasing-azure");
@@ -74,7 +111,7 @@ export class Service extends RestService {
 }
 
 const UnitServiceUri = 'master/units';
-export class CoreService extends RestService {
+export class CoreService extends BaseService {
     constructor(http, aggregator, config, endpoint) {
         super(http, aggregator, config, "core");
     }
