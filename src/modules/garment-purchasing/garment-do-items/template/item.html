@@ -8,6 +8,14 @@
                 options.bind="controlOptions">
 			</au-textbox>
 		</td>
+		<td if.bind="data.ProductName && data.ProductName.trim().toUpperCase() === 'FABRIC'">
+			<au-textbox 
+                value.bind="data.Width" 
+                error.bind="error.Width"
+                read-only.bind="readOnly || (isEdit && data.Id)"
+                options.bind="controlOptions">
+			</au-textbox>
+		</td>
 		<td>
 			<au-numeric 
                 value.bind="data.Quantity" 
