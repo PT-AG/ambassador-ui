@@ -52,6 +52,7 @@ export class DataForm {
     this.columns = this.isFabric
       ? [
           "Warna",
+          "Lebar",
           "Quantity",
           "Lot",
           "Batch",
@@ -87,6 +88,7 @@ export class DataForm {
       item.Area = this.data.Area;
       item.Quantity = this.data.RemainingQuantity;
       item.Lot = this.data.Lot;
+      item.Width = this.data.Width;
 
       item.Batch = this.data.Batch
         ? moment.parseZone(this.data.Batch)
