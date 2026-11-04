@@ -207,13 +207,16 @@ export class DataForm {
         filter: JSON.stringify(filter),
       };
       return this.service.searchMoreDOItems(info).then((result) => {
-        // let itemIds = this.data.Items.map(i => i.URNItemId);
-        // return result.data.filter(data => data && itemIds.indexOf(data.URNItemId) < 0);
         let itemIds = this.data.Items.map((i) => i.DOItemsId);
-        // let colorLIst = this.data.Items.map(i => i.Colour);
-        return result.data.filter(
-          (data) => data && itemIds.indexOf(data.DOItemsId) < 0
-        );
+        return result.data.filter((data) => {
+          if (!data || itemIds.indexOf(data.DOItemsId) >= 0) return false;
+          const pName = (data.ProductName || "").toUpperCase();
+          const isLotRequired = pName === "FABRIC" || pName.startsWith("INTERLINING") || pName.startsWith("TRICOT");
+          if (isLotRequired && (!data.Lot || data.Lot.trim() === "" || data.Lot.trim() === "-")) {
+            return false;
+          }
+          return true;
+        });
       });
     };
   }
@@ -398,13 +401,18 @@ export class DataForm {
       this.data.RONo = this.RONoJob;
       var ro = [];
       this.salesService.searchCCByRO(info).then((cc) => {
-        for (var a of cc.data) {
+        for (var a of (cc.data || [])) {
           if (a.RO_Number == this.data.RONo) {
             ro.push(a);
             break;
           }
         }
-        this.data.Article = ro[0].Article;
+        if (ro.length > 0) {
+          this.data.Article = ro[0].Article;
+        } else {
+          alert(`Cost Calculation untuk RO ${this.data.RONo} tidak ditemukan.`);
+          return;
+        }
         this.service
           .searchDOItems({
             filter: JSON.stringify({
@@ -452,13 +460,26 @@ export class DataForm {
                 Items.Colour = item.Colour;
                 Items.Area = item.Area;
                 Items.Remark= item.Remark;
-                //if (!this.itemToException.includes(Items.ProductName)) {
-                  this.dataItems.push(Items);
-                //}
+
+                Items.Lot = item.Lot;
+                Items.Batch = item.Batch;
+                Items.PackageNo = item.PackageNo;
+                Items.HandlingUnit = item.HandlingUnit;
+                Items.Width = item.Width;
+
+                const pName = (item.ProductName || "").toUpperCase();
+                const isLotRequired = pName === "FABRIC" || pName.startsWith("INTERLINING") || pName.startsWith("TRICOT");
+                if (isLotRequired && (!item.Lot || item.Lot.trim() === "" || item.Lot.trim() === "-")) {
+                  continue;
+                }
+
+                this.dataItems.push(Items);
               }
             }
             this.data.Items = this.dataItems;
           });
+      }).catch((e) => {
+        alert(`Cost Calculation untuk RO ${this.data.RONo} tidak ditemukan atau gagal dimuat.`);
       });
     } else if (
       !this.isProses &&
@@ -533,13 +554,25 @@ export class DataForm {
                 Items.Area = item.Area;
                 Items.Remark= item.Remark;
 
-                //if (!this.itemToException.includes(Items.ProductName)) {
-                  this.dataItems.push(Items);
-                //}
+                Items.Lot = item.Lot;
+                Items.Batch = item.Batch;
+                Items.PackageNo = item.PackageNo;
+                Items.HandlingUnit = item.HandlingUnit;
+                Items.Width = item.Width;
+
+                const pName = (item.ProductName || "").toUpperCase();
+                const isLotRequired = pName === "FABRIC" || pName.startsWith("INTERLINING") || pName.startsWith("TRICOT");
+                if (isLotRequired && (!item.Lot || item.Lot.trim() === "" || item.Lot.trim() === "-")) {
+                  continue;
+                }
+
+                this.dataItems.push(Items);
               }
             }
             this.data.Items = this.dataItems;
           });
+      }).catch((e) => {
+        alert(`Cost Calculation untuk RO ${this.data.RONo} tidak ditemukan atau gagal dimuat.`);
       });
     } else {
       var filter = JSON.stringify({
@@ -654,12 +687,26 @@ export class DataForm {
                 Items.Area = item.Area;
                 Items.Remark= item.Remark;
 
+                Items.Lot = item.Lot;
+                Items.Batch = item.Batch;
+                Items.PackageNo = item.PackageNo;
+                Items.HandlingUnit = item.HandlingUnit;
+                Items.Width = item.Width;
+
+                const pName = (item.ProductName || "").toUpperCase();
+                const isLotRequired = pName === "FABRIC" || pName.startsWith("INTERLINING") || pName.startsWith("TRICOT");
+                if (isLotRequired && (!item.Lot || item.Lot.trim() === "" || item.Lot.trim() === "-")) {
+                  continue;
+                }
+
                 this.dataItems.push(Items);
               }
             }
             this.data.Items = this.dataItems;
             console.log(this.data.Items)
           });
+      }).catch((e) => {
+        alert(`Data Cost Calculation untuk RO ${this.data.RONo} tidak ditemukan atau gagal dimuat.`);
       });
     }
 
@@ -858,6 +905,12 @@ export class DataForm {
             this.newProduct.Colour = selectedROHeader.Colour;
             this.newProduct.Area = selectedROHeader.Area;
             this.newProduct.Remark= selectedROHeader.Remark;
+
+            this.newProduct.Lot = selectedROHeader.Lot;
+            this.newProduct.Batch = selectedROHeader.Batch;
+            this.newProduct.PackageNo = selectedROHeader.PackageNo;
+            this.newProduct.HandlingUnit = selectedROHeader.HandlingUnit;
+            this.newProduct.Width = selectedROHeader.Width;
           // } else {
           //   this.newProduct.IsDisabled = true;
           // }
@@ -900,6 +953,12 @@ export class DataForm {
 
   async addProduct() {
     if (this.newProduct && this.newProduct.ProductId) {
+      const pName = (this.newProduct.ProductName || "").toUpperCase();
+      const isLotRequired = pName === "FABRIC" || pName.startsWith("INTERLINING") || pName.startsWith("TRICOT");
+      if (isLotRequired && (!this.newProduct.Lot || this.newProduct.Lot.trim() === "" || this.newProduct.Lot.trim() === "-")) {
+        alert("Nomor Lot belum diisi pada data sumber barang ini.");
+        return;
+      }
       this.data.Items.push(this.newProduct);
       this.options.checkedAll = this.data.Items.filter(
         (item) => item.IsDisabled === false
