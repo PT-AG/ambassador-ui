@@ -26,6 +26,7 @@ export class List {
     { field: "RemainingQuantity", title: "Quantity", align: "right" },
     { field: "SmallUomUnit", title: "Satuan" },
     { field: "Colour", title: "Warna" },
+    { field: "Width", title: "Lebar" },
     { field: "Lot", title: "Lot" },
     { field: "Batch",title: "Batch",
       formatter: value =>
