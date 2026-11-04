@@ -1,26 +1,27 @@
 <template>
-    <au-input-form title.bind="title" with.bind="context">
+    <au-input-form title.bind="title" with.bind="context" options.bind="formOptions">
+        <div slot="actions" class="btn-group">
+            <button class="btn btn-default" click.delegate="context.cancelCallback($event)"
+                if.one-way="context.hasCancel">Kembali</button>
+            <button class="btn btn-primary" click.delegate="context.editCallback($event)" show.bind="!isUsed"
+                if.one-way="context.hasEdit">Ubah</button>
+            <button class="btn btn-success" click.delegate="context.saveCallback($event)"
+                if.one-way="context.hasSave">Simpan</button>
+            <button class="btn btn-danger" click.delegate="context.deleteCallback($event)" show.bind="!isUsed"
+                if.one-way="context.hasDelete">Hapus</button>
+        </div>
 
-        <au-textbox 
-            label="No Bon Pengeluaran" 
-            value.bind="data.FinishedGoodExpenditureNo" 
-            read-only="true"
-            options.bind="controlOptions" 
-            if.bind="readOnly || isEdit">
+        <au-textbox label="No Bon Pengeluaran" value.bind="data.FinishedGoodExpenditureNo" read-only="true"
+            options.bind="controlOptions" if.bind="readOnly || isEdit">
         </au-textbox>
 
-        <au-datepicker 
-            label="Tgl Pengeluaran Gudang" 
-            value.bind="data.ExpenditureDate" 
-            error.bind="error.ExpenditureDate"
-            read-only.bind="readOnly" 
-            options.bind="controlOptions">
+        <au-datepicker label="Tgl Pengeluaran Gudang" value.bind="data.ExpenditureDate"
+            error.bind="error.ExpenditureDate" read-only.bind="readOnly" options.bind="controlOptions">
         </au-datepicker>
 
         <au-autocomplete label="No Bon DO Sisa" value.bind="selectedGLDO" read-only.bind="readOnly || isEdit"
-            error.bind="error.DONo"
-            loader.bind="garmentLeftoverWarehouseDeliveryOrderLoader" query.bind="gldoFilter" text.bind="gldoView"
-            options.bind="controlOptions">
+            error.bind="error.DONo" loader.bind="garmentLeftoverWarehouseDeliveryOrderLoader" query.bind="gldoFilter"
+            text.bind="gldoView" options.bind="controlOptions">
         </au-autocomplete>
 
         <au-textbox label="Tujuan Pengeluaran" value.bind="data.ExpenditureTo" read-only.bind="true"
@@ -38,64 +39,37 @@
             view-model.ref="selectedUnitViewModel">
         </au-autocomplete> -->
 
-        <au-autocomplete 
-            label="Buyer" 
-            placeholder="Pilih Buyer" 
-            value.bind="data.Buyer"
-            error.bind="error.Buyer"  
-            text.bind="buyerView"
-            if.bind="data.ExpenditureTo=='JUAL LOKAL'"
-            read-only.bind="true" 
+        <au-autocomplete label="Buyer" placeholder="Pilih Buyer" value.bind="data.Buyer" error.bind="error.Buyer"
+            text.bind="buyerView" if.bind="data.ExpenditureTo=='JUAL LOKAL'" read-only.bind="true"
             options.bind="controlOptions">
         </au-autocomplete>
 
-        <au-textbox 
-            label="Keterangan Lain-lain" 
-            value.bind="data.OtherDescription" 
-            read-only.bind="true"
-            options.bind="controlOptions" 
-            if.bind="data.ExpenditureTo=='LAIN-LAIN'">
+        <au-textbox label="Keterangan Lain-lain" value.bind="data.OtherDescription" read-only.bind="true"
+            options.bind="controlOptions" if.bind="data.ExpenditureTo=='LAIN-LAIN'">
         </au-textbox>
 
-        <au-checkbox
-            label="Titip Jual"
-            value.bind="data.Consignment"
-            read-only.bind="true" 
+        <au-checkbox label="Titip Jual" value.bind="data.Consignment" read-only.bind="true"
             options.bind="controlOptions">
         </au-checkbox>
 
-        <au-autocomplete 
-            label="No Nota Penjualan Lokal" 
-            placeholder="Pilih Nota Penjualan Lokal" 
-            error.bind="error.LocalSalesNoteNo" 
-            value.bind="selectedSalesNote"
-            if.bind="data.ExpenditureTo == 'JUAL LOKAL'"
-            text="noteNo"
-            read-only.bind="true" 
-            options.bind="controlOptions"
-            view-model.ref="selectedSalesNoteViewModel">
+        <au-autocomplete label="No Nota Penjualan Lokal" placeholder="Pilih Nota Penjualan Lokal"
+            error.bind="error.LocalSalesNoteNo" value.bind="selectedSalesNote"
+            if.bind="data.ExpenditureTo == 'JUAL LOKAL'" text="noteNo" read-only.bind="true"
+            options.bind="controlOptions" view-model.ref="selectedSalesNoteViewModel">
         </au-autocomplete>
 
-        <au-multiline 
-            label="Keterangan" 
-            placeholder="Masukkan Keterangan" 
-            value.bind="data.Description"
-            read-only.bind="true" 
-            options.bind="controlOptions">
+        <au-multiline label="Keterangan" placeholder="Masukkan Keterangan" value.bind="data.Description"
+            read-only.bind="true" options.bind="controlOptions">
         </au-multiline>
 
         <div class="form-group has-error">
             <p if.bind="error.ItemsCount" class="help-block text-center">${error.ItemsCount}</p>
         </div>
- 
-        <au-collection 
-                items.bind="data.Items" 
-                errors.bind="error.Items" 
-                columns.bind="viewItemsColumns"
-                read-only.bind="true" 
-                options.bind="Options"
-                item-template="modules/inventory/garment-leftover-warehouse/expenditure/finished-good/template/item">
+
+        <au-collection items.bind="data.Items" errors.bind="error.Items" columns.bind="viewItemsColumns"
+            read-only.bind="true" options.bind="Options"
+            item-template="modules/inventory/garment-leftover-warehouse/expenditure/finished-good/template/item">
         </au-collection>
-        
+
     </au-input-form>
 </template>
