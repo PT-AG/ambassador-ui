@@ -6,6 +6,10 @@ import { Base64Helper } from '../../../../../utils/base-64-coded-helper';
 @inject(Router, Service)
 export class View {
 
+    hasCancel = true;
+    hasEdit = true;
+    hasDelete = true;
+
     constructor(router, service) {
         this.router = router;
         this.service = service;
@@ -17,6 +21,8 @@ export class View {
         this.data = await this.service.getById(id);
 
         if (this.data.IsUsed) {
+            this.hasEdit = false;
+            this.hasDelete = false;
             this.editCallback = null;
             this.deleteCallback = null;
         }
