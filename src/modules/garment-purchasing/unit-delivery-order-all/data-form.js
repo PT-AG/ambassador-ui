@@ -180,10 +180,26 @@ export class DataForm {
         this.data = this.context.data;
         this.error = this.context.error;
 
-        this.options = {
-            readOnly : this.readOnly,
-            isEdit : this.isEdit
-        };
+  get garmentUnitReceiptNoteHeaderLoader() {
+    return (keyword, filter) => {
+      var info = {
+        keyword: keyword,
+        filter: JSON.stringify(filter),
+      };
+      return this.service.searchMoreDOItems(info).then((result) => {
+        let itemIds = this.data.Items.map((i) => i.DOItemsId);
+        return result.data.filter((data) => {
+          if (!data || itemIds.indexOf(data.DOItemsId) >= 0) return false;
+          const pName = (data.ProductName || "").toUpperCase();
+          const isLotRequired = pName === "FABRIC" || pName.startsWith("INTERLINING") || pName.startsWith("TRICOT");
+          if (isLotRequired && (!data.Lot || data.Lot.trim() === "" || data.Lot.trim() === "-")) {
+            return false;
+          }
+          return true;
+        });
+      });
+    };
+  }
 
         if (this.readOnly || this.isEdit) {
             this.items.columns =  [
@@ -400,21 +416,451 @@ export class DataForm {
         this.unitSender = null;
     }
 
-    storageChanged(newValue) {
-        var selectedStorage = newValue;
-        if (selectedStorage) {
-            this.data.Storage = selectedStorage;
+  unitSenderChanged(newValue) {
+    var selectedUnit = newValue;
+    if (selectedUnit) {
+      this.data.UnitSender = selectedUnit;
+    } else {
+      this.data.UnitSender = null;
+      this.context.unitSenderViewModel.editorValue = "";
+    }
+    this.storage = null;
+    this.context.storageViewModel.editorValue = "";
+    this.RONoHeader = null;
+    this.RONo = null;
+    this.data.Items = [];
+    this.context.RONoHeaderViewModel.editorValue = "";
+    // this.context.RONoViewModel.editorValue = "";
+    this.data.Article = null;
+  }
+  supplierChanged(newValue) {
+    var selectedSupplier = newValue;
+    this.data.Supplier = selectedSupplier;
+    this.data.Supplier._id = selectedSupplier.Id;
+  }
+
+  storageRequestChanged(newValue) {
+    var selectedStorage = newValue;
+    if (selectedStorage) {
+      this.data.StorageRequest = selectedStorage;
+    } else {
+      this.data.StorageRequest = null;
+      if (this.isTransfer) {
+        this.context.storageRequestViewModel.editorValue = "";
+      }
+    }
+    this.data.Items = [];
+    this.RONo = null;
+    this.data.Article = null;
+    this.storage = null;
+    // this.context.RONoViewModel.editorValue = "";
+    this.unitSender = null;
+  }
+
+  storageChanged(newValue) {
+    var selectedStorage = newValue;
+    if (selectedStorage) {
+      this.data.Storage = selectedStorage;
+    } else {
+      this.data.Storage = null;
+      this.context.storageViewModel.editorValue = "";
+    }
+    this.data.Items = [];
+    this.RONo = null;
+    this.data.Article = null;
+    this.context.RONoHeaderViewModel.editorValue = "";
+    // this.context.RONoViewModel.editorValue = "";
+    this.RONoHeader = null;
+  }
+
+  // RONoJobChanged(newValue){
+  //     if(newValue){
+  //         this.data.Article =newValue.Article;
+  //         this.data.RONo = newValue.RONo;
+  //         this.data.Items = [];
+  //         this.dataItems = [];
+  //         Promise.resolve(this.service.searchDOItems({ filter: JSON.stringify({ RONo: this.data.RONo, UnitId:this.data.UnitSender.Id, StorageId:this.data.Storage.Id ? this.data.Storage.Id : this.data.Storage._id}) }))
+  //                 .then(result => {
+  //                     if(result.data.length>0){
+  //                         for(var item of result.data){
+
+  //                             var Items = {};
+  //                             Items.DOItemsId = item.DOItemsId;
+  //                             Items.URNItemId = item.URNItemId;
+  //                             Items.URNNo = item.URNNo;
+  //                             Items.DODetailId = item.DODetailId;
+  //                             Items.URNId = item.URNId;
+  //                             Items.POItemId = item.POItemId;
+  //                             Items.EPOItemId = item.EPOItemId;
+  //                             Items.PRItemId = item.PRItemId;
+  //                             Items.RONo = item.RONo;
+  //                             Items.Article = item.Article;
+  //                             Items.POSerialNumber = item.POSerialNumber;
+  //                             Items.ProductId = item.ProductId;
+  //                             Items.ProductCode = item.ProductCode;
+  //                             Items.ProductName = item.ProductName;
+  //                             Items.ProductRemark = `${item.POSerialNumber}; ${item.Article}; ${item.RONo}; ${item.ProductRemark}`;
+  //                             Items.UomId = item.SmallUomId;
+  //                             Items.UomUnit = item.SmallUomUnit;
+  //                             Items.PricePerDealUnit = item.PricePerDealUnit;
+  //                             Items.DesignColor = item.DesignColor;
+  //                             Items.DefaultDOQuantity = parseFloat(item.RemainingQuantity.toFixed(2));
+  //                             Items.Quantity = Items.DefaultDOQuantity;
+  //                             Items.IsSave = Items.Quantity > 0;
+  //                             Items.IsDisabled = !(Items.Quantity > 0);
+
+  //                             this.dataItems.push(Items);
+  //                         }
+  //                     }
+
+  //                 });
+  //     }
+  //     else{
+  //         this.data.RONo =null;
+  //         this.data.Article =null;
+  //         this.context.RONoViewModel.editorValue = "";
+  //         this.dataItems = [];
+  //     }
+
+  // }
+
+  async searchRONo() {
+    // this.data.Items = this.dataItems;
+    this.data.Items = [];
+    this.dataItems = [];
+    this.RONoJob = this.RONoJob ? this.RONoJob.toUpperCase() : null;
+    this.RONo = this.RONo ? this.RONo.toUpperCase() : null;
+    if (this.isTransfer) {
+      var filter = JSON.stringify({
+        RO_Number: this.RONoJob,
+        IsPosted: true,
+        IsApprovedKadivMD: true,
+      });
+
+      var info = {
+        keyword: this.RONoJob,
+        filter: filter,
+      };
+      // this.data.RONo = this.RONoJob;
+      // var ro = [];
+      // this.service.getGarmentEPOByRONo(info).then((epo) => {
+      //   for (var a of epo.data) {
+      //     if (a.RONo == this.data.RONo) {
+      //       ro.push(a);
+      //       break;
+      //     }
+      //   }
+
+      this.data.RONo = this.RONoJob;
+      var ro = [];
+      this.salesService.searchCCByRO(info).then((cc) => {
+        for (var a of (cc.data || [])) {
+          if (a.RO_Number == this.data.RONo) {
+            ro.push(a);
+            break;
+          }
         }
-        else {
-            this.data.Storage = null;
-            this.context.storageViewModel.editorValue = "";
+        if (ro.length > 0) {
+          this.data.Article = ro[0].Article;
+        } else {
+          alert(`Cost Calculation untuk RO ${this.data.RONo} tidak ditemukan.`);
+          return;
         }
-        this.data.Items = [];
-        this.RONo = null;
-        this.data.Article = null;
-        this.context.RONoHeaderViewModel.editorValue = "";
-        this.context.RONoViewModel.editorValue = "";
-        this.RONoHeader = null;
+        this.service
+          .searchDOItems({
+            filter: JSON.stringify({
+              RONo: this.data.RONo,
+              UnitId: this.data.UnitSender.Id,
+              StorageId: this.data.Storage.Id
+                ? this.data.Storage.Id
+                : this.data.Storage._id,
+            }),
+          })
+          .then((result) => {
+            if (result.data.length > 0) {
+              for (var item of result.data) {
+                var Items = {};
+                Items.DOItemsId = item.DOItemsId;
+                Items.URNItemId = item.URNItemId;
+                Items.URNNo = item.URNNo;
+                Items.DODetailId = item.DODetailId;
+                Items.URNId = item.URNId;
+                Items.POItemId = item.POItemId;
+                Items.EPOItemId = item.EPOItemId;
+                Items.PRItemId = item.PRItemId;
+                Items.RONo = item.RONo;
+                Items.Article = item.Article;
+                Items.POSerialNumber = item.POSerialNumber;
+                Items.ProductId = item.ProductId;
+                Items.ProductCode = item.ProductCode;
+                Items.ProductName = item.ProductName;
+                Items.ProductRemark = `${item.POSerialNumber}; ${item.Article}; ${item.RONo}; ${item.ProductRemark}`;
+                Items.UomId = item.SmallUomId;
+                Items.UomUnit = item.SmallUomUnit;
+                Items.PricePerDealUnit = item.PricePerDealUnit;
+                Items.DesignColor = item.DesignColor;
+                Items.DefaultDOQuantity = parseFloat(
+                  item.RemainingQuantity.toFixed(2)
+                );
+                Items.Quantity = Items.DefaultDOQuantity;
+                Items.IsSave = Items.Quantity > 0;
+                Items.IsDisabled = !(Items.Quantity > 0);
+                Items.CustomsCategory = item.CustomsCategory;
+
+                Items.Rack = item.Rack;
+                Items.Level = item.Level;
+                Items.Box = item.Box;
+                Items.Colour = item.Colour;
+                Items.Area = item.Area;
+                Items.Remark= item.Remark;
+
+                Items.Lot = item.Lot;
+                Items.Batch = item.Batch;
+                Items.PackageNo = item.PackageNo;
+                Items.HandlingUnit = item.HandlingUnit;
+                Items.Width = item.Width;
+
+                const pName = (item.ProductName || "").toUpperCase();
+                const isLotRequired = pName === "FABRIC" || pName.startsWith("INTERLINING") || pName.startsWith("TRICOT");
+                if (isLotRequired && (!item.Lot || item.Lot.trim() === "" || item.Lot.trim() === "-")) {
+                  continue;
+                }
+
+                this.dataItems.push(Items);
+              }
+            }
+            this.data.Items = this.dataItems;
+          });
+      }).catch((e) => {
+        alert(`Cost Calculation untuk RO ${this.data.RONo} tidak ditemukan atau gagal dimuat.`);
+      });
+    } else if (
+      !this.isProses &&
+      !this.isTransfer &&
+      !this.isRemain &&
+      !this.isSample &&
+      !this.isSubcon &&
+      !this.isSTransfer
+    ) {
+      var data = [];
+      var rONoFilter = {};
+      if (this.data.UnitSender && this.data.Storage) {
+        rONoFilter.UnitId = this.data.UnitSender.Id;
+        rONoFilter.Type = this.data.UnitDOType;
+        rONoFilter.StorageId = this.data.Storage._id;
+      }
+      var info = {
+        keyword: this.RONo,
+        filter: filter,
+      };
+      this.data.RONo = this.RONo;
+      this.service.getgarmentURNforUnitDO(info).then((results) => {
+        for (var i in results.data) {
+          data.push(i);
+        }
+        this.data.Article = data[0].Article;
+        this.service
+          .searchDOItems({
+            filter: JSON.stringify({
+              RONo: this.data.RONo,
+              UnitId: this.data.UnitSender.Id,
+              StorageId: this.data.Storage.Id
+                ? this.data.Storage.Id
+                : this.data.Storage._id,
+            }),
+          })
+          .then((result) => {
+            if (result.data.length > 0) {
+              for (var item of result.data) {
+                var Items = {};
+                Items.DOItemsId = item.DOItemsId;
+                Items.URNItemId = item.URNItemId;
+                Items.URNNo = item.URNNo;
+                Items.DODetailId = item.DODetailId;
+                Items.URNId = item.URNId;
+                Items.POItemId = item.POItemId;
+                Items.EPOItemId = item.EPOItemId;
+                Items.PRItemId = item.PRItemId;
+                Items.RONo = item.RONo;
+                Items.Article = item.Article;
+                Items.POSerialNumber = item.POSerialNumber;
+                Items.ProductId = item.ProductId;
+                Items.ProductCode = item.ProductCode;
+                Items.ProductName = item.ProductName;
+                Items.ProductRemark = `${item.POSerialNumber}; ${item.Article}; ${item.RONo}; ${item.ProductRemark}`;
+                Items.UomId = item.SmallUomId;
+                Items.UomUnit = item.SmallUomUnit;
+                Items.PricePerDealUnit = item.PricePerDealUnit;
+                Items.DesignColor = item.DesignColor;
+                Items.DefaultDOQuantity = parseFloat(
+                  item.RemainingQuantity.toFixed(2)
+                );
+                Items.Quantity = Items.DefaultDOQuantity;
+                Items.IsSave = Items.Quantity > 0;
+                Items.IsDisabled = !(Items.Quantity > 0);
+                Items.CustomsCategory = item.CustomsCategory;
+
+                Items.Rack = item.Rack;
+                Items.Level = item.Level;
+                Items.Box = item.Box;
+                Items.Colour = item.Colour;
+                Items.Area = item.Area;
+                Items.Remark= item.Remark;
+
+                Items.Lot = item.Lot;
+                Items.Batch = item.Batch;
+                Items.PackageNo = item.PackageNo;
+                Items.HandlingUnit = item.HandlingUnit;
+                Items.Width = item.Width;
+
+                const pName = (item.ProductName || "").toUpperCase();
+                const isLotRequired = pName === "FABRIC" || pName.startsWith("INTERLINING") || pName.startsWith("TRICOT");
+                if (isLotRequired && (!item.Lot || item.Lot.trim() === "" || item.Lot.trim() === "-")) {
+                  continue;
+                }
+
+                this.dataItems.push(Items);
+              }
+            }
+            this.data.Items = this.dataItems;
+          });
+      }).catch((e) => {
+        alert(`Cost Calculation untuk RO ${this.data.RONo} tidak ditemukan atau gagal dimuat.`);
+      });
+    } else {
+      var filter = JSON.stringify({
+        RO_Number: this.RONo,
+        IsPosted: true,
+        IsApprovedKadivMD: true,
+      });
+      var info = {
+        keyword: this.RONo,
+        filter: filter,
+      };
+      this.data.RONo = this.RONo;
+      var ro = [];
+      await this.salesService.searchCCByRONo(this.data.RONo).then((costcal) => {
+        this.data.Article = costcal.Article;
+        if(this.isProses ){
+            for(var materialData of costcal.CostCalculationGarment_Materials){
+              if(materialData.DOItemId>0){
+                let ccData=materialData;
+                this.service.searchDOItemById(materialData.DOItemId).then((doitem)=>{
+                  var Items = {};
+                  var storageid=this.data.Storage.Id ? this.data.Storage.Id : this.data.Storage._id;
+                  if(doitem.StorageId==storageid){
+                    Items.DOItemsId = doitem.Id;
+                    Items.URNItemId = doitem.URNItemId;
+                    Items.URNNo = doitem.URNNo;
+                    Items.DODetailId = doitem.DODetailId;
+                    Items.URNId = doitem.URNId;
+                    Items.POItemId = doitem.POItemId;
+                    Items.EPOItemId = doitem.EPOItemId;
+                    Items.PRItemId = doitem.PRItemId;
+                    Items.RONo = doitem.RO;
+                    Items.Article = costcal.Article;
+                    Items.POSerialNumber = doitem.POSerialNumber;
+                    Items.ProductId = doitem.ProductId;
+                    Items.ProductCode = doitem.ProductCode;
+                    Items.ProductName = doitem.ProductName;
+                    Items.ProductRemark = `${doitem.POSerialNumber}; ${costcal.Article}; ${doitem.RO}; ${ccData.ProductRemark}`;
+                    Items.UomId = doitem.SmallUomId;
+                    Items.UomUnit = doitem.SmallUomUnit;
+                    Items.PricePerDealUnit = doitem.PricePerDealUnit;
+                    Items.DesignColor = doitem.DesignColor;
+                    Items.DefaultDOQuantity = parseFloat(
+                      ccData.RemainingQuantity.toFixed(2)
+                    );
+                    Items.Quantity = Items.DefaultDOQuantity;
+                    Items.IsSave = Items.Quantity > 0;
+                    Items.IsDisabled = !(Items.Quantity > 0);
+                    Items.CustomsCategory = doitem.CustomsCategory;
+
+                    Items.AvailableQuantity=ccData.RemainingQuantity;
+
+                    Items.Rack = doitem.Rack;
+                    Items.Level = doitem.Level;
+                    Items.Box = doitem.Box;
+                    Items.Colour = doitem.Colour;
+                    Items.Area = doitem.Area;
+                    Items.Remark= ccData.Description;
+                    Items.CCMaterialId=ccData.Id;
+
+                    this.dataItems.push(Items);
+                  }
+                })
+              }
+            }
+          }
+        this.service
+          .searchDOItems({
+            filter: JSON.stringify({
+              RONo: this.data.RONo,
+              UnitId: this.data.UnitSender.Id,
+              StorageId: this.data.Storage.Id
+                ? this.data.Storage.Id
+                : this.data.Storage._id,
+            }),
+          })
+          .then((result) => {
+            if (result.data.length > 0) {
+              for (var item of result.data) {
+                var Items = {};
+                Items.DOItemsId = item.DOItemsId;
+                Items.URNItemId = item.URNItemId;
+                Items.URNNo = item.URNNo;
+                Items.DODetailId = item.DODetailId;
+                Items.URNId = item.URNId;
+                Items.POItemId = item.POItemId;
+                Items.EPOItemId = item.EPOItemId;
+                Items.PRItemId = item.PRItemId;
+                Items.RONo = item.RONo;
+                Items.Article = item.Article;
+                Items.POSerialNumber = item.POSerialNumber;
+                Items.ProductId = item.ProductId;
+                Items.ProductCode = item.ProductCode;
+                Items.ProductName = item.ProductName;
+                Items.ProductRemark = `${item.POSerialNumber}; ${item.Article}; ${item.RONo}; ${item.ProductRemark}`;
+                Items.UomId = item.SmallUomId;
+                Items.UomUnit = item.SmallUomUnit;
+                Items.PricePerDealUnit = item.PricePerDealUnit;
+                Items.DesignColor = item.DesignColor;
+                Items.DefaultDOQuantity = parseFloat(
+                  item.RemainingQuantity.toFixed(2)
+                );
+                Items.Quantity = Items.DefaultDOQuantity;
+                Items.IsSave = Items.Quantity > 0;
+                Items.IsDisabled = !(Items.Quantity > 0);
+                Items.CustomsCategory = item.CustomsCategory;
+
+                Items.Rack = item.Rack;
+                Items.Level = item.Level;
+                Items.Box = item.Box;
+                Items.Colour = item.Colour;
+                Items.Area = item.Area;
+                Items.Remark= item.Remark;
+
+                Items.Lot = item.Lot;
+                Items.Batch = item.Batch;
+                Items.PackageNo = item.PackageNo;
+                Items.HandlingUnit = item.HandlingUnit;
+                Items.Width = item.Width;
+
+                const pName = (item.ProductName || "").toUpperCase();
+                const isLotRequired = pName === "FABRIC" || pName.startsWith("INTERLINING") || pName.startsWith("TRICOT");
+                if (isLotRequired && (!item.Lot || item.Lot.trim() === "" || item.Lot.trim() === "-")) {
+                  continue;
+                }
+
+                this.dataItems.push(Items);
+              }
+            }
+            this.data.Items = this.dataItems;
+            console.log(this.data.Items)
+          });
+      }).catch((e) => {
+        alert(`Data Cost Calculation untuk RO ${this.data.RONo} tidak ditemukan atau gagal dimuat.`);
+      });
     }
 
     RONoJobChanged(newValue){
@@ -596,13 +1042,71 @@ export class DataForm {
             this.newProduct.Quantity = this.newProduct.DefaultDOQuantity;
             this.newProduct.IsSave = this.newProduct.Quantity > 0;
             this.newProduct.IsDisabled = !(this.newProduct.Quantity > 0);
-        }
-        // this.context.error.Items = [];
-        // this.context.error = [];
+
+            this.newProduct.Rack = selectedROHeader.Rack;
+            this.newProduct.Level = selectedROHeader.Level;
+            this.newProduct.Box = selectedROHeader.Box;
+            this.newProduct.Colour = selectedROHeader.Colour;
+            this.newProduct.Area = selectedROHeader.Area;
+            this.newProduct.Remark= selectedROHeader.Remark;
+
+            this.newProduct.Lot = selectedROHeader.Lot;
+            this.newProduct.Batch = selectedROHeader.Batch;
+            this.newProduct.PackageNo = selectedROHeader.PackageNo;
+            this.newProduct.HandlingUnit = selectedROHeader.HandlingUnit;
+            this.newProduct.Width = selectedROHeader.Width;
+          // } else {
+          //   this.newProduct.IsDisabled = true;
+          // }
+        });
     }
 
-    get unitRequestLoader() {
-        return UnitRequestLoader;
+  get unitRequestLoader() {
+    return UnitRequestLoader;
+  }
+
+  get unitSenderLoader() {
+    return UnitSenderLoader;
+  }
+  get supplierLoader() {
+    return SupplierLoader;
+  }
+
+  supplierView = (supplier) => {
+    return `${supplier.code} - ${supplier.name}`;
+  };
+
+  roNoView = (rono) => {
+    return `${rono.RONo} - ${rono.ProductCode} - ${rono.ProductName} - ${rono.POSerialNumber} - ${rono.RemainingQuantity} - ${rono.Colour}`;
+  };
+
+  unitRequestView = (unitRequest) => {
+    return `${unitRequest.Code} - ${unitRequest.Name}`;
+  };
+
+  unitSenderView = (unitSender) => {
+    return `${unitSender.Code} - ${unitSender.Name}`;
+  };
+
+  get unitReceiptNoteLoader() {
+    return UnitReceiptNoteLoader;
+  }
+
+  async addProduct() {
+    if (this.newProduct && this.newProduct.ProductId) {
+      const pName = (this.newProduct.ProductName || "").toUpperCase();
+      const isLotRequired = pName === "FABRIC" || pName.startsWith("INTERLINING") || pName.startsWith("TRICOT");
+      if (isLotRequired && (!this.newProduct.Lot || this.newProduct.Lot.trim() === "" || this.newProduct.Lot.trim() === "-")) {
+        alert("Nomor Lot belum diisi pada data sumber barang ini.");
+        return;
+      }
+      this.data.Items.push(this.newProduct);
+      this.options.checkedAll = this.data.Items.filter(
+        (item) => item.IsDisabled === false
+      ).reduce((acc, curr) => acc && curr.IsSave, true);
+      this.context.ItemsCollection.bind();
+      this.newProduct = {};
+      this.RONoHeader = null;
     }
 
   items = {

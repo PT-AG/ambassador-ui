@@ -284,13 +284,16 @@ export class DataForm {
         filter: JSON.stringify(filter),
       };
       return this.service.searchMoreDOItems(info).then((result) => {
-        // let itemIds = this.data.Items.map(i => i.URNItemId);
-        // return result.data.filter(data => data && itemIds.indexOf(data.URNItemId) < 0);
         let itemIds = this.data.Items.map((i) => i.DOItemsId);
-        // let colorLIst = this.data.Items.map(i => i.Colour);
-        return result.data.filter(
-          (data) => data && itemIds.indexOf(data.DOItemsId) < 0
-        );
+        return result.data.filter((data) => {
+          if (!data || itemIds.indexOf(data.DOItemsId) >= 0) return false;
+          const pName = (data.ProductName || "").toUpperCase();
+          const isLotRequired = pName === "FABRIC" || pName.startsWith("INTERLINING") || pName.startsWith("TRICOT");
+          if (isLotRequired && (!data.Lot || data.Lot.trim() === "" || data.Lot.trim() === "-")) {
+            return false;
+          }
+          return true;
+        });
       });
     };
   }
@@ -539,9 +542,15 @@ export class DataForm {
                 Items.Batch = item.Batch;
                 Items.PackageNo = item.PackageNo;
                 Items.HandlingUnit = item.HandlingUnit;
-                //if (!this.itemToException.includes(Items.ProductName)) {
-                  this.dataItems.push(Items);
-                //}
+                Items.Width = item.Width;
+
+                const pName = (item.ProductName || "").toUpperCase();
+                const isLotRequired = pName === "FABRIC" || pName.startsWith("INTERLINING") || pName.startsWith("TRICOT");
+                if (isLotRequired && (!item.Lot || item.Lot.trim() === "" || item.Lot.trim() === "-")) {
+                  continue;
+                }
+
+                this.dataItems.push(Items);
               }
             }
             await this.enrichItems(this.dataItems);
@@ -627,10 +636,15 @@ export class DataForm {
                 Items.Batch = item.Batch;
                 Items.PackageNo = item.PackageNo;
                 Items.HandlingUnit = item.HandlingUnit;
+                Items.Width = item.Width;
 
-                //if (!this.itemToException.includes(Items.ProductName)) {
-                  this.dataItems.push(Items);
-                //}
+                const pName = (item.ProductName || "").toUpperCase();
+                const isLotRequired = pName === "FABRIC" || pName.startsWith("INTERLINING") || pName.startsWith("TRICOT");
+                if (isLotRequired && (!item.Lot || item.Lot.trim() === "" || item.Lot.trim() === "-")) {
+                  continue;
+                }
+
+                this.dataItems.push(Items);
               }
             }
             await this.enrichItems(this.dataItems);
@@ -780,6 +794,13 @@ export class DataForm {
                 Items.Batch = item.Batch;
                 Items.PackageNo = item.PackageNo;
                 Items.HandlingUnit = item.HandlingUnit;
+                Items.Width = item.Width;
+
+                const pName = (item.ProductName || "").toUpperCase();
+                const isLotRequired = pName === "FABRIC" || pName.startsWith("INTERLINING") || pName.startsWith("TRICOT");
+                if (isLotRequired && (!item.Lot || item.Lot.trim() === "" || item.Lot.trim() === "-")) {
+                  continue;
+                }
 
                 this.dataItems.push(Items);
               }
@@ -793,65 +814,9 @@ export class DataForm {
               this.error.Article = "Artikel tidak ditemukan.";
             }
           });
-      }
-
-      //get data from DOitems to mapping in items
-      this.service
-        .searchDOItems({
-          filter: JSON.stringify({
-            RONo: this.data.RONo,
-            UnitId: this.data.UnitSender.Id,
-            StorageId: this.data.Storage.Id
-              ? this.data.Storage.Id
-              : this.data.Storage._id,
-          }),
-        })
-        .then(async (result) => {
-          if (result.data.length > 0) {
-            for (var item of result.data) {
-              var Items = {};
-              Items.DOItemsId = item.DOItemsId;
-              Items.URNItemId = item.URNItemId;
-              Items.URNNo = item.URNNo;
-              Items.DODetailId = item.DODetailId;
-              Items.URNId = item.URNId;
-              Items.POItemId = item.POItemId;
-              Items.EPOItemId = item.EPOItemId;
-              Items.PRItemId = item.PRItemId;
-              Items.RONo = item.RONo;
-              Items.Article = item.Article;
-              Items.POSerialNumber = item.POSerialNumber;
-              Items.ProductId = item.ProductId;
-              Items.ProductCode = item.ProductCode;
-              Items.ProductName = item.ProductName;
-              Items.ProductRemark = `${item.POSerialNumber}; ${item.Article}; ${item.RONo}; ${item.ProductRemark}`;
-              Items.UomId = item.SmallUomId;
-              Items.UomUnit = item.SmallUomUnit;
-              Items.PricePerDealUnit = item.PricePerDealUnit;
-              Items.DesignColor = item.DesignColor;
-              Items.DefaultDOQuantity = parseFloat(
-                item.RemainingQuantity.toFixed(2)
-              );
-              Items.Quantity = Items.DefaultDOQuantity;
-              Items.IsSave = Items.Quantity > 0;
-              Items.IsDisabled = !(Items.Quantity > 0);
-              Items.CustomsCategory = item.CustomsCategory;
-
-              Items.Rack = item.Rack;
-              Items.Level = item.Level;
-              Items.Box = item.Box;
-              Items.Colour = item.Colour;
-              Items.Area = item.Area;
-              Items.Remark = item.Remark;
-
-              //if (!this.itemToException.includes(Items.ProductName)) {
-                this.dataItems.push(Items);
-              //}
-            }
-          }
-          await this.enrichItems(this.dataItems);
-          this.data.Items = this.dataItems;
-        });
+      }).catch((e) => {
+        alert(`Data Cost Calculation untuk RO ${this.data.RONo} tidak ditemukan atau gagal dimuat.`);
+      });
     }
 
     // this.service.searchDOItems({ filter: JSON.stringify({ RONo: this.data.RONo, UnitId:this.data.UnitSender.Id, StorageId:this.data.Storage.Id ? this.data.Storage.Id : this.data.Storage._id}) })
@@ -1044,17 +1009,19 @@ export class DataForm {
           this.newProduct.IsSave = this.newProduct.Quantity > 0;
           this.newProduct.IsDisabled = !(this.newProduct.Quantity > 0);
 
-            this.newProduct.Rack = selectedROHeader.Rack;
-            this.newProduct.Level = selectedROHeader.Level;
-            this.newProduct.Box = selectedROHeader.Box;
-            this.newProduct.Colour = selectedROHeader.Colour;
-            this.newProduct.Area = selectedROHeader.Area;
-            this.newProduct.Remark= selectedROHeader.Remark;
-            
-            this.newProduct.Lot = selectedROHeader.Lot;
-            this.newProduct.Batch = selectedROHeader.Batch;
-            this.newProduct.PackageNo = selectedROHeader.PackageNo;
-            this.newProduct.HandlingUnit = selectedROHeader.HandlingUnit;
+          this.newProduct.Rack = selectedROHeader.Rack;
+          this.newProduct.Level = selectedROHeader.Level;
+          this.newProduct.Box = selectedROHeader.Box;
+          this.newProduct.Colour = selectedROHeader.Colour;
+          this.newProduct.Area = selectedROHeader.Area;
+          this.newProduct.Remark = selectedROHeader.Remark;
+
+          this.newProduct.Lot = selectedROHeader.Lot;
+          this.newProduct.Batch = selectedROHeader.Batch;
+          this.newProduct.PackageNo = selectedROHeader.PackageNo;
+          this.newProduct.HandlingUnit = selectedROHeader.HandlingUnit;
+          this.newProduct.Width = selectedROHeader.Width;
+          this.enrichKebRoTotalQtyDO(this.newProduct);
           // } else {
           //   this.newProduct.IsDisabled = true;
           // }
@@ -1099,6 +1066,12 @@ export class DataForm {
 
   async addProduct() {
     if (this.newProduct && this.newProduct.ProductId) {
+      const pName = (this.newProduct.ProductName || "").toUpperCase();
+      const isLotRequired = pName === "FABRIC" || pName.startsWith("INTERLINING") || pName.startsWith("TRICOT");
+      if (isLotRequired && (!this.newProduct.Lot || this.newProduct.Lot.trim() === "" || this.newProduct.Lot.trim() === "-")) {
+        alert("Nomor Lot belum diisi pada data sumber barang ini.");
+        return;
+      }
       this.data.Items.push(this.newProduct);
       this.options.checkedAll = this.data.Items.filter(
         (item) => item.IsDisabled === false

@@ -49,6 +49,30 @@ class BaseService extends RestService {
 }
 
 export class Service extends BaseService {
+  constructor(http, aggregator, config, endpoint) {
+    super(http, aggregator, config, "purchasing-azure");
+  }
+
+  get(endpoint, header, info) {
+    var promise = this.endpoint.find(endpoint, info);
+    this.publish(promise);
+    return promise
+      .catch((e) => {
+        this.publish(promise);
+        return Promise.reject(e);
+      })
+      .then((result) => {
+        this.publish(promise);
+        return this.parseResult(result);
+      });
+  }
+}
+
+const UnitServiceUri = "master/units";
+export class CoreService extends BaseService {
+  constructor(http, aggregator, config, endpoint) {
+    super(http, aggregator, config, "core");
+  }
 
     constructor(http, aggregator, config, endpoint) {
         super(http, aggregator, config, "purchasing-azure");
@@ -110,11 +134,11 @@ export class Service extends BaseService {
     }
 }
 
-const UnitServiceUri = 'master/units';
-export class CoreService extends BaseService {
-    constructor(http, aggregator, config, endpoint) {
-        super(http, aggregator, config, "core");
-    }
+const serviceUriCC = "cost-calculation-garments";
+export class SalesService extends BaseService {
+  constructor(http, aggregator, config, endpoint) {
+    super(http, aggregator, config, "sales");
+  }
 
     getSampleUnit(info) {
         var endpoint = `${UnitServiceUri}`;
