@@ -8,7 +8,7 @@
                 options.bind="controlOptions">
 			</au-textbox>
 		</td>
-		<td if.bind="data.ProductName && data.ProductName.trim().toUpperCase() === 'FABRIC'">
+		<td if.bind="isFabric">
 			<au-textbox 
                 value.bind="data.Width" 
                 error.bind="error.Width"
@@ -23,7 +23,7 @@
                 options.bind="controlOptions">
 			</au-numeric>
 		</td>
-		<td if.bind="data.ProductName && data.ProductName.trim().toUpperCase() === 'FABRIC'">
+		<td if.bind="isLot">
 			<au-textbox
 				value.bind="data.Lot"
 				error.bind="error.Lot"

@@ -44,36 +44,54 @@ export class DataForm {
     this.context = context;
     this.data = this.context.data;
     
-    this.isFabric =
-      this.data &&
-      this.data.ProductName &&
-      this.data.ProductName.trim().toUpperCase() === "FABRIC";
+    const productName =
+      this.data && this.data.ProductName
+        ? this.data.ProductName.trim().toUpperCase()
+        : "";
+    this.isFabric = productName === "FABRIC";
+    this.isInterliningOrTricot =
+      productName.startsWith("INTERLINING") || productName.startsWith("TRICOT");
 
-    this.columns = this.isFabric
-      ? [
-          "Warna",
-          "Lebar",
-          "Quantity",
-          "Lot",
-          "Batch",
-          "No Package",
-          "Handling Unit",
-          "Rack",
-          "Level",
-          "Box",
-          "Area",
-        ]
-      : [
-          "Warna",
-          "Quantity",
-          "Batch",
-          "No Package",
-          "Handling Unit",
-          "Rack",
-          "Level",
-          "Box",
-          "Area",
-        ];
+    if (this.isFabric) {
+      this.columns = [
+        "Warna",
+        "Lebar",
+        "Quantity",
+        "Lot",
+        "Batch",
+        "No Package",
+        "Handling Unit",
+        "Rack",
+        "Level",
+        "Box",
+        "Area",
+      ];
+    } else if (this.isInterliningOrTricot) {
+      this.columns = [
+        "Warna",
+        "Quantity",
+        "Lot",
+        "Batch",
+        "No Package",
+        "Handling Unit",
+        "Rack",
+        "Level",
+        "Box",
+        "Area",
+      ];
+    } else {
+      this.columns = [
+        "Warna",
+        "Quantity",
+        "Batch",
+        "No Package",
+        "Handling Unit",
+        "Rack",
+        "Level",
+        "Box",
+        "Area",
+      ];
+    }
 
     //binding Items from header
     this.data.Items=[];
@@ -138,6 +156,7 @@ export class DataForm {
         Colour: lastItem.Colour,
         Quantity: 0,
         Lot: lastItem.Lot,
+        Width: lastItem.Width,
         Batch: lastItem.Batch
           ? moment.parseZone(lastItem.Batch).utcOffset(7).format("YYYY-MM-DD")
           : null,
@@ -157,6 +176,7 @@ export class DataForm {
         Colour: this.data.Colour,
         Quantity: 0,
         Lot: this.data.Lot,
+        Width: this.data.Width,
         Batch: this.data.Batch
           ? moment.parseZone(this.data.Batch).utcOffset(7).format("YYYY-MM-DD")
           : null,

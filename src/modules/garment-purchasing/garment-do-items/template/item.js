@@ -50,10 +50,6 @@ export class Item {
         // } 
         this.data.Colour=this.data.Colour ? this.data.Colour : this.options.colour;
 
-        const isFabric =
-        this.data.ProductName &&
-        this.data.ProductName.trim().toUpperCase() === "FABRIC";
-
         if (this.data.HandlingUnit) {
 
             this.dataUom = {
@@ -62,7 +58,7 @@ export class Item {
             };
 
         }
-        else if (isFabric) {
+        else if (this.isFabric) {
             this.setFabricHandlingUnit();
         }
         else {
@@ -70,6 +66,26 @@ export class Item {
             this.dataUom = null;
 
         }
+    }
+
+    get isFabric() {
+        return (
+            this.data &&
+            this.data.ProductName &&
+            this.data.ProductName.trim().toUpperCase() === "FABRIC"
+        );
+    }
+
+    get isInterliningOrTricot() {
+        const name =
+            this.data && this.data.ProductName
+                ? this.data.ProductName.trim().toUpperCase()
+                : "";
+        return name.startsWith("INTERLINING") || name.startsWith("TRICOT");
+    }
+
+    get isLot() {
+        return this.isFabric || this.isInterliningOrTricot;
     }
 
     toggle() {

@@ -44,14 +44,25 @@ export class Edit {
         });
 
         if (parseFloat(this.data.RemainingQuantity) != parseFloat(itemQtySUm).toFixed(2)) {
-            alert("Jumlah Quantity Item harus sama dengan Quantity Sebelumnya")
-        } else {
-            this.service.update(this.data).then(result => {
-                alert("Data berhasil diubah");
-                this.router.navigateToRoute('list', { filter: this.savedFilters });
-            }).catch(e => {
-                this.error = e;
-            })
+            alert("Jumlah Quantity Item harus sama dengan Quantity Sebelumnya");
+            return;
         }
+
+        const pName = this.data.ProductName ? this.data.ProductName.trim().toUpperCase() : "";
+        const isLotRequired = pName === "FABRIC" || pName.startsWith("INTERLINING") || pName.startsWith("TRICOT");
+        if (isLotRequired) {
+            const hasEmptyLot = this.data.Items.some(x => !x.Lot || x.Lot.toString().trim() === "");
+            if (hasEmptyLot) {
+                alert("Nomor Lot harus diisi");
+                return;
+            }
+        }
+
+        this.service.update(this.data).then(result => {
+            alert("Data berhasil diubah");
+            this.router.navigateToRoute('list', { filter: this.savedFilters });
+        }).catch(e => {
+            this.error = e;
+        });
     }
 }
