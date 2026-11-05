@@ -301,7 +301,7 @@ export class DataForm {
           if (!data || itemIds.indexOf(data.DOItemsId) >= 0) return false;
           const pName = (data.ProductName || "").toUpperCase();
           const isLotRequired = pName === "FABRIC" || pName.startsWith("INTERLINING") || pName.startsWith("TRICOT");
-          if (isLotRequired && (!data.Lot || data.Lot.trim() === "" || data.Lot.trim() === "-")) {
+          if (isLotRequired && (!data.Lot || data.Lot.toString().trim() === "" || data.Lot.toString().trim() === "-" || data.Lot.toString().trim() === "0")) {
             return false;
           }
           return true;
@@ -558,7 +558,7 @@ export class DataForm {
 
                 const pName = (item.ProductName || "").toUpperCase();
                 const isLotRequired = pName === "FABRIC" || pName.startsWith("INTERLINING") || pName.startsWith("TRICOT");
-                if (isLotRequired && (!item.Lot || item.Lot.trim() === "" || item.Lot.trim() === "-")) {
+                if (isLotRequired && (!item.Lot || item.Lot.toString().trim() === "" || item.Lot.toString().trim() === "-" || item.Lot.toString().trim() === "0")) {
                   continue;
                 }
 
@@ -652,7 +652,7 @@ export class DataForm {
 
                 const pName = (item.ProductName || "").toUpperCase();
                 const isLotRequired = pName === "FABRIC" || pName.startsWith("INTERLINING") || pName.startsWith("TRICOT");
-                if (isLotRequired && (!item.Lot || item.Lot.trim() === "" || item.Lot.trim() === "-")) {
+                if (isLotRequired && (!item.Lot || item.Lot.toString().trim() === "" || item.Lot.toString().trim() === "-" || item.Lot.toString().trim() === "0")) {
                   continue;
                 }
 
@@ -791,7 +791,7 @@ export class DataForm {
 
                 const pName = (item.ProductName || "").toUpperCase();
                 const isLotRequired = pName === "FABRIC" || pName.startsWith("INTERLINING") || pName.startsWith("TRICOT");
-                if (isLotRequired && (!item.Lot || item.Lot.trim() === "" || item.Lot.trim() === "-")) {
+                if (isLotRequired && (!item.Lot || item.Lot.toString().trim() === "" || item.Lot.toString().trim() === "-" || item.Lot.toString().trim() === "0")) {
                   continue;
                 }
 
@@ -1053,7 +1053,7 @@ export class DataForm {
     if (this.newProduct && this.newProduct.ProductId) {
       const pName = (this.newProduct.ProductName || "").toUpperCase();
       const isLotRequired = pName === "FABRIC" || pName.startsWith("INTERLINING") || pName.startsWith("TRICOT");
-      if (isLotRequired && (!this.newProduct.Lot || this.newProduct.Lot.trim() === "" || this.newProduct.Lot.trim() === "-")) {
+      if (isLotRequired && (!this.newProduct.Lot || this.newProduct.Lot.toString().trim() === "" || this.newProduct.Lot.toString().trim() === "-" || this.newProduct.Lot.toString().trim() === "0")) {
         alert("Nomor Lot belum diisi pada data sumber barang ini.");
         return;
       }
