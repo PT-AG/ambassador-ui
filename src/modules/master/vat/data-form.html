@@ -17,39 +17,43 @@
             label="Nama" 
             value.bind="data.Name" 
             error.bind="error.Name" 
+            placeholder="Masukkan nama PPN"
             read-only.bind="readOnly"
             options.bind="controlOptions">
         </au-textbox>
 
-        <au-textbox 
-            label="Rate" 
+        <au-numeric 
+            label="Rate (%)" 
             value.bind="data.Rate" 
             error.bind="error.Rate" 
             read-only.bind="readOnly"
+            format="0.00"
             options.bind="controlOptions">
-        
-        </au-textbox>
+        </au-numeric>
 
-          <au-textbox 
+        <au-textbox 
             label="COA"
             value.bind="data.COACodeCredit"
             error.bind="error.COACodeCredit"
-            read-only.bind="readOnly">
-          </au-textbox>
+            placeholder="Contoh: 1111.11 (4 digit.2 digit)"
+            read-only.bind="readOnly"
+            options.bind="controlOptions">
+        </au-textbox>
 
-          <au-datepicker 
-              options.bind="controlOptions" 
-              value.bind="data.Date" 
-              error.bind="error.Date"
-              read-only.bind="readOnly" 
-              label="Tanggal Berlaku">
-          </au-datepicker>
+        <au-datepicker 
+            options.bind="controlOptions" 
+            value.bind="data.Date" 
+            error.bind="error.Date"
+            read-only.bind="readOnly" 
+            label="Tanggal Berlaku">
+        </au-datepicker>
 
-       
-
-
-        <au-multiline label="Keterangan" value.bind="data.Description" placeholder="Tambah keterangan"
-          read-only.bind="readOnly" options.bind="controlOptions">
+        <au-multiline 
+            label="Keterangan" 
+            value.bind="data.Description" 
+            placeholder="Tambah keterangan"
+            read-only.bind="readOnly" 
+            options.bind="controlOptions">
         </au-multiline>
 
         <template replaceable part="actions"></template>
