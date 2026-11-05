@@ -17,7 +17,16 @@ export class DataForm {
         saveText: "Simpan",
         deleteText: "Hapus",
         editText: "Ubah",
-    }
+    };
+
+    controlOptions = {
+        label: {
+            length: 4
+        },
+        control: {
+            length: 8
+        }
+    };
   
 
 
