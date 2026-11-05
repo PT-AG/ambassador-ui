@@ -5,75 +5,142 @@ import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service)
 export class List {
-    info = { page: 1, keyword: '' };
-    context = ["Detail"];
-    columns = [
-      { field: "Code", title: "Kode Barang" },
-      { field: "Name", title: "Nama Barang" },
-      { field: "Composition", title: "Komposisi" },
-      { field: "Const", title: "Konstruksi" },
-      { field: "Yarn", title: "Yarn" },
-      { field: "Width", title: "Width" },
-      { field: "UomUnit", title: "Satuan Default" },
-      { field: "FabricType", title: "Jenis Fabric" },
-      {
-        field: "IsCMT",
-        title: "CMT",
-        formatter: function (value, row, index) {
-          return value ? "Ya" : "Tidak";
-        }
-      },
-    ];
+  info = { page: 1, keyword: '' };
+  context = ["detail", "nonaktif"];
+  columns = [
+    {
+      field: "Activated",
+      title: "Activate",
+      checkbox: true,
+      sortable: false,
+      formatter: function (value, data, index) {
+        this.checkboxEnabled = !data.Active;
+        return "";
+      }
+    },
+    { field: "Code", title: "Kode Barang" },
+    { field: "Name", title: "Nama Barang" },
+    { field: "Composition", title: "Komposisi" },
+    { field: "Const", title: "Konstruksi" },
+    { field: "Yarn", title: "Yarn" },
+    { field: "Width", title: "Width" },
+    { field: "UomUnit", title: "Satuan Default" },
+    { field: "FabricType", title: "Jenis Fabric" },
+    {
+      field: "IsCMT",
+      title: "CMT",
+      formatter: function (value, row, index) {
+        return value ? "Ya" : "Tidak";
+      }
+    },
+    {
+      field: "Active",
+      title: "Active",
+      formatter: function (value, row, index) {
+        return value ? "SUDAH" : "BELUM";
+      }
+    },
+  ];
+
+  dataToBePosted = [];
+
+  rowFormatter(data, index) {
+    if (data.Active)
+      return { classes: "success" };
+    else
+      return {};
+  }
 
   loader = (info) => {
     var order = {};
     if (info.sort)
       order[info.sort] = info.order;
-      
+
     var arg = {
       page: parseInt(info.offset / info.limit, 10) + 1,
       size: info.limit,
       keyword: info.search,
-      // select:["Code","Name","UomUnit","Tags"],
       order: order
-    }
+    };
+
     return this.service.search(arg)
       .then(result => {
-        for(var a of result.data){
-          a.UomUnit=a.UOM.Unit;
+        for (var a of result.data) {
+          a.UomUnit = a.UOM.Unit;
         }
         return {
           total: result.info.total,
           data: result.data
-        }
+        };
       });
+  };
+
+  constructor(router, service) {
+    this.service = service;
+    this.router = router;
+    this.accessoriesId = "";
+    this.accessories = [];
   }
 
-    constructor(router, service) {
-        this.service = service;
-        this.router = router;
-        this.accessoriesId = "";
-        this.accessories = [];
-    }
-
-    contextCallback(event) {
+  contextCallback(event) {
     var arg = event.detail;
     var data = arg.data;
     switch (arg.name) {
+      case "detail":
       case "Detail":
-          const encoded = Base64Helper.encode(data.Id);
-          this.router.navigateToRoute('view', { id: encoded });
-          //this.router.navigateToRoute('view', { id: data.Id });
+        const encoded = Base64Helper.encode(data.Id);
+        this.router.navigateToRoute('view', { id: encoded });
+        break;
+      case "nonaktif":
+        this.service.nonActived(data.Id).then(result => {
+          this.table.refresh();
+        }).catch(e => {
+          this.error = e;
+        });
         break;
     }
   }
 
-    upload() {
-        this.router.navigateToRoute('upload');
+  contextShowCallback(index, name, data) {
+    switch (name) {
+      case "nonaktif":
+        return data.Active;
+      default:
+        return true;
     }
-    
-    create() {
-        this.router.navigateToRoute('create');
-    }
+  }
 
+  posting() {
+    if (this.dataToBePosted.length > 0) {
+      this.service.post(this.dataToBePosted)
+        .then(result => {
+          if (result && result.error) {
+            alert(result.error);
+            return;
+          }
+          this.table.refresh();
+        })
+        .catch(e => {
+          var message = "Terjadi error";
+          if (e) {
+            if (e.error) {
+              message = e.error;
+            } else if (e.message) {
+              message = e.message;
+            }
+          }
+          alert(message);
+        });
+    } else {
+      alert("Tidak ada data dipilih");
+    }
+  }
+
+  upload() {
+    this.router.navigateToRoute('upload');
+  }
+
+  create() {
+    this.router.navigateToRoute('create');
+  }
 }
