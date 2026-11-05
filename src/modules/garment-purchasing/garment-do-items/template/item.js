@@ -34,6 +34,10 @@ export class Item {
 
         this.isShowing = true;
 
+        if (this.data.Lot === null || this.data.Lot === undefined || this.data.Lot.toString().trim() === "" || this.data.Lot.toString().trim() === "0") {
+            this.data.Lot = "-";
+        }
+
         // this.TotalPrice = this.data.TotalPrice;
         this.selectedDL = this.data.DLNo;
         // this.datas = context.context.options.datas;
@@ -86,6 +90,10 @@ export class Item {
 
     get isLot() {
         return this.isFabric || this.isInterliningOrTricot;
+    }
+
+    get isSplitted() {
+        return Boolean(this.options && (this.options.isSplitted || (this.options.datas && (this.options.datas.IsSplitted || this.options.datas.isSplitted))));
     }
 
     toggle() {

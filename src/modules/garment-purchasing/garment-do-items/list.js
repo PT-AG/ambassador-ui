@@ -27,7 +27,11 @@ export class List {
     { field: "SmallUomUnit", title: "Satuan" },
     { field: "Colour", title: "Warna" },
     { field: "Width", title: "Lebar" },
-    { field: "Lot", title: "Lot" },
+    {
+      field: "Lot",
+      title: "Lot",
+      formatter: value => (value && value.toString().trim() !== "" && value.toString().trim() !== "-" && value !== 0 && value !== "0") ? value : "-"
+    },
     { field: "Batch",title: "Batch",
       formatter: value =>
         value
@@ -160,11 +164,11 @@ export class List {
 
   ExportToExcel() {
     var params = {
-      po: this.po ? this.po :this.savedFilters.po ? this.savedFilters.po : "",
-      unitcode: this.unit ? this.unit :this.savedFilters.unitcode ? this.savedFilters.unitcode : "",
-      productcode: this.code ? this.code :this.savedFilters.productcode ? this.savedFilters.productcode : "",
-      ctg:this.categoryKey?this.categoryKey.key:this.savedFilters.ctg?this.savedFilters.ctg:null,
-      urn: this.urn? this.urn.URNNo : this.savedFilters.urn ? this.savedFilters.urn:null
+      po: this.po ? this.po : (this.savedFilters && this.savedFilters.po ? this.savedFilters.po : ""),
+      unitcode: this.unit ? this.unit : (this.savedFilters && this.savedFilters.unitcode ? this.savedFilters.unitcode : ""),
+      productcode: this.code ? this.code : (this.savedFilters && this.savedFilters.productcode ? this.savedFilters.productcode : ""),
+      ctg: this.categoryKey && this.categoryKey.key ? this.categoryKey.key : (this.savedFilters && this.savedFilters.ctg ? this.savedFilters.ctg : null),
+      urn: this.urn ? (this.urn.URNNo || this.urn) : (this.savedFilters && this.savedFilters.urn ? this.savedFilters.urn : null)
     };
 
     this.service.generateExcel(params);

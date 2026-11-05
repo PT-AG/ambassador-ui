@@ -9,17 +9,19 @@
 			</au-textbox>
 		</td>
 		<td if.bind="isFabric">
-			<au-textbox 
+			<au-numeric 
                 value.bind="data.Width" 
                 error.bind="error.Width"
                 read-only.bind="readOnly || (isEdit && data.Id)"
+                format="0"
+                min="1"
                 options.bind="controlOptions">
-			</au-textbox>
+			</au-numeric>
 		</td>
 		<td>
 			<au-numeric 
                 value.bind="data.Quantity" 
-                read-only.bind="readOnly || (isEdit && data.Id)"
+                read-only.bind="readOnly || (isEdit && data.Id) || isSplitted"
                 options.bind="controlOptions">
 			</au-numeric>
 		</td>
@@ -28,6 +30,7 @@
 				value.bind="data.Lot"
 				error.bind="error.Lot"
 				read-only.bind="readOnly || (isEdit && data.Id)"
+				placeholder="-"
 				options.bind="controlOptions">
 			</au-textbox>
 		</td>
@@ -89,7 +92,7 @@
                 options.bind="controlOptions">
 			</au-dropdown>
 		</td>
-		<td if.bind="!readOnly" class="col-sm-1">
+		<td if.bind="!readOnly && !isSplitted" class="col-sm-1">
 			<button class="btn btn-danger pull-right" click.delegate="onremove(data, $event)">-</button>
 		</td>
 	</tr>
