@@ -143,10 +143,10 @@ export class List {
 
   ExportToExcel() {
     var params = {
-      po: this.po ? this.po :this.savedFilters.po ? this.savedFilters.po : "",
-      unitcode: this.unit ? this.unit :this.savedFilters.unitcode ? this.savedFilters.unitcode : "",
-      productcode: this.code ? this.code :this.savedFilters.productcode ? this.savedFilters.productcode : "",
-      ctg:this.categoryKey?this.categoryKey.key:this.savedFilters.ctg?this.savedFilters.ctg:null
+      po: this.po ? this.po : (this.savedFilters && this.savedFilters.po ? this.savedFilters.po : ""),
+      unitcode: this.unit ? this.unit : (this.savedFilters && this.savedFilters.unitcode ? this.savedFilters.unitcode : ""),
+      productcode: this.code ? this.code : (this.savedFilters && this.savedFilters.productcode ? this.savedFilters.productcode : ""),
+      ctg: this.categoryKey && this.categoryKey.key ? this.categoryKey.key : (this.savedFilters && this.savedFilters.ctg ? this.savedFilters.ctg : null)
     };
 
     this.service.generateExcel(params);
