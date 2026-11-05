@@ -8,16 +8,20 @@
         <au-textbox label="Nama"
                     value.bind="data.name"
                     error.bind="error.name"
+                    options.bind="controlOptions"
                     read-only.bind="true"></au-textbox>
 
         <au-textbox label="Rate"
                     value.bind="data.rate"
                     error.bind="error.rate"
+                    options.bind="controlOptions"
                     read-only.bind="true"></au-textbox>
 
         <au-textbox label="COA"
                     value.bind="data.COACodeCredit"
                     error.bind="error.COACodeCredit"
+                    placeholder="Contoh: 1111.11 (4 digit.2 digit)"
+                    options.bind="controlOptions"
                     read-only.bind="readOnly"></au-textbox>
 
         <template replaceable
