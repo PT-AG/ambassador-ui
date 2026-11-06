@@ -42,6 +42,15 @@ export class DataForm {
         return (this.data.Id || '').toString() != '';
     }
 
+    @computedFrom("readOnly", "isEdit", "data.Active", "data.isUsed", "data.IsUsed")
+    get isOtherFieldsReadOnly() {
+        const isTrueReadOnly = this.readOnly === true || this.readOnly === "true";
+        if (isTrueReadOnly) return true;
+        const isActive = Boolean(this.data && (this.data.Active === true || this.data.Active === "true" || this.data.Active === 1));
+        const isUsed = Boolean(this.data && (this.data.isUsed || this.data.IsUsed));
+        return Boolean(this.isEdit && (isActive || isUsed));
+    }
+
     bind(context) {
         this.context = context;
         this.data = this.context.data;
