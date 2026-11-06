@@ -25,7 +25,7 @@
           read-only.bind="isOtherFieldsReadOnly"></au-multiline>
 
         <au-multiline label="Keterangan" value.bind="data.Description" error.bind="error.description"
-          read-only.bind="isOtherFieldsReadOnly"></au-multiline>
+          read-only.bind="readOnly"></au-multiline>
 
         <au-checkbox label="Asset" value.bind="data.IsAsset" error.bind="error.IsAsset" read-only.bind="isOtherFieldsReadOnly"></au-checkbox>
 
