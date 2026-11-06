@@ -204,17 +204,13 @@ export class DataForm {
     return (keyword, filter) => {
       var info = {
         keyword: keyword,
-        filter: JSON.stringify(filter),
+        filter: JSON.stringify(Object.assign({}, filter, { excludeEmptyLot: true })),
+        excludeEmptyLot: true,
       };
       return this.service.searchMoreDOItems(info).then((result) => {
         let itemIds = this.data.Items.map((i) => i.DOItemsId);
         return result.data.filter((data) => {
           if (!data || itemIds.indexOf(data.DOItemsId) >= 0) return false;
-          const pName = (data.ProductName || "").toUpperCase();
-          const isLotRequired = pName === "FABRIC" || pName.startsWith("INTERLINING") || pName.startsWith("TRICOT");
-          if (isLotRequired && (!data.Lot || data.Lot.toString().trim() === "" || data.Lot.toString().trim() === "-" || data.Lot.toString().trim() === "0")) {
-            return false;
-          }
           return true;
         });
       });
@@ -415,12 +411,14 @@ export class DataForm {
         }
         this.service
           .searchDOItems({
+            excludeEmptyLot: true,
             filter: JSON.stringify({
               RONo: this.data.RONo,
               UnitId: this.data.UnitSender.Id,
               StorageId: this.data.Storage.Id
                 ? this.data.Storage.Id
                 : this.data.Storage._id,
+              excludeEmptyLot: true,
             }),
           })
           .then((result) => {
@@ -508,12 +506,14 @@ export class DataForm {
         this.data.Article = data[0].Article;
         this.service
           .searchDOItems({
+            excludeEmptyLot: true,
             filter: JSON.stringify({
               RONo: this.data.RONo,
               UnitId: this.data.UnitSender.Id,
               StorageId: this.data.Storage.Id
                 ? this.data.Storage.Id
                 : this.data.Storage._id,
+              excludeEmptyLot: true,
             }),
           })
           .then((result) => {
@@ -641,12 +641,14 @@ export class DataForm {
           }
         this.service
           .searchDOItems({
+            excludeEmptyLot: true,
             filter: JSON.stringify({
               RONo: this.data.RONo,
               UnitId: this.data.UnitSender.Id,
               StorageId: this.data.Storage.Id
                 ? this.data.Storage.Id
                 : this.data.Storage._id,
+              excludeEmptyLot: true,
             }),
           })
           .then((result) => {
@@ -858,6 +860,7 @@ export class DataForm {
     } else if (newValue) {
       this.service
         .searchDOItems({
+          excludeEmptyLot: true,
           filter: JSON.stringify({
             RONo: newValue.RONo,
             UnitId: this.data.UnitSender.Id,
@@ -866,6 +869,7 @@ export class DataForm {
               : this.data.Storage._id,
             POSerialNumber: newValue.POSerialNumber,
             DOItemsId: newValue.DOItemsId,
+            excludeEmptyLot: true,
           }),
         })
         .then((result) => {
