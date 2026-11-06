@@ -33,6 +33,11 @@ export class Create {
     }
 
     save(event) {
+        if (this.isSaving) {
+            return;
+        }
+        this.isSaving = true;
+        this.hasSave = false;
         if(this.data.ExpenditureType=="EXTERNAL"){
             this.data.UnitRequest = null;
         }
@@ -42,6 +47,8 @@ export class Create {
                 this.router.navigateToRoute('create',{}, { replace: true, trigger: true });
             })
             .catch(e => {
+                this.isSaving = false;
+                this.hasSave = true;
                 if (e.statusCode === 500) {
                     alert("Gagal menyimpan, silakan coba lagi!");
                 } else {
