@@ -42,6 +42,7 @@ export class DataForm {
         this.isExternal=false;
         this.options.isExternal=false;
         
+        this.items.columns = this.items.columns.filter(c => c != "Status Barang");
         if(this.data.ExpenditureType === "TRANSFER"){
             this.data.ExpenditureTo = "GUDANG LAIN";
         }else if(this.data.ExpenditureType === "EXTERNAL"){
@@ -54,10 +55,10 @@ export class DataForm {
             this.data.ExpenditureTo = "SUBCON";
         }else if(this.data.ExpenditureType === "SISA"){
             this.data.ExpenditureTo = "GUDANG SISA";
+            this.items.columns.push("Status Barang");
         }else if(this.data.ExpenditureType === "TRANSFER SAMPLE"){
             this.data.ExpenditureTo = "GUDANG LAIN";
         }
-        this.updateColumns();
         this.options.ExpenditureType = this.data.ExpenditureType;
 
         if(this.data.ExpenditureType === "EXTERNAL"){
@@ -122,6 +123,7 @@ export class DataForm {
                 this.options.isExternal=false;
             }
 
+            this.items.columns = this.items.columns.filter(c => c != "Status Barang");
             if(this.data.ExpenditureType === "TRANSFER"){
                 this.data.ExpenditureTo = "GUDANG LAIN";
             }else if(this.data.ExpenditureType === "EXTERNAL"){
@@ -134,10 +136,10 @@ export class DataForm {
                 this.data.ExpenditureTo = "SUBCON";
             }else if(this.data.ExpenditureType === "SISA"){
                 this.data.ExpenditureTo = "GUDANG SISA";
+                this.items.columns.push("Status Barang");
             }else if(this.data.ExpenditureType === "TRANSFER SAMPLE"){
                 this.data.ExpenditureTo = "GUDANG LAIN";
             }
-            this.updateColumns();
             this.options.ExpenditureType = this.data.ExpenditureType;
         }
         this.context.DONoViewModel._suggestions=[];
@@ -264,64 +266,6 @@ export class DataForm {
         // this.data.Items = [];
         this.context.error.Items = [];
         this.context.error = [];
-    }
-
-    updateColumns() {
-        if (this.data && this.data.ExpenditureType === "SISA") {
-            this.items.columns = [
-                "Kode Buyer",
-                "Kode Barang",
-                "Nama Barang",
-                "Keterangan Barang",
-                "Design / Color",
-                "Jumlah Keluar",
-                "Satuan",
-                "Tipe Fabric",
-                "Status Barang",
-            ];
-            this.itemsFabric.columns = [
-                "Kode Buyer",
-                "Kode Barang",
-                "Nama Barang",
-                "Keterangan Barang",
-                "Design / Color",
-                "Jumlah Keluar",
-                "Satuan",
-                "Tipe Fabric",
-                "Status Barang",
-                "Warna",
-                "Rak",
-                "Box",
-                "Level",
-                "Area",
-            ];
-        } else {
-            this.items.columns = [
-                "Kode Buyer",
-                "Kode Barang",
-                "Nama Barang",
-                "Keterangan Barang",
-                "Design / Color",
-                "Jumlah Keluar",
-                "Satuan",
-                "Tipe Fabric",
-            ];
-            this.itemsFabric.columns = [
-                "Kode Buyer",
-                "Kode Barang",
-                "Nama Barang",
-                "Keterangan Barang",
-                "Design / Color",
-                "Jumlah Keluar",
-                "Satuan",
-                "Tipe Fabric",
-                "Warna",
-                "Rak",
-                "Box",
-                "Level",
-                "Area",
-            ];
-        }
     }
 
     items = {

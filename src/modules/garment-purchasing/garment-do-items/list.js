@@ -176,7 +176,7 @@ export class List {
 
   reset() {
     this.po = null;
-    this.unit = "AG";
+    this.unit = null;
     this.code = null;
     this.urn = null;
     this.data = [];
