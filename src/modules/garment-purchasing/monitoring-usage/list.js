@@ -7,6 +7,19 @@ export class List {
     constructor(router, service) {
         this.service = service;
         this.router = router;
+        //this.data = [];
+        this.filteredData = [];
+        this.filters = {
+            index: '',
+            RO_Number: '',
+            PO_SerialNumber: '',
+            ProductCode: '',
+            ProductName: '',
+            Color: '',
+            BudgetQuantity: '',
+            Quantity: '',
+            UomUnit: ''
+        };
     }
 
     typeOptions = ["RO", "PO Serial Number"];
@@ -23,10 +36,25 @@ export class List {
                     item.index = index + 1;
                     return item;
                 });
+                this.filterData();
             });
     }
 
+    filterData(field, value) {
+        if (field) {
+            this.filters[field] = value;
+        }
+
+        this.filteredData = this.data.filter(item => Object.keys(this.filters).every(key => {
+            let keyword = this.filters[key].trim().toLowerCase();
+            let cell = item[key] == null ? '' : String(item[key]).toLowerCase();
+            return cell.indexOf(keyword) !== -1;
+        }));
+    }
+
     reset() {
-        this.keyword = "";
+        this.roNo = "";
+        Object.keys(this.filters).forEach(key => this.filters[key] = '');
+        this.filterData();
     }
 }
