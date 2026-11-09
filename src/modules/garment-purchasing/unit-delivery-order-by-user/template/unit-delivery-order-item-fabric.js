@@ -2,6 +2,7 @@ import { bindable, computedFrom } from 'aurelia-framework'
 import { factories } from 'powerbi-client';
 import { Container } from 'aurelia-dependency-injection';
 import { Config } from "aurelia-api";
+import moment from "moment";
 
 var UomLoader = require('../../../../loader/uom-loader');
 export class UnitDeliveryOrderItemFabric {
@@ -16,6 +17,7 @@ export class UnitDeliveryOrderItemFabric {
     this.readOnly = this.options.readOnly || this.data.IsDisabled;
     this.isEdit = context.context && context.context.options && context.context.options.isEdit;
     this.isCreateByUser = Boolean(context.context && context.context.options && context.context.options.isCreateByUser);
+    this.data.Batch=moment.parseZone(this.data.Batch).utcOffset(7).format("YYYY-MM-DD");
   }
 
   bind() {

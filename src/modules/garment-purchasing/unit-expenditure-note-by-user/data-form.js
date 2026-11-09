@@ -43,7 +43,6 @@ export class DataForm {
         this.isExternal=false;
         this.options.isExternal=false;
         
-        this.items.columns = this.items.columns.filter(c => c != "Status Barang");
         if(this.data.ExpenditureType === "TRANSFER"){
             this.data.ExpenditureTo = "GUDANG LAIN";
         }else if(this.data.ExpenditureType === "EXTERNAL"){
@@ -56,10 +55,10 @@ export class DataForm {
             this.data.ExpenditureTo = "SUBCON";
         }else if(this.data.ExpenditureType === "SISA"){
             this.data.ExpenditureTo = "GUDANG SISA";
-            this.items.columns.push("Status Barang");
         }else if(this.data.ExpenditureType === "TRANSFER SAMPLE"){
             this.data.ExpenditureTo = "GUDANG LAIN";
         }
+        this.updateColumns();
         this.options.ExpenditureType = this.data.ExpenditureType;
 
         if(this.data.ExpenditureType === "EXTERNAL"){
@@ -138,7 +137,6 @@ export class DataForm {
                 this.options.isExternal=false;
             }
 
-            this.items.columns = this.items.columns.filter(c => c != "Status Barang");
             if(this.data.ExpenditureType === "TRANSFER"){
                 this.data.ExpenditureTo = "GUDANG LAIN";
             }else if(this.data.ExpenditureType === "EXTERNAL"){
@@ -151,10 +149,10 @@ export class DataForm {
                 this.data.ExpenditureTo = "SUBCON";
             }else if(this.data.ExpenditureType === "SISA"){
                 this.data.ExpenditureTo = "GUDANG SISA";
-                this.items.columns.push("Status Barang");
             }else if(this.data.ExpenditureType === "TRANSFER SAMPLE"){
                 this.data.ExpenditureTo = "GUDANG LAIN";
             }
+            this.updateColumns();
             this.options.ExpenditureType = this.data.ExpenditureType;
         }
         this.context.DONoViewModel._suggestions=[];
@@ -273,6 +271,11 @@ export class DataForm {
                     Items.Box = item.Box;
                     Items.Colour = item.Colour;
                     Items.Area = item.Area;
+                    
+                    Items.Lot = item.Lot;
+                    Items.Batch = item.Batch;
+                    Items.PackageNo = item.PackageNo;
+                    Items.HandlingUnit = item.HandlingUnit;
 
                     this.data.Items.push(Items);
                 }
@@ -295,6 +298,88 @@ export class DataForm {
         this.context.error = [];
     }
 
+    updateColumns() {
+        if (this.data && this.data.ExpenditureType === "SISA") {
+            this.items.columns = [
+                "Kode Buyer",
+                "Kode Barang",
+                "Nama Barang",
+                "Keterangan Barang",
+                "Design / Color",
+                "Jumlah Keluar",
+                "Satuan",
+                "Tipe Fabric",
+                "Status Barang",
+                "Warna",
+                "Batch",
+                "No Package",
+                "Handling Unit",
+                "Rak",
+                "Box",
+                "Level",
+                "Area",
+            ];
+            this.itemsFabric.columns = [
+                "Kode Buyer",
+                "Kode Barang",
+                "Nama Barang",
+                "Keterangan Barang",
+                "Design / Color",
+                "Jumlah Keluar",
+                "Satuan",
+                "Tipe Fabric",
+                "Status Barang",
+                "Warna",
+                "Lot",
+                "Batch",
+                "No Package",
+                "Handling Unit",
+                "Rak",
+                "Box",
+                "Level",
+                "Area",
+            ];
+        } else {
+            this.items.columns = [
+                "Kode Buyer",
+                "Kode Barang",
+                "Nama Barang",
+                "Keterangan Barang",
+                "Design / Color",
+                "Jumlah Keluar",
+                "Satuan",
+                "Tipe Fabric",
+                "Warna",
+                "Batch",
+                "No Package",
+                "Handling Unit",
+                "Rak",
+                "Box",
+                "Level",
+                "Area",
+            ];
+            this.itemsFabric.columns = [
+                "Kode Buyer",
+                "Kode Barang",
+                "Nama Barang",
+                "Keterangan Barang",
+                "Design / Color",
+                "Jumlah Keluar",
+                "Satuan",
+                "Tipe Fabric",
+                "Warna",
+                "Lot",
+                "Batch",
+                "No Package",
+                "Handling Unit",
+                "Rak",
+                "Box",
+                "Level",
+                "Area",
+            ];
+        }
+    }
+
     items = {
         columns: [
             "Kode Buyer",
@@ -304,7 +389,15 @@ export class DataForm {
             "Design / Color",
             "Jumlah Keluar",
             "Satuan",
-            "Tipe Fabric"],
+            "Tipe Fabric",
+            "Warna",
+            "Batch",
+            "No Package",
+            "Handling Unit",
+            "Rak",
+            "Box",
+            "Level",
+            "Area",],
     };
 
     itemsFabric = {
@@ -318,6 +411,10 @@ export class DataForm {
             "Satuan",
             "Tipe Fabric",
             "Warna",
+            "Lot",
+            "Batch",
+            "No Package",
+            "Handling Unit",
             "Rak",
             "Box",
             "Level",

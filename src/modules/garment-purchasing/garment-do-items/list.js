@@ -9,19 +9,36 @@ import {
 } from 'aurelia-router';
 import moment from 'moment';
 
+var URNLoader = require("../../../loader/garment-unit-receipt-note-loader");
+
 @inject(Router, Service)
 export class List {
   context = ["Update Racking", "Kartu Stelling", "Cetak Barcode"];
 
   columns = [
+    { field: "PackageNo", title: "No Package" },
     { field: "ProductCode", title: "Kode Barang" },
     { field: "POSerialNumber", title: "Nomor PO" },
     { field: "RO", title: "Nomor RO" },
+    { field: "URNNo", title: "No Bon Terima" },
     { field: "UnitName", title: "Nama Unit" },
     { field: "ProductName", title: "Nama Barang" },
     { field: "RemainingQuantity", title: "Quantity", align: "right" },
     { field: "SmallUomUnit", title: "Satuan" },
     { field: "Colour", title: "Warna" },
+    { field: "Width", title: "Lebar" },
+    {
+      field: "Lot",
+      title: "Lot",
+      formatter: value => (value && value.toString().trim() !== "" && value.toString().trim() !== "-" && value !== 0 && value !== "0") ? value : "-"
+    },
+    { field: "Batch",title: "Batch",
+      formatter: value =>
+        value
+          ? moment.parseZone(value).utcOffset(7).format("YYYY-MM-DD")
+          : "-"
+    },
+    { field: "HandlingUnit", title: "Handling Unit" },
     { field: "Rack", title: "Rak" },
     { field: "Level", title: "Level" },
     { field: "Box", title: "Box" },
@@ -40,7 +57,10 @@ export class List {
   @bindable UnitItem;
   //UnitItems = ['', 'AMBASSADOR GARMINDO 1', 'AMBASSADOR GARMINDO 2']
   UnitItems = ['','AMBASSADOR GARMINDO'];
-
+  
+  get urnLoader() {
+    return URNLoader;
+  }
   constructor(router, service) {
     this.service = service;
     this.router = router;
@@ -68,7 +88,8 @@ export class List {
       po: this.po ? this.po :this.savedFilters.po ? this.savedFilters.po : "",
       unitcode: this.unit ? this.unit :this.savedFilters.unitcode ? this.savedFilters.unitcode : "",
       productcode: this.code ? this.code :this.savedFilters.productcode ? this.savedFilters.productcode : "",
-      ctg:this.categoryKey?this.categoryKey.key:this.savedFilters.ctg?this.savedFilters.ctg:null
+      ctg:this.categoryKey?this.categoryKey.key:this.savedFilters.ctg?this.savedFilters.ctg:null,
+      urn: this.urn? this.urn.URNNo : this.savedFilters.urn ? this.savedFilters.urn:null
     };
     this.savedFilters = params;
     return this.flag ? this.service.search(params)
@@ -143,10 +164,11 @@ export class List {
 
   ExportToExcel() {
     var params = {
-      po: this.po ? this.po :this.savedFilters.po ? this.savedFilters.po : "",
-      unitcode: this.unit ? this.unit :this.savedFilters.unitcode ? this.savedFilters.unitcode : "",
-      productcode: this.code ? this.code :this.savedFilters.productcode ? this.savedFilters.productcode : "",
-      ctg:this.categoryKey?this.categoryKey.key:this.savedFilters.ctg?this.savedFilters.ctg:null
+      po: this.po ? this.po : (this.savedFilters && this.savedFilters.po ? this.savedFilters.po : ""),
+      unitcode: this.unit ? this.unit : (this.savedFilters && this.savedFilters.unitcode ? this.savedFilters.unitcode : ""),
+      productcode: this.code ? this.code : (this.savedFilters && this.savedFilters.productcode ? this.savedFilters.productcode : ""),
+      ctg: this.categoryKey && this.categoryKey.key ? this.categoryKey.key : (this.savedFilters && this.savedFilters.ctg ? this.savedFilters.ctg : null),
+      urn: this.urn ? (this.urn.URNNo || this.urn) : (this.savedFilters && this.savedFilters.urn ? this.savedFilters.urn : null)
     };
 
     this.service.generateExcel(params);
@@ -154,8 +176,9 @@ export class List {
 
   reset() {
     this.po = null;
-    this.unit = "AG";
+    this.unit = null;
     this.code = null;
+    this.urn = null;
     this.data = [];
     this.categoryKey=null;
     this.flag = false;

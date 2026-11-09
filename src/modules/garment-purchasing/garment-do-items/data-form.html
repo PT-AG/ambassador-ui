@@ -6,6 +6,10 @@
       <button class="btn btn-success" click.delegate="context.save($event)" if.one-way="context.hasSave">Simpan</button>
     </div>
 
+    <div class="alert alert-warning" if.bind="isSplitted" style="margin-bottom: 20px;">
+      <i class="fa fa-info-circle"></i> Item ini merupakan hasil split dan tidak dapat di-split kembali. Anda hanya dapat memperbarui informasi lokasi / racking.
+    </div>
+
     <div class="row">
       <au-textbox value.bind="data.POSerialNumber" error.bind="error.POSerialNumber" label="Nomor PO"
         read-only.bind="true" options.bind="controlOptions">
@@ -13,7 +17,7 @@
 
       <au-textbox label="Nomor RO" value.bind="data.RO" error.bind="error.RO" read-only.bind="true"
         options.bind="controlOptions">
-      </au-textbox>>
+      </au-textbox>
 
       <au-textbox label="Unit" value.bind="data.UnitName" error.bind="error.UnitName" read-only.bind="true"
         options.bind="controlOptions">

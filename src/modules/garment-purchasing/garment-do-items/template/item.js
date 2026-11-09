@@ -1,12 +1,13 @@
 import { inject, bindable, computedFrom } from "aurelia-framework";
 import { concat, forEach } from "../../../../routes/general";
 import { Service } from "../service";
-
+var UomLoader = require('../../../../loader/uom-loader');
 
 
 @inject(Service)
 export class Item {
     @bindable selectedDL;
+    @bindable dataUom;
 
     constructor(service) {
         this.service = service;
@@ -33,6 +34,10 @@ export class Item {
 
         this.isShowing = true;
 
+        if (this.data.Lot === null || this.data.Lot === undefined || this.data.Lot.toString().trim() === "" || this.data.Lot.toString().trim() === "0") {
+            this.data.Lot = "-";
+        }
+
         // this.TotalPrice = this.data.TotalPrice;
         this.selectedDL = this.data.DLNo;
         // this.datas = context.context.options.datas;
@@ -49,7 +54,46 @@ export class Item {
         // } 
         this.data.Colour=this.data.Colour ? this.data.Colour : this.options.colour;
 
+        if (this.data.HandlingUnit) {
 
+            this.dataUom = {
+                Id: this.data.HandlingUnitId,
+                Unit: this.data.HandlingUnit
+            };
+
+        }
+        else if (this.isFabric) {
+            this.setFabricHandlingUnit();
+        }
+        else {
+
+            this.dataUom = null;
+
+        }
+    }
+
+    get isFabric() {
+        return (
+            this.data &&
+            this.data.ProductName &&
+            this.data.ProductName.trim().toUpperCase() === "FABRIC"
+        );
+    }
+
+    get isInterliningOrTricot() {
+        const name =
+            this.data && this.data.ProductName
+                ? this.data.ProductName.trim().toUpperCase()
+                : "";
+        return name.startsWith("INTERLINING") || name.startsWith("TRICOT");
+    }
+
+    get isLot() {
+        return this.isFabric || this.isInterliningOrTricot;
+    }
+
+    get isSplitted() {
+        return Boolean(this.options && (this.options.isSplitted || (this.options.datas && (this.options.datas.IsSplitted || this.options.datas.isSplitted))));
     }
 
     toggle() {
@@ -57,5 +101,39 @@ export class Item {
         else this.isShowing = !this.isShowing;
     }
 
+    get uomLoader() {
+        return UomLoader;
+      }
 
+
+    setFabricHandlingUnit() {
+        UomLoader("ROLL", {})
+                .then(results => {
+                    const roll = results.filter(x => x.Unit === "ROLL")[0];
+
+                    if (roll) {
+                        this.dataUom = {
+                            Id: roll.Id,
+                            Unit: roll.Unit
+                        };
+                        this.data.HandlingUnit = roll.Unit;
+                        this.data.HandlingUnitId = roll.Id;
+                    }
+                });
+
+        if (this.error) {
+            this.error.HandlingUnit = null;
+        }
+    }
+
+    
+    dataUomChanged(newValue, oldValue) {
+        if (newValue) {
+            this.data.HandlingUnit = newValue.Unit;
+            this.data.HandlingUnitId = newValue.Id;
+        } else {
+            this.data.HandlingUnit = null;
+            this.data.HandlingUnitId = null;
+        }
+    }
 }

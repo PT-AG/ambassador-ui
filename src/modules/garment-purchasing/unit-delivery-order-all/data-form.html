@@ -242,11 +242,11 @@
             errors.bind="error.Items"
             columns.bind="items.columns"
             options.bind="options"
-            read-only.bind="readOnly" 
+            read-only.bind="true" 
             show.bind="data.Items && data.Items.length > 0 && data.Storage.name != 'GUDANG BAHAN BAKU'"
             view-model.ref="ItemsCollection"
-            header-template="modules/garment-purchasing/unit-delivery-order-all/template/unit-delivery-order-header"
-            item-template="modules/garment-purchasing/unit-delivery-order-all/template/unit-delivery-order-item">
+            header-template="modules/garment-purchasing/unit-delivery-order-by-user/template/unit-delivery-order-header"
+            item-template="modules/garment-purchasing/unit-delivery-order-by-user/template/unit-delivery-order-item">
         </au-collection>
         
         <au-collection 
@@ -254,11 +254,11 @@
         errors.bind="error.Items"
         columns.bind="itemsFabric.columns"
         options.bind="options"
-        read-only.bind="readOnly" 
+        read-only.bind="true" 
         show.bind="data.Items && data.Items.length > 0 && data.Storage.name == 'GUDANG BAHAN BAKU'"
         view-model.ref="ItemsCollection"
-        header-template="modules/garment-purchasing/unit-delivery-order-all/template/unit-delivery-order-header"
-        item-template="modules/garment-purchasing/unit-delivery-order-all/template/unit-delivery-order-item-fabric"
+        header-template="modules/garment-purchasing/unit-delivery-order-by-user/template/unit-delivery-order-header"
+        item-template="modules/garment-purchasing/unit-delivery-order-by-user/template/unit-delivery-order-item-fabric"
         >
     </au-collection>
   </au-input-form>
