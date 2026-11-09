@@ -31,19 +31,19 @@
             <table class="table table-bordered table-hover" id="myTable">
                 <thead class="text-center">
                     <tr>
-                        <th scope="col">No</th>
-                        <th scope="col">No RO</th>
-                        <th scope="col">No PA/PM</th>
-                        <th scope="col">Kode Produk</th>
-                        <th scope="col">Nama Produk</th>
-                        <th scope="col">Color</th>
-                        <th scope="col">Qty RO</th>
-                        <th scope="col">Qty Pemakaian</th>
-                        <th scope="col">Satuan</th>
+                        <th scope="col">No<input type="text" class="form-control" aria-label="Filter No" value.bind="filters.index" input.trigger="filterData('index', $event.target.value)"></th>
+                        <th scope="col">No RO<input type="text" class="form-control" aria-label="Filter No RO" value.bind="filters.RO_Number" input.trigger="filterData('RO_Number', $event.target.value)"></th>
+                        <th scope="col">No PA/PM<input type="text" class="form-control" aria-label="Filter No PA/PM" value.bind="filters.PO_SerialNumber" input.trigger="filterData('PO_SerialNumber', $event.target.value)"></th>
+                        <th scope="col">Kode Produk<input type="text" class="form-control" aria-label="Filter Kode Produk" value.bind="filters.ProductCode" input.trigger="filterData('ProductCode', $event.target.value)"></th>
+                        <th scope="col">Nama Produk<input type="text" class="form-control" aria-label="Filter Nama Produk" value.bind="filters.ProductName" input.trigger="filterData('ProductName', $event.target.value)"></th>
+                        <th scope="col">Color<input type="text" class="form-control" aria-label="Filter Color" value.bind="filters.Color" input.trigger="filterData('Color', $event.target.value)"></th>
+                        <th scope="col">Qty RO<input type="text" class="form-control" aria-label="Filter Qty RO" value.bind="filters.BudgetQuantity" input.trigger="filterData('BudgetQuantity', $event.target.value)"></th>
+                        <th scope="col">Qty Pemakaian<input type="text" class="form-control" aria-label="Filter Qty Pemakaian" value.bind="filters.Quantity" input.trigger="filterData('Quantity', $event.target.value)"></th>
+                        <th scope="col">Satuan<input type="text" class="form-control" aria-label="Filter Satuan" value.bind="filters.UomUnit" input.trigger="filterData('UomUnit', $event.target.value)"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr repeat.for="item of data">
+                    <tr repeat.for="item of filteredData">
                         <td class="text-left">${item.index}</td>
                         <td class="text-left">${item.RO_Number}</td>
                         <td class="text-left">${item.PO_SerialNumber}</td>
