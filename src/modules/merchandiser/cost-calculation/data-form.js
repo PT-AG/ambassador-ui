@@ -408,6 +408,7 @@ export class DataForm {
         //this.data.Commodity = newValue.ComodityName;
 
       }
+      this.validateQuantity();
     }
     else {
       this.data.BookingOrderId = 0;
@@ -503,7 +504,19 @@ export class DataForm {
   }
 
   @bindable quantity;
+  validateQuantity() {
+    if (this.data.BookingOrderId && this.data.BOQuantity != null && this.quantity > this.data.BOQuantity) {
+      alert(`Kuantitas tidak boleh lebih dari Remaining Confirm Quantity Booking Order (${this.data.BOQuantity})`);
+      this.quantity = this.data.BOQuantity;
+      return false;
+    }
+    return true;
+  }
+
   async quantityChanged(newValue) {
+    if (!this.validateQuantity()) {
+      return;
+    }
     this.data.Quantity = newValue;
     this.data.Efficiency = await this.efficiencyService.getEffByQty(this.data.Quantity);
     this.data.Efficiency.Value = this.data.Efficiency.Value.toLocaleString('en-EN', { minimumFractionDigits: 2 });

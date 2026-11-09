@@ -23,12 +23,31 @@ export class Edit {
                 SCNo: this.data.PreSCNo
             }
 
+            var remainingQuantity = this.data.BOQuantity;
+            if (this.data.BookingOrderId && this.data.BookingOrderItemId > 0) {
+                var bookingOrder = await this.service.getBookingOrderById(this.data.BookingOrderId);
+                var bookingOrderItem = bookingOrder.Items ? bookingOrder.Items.find(item => item.Id === this.data.BookingOrderItemId) : null;
+
+                if (bookingOrderItem) {
+                    var existingCCG = await this.service.search({
+                        size: 10000,
+                        filter: JSON.stringify({ BookingOrderItemId: this.data.BookingOrderItemId })
+                    });
+                    var usedQuantity = (existingCCG.data || [])
+                        .filter(item => item.Id !== this.data.Id)
+                        .reduce((total, item) => total + (item.Quantity || 0), 0);
+
+                    remainingQuantity = (bookingOrderItem.ConfirmQuantity * 1.05) - usedQuantity;
+                }
+            }
+            this.data.BOQuantity = remainingQuantity;
+
             this.selectedBookingOrder = {
                 BookingOrderId :this.data.BookingOrderId,
                 BookingOrderItemId : this.data.BookingOrderItemId,
                 BookingOrderNo : this.data.BookingOrderNo, 
                 ConfirmDate : this.data.ConfirmDate,
-                ConfirmQuantity : this.data.BOQuantity,
+                ConfirmQuantity : remainingQuantity,
                 ComodityName : this.data.Comodity.Name,
             }
 
