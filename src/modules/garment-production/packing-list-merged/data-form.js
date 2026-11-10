@@ -61,7 +61,7 @@ export class DataForm {
         { header: "Mata Uang" },
         { header: "Amount" },
         { header: "Unit" },
-        { header: "Jml per Carton" },
+        //{ header: "Jml per Carton" },
     ];
 
     measureColumns = [
@@ -138,11 +138,12 @@ export class DataForm {
             isEdit: this.context.isEdit,
             checkedAll: this.context.isCreate == true ? false : true,
             header: this.data,
+            ROList: [],
             lastNumber: this.lastNumber,
-            reorderDetailRows: () => {
-                this.reorderDetailRows();
-                this.updateMeasurements();
-            },
+            // reorderDetailRows: () => {
+            //     this.reorderDetailRows();
+            //     this.updateMeasurements();
+            // },
             updateMeasurements: () => this.updateMeasurements()
         }
 
@@ -170,6 +171,8 @@ export class DataForm {
             for (var item of this.data.items) {
                 item.BuyerCode = this.data.buyerAgent.code;
                 item.RoType = this.data.invoiceType == 'AG' ? "RO JOB" : "RO SAMPLE";
+
+                this.Options.ROList.push(item.roNo || item.RONo);
             }
         }
     }
@@ -188,8 +191,14 @@ export class DataForm {
             this.data.grossWeight = this.data.items.reduce((acc, cur) => acc += cur.avG_GW, 0);
             this.data.nettWeight = this.data.items.reduce((acc, cur) => acc += cur.avG_NW, 0);
             this.error = null;
-            this.reorderDetailRows();
-            this.updateMeasurements();
+
+            var _ro = event.detail.RONo || event.detail.roNo;
+            if (this.Options.ROList.includes(_ro)) {
+                this.Options.ROList.splice(this.itemOptions.ROList.indexOf(_ro), 1);
+            }
+
+            // this.reorderDetailRows();
+            // this.updateMeasurements();
         };
     }
 
