@@ -17,7 +17,9 @@ export class UnitDeliveryOrderItemFabric {
     this.readOnly = this.options.readOnly || this.data.IsDisabled;
     this.isEdit = context.context && context.context.options && context.context.options.isEdit;
     this.isCreateByUser = Boolean(context.context && context.context.options && context.context.options.isCreateByUser);
-    this.data.Batch=moment.parseZone(this.data.Batch).utcOffset(7).format("YYYY-MM-DD");
+    this.data.Batch = this.data.Batch && moment(this.data.Batch).isValid()
+      ? moment.parseZone(this.data.Batch).utcOffset(7).format("YYYY-MM-DD")
+      : null;
   }
 
   bind() {
