@@ -34,6 +34,9 @@ export class Create {
     }
 
     saveCallback(event) {
+        if (this.isSaving) {
+            return;
+        }
         if(this.data.Items){
             for(var item of this.data.Items){
                 if(item.Quantity!=item.ActualQuantity){
@@ -42,12 +45,14 @@ export class Create {
             }
         }
         console.log(this.data)
+        this.isSaving = true;
         this.service.create(this.data)
             .then(result => {
                 alert("Data berhasil dibuat");
                 this.router.navigateToRoute('create', {}, { replace: true, trigger: true });
             })
             .catch(e => {
+                this.isSaving = false;
                 this.error = e;
                 if (typeof (this.error) == "string") {
                     alert(this.error);

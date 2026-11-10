@@ -29,16 +29,21 @@ export class Create {
     }
 
     saveCallback(event) {
+        if (this.isSaving) {
+            return;
+        }
         if (this.data.items && this.data.items[0]) {
             this.data.buyerAgent = this.data.items[0].buyerAgent;
             this.data.section = this.data.items[0].section;
         }
+        this.isSaving = true;
         this.service.create(this.data)
             .then(result => {
                 alert("Data berhasil dibuat, No Invoice: " + result);
                 this.router.navigateToRoute('create', {}, { replace: true, trigger: true });
             })
             .catch(error => {
+                this.isSaving = false;
                 this.error = error;
 
                 let errorNotif = "";

@@ -31,13 +31,18 @@ export class Create {
     }
 
     saveCallback(event) {
+        if (this.isSaving) {
+            return;
+        }
         this.data.CuttingFrom = "PREPARING";
+        this.isSaving = true;
         this.service.create(this.data)
             .then(result => {
                 alert("Data berhasil dibuat");
                 this.router.navigateToRoute('create', {}, { replace: true, trigger: true });
             })
             .catch(e => {
+                this.isSaving = false;
                 if (e && e.statusCode === 500 && e.message) {
                     alert(e.message);
                     return;

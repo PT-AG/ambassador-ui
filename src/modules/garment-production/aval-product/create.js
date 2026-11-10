@@ -34,6 +34,9 @@ export class Create {
     }
 
     save(event) {
+        if (this.isSaving) {
+            return;
+        }
         //this.data.AvalDate = this.data.AvalDate ? moment(this.data.AvalDate).format("DD MMM YYYY") : null;
         let objData = {};
         let data = Object.assign(objData, this.data)
@@ -43,12 +46,14 @@ export class Create {
             if(data.PreparingDate==null || data.PreparingDate<item.PreparingDate)
                 data.PreparingDate=item.PreparingDate;
         }
+        this.isSaving = true;
         this.service.create(data)
             .then(result => {
                 alert("Data berhasil dibuat");
                 this.router.navigateToRoute('create',{}, { replace: true, trigger: true });
             })
             .catch(e => {
+                this.isSaving = false;
                 this.error = e;
                 if (typeof (this.error) == "string") {
                     alert(this.error);
