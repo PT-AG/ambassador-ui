@@ -64,6 +64,9 @@ export class Create {
     }
 
     save(event) {
+        if (this.isSaving) {
+            return;
+        }
         if(this.data.items.length>0){
             this.data.paymentType = this.data.items[0].paymentType;
             this.data.paymentMethod = this.data.items[0].paymentMethod;
@@ -79,12 +82,16 @@ export class Create {
          if (!this.validateHSCodeBeforeSave()  ) {
             return;
         }
+        this.isSaving = true;
+        this.hasSave = false;
         this.service.create(this.data)
             .then(result => {
                 alert("Data berhasil dibuat");
-                this.router.navigateToRoute('create', {}, { replace: true, trigger: true });
+                this.router.navigateToRoute('list');
             })
             .catch(e => {
+                this.isSaving = false;
+                this.hasSave = true;
                 this.error = e; 
             })
     }
