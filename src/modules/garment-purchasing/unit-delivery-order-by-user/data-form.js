@@ -293,8 +293,7 @@ export class DataForm {
     return (keyword, filter) => {
       var info = {
         keyword: keyword,
-        filter: JSON.stringify(Object.assign({}, filter, { excludeEmptyLot: true })),
-        excludeEmptyLot: true,
+        filter: JSON.stringify(filter),
       };
       return this.service.searchMoreDOItems(info).then((result) => {
         let itemIds = this.data.Items.map((i) => i.DOItemsId);
@@ -500,14 +499,12 @@ export class DataForm {
         }
         this.service
           .searchDOItems({
-            excludeEmptyLot: true,
             filter: JSON.stringify({
               RONo: this.data.RONo,
               UnitId: this.data.UnitSender.Id,
               StorageId: this.data.Storage.Id
                 ? this.data.Storage.Id
                 : this.data.Storage._id,
-              excludeEmptyLot: true,
             }),
           })
           .then(async (result) => {
@@ -553,12 +550,6 @@ export class DataForm {
                 Items.PackageNo = item.PackageNo;
                 Items.HandlingUnit = item.HandlingUnit;
                 Items.Width = item.Width;
-
-                const pName = (item.ProductName || "").toUpperCase();
-                const isLotRequired = pName === "FABRIC" || pName.startsWith("INTERLINING") || pName.startsWith("TRICOT");
-                if (isLotRequired && (!item.Lot || item.Lot.toString().trim() === "" || item.Lot.toString().trim() === "-" || item.Lot.toString().trim() === "0")) {
-                  continue;
-                }
 
                 this.dataItems.push(Items);
               }
@@ -596,14 +587,12 @@ export class DataForm {
         this.data.Article = data[0].Article;
         this.service
           .searchDOItems({
-            excludeEmptyLot: true,
             filter: JSON.stringify({
               RONo: this.data.RONo,
               UnitId: this.data.UnitSender.Id,
               StorageId: this.data.Storage.Id
                 ? this.data.Storage.Id
                 : this.data.Storage._id,
-              excludeEmptyLot: true,
             }),
           })
           .then(async (result) => {
@@ -649,12 +638,6 @@ export class DataForm {
                 Items.PackageNo = item.PackageNo;
                 Items.HandlingUnit = item.HandlingUnit;
                 Items.Width = item.Width;
-
-                const pName = (item.ProductName || "").toUpperCase();
-                const isLotRequired = pName === "FABRIC" || pName.startsWith("INTERLINING") || pName.startsWith("TRICOT");
-                if (isLotRequired && (!item.Lot || item.Lot.toString().trim() === "" || item.Lot.toString().trim() === "-" || item.Lot.toString().trim() === "0")) {
-                  continue;
-                }
 
                 this.dataItems.push(Items);
               }
@@ -737,14 +720,12 @@ export class DataForm {
         }
         this.service
           .searchDOItems({
-            excludeEmptyLot: true,
             filter: JSON.stringify({
               RONo: this.data.RONo,
               UnitId: this.data.UnitSender.Id,
               StorageId: this.data.Storage.Id
                 ? this.data.Storage.Id
                 : this.data.Storage._id,
-              excludeEmptyLot: true,
             }),
           })
           .then(async (result) => {
@@ -790,12 +771,6 @@ export class DataForm {
                 Items.PackageNo = item.PackageNo;
                 Items.HandlingUnit = item.HandlingUnit;
                 Items.Width = item.Width;
-
-                const pName = (item.ProductName || "").toUpperCase();
-                const isLotRequired = pName === "FABRIC" || pName.startsWith("INTERLINING") || pName.startsWith("TRICOT");
-                if (isLotRequired && (!item.Lot || item.Lot.toString().trim() === "" || item.Lot.toString().trim() === "-" || item.Lot.toString().trim() === "0")) {
-                  continue;
-                }
 
                 this.dataItems.push(Items);
               }
@@ -957,7 +932,6 @@ export class DataForm {
     } else if (newValue) {
       this.service
         .searchDOItems({
-          excludeEmptyLot: true,
           filter: JSON.stringify({
             RONo: newValue.RONo,
             UnitId: this.data.UnitSender.Id,
@@ -966,7 +940,6 @@ export class DataForm {
               : this.data.Storage._id,
             POSerialNumber: newValue.POSerialNumber,
             DOItemsId: newValue.DOItemsId,
-            excludeEmptyLot: true,
           }),
         })
         .then((result) => {
@@ -1055,12 +1028,6 @@ export class DataForm {
 
   async addProduct() {
     if (this.newProduct && this.newProduct.ProductId) {
-      const pName = (this.newProduct.ProductName || "").toUpperCase();
-      const isLotRequired = pName === "FABRIC" || pName.startsWith("INTERLINING") || pName.startsWith("TRICOT");
-      if (isLotRequired && (!this.newProduct.Lot || this.newProduct.Lot.toString().trim() === "" || this.newProduct.Lot.toString().trim() === "-" || this.newProduct.Lot.toString().trim() === "0")) {
-        alert("Nomor Lot belum diisi pada data sumber barang ini.");
-        return;
-      }
       this.data.Items.push(this.newProduct);
       this.options.checkedAll = this.data.Items.filter(
         (item) => item.IsDisabled === false
