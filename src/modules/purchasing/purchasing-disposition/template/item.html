@@ -10,6 +10,14 @@
                 text.bind="epoView">
             </au-autocomplete>
         </td>
+        <td class="col-sm-3">
+            <au-textbox 
+                value.bind="data.UPONo"
+                show.bind="selectedEPO"
+                read-only="true"
+                error.bind="error.UPONo">
+            </au-textbox>
+        </td>
         <td class="col-sm-2">
             <au-checkbox 
                 value.bind="data.UseVat"

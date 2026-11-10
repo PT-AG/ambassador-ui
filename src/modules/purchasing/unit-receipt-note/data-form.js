@@ -186,36 +186,36 @@ export class DataForm {
                 var selectedUnitName = this.data.unit ? (this.data.unit.name || this.data.unit.Name) : null;
 
                 for (var item of _items) {
-                    var same = result.find(a => (a.Id || a._id) == item.epoId);
-                    var isSameUnit = true;
-                    if (same) {
+                     var same = result.find(a => (a.Id || a._id) == item.epoId);
+                //     var isSameUnit = true;
+                     if (same) {
                         item.epoNo = same.no;
                         item.incomeTaxBy = same.incomeTaxBy;
 
-                        if (same.items && same.items.length > 0) {
-                            var epoPoItem = same.items.find(i => (i.poId && i.poId == item.purchaseOrderId) || (i.details && i.details.some(d => d.poItemId == item.poItemId)));
-                            if (epoPoItem && epoPoItem.unit) {
-                                var u = epoPoItem.unit;
-                                var uId = u.Id || u._id;
-                                var uCode = u.code || u.Code;
-                                var uName = u.name || u.Name;
+                //         if (same.items && same.items.length > 0) {
+                //             var epoPoItem = same.items.find(i => (i.poId && i.poId == item.purchaseOrderId) || (i.details && i.details.some(d => d.poItemId == item.poItemId)));
+                //             if (epoPoItem && epoPoItem.unit) {
+                //                 var u = epoPoItem.unit;
+                //                 var uId = u.Id || u._id;
+                //                 var uCode = u.code || u.Code;
+                //                 var uName = u.name || u.Name;
 
-                                if (selectedUnitId && uId && uId != 0 && uId != "0") {
-                                    isSameUnit = selectedUnitId.toString() === uId.toString();
-                                } else if (selectedUnitName && uName && uName != "-") {
-                                    isSameUnit = selectedUnitName.toString().toLowerCase() === uName.toString().toLowerCase();
-                                } else if (selectedUnitCode && uCode && uCode != "-") {
-                                    isSameUnit = selectedUnitCode.toString().toLowerCase() === uCode.toString().toLowerCase();
-                                }
-                            }
-                        }
-                    }
+                //                 if (selectedUnitId && uId && uId != 0 && uId != "0") {
+                //                     isSameUnit = selectedUnitId.toString() === uId.toString();
+                //                 } else if (selectedUnitName && uName && uName != "-") {
+                //                     isSameUnit = selectedUnitName.toString().toLowerCase() === uName.toString().toLowerCase();
+                //                 } else if (selectedUnitCode && uCode && uCode != "-") {
+                //                     isSameUnit = selectedUnitCode.toString().toLowerCase() === uCode.toString().toLowerCase();
+                //                 }
+                //             }
+                //         }
+                //     }
 
-                    if (isSameUnit) {
-                        filteredItems.push(item);
+                //     if (isSameUnit) {
+                        //filteredItems.push(item);
                     }
                 }
-                this.data.items = filteredItems;
+                this.data.items = _items;
                 console.log(this.data.items);
             });
 

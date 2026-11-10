@@ -34,6 +34,7 @@ export class Create {
 
         var Data = this.data;
         this.submitContext.verifiedAlert = context == "VerifiedAlert" ? true : false;
+        this.submitContext.isDispo = this.data.isDispo;
         this.dialog.show(AlertView, this.submitContext)
             .then(response => {
 
@@ -47,7 +48,6 @@ export class Create {
                         Data.Remark = response.output.Remark;
                         Data.Reason = response.output.Remark;
                     }
-                    console.log(Data)
                     this.service.create(Data).then(result => {
                         alert("Data berhasil dibuat");
                         this.router.navigateToRoute('create', {}, { replace: true, trigger: true });
