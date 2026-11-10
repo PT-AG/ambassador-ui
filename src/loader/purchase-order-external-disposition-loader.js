@@ -12,7 +12,7 @@ module.exports = function (keyword, filter) {
         currencyId: filter.currencyId,
         supplierId: filter.supplierId,
         categoryId: filter.categoryId,
-        divisionId: filter.divisionId,
+        PaymentMethod: filter.paymentMethod,
         incomeTaxBy: filter.incomeTaxBy, size: 10
     })
         .then(results => {

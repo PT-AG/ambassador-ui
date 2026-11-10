@@ -13,6 +13,7 @@ export class AlertView {
         this.data = data;
         this.error = {};
         this.data.Remark = "";
+        console.log(this.data);
     }
 
     save(context) {

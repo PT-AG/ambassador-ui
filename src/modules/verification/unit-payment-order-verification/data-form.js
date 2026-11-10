@@ -102,11 +102,28 @@ export class DataForm {
 
     SPBChanged(newValue, oldValue) {
         if (this.SPB) {
-            console.log(this.SPB)
-            var arg = {
-                filter: JSON.stringify({ UnitPaymentOrderNo: this.SPB.no, Active : "true", IsDeleted : "false" })
-            }
+            const epoNumbers = (newValue.items || [])
+            .reduce((result, item) => {
+                const details = (item.unitReceiptNote || {}).items || [];
 
+                details.forEach(detail => {
+                    if (detail.EPONo && !result.includes(detail.EPONo)) {
+                        result.push(detail.EPONo);
+                    }
+                });
+
+                return result;
+            }, []);
+
+            this.epoNumbers = epoNumbers;
+
+            var arg = {
+                filter: JSON.stringify({ UnitPaymentOrderNo: this.SPB.no, 
+                    Active : "true", 
+                    IsDeleted : "false", 
+                    EPONumbers: JSON.stringify(this.epoNumbers) })
+            }
+        
             this.data = Object.assign(this.data, this.SPB)
             this.service.search(arg)
                 .then(response => {
@@ -114,11 +131,12 @@ export class DataForm {
                     this.data.IncomeTax = dataExpedition.IncomeTax;
                     this.data.Vat = dataExpedition.Vat;
                     this.data.TotalPaid = dataExpedition.TotalPaid;
+                    this.data.isDispo = dataExpedition.isDispo;
                 });
             this.mapItems(this.data);
 
             this.data.UnitPaymentOrderNo = this.SPB.no;
-
+            
         } else {
             this.data = {}
         }

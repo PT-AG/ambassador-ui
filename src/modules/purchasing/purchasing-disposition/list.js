@@ -17,7 +17,7 @@ export class List {
                 return moment(value).format("DD MMM YYYY");
             }
         },
-        { field: "Division.name", title: "Divisi"},
+        //{ field: "Division.name", title: "Divisi"},
         { field: "Category.name", title: "Kategori"},
         { field: "Supplier.name", title: "Supplier" },
         { field: "Currency.code", title: "Mata Uang"},

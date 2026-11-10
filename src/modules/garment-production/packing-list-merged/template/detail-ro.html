@@ -57,10 +57,10 @@
             </au-autocomplete>
         </td>
 
-        <td class="bg-primary">
+        <!-- <td class="bg-primary">
             <au-numeric value.bind="data.ctnQty" format="0" read-only.bind="readOnly">
             </au-numeric>
-        </td>
+        </td> -->
 
         <td if.bind="!readOnly">
             <button class="btn btn-danger pull-right" click.delegate="onremove(data, $event)">-</button>
@@ -70,30 +70,30 @@
         </td>
     </tr>
     <tr show.bind="readOnly? isShowing : !isShowing" style="background-color:#C2B5B2;">
-        <td colspan="3">
+        <td colspan="2">
             <au-textbox label="Artikel" value.bind="data.article" read-only.bind="true">
             </au-textbox>
         </td>
 
-        <td colspan="4">
+        <td colspan="10">
             <au-multiline label="PO Buyer" error.bind="error.OrderNo" value.bind="data.orderNo"
                 read-only.bind="readOnly">
             </au-multiline>
         </td>
 
-        <td colspan="5">
+        <!-- <td colspan="6">
             <au-numeric label="Height" value.bind="data.height" show.bind="!readOnly" read-only.bind="readOnly">
             </au-numeric>
             <au-numeric label="Width" value.bind="data.width" show.bind="!readOnly" read-only.bind="readOnly">
             </au-numeric>
             <au-numeric label="Lenght" value.bind="data.length" show.bind="!readOnly" read-only.bind="readOnly">
             </au-numeric>
-        </td>
-        <td>
+        </td> -->
+        <!-- <td>
             <button class="btn btn-info pull-right" show.bind="!readOnly" click.delegate="generateTemplate()">Generate</button>
-        </td>
+        </td> -->
     </tr>
-    <tr>
+    <!-- <tr>
         <td colspan="13">
             <au-collection items.bind="data.detailRows" columns.bind="plColumns" read-only.bind="readOnly"
                 add.bind="addDetailRows" remove.bind="removeDetailRows" options.bind="itemOptions"
@@ -102,5 +102,5 @@
                 if.bind="data.detailRows">
             </au-collection>
         </td>
-    </tr>
+    </tr> -->
 </template>
