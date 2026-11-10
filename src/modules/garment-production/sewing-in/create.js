@@ -34,6 +34,9 @@ export class Create {
     }
 
     saveCallback(event) {
+        if (this.isSaving) {
+            return;
+        }
         this.data.FinishingDate=null;
         this.data.SewingDate=null;
         if(this.data.SewingFrom=="SEWING"){
@@ -52,12 +55,14 @@ export class Create {
                 }
             }
         }
+        this.isSaving = true;
         this.service.create(this.data)
             .then(result => {
                 alert("Data berhasil dibuat");
                 this.router.navigateToRoute('create',{}, { replace: true, trigger: true });
             })
             .catch(e => {
+                this.isSaving = false;
                 this.error = e;
                 if (typeof (this.error) == "string") {
                     alert(this.error);
