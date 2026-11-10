@@ -90,6 +90,11 @@ class SalesService extends RestService {
         var endpoint = `${roServiceUri}/RoWithComponent`;
         return super.list(endpoint, ro);
     }
+
+    getCostCalculation(info) {
+        var endpoint = `${costCalculationServiceUri}`;
+        return super.list(endpoint, info);
+    }
 }
 
 const sectionServiceUri = "master/garment-sections";
@@ -113,6 +118,11 @@ class GarmentProductionService extends RestService {
     getSampleRequestById(id) {
         var endpoint = `${garmentSampleRequestUri}/${id}`;
         return super.get(endpoint);
+    }
+
+    getSampleRequest(info) {
+        var endpoint = `${garmentSampleRequestUri}`;
+        return super.list(endpoint, info)
     }
 }
 
