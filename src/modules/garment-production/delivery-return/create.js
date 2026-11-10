@@ -34,16 +34,21 @@ export class Create {
     }
 
     saveCallback(event) {
+        if (this.isSaving) {
+            return;
+        }
         this.data.ReturnDate = this.data.ReturnDate ? moment(moment(this.data.ReturnDate).format("DD MMM YYYY")).toDate() : null;
         // let objData = {};
         // let data = Object.assign(objData, this.data);
         // data.Items = data.Items.filter(x => x.IsSave==true);
+        this.isSaving = true;
         this.service.create(this.data)
             .then(result => {
                 alert("Data berhasil dibuat");
                 this.router.navigateToRoute('create', {}, { replace: true, trigger: true });
             })
             .catch(e => {
+                this.isSaving = false;
                 this.error = e;
                 // this.error.Items[1]=this.error.Items[0];
                 if (typeof (this.error) == "string") {

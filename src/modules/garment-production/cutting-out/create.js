@@ -29,6 +29,9 @@ export class Create {
     }
 
     saveCallback(event) {
+        if (this.isSaving) {
+            return;
+        }
         var CuttingInDate = null;
         if (this.data) {
             if (this.data.Items) {
@@ -44,12 +47,14 @@ export class Create {
             }
         }
         this.data.CuttingInDate = CuttingInDate;
+        this.isSaving = true;
         this.service.create(this.data)
             .then(result => {
                 alert("Data berhasil dibuat");
                 this.router.navigateToRoute('create', {}, { replace: true, trigger: true });
             })
             .catch(e => {
+                this.isSaving = false;
                 let apiError = null;
 
                 if (e) {
