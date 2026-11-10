@@ -19,7 +19,7 @@
             options.bind="controlOptions">
         </au-textbox>
 
-        <au-autocomplete 
+        <!-- <au-autocomplete 
             value.bind="selectedDivision" 
             error.bind="error.Division"
             read-only.bind="(readOnly || isEdit)"
@@ -29,7 +29,7 @@
             placeholder="cari divisi" 
             key="code" 
             options.bind="controlOptions">
-        </au-autocomplete>
+        </au-autocomplete> -->
 
         <au-autocomplete 
             value.bind="selectedCategory" 
@@ -94,14 +94,14 @@
             options.bind="controlOptions">
         </au-textbox>-->
 
-        <au-textbox
-            value.bind="data.PaymentMethod"
-            error.bind="error.PaymentMethod"
-            label="Term Pembayaran" 
-            placeholder="term pembayaran"
-            read-only.bind="readOnly"
-            options.bind="controlOptions">
-        </au-textbox>
+        <au-dropdown label="Term Pembayaran"
+                 value.bind="data.PaymentMethod"
+                 error.bind="error.PaymentMethod"
+                 read-only.bind="readOnly"
+                 items.bind="termPaymentOptions"
+                 change.delegate="paymentMethodChanged($event)"
+                 options.bind="controlOptions">
+        </au-dropdown>
 
         <au-datepicker 
             label="Tanggal Jatuh Tempo" 
@@ -236,9 +236,8 @@
             options.one-way="filter"
             read-only.bind="readOnly"
             change.delegate="itemsChanged($event)"
-            if.bind="selectedSupplier && selectedCurrency && selectedDivision && selectedCategory"
-            item-template="modules/purchasing/purchasing-disposition/template/item"
-            >
+            if.bind="selectedSupplier && selectedCurrency && selectedCategory"
+            item-template="modules/purchasing/purchasing-disposition/template/item">
         </au-collection>
   </au-input-form>
 </template>

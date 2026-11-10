@@ -2,8 +2,8 @@ import { inject, bindable, containerless, computedFrom, BindingEngine } from 'au
 import { Service } from "./service";
 var SupplierLoader = require('../../../loader/supplier-loader');
 var CurrencyLoader = require('../../../loader/currency-in-garment-currency-loader');
-var UnitLoader = require('../../../loader/unit-loader');
-var DivisionLoader = require('../../../loader/division-loader');
+// var UnitLoader = require('../../../loader/unit-loader');
+// var DivisionLoader = require('../../../loader/division-loader');
 var CategoryLoader = require('../../../loader/category-loader');
 //var IncomeTaxLoader = require('../../../loader/income-tax-loader');
 
@@ -17,7 +17,7 @@ export class DataForm {
     @bindable selectedSupplier;
     @bindable selectedCurrency;
     @bindable selectedCategory;
-    @bindable selectedDivision;
+    //@bindable selectedDivision;
     @bindable incomeTaxValue;
 
 
@@ -31,8 +31,10 @@ export class DataForm {
     }
 
     IncomeTaxByOptions=["","Supplier","AG"];
-
+    termPaymentOptions = ['CASH', 'KREDIT', 'DP (DOWN PAYMENT) + BP (BALANCE PAYMENT)', 'DP (DOWN PAYMENT) + TERMIN 1 + BP (BALANCE PAYMENT)', 'RETENSI'];
+  
     itemsColumns = [{ header: "Nomor External PO"},
+                    { header: "Nomor SPB"},
                     { header: "Kena PPN"},
                     { header: "Nominal PPN"},
                     { header: "Kena PPH"},
@@ -60,21 +62,29 @@ export class DataForm {
         // }
     }
 
+    paymentMethodChanged(e) {
+        var selectedPayment = e.srcElement.value;
+        if (selectedPayment) {
+            this.data.PaymentMethod = selectedPayment;
+        }
+        this.data.Items.splice(0);
+    }
+
     @computedFrom("data.Id")
     get isEdit() {
         return (this.data.Id || '').toString() != '';
     }
 
-    @computedFrom("data.Supplier && data.Currency && data.Category && data.Division && data.IncomeTaxBy")
+    @computedFrom("data.Supplier && data.Currency && data.Category && data.IncomeTaxBy && data.PaymentMethod")
     get filter() {
         var filter={};
-        if(this.data.Supplier && this.data.Currency && this.data.Category && this.data.Division){
+        if(this.data.Supplier && this.data.Currency && this.data.Category ){
             filter = {
                 supplierId: this.data.Supplier.Id || this.data.Supplier._id,
                 currencyId:this.data.Currency.Id||  this.data.Currency._id,
                 categoryId:this.data.Category.Id || this.data.Category._id,
-                divisionId:this.data.Division.Id || this.data.Division._id,
-                incomeTaxBy:this.data.IncomeTaxBy || ""
+                incomeTaxBy:this.data.IncomeTaxBy || "",
+                paymentMethod:this.data.PaymentMethod || "",
             }
         }
         return filter;
@@ -98,26 +108,6 @@ export class DataForm {
         }
     }
 
-    selectedDivisionChanged(newValue) {
-        this.data.Division = {};
-        if(this.data.Items)
-            this.data.Items.splice(0);
-        var _selectedDivision = newValue;
-        if(_selectedDivision){
-            if (_selectedDivision.Id|| _selectedDivision._id) {
-                this.data.Division = _selectedDivision;
-                this.data.divisionId = _selectedDivision.Id || _selectedDivision._id;
-                this.data.Division._id=newValue.Id;
-                this.data.Division.code=newValue.Code;
-                this.data.Division.name=newValue.Name;
-            } 
-            else{
-                this.data.Division = {};
-                this.data.Items.splice(0);
-            }
-        }
-    }
-
     selectedSupplierChanged(newValue) {
         this.data.Supplier = {};
         if(this.data.Items)
@@ -126,9 +116,6 @@ export class DataForm {
         if (_selectedSupplier.Id || _selectedSupplier._id) {
             this.data.Supplier = _selectedSupplier;
             this.data.supplierId = _selectedSupplier.Id || _selectedSupplier._id;
-            // this.data.Supplier._id=newValue.Id;
-            // this.data.Supplier.code=newValue.Code;
-            // this.data.Supplier.name=newValue.Name;
         } 
         else{
             this.data.Supplier = {};
@@ -224,7 +211,6 @@ export class DataForm {
     get removeItems() {
         return (event) => //console.log(event.detail);
         {
-            
             if(this.data.Items){
                 this.data.Amount=0;
                 this.data.IncomeTaxValue=0;
@@ -258,26 +244,15 @@ export class DataForm {
         }
     }
 
-    divisionView = (division) => {
-        return division.name || division.Name;
-    }
-
     categoryView = (category) => {
         var code= category.code || category.Code;
         var name= category.name || category.Name;
         return `${code} - ${name}`;
     }
 
-     get divisionLoader() {
-        return DivisionLoader;
-    }
-
     get categoryLoader() {
         return CategoryLoader;
     }
-
-//@computedFrom("!isView")
-    
     
     get dppVal(){
         if(!this.readOnly){
@@ -315,7 +290,6 @@ export class DataForm {
             }
             else return 0;
         }
-        
     }
 
     get vatVal(){
@@ -390,7 +364,6 @@ export class DataForm {
                 return this.data.IncomeTaxValue;
             }
             else return 0;
-            
         }
     }
 

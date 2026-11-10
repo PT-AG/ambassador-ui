@@ -44,7 +44,7 @@ export class View {
             this.service.approve(this.data.Id)
                 .then(result => {
                     alert("Nota Intern berhasil di-approve.");
-                    this.cancelling();
+                    this.cancel();
                 })
                 .catch(e => {
                     alert(e.message || e);

@@ -13,7 +13,7 @@ export class PurchasingDispositionItem {
 
     //itemsColumns = ["PRNo", "Category", "Product", "DealQuantity", "DealUom", "PaidQuantity", "PricePerDealUnit", "PriceTotal", "PaidPrice"];
     itemsColumns = {
-        columns: ["PRNo", "Unit", "Barang", "Jumlah Dipesan", "Satuan","Harga Total", "Jumlah Dibayar", "Harga Satuan",  "Harga Dibayar"],
+        columns: ["PRNo","Barang", "Jumlah Dipesan", "Satuan","Harga Total", "Jumlah Dibayar", "Harga Satuan",  "Harga Dibayar"],
         onRemove: function () {
             this.bind();
         }
@@ -22,9 +22,7 @@ export class PurchasingDispositionItem {
     constructor(service) {
         this.service = service;
     }
-
     
-
     async activate(context) {
         this.context=context;
         this.items = context.context.items;
@@ -32,19 +30,20 @@ export class PurchasingDispositionItem {
         this.error = context.error;
         this.options = context.context.options;
         this.readOnly = context.options.readOnly;
-        this.filter = this.options.supplierId && this.options.currencyId && this.options.categoryId && this.options.divisionId ? 
+        this.filter = this.options.supplierId && this.options.currencyId && this.options.categoryId  ? 
                       { "supplierId": this.options.supplierId, 
                         "currencyId":this.options.currencyId, 
-                        "divisionId": this.options.divisionId, 
                         "categoryId": this.options.categoryId,
-                        "incomeTaxBy" : this.options.incomeTaxBy !=null ? this.options.incomeTaxBy : ""} : {};
-        
+                        "incomeTaxBy" : this.options.incomeTaxBy !=null ? this.options.incomeTaxBy : "",
+                        "paymentMethod" : this.options.paymentMethod !=null ? this.options.paymentMethod : "",
+                    } : {};
+                        
+            console.log(this.filter)
         if(this.data.Id!=0 && this.data.Id!=null){
             this.isEdit=true;
         }
         if(this.data.EPONo){
             this.selectedEPO=this.data;
-            console.log(this.data)
         }
 
         if(this.data.Details){
@@ -59,16 +58,7 @@ export class PurchasingDispositionItem {
         this.GetTax();
 
     }
-    // @computedFrom("data.EPONo")
-    // get incomeTax() {
-    //     if(this.data.UseIncomeTax){
-    //         return `${this.data.IncomeTax.name}-${this.data.IncomeTax.rate}`;
-    //     }
-    //     else{
-    //         return "-";
-    //     }
-    // }
-    
+
     async GetDisposition(){
         this.paidDisposition=0;
         this.createdDisposition=0;
@@ -78,15 +68,13 @@ export class PurchasingDispositionItem {
                 for(var pay of paid){
                     this.paidDisposition+=pay.payToSupplier;
                 }
-                //this.paidDisposition=this.paidDisposition>0?this.paidDisposition+this.vatValue-this.incomeTaxValue:this.paidDisposition;
             }
 
             var filterDispo= {
                 epoId:this.data.EPOId
             };
             
-
-        return this.service.getDispositions(filterDispo)
+            return this.service.getDispositions(filterDispo)
             .then(result => {
                 if(result.data){
                     for(var data of result.data){
@@ -100,8 +88,7 @@ export class PurchasingDispositionItem {
                     }
                 }
             });
-
-        }
+        } 
     }
 
     async selectedEPOChanged(newValue) {
@@ -110,6 +97,7 @@ export class PurchasingDispositionItem {
             if(newValue._id || newValue.EPOId){
                 this.data.EPOId=newValue._id || this.data.EPOId;
                 this.data.EPONo= newValue._id ? newValue.no : this.data.EPONo;
+                this.data.UPONo= newValue._id ? newValue.UPONo : this.data.UPONo;
                 this.data.UseVat= newValue._id ?newValue.useVat : this.data.UseVat;
                 this.data.UseIncomeTax=newValue._id ? newValue.useIncomeTax : this.data.UseIncomeTax;
                 if(this.data.UseIncomeTax){
@@ -118,7 +106,6 @@ export class PurchasingDispositionItem {
                     this.data.IncomeTax.Id=newValue.incomeTax._id;
                     this.data.IncomeTax.Rate=newValue.incomeTax.rate;
                     this.incomeTax=`${this.data.IncomeTax.name} - ${this.data.IncomeTax.rate}`;
-                    
                 }
                 else{
                     this.data.IncomeTax={};
@@ -144,33 +131,11 @@ export class PurchasingDispositionItem {
                     for(var detail of item.details){
                         var qty=detail.dealQuantity-detail.dispositionQuantity;
 
-                        //===========MONGO==============
-                        // if(dataDisposition.info.count>0){
-                        //     for(var DispoData of dataDisposition.data){
-                        //         for(var dispoItem of DispoData.Items){
-                        //             for(var dispoDetail of dispoItem.Details){
-                        //                 if(dispoDetail.PRId==item.purchaseRequest._id && dispoDetail.Product._id==detail.product._id){
-                        //                     qty-=dispoDetail.PaidQuantity;
-                        //                 }
-                        //             }
-                        //         }
-                        //     }
-                        // }
-
-                        //============================================================
-                        //var qty=detail.dealQuantity-detail.dispositionQuantity;
-                        // this.data.Unit=newValue.unit;
-                        // this.data.Unit.Id=newValue.unit._id;
-                        // this.data.Unit.Name=newValue.unit.name;
-                        // this.data.Unit.Division=newValue.unit.division;
-                        // this.data.Unit.Division.Name=newValue.unit.division.name;
-
-
                         details.push({
                             EPODetailId:detail._id,
                             PRNo: item.prNo,
-                            UnitId:newValue.unit._id,
-                            Unit:newValue.unit,
+                            // UnitId:newValue.unit._id,
+                            // Unit:newValue.unit,
                             PRId: item.prId,
                             Product:detail.product,
                             DealQuantity:detail.dealQuantity,
@@ -192,10 +157,6 @@ export class PurchasingDispositionItem {
                         this.incomeTaxValue+=pph;
                         this.vatValue+=ppn;
                     }
-                    // if(this.data.UseIncomeTax){
-                    //     this.incomeTaxValue+=
-                    // }
-                    
                 }
                 this.data.Details=details;
                 
@@ -205,10 +166,6 @@ export class PurchasingDispositionItem {
         }
     }
 
-    // @computedFrom("selectedEPO._id")
-    // get incomeTax() {
-    //     return `${this.data.IncomeTax.Name} - ${this.data.IncomeTax.Rate}`;
-    // }
     toggle() {
         this.isShowing = !this.isShowing;
     }
@@ -255,7 +212,6 @@ export class PurchasingDispositionItem {
             }
             this.data.Details=details;
             this.GetTax();
-            //this.detailChanged(event);
         }
     }
 }
