@@ -950,6 +950,8 @@ export class DataForm {
       "Jumlah DO",
       "Satuan",
       "Tipe Fabric",
+      "Warna",
+      "Lot",
       "Batch",
       "No Package",
       "Handling Unit",
