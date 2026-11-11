@@ -433,6 +433,7 @@ export class DataForm {
                             Items.Box = item.Box;
                             Items.Colour = item.Colour;
                             Items.Area = item.Area;
+                            Items.PackageNo = item.PackageNo;
             
                             this.dataItems.push(Items);
                         }
