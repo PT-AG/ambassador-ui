@@ -51,24 +51,12 @@ export class DataForm {
     this.isFabric = productName === "FABRIC";
     this.isInterliningOrTricot =
       productName.startsWith("INTERLINING") || productName.startsWith("TRICOT");
+    this.isWidth = this.isFabric || this.isInterliningOrTricot;
 
-    if (this.isFabric) {
+    if (this.isWidth) {
       this.columns = [
         "Warna",
         "Lebar",
-        "Quantity",
-        "Lot",
-        "Batch",
-        "No Package",
-        "Handling Unit",
-        "Rack",
-        "Level",
-        "Box",
-        "Area",
-      ];
-    } else if (this.isInterliningOrTricot) {
-      this.columns = [
-        "Warna",
         "Quantity",
         "Lot",
         "Batch",
