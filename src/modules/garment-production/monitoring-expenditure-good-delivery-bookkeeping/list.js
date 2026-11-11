@@ -19,6 +19,7 @@ export class List {
 
     //UnitItems = ['','AMBASSADOR GARMINDO 1','AMBASSADOR GARMINDO 2']
     UnitItems = ['','AMBASSADOR GARMINDO'];
+    isExports=['','EXPORT','LOKAL'];
 
     UnitItemChanged(newvalue){
         this.unit = 0;
