@@ -65,6 +65,14 @@
                     view-model.ref="DONoViewModel"
                     options.bind="controlOptions">
                 </au-autocomplete>
+
+                <au-textbox
+                    label="Unit DO For"
+                    value.bind="data.UnitDOFor"
+                    read-only.bind="true"
+                    show.bind="data.UnitDOFor"
+                    options.bind="controlOptions">
+                </au-textbox>
                 
                 <au-textbox
                     label="Unit yang mengeluarkan"
