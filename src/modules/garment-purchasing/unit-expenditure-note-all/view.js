@@ -18,6 +18,13 @@ export class View {
         const decoded = Base64Helper.decode(params.id);
         var id = decoded;
         this.data = await this.service.getById(id);
+        if (this.data.UnitDOId) {
+            this.dataUnitDO = await this.service.getUnitDOId(this.data.UnitDOId);
+            if (this.dataUnitDO) {
+                this.data.RoJob = this.dataUnitDO.RONo;
+                this.data.UnitDOFor = this.dataUnitDO.UnitDOFor;
+            }
+        }
         this.unitDeliveryOrder = { UnitDONo:this.data.UnitDONo};
         this.data.Storage.toString = function () {
             return [this.code, this.name]
