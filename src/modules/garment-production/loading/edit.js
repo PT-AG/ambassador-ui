@@ -52,6 +52,10 @@ export class Edit {
                 this.cancelCallback();
             })
             .catch(e => {
+                if (e && e.statusCode === 500 && e.message) {
+                    alert(e.message);
+                    return;
+                }
                 this.error = e;
                 if (typeof (this.error) == "string") {
                     alert(this.error);
