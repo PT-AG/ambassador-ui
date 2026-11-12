@@ -49,6 +49,10 @@ export class Create {
             .catch(e => {
                 this.isSaving = false;
                 this.hasSave = true;
+                if (e && e.statusCode === 500 && e.message) {
+                    alert(e.message);
+                    return;
+                }
                 this.error = e;
                 if (typeof (this.error) == "string") {
                     alert(this.error);

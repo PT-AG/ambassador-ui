@@ -55,6 +55,10 @@ export class Create {
             })
             .catch(e => {
                 this.isSaving = false;
+                if (e && e.statusCode === 500 && e.message) {
+                    alert(e.message);
+                    return;
+                }
                 let apiError = null;
 
                 if (e) {
