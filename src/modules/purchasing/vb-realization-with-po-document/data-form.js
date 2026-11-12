@@ -39,9 +39,27 @@ export class DataForm {
         "Tanpa Nomor VB"
     ]
 
-    @computedFrom("data.Type")
+    @bindable selectedType;
+    selectedTypeChanged(newVal, oldVal) {
+        this.data.Type = newVal;
+        if (oldVal && !this.isEdit) {
+            this.vbRequestDocument = null;
+            this.selectedSuppliantUnit = null;
+            this.selectedCurrency = null;
+            if (this.data.Items) {
+                this.data.Items.splice(0, this.data.Items.length);
+            }
+        }
+    }
+
+    @computedFrom("selectedType")
     get isWithVB() {
-        return this.data.Type == "Dengan Nomor VB";
+        return this.selectedType == "Dengan Nomor VB";
+    }
+
+    @computedFrom("selectedType")
+    get hasType() {
+        return Boolean(this.selectedType && this.selectedType !== "");
     }
 
     controlOptions = {
@@ -159,7 +177,9 @@ export class DataForm {
         this.saveCallback = this.context.saveCallback;
         this.hasPosting = this.context.hasPosting;
         this.isCreate = this.context.isCreate;
+        this.isEdit = this.context.isEdit || Boolean(this.data && this.data.Id);
 
+        this.selectedType = this.data.Type;
         this.vbRequestDocument = this.data.VBRequestDocument;
 
         this.selectedCurrency = this.data.Currency;
@@ -181,6 +201,29 @@ export class DataForm {
         return (event) => {
             this.data.Items.push({})
         };
+    }
+
+    get totalRealization() {
+        if (this.data && this.data.Items && this.data.Items.length > 0) {
+            return this.data.Items.reduce((total, item) => {
+                if (item.UnitPaymentOrder) {
+                    let amount = item.UnitPaymentOrder.Amount || 0;
+                    let isPayVat = item.UnitPaymentOrder.IsPayVat || item.UnitPaymentOrder.UseVat;
+                    let isPayTax = item.UnitPaymentOrder.IsPayTax || item.UnitPaymentOrder.UseIncomeTax;
+                    let vatRate = (item.UnitPaymentOrder.VatTax && item.UnitPaymentOrder.VatTax.Rate) ? item.UnitPaymentOrder.VatTax.Rate : 0;
+                    let incomeTaxRate = (item.UnitPaymentOrder.IncomeTax && item.UnitPaymentOrder.IncomeTax.Rate) ? item.UnitPaymentOrder.IncomeTax.Rate : 0;
+
+                    let vat = isPayVat ? amount * (vatRate / 100) : 0;
+                    let incomeTax = (isPayTax && item.UnitPaymentOrder.IncomeTaxBy && item.UnitPaymentOrder.IncomeTaxBy.toUpperCase() == "SUPPLIER")
+                        ? amount * (incomeTaxRate / 100)
+                        : 0;
+
+                    return total + amount + vat - incomeTax;
+                }
+                return total;
+            }, 0);
+        }
+        return (this.data && this.data.Amount) ? this.data.Amount : 0;
     }
 }
 

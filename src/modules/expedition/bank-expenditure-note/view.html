@@ -92,6 +92,12 @@
             </div>
         </div>
 
+        <div class="row" style="margin-top: 10px; margin-bottom: 15px;">
+            <div class="col-sm-5 col-sm-offset-7 text-right" style="font-weight: bold; font-size: 16px; color: #2e6da4;">
+                TOTAL BAYAR DPP + PPN: ${GrandTotal | numberFormat: '0,000.0000'} ${data.Bank.Currency.Code}
+            </div>
+        </div>
+
         <au-collection items.bind="data.Details"
                        view-model.ref="ItemsCollection"
                        columns.bind="collection.columns"
