@@ -40,21 +40,19 @@ export class Item {
 
     get total() {
         if (this.data.UnitPaymentOrder) {
-            let result = this.data.UnitPaymentOrder.Amount;
-            // if (this.data.UnitPaymentOrder.UseVat)
-            //     result += this.data.UnitPaymentOrder.Amount * (this.data.UnitPaymentOrder.VatTax.Rate / 100);
+            let result = this.data.UnitPaymentOrder.Amount || 0;
+            let isPayVat = this.data.UnitPaymentOrder.IsPayVat || this.data.UnitPaymentOrder.UseVat;
+            let isPayTax = this.data.UnitPaymentOrder.IsPayTax || this.data.UnitPaymentOrder.UseIncomeTax;
+            let vatRate = (this.data.UnitPaymentOrder.VatTax && this.data.UnitPaymentOrder.VatTax.Rate) ? this.data.UnitPaymentOrder.VatTax.Rate : 0;
+            let incomeTaxRate = (this.data.UnitPaymentOrder.IncomeTax && this.data.UnitPaymentOrder.IncomeTax.Rate) ? this.data.UnitPaymentOrder.IncomeTax.Rate : 0;
 
-            // if (this.data.UnitPaymentOrder.UseIncomeTax && this.data.UnitPaymentOrder.IncomeTaxBy == "Supplier")
-            //     result -= this.data.UnitPaymentOrder.Amount * (this.data.UnitPaymentOrder.IncomeTax.Rate / 100);
+            if (isPayVat)
+                result += (this.data.UnitPaymentOrder.Amount || 0) * (vatRate / 100);
 
-            if (this.data.UnitPaymentOrder.IsPayVat)
-                result += this.data.UnitPaymentOrder.Amount * (this.data.UnitPaymentOrder.VatTax.Rate / 100);
-
-            if (this.data.UnitPaymentOrder.IsPayTax && this.data.UnitPaymentOrder.IncomeTaxBy == "Supplier")
-                result -= this.data.UnitPaymentOrder.Amount * (this.data.UnitPaymentOrder.IncomeTax.Rate / 100);
+            if (isPayTax && this.data.UnitPaymentOrder.IncomeTaxBy && this.data.UnitPaymentOrder.IncomeTaxBy.toUpperCase() == "SUPPLIER")
+                result -= (this.data.UnitPaymentOrder.Amount || 0) * (incomeTaxRate / 100);
 
             return result;
-
         }
         return 0;
     }
