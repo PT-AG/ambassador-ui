@@ -43,6 +43,10 @@ export class Create {
             })
             .catch(e => {
                 this.isSaving = false;
+                if (e && e.statusCode === 500 && e.message) {
+                    alert(e.message);
+                    return;
+                }
                 const normalizedError = Object.assign({}, e);
 
                 Object.keys(e).forEach(key => {

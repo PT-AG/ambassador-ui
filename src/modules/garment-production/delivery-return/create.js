@@ -49,6 +49,10 @@ export class Create {
             })
             .catch(e => {
                 this.isSaving = false;
+                if (e && e.statusCode === 500 && e.message) {
+                    alert(e.message);
+                    return;
+                }
                 this.error = e;
                 // this.error.Items[1]=this.error.Items[0];
                 if (typeof (this.error) == "string") {
