@@ -217,6 +217,7 @@ export class DataForm {
             }
             this.dataUnitDO=await this.service.getUnitDOId(this.data.UnitDOId);
             this.data.RoJob=this.dataUnitDO.RONo;
+            this.data.UnitDOFor = this.dataUnitDO.UnitDOFor;
             this.data.Items = [];
             for(var item of selectedUnitDeliveryOrder.Items){
                 var Items = {};
@@ -233,18 +234,30 @@ export class DataForm {
                     Items.ProductCode = item.ProductCode;
                     Items.ProductName = item.ProductName;
                     Items.ProductRemark = item.ProductRemark;
+                    Items.CustomsCategory = item.CustomsCategory;
                     Items.RONOItem = item.RONo;
                     Items.UomId =  item.UomId;
                     Items.UomUnit = item.UomUnit;
                     Items.PricePerDealUnit = item.PricePerDealUnit;
                     Items.Quantity = item.Quantity;
                     Items.OldQuantity = item.Quantity;
-                    Items.BuyerId = item.Buyer.Id;
-                    Items.BuyerCode = item.Buyer.Code;
+                    Items.BuyerId = parseInt(item.Buyer.Id) || 0;
+                    Items.BuyerCode = item.Buyer.Code || null;
                     Items.DesignColor = item.DesignColor;
                     Items.FabricType = item.FabricType;
                     Items.IsSave = Items.Quantity > 0;
                     Items.IsDisabled = !(Items.Quantity > 0);
+
+                    Items.Rack = item.Rack;
+                    Items.Level = item.Level;
+                    Items.Box = item.Box;
+                    Items.Colour = item.Colour;
+                    Items.Area = item.Area;
+
+                    Items.Lot = item.Lot;
+                    Items.Batch = item.Batch;
+                    Items.PackageNo = item.PackageNo;
+                    Items.HandlingUnit = item.HandlingUnit;
 
                     this.data.Items.push(Items);
                 }
@@ -254,6 +267,7 @@ export class DataForm {
         else{
             this.data = null;
             this.data.RoJob=null;
+            this.data.UnitDOFor = null;
             this.selectedUnitDeliveryOrder = null;
             this.data.UnitRequest = null;
             this.data.UnitSender = null;
@@ -278,6 +292,15 @@ export class DataForm {
                 "Satuan",
                 "Tipe Fabric",
                 "Status Barang",
+                "Warna",
+                "Lot",
+                "Batch",
+                "No Package",
+                "Handling Unit",
+                "Rak",
+                "Box",
+                "Level",
+                "Area",
             ];
             this.itemsFabric.columns = [
                 "Kode Buyer",
@@ -290,6 +313,10 @@ export class DataForm {
                 "Tipe Fabric",
                 "Status Barang",
                 "Warna",
+                "Lot",
+                "Batch",
+                "No Package",
+                "Handling Unit",
                 "Rak",
                 "Box",
                 "Level",
@@ -305,6 +332,15 @@ export class DataForm {
                 "Jumlah Keluar",
                 "Satuan",
                 "Tipe Fabric",
+                "Warna",
+                "Lot",
+                "Batch",
+                "No Package",
+                "Handling Unit",
+                "Rak",
+                "Box",
+                "Level",
+                "Area",
             ];
             this.itemsFabric.columns = [
                 "Kode Buyer",
@@ -316,6 +352,10 @@ export class DataForm {
                 "Satuan",
                 "Tipe Fabric",
                 "Warna",
+                "Lot",
+                "Batch",
+                "No Package",
+                "Handling Unit",
                 "Rak",
                 "Box",
                 "Level",
@@ -333,10 +373,19 @@ export class DataForm {
             "Design / Color",
             "Jumlah Keluar",
             "Satuan",
-            "Tipe Fabric"],
+            "Tipe Fabric",
+            "Warna",
+            "Lot",
+            "Batch",
+            "No Package",
+            "Handling Unit",
+            "Rak",
+            "Box",
+            "Level",
+            "Area",],
     };
 
-    itemsFabric  = {
+    itemsFabric = {
         columns: [
             "Kode Buyer",
             "Kode Barang",
@@ -347,6 +396,10 @@ export class DataForm {
             "Satuan",
             "Tipe Fabric",
             "Warna",
+            "Lot",
+            "Batch",
+            "No Package",
+            "Handling Unit",
             "Rak",
             "Box",
             "Level",

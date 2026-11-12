@@ -62,7 +62,7 @@ export class Item {
             };
 
         }
-        else if (this.isFabric) {
+        else if (this.isFabric || this.isInterliningOrTricot) {
             this.setFabricHandlingUnit();
         }
         else {
@@ -89,6 +89,10 @@ export class Item {
     }
 
     get isLot() {
+        return this.isFabric || this.isInterliningOrTricot;
+    }
+
+    get isWidth() {
         return this.isFabric || this.isInterliningOrTricot;
     }
 

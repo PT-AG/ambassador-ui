@@ -64,8 +64,38 @@ export class Edit {
         this.service.update(this.data).then(result => {
             this.cancel();
         }).catch(e => {
-            this.error = e;
+            if (e.statusCode === 500) {
+                alert("Gagal menyimpan, silakan coba lagi!");
+            } else {
+                this.error = e;
+                this.alertItemsWithoutRackingDetails(e);
+            }
         })
+    }
+
+    alertItemsWithoutRackingDetails(error) {
+        const itemErrors = (error && error.Items) || [];
+        const missingItems = [];
+
+        this.data.Items.forEach((item, index) => {
+            const err = itemErrors[index];
+            if (!err) return;
+
+            const missingFields = [];
+            if (err.Lot) missingFields.push("Lot");
+            if (err.Width) missingFields.push("Lebar");
+
+            if (missingFields.length > 0) {
+                const packageInfo = item.PackageNo ? ` (No Package: ${item.PackageNo})` : "";
+                missingItems.push(`- ${item.ProductCode} - ${item.ProductName}${packageInfo} : ${missingFields.join(" & ")} belum diisi`);
+            }
+        });
+
+        if (missingItems.length === 0) {
+            return;
+        }
+
+        alert(`Data tidak dapat disimpan karena data Racking belum lengkap:\n${missingItems.join("\n")}\n\nSilakan lengkapi Lot / Lebar melalui menu Racking terlebih dahulu.`);
     }
 }
 
