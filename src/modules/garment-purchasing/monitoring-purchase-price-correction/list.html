@@ -42,6 +42,8 @@
                         <td rowspan="2">Nama Barang</td>
                         <td colspan="4">Data Surat Jalan</td>
                         <td colspan="4">Data Koreksi</td>
+                        <td colspan="2">Bon Terima Unit</td>
+                        <td colspan="2" rowspan="2">Staff Pembelian</td>
                     </tr>
                     <tr>
                         <td>Jumlah</td>
@@ -52,6 +54,8 @@
                         <td>Satuan</td>
                         <td>Harga Satuan</td>
                         <td>Harga Total</td>
+                        <td>No. Bon</td>
+                        <td>Tanggal Bon</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -75,6 +79,11 @@
                         <td class="text-center">${item.unitCode}</td>
                         <td class="text-right">${item.pricePerUnit | numberFormat:'0,0.00'}</td>
                         <td class="text-right">${item.priceTotal | numberFormat:'0,0.00'}</td>
+
+                        <td class="text-center">${item.URNNo}</td>
+                        <td class="text-center">${item.ReceiptDate | dateFormat:'DD-MMM-YYYY'}</td>
+
+                        <td class="text-center">${item.PurchasingStaff}</td>
                     </tr>
                 </tbody>
             </table>
