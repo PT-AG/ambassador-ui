@@ -57,6 +57,9 @@ export class List {
                     _data.qty = corrections.Quantity;
                     _data.pricePerUnit = corrections.PricePerDealUnitAfter - corrections.PricePerDealUnitBefore;
                     _data.priceTotal = corrections.PriceTotalAfter - corrections.PriceTotalBefore;
+                    _data.URNNo = pr.URNNo;
+                    _data.ReceiptDate = pr.ReceiptDate;
+                    _data.PurchasingStaff = pr.CreatedBy;
 
                     this.data.push(_data);
                     counter++;

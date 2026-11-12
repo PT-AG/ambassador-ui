@@ -34,6 +34,9 @@ export class Create {
     }
 
     saveCallback(event) {
+        if (this.isSaving) {
+            return;
+        }
         const invalidItem = (this.data.items || []).find(item => !validateDetailRowsQuantity(item));
         if (invalidItem) {
             alert(invalidItem.detailRowsQuantityError);
@@ -48,12 +51,14 @@ export class Create {
                 ? "UPDATE" 
                 : "CREATE";
                 
+        this.isSaving = true;
         this.service.create(this.newData)
             .then(result => {
                 alert("Data berhasil dibuat, No Packing List: " + result);
                 this.router.navigateToRoute('create', {}, { replace: true, trigger: true });
             })
             .catch(error => {
+                this.isSaving = false;
                 this.error = error;
 
                 let errorNotif = "";

@@ -89,8 +89,8 @@
 
             <div class="row" if.bind="data.buyerAgent">
                 <div class="tbl">
-                    <au-collection items.bind="data.items" errors.bind="error.Items" columns.bind="itemsColumns"
-                        read-only.bind="readOnly" add.bind="addItems" remove.bind="removeItems" options.bind="Options"
+                    <au-collection items.bind="data.items" errors.bind="error.Items" columns.bind="itemsColumns" read-only.bind="readOnly"
+                        add.bind="addItems" remove.bind="removeItems" options.bind="Options"
                         item-template="modules/garment-production/packing-list-merged/template/detail-ro">
                     </au-collection>
                 </div>

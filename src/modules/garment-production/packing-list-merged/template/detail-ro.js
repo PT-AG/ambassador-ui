@@ -12,6 +12,8 @@ export class Item {
   @bindable detail;
   @bindable masterSize = new Set();
 
+  ROList = [];
+
   constructor(salesService, garmentProductionService, coreService) {
     this.salesService = salesService;
     this.garmentProductionService = garmentProductionService;
@@ -386,11 +388,33 @@ export class Item {
     { header: "" },
   ];
 
+  // get roLoader() {
+  //   if (this.data.roType == 'RO SAMPLE') {
+  //     return SampleRequestLoader
+  //   } else {
+  //     return CostCalculationLoader
+  //   }
+  // }
+
   get roLoader() {
-    if (this.data.roType == 'RO SAMPLE') {
-      return SampleRequestLoader;
-    } else {
-      return CostCalculationLoader;
+    return async (keyword) => {
+      var info = {
+        keyword: keyword,
+        size: 10
+      }
+
+      if (this.data.roType == 'RO SAMPLE') {
+        return this.garmentProductionService.getSampleRequest(info).then((result) => {
+          return result.data.filter(x => !this.ROList.includes(x.RONoSample));
+        });
+      } else {
+        info.filter = JSON.stringify({
+          "SCGarmentId > 0" : true
+        })
+        return this.salesService.getCostCalculation(info).then((result) => {
+          return result.data.filter(x => !this.ROList.includes(x.RO_Number));
+        })
+      }
     }
   }
 
@@ -430,6 +454,8 @@ export class Item {
     this.data = context.data;
     this.error = context.error;
     this.options = context.options;
+    this.ROList = context.context.options.ROList;
+
     this.readOnly = this.options.readOnly;
     this.isCreate = context.context.options.isCreate;
     this.isEdit = context.context.options.isEdit;
@@ -443,7 +469,7 @@ export class Item {
       header: context.context.options.header,
       item: this.data,
       sizes: this.data.sizes,
-      reorderDetailRows: () => this.reorderDetailRows(),
+      //reorderDetailRows: () => this.reorderDetailRows(),
     };
 
     if (this.data.roNo || this.data.RONo) {
@@ -453,17 +479,17 @@ export class Item {
       };
 
       this.uom = this.data.uom;
-      const roNo = this.data.roNo || this.data.RONo;
-      const ro = await this.getROGarmentOnce(roNo);
+      // const roNo = this.data.roNo || this.data.RONo;
+      // const ro = await this.getROGarmentOnce(roNo);
 
-      for (const color of (ro.data[0] || {}).Colors || []) {
-        for (const size of color.Sizes || []) {
-          this.masterSize.add({
-            sizeId: size.Id,
-            size: size.Size.toUpperCase()
-          });
-        }
-      }
+      // for (const color of (ro.data[0] || {}).Colors || []) {
+      //   for (const size of color.Sizes || []) {
+      //     this.masterSize.add({
+      //       sizeId: size.Id,
+      //       size: size.Size.toUpperCase()
+      //     });
+      //   }
+      // }
     }
 
     this.isShowing = false;
@@ -471,28 +497,73 @@ export class Item {
       this.isShowing = true;
     }
 
-    if (this.data.detailRows) {
-      this.buildDetailsColumns();
-    }
+    // if (this.data.detailRows) {
+    //   this.buildDetailsColumns();
+    // }
 
-    if (this.data.Id || this.data.id) {
-      this.restoreDetailRowSizes();
-    }
+    // if (this.data.Id || this.data.id) {
+    //   this.restoreDetailRowSizes();
+    // }
   }
 
-  selectedROChanged(newValue) {
+  selectedROChanged(newValue, oldValue) {
+    if (oldValue && newValue) {
+      if (this.data.roType == 'RO JOB') {
+        if (newValue.RO_Number != oldValue.RO_Number) {
+          this.ROList.splice(this.ROList.indexOf(oldValue.RO_Number), 1);
+
+          this.data.roNo = "";
+          this.data.article = "";
+          this.data.buyerAgent = "";
+          this.data.buyerBrand = "";
+          this.data.sectionName = "";
+          this.data.section = {};
+          this.data.comodityDescription = ""
+          this.data.unit = {}
+          this.data.uom = {}
+          this.uom = {}
+          this.data.valas = ""
+          this.data.quantity = ""
+          this.data.scNo = ""
+          this.data.price = 0;
+          this.data.priceRO = 0;
+          this.data.comodity = "";
+          this.data.amount = 0;
+
+          this.context.context.options.header.section = this.data.section;
+        }
+      } else {
+        if (newValue.RONoSample != oldValue.RONoSample) { 
+          this.ROList.splice(this.ROList.indexOf(oldValue.RONoSample), 1);
+
+          this.data.roNo = "";
+          this.data.article = "";
+          this.data.buyerAgent = "";
+          this.data.buyerBrand = "";
+          this.data.sectionName = "";
+          this.data.section = {};
+          this.data.comodityDescription = ""
+          this.data.unit = {}
+          this.data.uom = {}
+          this.uom = {}
+          this.data.valas = ""
+          this.data.quantity = ""
+          this.data.scNo = ""
+          this.data.price = 0;
+          this.data.priceRO = 0;
+          this.data.comodity = "";
+          this.data.amount = 0;
+
+          this.context.context.options.header.section = this.data.section;
+        }
+      }
+    }
+
     if (newValue) {
       if (this.data.roType == 'RO JOB') {
         this.salesService.getCostCalculationById(newValue.Id)
           .then(result => {
-            // this.salesService.getROGarment({ keyword: result.RO_Number })
-            //   .then(ro => {
-            //     for (let color of ro.Colors) {
-            //       for (let s of color.Sizes) {
-            //         this.masterSize.add({ sizeId: s.SizeId, size: s.Size.toUpperCase()});
-            //       }
-            //     }
-            //   });
+            this.ROList.push(newValue.RO_Number);
             this.salesService.getSalesContractByRO(result.RO_Number)
               .then(sc => {
                 this.salesService.getPreSalesContractById(result.PreSCId)
@@ -536,6 +607,8 @@ export class Item {
       } else {
         this.garmentProductionService.getSampleRequestById(newValue.Id)
           .then(async result => {
+            this.ROList.push(newValue.RONoSample);
+
             this.data.roNo = result.RONoSample;
             this.data.article = result.SampleProducts.map(x => x.Style).join(',');
             this.data.buyerBrand = result.Buyer;
@@ -561,6 +634,52 @@ export class Item {
             this.data.sectionName = "-";
             this.context.context.options.header.section = this.data.section;
           })
+      }
+    } else {
+      if (this.data.roType == 'RO JOB') {
+        this.ROList.splice(this.ROList.indexOf(oldValue.RO_Number), 1);
+
+        this.data.roNo = "";
+        this.data.article = "";
+        this.data.buyerAgent = "";
+        this.data.buyerBrand = "";
+        this.data.sectionName = "";
+        this.data.section = {};
+        this.data.comodityDescription = ""
+        this.data.unit = {}
+        this.data.uom = {}
+        this.uom = {}
+        this.data.valas = ""
+        this.data.quantity = ""
+        this.data.scNo = ""
+        this.data.price = 0;
+        this.data.priceRO = 0;
+        this.data.comodity = "";
+        this.data.amount = 0;
+
+        this.context.context.options.header.section = this.data.section;
+      } else {
+        this.ROList.splice(this.ROList.indexOf(oldValue.RONoSample), 1);
+
+        this.data.roNo = "";
+        this.data.article = "";
+        this.data.buyerAgent = "";
+        this.data.buyerBrand = "";
+        this.data.sectionName = "";
+        this.data.section = {};
+        this.data.comodityDescription = ""
+        this.data.unit = {}
+        this.data.uom = {}
+        this.uom = {}
+        this.data.valas = ""
+        this.data.quantity = ""
+        this.data.scNo = ""
+        this.data.price = 0;
+        this.data.priceRO = 0;
+        this.data.comodity = "";
+        this.data.amount = 0;
+
+        this.context.context.options.header.section = this.data.section;
       }
     }
   }
@@ -648,7 +767,7 @@ export class Item {
   get removeDetails() {
     return (event) => {
       this.error = null;
-      this.reorderDetailRows();
+      //this.reorderDetailRows();
       this.updateTotalSummary();
       this.updateMeasurements();
     };
