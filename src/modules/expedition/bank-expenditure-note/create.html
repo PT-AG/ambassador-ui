@@ -124,6 +124,12 @@
             </div>
         </div>
 
+        <div class="row" show.bind="isExistBankAndSupplier" style="margin-top: 10px; margin-bottom: 15px;">
+            <div class="col-sm-5 col-sm-offset-7 text-right" style="font-weight: bold; font-size: 16px; color: #2e6da4;">
+                TOTAL BAYAR DPP + PPN: ${grandTotal | numberFormat: '0,000.0000'} ${currency}
+            </div>
+        </div>
+
         <au-collection show.bind="isExistBankAndSupplier"
                        if.bind="!IDR"
                        view-model.ref="ItemsCollection"
