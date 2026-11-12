@@ -154,9 +154,20 @@
       options.bind="controlOptions">
     </au-multiline>
 
+    <div class="row" if.bind="hasItemError" style="margin-top: 10px; margin-bottom: 10px;">
+      <div class="col-sm-12">
+        <div class="alert alert-danger" style="margin-bottom: 0;">
+          <strong>Validasi Gagal:</strong>
+          <ul style="margin-bottom: 0; padding-left: 20px;">
+            <li repeat.for="err of itemErrorList">${err}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
     <div class="row" if.bind="(!isWithVB || vbRequestDocument) && hasType" style="margin-top: 15px; margin-bottom: 15px;">
       <div class="col-sm-5 col-sm-offset-7 text-right" style="font-weight: bold; font-size: 16px; color: #2e6da4;">
-        TOTAL REALISASI: ${totalRealization | numberFormat: '0,0.00'} ${data.Currency ? data.Currency.Code : (vbRequestDocument ? vbRequestDocument.CurrencyCode : '')}
+        TOTAL REALISASI: ${totalRealization | numberFormat: '0,0.00'} ${currencyCode}
       </div>
     </div>
 
@@ -168,6 +179,7 @@
       columns.bind="columns"
       add.bind="addItems"
       remove.bind="onremove"
+      change.delegate="onTableChange($event)"
       read-only.bind="readOnly"
       options.bind="itemsOptions"
       item-template="modules/purchasing/vb-realization-with-po-document/templates/item"

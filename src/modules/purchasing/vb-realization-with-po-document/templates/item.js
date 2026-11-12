@@ -9,16 +9,51 @@ export class Item {
     }
 
     activate(context) {
+        this.context = context;
         this.data = context.data;
         this.error = context.error;
         this.options = context.context.options;
         this.readOnly = context.options.readOnly;
+        this.dataForm = this.options && this.options.dataForm ? this.options.dataForm : null;
 
         this.filter.epoIds = this.options.epoIds;
         this.filter.division = this.options.division;
         this.filter.currencyCode = this.options.currencyCode;
         this.filter.typePurchasing = this.options.typePurchasing;
-        this.filter.IsCreatedVB=false;
+        this.filter.IsCreatedVB = false;
+
+        if (this.data) {
+            this.unitPaymentOrderSubscription = this.bindingEngine
+                .propertyObserver(this.data, 'UnitPaymentOrder')
+                .subscribe((newVal, oldVal) => {
+                    this.notifyChange(newVal);
+                });
+        }
+    }
+
+    onUnitPaymentOrderChanged(event) {
+        this.notifyChange(this.data ? this.data.UnitPaymentOrder : null);
+    }
+
+    notifyChange(newVal) {
+        if (this.options && typeof this.options.onItemChanged === 'function') {
+            this.options.onItemChanged();
+        }
+        if (this.dataForm && typeof this.dataForm.calculateTotalRealization === 'function') {
+            this.dataForm.calculateTotalRealization();
+        }
+        if (newVal && newVal.No && this.dataForm && this.dataForm.data && this.dataForm.data.Items) {
+            let duplicates = this.dataForm.data.Items.filter(i => i && i.UnitPaymentOrder && i.UnitPaymentOrder.No === newVal.No);
+            if (duplicates.length > 1) {
+                alert(`No SPB ${newVal.No} duplikat!`);
+            }
+        }
+    }
+
+    unbind() {
+        if (this.unitPaymentOrderSubscription) {
+            this.unitPaymentOrderSubscription.dispose();
+        }
     }
 
     filter = {

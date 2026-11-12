@@ -1,4 +1,4 @@
-import { inject, bindable, computedFrom } from 'aurelia-framework';
+import { inject, bindable, computedFrom, BindingEngine } from 'aurelia-framework';
 import { Service, VBRequestDocumentService } from './service';
 import moment from 'moment';
 
@@ -6,7 +6,7 @@ const VBRequestDocumentLoader = require('../../../loader/vb-request-document-loa
 const UnitLoader = require('../../../loader/unit-loader');
 var CurrencyLoader = require('../../../loader/currency-loader');
 
-@inject(Service, VBRequestDocumentService)
+@inject(Service, VBRequestDocumentService, BindingEngine)
 export class DataForm {
     @bindable title;
     @bindable readOnly;
@@ -50,6 +50,7 @@ export class DataForm {
                 this.data.Items.splice(0, this.data.Items.length);
             }
         }
+        this.calculateTotalRealization();
     }
 
     @computedFrom("selectedType")
@@ -60,6 +61,20 @@ export class DataForm {
     @computedFrom("selectedType")
     get hasType() {
         return Boolean(this.selectedType && this.selectedType !== "");
+    }
+
+    @computedFrom("selectedCurrency", "vbRequestDocument")
+    get currencyCode() {
+        if (this.selectedCurrency && this.selectedCurrency.Code) {
+            return this.selectedCurrency.Code;
+        }
+        if (this.data && this.data.Currency && this.data.Currency.Code) {
+            return this.data.Currency.Code;
+        }
+        if (this.vbRequestDocument && this.vbRequestDocument.CurrencyCode) {
+            return this.vbRequestDocument.CurrencyCode;
+        }
+        return "";
     }
 
     controlOptions = {
@@ -91,6 +106,7 @@ export class DataForm {
             delete this.data.SuppliantUnit;
             delete this.itemsOptions.division;
         }
+        this.calculateTotalRealization();
     }
 
     @bindable selectedCurrency;
@@ -106,6 +122,7 @@ export class DataForm {
             delete this.data.Currency;
             delete this.itemsOptions.currencyCode;
         }
+        this.calculateTotalRealization();
     }
 
     @bindable vbRequestDocument;
@@ -155,10 +172,12 @@ export class DataForm {
         return CurrencyLoader;
     }
 
-    constructor(service, vbRequestService) {
+    constructor(service, vbRequestService, bindingEngine) {
         this.service = service;
         this.vbRequestService = vbRequestService;
+        this.bindingEngine = bindingEngine;
         this.isDelay = false;
+        this.itemPropertySubscriptions = [];
     }
 
     unitfilter= {
@@ -185,6 +204,9 @@ export class DataForm {
         this.selectedCurrency = this.data.Currency;
         this.selectedSuppliantUnit = this.data.SuppliantUnit;
 
+        this.itemsOptions.dataForm = this;
+        this.itemsOptions.onItemChanged = () => this.calculateTotalRealization();
+
         if (this.data.VBRequestDocument && this.data.VBRequestDocument.Id) {
             let vbRequestDocument = await this.vbRequestService.getById(this.data.VBRequestDocument.Id);
 
@@ -195,18 +217,79 @@ export class DataForm {
             this.itemsOptions.currencyCode = vbRequestDocument.Currency.Code;
             this.itemsOptions.typePurchasing = vbRequestDocument.TypePurchasing;
         }
+
+        this.setupItemsObserver();
+        this.calculateTotalRealization();
+    }
+
+    unbind() {
+        if (this.itemsSubscription) {
+            this.itemsSubscription.dispose();
+        }
+        if (this.itemPropertySubscriptions) {
+            this.itemPropertySubscriptions.forEach(sub => sub.dispose());
+        }
+    }
+
+    setupItemsObserver() {
+        if (this.itemsSubscription) {
+            this.itemsSubscription.dispose();
+        }
+        if (this.data && this.data.Items) {
+            this.itemsSubscription = this.bindingEngine
+                .collectionObserver(this.data.Items)
+                .subscribe(splices => {
+                    this.calculateTotalRealization();
+                    this.observeItemElements();
+                });
+            this.observeItemElements();
+        }
+    }
+
+    observeItemElements() {
+        if (this.itemPropertySubscriptions) {
+            this.itemPropertySubscriptions.forEach(sub => sub.dispose());
+        }
+        this.itemPropertySubscriptions = [];
+
+        if (this.data && this.data.Items) {
+            this.data.Items.forEach(item => {
+                if (item) {
+                    let sub = this.bindingEngine
+                        .propertyObserver(item, 'UnitPaymentOrder')
+                        .subscribe(() => {
+                            this.calculateTotalRealization();
+                        });
+                    this.itemPropertySubscriptions.push(sub);
+                }
+            });
+        }
     }
 
     get addItems() {
         return (event) => {
-            this.data.Items.push({})
+            this.data.Items.push({});
+            this.calculateTotalRealization();
         };
     }
 
-    get totalRealization() {
+    get onremove() {
+        return (event) => {
+            this.calculateTotalRealization();
+        };
+    }
+
+    onTableChange(event) {
+        this.calculateTotalRealization();
+    }
+
+    totalRealization = 0;
+
+    calculateTotalRealization() {
+        let total = 0;
         if (this.data && this.data.Items && this.data.Items.length > 0) {
-            return this.data.Items.reduce((total, item) => {
-                if (item.UnitPaymentOrder) {
+            total = this.data.Items.reduce((acc, item) => {
+                if (item && item.UnitPaymentOrder) {
                     let amount = item.UnitPaymentOrder.Amount || 0;
                     let isPayVat = item.UnitPaymentOrder.IsPayVat || item.UnitPaymentOrder.UseVat;
                     let isPayTax = item.UnitPaymentOrder.IsPayTax || item.UnitPaymentOrder.UseIncomeTax;
@@ -218,12 +301,42 @@ export class DataForm {
                         ? amount * (incomeTaxRate / 100)
                         : 0;
 
-                    return total + amount + vat - incomeTax;
+                    return acc + amount + vat - incomeTax;
                 }
-                return total;
+                return acc;
             }, 0);
+        } else if (this.isEdit && this.data && this.data.Amount) {
+            total = this.data.Amount;
         }
-        return (this.data && this.data.Amount) ? this.data.Amount : 0;
+        this.totalRealization = total;
+        this.data.Amount = total;
+        return total;
+    }
+
+    @computedFrom("error.Items")
+    get itemErrorList() {
+        let list = [];
+        if (this.error && this.error.Items && Array.isArray(this.error.Items)) {
+            this.error.Items.forEach((item, index) => {
+                if (item) {
+                    if (typeof item === "string") {
+                        list.push(`Baris ${index + 1}: ${item}`);
+                    } else {
+                        for (let prop in item) {
+                            if (item[prop]) {
+                                list.push(`Baris ${index + 1}: ${item[prop]}`);
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        return list;
+    }
+
+    @computedFrom("itemErrorList")
+    get hasItemError() {
+        return this.itemErrorList.length > 0;
     }
 }
 
