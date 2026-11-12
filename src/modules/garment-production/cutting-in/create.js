@@ -38,6 +38,10 @@ export class Create {
                 this.router.navigateToRoute('create', {}, { replace: true, trigger: true });
             })
             .catch(e => {
+                if (e && e.statusCode === 500 && e.message) {
+                    alert(e.message);
+                    return;
+                }
                 const normalizedError = Object.assign({}, e);
 
                 Object.keys(e).forEach(key => {
