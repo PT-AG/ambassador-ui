@@ -1040,50 +1040,30 @@ export class DataForm {
     }
   }
 
-  calculateKebRO(material, itemUomUnit) {
+  // KEB RO:
+  // - UOM harga (UOMPriceName) == SmallUomUnit  -> BudgetQuantity
+  // - selain itu -> (Quantity x QuantityOrder) x (1 + Allowance / 100)
+  //   Allowance = FabricAllowance untuk kategori FABRIC, selain itu AccessoriesAllowance
+  calculateKebRO(material, smallUomUnit) {
     if (!material) return 0;
-    var budgetQty = material.BudgetQuantity != null ? material.BudgetQuantity : 0;
-    if (budgetQty === 0) return 0;
 
-    var budgetUom = (material.UOMUnitName || material.UOMPriceName || '').trim().toUpperCase();
-    var priceUom = (material.UOMPriceName || '').trim().toUpperCase();
-    var unitUom = (material.UOMUnitName || '').trim().toUpperCase();
-    var doUom = (itemUomUnit || '').trim().toUpperCase();
+    const normalize = (value) => (value || "").trim().toUpperCase();
+    const round = (value) => parseFloat((value || 0).toFixed(2));
 
-    // 1. UOM Match Check
-    if (budgetUom === doUom || priceUom === doUom || unitUom === doUom) {
-      return parseFloat(budgetQty.toFixed(2));
+    if (normalize(material.UOMPriceName) === normalize(smallUomUnit)) {
+      return round(material.BudgetQuantity);
     }
 
-    var isYard = (u) => ['YARD', 'YARDS', 'YDS', 'YD'].indexOf(u) >= 0;
-    var isMeter = (u) => ['METER', 'METERS', 'MTR', 'M'].indexOf(u) >= 0;
+    const category = normalize(material.CategoryName);
+    const categoryCode = normalize(material.CategoryCode);
+    const isFabric = category === "FABRIC" || categoryCode === "FAB";
+    const allowance = isFabric ? material.FabricAllowance : material.AccessoriesAllowance;
 
-    // Prioritas 1: Nilai Conversion Spesifik Transaksi (Small UOM misal benang / aksesoris)
-    var conversion = material.Conversion && material.Conversion > 0 ? material.Conversion : 1;
-    if (unitUom === doUom && priceUom !== unitUom) {
-      return parseFloat(budgetQty.toFixed(2));
-    }
-
-    // Prioritas 2: Konversi Standar Tekstil (YARD <-> METER)
-    if (isYard(budgetUom) && isMeter(doUom)) {
-      return parseFloat((budgetQty * 0.9144).toFixed(2));
-    }
-    if (isMeter(budgetUom) && isYard(doUom)) {
-      return parseFloat((budgetQty / 0.9144).toFixed(2));
-    }
-    if (isYard(priceUom) && isMeter(doUom)) {
-      return parseFloat((budgetQty * 0.9144).toFixed(2));
-    }
-    if (isMeter(priceUom) && isYard(doUom)) {
-      return parseFloat((budgetQty / 0.9144).toFixed(2));
-    }
-
-    if (conversion > 1 && priceUom !== doUom) {
-      return parseFloat((budgetQty * conversion).toFixed(2));
-    }
-
-    // Prioritas 3: Fallback Aman
-    return parseFloat(budgetQty.toFixed(2));
+    return round(
+      (material.Quantity || 0) *
+        (material.QuantityOrder || 0) *
+        (1 + (allowance || 0) / 100)
+    );
   }
 
   async enrichItems(items) {
@@ -1130,7 +1110,7 @@ export class DataForm {
 
         var material = materialMap[itemKey];
         if (material) {
-          item.KebRO = this.calculateKebRO(material, item.UomUnit);
+          item.KebRO = this.calculateKebRO(material, item.UomUnit || item.SmallUomUnit);
         } else {
           item.KebRO = 0;
         }
