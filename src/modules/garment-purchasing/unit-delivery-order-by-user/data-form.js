@@ -1122,9 +1122,10 @@ export class DataForm {
 
       for (var item of items) {
         var itemKey = `${item.RONo}_${item.POSerialNumber}`;
-        item.TotalQtyDO = parseFloat((totalQtyMap[itemKey] || 0).toFixed(2));
-
         var headerKey = headerRoNo ? `${headerRoNo}_${item.POSerialNumber}` : null;
+        var totalQty = totalQtyMap[itemKey] || (headerKey ? totalQtyMap[headerKey] : 0) || 0;
+        item.TotalQtyDO = parseFloat(totalQty.toFixed(2));
+
         var material = materialMap[itemKey] || (headerKey ? materialMap[headerKey] : null);
         if (material) {
           item.KebRO = this.calculateKebRO(material, item.UomUnit || item.SmallUomUnit);
