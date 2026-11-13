@@ -1030,7 +1030,11 @@ export class DataForm {
 
   async addProduct() {
     if (this.newProduct && this.newProduct.ProductId) {
-      this.data.Items.push(this.newProduct);
+      var product = this.newProduct;
+      if (product.KebRO === undefined || product.TotalQtyDO === undefined) {
+        await this.enrichKebRoTotalQtyDO(product);
+      }
+      this.data.Items.push(product);
       this.options.checkedAll = this.data.Items.filter(
         (item) => item.IsDisabled === false
       ).reduce((acc, curr) => acc && curr.IsSave, true);
@@ -1069,7 +1073,15 @@ export class DataForm {
   async enrichItems(items) {
     if (!items || items.length === 0) return;
 
-    var roNos = Array.from(new Set(items.map((i) => i.RONo).filter(Boolean)));
+    var headerRoNo = this.data && this.data.RONo ? this.data.RONo : null;
+    var roNos = Array.from(
+      new Set(
+        items
+          .map((i) => i.RONo)
+          .concat(headerRoNo ? [headerRoNo] : [])
+          .filter(Boolean)
+      )
+    );
     var poSerialNumbers = Array.from(
       new Set(items.map((i) => i.POSerialNumber).filter(Boolean))
     );
@@ -1102,13 +1114,18 @@ export class DataForm {
       for (var m of materialsList) {
         var mKey = `${m.RO_Number}_${m.PO_SerialNumber}`;
         materialMap[mKey] = m;
+        if (m.POMaster) {
+          var mMasterKey = `${m.RO_Number}_${m.POMaster}`;
+          materialMap[mMasterKey] = m;
+        }
       }
 
       for (var item of items) {
         var itemKey = `${item.RONo}_${item.POSerialNumber}`;
         item.TotalQtyDO = parseFloat((totalQtyMap[itemKey] || 0).toFixed(2));
 
-        var material = materialMap[itemKey];
+        var headerKey = headerRoNo ? `${headerRoNo}_${item.POSerialNumber}` : null;
+        var material = materialMap[itemKey] || (headerKey ? materialMap[headerKey] : null);
         if (material) {
           item.KebRO = this.calculateKebRO(material, item.UomUnit || item.SmallUomUnit);
         } else {
