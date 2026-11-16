@@ -112,13 +112,15 @@ export class DataForm {
             columns = this.readOnly ? columns.filter((col, index) => index !== 3) : columns;
         } else if (this.data.ExpenditureType === "BARANG JADI") {
             columns = this.readOnly ? [
-                { header: "Komoditi", value: "LeftoverComodity" },
                 { header: "Unit Asal", value: "UnitCode" },
+                { header: "Kode Komoditi", value: "LeftoverComodityCode" },
+                { header: "Nama Komoditi", value: "LeftoverComodityName" },
                 // { header: "RO", value: "RONo" },
                 { header: "Jumlah Keluar", value: "Quantity" },
             ] : [
-                { header: "Komoditi", value: "LeftoverComodity" },
                 { header: "Unit Asal", value: "UnitCode" },
+                { header: "Kode Komoditi", value: "LeftoverComodityCode" },
+                { header: "Nama Komoditi", value: "LeftoverComodityName" },
                 // { header: "RO", value: "RONo" },
                 { header: "Jumlah Stock", value: "StockQuantity" },
                 { header: "Jumlah Keluar", value: "Quantity" },
