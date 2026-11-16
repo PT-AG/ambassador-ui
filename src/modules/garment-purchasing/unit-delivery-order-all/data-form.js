@@ -615,6 +615,11 @@ export class DataForm {
                     Items.Area = doitem.Area;
                     Items.Remark= ccData.Description;
                     Items.CCMaterialId=ccData.Id;
+                    Items.Lot = doitem.Lot;
+                    Items.Width = doitem.Width;
+                    Items.Batch = doitem.Batch;
+                    Items.PackageNo = doitem.PackageNo;
+                    Items.HandlingUnit = doitem.HandlingUnit;
 
                     this.dataItems.push(Items);
                   }
@@ -952,6 +957,7 @@ export class DataForm {
       "Tipe Fabric",
       "Warna",
       "Lot",
+      "Lebar",
       "Batch",
       "No Package",
       "Handling Unit",
@@ -975,6 +981,7 @@ export class DataForm {
       "Tipe Fabric",
       "Warna",
       "Lot",
+      "Lebar",
       "Batch",
       "No Package",
       "Handling Unit",
