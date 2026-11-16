@@ -106,9 +106,12 @@ console.log(this.data)
 
                 this.data.CostCalculationGarment_Materials.forEach(material => {
                     if (material.PRMasterItemId > 0) {
-                        const quantity = prMasters.find(pr => pr.PRMasterItemId === material.PRMasterItemId).Quantity;
-                        const budgetQuantities = ccMaterials.filter(m => m.PRMasterItemId === material.PRMasterItemId).reduce((acc, cur) => acc + cur.BudgetQuantity, 0);
-                        material.AvailableQuantity = quantity - budgetQuantities;
+                        const prMaster = prMasters.find(pr => pr.PRMasterItemId === material.PRMasterItemId);
+                        if (prMaster) {
+                            const quantity = prMaster.Quantity;
+                            const budgetQuantities = ccMaterials.filter(m => m.PRMasterItemId === material.PRMasterItemId).reduce((acc, cur) => acc + cur.BudgetQuantity, 0);
+                            material.AvailableQuantity = quantity - budgetQuantities;
+                        }
                     }
                 });
             }
