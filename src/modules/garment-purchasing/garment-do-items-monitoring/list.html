@@ -15,6 +15,10 @@
         <au-dropdown label="Unit" value.bind="UnitItem" items.bind="UnitItems" options.bind="controlOptions">
         </au-dropdown>
 
+        <au-autocomplete label="No Bon Terima" value.bind="urn" loader.bind="urnLoader"
+                    text.bind = "URNNo" placeholder = "Cari No Bon" options.bind="controlOptions">
+        </au-autocomplete>
+
         <div class="form-group">
           <label for="contact" class="col-sm-6 control-label"></label>
           <div class="col-sm-3">
