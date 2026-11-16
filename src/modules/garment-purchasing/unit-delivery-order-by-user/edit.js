@@ -125,6 +125,7 @@ export class Edit {
             const missingFields = [];
             if (err.Lot) missingFields.push("Lot");
             if (err.Width) missingFields.push("Lebar");
+            if (err.HandlingUnit) missingFields.push("Handling Unit");
 
             if (missingFields.length > 0) {
                 const packageInfo = item.PackageNo ? ` (No Package: ${item.PackageNo})` : "";
@@ -136,7 +137,7 @@ export class Edit {
             return;
         }
 
-        alert(`Data tidak dapat disimpan karena data Racking belum lengkap:\n${missingItems.join("\n")}\n\nSilakan lengkapi Lot / Lebar melalui menu Racking terlebih dahulu.`);
+        alert(`Data tidak dapat disimpan karena data Racking belum lengkap:\n${missingItems.join("\n")}\n\nSilakan lengkapi Lot / Lebar / Handling Unit melalui menu Racking terlebih dahulu.`);
     }
 }
 
