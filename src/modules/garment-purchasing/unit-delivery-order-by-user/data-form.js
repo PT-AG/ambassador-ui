@@ -97,6 +97,7 @@ export class DataForm {
         "Tipe Fabric",
         "Warna",
         "Lot",
+        "Lebar",
         "Batch",
         "No Package",
         "Handling Unit",
@@ -118,6 +119,7 @@ export class DataForm {
         "Tipe Fabric",
         "Warna",
         "Lot",
+        "Lebar",
         "Batch",
         "No Package",
         "Handling Unit",
@@ -140,6 +142,7 @@ export class DataForm {
         "Tipe Fabric",
         "Warna",
         "Lot",
+        "Lebar",
         "Batch",
         "No Package",
         "Handling Unit",
@@ -162,6 +165,7 @@ export class DataForm {
         "Tipe Fabric",
         "Warna",
         "Lot",
+        "Lebar",
         "Batch",
         "No Package",
         "Handling Unit",
@@ -710,6 +714,7 @@ export class DataForm {
                   Items.CCMaterialId = ccData.Id;
 
                   Items.Lot = doitem.Lot;
+                  Items.Width = doitem.Width;
                   Items.Batch = doitem.Batch;
                   Items.PackageNo = doitem.PackageNo;
                   Items.HandlingUnit = doitem.HandlingUnit;
@@ -1030,7 +1035,11 @@ export class DataForm {
 
   async addProduct() {
     if (this.newProduct && this.newProduct.ProductId) {
-      this.data.Items.push(this.newProduct);
+      var product = this.newProduct;
+      if (product.KebRO === undefined || product.TotalQtyDO === undefined) {
+        await this.enrichKebRoTotalQtyDO(product);
+      }
+      this.data.Items.push(product);
       this.options.checkedAll = this.data.Items.filter(
         (item) => item.IsDisabled === false
       ).reduce((acc, curr) => acc && curr.IsSave, true);
@@ -1040,56 +1049,44 @@ export class DataForm {
     }
   }
 
-  calculateKebRO(material, itemUomUnit) {
+  // KEB RO:
+  // - UOM harga (UOMPriceName) == SmallUomUnit  -> BudgetQuantity
+  // - selain itu -> (Quantity x QuantityOrder) x (1 + Allowance / 100)
+  //   Allowance = FabricAllowance untuk kategori FABRIC, selain itu AccessoriesAllowance
+  calculateKebRO(material, smallUomUnit) {
     if (!material) return 0;
-    var budgetQty = material.BudgetQuantity != null ? material.BudgetQuantity : 0;
-    if (budgetQty === 0) return 0;
 
-    var budgetUom = (material.UOMUnitName || material.UOMPriceName || '').trim().toUpperCase();
-    var priceUom = (material.UOMPriceName || '').trim().toUpperCase();
-    var unitUom = (material.UOMUnitName || '').trim().toUpperCase();
-    var doUom = (itemUomUnit || '').trim().toUpperCase();
+    const normalize = (value) => (value || "").trim().toUpperCase();
+    const round = (value) => parseFloat((value || 0).toFixed(2));
 
-    // 1. UOM Match Check
-    if (budgetUom === doUom || priceUom === doUom || unitUom === doUom) {
-      return parseFloat(budgetQty.toFixed(2));
+    if (normalize(material.UOMPriceName) === normalize(smallUomUnit)) {
+      return round(material.BudgetQuantity);
     }
 
-    var isYard = (u) => ['YARD', 'YARDS', 'YDS', 'YD'].indexOf(u) >= 0;
-    var isMeter = (u) => ['METER', 'METERS', 'MTR', 'M'].indexOf(u) >= 0;
+    const category = normalize(material.CategoryName);
+    const categoryCode = normalize(material.CategoryCode);
+    const isFabric = category === "FABRIC" || categoryCode === "FAB";
+    const allowance = isFabric ? material.FabricAllowance : material.AccessoriesAllowance;
 
-    // Prioritas 1: Nilai Conversion Spesifik Transaksi (Small UOM misal benang / aksesoris)
-    var conversion = material.Conversion && material.Conversion > 0 ? material.Conversion : 1;
-    if (unitUom === doUom && priceUom !== unitUom) {
-      return parseFloat(budgetQty.toFixed(2));
-    }
-
-    // Prioritas 2: Konversi Standar Tekstil (YARD <-> METER)
-    if (isYard(budgetUom) && isMeter(doUom)) {
-      return parseFloat((budgetQty * 0.9144).toFixed(2));
-    }
-    if (isMeter(budgetUom) && isYard(doUom)) {
-      return parseFloat((budgetQty / 0.9144).toFixed(2));
-    }
-    if (isYard(priceUom) && isMeter(doUom)) {
-      return parseFloat((budgetQty * 0.9144).toFixed(2));
-    }
-    if (isMeter(priceUom) && isYard(doUom)) {
-      return parseFloat((budgetQty / 0.9144).toFixed(2));
-    }
-
-    if (conversion > 1 && priceUom !== doUom) {
-      return parseFloat((budgetQty * conversion).toFixed(2));
-    }
-
-    // Prioritas 3: Fallback Aman
-    return parseFloat(budgetQty.toFixed(2));
+    return round(
+      (material.Quantity || 0) *
+        (material.QuantityOrder || 0) *
+        (1 + (allowance || 0) / 100)
+    );
   }
 
   async enrichItems(items) {
     if (!items || items.length === 0) return;
 
-    var roNos = Array.from(new Set(items.map((i) => i.RONo).filter(Boolean)));
+    var headerRoNo = this.data && this.data.RONo ? this.data.RONo : null;
+    var roNos = Array.from(
+      new Set(
+        items
+          .map((i) => i.RONo)
+          .concat(headerRoNo ? [headerRoNo] : [])
+          .filter(Boolean)
+      )
+    );
     var poSerialNumbers = Array.from(
       new Set(items.map((i) => i.POSerialNumber).filter(Boolean))
     );
@@ -1122,15 +1119,21 @@ export class DataForm {
       for (var m of materialsList) {
         var mKey = `${m.RO_Number}_${m.PO_SerialNumber}`;
         materialMap[mKey] = m;
+        if (m.POMaster) {
+          var mMasterKey = `${m.RO_Number}_${m.POMaster}`;
+          materialMap[mMasterKey] = m;
+        }
       }
 
       for (var item of items) {
         var itemKey = `${item.RONo}_${item.POSerialNumber}`;
-        item.TotalQtyDO = parseFloat((totalQtyMap[itemKey] || 0).toFixed(2));
+        var headerKey = headerRoNo ? `${headerRoNo}_${item.POSerialNumber}` : null;
+        var totalQty = totalQtyMap[itemKey] || (headerKey ? totalQtyMap[headerKey] : 0) || 0;
+        item.TotalQtyDO = parseFloat(totalQty.toFixed(2));
 
-        var material = materialMap[itemKey];
+        var material = materialMap[itemKey] || (headerKey ? materialMap[headerKey] : null);
         if (material) {
-          item.KebRO = this.calculateKebRO(material, item.UomUnit);
+          item.KebRO = this.calculateKebRO(material, item.UomUnit || item.SmallUomUnit);
         } else {
           item.KebRO = 0;
         }
@@ -1162,6 +1165,7 @@ export class DataForm {
       "Tipe Fabric",
       "Warna",
       "Lot",
+      "Lebar",
       "Batch",
       "No Package",
       "Handling Unit",
@@ -1186,6 +1190,7 @@ export class DataForm {
       "Tipe Fabric",
       "Warna",
       "Lot",
+      "Lebar",
       "Batch",
       "No Package",
       "Handling Unit",

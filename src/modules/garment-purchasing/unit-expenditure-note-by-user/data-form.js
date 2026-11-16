@@ -273,6 +273,7 @@ export class DataForm {
                     Items.Area = item.Area;
                     
                     Items.Lot = item.Lot;
+                    Items.Width = item.Width;
                     Items.Batch = item.Batch;
                     Items.PackageNo = item.PackageNo;
                     Items.HandlingUnit = item.HandlingUnit;
@@ -312,6 +313,7 @@ export class DataForm {
                 "Status Barang",
                 "Warna",
                 "Lot",
+                "Lebar",
                 "Batch",
                 "No Package",
                 "Handling Unit",
@@ -332,6 +334,7 @@ export class DataForm {
                 "Status Barang",
                 "Warna",
                 "Lot",
+                "Lebar",
                 "Batch",
                 "No Package",
                 "Handling Unit",
@@ -352,6 +355,7 @@ export class DataForm {
                 "Tipe Fabric",
                 "Warna",
                 "Lot",
+                "Lebar",
                 "Batch",
                 "No Package",
                 "Handling Unit",
@@ -371,6 +375,7 @@ export class DataForm {
                 "Tipe Fabric",
                 "Warna",
                 "Lot",
+                "Lebar",
                 "Batch",
                 "No Package",
                 "Handling Unit",
@@ -394,6 +399,7 @@ export class DataForm {
             "Tipe Fabric",
             "Warna",
             "Lot",
+            "Lebar",
             "Batch",
             "No Package",
             "Handling Unit",
@@ -415,6 +421,7 @@ export class DataForm {
             "Tipe Fabric",
             "Warna",
             "Lot",
+            "Lebar",
             "Batch",
             "No Package",
             "Handling Unit",
