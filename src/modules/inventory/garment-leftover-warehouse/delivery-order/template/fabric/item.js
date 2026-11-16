@@ -1,6 +1,6 @@
 import { inject, bindable, containerless, computedFrom, BindingEngine } from 'aurelia-framework'
 const UnitLoader = require('../../../../../../loader/garment-units-loader');
-const StockLoader = require('../../../../../../loader/garment-leftover-warehouse-stock-distinct-loader');
+//const StockLoader = require('../../../../../../loader/garment-leftover-warehouse-stock-distinct-loader');
 import { Service } from '../../service';
 
 @inject(Service)
@@ -8,6 +8,7 @@ export class Item {
     @bindable selectedUnit;
     @bindable selectedStock;
     @bindable selectedUom;
+    @bindable selectedProduct;
 
     constructor(service) {
         this.service = service;
@@ -19,20 +20,23 @@ export class Item {
         this.error = context.error;
         this.options = context.options;
 
+        this.itemList = context.context.options.itemList;
         this.isEdit = context.context.options.isEdit && this.data.Id > 0;
 
         if (this.data.Unit) {
             this.selectedUnit = this.data.Unit;
         }
 
-        if (this.data.PONo) {
-            this.selectedStock = {
-                PONo: this.data.PONo
-            };
-        }
-
         if (this.data.Stocks) {
             this.uomItems = [""].concat(this.data.Stocks.map(d => (d.Uom || {}).Unit));
+        }
+
+        if (this.data.Product) {
+            this.selectedProduct = {
+                ProductId: this.data.Product.Id,
+                ProductName: this.data.Product.Name,
+                ProductCode: this.data.Product.Code
+            };
         }
 
         if (this.data.Uom) {
@@ -48,54 +52,104 @@ export class Item {
         return UnitLoader;
     }
 
-    get stockLoader() {
-        return StockLoader;
+    get productLoader() {
+        // return StockLoader;
+        return async (keyword) => {
+            var info = {
+                keyword: keyword,
+                filter: JSON.stringify(this.productLoaderFilter),
+                select: this.productLoaderSelect,
+                size: 10
+            };
+
+            return this.service.searchStockDistinct(info).then((result) => {
+                return result.data.filter(x => !this.itemList.includes(x.ProductCode));
+            })
+        }
     }
 
-    get stockLoaderSelect() {
-        return ["PONo"];
+    get productLoaderSelect() {
+        return ["ProductCode", "ProductName", "ProductId"];
     }
 
-    @computedFrom("data.Unit")
-    get stockLoaderFilter() {
+    @computedFrom("data.Unit", "context.context.items.length")
+    get productLoaderFilter() {
         return {
             ReferenceType: "FABRIC",
             UnitId: (this.data.Unit || {}).Id || 0,
-            "Quantity > 0": true
+            "Quantity > 0": true,
+            PONo: null
         };
     }
 
     selectedUnitChanged(newValue) {
         this.data.Unit = newValue;
-        this.selectedStockViewModel.editorValue = "";
-        this.selectedStock = null;
-    }
-
-    selectedStockChanged(newValue, oldValue) {
-        this.data.PONo = null;
+        this.selectedProduct = null;
         this.data.Stocks = null;
         this.uomItems = [""];
         this.selectedUom = null;
 
-        if (newValue) {
-            this.data.PONo = newValue.PONo;
+        if (this.data.Product != null) 
+            this.itemList.splice(this.itemList.indexOf((this.data.Product || {}).Code), 1);
 
-            this.service.searchStock({ filter: JSON.stringify({ PONo: this.data.PONo || "-" , UnitId:this.data.Unit.Id}) })
+        this.data.Product = null;
+    }
+
+    selectedProductChanged(newValue, oldValue) {
+        this.data.Stocks = null;
+        this.uomItems = [""];
+        this.selectedUom = null;
+        this.Product = null;
+
+        if (newValue && oldValue) {
+            if (newValue.ProductCode != oldValue.ProductCode) {
+                this.itemList.splice(this.itemList.indexOf(oldValue.ProductCode), 1);
+                this.selectedProduct = null;
+                this.selectedUom = null;
+                this.data.StockId = 0;
+                this.data.Stock = {};
+                this.data.Product = {};
+                this.data.Quantity = 0;
+                this.data.BasicPrice = 0;
+                this.data.Uom = {};
+                this.uomItems = [];
+            }
+        }
+
+        if (newValue) {
+            this.data.Product = {
+                Id: newValue.ProductId,
+                Name: newValue.ProductName,
+                Code: newValue.ProductCode
+            };
+
+            this.itemList.push(newValue.ProductCode);
+            this.selectedProduct = newValue;
+            this.service.searchStock({ filter: JSON.stringify({ ProductId: (this.data.Product || {}).Id || 0, ReferenceType: "FABRIC", UnitId: (this.data.Unit || {}).Id || 0, "Quantity > 0": true }) })
                 .then(result => {
                     if (result.statusCode == 200) {
-                        const uomUnits = this.context.context.items.filter(i => (i.data.Unit || {}).Id == this.data.Unit.Id && i.data.PONo == this.data.PONo && i.data.Uom != null).map(i => i.data.Uom.Unit);
-
+                        const uomUnits = result.data.filter((value, index, self) => self.map(x => x.Uom.Unit).indexOf(value.Uom.Unit) == index);
                         this.data.Stocks = result.data.filter(d => uomUnits.findIndex(u => u == (d.Uom || {}).Unit) < 0);
                         this.uomItems = [""].concat(this.data.Stocks.map(d => (d.Uom || {}).Unit));
                     }
                 });
+        } else {
+            this.itemList.splice(this.itemList.indexOf(oldValue.ProductCode), 1);
+            this.selectedProduct = null;
+            this.selectedUom = null;
+            this.data.StockId = 0;
+            this.data.Stock = {};
+            this.data.Product = {};
+            this.data.Quantity = 0;
+            this.data.BasicPrice = 0;
+            this.data.Uom = {};
+            this.uomItems = [];
         }
     }
 
     selectedUomChanged(newValue) {
         if (newValue) {
             this.data.Stock = this.data.Stocks.find(d => d.Uom.Unit == newValue);
-            
             if (this.data.Stock) {
                 const existingItem = (this.context.context.options.existingItems || []).find(i => i.StockId == this.data.Stock.Id) || { Quantity: 0 };
                 this.data.Stock.Quantity += existingItem.Quantity;
@@ -103,7 +157,7 @@ export class Item {
                 this.data.StockId = this.data.Stock.Id;
                 this.data.Quantity = this.data.Stock.Quantity;
                 this.data.Uom = this.data.Stock.Uom;
-                this.data.BasicPrice=this.data.Stock.BasicPrice;
+                this.data.BasicPrice = this.data.Stock.BasicPrice;
             }
         } else {
             this.data.Stock = null;

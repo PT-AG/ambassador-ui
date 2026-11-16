@@ -6,7 +6,7 @@
         </au-textbox>
 
         <au-datepicker label="Tgl DO Gudang Sisa" value.bind="data.DODate" error.bind="error.DODate"
-            read-only.bind="readOnly" options.bind="controlOptions">
+            error.bind="error.DODate" read-only.bind="readOnly" options.bind="controlOptions">
         </au-datepicker>
 
         <au-dropdown label="Jenis Pengeluaran" items.bind="expenditureTypes" value.bind="data.ExpenditureType"
@@ -16,8 +16,7 @@
 
         <au-dropdown label="Tipe Aval" value.bind="data.AvalType" error.bind="error.AvalType"
             read-only.bind="readOnly || isEdit" items.bind="avalTypes" if.bind="data.ExpenditureType == 'AVAL'"
-            options.bind="controlOptions"
-            change.delegate="selectedAvalTypeChanged($event)">
+            options.bind="controlOptions" change.delegate="selectedAvalTypeChanged($event)">
         </au-dropdown>
 
         <au-dropdown label="Tujuan Pengeluaran" items.bind="expenditureDestinationTemp" value.bind="data.ExpenditureTo"
@@ -43,8 +42,8 @@
         </au-checkbox>
 
         <au-textbox value.bind="data.LocalSalesNoteNo" error.bind="error.LocalSalesNoteNo"
-            label="No Nota Penjualan Lokal" read-only.bind="readOnly || isEdit" if.bind="manual && data.ExpenditureTo == 'JUAL LOKAL'"
-            options.bind="controlOptions">
+            label="No Nota Penjualan Lokal" read-only.bind="readOnly || isEdit"
+            if.bind="manual && data.ExpenditureTo == 'JUAL LOKAL'" options.bind="controlOptions">
         </au-textbox>
 
         <au-autocomplete label="No Nota Penjualan Lokal" placeholder="Pilih Nota Penjualan Lokal"
@@ -58,8 +57,8 @@
             show.bind="data.ExpenditureTo == 'LAIN-LAIN'">
         </au-textbox>
 
-        <au-checkbox label="Titip Jual" value.bind="data.Consignment" read-only.bind="readOnly" options.bind="controlOptions"
-            if.bind="data.ExpenditureType == 'BARANG JADI'">
+        <au-checkbox label="Titip Jual" value.bind="data.Consignment" read-only.bind="readOnly"
+            options.bind="controlOptions" if.bind="data.ExpenditureType == 'BARANG JADI'">
         </au-checkbox>
 
         <au-multiline label="Keterangan" placeholder="Masukkan Keterangan" value.bind="data.Remark"
@@ -76,26 +75,26 @@
             item-template="modules/inventory/garment-leftover-warehouse/delivery-order/template/fabric/item">
         </au-collection>
 
-        <au-collection columns.bind="items.columns" items.bind="data.Items" errors.bind="error.Items" add.bind="items.onAdd"
-            read-only.bind="readOnly" options.bind="items.options" if.bind="data.ExpenditureType == 'ACCESSORIES'"
+        <au-collection columns.bind="items.columns" items.bind="data.Items" errors.bind="error.Items"
+            add.bind="items.onAdd" remove.bind="removeItems" read-only.bind="readOnly" options.bind="items.options"
+            if.bind="data.ExpenditureType == 'ACCESSORIES'"
             item-template="modules/inventory/garment-leftover-warehouse/delivery-order/template/acc/item">
         </au-collection>
-        
-        <au-collection items.bind="data.Items" errors.bind="error.Items" columns.bind="items.columns" read-only.bind="readOnly"
-            add.bind="addItems" remove.bind="removeItems" options.bind="Options"
+
+        <au-collection items.bind="data.Items" errors.bind="error.Items" columns.bind="items.columns"
+            read-only.bind="readOnly" add.bind="addItems" remove.bind="removeItems" options.bind="Options"
             if.bind="data.ExpenditureType == 'AVAL' && data.AvalType !='AVAL BAHAN PENOLONG'"
             item-template="modules/inventory/garment-leftover-warehouse/delivery-order/template/aval/item">
         </au-collection>
-        
-        <au-collection items.bind="data.Items" errors.bind="error.Items" columns.bind="items.columns" read-only.bind="readOnly"
-            add.bind="addItems" remove.bind="removeItems" options.bind="Options"
+
+        <au-collection items.bind="data.Items" errors.bind="error.Items" columns.bind="items.columns"
+            read-only.bind="readOnly" add.bind="addItems" remove.bind="removeItems" options.bind="Options"
             if.bind="data.ExpenditureType == 'AVAL' && data.AvalType =='AVAL BAHAN PENOLONG'"
             item-template="modules/inventory/garment-leftover-warehouse/delivery-order/template/aval/item-accessories">
         </au-collection>
 
-        <au-collection items.bind="data.Items" errors.bind="error.Items"
-            columns.bind="items.columns" read-only.bind="readOnly" add.bind="addItems"
-            remove.bind="removeItems" options.bind="Options"
+        <au-collection items.bind="data.Items" errors.bind="error.Items" columns.bind="items.columns"
+            read-only.bind="readOnly" add.bind="addItems" remove.bind="removeItems" options.bind="items.options"
             if.bind="data.ExpenditureType == 'BARANG JADI'"
             item-template="modules/inventory/garment-leftover-warehouse/delivery-order/template/finished-goods/item">
         </au-collection>

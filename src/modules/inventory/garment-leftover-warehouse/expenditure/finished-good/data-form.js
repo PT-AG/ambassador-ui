@@ -66,9 +66,10 @@ export class DataForm {
     // ]
 
     viewItemsColumns = [
-        { header: "Komoditi", value: "LeftoverComodity" },
-        { header: "Unit Asal", value: "UnitCode" },
-        { header: "RO", value: "RONo" },
+        { header: "Unit Asal", value: "Unit.Code" },
+        { header: "Kode Komoditi", value: "LeftoverComodity.Code" },
+        { header: "Nama Komoditi", value: "LeftoverComodity.Name" },
+        //{ header: "RO", value: "RONo" },
         { header: "Jumlah Keluar", value: "ExpenditureQuantity" },
     ]
 

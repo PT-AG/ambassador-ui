@@ -55,22 +55,15 @@ export class DataForm {
     get items() {
         return {
             columns: 
-            //this.readOnly ? 
             [
                 "Unit Asal",
-                "PO No",
+                "Kode Barang",
+                "Nama Barang",
                 "Satuan",
                 "Jumlah Keluar"
             ],
-            // ] : [
-            //     "Unit Asal",
-            //     "PO No",
-            //     "Satuan",
-            //     "Jumlah Stock",
-            //     "Jumlah Keluar"
-            // ],
             options: {
-                existingItems: this.existingItems
+                //existingItems: this.existingItems
             }
         };
     };
@@ -116,13 +109,6 @@ export class DataForm {
                 Name: this.data.UnitExpenditure.Name
             };
 
-            this.existingItems = this.data.Items.map(i => {
-                return {
-                    StockId: i.StockId,
-                    Quantity: i.Quantity
-                };
-            });
-
             this.selectedGLDO = {
                 DONo: this.data.DONo
             };
@@ -160,7 +146,6 @@ export class DataForm {
         this.selectedSalesNote = null;
         this.selectedUnit = null;
         this.selectedBuyer = null;
-        this.existingItems = [];
 
         if (newValue && newValue.Id) {
             await this.gldoService.getById(newValue.Id).then(data => {
@@ -177,12 +162,6 @@ export class DataForm {
                 };
 
                 this.selectedBuyer = this.data.Buyer;
-                this.existingItems = this.data.Items.map(i => {
-                    return {
-                        StockId: i.StockId,
-                        Quantity: i.Quantity
-                    };
-                });
             }).catch(e => {
                 alert(e.Message || 'DO Sisa Tidak Ditemukan');
             });

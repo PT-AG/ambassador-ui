@@ -1,56 +1,30 @@
 <template>
     <tr>
         <td>
-            <au-autocomplete
-                value.bind="selectedComodity"
-                error.bind="error.LeftoverComodity"
-                loader.bind="leftoverComodityLoader"
-                read-only.bind="readOnly|| data.Id"
-                placeholder="leftoverComodity"
-                text.bind="leftoverComodityView">
+            <au-autocomplete value.bind="selectedUnit" error.bind="error.Unit" loader.bind="unitLoader"
+                read-only.bind="readOnly || data.Id" placeholder="unit" text.bind="unitView">
             </au-autocomplete>
         </td>
         <td>
-            <au-autocomplete
-                value.bind="selectedUnit"
-                error.bind="error.Unit"
-                loader.bind="unitLoader"
-                read-only.bind="readOnly || data.Id"
-                placeholder="unit"
-                text.bind = "unitView"
-                >
+            <au-autocomplete value.bind="selectedLeftoverComodity" error.bind="error.LeftoverComodity" loader.bind="leftoverComodityLoader" 
+                query.bind="leftoverComodityLoaderFilter" select.bind="leftoverComodityLoaderSelect" read-only.bind="readOnly || data.Id" 
+                placeholder="Komoditi Gudang Sisa" text="LeftoverComodityCode" view-model.ref="selectedLeftoverComodityViewModel">
             </au-autocomplete>
         </td>
-        <td >
-            <au-autocomplete
-                value.bind="selectedStock"
-                error.bind="error.RONo"
-                loader.bind="stockLoader"
-                read-only.bind="readOnly|| data.Id"
-                placeholder="no RO"
-                text.bind = "roView"
-                show.bind="data.Unit"
-                query.bind= "filter"
-                view-model.ref="selectedStockViewModel">
-            </au-autocomplete>
+        <td class="col-sm-2">
+            <au-textbox value.bind="data.LeftoverComodity.Name" read-only="true">
+            </au-textbox>
         </td>
         <td if.bind="!readOnly">
-            <au-numeric
-                value.bind="data.StockQuantity"
-                error.bind="error.StockQuantity"
-                read-only.bind="true">
+            <au-numeric value.bind="data.StockQuantity" error.bind="error.StockQuantity" read-only.bind="true">
             </au-numeric>
         </td>
-        <td >
-            <au-numeric
-                value.bind="data.Quantity"
-                error.bind="error.Quantity"
-                read-only.bind="readOnly">
+        <td>
+            <au-numeric value.bind="data.Quantity" error.bind="error.Quantity" read-only.bind="readOnly">
             </au-numeric>
         </td>
         <td if.bind="!readOnly">
             <button class="btn btn-danger pull-right" click.delegate="onremove(data, $event)">-</button>
         </td>
-     </tr>
+    </tr>
 </template>
-

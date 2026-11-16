@@ -18,13 +18,6 @@
             </au-textbox>
         </td>
 
-        <td class="col-sm-4">
-            <au-autocomplete value.bind="selectedStock" error.bind="error.PONo" loader.bind="stockLoader"
-                query.bind="stockLoaderFilter" select.bind="stockLoaderSelect" read-only.bind="readOnly || isEdit"
-                placeholder="Stock" text="PONo" view-model.ref="selectedStockViewModel" show.bind="data.Product">
-            </au-autocomplete>
-        </td>
-
         <td class="col-sm-2">
             <au-dropdown items.bind="uomItems" value.bind="selectedUom" error.bind="error.Uom"
                 read-only.bind="readOnly || isEdit">

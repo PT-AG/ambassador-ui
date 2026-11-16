@@ -6,7 +6,7 @@ import { Base64Helper } from '../../../../../utils/base-64-coded-helper';
 @inject(Router, Service)
 export class Edit {
     isEdit = true;
-    
+
     hasCancel = true;
     hasSave = true;
     hasEdit = false;
@@ -22,15 +22,15 @@ export class Edit {
         var id = decoded;
         this.data = await this.service.getById(id);
 
-        const stockIds = this.data.Items.map(i => `Id==${i.StockId}`).join("||");
-        let filter = {};
-        filter[stockIds] = true;
-        const stocksResult = await this.service.searchStock({ filter: JSON.stringify(filter) });
+        // const stockIds = this.data.Items.map(i => `Id==${i.StockId}`).join("||");
+        // let filter = {};
+        // filter[stockIds] = true;
+        // const stocksResult = await this.service.searchStock({ filter: JSON.stringify(filter) });
 
-        for (const item of this.data.Items) {
-            item.Stock = stocksResult.data.find(i => i.Id == item.StockId) || {};
-            item.Stock.Quantity += item.Quantity;
-        }
+        // for (const item of this.data.Items) {
+        //     item.Stock = stocksResult.data.find(i => i.Id == item.StockId) || {};
+        //     item.Stock.Quantity += item.Quantity;
+        // }
 
         this.error = {};
     }
@@ -44,9 +44,9 @@ export class Edit {
     saveCallback(event) {
         this.service.update(this.data)
             .then(result => {
-            const encoded = Base64Helper.encode(this.data.Id);
-            this.router.navigateToRoute('view', { id: encoded });
-            //this.router.navigateToRoute('view', { id: this.data.Id });
+                const encoded = Base64Helper.encode(this.data.Id);
+                this.router.navigateToRoute('view', { id: encoded });
+                //this.router.navigateToRoute('view', { id: this.data.Id });
             })
             .catch(e => {
                 this.error = e;

@@ -20,25 +20,23 @@ export class Item {
         this.error = context.error;
         this.options = context.options;
 
+        this.itemList = context.context.options.itemList;
         this.isEdit = context.context.options.isEdit && this.data.Id > 0;
 
         if (this.data.Unit) {
             this.selectedUnit = this.data.Unit;
         }
 
-        if (this.data.PONo) {
-            this.selectedStock = {
-                PONo: this.data.PONo
-            };
-        }
-
         if (this.data.Stocks) {
             this.uomItems = [""].concat(this.data.Stocks.map(d => (d.Uom || {}).Unit));
         }
         
-        if(this.data.Product){
-            this.selectedProduct=this.data.Product;
-            this.selectedProduct.ProductCode= (this.data.Product || {}).Code;
+        if (this.data.Product) {
+            this.selectedProduct = {
+                ProductId: this.data.Product.Id,
+                ProductName: this.data.Product.Name,
+                ProductCode: this.data.Product.Code
+            };
         }
 
         if (this.data.Uom) {
@@ -54,82 +52,97 @@ export class Item {
         return UnitLoader;
     }
 
-    get stockLoader() {
-        return StockLoader;
-    }
-
-    get stockLoaderSelect() {
-        return ["PONo"];
-    }
-
     get productLoader() {
-        return StockLoader;
-    }
+        return (keyword) => {
+            const info = {
+                keyword: keyword,
+                filter: JSON.stringify(this.productLoaderFilter),
+                select: this.productLoaderSelect,
+                size: 10
+            };
 
-    get productLoaderSelect() {
-        return ["ProductCode", "ProductName","ProductId"];
-    }
-
-    @computedFrom("data.Product")
-    get stockLoaderFilter() {
-        return {
-            ReferenceType: "ACCESSORIES",
-            UnitId: (this.data.Unit || {}).Id || 0,
-            "Quantity > 0": true,
-            ProductId: (this.data.Product|| {}).Id || 0
+            return this.service.searchStockDistinct(info).then(result =>
+                result.data.filter(item => !this.itemList.includes(item.ProductCode))
+            );
         };
     }
 
-    @computedFrom("data.Unit")
+    get productLoaderSelect() {
+        return ["ProductCode", "ProductName", "ProductId"];
+    }
+
+    @computedFrom("data.Product", "data.Unit")
     get productLoaderFilter() {
         return {
             ReferenceType: "ACCESSORIES",
             UnitId: (this.data.Unit || {}).Id || 0,
-            "Quantity > 0": true
+            "Quantity > 0": true,
+            PONo: null
         };
     }
 
     selectedUnitChanged(newValue) {
         this.data.Unit = newValue;
-        this.selectedStockViewModel.editorValue = "";
-        this.selectedProductViewModel.editorValue = "";
-        this.selectedStock = null;
+        this.selectedProduct = null;
+        this.data.Stocks = null;
+        this.uomItems = [""];
+        this.selectedUom = null;
+
+        if (this.data.Product != null) 
+            this.itemList.splice(this.itemList.indexOf((this.data.Product || {}).Code), 1);
+
+        this.data.Product = null;
     }
 
     selectedProductChanged(newValue, oldValue) {
-        this.data.PONo = null;
         this.data.Stocks = null;
         this.uomItems = [""];
         this.selectedUom = null;
-        this.Product=null;
-        
-        this.selectedStockViewModel.editorValue = "";
+        this.Product = null;
+
+        if (newValue && oldValue) {
+            if (newValue.ProductCode != oldValue.ProductCode) {
+                this.itemList.splice(this.itemList.indexOf(oldValue.ProductCode), 1);
+                this.selectedProduct = null;
+                this.selectedUom = null;
+                this.data.StockId = 0;
+                this.data.Stock = {};
+                this.data.Product = {};
+                this.data.Quantity = 0;
+                this.data.BasicPrice = 0;
+                this.data.Uom = {};
+                this.uomItems = [];
+            }
+        }
+
         if (newValue) {
             this.data.Product = {
-                Id:newValue.ProductId,
-                Name:newValue.ProductName,
-                Code:newValue.ProductCode
+                Id: newValue.ProductId,
+                Name: newValue.ProductName,
+                Code: newValue.ProductCode
             };
-        }
-    }
 
-    selectedStockChanged(newValue, oldValue) {
-        this.data.PONo = null;
-        this.data.Stocks = null;
-        this.uomItems = [""];
-        this.selectedUom = null;
-
-        if (newValue) {
-            this.data.PONo = newValue.PONo;
-
-            this.service.searchStock({ filter: JSON.stringify({ PONo: this.data.PONo || "-" , ProductId: (this.data.Product|| {}).Id || 0 ,  ReferenceType: "ACCESSORIES", UnitId: (this.data.Unit || {}).Id || 0, "Quantity > 0": true}) })
+            this.itemList.push(newValue.ProductCode);
+            this.selectedProduct = newValue;
+            this.service.searchStock({ filter: JSON.stringify({ ProductId: (this.data.Product || {}).Id || 0, ReferenceType: "ACCESSORIES", UnitId: (this.data.Unit || {}).Id || 0, "Quantity > 0": true }) })
                 .then(result => {
                     if (result.statusCode == 200) {
-                        const uomUnits= result.data.filter((value, index, self) => self.map(x => x.Uom.Unit).indexOf(value.Uom.Unit) == index);
+                        const uomUnits = result.data.filter((value, index, self) => self.map(x => x.Uom.Unit).indexOf(value.Uom.Unit) == index);
                         this.data.Stocks = result.data.filter(d => uomUnits.findIndex(u => u == (d.Uom || {}).Unit) < 0);
                         this.uomItems = [""].concat(this.data.Stocks.map(d => (d.Uom || {}).Unit));
                     }
                 });
+        } else {
+            this.itemList.splice(this.itemList.indexOf(oldValue.ProductCode), 1);
+            this.selectedProduct = null;
+            this.selectedUom = null;
+            this.data.StockId = 0;
+            this.data.Stock = {};
+            this.data.Product = {};
+            this.data.Quantity = 0;
+            this.data.BasicPrice = 0;
+            this.data.Uom = {};
+            this.uomItems = [];
         }
     }
 
@@ -143,7 +156,7 @@ export class Item {
                 this.data.StockId = this.data.Stock.Id;
                 this.data.Quantity = this.data.Stock.Quantity;
                 this.data.Uom = this.data.Stock.Uom;
-                this.data.BasicPrice=this.data.Stock.BasicPrice;
+                this.data.BasicPrice = this.data.Stock.BasicPrice;
             }
         } else {
             this.data.Stock = null;

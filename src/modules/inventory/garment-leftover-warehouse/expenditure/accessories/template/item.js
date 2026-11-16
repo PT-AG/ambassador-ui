@@ -20,7 +20,7 @@ export class Item {
         this.error = context.error;
         this.options = context.options;
 
-        this.isEdit = context.context.options.isEdit && this.data.Id > 0;
+        //this.isEdit = context.context.options.isEdit && this.data.Id > 0;
 
         if (this.data.Unit) {
             this.selectedUnit = this.data.Unit;
@@ -35,10 +35,10 @@ export class Item {
         if (this.data.Stocks) {
             this.uomItems = [""].concat(this.data.Stocks.map(d => (d.Uom || {}).Unit));
         }
-        
-        if(this.data.Product){
-            this.selectedProduct=this.data.Product;
-            this.selectedProduct.ProductCode= (this.data.Product || {}).Code;
+
+        if (this.data.Product) {
+            this.selectedProduct = this.data.Product;
+            this.selectedProduct.ProductCode = (this.data.Product || {}).Code;
         }
 
         if (this.data.Uom) {
@@ -67,7 +67,7 @@ export class Item {
     }
 
     get productLoaderSelect() {
-        return ["ProductCode", "ProductName","ProductId"];
+        return ["ProductCode", "ProductName", "ProductId"];
     }
 
     @computedFrom("data.Product")
@@ -76,7 +76,7 @@ export class Item {
             ReferenceType: "ACCESSORIES",
             UnitId: (this.data.Unit || {}).Id || 0,
             "Quantity > 0": true,
-            ProductId: (this.data.Product|| {}).Id || 0
+            ProductId: (this.data.Product || {}).Id || 0
         };
     }
 
@@ -126,7 +126,7 @@ export class Item {
     //             .then(result => {
     //                 if (result.statusCode == 200) {
     //                     const uomUnits= result.data.filter((value, index, self) => self.map(x => x.Uom.Unit).indexOf(value.Uom.Unit) == index);
-                        
+
     //                     // const uomUnits = this.context.context.items.filter(i => (i.data.Unit || {}).Id == this.data.Unit.Id && i.data.PONo == this.data.PONo && i.data.Uom != null && (i.data.Product || {}).Id==this.data.Product.Id).map(i => i.data.Uom.Unit);
     //                     // console.log(uomUnits)
     //                      this.data.Stocks = result.data.filter(d => uomUnits.findIndex(u => u == (d.Uom || {}).Unit) < 0);

@@ -7,6 +7,12 @@ import { Base64Helper } from '../../../../utils/base-64-coded-helper';
 @inject(Router, Service)
 export class List {
 
+    rowFormatter(data, index) {
+        if (data.IsUsed || data.IsBC) {
+            return { classes: "success" };
+        } else return {};
+    }
+
     //context = ["detail","cetak PDF"]
     context = ["detail"]
 

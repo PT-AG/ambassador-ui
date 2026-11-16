@@ -78,6 +78,15 @@ export class List {
         }
     }
 
+    contextShowCallback(index, name, data) {
+        switch (name) {
+            case "cetak PDF":
+                return data.IsPosted;
+            default:
+                return true;
+        }
+    }
+
     posting() {
         if (this.dataToBePosted.length > 0) {
             const ids = this.dataToBePosted.map(item => item.Id);  // ✅ Extract ID saja
