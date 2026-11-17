@@ -29,6 +29,12 @@ export class List {
         { field: "UnitExpenditureName", title: "Unit Tujuan" },
         { field: "BuyerName", title: "Buyer" },
         { field: "EtcRemark", title: "Keterangan Lain-lain" },
+        { field: "_CreatedBy", title: "Yang Membuat" },
+        {
+            field: "Status", title: "Status", formatter: function (value, data, index) {
+                return value ? "Sudah Dibuat" : "Belum Dibuat"
+            }
+        },
     ];
 
     loader = (info) => {
@@ -48,6 +54,7 @@ export class List {
                 for (const data of result.data) {
                     data.UnitExpenditureName = data.UnitExpenditure.Name;
                     data.BuyerName = data.Buyer.Name;
+                    data.Status = data.IsBC || data.IsUsed;
                 }
 
                 return {

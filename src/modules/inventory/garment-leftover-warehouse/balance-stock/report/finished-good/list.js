@@ -5,21 +5,21 @@ const UnitLoader = require('../../../../../../loader/garment-units-loader');
 import moment from 'moment';
 
 @inject(Service)
-
 export class List {
     constructor(service) {
         this.service = service;
-
         this.flag = false;
         this.error = {};
     }
-    get unitLoader(){
+
+    get unitLoader() {
         return UnitLoader;
     }
+
     unitView = (unit) => {
         return `${unit.Code} - ${unit.Name}`;
-    
     }
+
     controlOptions = {
         label: {
             length: 4
@@ -37,23 +37,20 @@ export class List {
 
     columns = [
         { field: "index", title: "No", sortable: false, width: '2%' },
-        { field: "UnitCode", title: "Unit", sortable: false, width: '5%' },
-        
-        { field: "RO", title: "Nomor RO", sortable: false, width: '5%' },
-        { field: "ComodityUnitCode", title: "Kode Komoditi Unit", sortable: false, width: '15%' },
-        { field: "ComodityCode", title: "Kode Komoditi Gudang Sisa", sortable: false, width: '15%' },
+        { field: "UnitCode", title: "Unit", sortable: false, width: '10%' },
+        // { field: "RO", title: "Nomor RO", sortable: false, width: '5%' },
+        // { field: "ComodityUnitCode", title: "Kode Komoditi Unit", sortable: false, width: '15%' },
+        { field: "ComodityCode", title: "Kode Komoditi Gudang Sisa", sortable: false, width: '20%' },
         { field: "Comodity", title: "Komoditi Gudang Sisa", sortable: false, width: '15%' },
-        { field: "BeginingbalanceQty", title: "Saldo Awal", sortable: false, width: '3%' },
-        { field: "QuantityReceipt", title: "Penerimaan", sortable: false, width: '3%' },
-        { field: "QuantityExpend", title: "Pengeluaran", sortable: false, width: '3%' },
-        { field: "EndbalanceQty", title: "Saldo Akhir", sortable: false, width: '3%' },
-        { field: "UomUnit", title: "Satuan", sortable: false, width: '3%'},
-        
+        { field: "BeginingbalanceQty", title: "Saldo Awal", sortable: false, width: '5%' },
+        { field: "QuantityReceipt", title: "Penerimaan", sortable: false, width: '5%' },
+        { field: "QuantityExpend", title: "Pengeluaran", sortable: false, width: '5%' },
+        { field: "EndbalanceQty", title: "Saldo Akhir", sortable: false, width: '5%' },
+        { field: "UomUnit", title: "Satuan", sortable: false, width: '5%' },
     ];
 
     search() {
         this.error = {};
-
         if (Object.getOwnPropertyNames(this.error).length === 0) {
             this.flag = true;
             this.mdnTable.refresh();
@@ -81,36 +78,32 @@ export class List {
             order: order,
             dateFrom: moment(this.dateFrom).format("MM/DD/YYYY"),
             dateTo: moment(this.dateTo).format("MM/DD/YYYY"),
-            unit : this.unit ? this.unit.Id : "",
+            unit: this.unit ? this.unit.Id : "",
         };
-        console.log(args);
-        return this.flag ?
-            (
+
+        return this.flag ? (
                 this.service.search(args)
                     .then(result => {
-                        for(var data of result.data){
-                            if(data.index == 0){
+                        for (var data of result.data) {
+                            if (data.index == 0) {
                                 data.index = ""
                             }
                         };
                         return {
                             total: result.info.total,
                             data: result.data
-                            
                         };
                     })
-            ) : { total: 0, data: [] };
+        ) : { total: 0, data: [] };
     }
 
     XLS() {
         let args = {
-           
             dateFrom: moment(this.dateFrom).format("MM/DD/YYYY"),
             dateTo: moment(this.dateTo).format("MM/DD/YYYY"),
-            unit : this.unit ? this.unit.Id : "",
+            unit: this.unit ? this.unit.Id : "",
         };
+
         this.service.xls(args);
     }
-
-   
 }
