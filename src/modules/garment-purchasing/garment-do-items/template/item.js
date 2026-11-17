@@ -62,8 +62,9 @@ export class Item {
             };
 
         }
-        else if (this.isFabric || this.isInterliningOrTricot) {
-            this.setFabricHandlingUnit();
+        else if (!this.options.isView) {
+            const defaultUnit = (this.isFabric || this.isInterliningOrTricot) ? "ROLL" : "PACK";
+            this.setDefaultHandlingUnit(defaultUnit);
         }
         else {
 
@@ -107,21 +108,23 @@ export class Item {
 
     get uomLoader() {
         return UomLoader;
-      }
+    }
 
 
-    setFabricHandlingUnit() {
-        UomLoader("ROLL", {})
+    setDefaultHandlingUnit(unitName) {
+        UomLoader(unitName, {})
                 .then(results => {
-                    const roll = results.filter(x => x.Unit === "ROLL")[0];
+                    const matchedUom = results.find(
+                        x => (x.Unit || "").trim().toUpperCase() === unitName
+                    );
 
-                    if (roll) {
+                    if (matchedUom) {
                         this.dataUom = {
-                            Id: roll.Id,
-                            Unit: roll.Unit
+                            Id: matchedUom.Id,
+                            Unit: matchedUom.Unit
                         };
-                        this.data.HandlingUnit = roll.Unit;
-                        this.data.HandlingUnitId = roll.Id;
+                        this.data.HandlingUnit = matchedUom.Unit;
+                        this.data.HandlingUnitId = matchedUom.Id;
                     }
                 });
 

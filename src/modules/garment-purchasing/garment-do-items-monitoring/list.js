@@ -1,27 +1,43 @@
-import {
-  inject, bindable
-} from 'aurelia-framework';
-import {
-  Service
-} from "./service";
-import {
-  Router
-} from 'aurelia-router';
+import { inject, bindable } from 'aurelia-framework';
+import { Service } from "./service";
+import { Router } from 'aurelia-router';
 import moment from 'moment';
+
+var URNLoader = require("../../../loader/garment-unit-receipt-note-loader");
+
+const UNIT_CODE_MAP = {
+  "AMBASSADOR GARMINDO 1": "AG1",
+  "AMBASSADOR GARMINDO 2": "AG2",
+  "AMBASSADOR GARMINDO": "AG",
+};
+
+const formatLot = value =>
+  value && value.toString().trim() !== "" && value.toString().trim() !== "-" && value !== 0 && value !== "0"
+    ? value
+    : "-";
+
+const formatBatch = value =>
+  value ? moment.parseZone(value).utcOffset(7).format("YYYY-MM-DD") : "-";
 
 @inject(Router, Service)
 export class List {
   context = ["Kartu Stelling"];
 
   columns = [
+    { field: "PackageNo", title: "No Package" },
     { field: "ProductCode", title: "Kode Barang" },
     { field: "POSerialNumber", title: "Nomor PO" },
     { field: "RO", title: "Nomor RO" },
+    { field: "URNNo", title: "No Bon Terima" },
     { field: "UnitName", title: "Nama Unit" },
     { field: "ProductName", title: "Nama Barang" },
     { field: "RemainingQuantity", title: "Quantity", align: "right" },
     { field: "SmallUomUnit", title: "Satuan" },
     { field: "Colour", title: "Warna" },
+    { field: "Width", title: "Lebar" },
+    { field: "Lot", title: "Lot", formatter: formatLot },
+    { field: "Batch", title: "Batch", formatter: formatBatch },
+    { field: "HandlingUnit", title: "Handling Unit" },
     { field: "Rack", title: "Rak" },
     { field: "Level", title: "Level" },
     { field: "Box", title: "Box" },
@@ -35,11 +51,13 @@ export class List {
     { key: "BE", value: 'BAHAN EMBALANCE' },
     { key: "BP", value: 'BAHAN PENDUKUNG' }
   ];
-  //KategoriItems= ['','BAHAN BAKU','BAHAN EMBALANCE','BAHAN PENDUKUNG']
 
   @bindable UnitItem;
-  //UnitItems = ['', 'AMBASSADOR GARMINDO 1', 'AMBASSADOR GARMINDO 2']
-  UnitItems = ['','AMBASSADOR GARMINDO'];
+  UnitItems = ['', 'AMBASSADOR GARMINDO'];
+
+  get urnLoader() {
+    return URNLoader;
+  }
 
   constructor(router, service) {
     this.service = service;
@@ -50,7 +68,7 @@ export class List {
   async activate(params) {
     if (params && params.filter) {
       this.savedFilters = params.filter;
-      this.flag=true;
+      this.flag = true;
     }
   }
 
@@ -61,38 +79,42 @@ export class List {
     sortable: false,
   };
 
-  
+  buildFilterParams() {
+    const saved = this.savedFilters || {};
+    const urnValue = this.urn ? (this.urn.URNNo || this.urn) : saved.urn;
 
-  loader = (info) => {
-    var params = {
-      po: this.po ? this.po :this.savedFilters.po ? this.savedFilters.po : "",
-      unitcode: this.unit ? this.unit :this.savedFilters.unitcode ? this.savedFilters.unitcode : "",
-      productcode: this.code ? this.code :this.savedFilters.productcode ? this.savedFilters.productcode : "",
-      ctg:this.categoryKey?this.categoryKey.key:this.savedFilters.ctg?this.savedFilters.ctg:null
+    return {
+      po: this.po || saved.po || "",
+      unitcode: this.unit || saved.unitcode || "",
+      productcode: this.code || saved.productcode || "",
+      ctg: (this.categoryKey && this.categoryKey.key) || saved.ctg || null,
+      urn: urnValue || null,
     };
+  }
+
+  loader = () => {
+    const params = this.buildFilterParams();
     this.savedFilters = params;
-    return this.flag ? this.service.search(params)
-      .then((result) => {
-        for (var _data of result.data) {
-          var unitDO = _data.UnitDOs.map(function (unit) {
-            return `<li>
+
+    if (!this.flag) {
+      return { data: [] };
+    }
+
+    return this.service.search(params).then((result) => {
+      for (const _data of result.data) {
+        const unitDO = (_data.UnitDOs || [])
+          .map(unit => `<li>
             No : ${unit.UnitDONo}</br>
             Pemohon : ${unit.CreatedBy}</br>
             Quantity : ${unit.DOQuantity}
-            </li>`;
-          });
+            </li>`)
+          .filter((elem, index, self) => index === self.indexOf(elem));
 
-          unitDO = unitDO.filter(function (elem, index, self) {
-            return index == self.indexOf(elem);
-          })
+        _data.UnitDO = `<ul>${unitDO.join('')}</ul>`;
+      }
 
-          _data.UnitDO = `<ul>${unitDO.join('')}</ul>`;
-        }
-
-        return {
-          data: result.data
-        };
-      }) : { data: [] };
+      return { data: result.data };
+    });
   }
 
   search() {
@@ -102,62 +124,31 @@ export class List {
   }
 
   contextClickCallback(event) {
-    var arg = event.detail;
-    var data = arg.data;
+    const { name, data } = event.detail;
 
-    switch (arg.name) {
-      // case "Update Racking":
-      //   if (data.RemainingQuantity > 0) {
-      //     this.router.navigateToRoute('edit', { id: data.Id, filter: this.savedFilters });
-      //   } else {
-      //     alert("Maaf, Quantity 0 hanya bisa melihat Kartu Stelling");
-      //   } break;
-      case "Kartu Stelling":
-        this.router.navigateToRoute('stelling', { id: data.Id , filter: this.savedFilters });
-        break;
-      // case "Cetak Barcode":
-      //   this.service.getBarcodeById(data.Id)
-      //     .then((result) => { })
-      //     .catch((e) => { });
-      //   break;
+    if (name === "Kartu Stelling") {
+      this.router.navigateToRoute('stelling', { id: data.Id, filter: this.savedFilters });
     }
   }
 
-  UnitItemChanged(newvalue) {
-    if (newvalue) {
-      if (newvalue === "AMBASSADOR GARMINDO 1") {
-        this.unit = "AG1";
-      } else if (newvalue === "AMBASSADOR GARMINDO 2") {
-        this.unit = "AG2";
-      } else if (newvalue === "AMBASSADOR GARMINDO") {
-        this.unit = "AG";
-      } else {
-        this.unit = "";
-        this.unitname = "";
-      }
-    } else {
-      this.unit = "";
+  UnitItemChanged(newValue) {
+    this.unit = UNIT_CODE_MAP[newValue] || "";
+    if (!this.unit) {
       this.unitname = "";
     }
   }
 
   ExportToExcel() {
-    var params = {
-      po: this.po ? this.po : (this.savedFilters && this.savedFilters.po ? this.savedFilters.po : ""),
-      unitcode: this.unit ? this.unit : (this.savedFilters && this.savedFilters.unitcode ? this.savedFilters.unitcode : ""),
-      productcode: this.code ? this.code : (this.savedFilters && this.savedFilters.productcode ? this.savedFilters.productcode : ""),
-      ctg: this.categoryKey && this.categoryKey.key ? this.categoryKey.key : (this.savedFilters && this.savedFilters.ctg ? this.savedFilters.ctg : null)
-    };
-
-    this.service.generateExcel(params);
+    this.service.generateExcel(this.buildFilterParams());
   }
 
   reset() {
     this.po = null;
-    this.unit = "AG";
+    this.unit = null;
     this.code = null;
+    this.urn = null;
     this.data = [];
-    this.categoryKey=null;
+    this.categoryKey = null;
     this.flag = false;
     this.tableList.refresh();
     this.savedFilters = {};
