@@ -39,6 +39,10 @@ export class Create {
             return;
         }
         console.log(this.data);
+        if (!this.data.Buyer) {
+            alert("Buyer wajib diisi");
+            return;
+        }
         if(this.data.InvoiceId ==0)
         { 
             alert("Invoice belum dibuat bagian Shipping. Pilih Invoice lain");
