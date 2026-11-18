@@ -658,5 +658,91 @@ module.exports = [
       permission: { "J15": 1 },
       iconClass: "fa fa-dashboard",
     },
-  },
+  },{
+    route: "/garments/approve-intern-note-verification",
+    name: "approve-intern-note-verification",
+    moduleId: "./modules/garment-purchasing/approve-intern-note-verification/index",
+    nav: true,
+    title: "Approve Nota Internal - Verifikasi",
+    auth: true,
+    settings: {
+      group: "g-finance",
+      subGroup: "approval",
+      permission: { H63: 1 },
+      iconClass: "fa fa-dashboard",
+    },
+  },{
+    route: "/garments/approve-intern-note-budget1",
+    name: "approve-intern-note-budget1",
+    moduleId: "./modules/garment-purchasing/approve-intern-note-budget1/index",
+    nav: true,
+    title: "Approve Nota Internal - Anggaran",
+    auth: true,
+    settings: {
+      group: "g-finance",
+      subGroup: "approval",
+      permission: { H63: 1 },
+      iconClass: "fa fa-dashboard",
+    },
+  },{
+      route: '/garment/purchasing-disposition-approval/verification',
+      name: 'purchasing-disposition-approval-verification',
+      moduleId: './modules/garment-purchasing/purchasing-disposition-approval/index',
+      nav: true,
+      title: 'Approve Disposisi Pembayaran - Verifikasi',
+      auth: true,
+      settings: {
+          group: "g-finance",
+          subGroup: "approval",
+          permission: { H65 : 1 },
+          iconClass: 'fa fa-calculator',
+          type: "verification"
+      }
+    },
+    {
+        route: '/garment/purchasing-disposition-approval/budget1',
+        name: 'purchasing-disposition-approval-budget1',
+        moduleId: './modules/garment-purchasing/purchasing-disposition-approval/index',
+        nav: true,
+        title: 'Approve Disposisi Pembayaran - Anggaran',
+        auth: true,
+        settings: {
+            group: "g-finance",
+            subGroup: "approval",
+            permission: { H65 : 1 },
+            iconClass: 'fa fa-calculator',
+            type: "budget1"
+        }
+    },
+    {
+        route: '/garment/purchasing-disposition-approval/budget2',
+        name: 'purchasing-disposition-approval-budget2',
+        moduleId: './modules/garment-purchasing/purchasing-disposition-approval/index',
+        nav: true,
+        title: 'Approve Disposisi Pembayaran - Manager Keuangan',
+        auth: true,
+        settings: {
+            group: "g-finance",
+            subGroup: "approval",
+            permission: { H65 : 1 },
+            iconClass: 'fa fa-calculator',
+            type: "budget2"
+        }
+    },
+
+    {
+        route: '/garment/purchasing-disposition-approval/director',
+        name: 'purchasing-disposition-approval-director',
+        moduleId: './modules/garment-purchasing/purchasing-disposition-approval/index',
+        nav: true,
+        title: 'Approve Disposisi Pembayaran - Direksi',
+        auth: true,
+        settings: {
+            group: "g-finance",
+            subGroup: "approval",
+            permission: { H65 : 1 },
+            iconClass: 'fa fa-calculator',
+            type: "director"
+        }
+    },
 ]

@@ -103,7 +103,8 @@ export class List {
             case "staff":
                 this.filter = {
                     IsPosted: true,
-                    IsApprovedStaff: false
+                    IsApprovedStaff: false,
+                    ApprovedStaffBy: username 
                 };
                 break;
             case "manager1":

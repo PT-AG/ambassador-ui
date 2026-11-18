@@ -28,6 +28,10 @@
             options.bind="auInputOptions">
         </au-multiline>
 
+        <au-textbox value.bind="data.ApprovedStaffBy" error.bind="error.ApprovedStaffBy" label="Nama Staff" 
+            read-only.bind="readOnly || isEdit" placeholder="cari nama staff" options.bind="auInputOptions">
+        </au-textbox>
+
         <au-textbox 
                     label="Admin Pembelian" 
                     value.bind="data.CreatedBy" 

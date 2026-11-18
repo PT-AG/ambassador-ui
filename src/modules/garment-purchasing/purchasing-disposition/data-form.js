@@ -6,6 +6,7 @@ var SupplierLoader = require('../../../loader/garment-supplier-loader');
 var CurrencyLoader = require('../../../loader/garment-currencies-by-latest-date-loader');
 // var CurrencyLoader = require('../../../loader/garment-currencies-bi-by-latest-date-loader');
 var CategoryLoader = require('../../../loader/garment-category-loader');
+var PurchasingSectionLoader= require('../../../loader/purchasing-section-loader');
 
 //var IncomeTaxLoader = require('../../../loader/income-tax-loader');
 
@@ -23,6 +24,7 @@ export class DataForm {
     @bindable incomeTaxValueView;
     @bindable vatValue;
     @bindable vatValueView;
+    @bindable ApprovedStaffBy;
 
 
     controlOptions = {
@@ -75,7 +77,11 @@ export class DataForm {
         if (this.data.supplier) {
             this.selectedSupplier = this.data.supplier;
         }
-        // console.log("bindForm",this.data)
+        if(this.data.ApprovedStaffBy){
+            this.ApprovedStaffBy = {
+                Name: this.data.ApprovedStaffBy
+            };
+        }
     }
 
     @computedFrom("data.Id")
@@ -190,6 +196,16 @@ export class DataForm {
         var code = supplier.code || supplier.Code;
         var name = supplier.name || supplier.Name;
         return `${code} - ${name}`
+    }
+
+    ApprovedStaffByChanged(newValue, oldValue) {
+        var selectedStaff = newValue;
+        if (selectedStaff) {
+            this.data.ApprovedStaffBy = selectedStaff.Name;
+        }
+        else {
+            this.data.ApprovedStaffBy = null;
+        }
     }
 
     itemsChanged(e) {
@@ -834,5 +850,9 @@ export class DataForm {
             this.data.Items.splice(0);
             this.data.Amount = 0;
         }
+    }
+
+     get purchasingSectionLoader() {
+        return PurchasingSectionLoader;
     }
 }

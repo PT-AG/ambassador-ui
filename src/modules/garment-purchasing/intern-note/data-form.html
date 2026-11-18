@@ -5,6 +5,7 @@
             <!-- <button class="btn btn-primary" click.delegate="context.edit($event)" if.one-way="context.hasEdit">Ubah</button> -->
             <button class="btn btn-success" click.delegate="context.save($event)" if.one-way="context.hasSave">Simpan</button>
             <button class="btn btn-danger" click.delegate="context.delete($event)" if.one-way="context.hasDelete">Hapus</button>
+            <button class="btn btn-primary" click.delegate="context.rebudget($event)" if.one-way="context.hasRebudget">Ajukan Budget Bulan Depan</button>
         </div>
 
         <au-textbox label="No. Nota Intern" value.bind="data.inNo" error.bind="error.no" read-only.bind="true" if.bind="readOnly || isEdit"
@@ -26,6 +27,10 @@
         <au-multiline label="Keterangan" value.bind="data.remark" error.bind="error.remark" read-only.bind="readOnly" placeholder="tambah keterangan"
             options.bind="auInputOptions">
         </au-multiline>
+
+        <au-autocomplete value.bind="ApprovedStaffBy" error.bind="error.ApprovedStaffBy" label="Nama Staff" loader.bind="purchasingSectionLoader"
+            text="Name" read-only.bind="readOnly || isEdit" placeholder="cari nama staff" options.bind="auInputOptions">
+        </au-autocomplete>
 
         <div class="row" if.bind="data.lateReason">
             <div class="col-md-6">
@@ -54,6 +59,11 @@
     <div class="row">
       <div class="col-md-6">
         <h4>File Dokumen</h4>
+        <au-textbox
+            show.bind="error.DocumentsFile"
+            error.bind="error.DocumentsFile"
+            read-only="true">
+        </au-textbox>
         <table class="table table-hover table-bordered">
           <thead>
             <th class="col-md-11">File</th>

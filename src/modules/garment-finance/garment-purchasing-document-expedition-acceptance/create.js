@@ -190,6 +190,9 @@ export class Create {
       this.internalNoteFilter = {
         Position: this.activeRole.positionAutocomplete
       }
+      if(this.activeRole.positionAutocomplete==4){
+        this.internalNoteFilter.IsApprovedBudget1 = true;
+      }
     }
   }
 

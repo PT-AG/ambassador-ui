@@ -21,10 +21,13 @@
         <au-autocomplete value.bind="supplier" view-model.ref="ItemsCollection" error.bind="error.supplier" label="Supplier" loader.bind="supplierLoader"
             text.bind="supplierView" read-only.bind="readOnly || isEdit" placeholder="cari supplier" show.bind="data.currency" options.bind="auInputOptions">
         </au-autocomplete>
-
         <au-multiline label="Keterangan" value.bind="data.remark" error.bind="error.remark" read-only.bind="readOnly" placeholder="tambah keterangan"
             options.bind="auInputOptions">
         </au-multiline>
+
+        <au-textbox value.bind="data.ApprovedStaffBy" error.bind="error.ApprovedStaffBy" label="Nama Staff" 
+            read-only.bind="readOnly || isEdit" placeholder="cari nama staff" options.bind="auInputOptions">
+        </au-textbox>
 
         <au-textbox 
                     label="Admin Pembelian" 
