@@ -57,6 +57,9 @@ export class DataForm {
         this.data = this.context.data;
         this.error = this.context.error;
         this.isCreate=this.context.isCreate;
+        if (this.data.Buyer && !this.data.BuyerView) {
+            this.data.BuyerView = this.data.Buyer.Code + ' - ' + this.data.Buyer.Name;
+        }
         this.itemOptions = {
             isEdit: this.context.isEdit,
             checkedAll: true,
@@ -96,6 +99,7 @@ export class DataForm {
         this.data.Items = [];
         this.data.Price=0;
         this.data.Buyer=null;
+        this.data.BuyerView=null;
         this.data.ContractNo=null;
         this.data.Description ="";
         if (newValue) {
@@ -189,6 +193,7 @@ export class DataForm {
         this.data.Article = null;
         this.data.Comodity=null;
         this.data.Buyer=null;
+        this.data.BuyerView=null;
         this.data.ContractNo=null;
         this.data.Items.splice(0);
         this.sizes.splice(0);
@@ -211,6 +216,10 @@ export class DataForm {
             let noResult = await this.salesService.getCostCalculationByRONo({ size: 1, filter: JSON.stringify({ RO_Number: this.data.RONo }) });
             if (noResult.data.length > 0) {
                 this.data.Description = noResult.data[0].CommodityDescription;
+                if (!this.data.Buyer && noResult.data[0].Buyer) {
+                    this.data.Buyer = noResult.data[0].Buyer;
+                    this.data.BuyerView = this.data.Buyer.Code + ' - ' + this.data.Buyer.Name;
+                }
             }
 
             var ROfilter = {};
