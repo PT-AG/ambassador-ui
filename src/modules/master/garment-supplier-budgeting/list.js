@@ -13,7 +13,7 @@ export class List {
       checkbox: true,
       sortable: false,
       formatter: function (value, data, index) {
-        this.checkboxEnabled = !data.Active;
+        this.checkboxEnabled = !(data.Active || data._active);
         return "";
       },
     },
@@ -43,18 +43,19 @@ export class List {
         return value ? "YA" : "TIDAK";
       },
     },
-    // { field: "IncomeTaxes", title: "PPH", formatter: function (value, data, index) {
-    //   if(data.IncomeTaxes.name == "" || data.IncomeTaxes.name == null && data.IncomeTaxes.rate == 0){
-    //     return "-"
-    //   }else{
-    //     return data.IncomeTaxes.name + " - " + data.IncomeTaxes.rate;
-    //   }
-    // } },
+    {
+      field: "Active",
+      title: "Active",
+      formatter: function (value, row, index) {
+        return (value || row._active) ? "SUDAH" : "BELUM";
+      },
+    },
   ];
 
   dataToBePosted = [];
+
   rowFormatter(data, index) {
-    if (data.Active) return { classes: "success" };
+    if (data.Active || data._active) return { classes: "success" };
     else return {};
   }
 
@@ -66,26 +67,17 @@ export class List {
       page: parseInt(info.offset / info.limit, 10) + 1,
       size: info.limit,
       keyword: info.search,
-      select: [
-        "code",
-        "name",
-        "address",
-        "import",
-        "NPWP",
-        "usevat",
-        "usetax",
-        "IncomeTaxes",
-        "country",
-      ],
       order: order,
     };
 
     return this.service.search(arg).then((result) => {
+      for (var d of result.data) {
+        d.Active = d.Active !== undefined ? d.Active : d._active;
+      }
       return {
         total: result.info.total,
         data: result.data,
       };
-      data.IncomeTaxesName = result.data.IncomeTaxes.name;
     });
   };
 
@@ -99,13 +91,13 @@ export class List {
     var data = arg.data;
     switch (arg.name) {
       case "detail":
-        const encoded = Base64Helper.encode(data.Id);
+      case "Detail":
+        const encoded = Base64Helper.encode(data.Id || data._id);
         this.router.navigateToRoute("view", { id: encoded });
-        //this.router.navigateToRoute('view', { id: data.Id });
         break;
       case "nonaktif":
         this.service
-          .nonActived(data.Id)
+          .nonActived(data.Id || data._id)
           .then((result) => {
             this.table.refresh();
           })
@@ -115,10 +107,11 @@ export class List {
         break;
     }
   }
+
   contextShowCallback(index, name, data) {
     switch (name) {
       case "nonaktif":
-        return data.Active;
+        return data.Active || data._active;
       default:
         return true;
     }
