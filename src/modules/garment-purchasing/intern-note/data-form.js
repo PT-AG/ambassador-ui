@@ -2,6 +2,7 @@ import { inject, bindable, BindingEngine, observable, computedFrom } from 'aurel
 import { Service } from "./service";
 var CurrencyLoader = require('../../../loader/garment-currencies-by-date-loader');
 var SupplierLoader = require('../../../loader/garment-supplier-loader');
+var PurchasingSectionLoader= require('../../../loader/purchasing-section-loader');
 var moment = require('moment');
 
 @inject(BindingEngine, Element, Service)
@@ -13,6 +14,7 @@ export class DataForm {
     @bindable currency;
     @bindable supplier;
     @bindable options = {};
+    @bindable ApprovedStaffBy;
 
     constructor(bindingEngine, element, service) {
         this.bindingEngine = bindingEngine;
@@ -59,6 +61,11 @@ export class DataForm {
         this.data.DocumentsFile = this.data.DocumentsFile || [];
         this.data.DocumentsFileName = this.data.DocumentsFileName || [];
         this.documentsPathTemp = [].concat(this.data.DocumentsPath);
+        if(this.data.ApprovedStaffBy){
+            this.ApprovedStaffBy = {
+                Name: this.data.ApprovedStaffBy
+            };
+        }
     }
 
     @computedFrom("data.Id")
@@ -119,6 +126,16 @@ export class DataForm {
         }
     }
 
+    ApprovedStaffByChanged(newValue, oldValue) {
+        var selectedStaff = newValue;
+        if (selectedStaff) {
+            this.data.ApprovedStaffBy = selectedStaff.Name;
+        }
+        else {
+            this.data.ApprovedStaffBy = null;
+        }
+    }
+
     resetErrorItems() {
         if (this.error) {
             if (this.error.items) {
@@ -129,6 +146,10 @@ export class DataForm {
 
     get currencyLoader() {
         return CurrencyLoader;
+    }
+
+    get purchasingSectionLoader() {
+        return PurchasingSectionLoader;
     }
 
     get supplierLoader() {

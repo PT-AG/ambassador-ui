@@ -224,12 +224,16 @@
             options.bind="controlOptions">
         </au-numeric>
 
-        <au-textbox 
+        <au-textbox value.bind="data.ApprovedStaffBy" error.bind="error.ApprovedStaffBy" label="Nama Staff" 
+            read-only.bind="true" placeholder="cari nama staff" options.bind="controlOptions">
+        </au-textbox>
+
+        <!-- <au-textbox 
             label="Manager Approval" 
             value.bind="data.ApprovedManagerBy" 
             read-only.bind="true"
             options.bind="controlOptions">
-        </au-textbox>
+        </au-textbox> -->
 
       </div>
     </div>

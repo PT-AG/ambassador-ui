@@ -13,6 +13,7 @@ export class View {
         this.hasCancel = true;
         this.hasEdit = true;
         this.hasDelete = true;
+        this.hasRebudget = false;
     }
 
     async activate(params) {
@@ -24,7 +25,14 @@ export class View {
         this.currency = this.data.currency;
         this.supplier = this.data.supplier;
         this.data.isView = true;
-
+        const today = new Date();
+        const firstDayOfCurrentMonth = new Date(
+            today.getFullYear(),
+            today.getMonth(),
+            1
+        );
+        const inDate = new Date(this.data.inDate);
+        this.hasDelete = !(inDate < firstDayOfCurrentMonth);
         if (!this.data.isEdit){
             this.hasEdit = false;
             this.hasDelete = false;
@@ -35,15 +43,10 @@ export class View {
             this.hasDelete = false;
         }
 
-        const today = new Date();
-        const firstDayOfCurrentMonth = new Date(
-            today.getFullYear(),
-            today.getMonth(),
-            1
-        );
-        const inDate = new Date(this.data.inDate);
-        this.hasDelete = !(inDate < firstDayOfCurrentMonth);
-
+        if(!this.data.IsApprovedBudget1 && this.data.IsApprovedVerification && this.data.ReasonRejected != null 
+            && this.data.Position == 4 && this.data.BudgetSubmissionDate == null){
+            this.hasRebudget = true;
+        }
     }
 
     cancel(event) {
@@ -59,5 +62,20 @@ export class View {
         this.service.delete(this.data).then(result => {
             this.cancel();
         });
+    }
+
+    rebudget(event) {
+        if (confirm("Ajukan Budget Bulan Depan?")) {
+            this.service.rebudget(this.data.Id)
+                .then(result => {
+                    this.cancel(event);
+                })
+                .catch(e => {
+                    this.error = e;
+                    if (e.statusCode === 500) {
+                        alert("Gagal menyimpan, silakan coba lagi!");
+                    }
+                });
+        }
     }
 }

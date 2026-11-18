@@ -117,7 +117,7 @@ export class Create {
                 }
             }
         }
-
+        
         //Enhance Jason Sept 2021
         //var validateDouble = this.validateDouble(this.data);
         var validateDouble = 0; //Use Backend Validation

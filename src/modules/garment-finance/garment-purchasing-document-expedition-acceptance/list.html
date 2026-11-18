@@ -41,13 +41,11 @@
     columns.bind="fromPurchasingColumns"
     sortable.bind="true"
     if.bind="isVerification && !isRetur"
-    page-size="25"
-    context.bind="context"
-    context-click.delegate="contextClickCallback($event)"
-  >
-    <div slot="toolbar" class="btn-group">
+    page-size="25">
+
+    <!-- <div slot="toolbar" class="btn-group">
       <button class="btn btn-success" click.delegate="create()">Buat</button>
-    </div>
+    </div> -->
   </au-table>
 
   <au-table

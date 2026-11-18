@@ -33,14 +33,14 @@ export class List {
         if(section.data.length>0){
             for(var staf of section.data){
                 if(filter=="")
-                    filter=`CreatedBy=="${staf.Name}"`;
+                    filter=`ApprovedStaffBy=="${staf.Name}"`;
                 else
-                    filter+=`|| CreatedBy=="${staf.Name}"`;
+                    filter+=`|| ApprovedStaffBy=="${staf.Name}"`;
             }
             this.filterSection[`${filter}`]=true
         }
         else{
-            this.filterSection[`CreatedBy=="null"`]=true;
+            this.filterSection[`ApprovedStaffBy=="null"`]=true;
         }
     }
 

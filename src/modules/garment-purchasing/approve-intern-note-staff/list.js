@@ -14,36 +14,15 @@ export class List {
         this.title = parentInstruction.config.title;
         this.type = parentInstruction.config.settings.type;
 
-        // this.username = null;
-        // if (this.authService.authenticated) {
-        //     const me = this.authService.getTokenPayload();
-        //     this.username = me.username;
-        // }
-        // var filterS = {
-        //     Manager1: this.username
-        // };
-
-        // var argS = {
-        //     filter: JSON.stringify(filterS)
-        // };
-
-        // var section= await this.serviceCore.searchSection(argS);
-        this.filterSection={};
-        // var filter="";
-        // if(section.data.length>0){
-        //     for(var staf of section.data){
-        //         if(filter=="")
-        //             filter=`CreatedBy=="${staf.Name}"`;
-        //         else
-        //             filter+=`|| CreatedBy=="${staf.Name}"`;
-        //     }
-        //     this.filterSection[`${filter}`]=true
-        // }
-        // else{
-        //     this.filterSection[`CreatedBy=="null"`]=true;
-        // }
-
+        this.username = null;
+        if (this.authService.authenticated) {
+            const me = this.authService.getTokenPayload();
+            this.username = me.username;
+        }
         
+        this.filterSection={};
+        var filter=`ApprovedStaffBy=="${this.username}"`;
+        this.filterSection[`${filter}`]=true
     }
 
     columns = [
@@ -125,7 +104,6 @@ export class List {
             case "Rincian":
             const encoded = Base64Helper.encode(data.Id);
             this.router.navigateToRoute('view', { id: encoded });
-            //this.router.navigateToRoute('view', { id: data.Id });
                 break;
             case "Cetak PDF":
                 this.service.getPdfById(data.Id);

@@ -4,7 +4,6 @@ import moment from "moment";
 import numeral from "numeral";
 import { Dialog } from "../../../au-components/dialog/dialog";
 import { Service } from "./service";
-// import PurchasingDocumentExpeditionService from "../shared/purchasing-document-expedition-service";
 import { PermissionHelper } from "../../../utils/permission-helper";
 import {
   VERIFICATION,
@@ -140,8 +139,6 @@ export class List {
   initPermission() {
     this.roles = [VERIFICATION, CASHIER, ACCOUNTING, RETUR];
     this.accessCount = 0;
-    // console.log("this.permissions", this.permissions);
-    // console.log("this.roles", this.roles);
 
     for (let i = this.roles.length - 1; i >= 0; i--) {
       for (let code of this.roles[i].code) {
@@ -149,7 +146,6 @@ export class List {
           this.roles[i].hasPermission = true;
           this.accessCount++;
           this.activeRole = this.roles[i];
-          // console.log("this.roles[i]", this.roles[i]);
         }
       }
     }
@@ -168,13 +164,10 @@ export class List {
   changeRole(role) {
     if (role.key !== this.activeRole.key) {
       this.activeRole = role;
-      // console.log("this.activeRole",this.activeRole)
       this.tableList.refresh();
     }
   }
-  //   changeTable(role) {
-  //     this.code = role.key === "CASHIER" ? true : false;
-  //   }
+  
   changeTable(role) {
     this.isVerification = role.key == "VERIFICATION";
     this.isRetur = role.key == "RETUR";
@@ -183,7 +176,6 @@ export class List {
 
   loader = (info) => {
     let order = {};
-    // console.log("this.activeRole", this.activeRole);
 
     let position = 3;
     if (this.activeRole) position = this.activeRole.position;
