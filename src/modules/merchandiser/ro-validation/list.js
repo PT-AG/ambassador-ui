@@ -82,6 +82,7 @@ export class List {
                     "CostCalculationGarment.IsValidatedROMD": false,
                     "CostCalculationGarment.IsValidatedROSample": false,
                     "IsPosted": true,
+                    "IsRejected": false,
                     //"CostCalculationGarment.ApprovalRO": username
                 };
                 break;
@@ -90,7 +91,8 @@ export class List {
                     "RO_Garment_SizeBreakdowns.Any(RO_GarmentId != null)": true,
                     "CostCalculationGarment.IsValidatedROMD": true,
                     "CostCalculationGarment.IsValidatedROSample": false,
-                    "IsPosted": true
+                    "IsPosted": true,
+                    "IsRejected": false
                 };
                 break;
             default:
