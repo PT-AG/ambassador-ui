@@ -33,7 +33,7 @@ export class Create {
             this.username = me.username;
         }
         var filterS = {
-            Name: this.username
+            Name: this.data.ApprovedStaffBy
         };
 
         var argS = {

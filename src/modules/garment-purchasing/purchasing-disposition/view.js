@@ -81,6 +81,7 @@ export class View {
                     EPOId: item.EPOId,
                     EPONo: item.EPONo,
                     INNo: item.INNo,
+                    INId: item.INId,
                     GarmentDispositionPurchaseId: item.GarmentDispositionPurchaseId,
                     IncomeTaxValue: item.IncomeTaxValue,
                     IncomeTaxValueView: item.IncomeTaxValue,

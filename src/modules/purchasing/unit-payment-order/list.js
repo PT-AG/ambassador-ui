@@ -43,6 +43,7 @@ export class List {
             field: "isPosted", title: "Status",
             formatter: function (value, data, index) {
                 if(data.ReasonRejected) return "DITOLAK dengan alasan: " + data.ReasonRejected;
+                if(data.IsApprovedBudget1) return "SUDAH DISETUJUI ANGGARAN";
                 if(data.IsApprovedVerification) return "SUDAH DISETUJUI VERIFICATION";
                 if(data.IsApprovedKabag) return "SUDAH DISETUJUI MANAGER 2";
                 if(data.IsApprovedKasie) return "SUDAH DISETUJUI MANAGER 1";

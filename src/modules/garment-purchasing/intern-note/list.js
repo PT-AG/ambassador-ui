@@ -43,6 +43,7 @@ export class List {
                 if(data.ReasonRejected && data.IsApprovedVerification && data.BudgetSubmissionDate != null) return "DITOLAK ANGGARAN dg alasan: " + data.ReasonRejected + ";Diajukan kembali pada bulan "+ moment(data.BudgetSubmissionDate).format("MM/YY");
                 if(data.ReasonRejected && data.IsApprovedVerification) return "DITOLAK ANGGARAN dg alasan: " + data.ReasonRejected;
                 if(data.ReasonRejected) return "DITOLAK dengan alasan: " + data.ReasonRejected;
+                if(data.IsApprovedBudget1) return "SUDAH DISETUJUI ANGGARAN";
                 if(data.IsApprovedVerification) return "SUDAH DISETUJUI VERIFIKASI";
                 if(data.IsApprovedKabag) return "SUDAH DISETUJUI MANAGER 2";
                 if(data.IsApprovedKasie) return "SUDAH DISETUJUI MANAGER 1";
@@ -105,7 +106,6 @@ export class List {
             case "Rincian":
                 const encoded = Base64Helper.encode(data.Id);
                 this.router.navigateToRoute('view', { id: encoded });
-                //this.router.navigateToRoute('view', { id: data.Id });
                 break;
             case "Cetak PDF":
                 this.service.getPdfById(data.Id);

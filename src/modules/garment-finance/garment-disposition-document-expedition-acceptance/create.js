@@ -153,7 +153,7 @@ export class Create {
   }
 
   initPermission() {
-    this.roles = [VERIFICATION, CASHIER, RETUR];
+    this.roles = [CASHIER];
     this.accessCount = 0;
 
     console.log("roles", this.roles);
