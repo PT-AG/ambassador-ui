@@ -23,7 +23,7 @@
           class="col-sm-${accessCount === 4 ? 3 : 6} tab ${activeRole.key === role.key ? 'active' : ''}"
           click.delegate="changeRole(role)"
           click.trigger="changeTable(role)"
-        >
+          style="width:50%;">
           ${role.label}
         </div>
       </template>
@@ -32,8 +32,7 @@
   </template>
   <au-input-form
     title="Buat Penerimaan Dokumen Pembelian Garment ${activeRole.position === 3 ? 'dari Pembelian' : 'dari Verifikasi'} ${activeRole.position == 6 ? '(Retur)' : ''}"
-    options.bind="formOptions"
-  >
+    options.bind="formOptions">
     <div class="row">
       <div class="col-sm-5">
         <au-autocomplete

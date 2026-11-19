@@ -15,9 +15,16 @@ export class List {
         const parentInstruction = instruction.parentInstruction;
         this.title = parentInstruction.config.title;
         this.type = parentInstruction.config.settings.type;
-
+        
         this.username = null;
+        if (this.authService.authenticated) {
+            const me = this.authService.getTokenPayload();
+            this.username = me.username;
+        }
+        
         this.filterSection={};
+        var filter=`ApprovedStaffBy=="${this.username}"`;
+        this.filterSection[`${filter}`]=true
     }
 
     columns = [
@@ -55,6 +62,7 @@ export class List {
 
     loader = (info) => {
         var order = {};
+        this.filterSection["IsApprovedStaff==false"]=true;
         this.filterSection["IsApprovedStaff==false"]=true;
         this.filterSection["IsPosted==true"]=true;
 

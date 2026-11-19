@@ -22,8 +22,7 @@
           if.bind="role.hasPermission"
           class="col-sm-${accessCount === 4 ? 3 : 6} tab ${activeRole.key === role.key ? 'active' : ''}"
           click.delegate="changeRole(role)"
-          click.trigger="changeTable(role)"
-        >
+          click.trigger="changeTable(role)">
           ${role.label}
         </div>
       </template>
@@ -43,11 +42,10 @@
     if.bind="isVerification && !isRetur"
     page-size="25"
     context.bind="context"
-    context-click.delegate="contextClickCallback($event)"
-  >
-    <div slot="toolbar" class="btn-group">
+    context-click.delegate="contextClickCallback($event)">
+    <!-- <div slot="toolbar" class="btn-group">
       <button class="btn btn-success" click.delegate="create()">Buat</button>
-    </div>
+    </div> -->
   </au-table>
 
   <au-table
@@ -72,10 +70,9 @@
     sortable.bind="true"
     page-size="25"
     if.bind="!isVerification && isRetur"
-    context-click.delegate="contextClickCallback($event)"
-  >
-    <div slot="toolbar" class="btn-group">
+    context-click.delegate="contextClickCallback($event)">
+    <!-- <div slot="toolbar" class="btn-group">
       <button class="btn btn-success" click.delegate="create()">Buat</button>
-    </div>
+    </div> -->
   </au-table>
 </template>

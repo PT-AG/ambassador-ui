@@ -980,5 +980,33 @@ module.exports = [
         // permission: { "PDU": 1, "C9": 1, B9: 1, B4: 1, B1: 1, P1: 1, P2: 1 },
         iconClass: 'fa fa-dashboard'
     }
-  }
+  },
+  {
+      route: '/purchasing/approve-spb/verification',
+      name: 'approve-unit-payment-order-verification',
+      moduleId: './modules/purchasing/approve-unit-payment-order-verification/index',
+      nav: true,
+      title: 'Approval Surat Perintah Bayar Verifikasi',
+      auth: true,
+      settings: {
+          group: "finance",
+          subGroup: "approval",
+          permission: { "E41": 1 },
+          iconClass: 'fa fa-dashboard'
+      }
+  },
+  {
+      route: '/purchasing/approve-spb/budget',
+      name: 'approve-unit-payment-order-budget',
+      moduleId: './modules/purchasing/approve-unit-payment-order-budget/index',
+      nav: true,
+      title: 'Approval Surat Perintah Bayar Anggaran',
+      auth: true,
+      settings: {
+          group: "finance",
+          subGroup: "approval",
+          permission: { "E41": 1 },
+          iconClass: 'fa fa-dashboard'
+      }
+  },
 ];

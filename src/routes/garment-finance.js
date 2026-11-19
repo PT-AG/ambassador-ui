@@ -735,7 +735,7 @@ module.exports = [
         name: 'purchasing-disposition-approval-director',
         moduleId: './modules/garment-purchasing/purchasing-disposition-approval/index',
         nav: true,
-        title: 'Approve Disposisi Pembayaran - Direksi',
+        title: 'Approve Disposisi Pembayaran - Direktur Keuangan',
         auth: true,
         settings: {
             group: "g-finance",

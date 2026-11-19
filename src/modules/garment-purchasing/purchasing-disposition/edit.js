@@ -113,6 +113,7 @@ export class Edit {
                     EPOId: item.EPOId,
                     EPONo: item.EPONo,
                     INNo: item.INNo,
+                    INId: item.INId,
                     GarmentDispositionPurchaseId: item.GarmentDispositionPurchaseId,
                     IncomeTaxValue: item.IncomeTaxValue,
                     IncomeTaxValueView: item.Details.map(detail => detail['PaidPrice']).reduce((sum, current) => sum + current, 0) * (item.IncomeTaxRate / 100),
