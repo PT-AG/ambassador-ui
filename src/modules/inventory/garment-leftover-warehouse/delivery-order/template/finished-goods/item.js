@@ -122,8 +122,9 @@ export class items {
             this.service.searchStock({ filter: JSON.stringify({ LeftoverComodityId: (this.data.LeftoverComodity || {}).Id, ReferenceType: "FINISHED_GOOD", UnitId: (this.data.Unit || {}).Id || 0, "Quantity > 0": true, RONo: null }) })
                 .then(result => {
                     if (result.statusCode == 200 && result.data.length > 0) {
-                        this.data.StockId = result.data[0].Id,
-                        this.data.StockQuantity = result.data[0].Quantity
+                        this.data.StockId = result.data[0].Id;
+                        this.data.StockQuantity = result.data[0].Quantity;
+                        this.data.BasicPrice = result.data[0].BasicPrice;
                     }
                 });
         } else {
