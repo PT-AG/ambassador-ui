@@ -1,5 +1,6 @@
 import { inject, bindable, containerless, computedFrom, BindingEngine } from 'aurelia-framework'
 import { Service } from "./service";
+import XLSX from 'xlsx';
 var SupplierLoader = require('../../../loader/supplier-loader');
 var CurrencyLoader = require('../../../loader/currency-in-garment-currency-loader');
 var IncomeTaxLoader = require('../../../loader/income-tax-loader');
@@ -63,7 +64,7 @@ export class DataForm {
         
         this.data.DocumentsFile = this.data.DocumentsFile || [];
         this.data.DocumentsFileName = this.data.DocumentsFileName || [];
-        this.documentsPathTemp = [].concat(this.data.DocumentsPath);
+        this.documentsPathTemp = [].concat(this.data.DocumentsPath || []);
         //console.log(this.context);
     }
 
@@ -301,9 +302,13 @@ export class DataForm {
     }
 
     downloadDocument(index) {
-        const linkSource = this.data.DocumentsFile[index];
+        const linkSource = this.data.DocumentsFile && this.data.DocumentsFile[index];
+        const fileName = (this.data.DocumentsFileName && this.data.DocumentsFileName[index]) || 'document';
+        if (!linkSource) {
+            alert('File dokumen tidak tersedia.');
+            return;
+        }
         const downloadLink = document.createElement("a");
-        const fileName = this.data.DocumentsFileName[index];
 
         downloadLink.href = linkSource;
         downloadLink.download = fileName;
@@ -459,51 +464,125 @@ export class DataForm {
         }
     }
 
+    revokePreviewBlobUrl() {
+        if (this._previewBlobUrl) {
+            URL.revokeObjectURL(this._previewBlobUrl);
+            this._previewBlobUrl = null;
+        }
+    }
+
+    decodeDataUrl(fileUrl) {
+        if (typeof fileUrl !== 'string' || !fileUrl.startsWith('data:')) {
+            return null;
+        }
+        const commaIndex = fileUrl.indexOf(',');
+        if (commaIndex === -1) {
+            return null;
+        }
+        const header = fileUrl.substring(5, commaIndex);
+        const mimeType = header.split(';')[0] || 'application/octet-stream';
+        const base64Data = fileUrl.substring(commaIndex + 1);
+        const binary = atob(base64Data);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) {
+            bytes[i] = binary.charCodeAt(i);
+        }
+        return { mimeType, bytes };
+    }
+
+    buildPreviewUrl(fileUrl) {
+        if (!fileUrl) {
+            return null;
+        }
+        const decoded = this.decodeDataUrl(fileUrl);
+        if (decoded) {
+            this.revokePreviewBlobUrl();
+            this._previewBlobUrl = URL.createObjectURL(new Blob([decoded.bytes], { type: decoded.mimeType }));
+            return this._previewBlobUrl;
+        }
+        return fileUrl;
+    }
+
+    renderExcelFromBuffer(buffer, excelDiv) {
+        const workbook = XLSX.read(buffer, { type: 'array' });
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        const html = XLSX.utils.sheet_to_html(worksheet);
+        excelDiv.innerHTML = html.replace('<table', '<table class="table table-bordered table-striped table-condensed"');
+    }
+
     previewDocument(index) {
-        const fileUrl = this.data.DocumentsFile[index];
-        const fileName = this.data.DocumentsFileName[index];
+        const rawFileUrl = this.data.DocumentsFile && this.data.DocumentsFile[index];
+        const fileName = (this.data.DocumentsFileName && this.data.DocumentsFileName[index]) || '';
         const embed = document.getElementById('pdfEmbed');
         const excelDiv = document.getElementById('excelTable');
         const imagePreview = document.getElementById('imagePreview');
         const modalLabel = document.getElementById('previewModalLabel');
 
+        if (!rawFileUrl || (typeof rawFileUrl === 'string' && rawFileUrl.trim() === '')) {
+            embed.removeAttribute('src');
+            imagePreview.removeAttribute('src');
+            alert('File dokumen tidak tersedia untuk preview.');
+            return;
+        }
+
         const lowerFileName = fileName.toLowerCase();
         if (lowerFileName.endsWith('.pdf')) {
+            const previewUrl = this.buildPreviewUrl(rawFileUrl);
+            if (!previewUrl) {
+                alert('Format file PDF tidak valid.');
+                return;
+            }
             modalLabel.innerText = 'Preview PDF';
-            embed.src = fileUrl;
+            imagePreview.removeAttribute('src');
+            embed.src = previewUrl;
             embed.style.display = 'block';
             excelDiv.style.display = 'none';
             imagePreview.style.display = 'none';
             this.updatePreviewSize();
-            $('#pdfPreviewModal').modal('show');
+            $('#pdfPreviewModal')
+                .off('hidden.bs.modal.docPreview')
+                .on('hidden.bs.modal.docPreview', () => {
+                    embed.removeAttribute('src');
+                    imagePreview.removeAttribute('src');
+                    this.revokePreviewBlobUrl();
+                })
+                .modal('show');
             setTimeout(() => this.initResizable(), 100);
         } else if (lowerFileName.endsWith('.xlsx') || lowerFileName.endsWith('.xls')) {
             modalLabel.innerText = 'Preview Excel';
+            embed.removeAttribute('src');
+            imagePreview.removeAttribute('src');
             embed.style.display = 'none';
             excelDiv.style.display = 'block';
             imagePreview.style.display = 'none';
             excelDiv.innerHTML = '<p>Loading Excel...</p>';
 
-            fetch(fileUrl)
-                .then(response => response.arrayBuffer())
-                .then(data => {
-                    const workbook = XLSX.read(data, { type: 'array' });
-                    const sheetName = workbook.SheetNames[0];
-                    const worksheet = workbook.Sheets[sheetName];
-                    const html = XLSX.utils.sheet_to_html(worksheet);
-                    excelDiv.innerHTML = html;
-                })
-                .catch(error => {
+            const decoded = this.decodeDataUrl(rawFileUrl);
+            if (decoded) {
+                try {
+                    this.renderExcelFromBuffer(decoded.bytes, excelDiv);
+                } catch (error) {
                     excelDiv.innerHTML = '<p>Error loading Excel file.</p>';
-                    console.error('Error fetching or parsing Excel:', error);
-                });
+                    console.error('Error parsing Excel:', error);
+                }
+            } else {
+                fetch(rawFileUrl)
+                    .then(response => response.arrayBuffer())
+                    .then(data => this.renderExcelFromBuffer(data, excelDiv))
+                    .catch(error => {
+                        excelDiv.innerHTML = '<p>Error loading Excel file.</p>';
+                        console.error('Error fetching or parsing Excel:', error);
+                    });
+            }
 
             this.updatePreviewSize();
             $('#pdfPreviewModal').modal('show');
             setTimeout(() => this.initResizable(), 100);
         } else if (lowerFileName.endsWith('.jpg') || lowerFileName.endsWith('.jpeg') || lowerFileName.endsWith('.png') || lowerFileName.endsWith('.gif') || lowerFileName.endsWith('.bmp') || lowerFileName.endsWith('.webp')) {
             modalLabel.innerText = 'Preview Image';
-            imagePreview.src = fileUrl;
+            embed.removeAttribute('src');
+            imagePreview.src = rawFileUrl;
             embed.style.display = 'none';
             excelDiv.style.display = 'none';
             imagePreview.style.display = 'block';
