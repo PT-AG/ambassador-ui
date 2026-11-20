@@ -140,22 +140,29 @@ export class DataForm {
         this.resetErrorItems();
     }
 
+    resetLuxuryIfNeeded() {
+        const rate = this.data.vatTax && this.data.vatTax.rate;
+        if (!this.data.useVat || rate != '12') {
+            this.data.IsLuxury = false;
+        }
+    }
+
     selectedVatTaxChanged(newValue) {
-        var _selectedVatTax = newValue || {};
+        var _selectedVatTax = newValue;
         console.log(_selectedVatTax);
         if (!_selectedVatTax) {
-         
           this.data.vatTax = {};
-          
         } else if (_selectedVatTax._id || _selectedVatTax.Id) {
-          this.data.vatTaxRate = _selectedVatTax.rate ? _selectedVatTax.rate : 0;
+          const rate = _selectedVatTax.Rate != null ? _selectedVatTax.Rate : (_selectedVatTax.rate != null ? _selectedVatTax.rate : 0);
+          this.data.vatTaxRate = rate;
           this.data.useVatTax = true;
-         
-          this.data.vatTax = _selectedVatTax;
-          this.data.vatTax._id = _selectedVatTax.Id || _selectedVatTax._id;
 
-        
+          this.data.vatTax = {
+            _id: _selectedVatTax.Id || _selectedVatTax._id,
+            rate: rate
+          };
         }
+        this.resetLuxuryIfNeeded();
       }
 
     useIncomeTaxChanged(e) {
@@ -172,6 +179,7 @@ export class DataForm {
         this.data.items = [];
         this.data.vatNo = "";
         this.data.vatDate = null;
+        this.data.IsLuxury = false;
         var selectedUseVat = e.srcElement.checked || false;
         this.data.useVat = selectedUseVat;
     
@@ -206,10 +214,10 @@ export class DataForm {
                 }
             }
        } else {
+        this.selectedVatTax = null;
         this.data.vatTax = {};
-
-
        }
+       this.resetLuxuryIfNeeded();
     }
 
     resetErrorItems() {
