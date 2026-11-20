@@ -1,16 +1,17 @@
 import { inject } from 'aurelia-framework';
-import { Service,PurchasingService } from "./service";
+import { Service,PurchasingService,SalesService } from "./service";
 import { Router } from 'aurelia-router';
 import { AuthService } from "aurelia-authentication";
 var moment = require("moment");
 
-@inject(Router, Service,AuthService,PurchasingService)
+@inject(Router, Service,AuthService,PurchasingService,SalesService)
 export class List {
-    constructor(router, service, authService,purchasingService) {
+    constructor(router, service, authService,purchasingService,salesService) {
         this.service = service;
         this.router = router;
         this.authService=authService;
         this.purchasingService=purchasingService;
+        this.salesService=salesService;
     }
 
     filter={};
@@ -75,10 +76,17 @@ export class List {
     async contextClickCallback(event) {
         var arg = event.detail;
         var data = arg.data;
-        let pr = await this.purchasingService.getGarmentPR({ size: 1, filter: JSON.stringify({ RONo: data.RONo }) });
-        var buyer="";
-        if(pr.data.length>0){
-            buyer = pr.data[0].Buyer.Code;
+        var buyer = data.Buyer && data.Buyer.Code ? data.Buyer.Code : "";
+        if (!buyer && arg.name === "Cetak PDF") {
+            let pr = await this.purchasingService.getGarmentPR({ size: 1, filter: JSON.stringify({ RONo: data.RONo }) });
+            if (pr.data.length > 0 && pr.data[0].Buyer) {
+                buyer = pr.data[0].Buyer.Code;
+            } else {
+                let cc = await this.salesService.getCostCalculationByRONo({ size: 1, filter: JSON.stringify({ RO_Number: data.RONo }) });
+                if (cc.data.length > 0 && cc.data[0].Buyer) {
+                    buyer = cc.data[0].Buyer.Code;
+                }
+            }
         }
         switch (arg.name) {
             case "Rincian":
