@@ -92,7 +92,18 @@ export class Create {
             .catch(e => {
                 this.isSaving = false;
                 this.hasSave = true;
-                this.error = e; 
+                if (e && e.statusCode === 500 && e.message) {
+                    alert(e.message);
+                    return;
+                }
+                if (typeof e === "string") {
+                    alert(e);
+                    return;
+                }
+                this.error = e;
+                if (e && e.items) {
+                    alert("Periksa kembali jumlah / detail PO External yang dipilih");
+                }
             })
     }
 }
