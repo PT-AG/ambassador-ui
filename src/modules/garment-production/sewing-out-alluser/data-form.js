@@ -1,9 +1,9 @@
 import { bindable, inject, computedFrom } from "aurelia-framework";
-import { Service,PurchasingService } from "./service";
+import { Service,PurchasingService,SalesService } from "./service";
 
 const UnitLoader = require('../../../loader/garment-units-loader');
 
-@inject(Service,PurchasingService)
+@inject(Service,PurchasingService,SalesService)
 export class DataForm {
     @bindable readOnly = false;
     @bindable isCreate = false;
@@ -20,9 +20,10 @@ export class DataForm {
 
     sewingToOptions = ['FINISHING','SEWING', 'CUTTING','BARANG JADI'];
 
-    constructor(service,purchasingService) {
+    constructor(service,purchasingService,salesService) {
         this.service = service;
         this.purchasingService=purchasingService;
+        this.salesService=salesService;
     }
 
     formOptions = {
@@ -148,9 +149,18 @@ export class DataForm {
 
                 let pr = await this.purchasingService.getGarmentPR({ size: 1, filter: JSON.stringify({ RONo: this.data.RONo }) });
                 
-                if(pr.data.length>0){
+                if(pr.data.length>0 && pr.data[0].Buyer){
                     this.data.Buyer = pr.data[0].Buyer;
                     this.data.BuyerView= this.data.Buyer.Code + ' - '+ this.data.Buyer.Name;
+                } else {
+                    try {
+                        let cc = await this.salesService.getCostCalculationByRONo({ size: 1, filter: JSON.stringify({ RO_Number: this.data.RONo }) });
+                        if (cc.data && cc.data.length > 0 && cc.data[0].Buyer) {
+                            this.data.Buyer = cc.data[0].Buyer;
+                            this.data.BuyerView = this.data.Buyer.Code + ' - ' + this.data.Buyer.Name;
+                        }
+                    } catch (e) {
+                    }
                 }
 
                 let priceResult= await this.service.getComodityPrice({ filter: JSON.stringify({ ComodityId: this.data.Comodity.Id, UnitId: this.data.Unit.Id , IsValid:true})});

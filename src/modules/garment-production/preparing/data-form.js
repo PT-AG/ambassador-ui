@@ -120,10 +120,21 @@ export class DataForm {
                         this.data.RONo = deliveryOrder.RONo;
                         
                         this.purchasingService.getGarmentPR({ size: 1, filter: JSON.stringify({ RONo: this.data.RONo }) })
-                        .then((pr)=>{
-                            if(pr.data.length>0){
+                        .then(async (pr)=>{
+                            if(pr.data.length>0 && pr.data[0].Buyer){
                                 this.data.Buyer=pr.data[0].Buyer;
                                 this.data.buyerView= this.data.Buyer.Code +"-"+this.data.Buyer.Name;
+                            } else {
+                                this.data.Buyer = null;
+                                this.data.buyerView = "";
+                                try {
+                                    let cc = await this.salesService.getCostCalculationByRONo({ size: 1, filter: JSON.stringify({ RO_Number: this.data.RONo }) });
+                                    if (cc.data && cc.data.length > 0 && cc.data[0].Buyer) {
+                                        this.data.Buyer = cc.data[0].Buyer;
+                                        this.data.buyerView = this.data.Buyer.Code + "-" + this.data.Buyer.Name;
+                                    }
+                                } catch (e) {
+                                }
                             }
                             for(var doItem of deliveryOrder.Items){
                                 for(var item of this.data.Items){
