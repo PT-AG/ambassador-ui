@@ -151,6 +151,10 @@ export class DataForm {
             let noResult = await this.salesService.getCostCalculationByRONo({ size: 1, filter: JSON.stringify({ RO_Number: this.data.RONo }) });
             if(noResult.data.length>0){
                 this.data.Description = noResult.data[0].CommodityDescription;
+                if (!this.data.Buyer && noResult.data[0].Buyer) {
+                    this.data.Buyer = noResult.data[0].Buyer;
+                    this.data.BuyerView = this.data.Buyer.Code + ' - ' + this.data.Buyer.Name;
+                }
             }
 
             let salesContractResult = await this.salesService.getSalesContractByRONo({ size: 1, filter: JSON.stringify({ RONumber: this.data.RONo }) });
