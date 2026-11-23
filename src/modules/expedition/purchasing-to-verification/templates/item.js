@@ -144,7 +144,11 @@ export class Item {
 
                             // console.log(newV)
                             // console.log(totalPaid);
-                            let vat = newV.useVat ? Number((totalPaid * (newV.vatTax.rate/100)).toFixed(4)) : 0;
+                            let vatRate = newV.vatTax && newV.vatTax.rate ? Number(newV.vatTax.rate) : 0;
+                            let effectiveVatRate = (vatRate === 12 && !newV.IsLuxury)
+                                ? (vatRate / 100) * (11 / 12)
+                                : (vatRate / 100);
+                            let vat = newV.useVat ? Number((totalPaid * effectiveVatRate).toFixed(4)) : 0;
                             let incomeTax = newV.useIncomeTax ? Number(((newV.incomeTax.rate * totalPaid) / 100).toFixed(4)) : 0;
                             let income = newV.useIncomeTax ? newV.incomeTax : null;
 
