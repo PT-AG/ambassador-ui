@@ -2,6 +2,7 @@ import { inject, Lazy } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { Service } from './service';
 import { activationStrategy } from 'aurelia-router';
+import moment from 'moment';
 
 @inject(Router, Service)
 export class Create {
@@ -29,6 +30,7 @@ export class Create {
         this.error = {};
         this.data.isView = false;
         this.data.lateReason = null;
+        this.data.inDate = moment().startOf('day').toDate();
     }
 
     checkIsLate() {
@@ -107,6 +109,7 @@ export class Create {
     }
 
     saveData() {
+        this.data.inDate = moment().startOf('day').toDate();
         for(var item of this.data.items)
         {
             for(var detail of item.details)
