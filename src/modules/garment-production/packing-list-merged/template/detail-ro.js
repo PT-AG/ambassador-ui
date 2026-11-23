@@ -403,17 +403,26 @@ export class Item {
         size: 10
       }
 
+      let section = this.context.context.options.header.section || {};
       if (this.data.roType == 'RO SAMPLE') {
+        info.filter = JSON.stringify({
+          "BuyerCode" : (this.data || {}).BuyerCode,
+          "SectionCode" : section.code || section.Code
+        });
+        
         return this.garmentProductionService.getSampleRequest(info).then((result) => {
           return result.data.filter(x => !this.ROList.includes(x.RONoSample));
         });
       } else {
         info.filter = JSON.stringify({
+          "BuyerCode" : (this.data || {}).BuyerCode,
+          "Section" : section.code || section.Code,
           "SCGarmentId > 0" : true
-        })
+        });
+
         return this.salesService.getCostCalculation(info).then((result) => {
           return result.data.filter(x => !this.ROList.includes(x.RO_Number));
-        })
+        });
       }
     }
   }
