@@ -74,7 +74,7 @@
 
                     <au-autocomplete value.bind="data.mdStaff" error.bind="error.MdStaff" label="MD Staff"
                         loader.bind="mdStaffLoader" text.bind="mdStaffView" placeholder="Cari MD Staff"
-                        read-only.bind="readOnly" options.bind="controlOptions">
+                        read-only.bind="true" options.bind="controlOptions">
                     </au-autocomplete>
 
                     <au-multiline value.bind="data.description" label="Keterangan Unit" read-only="true"
