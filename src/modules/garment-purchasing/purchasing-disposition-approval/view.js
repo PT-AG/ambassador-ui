@@ -7,6 +7,7 @@ import { RejectReason } from "./dialog-template/reject-reason";
 import moment from 'moment';
 import numeral from 'numeral';
 import { Base64Helper } from '../../../utils/base-64-coded-helper';
+import XLSX from 'xlsx';
 
 numeral.defaultFormat("0,0.00");
 
@@ -186,14 +187,17 @@ export class View {
         });
     }
 
-     downloadDocument(index) {
-      const linkSource = this.data.DocumentsFile[index];
-      const downloadLink = document.createElement("a");
-      const fileName = this.data.DocumentsFileName[index];
-
-      downloadLink.href = linkSource;
-      downloadLink.download = fileName;
-      downloadLink.click();
+    downloadDocument(index) {
+        const linkSource = this.data.DocumentsFile && this.data.DocumentsFile[index];
+        const fileName = (this.data.DocumentsFileName && this.data.DocumentsFileName[index]) || 'document';
+        if (!linkSource || (typeof linkSource === 'string' && linkSource.trim() === '')) {
+            alert('File dokumen tidak tersedia.');
+            return;
+        }
+        const downloadLink = document.createElement("a");
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
     }
 
     //atur review dan ukuran pop up
@@ -291,59 +295,185 @@ export class View {
             }
         }
     
+        revokePreviewBlobUrl() {
+            if (this._previewBlobUrl) {
+                URL.revokeObjectURL(this._previewBlobUrl);
+                this._previewBlobUrl = null;
+            }
+        }
+
+        decodeDataUrl(fileUrl) {
+            if (typeof fileUrl !== 'string') {
+                return null;
+            }
+            const trimmed = fileUrl.trim();
+            if (!trimmed) {
+                return null;
+            }
+            if (trimmed.startsWith('data:')) {
+                const commaIndex = trimmed.indexOf(',');
+                if (commaIndex === -1) {
+                    return null;
+                }
+                const header = trimmed.substring(5, commaIndex);
+                if (!header.toLowerCase().includes(';base64')) {
+                    return null;
+                }
+                const mimeType = header.split(';')[0] || 'application/octet-stream';
+                return this.decodeBase64Payload(trimmed.substring(commaIndex + 1), mimeType);
+            }
+            if (!/^(https?:|blob:|\/)/i.test(trimmed)) {
+                return this.decodeBase64Payload(trimmed, 'application/octet-stream');
+            }
+            return null;
+        }
+
+        decodeBase64Payload(base64Data, mimeType) {
+            try {
+                const binary = atob(base64Data.replace(/\s+/g, ''));
+                const bytes = new Uint8Array(binary.length);
+                for (let i = 0; i < binary.length; i++) {
+                    bytes[i] = binary.charCodeAt(i);
+                }
+                return { mimeType, bytes };
+            } catch (error) {
+                console.error('Error decoding base64 document:', error);
+                return null;
+            }
+        }
+
+        buildPreviewUrl(fileUrl, overrideMimeType) {
+            if (!fileUrl) {
+                return null;
+            }
+            const decoded = this.decodeDataUrl(fileUrl);
+            if (decoded) {
+                this.revokePreviewBlobUrl();
+                const blobType = overrideMimeType || decoded.mimeType || 'application/octet-stream';
+                this._previewBlobUrl = URL.createObjectURL(new Blob([decoded.bytes], { type: blobType }));
+                return this._previewBlobUrl;
+            }
+            if (typeof fileUrl === 'string' && fileUrl.trim().startsWith('data:')) {
+                return null;
+            }
+            return fileUrl;
+        }
+
+        renderExcelFromBuffer(buffer, excelDiv) {
+            const workbook = XLSX.read(buffer, { type: 'array' });
+            const sheetName = workbook.SheetNames[0];
+            if (!sheetName) {
+                excelDiv.innerHTML = '<p>Sheet Excel kosong.</p>';
+                return;
+            }
+            const worksheet = workbook.Sheets[sheetName];
+            const html = XLSX.utils.sheet_to_html(worksheet);
+            excelDiv.innerHTML = html.replace('<table', '<table class="table table-bordered table-striped table-condensed"');
+        }
+
+        openPreviewModal(elements, title, activeMode) {
+            const { embed, excelDiv, imagePreview, modalLabel } = elements;
+            modalLabel.innerText = title;
+            embed.style.display = activeMode === 'pdf' ? 'block' : 'none';
+            excelDiv.style.display = activeMode === 'excel' ? 'block' : 'none';
+            imagePreview.style.display = activeMode === 'image' ? 'block' : 'none';
+
+            this.updatePreviewSize();
+            $('#pdfPreviewModal')
+                .off('hidden.bs.modal.docPreview')
+                .on('hidden.bs.modal.docPreview', () => {
+                    embed.removeAttribute('src');
+                    imagePreview.removeAttribute('src');
+                    this.revokePreviewBlobUrl();
+                })
+                .modal('show');
+            setTimeout(() => this.initResizable(), 100);
+        }
+
         previewDocument(index) {
-            const fileUrl = this.data.DocumentsFile[index];
-            const fileName = this.data.DocumentsFileName[index];
+            const rawFileUrl = this.data.DocumentsFile && this.data.DocumentsFile[index];
+            const fileName = (this.data.DocumentsFileName && this.data.DocumentsFileName[index]) || '';
             const embed = document.getElementById('pdfEmbed');
             const excelDiv = document.getElementById('excelTable');
             const imagePreview = document.getElementById('imagePreview');
             const modalLabel = document.getElementById('previewModalLabel');
-    
+
+            if (!embed || !excelDiv || !imagePreview || !modalLabel) {
+                return;
+            }
+
+            if (!rawFileUrl || (typeof rawFileUrl === 'string' && rawFileUrl.trim() === '')) {
+                embed.removeAttribute('src');
+                imagePreview.removeAttribute('src');
+                this.revokePreviewBlobUrl();
+                alert('File dokumen tidak tersedia untuk preview.');
+                return;
+            }
+
+            const elements = { embed, excelDiv, imagePreview, modalLabel };
             const lowerFileName = fileName.toLowerCase();
+
             if (lowerFileName.endsWith('.pdf')) {
-                modalLabel.innerText = 'Preview PDF';
-                embed.src = fileUrl;
-                embed.style.display = 'block';
-                excelDiv.style.display = 'none';
-                imagePreview.style.display = 'none';
-                this.updatePreviewSize();
-                $('#pdfPreviewModal').modal('show');
-                setTimeout(() => this.initResizable(), 100);
-            } else if (lowerFileName.endsWith('.xlsx') || lowerFileName.endsWith('.xls')) {
-                modalLabel.innerText = 'Preview Excel';
-                embed.style.display = 'none';
-                excelDiv.style.display = 'block';
-                imagePreview.style.display = 'none';
+                const previewUrl = this.buildPreviewUrl(rawFileUrl, 'application/pdf');
+                if (!previewUrl) {
+                    alert('Format file PDF tidak valid.');
+                    return;
+                }
+                imagePreview.removeAttribute('src');
+                embed.src = previewUrl;
+                this.openPreviewModal(elements, 'Preview PDF', 'pdf');
+                return;
+            }
+
+            if (lowerFileName.endsWith('.xlsx') || lowerFileName.endsWith('.xls')) {
+                embed.removeAttribute('src');
+                imagePreview.removeAttribute('src');
+                this.revokePreviewBlobUrl();
                 excelDiv.innerHTML = '<p>Loading Excel...</p>';
-    
-                fetch(fileUrl)
+                this.openPreviewModal(elements, 'Preview Excel', 'excel');
+
+                const decoded = this.decodeDataUrl(rawFileUrl);
+                if (decoded) {
+                    try {
+                        this.renderExcelFromBuffer(decoded.bytes, excelDiv);
+                    } catch (error) {
+                        excelDiv.innerHTML = '<p>Error loading Excel file.</p>';
+                        console.error('Error parsing Excel:', error);
+                    }
+                    return;
+                }
+
+                fetch(rawFileUrl)
                     .then(response => response.arrayBuffer())
-                    .then(data => {
-                        const workbook = XLSX.read(data, { type: 'array' });
-                        const sheetName = workbook.SheetNames[0];
-                        const worksheet = workbook.Sheets[sheetName];
-                        const html = XLSX.utils.sheet_to_html(worksheet);
-                        excelDiv.innerHTML = html;
-                    })
+                    .then(data => this.renderExcelFromBuffer(data, excelDiv))
                     .catch(error => {
                         excelDiv.innerHTML = '<p>Error loading Excel file.</p>';
                         console.error('Error fetching or parsing Excel:', error);
                     });
-    
-                this.updatePreviewSize();
-                $('#pdfPreviewModal').modal('show');
-                setTimeout(() => this.initResizable(), 100);
-            } else if (lowerFileName.endsWith('.jpg') || lowerFileName.endsWith('.jpeg') || lowerFileName.endsWith('.png') || lowerFileName.endsWith('.gif') || lowerFileName.endsWith('.bmp') || lowerFileName.endsWith('.webp')) {
-                modalLabel.innerText = 'Preview Image';
-                imagePreview.src = fileUrl;
-                embed.style.display = 'none';
-                excelDiv.style.display = 'none';
-                imagePreview.style.display = 'block';
-                this.updatePreviewSize();
-                $('#pdfPreviewModal').modal('show');
-                setTimeout(() => this.initResizable(), 100);
-            } else {
-                alert('Preview not supported for this file type.');
+                return;
             }
+
+            const imageMimeByExt = {
+                '.jpg': 'image/jpeg',
+                '.jpeg': 'image/jpeg',
+                '.png': 'image/png',
+                '.gif': 'image/gif',
+                '.bmp': 'image/bmp',
+                '.webp': 'image/webp'
+            };
+            const matchedExt = Object.keys(imageMimeByExt).find(ext => lowerFileName.endsWith(ext));
+            if (matchedExt) {
+                const previewUrl = this.buildPreviewUrl(rawFileUrl, imageMimeByExt[matchedExt]);
+                if (!previewUrl) {
+                    alert('Format file gambar tidak valid.');
+                    return;
+                }
+                embed.removeAttribute('src');
+                imagePreview.src = previewUrl;
+                this.openPreviewModal(elements, 'Preview Image', 'image');
+                return;
+            }
+
+            alert('Preview not supported for this file type.');
         }
 }
