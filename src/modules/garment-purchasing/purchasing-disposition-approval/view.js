@@ -153,6 +153,7 @@ export class View {
 
             this.service.replace(this.data.Id, approvalData)
                 .then(result => {
+                    alert("Disposition berhasil di-approve.");
                     this.list();
                 })
                 .catch(e => {
