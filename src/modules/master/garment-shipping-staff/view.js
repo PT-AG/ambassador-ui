@@ -5,25 +5,25 @@ import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 
 @inject(Router, Service)
-export class View {
+export class View {  
+      
+    editCallback = null;
+    deleteCallback = null;
+
     constructor(router, service) {
         this.router = router;
         this.service = service;
     }
 
     async activate(params) {
-      const decoded = Base64Helper.decode(params.id);
-      var id = decoded;
+        const decoded = Base64Helper.decode(params.id);
+        var id = decoded;
 
-      this.data = await this.service.getById(id);
-    }
-
-    list() {
-        this.router.navigateToRoute('list');
+        this.data = await this.service.getById(id);
     }
 
     cancelCallback(event) {
-        this.list();
+        this.router.navigateToRoute('list');
     }
 
     editCallback(event) {

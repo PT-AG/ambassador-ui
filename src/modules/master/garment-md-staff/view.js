@@ -6,6 +6,10 @@ import { Base64Helper } from '../../../utils/base-64-coded-helper';
 
 @inject(Router, Service)
 export class View {
+
+    editCallback = null;
+    deleteCallback = null;
+
     constructor(router, service) {
         this.router = router;
         this.service = service;

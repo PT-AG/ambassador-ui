@@ -118,6 +118,10 @@ export class DataForm {
         return `${data.Name || data.name}`
     }
 
+    mdStaffView = (data) => {
+        return `${data.Name || data.name}`
+    }
+
     async bind(context) {
         this.context = context;
         this.data = context.data;
@@ -127,6 +131,7 @@ export class DataForm {
         this.delete = this.context.deleteCallback;
         this.edit = this.context.editCallback;
         this.Items = this.data.items;
+        
         this.Options = {
             isCreate: this.context.isCreate,
             isView: this.context.isView,
@@ -136,7 +141,6 @@ export class DataForm {
         }
 
         this.isEdit = this.context.isEdit;
-
         this.data.items = this.Items;
         if (this.isEdit) {
             let itemPromises = this.data.items.map((item) => {
@@ -182,8 +186,8 @@ export class DataForm {
             let items = await Promise.all(itemPromises);
             this.data.items = items;
         }
-        this.data.sayUnit = this.data.sayUnit || "CARTON";
 
+        this.data.sayUnit = this.data.sayUnit || "CARTON";
         this.shippingMarkImageSrc = this.data.shippingMarkImageFile || this.noImage;
         this.sideMarkImageSrc = this.data.sideMarkImageFile || this.noImage;
         this.remarkImageSrc = this.data.remarkImageFile || this.noImage;
