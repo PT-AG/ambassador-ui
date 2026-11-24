@@ -14,8 +14,8 @@
         </div>
 
         <div class="col-md-4">
-            <au-textbox if.bind="data.invoiceNo" label="InvoiceNo" value.bind="data.invoiceNo" error.bind="error.InvoiceNo" read-only.bind="true"
-                options.bind="length4">
+            <au-textbox if.bind="data.invoiceNo" label="InvoiceNo" value.bind="data.invoiceNo"
+                error.bind="error.InvoiceNo" read-only.bind="true" options.bind="length4">
             </au-textbox>
 
             <au-dropdown label="Jenis Invoice" value.bind="invoiceType" error.bind="error.InvoiceType"
@@ -56,6 +56,10 @@
                 read-only.bind="readOnly" options.bind="length4">
             </au-multiline>
 
+            <au-multiline label="NPWP" value.bind="data.npwp" error.bind="error.NPWP" read-only.bind="readOnly"
+                options.bind="length">
+            </au-multiline>
+
             <au-multiline label="Alamat Consignee" value.bind="data.consigneeAddress"
                 error.bind="error.ConsigneeAddress" read-only.bind="readOnly" options.bind="length4">
             </au-multiline>
@@ -74,43 +78,46 @@
         </div>
 
         <div class="col-sm-4">
-            <au-dropdown label="Payment Term" value.bind="data.paymentTerm" error.bind="error.PaymentTerm" read-only.bind="readOnly"
-                items.bind="PaymentTermOptions" change.delegate="paymentTermChanged()" options.bind="length4">
+            <au-dropdown label="Payment Term" value.bind="data.paymentTerm" error.bind="error.PaymentTerm"
+                read-only.bind="readOnly" items.bind="PaymentTermOptions" change.delegate="paymentTermChanged()"
+                options.bind="length4">
             </au-dropdown>
 
             <au-autocomplete label="LC No" value.bind="selectedLC" error.bind="error.LCNo" loader.bind="lcLoader"
                 text="documentCreditNo" read-only.bind="readOnly" show.bind="data.paymentTerm == 'LC'"
                 options.bind="length4">
             </au-autocomplete>
-            
+
             <au-datepicker label="Tgl. LC" value.bind="data.lcDate" error.bind="error.LCDate" read-only.bind="readOnly"
                 show.bind="data.paymentTerm == 'LC'" options.bind="length4">
             </au-datepicker>
-            
-            <au-multiline label="Issued By" value.bind="data.issuedBy" error.bind="error.IssuedBy" read-only.bind="readOnly"
-                show.bind="data.paymentTerm == 'LC'" options.bind="length4">
+
+            <au-multiline label="Issued By" value.bind="data.issuedBy" error.bind="error.IssuedBy"
+                read-only.bind="readOnly" show.bind="data.paymentTerm == 'LC'" options.bind="length4">
             </au-multiline>
 
-            <au-textbox label="Shipping Per" value.bind="data.shippingPer" error.bind="error.ShippingPer"
-                read-only.bind="readOnly" options.bind="length4">
+            <au-textbox if.bind="data.packingListType == 'EXPORT'" label="Shipping Per" value.bind="data.shippingPer"
+                error.bind="error.ShippingPer" read-only.bind="readOnly" options.bind="length4">
             </au-textbox>
 
-            <au-datepicker label="SailingDate" value.bind="data.sailingDate" error.bind="error.SailingDate"
-                read-only.bind="readOnly " options.bind="length4">
+            <au-datepicker if.bind="data.packingListType == 'EXPORT'" label="SailingDate" value.bind="data.sailingDate"
+                error.bind="error.SailingDate" read-only.bind="readOnly " options.bind="length4">
             </au-datepicker>
 
-            <au-textbox label="Confirmation Of Order No" value.bind="data.confirmationOfOrderNo"
-                error.bind="error.ConfirmationOfOrderNo" read-only.bind="readOnly" options.bind="length4">
-            </au-textbox>
-
-            <au-autocomplete if.bind="data.packingListType == 'EXPORT'" label="Jenis Fabric" value.bind="fabricType" error.bind="error.FabricType"
-                read-only.bind="readOnly" loader.bind="fabricTypeLoader" text.bind="fabricTypeView"
-                placeholder="Cari Jenis Fabric" options.bind="length4" view-model.ref="fabricTypeViewModel">
-            </au-autocomplete>
-
-            <au-textbox if.bind="data.packingListType == 'LOKAL'" label="Jenis Fabric" value.bind="fabricType" error.bind="error.FabricType"
+            <au-textbox if.bind="data.packingListType == 'EXPORT'" label="Confirmation Of Order No"
+                value.bind="data.confirmationOfOrderNo" error.bind="error.ConfirmationOfOrderNo"
                 read-only.bind="readOnly" options.bind="length4">
             </au-textbox>
+
+            <au-autocomplete if.bind="data.packingListType == 'EXPORT'" label="Jenis Fabric" value.bind="fabricType"
+                error.bind="error.FabricType" read-only.bind="readOnly" loader.bind="fabricTypeLoader"
+                text.bind="fabricTypeView" placeholder="Cari Jenis Fabric" options.bind="length4"
+                view-model.ref="fabricTypeViewModel">
+            </au-autocomplete>
+
+            <!-- <au-textbox if.bind="data.packingListType == 'LOKAL'" label="Jenis Fabric" value.bind="fabricType" error.bind="error.FabricType"
+                read-only.bind="readOnly" options.bind="length4">
+            </au-textbox> -->
 
             <au-autocomplete label="Bank Detail" value.bind="bankAccount" error.bind="error.BankAccount"
                 read-only.bind="readOnly" loader.bind="accountBankLoader" text.bind="accountBankView"
@@ -122,20 +129,20 @@
             </au-checkbox>
 
             <au-autocomplete value.bind="vatTax" error.bind="error.Vat" label="Ppn" show.bind="data.isUseVat"
-                loader.bind="vatTaxLoader" text.bind="vatTaxView" placeholder="cari ppn" key="rate" read-only.bind="readOnly"
-                post-fix="%" options.bind="length4">
+                loader.bind="vatTaxLoader" text.bind="vatTaxView" placeholder="cari ppn" key="rate"
+                read-only.bind="readOnly" post-fix="%" options.bind="length4">
             </au-autocomplete>
 
             <au-numeric label="Tempo Pembayaran (HARI)" value.bind="data.paymentDue" error.bind="error.PaymentDue"
                 read-only.bind="readOnly " options.bind="length4" format="0">
             </au-numeric>
 
-            <au-textbox label="No PEB" value.bind="data.pebNo" error.bind="error.pEBNo" read-only.bind="readOnly "
-                options.bind="length4">
+            <au-textbox if.bind="data.packingListType == 'EXPORT'" label="No PEB" value.bind="data.pebNo"
+                error.bind="error.pEBNo" read-only.bind="readOnly " options.bind="length4">
             </au-textbox>
 
-            <au-datepicker label="Tgl PEB" value.bind="data.pebDate" error.bind="error.pEBDate"
-                read-only.bind="readOnly " options.bind="length4">
+            <au-datepicker if.bind="data.packingListType == 'EXPORT'" label="Tgl PEB" value.bind="data.pebDate"
+                error.bind="error.pEBDate" read-only.bind="readOnly " options.bind="length4">
             </au-datepicker>
 
             <au-textbox label="Authorized By" value.bind="data.userAuthorizedName" error.bind="error.UserAuthorizedName"
@@ -144,36 +151,36 @@
         </div>
 
         <div class="col-sm-3">
-            <au-textbox label="No NPE" value.bind="data.npeNo" error.bind="error.npeNo" read-only.bind="readOnly "
-                options.bind="length4">
+            <au-textbox if.bind="data.packingListType == 'EXPORT'" label="No NPE" value.bind="data.npeNo"
+                error.bind="error.npeNo" read-only.bind="readOnly " options.bind="length4">
             </au-textbox>
 
-            <au-datepicker label="Tgl NPE" value.bind="data.npeDate" error.bind="error.npeDate"
-                read-only.bind="readOnly" options.bind="length4">
+            <au-datepicker if.bind="data.packingListType == 'EXPORT'" label="Tgl NPE" value.bind="data.npeDate"
+                error.bind="error.npeDate" read-only.bind="readOnly" options.bind="length4">
             </au-datepicker>
 
-            <au-textbox label="No B/L" value.bind="data.bl" error.bind="error.bl" read-only.bind="readOnly"
-                options.bind="length4">
+            <au-textbox if.bind="data.packingListType == 'EXPORT'" label="No B/L" value.bind="data.bl"
+                error.bind="error.bl" read-only.bind="readOnly" options.bind="length4">
             </au-textbox>
 
-            <au-datepicker label="Tgl B/L" value.bind="data.blDate" error.bind="error.blDate" read-only.bind="readOnly"
-                options.bind="length4">
+            <au-datepicker if.bind="data.packingListType == 'EXPORT'" label="Tgl B/L" value.bind="data.blDate"
+                error.bind="error.blDate" read-only.bind="readOnly" options.bind="length4">
             </au-datepicker>
 
-            <au-textbox label="No CO" value.bind="data.co" error.bind="error.co" read-only.bind="readOnly "
-                options.bind="length4">
+            <au-textbox if.bind="data.packingListType == 'EXPORT'" label="No CO" value.bind="data.co"
+                error.bind="error.co" read-only.bind="readOnly " options.bind="length4">
             </au-textbox>
 
-            <au-datepicker label="Tgl CO" value.bind="data.coDate" error.bind="error.coDate" read-only.bind="readOnly"
-                options.bind="length4">
+            <au-datepicker if.bind="data.packingListType == 'EXPORT'" label="Tgl CO" value.bind="data.coDate"
+                error.bind="error.coDate" read-only.bind="readOnly" options.bind="length4">
             </au-datepicker>
 
-            <au-textbox label="No COTP" value.bind="data.cotp" error.bind="error.cotp" read-only.bind="readOnly"
-                options.bind="length4">
+            <au-textbox if.bind="data.packingListType == 'EXPORT'" label="No COTP" value.bind="data.cotp"
+                error.bind="error.cotp" read-only.bind="readOnly" options.bind="length4">
             </au-textbox>
 
-            <au-datepicker label="Tgl COTP" value.bind="data.cotpDate" error.bind="error.cotpDate"
-                read-only.bind="readOnly" options.bind="length4">
+            <au-datepicker if.bind="data.packingListType == 'EXPORT'" label="Tgl COTP" value.bind="data.cotpDate"
+                error.bind="error.cotpDate" read-only.bind="readOnly" options.bind="length4">
             </au-datepicker>
 
             <au-multiline label="Description" value.bind="data.description" error.bind="error.description"
@@ -188,14 +195,14 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group has-error">
-                    <p if.bind="error.ItemsByPackingInvoiceCount" class="help-block text-center">${error.ItemsByPackingInvoiceCount}</p>
+                    <p if.bind="error.ItemsByPackingInvoiceCount" class="help-block text-center">
+                        ${error.ItemsByPackingInvoiceCount}</p>
                 </div>
                 <div style="overflow-x: auto; overflow-y: auto; width: 100%;">
                     <div style="min-width: max-content; width: 100%;">
                         <au-collection view-model.ref="itemsCollection" items.bind="data.itemsByPackingInvoice"
                             errors.bind="error.ItemsByPackingInvoice" columns.bind="packinglistColumnsPartial.columns"
-                            options.bind="options" if.bind="buyer && section && shippingStaff"
-                            responsive.bind="true"
+                            options.bind="options" if.bind="buyer && section && shippingStaff" responsive.bind="true"
                             item-template="modules/garment-shipping/invoice-merged/template/garment-shipping-partial-invoice-item">
                         </au-collection>
                     </div>

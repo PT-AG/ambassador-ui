@@ -343,6 +343,7 @@ export class DataForm {
                 if (newValue) {
                     var buyerBrand = await this.coreService.getBuyerById(newValue.Id);
                     if (buyerBrand) {
+                        this.data.npwp = (buyerBrand.NPWP || "");
                         this.data.consigneeAddress = buyerBrand.Address;
                     }
                 }
@@ -364,7 +365,7 @@ export class DataForm {
         var selectedfabric = newValue;
         if (selectedfabric && this.data.packingListType == "LOKAL") {
             this.data.fabricTypeId = 0;
-            this.data.fabricType = selectedfabric;
+            this.data.fabricType = (selectedfabric || "");
         } else if (selectedfabric && this.data.packingListType == "EXPORT") {
             this.data.fabricTypeId = selectedfabric.Id;
             this.data.fabricType = selectedfabric.Name;
