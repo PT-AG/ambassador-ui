@@ -240,16 +240,16 @@ export class DataForm {
 
     get vatTaxLoader() {
         return VatTaxLoader;
-    }
+    };
 
     vatTaxView = (vatTax) => {
         var rate = vatTax.rate ? vatTax.rate : vatTax.Rate;
         return `${rate}`
-    }
+    };
 
     get lcLoader() {
         return LCLoader;
-    }
+    };
 
     async invoiceTypeChanged(newValue, oldValue) {
         if (this.data.id) return;
@@ -259,7 +259,7 @@ export class DataForm {
         this.data.invoiceType = this.invoiceType;
 
         this.loadPackingList();
-    }
+    };
     
     async sectionChanged(newValue, oldValue) {
         if (this.data.id) return;
@@ -313,6 +313,7 @@ export class DataForm {
         if (!newValue) {
             this.data.buyerAgent = null;
             this.data.consigneeAddress = null;
+            this.data.npwp = null;
             this.buyer = null;
         } else {
             // Cegah loop: hanya update jika value benar-benar berbeda
@@ -332,6 +333,7 @@ export class DataForm {
             if (newValue != this.data.buyerAgent) {
                 this.data.buyerAgent = null;
                 this.data.consigneeAddress = null;
+                this.data.npwp = null;
                 this.buyer = null;
 
                 if (this.data.items && this.data.items.length > 0) {
@@ -348,6 +350,7 @@ export class DataForm {
                 if (newValue) {
                     var buyerBrand = await this.coreService.getBuyerById(newValue.Id);
                     if (buyerBrand) {
+                        this.data.npwp = (buyerBrand.NPWP || "");
                         this.data.consigneeAddress = buyerBrand.Address;
                     }
                 }
@@ -369,7 +372,7 @@ export class DataForm {
         var selectedfabric = newValue;
         if (selectedfabric && this.data.packingListType == "LOKAL") {
             this.data.fabricTypeId = 0;
-            this.data.fabricType = selectedfabric;
+            this.data.fabricType = (selectedfabric || "");
         } else if (selectedfabric && this.data.packingListType == "EXPORT") {
             this.data.fabricTypeId = selectedfabric.Id;
             this.data.fabricType = selectedfabric.Name;
