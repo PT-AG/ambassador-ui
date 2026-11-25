@@ -1,4 +1,5 @@
 import {inject, bindable, computedFrom} from 'aurelia-framework'
+import moment from 'moment';
 var UnitLoader = require('../../../loader/unit-loader');
 var BudgetLoader = require('../../../loader/budget-loader');
 var CategoryLoader = require('../../../loader/category-loader');
@@ -38,6 +39,62 @@ export class DataForm {
         if (this.readOnly) {
             this.headerTemplate = "modules/purchasing/purchase-request/template/purchase-request-item-header";
         }
+    }
+
+    _formatApprovalDate(value) {
+        return value ? moment(value).format("DD MMM YYYY HH:mm") : "-";
+    }
+
+    @computedFrom('data.isApprovedStaff', 'data.approvedStaffBy', 'data.approvedStaffDate',
+                  'data.isApprovedManager1', 'data.approvedManager1By', 'data.approvedManager1Date',
+                  'data.isApprovedManager2', 'data.approvedManager2By', 'data.approvedManager2Date',
+                  'data.isRejected', 'data.rejectedBy', 'data.rejectedDate', 'data.reasonRejected')
+    get approvalSteps() {
+        const d = this.data || {};
+        const steps = [
+            {
+                label: "Approval Staff",
+                statusText: d.isApprovedStaff ? "SUDAH" : "BELUM",
+                badgeClass: d.isApprovedStaff ? "label-success" : "label-default",
+                by: d.approvedStaffBy || "-",
+                date: this._formatApprovalDate(d.approvedStaffDate),
+                note: ""
+            },
+            {
+                label: "Approval Manager 1",
+                statusText: d.isApprovedManager1 ? "SUDAH" : "BELUM",
+                badgeClass: d.isApprovedManager1 ? "label-success" : "label-default",
+                by: d.approvedManager1By || "-",
+                date: this._formatApprovalDate(d.approvedManager1Date),
+                note: ""
+            },
+            {
+                label: "Approval Manager 2",
+                statusText: d.isApprovedManager2 ? "SUDAH" : "BELUM",
+                badgeClass: d.isApprovedManager2 ? "label-success" : "label-default",
+                by: d.approvedManager2By || "-",
+                date: this._formatApprovalDate(d.approvedManager2Date),
+                note: ""
+            }
+        ];
+
+        if (d.isRejected) {
+            steps.push({
+                label: "Penolakan (Reject)",
+                statusText: "DITOLAK",
+                badgeClass: "label-danger",
+                by: d.rejectedBy || "-",
+                date: this._formatApprovalDate(d.rejectedDate),
+                note: d.reasonRejected || "-"
+            });
+        }
+
+        return steps;
+    }
+
+    @computedFrom('data.rejectedDate')
+    get formattedRejectedDate() {
+        return this.data && this.data.rejectedDate ? this._formatApprovalDate(this.data.rejectedDate) : "-";
     }
 
     itemsColumns = [

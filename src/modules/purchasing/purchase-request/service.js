@@ -4,6 +4,7 @@ import { RestService } from '../../../utils/rest-service';
 
 
 const serviceUri = 'purchase-requests/by-user';
+const allServiceUri = 'purchase-requests';
 
 export class Service extends RestService {
 
@@ -11,13 +12,17 @@ export class Service extends RestService {
         super(http, aggregator, config, "purchasing-azure");
     }
 
-    search(info) {
-        var endpoint = `${serviceUri}`;
+    _getResource(byUser = true) {
+        return byUser === false ? allServiceUri : serviceUri;
+    }
+
+    search(info, byUser = true) {
+        var endpoint = `${this._getResource(byUser)}`;
         return super.list(endpoint, info);
     }
 
-    getById(id) {
-        var endpoint = `${serviceUri}/${id}`;
+    getById(id, byUser = true) {
+        var endpoint = `${this._getResource(byUser)}/${id}`;
         return super.get(endpoint);
     }
 
@@ -37,16 +42,27 @@ export class Service extends RestService {
     }
 
     post(data) {
-        var endpoint = 'purchase-requests/post';
+        var endpoint = `${allServiceUri}/post`;
         return super.post(endpoint, data);
     }
 
-    getPdfById(id) {
-        var endpoint = `${serviceUri}/${id}`;
+    getPdfById(id, byUser = true) {
+        var endpoint = `${this._getResource(byUser)}/${id}`;
         return super.getPdf(endpoint);
-    } 
+    }
+
     unpost(id) {
-        var endpoint = `purchase-requests/unpost/${id}`;
+        var endpoint = `${allServiceUri}/unpost/${id}`;
         return super.put(endpoint);
+    }
+
+    approve(id, level) {
+        var endpoint = `${allServiceUri}/approve-${level}/${id}`;
+        return super.post(endpoint, {});
+    }
+
+    reject(id, reason) {
+        var endpoint = `${allServiceUri}/rejected/${id}`;
+        return super.put(endpoint, { Reason: reason });
     }
 } 
