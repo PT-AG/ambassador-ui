@@ -29,7 +29,7 @@
         </au-multiline>
 
         <au-autocomplete value.bind="ApprovedStaffBy" error.bind="error.ApprovedStaffBy" label="Nama Staff" loader.bind="purchasingSectionLoader"
-            text="Name" read-only.bind="readOnly || isEdit" placeholder="cari nama staff" options.bind="auInputOptions">
+            text="Name" read-only.bind="readOnly" placeholder="cari nama staff" options.bind="auInputOptions">
         </au-autocomplete>
 
         <div class="row" if.bind="data.lateReason">
