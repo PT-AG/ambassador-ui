@@ -17,21 +17,25 @@ export class View {
         this.service = service;
     }
 
-    async activate(params) {
+    async activate(params, routeConfig, navigationInstruction) {
         var locale = 'id-ID';
         var moment = require('moment');
         moment.locale(locale);
+        const instruction = navigationInstruction && navigationInstruction.getAllInstructions()[0];
+        const parentInstruction = instruction && instruction.parentInstruction;
+        const settings = (parentInstruction && parentInstruction.config && parentInstruction.config.settings) || {};
+        this.byUser = settings.byUser !== false;
+
         const decoded = Base64Helper.decode(params.id);
         var id = decoded;
         this.prId = id;
-        this.data = await this.service.getById(id);
-        // this.data.date = moment(this.data.date).format("DD MMMM YYYY");
-        // this.data.expectedDeliveryDate = moment(this.data.expectedDeliveryDate).format("DD MMMM YYYY");
-        if (!this.data.isPosted) {
-            this.hasEdit = true;
-            this.hasDelete = true;
-        } else {
-            if (!this.data.isUsed) {
+        this.data = await this.service.getById(id, this.byUser);
+
+        if (this.byUser) {
+            if (!this.data.isPosted) {
+                this.hasEdit = true;
+                this.hasDelete = true;
+            } else if (!this.data.isUsed && !this.data.isApprovedStaff) {
                 this.hasUnpost = true;
             }
         }

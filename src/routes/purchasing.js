@@ -11,7 +11,23 @@ module.exports = [
             subGroup: "transaksi",
             // permission: { "*": 1},
             permission: { "E1": 1},
-            iconClass: 'fa fa-dashboard'
+            iconClass: 'fa fa-dashboard',
+            byUser: true
+        }
+    },
+    {
+        route: 'pr/all-user',
+        name: 'purchase-request-all-user',
+        moduleId: './modules/purchasing/purchase-request/index',
+        nav: true,
+        title: 'Purchase Request (All User)',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "transaksi",
+            permission: { "E1": 1, "E12": 1 },
+            iconClass: 'fa fa-dashboard',
+            byUser: false
         }
     },
     {
@@ -691,6 +707,51 @@ module.exports = [
             subGroup: "approval",
             permission: { "E41": 1 },
             iconClass: 'fa fa-dashboard'
+        }
+    },
+    {
+        route: '/purchasing/approve-pr/staff',
+        name: 'approve-purchase-request-staff',
+        moduleId: './modules/purchasing/purchase-request-approval/index',
+        nav: true,
+        title: 'Approval Purchase Request Staff',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "approval",
+            permission: { "E40": 1 },
+            iconClass: 'fa fa-dashboard',
+            type: "staff"
+        }
+    },
+    {
+        route: '/purchasing/approve-pr/manager1',
+        name: 'approve-purchase-request-manager1',
+        moduleId: './modules/purchasing/purchase-request-approval/index',
+        nav: true,
+        title: 'Approval Purchase Request Manager 1',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "approval",
+            permission: { "E40": 1 },
+            iconClass: 'fa fa-dashboard',
+            type: "manager1"
+        }
+    },
+    {
+        route: '/purchasing/approve-pr/manager2',
+        name: 'approve-purchase-request-manager2',
+        moduleId: './modules/purchasing/purchase-request-approval/index',
+        nav: true,
+        title: 'Approval Purchase Request Manager 2',
+        auth: true,
+        settings: {
+            group: "purchasing",
+            subGroup: "approval",
+            permission: { "E41": 1 },
+            iconClass: 'fa fa-dashboard',
+            type: "manager2"
         }
     },
 ]

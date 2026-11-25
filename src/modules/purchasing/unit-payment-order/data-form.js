@@ -21,6 +21,7 @@ export class DataForm {
     @bindable selectedVatTax;
     @bindable selectedCategory;
     @bindable isImport = false;
+    @bindable ApprovedStaffBy;
 
     IncomeTaxByOptions = ["", "Supplier", "AG"];
     termPaymentOptions = ['CASH', 'KREDIT', 'DP (DOWN PAYMENT) + BP (BALANCE PAYMENT)', 'DP (DOWN PAYMENT) + TERMIN 1 + BP (BALANCE PAYMENT)', 'RETENSI'];
@@ -65,6 +66,13 @@ export class DataForm {
         this.data.DocumentsFile = this.data.DocumentsFile || [];
         this.data.DocumentsFileName = this.data.DocumentsFileName || [];
         this.documentsPathTemp = [].concat(this.data.DocumentsPath || []);
+        if (this.data.ApprovedStaffBy) {
+            this.ApprovedStaffBy = {
+                Name: this.data.ApprovedStaffBy
+            };
+        } else {
+            this.ApprovedStaffBy = null;
+        }
         //console.log(this.context);
     }
 
@@ -276,6 +284,15 @@ export class DataForm {
 
     get purchasingSectionLoader() {
         return PurchasingSectionLoader;
+    }
+
+    ApprovedStaffByChanged(newValue, oldValue) {
+        var selectedStaff = newValue;
+        if (selectedStaff && selectedStaff.Name) {
+            this.data.ApprovedStaffBy = selectedStaff.Name;
+        } else {
+            this.data.ApprovedStaffBy = null;
+        }
     }
 
     // Document handling

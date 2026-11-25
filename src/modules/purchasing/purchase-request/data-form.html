@@ -9,7 +9,22 @@
             <button class="btn btn-success" click.delegate="context.save($event)" if.one-way="context.hasSave">Simpan</button>
             <button class="btn btn-danger" click.delegate="context.delete($event)" if.one-way="context.hasDelete">Hapus</button>
             <button class="btn btn-primary" click.delegate="context.unpost($event)" if.one-way="context.hasUnpost">Unpost</button>
+            <button class="btn btn-success" click.delegate="context.approve($event)" if.one-way="context.hasApprove">Approve</button>
+            <button class="btn btn-danger" click.delegate="context.reject($event)" if.one-way="context.hasReject">Reject</button>
         </div>
+
+        <div class="alert alert-danger" if.bind="readOnly && data.isRejected" style="margin-bottom: 15px;">
+            <strong>Ditolak</strong> oleh <strong>${data.rejectedBy || '-'}</strong> (${formattedRejectedDate})
+            &mdash; Alasan: ${data.reasonRejected || '-'}
+        </div>
+
+        <au-textbox 
+            label="Dibuat Oleh" 
+            value.bind="data.CreatedBy" 
+            read-only.bind="true"
+            if.bind="readOnly"
+            options.bind="controlOptions">
+        </au-textbox>
 
         <au-textbox 
             label="No. PR" 
@@ -94,6 +109,33 @@
             error.bind="error.itemscount"
             read-only="true">
         </au-textbox>
+
+        <div if.bind="readOnly" style="margin-top: 15px; margin-bottom: 15px;">
+            <label style="font-weight: bold;">Riwayat Approval</label>
+            <table class="table table-bordered table-condensed">
+                <thead>
+                    <tr>
+                        <th style="width: 30%;">Tahap Approval</th>
+                        <th style="width: 20%; text-align: center;">Status</th>
+                        <th style="width: 25%;">Approver</th>
+                        <th style="width: 25%; text-align: center;">Tanggal Approval</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr repeat.for="step of approvalSteps">
+                        <td>
+                            ${step.label}
+                            <div if.bind="step.note" style="font-size: 12px; color: #a94442; margin-top: 2px;">Alasan: ${step.note}</div>
+                        </td>
+                        <td style="text-align: center;">
+                            <span class="label ${step.badgeClass}">${step.statusText}</span>
+                        </td>
+                        <td>${step.by}</td>
+                        <td style="text-align: center;">${step.date}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
         <au-collection 
             items.bind="data.items" 
