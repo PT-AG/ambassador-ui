@@ -110,13 +110,13 @@ export class Create {
 
     saveData() {
         this.data.inDate = moment().startOf('day').toDate();
-        for(var item of this.data.items)
+        for (var item of (this.data.items || []))
         {
-            for(var detail of item.details)
+            for (var detail of (item.details || []))
             {
-                for(var doItem of detail.deliveryOrder.items)
+                for (var doItem of ((detail.deliveryOrder && detail.deliveryOrder.items) || []))
                 {
-                    doItem.fulfillments=[];
+                    doItem.fulfillments = [];
                 }
             }
         }

@@ -63,10 +63,12 @@ export class DataForm {
         this.data.DocumentsFile = this.data.DocumentsFile || [];
         this.data.DocumentsFileName = this.data.DocumentsFileName || [];
         this.documentsPathTemp = [].concat(this.data.DocumentsPath);
-        if(this.data.ApprovedStaffBy){
+        if (this.data && this.data.ApprovedStaffBy) {
             this.ApprovedStaffBy = {
                 Name: this.data.ApprovedStaffBy
             };
+        } else {
+            this.ApprovedStaffBy = null;
         }
     }
 
@@ -130,8 +132,9 @@ export class DataForm {
 
     ApprovedStaffByChanged(newValue, oldValue) {
         var selectedStaff = newValue;
-        if (selectedStaff) {
-            this.data.ApprovedStaffBy = selectedStaff.Name;
+        var staffName = selectedStaff && (selectedStaff.Name || selectedStaff.name);
+        if (staffName) {
+            this.data.ApprovedStaffBy = staffName;
         }
         else {
             this.data.ApprovedStaffBy = null;

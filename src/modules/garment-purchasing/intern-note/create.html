@@ -1,6 +1,6 @@
 <template>
     <require from="./data-form"></require>
-    <data-form title="Tambah Nota Intern Garment"></data-form>
+    <data-form title="Tambah Nota Intern Garment" data.bind="data" error.bind="error"></data-form>
 
     <div class="modal-backdrop fade in" if.bind="showLateReasonDialog" style="display: block;"></div>
     <div class="modal fade in" tabindex="-1" role="dialog" if.bind="showLateReasonDialog" style="display: block;">
