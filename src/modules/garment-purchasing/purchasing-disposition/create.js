@@ -24,7 +24,7 @@ export class Create {
     }
     
     async bind() {
-        this.data = { items: [] };
+        this.data = { items: [], Items: [] };
         this.error = {};
 
         this.username = null;
@@ -32,18 +32,21 @@ export class Create {
             const me = this.authService.getTokenPayload();
             this.username = me.username;
         }
-        var filterS = {
-            Name: this.data.ApprovedStaffBy
-        };
+        if (this.data.ApprovedStaffBy) {
+            var filterS = {
+                Name: this.data.ApprovedStaffBy
+            };
 
-        var argS = {
-            filter: JSON.stringify(filterS)
-        };
+            var argS = {
+                filter: JSON.stringify(filterS)
+            };
 
-        var section= await this.serviceCore.searchSection(argS);
-
-        this.data.ApprovedKasieBy=section.data[0].Manager1;
-        this.data.ApprovedKabagBy=section.data[0].Manager2;
+            var section = await this.serviceCore.searchSection(argS);
+            if (section && section.data && section.data.length > 0) {
+                this.data.ApprovedKasieBy = section.data[0].Manager1;
+                this.data.ApprovedKabagBy = section.data[0].Manager2;
+            }
+        }
     }
 
     cancel(event) {
