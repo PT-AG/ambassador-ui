@@ -73,15 +73,17 @@ export class DataForm {
         
         this.data.DocumentsFile = this.data.DocumentsFile || [];
         this.data.DocumentsFileName = this.data.DocumentsFileName || [];
-        this.documentsPathTemp = [].concat(this.data.DocumentsPath);
+        this.documentsPathTemp = [].concat(this.data.DocumentsPath || []);
 
         if (this.data.supplier) {
             this.selectedSupplier = this.data.supplier;
         }
-        if(this.data.ApprovedStaffBy){
+        if (this.data && this.data.ApprovedStaffBy) {
             this.ApprovedStaffBy = {
                 Name: this.data.ApprovedStaffBy
             };
+        } else {
+            this.ApprovedStaffBy = null;
         }
     }
 
@@ -201,11 +203,20 @@ export class DataForm {
 
     ApprovedStaffByChanged(newValue, oldValue) {
         var selectedStaff = newValue;
-        if (selectedStaff) {
-            this.data.ApprovedStaffBy = selectedStaff.Name;
+        var staffName = selectedStaff && (selectedStaff.Name || selectedStaff.name);
+        if (staffName) {
+            this.data.ApprovedStaffBy = staffName;
+            if (selectedStaff.Manager1 !== undefined) {
+                this.data.ApprovedKasieBy = selectedStaff.Manager1;
+            }
+            if (selectedStaff.Manager2 !== undefined) {
+                this.data.ApprovedKabagBy = selectedStaff.Manager2;
+            }
         }
         else {
             this.data.ApprovedStaffBy = null;
+            this.data.ApprovedKasieBy = null;
+            this.data.ApprovedKabagBy = null;
         }
     }
 

@@ -90,6 +90,9 @@
                   accept=".pdf, .xls, .xlsx, .doc, .docx">
                 <button if.bind="documentsPathTemp[$index]" class="btn btn-primary justify-content-center"
                   click.delegate="downloadDocument($index)">${doc}</button>
+                <button type="button" class="btn btn-info ml-2"
+                  if.bind="canPreviewDocument($index, documentVersion)"
+                  click.delegate="previewDocument($index)">Preview</button>
                 <span class="text-danger" if.bind="error.DocumentsFile[$index]">${error.DocumentsFile[$index]}</span>
               </td>
               <td if.bind="!readOnly">

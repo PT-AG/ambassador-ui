@@ -23,6 +23,7 @@ export class DataForm {
         this.service = service;
         this.previewWidth = 60;
         this.previewHeight = 600;
+        this.documentVersion = 0;
     }
     invoiceNoteItem = {
         columns: [
@@ -190,6 +191,7 @@ export class DataForm {
         if (this.error.DocumentsFile && this.error.DocumentsFile.length > index) {
             this.error.DocumentsFile.splice(index, 1);
         }
+        this.documentVersion++;
     }
 
     downloadDocument(index) {
@@ -207,28 +209,41 @@ export class DataForm {
 
     documentInputChanged(index) {
         let documentInput = document.getElementById('documentInput' + index);
+        const file = documentInput && documentInput.files && documentInput.files[0];
 
-        if (documentInput.files[0]) {
-            let reader = new FileReader();
-            reader.onload = event => {
-                let base64Document = event.target.result;
-                const base64Content = base64Document.substring(base64Document.indexOf(',') + 1);
-                if (base64Content.length * 6 / 8 > 52428800) {
-                    documentInput.value = "";
-                    this.data.DocumentsFile[index] = "";
-                    this.data.DocumentsFileName[index] = "";
-                    alert("Maximum Document Size is 50 MB")
-                } else {
-                    this.data.DocumentsFile[index] = base64Document;
-                    this.data.DocumentsFileName[index] = documentInput.value.replace(/^.*[\\\/]/, '');
-                    
-                    if (this.error.DocumentsFile && this.error.DocumentsFile[index]) {
-                        this.error.DocumentsFile[index] = "";
-                    }
+        if (!file) {
+            this.data.DocumentsFile[index] = "";
+            this.data.DocumentsFileName[index] = "";
+            this.documentVersion++;
+            return;
+        }
+
+        let reader = new FileReader();
+        reader.onload = event => {
+            let base64Document = event.target.result;
+            const base64Content = base64Document.substring(base64Document.indexOf(',') + 1);
+            if (base64Content.length * 6 / 8 > 52428800) {
+                documentInput.value = "";
+                this.data.DocumentsFile[index] = "";
+                this.data.DocumentsFileName[index] = "";
+                this.documentVersion++;
+                alert("Maximum Document Size is 50 MB");
+            } else {
+                const fileName = documentInput.value.replace(/^.*[\\\/]/, '') || file.name;
+                this.data.DocumentsFile[index] = base64Document;
+                this.data.DocumentsFileName[index] = fileName;
+                this.documentVersion++;
+
+                if (this.error.DocumentsFile && this.error.DocumentsFile[index]) {
+                    this.error.DocumentsFile[index] = "";
+                }
+
+                if (this.isPreviewSupported(fileName)) {
+                    this.previewDocument(index);
                 }
             }
-            reader.readAsDataURL(documentInput.files[0]);
         }
+        reader.readAsDataURL(file);
     }
 
     validateDocuments() {
@@ -449,6 +464,45 @@ export class DataForm {
         setTimeout(() => this.initResizable(), 100);
     }
 
+    getPreviewConfig(fileName) {
+        const lowerFileName = (fileName || '').toLowerCase();
+        if (lowerFileName.endsWith('.pdf')) {
+            return { mode: 'pdf', mimeType: 'application/pdf', title: 'Preview PDF' };
+        }
+        if (lowerFileName.endsWith('.xlsx') || lowerFileName.endsWith('.xls')) {
+            return { mode: 'excel', mimeType: null, title: 'Preview Excel' };
+        }
+
+        const imageMimeByExt = {
+            '.jpg': 'image/jpeg',
+            '.jpeg': 'image/jpeg',
+            '.png': 'image/png',
+            '.gif': 'image/gif',
+            '.bmp': 'image/bmp',
+            '.webp': 'image/webp'
+        };
+        const matchedExt = Object.keys(imageMimeByExt).find(ext => lowerFileName.endsWith(ext));
+        if (matchedExt) {
+            return { mode: 'image', mimeType: imageMimeByExt[matchedExt], title: 'Preview Image' };
+        }
+        return null;
+    }
+
+    isPreviewSupported(fileName) {
+        return Boolean(this.getPreviewConfig(fileName));
+    }
+
+    canPreviewDocument(index) {
+        const rawFileUrl = this.data && this.data.DocumentsFile && this.data.DocumentsFile[index];
+        const fileName = this.data && this.data.DocumentsFileName && this.data.DocumentsFileName[index];
+        return Boolean(
+            rawFileUrl &&
+            typeof rawFileUrl === 'string' &&
+            rawFileUrl.trim() !== '' &&
+            this.isPreviewSupported(fileName)
+        );
+    }
+
     previewDocument(index) {
         const rawFileUrl = this.data.DocumentsFile && this.data.DocumentsFile[index];
         const fileName = (this.data.DocumentsFileName && this.data.DocumentsFileName[index]) || '';
@@ -470,26 +524,31 @@ export class DataForm {
         }
 
         const elements = { embed, excelDiv, imagePreview, modalLabel };
-        const lowerFileName = fileName.toLowerCase();
+        const previewConfig = this.getPreviewConfig(fileName);
 
-        if (lowerFileName.endsWith('.pdf')) {
-            const previewUrl = this.buildPreviewUrl(rawFileUrl, 'application/pdf');
+        if (!previewConfig) {
+            alert('Preview not supported for this file type.');
+            return;
+        }
+
+        if (previewConfig.mode === 'pdf') {
+            const previewUrl = this.buildPreviewUrl(rawFileUrl, previewConfig.mimeType);
             if (!previewUrl) {
                 alert('Format file PDF tidak valid.');
                 return;
             }
             imagePreview.removeAttribute('src');
             embed.src = previewUrl;
-            this.openPreviewModal(elements, 'Preview PDF', 'pdf');
+            this.openPreviewModal(elements, previewConfig.title, 'pdf');
             return;
         }
 
-        if (lowerFileName.endsWith('.xlsx') || lowerFileName.endsWith('.xls')) {
+        if (previewConfig.mode === 'excel') {
             embed.removeAttribute('src');
             imagePreview.removeAttribute('src');
             this.revokePreviewBlobUrl();
             excelDiv.innerHTML = '<p>Loading Excel...</p>';
-            this.openPreviewModal(elements, 'Preview Excel', 'excel');
+            this.openPreviewModal(elements, previewConfig.title, 'excel');
 
             const decoded = this.decodeDataUrl(rawFileUrl);
             if (decoded) {
@@ -512,27 +571,13 @@ export class DataForm {
             return;
         }
 
-        const imageMimeByExt = {
-            '.jpg': 'image/jpeg',
-            '.jpeg': 'image/jpeg',
-            '.png': 'image/png',
-            '.gif': 'image/gif',
-            '.bmp': 'image/bmp',
-            '.webp': 'image/webp'
-        };
-        const matchedExt = Object.keys(imageMimeByExt).find(ext => lowerFileName.endsWith(ext));
-        if (matchedExt) {
-            const previewUrl = this.buildPreviewUrl(rawFileUrl, imageMimeByExt[matchedExt]);
-            if (!previewUrl) {
-                alert('Format file gambar tidak valid.');
-                return;
-            }
-            embed.removeAttribute('src');
-            imagePreview.src = previewUrl;
-            this.openPreviewModal(elements, 'Preview Image', 'image');
+        const previewUrl = this.buildPreviewUrl(rawFileUrl, previewConfig.mimeType);
+        if (!previewUrl) {
+            alert('Format file gambar tidak valid.');
             return;
         }
-
-        alert('Preview not supported for this file type.');
+        embed.removeAttribute('src');
+        imagePreview.src = previewUrl;
+        this.openPreviewModal(elements, previewConfig.title, 'image');
     }
 }
