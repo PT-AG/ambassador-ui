@@ -35,6 +35,9 @@ export class Create {
     }
 
     save(event) {
+        if (this.isSaving) {
+            return;
+        }
        
         var total=0;
         for(var i=0;i <this.data.Items.length ;i++)
@@ -47,12 +50,14 @@ export class Create {
             alert("Jumlah tidak boleh 0 semua");
         }
         else
-        {  this.service.create(this.data)
+        {  this.isSaving = true;
+        this.service.create(this.data)
             .then(result => {
                 alert("Data berhasil dibuat");
                 this.router.navigateToRoute('create', {}, { replace: true, trigger: true });
             })
             .catch(e => {
+                this.isSaving = false;
                 this.error = e;
             })
 

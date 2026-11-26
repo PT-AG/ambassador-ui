@@ -50,10 +50,13 @@ export class Create {
             .catch(e => {
                 this.isSaving = false;
                 this.hasSave = true;
-                if (e.statusCode === 500) {
+                this.error = e;
+                if (typeof (e) === "string") {
+                    alert(e);
+                } else if (e && e.statusCode === 500) {
                     alert("Gagal menyimpan, silakan coba lagi!");
                 } else {
-                    this.error = e;
+                    alert("Missing Some Data");
                 }
             })
     }

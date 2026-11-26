@@ -23,12 +23,17 @@ export class Create {
     }
 
     saveCallback(event) {
+        if (this.isSaving) {
+            return;
+        }
+        this.isSaving = true;
         this.service.create(this.data)
             .then(result => {
                 alert("Data berhasil dibuat");
                 this.list();
             })
             .catch(e => {
+                this.isSaving = false;
                 this.error = e;
             })
     }
